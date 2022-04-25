@@ -44,7 +44,9 @@ INSTALLED_APPS = [
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-ROOT_URLCONF = "urls"
+#ROOT_URLCONF = "urls"
+#ROOT_URLCONF = "seshat.urls"
+
 
 INTERNAL_IPS = ["127.0.0.1"]
 
