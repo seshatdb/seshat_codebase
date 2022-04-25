@@ -85,6 +85,7 @@ TEMPLATES = [
 # ==============================================================================
 
 DATABASES = {}
+DATABASES['default'] = dj_database_url.config(conn_max_age=600)
 
 
 # ==============================================================================
@@ -135,6 +136,8 @@ STATIC_URL = "static/"
 STATIC_ROOT = BASE_DIR.parent.parent / "static"
 
 STATICFILES_DIRS = [BASE_DIR / "static"]
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 STATICFILES_FINDERS = (
     "django.contrib.staticfiles.finders.FileSystemFinder",
