@@ -4,7 +4,7 @@ from .base import *
 
 INSTALLED_APPS += ["debug_toolbar"]
 
-MIDDLEWARE.insert(0, "debug_toolbar.middleware.DebugToolbarMiddleware")
+#MIDDLEWARE.insert(0, "debug_toolbar.middleware.DebugToolbarMiddleware")
 
 
 # Databases
@@ -18,14 +18,6 @@ DATABASES = {
         'PORT': '',
     }
 }
-
-# DATABASES = {
-#     "default": dj_database_url.config(
-#         default=config(
-#             "DATABASE_URL", default="postgres://postgres:5tr4%TR$@localhost:5432/seshatdb"),
-#         conn_max_age=600,
-#     )
-# }
 
 # ==============================================================================
 # EMAIL SETTINGS
