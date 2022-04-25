@@ -16,7 +16,7 @@ SECRET_KEY = config(
 DEBUG = config("DEBUG", default=True, cast=bool)
 
 ALLOWED_HOSTS = config(
-    "ALLOWED_HOSTS", default="127.0.0.1,localhost", cast=Csv())
+    "ALLOWED_HOSTS", default="127.0.0.1,localhost,seshatdb.herokuapp.com/", cast=Csv())
 
 INSTALLED_APPS = [
     "seshat.apps.accounts",
