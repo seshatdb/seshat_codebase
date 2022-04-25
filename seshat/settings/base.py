@@ -1,10 +1,13 @@
 from pathlib import Path
 
+import os
+
 import dj_database_url
 from decouple import Csv, config
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 
 # ==============================================================================
 # CORE SETTINGS
@@ -25,6 +28,7 @@ INSTALLED_APPS = [
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
+    "whitenoise.runserver_nostatic",
     "django.contrib.staticfiles",
 
     'django.contrib.humanize',
@@ -32,6 +36,7 @@ INSTALLED_APPS = [
     "seshat.apps.core",
     "seshat.apps.crisisdb",
     "django_filters",
+    "corsheaders",
 
 ]
 
@@ -50,9 +55,12 @@ WSGI_APPLICATION = "seshat.wsgi.application"
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
+    "django.middleware.common.CommonMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
@@ -84,9 +92,15 @@ TEMPLATES = [
 # DATABASES SETTINGS
 # ==============================================================================
 
-DATABASES = {}
-DATABASES['default'] = dj_database_url.config(conn_max_age=600)
-
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
+}
+db_from_env = dj_database_url.config()
+DATABASES['default'].update(db_from_env)
+#DATABASES['default'] = dj_database_url.config(conn_max_age=600)
 
 # ==============================================================================
 # AUTHENTICATION AND AUTHORIZATION SETTINGS
@@ -133,11 +147,17 @@ LOCALE_PATHS = [BASE_DIR / "locale"]
 STATIC_URL = "static/"
 
 
-STATIC_ROOT = BASE_DIR.parent.parent / "static"
+#STATIC_ROOT = BASE_DIR.parent.parent / "static"
+STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
 
-STATICFILES_DIRS = [BASE_DIR / "static"]
+#STATICFILES_DIRS = [BASE_DIR / "static"]
+STATICFILES_DIRS = (
+    os.path.join(PROJECT_ROOT, 'static'),
+)
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+#STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+
 
 STATICFILES_FINDERS = (
     "django.contrib.staticfiles.finders.FileSystemFinder",

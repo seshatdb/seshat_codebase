@@ -1,1 +1,1 @@
-web: gunicorn seshat.wsgi
+web: gunicorn seshat.wsgi --log-file -
