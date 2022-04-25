@@ -142,6 +142,7 @@ seshat/settings/local.py
 seshat/settings/base_backup.py
 seshat/settings/production.py
 seshat/settings/tests.py
+seshat/settings.py
 ENV/
 env.bak/
 venv.bak/
