@@ -138,9 +138,9 @@ celerybeat.pid
 env/
 venv/
 venv_seshat/
-seshat/settings/local.py
+#seshat/settings/local.py
 seshat/settings/base_backup.py
-seshat/settings/production.py
+#seshat/settings/production.py
 seshat/settings/tests.py
 seshat/settings.py
 ENV/
