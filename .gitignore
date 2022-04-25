@@ -146,7 +146,7 @@ seshat/settings.py
 ENV/
 env.bak/
 venv.bak/
-
+# a random thing
 # Spyder project settings
 .spyderproject
 .spyproject
