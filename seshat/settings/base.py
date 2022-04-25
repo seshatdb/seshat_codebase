@@ -2,6 +2,8 @@ from pathlib import Path
 
 import os
 
+import django_heroku
+
 import dj_database_url
 from decouple import Csv, config
 
@@ -20,6 +22,7 @@ DEBUG = config("DEBUG", default=True, cast=bool)
 
 #ALLOWED_HOSTS = config("ALLOWED_HOSTS", default="127.0.0.1,localhost", cast=Csv())
 ALLOWED_HOSTS = ['seshatdb.herokuapp.com', '127.0.0.1']
+
 INSTALLED_APPS = [
     "seshat.apps.accounts",
     "django.contrib.admin",
@@ -54,7 +57,6 @@ WSGI_APPLICATION = "seshat.wsgi.application"
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
-    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -63,6 +65,8 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
+
 ]
 
 
@@ -193,3 +197,5 @@ LOGIN_REDIRECT_URL = 'seshat-index'
 # Logout Redirect
 # =================
 #LOGOUT_REDIRECT_URL = 'logout'
+
+django_heroku.settings(locals())
