@@ -1,0 +1,37 @@
+{% extends "core/form_base.html" %}
+{% load crispy_forms_tags %}
+{% load humanize %}
+
+{% block extra_vars %}
+    <div class="col-md-4 mb-2">
+        {{ form.examination|as_crispy_field }}
+    </div>
+{% endblock extra_vars %}
+
+{% block extra_vars2 %}
+
+<div class="col-md-4 mb-2">
+    {{ form.no_of_participants|as_crispy_field }}
+</div>
+
+<div class="col-md-4 mb-2">
+    {{ form.degrees_awarded|as_crispy_field }}
+</div>
+
+<div class="col-md-4 mb-2">
+    {{ form.passing_ratio|as_crispy_field }}
+</div>
+
+<div class="col-md-4 mb-2">
+    {{ form.place|as_crispy_field }}
+</div>
+
+<div class="col-md-4 mb-2">
+    {{ form.ratio_examiner_per_candidate|as_crispy_field }}
+</div>
+
+<div class="col-md-4 mb-2">
+    {{ form.no_of_examiners|as_crispy_field }}
+</div>
+{% endblock extra_vars2 %}
+        

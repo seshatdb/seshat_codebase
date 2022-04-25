@@ -1,0 +1,77 @@
+{% extends "core/list_base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% load humanize %}
+
+{% block download_button %}
+    <a href="{% url 'worker_wage-create' %}" class="btn btn-outline-success mx-3 my-4 float-end"><i class="fas fa-plus"></i> &nbsp; Add More Facts</a>
+    <a href="{% url 'worker_wage-download' %}" class="btn btn-outline-primary ms-auto my-4 float-end"><i class="fas fa-download"></i> &nbsp; Download All</a>
+{% endblock download_button %}
+
+{% block myheadings_list %}
+<th style="text-align: center;" scope="col">Worker Wage</th>
+<th style="text-align: center;" scope="col">Area</th>
+<th style="text-align: center;" scope="col">Unskilled Construction</th>
+<th style="text-align: center;" scope="col">Skilled Construction</th>
+<th style="text-align: center;" scope="col">Number of Districts With Available Data</th>
+<th style="text-align: center;" scope="col">Unskilled Arms Manufacturer</th>
+<th style="text-align: center;" scope="col">Population in Millions in 1787</th>
+{% endblock myheadings_list %}
+
+{% block extra_vars_list %}
+
+<td style="text-align: center;">{{ obj.worker_wage }}
+    <sup>
+        <span type="button" data-bs-toggle="popover" title="Refs:" data-bs-html="true" data-bs-content=" {{ obj.display_citations }}">&nbsp;<i class="far fa-bookmark text-info"></i></span>
+    </sup>
+</td>
+
+
+<td style="text-align: center;">{{ obj.area }}
+    <sup>
+        <span type="button" data-bs-toggle="popover" title="Refs:" data-bs-html="true" data-bs-content=" {{ obj.display_citations }}">&nbsp;<i class="far fa-bookmark text-info"></i></span>
+    </sup>
+</td>
+
+
+<td style="text-align: center;">{{ obj.unskilled_construction }}
+    <sup>
+        <span type="button" data-bs-toggle="popover" title="Refs:" data-bs-html="true" data-bs-content=" {{ obj.display_citations }}">&nbsp;<i class="far fa-bookmark text-info"></i></span>
+    </sup>
+</td>
+
+
+<td style="text-align: center;">{{ obj.skilled_construction }}
+    <sup>
+        <span type="button" data-bs-toggle="popover" title="Refs:" data-bs-html="true" data-bs-content=" {{ obj.display_citations }}">&nbsp;<i class="far fa-bookmark text-info"></i></span>
+    </sup>
+</td>
+
+
+<td style="text-align: center;">{{ obj.number_of_districts_with_available_data|intcomma }}
+    <sup>
+        <span type="button" data-bs-toggle="popover" title="Refs:" data-bs-html="true" data-bs-content=" {{ obj.display_citations }}">&nbsp;<i class="far fa-bookmark text-info"></i></span>
+    </sup>
+</td>
+
+
+<td style="text-align: center;">{{ obj.unskilled_arms_manufacturer }}
+    <sup>
+        <span type="button" data-bs-toggle="popover" title="Refs:" data-bs-html="true" data-bs-content=" {{ obj.display_citations }}">&nbsp;<i class="far fa-bookmark text-info"></i></span>
+    </sup>
+</td>
+
+
+<td style="text-align: center;">{{ obj.population_in_millions_in_1787 }}
+    <sup>
+        <span type="button" data-bs-toggle="popover" title="Refs:" data-bs-html="true" data-bs-content=" {{ obj.display_citations }}">&nbsp;<i class="far fa-bookmark text-info"></i></span>
+    </sup>
+</td>
+
+{% endblock extra_vars_list %}
+
+<!-- Update Button -->
+{% block update_button %}
+    <td style="text-align: center;"><a href="{% url 'worker_wage-update' obj.id %}"><button class="btn btn-outline-primary btn-sm">Update</button></a></td>
+{% endblock update_button %}
+        

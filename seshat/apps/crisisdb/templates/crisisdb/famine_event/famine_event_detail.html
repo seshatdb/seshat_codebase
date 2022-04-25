@@ -1,0 +1,31 @@
+{% extends "core/detail_base.html" %}
+{% load static %}
+{% load humanize %}
+
+{% block addmore %}
+<a href="{% url 'famine_event-create' %}" class="btn btn-outline-success mx-3 my-4 float-end"> &#128934; &nbsp; Add Another Fact &nbsp; <i class="fa fa-plus"></i>
+</a>
+<a href="{% url 'wagess' %}" class="btn btn-outline-primary ms-auto my-4 float-end">&#8983; See All Such Facts
+</a>
+{% endblock addmore %}
+
+{% block myheadings %}
+<th style="text-align: center;" scope="col">Famine Event</th>
+<th style="text-align: center;" scope="col">Latitude</th>
+<th style="text-align: center;" scope="col">Longitude</th>
+<th style="text-align: center;" scope="col">Elevation</th>
+<th style="text-align: center;" scope="col">Sub Category</th>
+<th style="text-align: center;" scope="col">Magnitude</th>
+<th style="text-align: center;" scope="col">Duration</th>
+{% endblock myheadings %}
+
+{% block extracols %}
+<td style="text-align: center;">{{ object.famine_event }}</td>
+<td style="text-align: center;">{{ object.latitude }}</td>
+<td style="text-align: center;">{{ object.longitude|intcomma }}</td>
+<td style="text-align: center;">{{ object.elevation }}</td>
+<td style="text-align: center;">{{ object.sub_category }}</td>
+<td style="text-align: center;">{{ object.magnitude }}</td>
+<td style="text-align: center;">{{ object.duration }}</td>
+{% endblock extracols %}
+        

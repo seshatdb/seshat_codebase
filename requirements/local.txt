@@ -1,0 +1,4 @@
+-r tests.txt
+
+django-debug-toolbar==3.2.4
+ipython==8.1.0

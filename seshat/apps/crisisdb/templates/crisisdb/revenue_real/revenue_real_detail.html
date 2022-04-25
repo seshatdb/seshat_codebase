@@ -1,0 +1,23 @@
+{% extends "core/detail_base.html" %}
+{% load static %}
+{% load humanize %}
+
+{% block addmore %}
+<a href="{% url 'revenue_real-create' %}" class="btn btn-outline-success mx-3 my-4 float-end"> &#128934; &nbsp; Add Another Fact &nbsp; <i class="fa fa-plus"></i>
+</a>
+<a href="{% url 'revenue_reals' %}" class="btn btn-outline-primary ms-auto my-4 float-end">&#8983; See All Such Facts
+</a>
+{% endblock addmore %}
+
+{% block myheadings %}
+<th style="text-align: center;" scope="col">Revenue Real
+<sup>
+<span type="button" data-bs-toggle="popover" data-bs-html="true" data-bs-content="(in 1,000 taels)">&nbsp;<i class="fas fa-question-circle"></i></span>
+</sup>
+</th>
+{% endblock myheadings %}
+
+{% block extracols %}
+<td style="text-align: center;">{{ object.revenue_real|intcomma }}</td>
+{% endblock extracols %}
+        

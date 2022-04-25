@@ -1,0 +1,32 @@
+{% extends "core/seshat-base.html" %}
+
+{% block content %}
+
+<div class="container mt-4">
+    <div class="row">
+        <h1 class="display-6">Variables in Qing so far:</h1>
+        <p>
+            Qing data is a part of CrisisDB and aims to capture and analyze data on the early and late Qing Polities.
+        </p>
+        <hr>
+    </div>
+    <div class="row align-items-end">
+        {% for v in mylist %}
+        <div class="col-md-2 text-center">
+            <div class="card mt-4 border-0" style="background-color: #fefae6;">
+                    <div class="card-body mt-auto border border-success border-2 rounded">
+                        <div>
+                            <h6 class="card-title text-center display"> <strong class="text-success">{{v.0}}</strong></h6>
+                            <h5 class="card-title text-center lead"><span class="text-success"><strong>{{v.1}}</strong></span> </h5>              
+                        </div>
+                        <div>
+                            <a class="btn btn-sm btn-outline-primary" href="{{v.2}}" class="card-link"> <i class="fa fa-eye"></i> &nbsp; View &nbsp;</a>
+                            <a class="btn btn-sm btn-outline-success" href="{{v.3}}" class="card-link"> &nbsp; Add &nbsp; <i class="fa fa-plus"></i></a>
+                        </div>
+                    </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

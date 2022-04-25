@@ -1,0 +1,17 @@
+<div class="pagination my-4 pe-4 float-end">
+<span class="page-links">
+    {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}"><button class="btn btn-primary btn-md"> <i class="fas fa-step-backward"></i> Prev </button></a>
+    {% else %}
+    <button class="btn btn-outline-primary btn-md" disabled> <i class="fas fa-step-backward"></i>  Prev</button>
+    {% endif %}
+    <span class="page-current">
+        &nbsp; Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}. &nbsp; 
+    </span>
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}"><button class="btn btn-primary btn-md"> Next <i class="fas fa-step-forward"></i></button></a>
+        {% else %}
+        <button class="btn btn-outline-primary btn-md" disabled> Next <i class="fas fa-step-forward"></i></button>
+    {% endif %}
+</span>
+</div>

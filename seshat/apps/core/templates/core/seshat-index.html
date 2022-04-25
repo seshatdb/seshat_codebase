@@ -1,0 +1,30 @@
+{% extends "core/seshat-base.html" %}
+
+<!-- NavBar -->
+{% block content-home %}
+<!-- showcase for index -->
+
+{% include "core/partials/_carousel_top.html" %}
+
+{% include "core/partials/_whoweare.html" %}
+
+<div class="row text-center">
+    <div class="row">
+        <h1 class="display">
+            Here we Go ...
+        </h1>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <span style="background-color:rgba(222, 243, 229, 0.75);" class="p-1">
+                {{ insta }}
+            </span>
+        </div>
+        <div class="col-md-6">
+            <span style="background-color:rgba(222, 243, 229, 0.75);" class="p-1">
+                {{ trans }}
+            </span>
+        </div>
+    </div>
+</div>
+{% endblock %}

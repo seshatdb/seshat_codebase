@@ -1,0 +1,31 @@
+{% extends "core/detail_base.html" %}
+{% load static %}
+{% load humanize %}
+
+{% block addmore %}
+<a href="{% url 'examination-create' %}" class="btn btn-outline-success mx-3 my-4 float-end"> &#128934; &nbsp; Add Another Fact &nbsp; <i class="fa fa-plus"></i>
+</a>
+<a href="{% url 'wagess' %}" class="btn btn-outline-primary ms-auto my-4 float-end">&#8983; See All Such Facts
+</a>
+{% endblock addmore %}
+
+{% block myheadings %}
+<th style="text-align: center;" scope="col">Examination</th>
+<th style="text-align: center;" scope="col">no of Participants</th>
+<th style="text-align: center;" scope="col">Degrees Awarded</th>
+<th style="text-align: center;" scope="col">Passing Ratio</th>
+<th style="text-align: center;" scope="col">Place</th>
+<th style="text-align: center;" scope="col">Ratio Examiner Per Candidate</th>
+<th style="text-align: center;" scope="col">no of Examiners</th>
+{% endblock myheadings %}
+
+{% block extracols %}
+<td style="text-align: center;">{{ object.examination }}</td>
+<td style="text-align: center;">{{ object.no_of_participants|intcomma }}</td>
+<td style="text-align: center;">{{ object.degrees_awarded|intcomma }}</td>
+<td style="text-align: center;">{{ object.passing_ratio }}</td>
+<td style="text-align: center;">{{ object.place }}</td>
+<td style="text-align: center;">{{ object.ratio_examiner_per_candidate }}</td>
+<td style="text-align: center;">{{ object.no_of_examiners|intcomma }}</td>
+{% endblock extracols %}
+        

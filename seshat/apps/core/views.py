@@ -1,0 +1,119 @@
+from django.shortcuts import render
+from django.http import HttpResponse
+
+import json
+from django.views import generic
+from django.urls import reverse, reverse_lazy
+
+from .models import Polity
+
+
+def index(request):
+    return HttpResponse('<h1>Hello World.</h1>')
+
+
+def seshatindex(request):
+    context = {
+        'insta': "Instabilities All Over the Place..",
+        'trans': "Transitions All Over the Place",
+    }
+    return render(request, 'core/seshat-index.html', context=context)
+
+
+class PolityListView(generic.ListView):
+    model = Polity
+    template_name = "core/polity/polity_list.html"
+    paginate_by = 5
+
+    def get_absolute_url(self):
+        return reverse('polities')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["mysection"] = "Fiscal Helath"
+        context["mysubsection"] = "No Subsection Provided"
+        context["myvar"] = "Revenue Official"
+
+        return context
+
+
+class PolityDetailView(generic.DetailView):
+    model = Polity
+    template_name = "core/polity/polity_detail.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["vars"] = {}
+        mybalances = self.object.crisisdb_balance_related.all()
+
+        # We can theoretically write a loop that goes through a list of everything we might be interested in
+        # we can then put if loops to check if the graphs are available to templates.
+        # Then we show them.
+        for_chart_year_balance_list = list()
+        for_chart_balance_list = list()
+        for_chart_year_salt_tax_list = list()
+        for_chart_salt_tax_list = list()
+
+        context["vars"]["balance"] = {}
+        for item in mybalances:
+            context["vars"]["balance"][item] = []
+            context["vars"]["balance"][item].append(item.year_from)
+            context["vars"]["balance"][item].append(item.balance)
+            # for charts:
+            for_chart_year_balance_list.append(item.year_from)
+            for_chart_balance_list.append(item.balance)
+
+        mysalttaxes = self.object.crisisdb_salt_tax_related.all()
+        context["vars"]["salt_tax"] = {}
+        for item in mysalttaxes:
+            context["vars"]["salt_tax"][item] = []
+            context["vars"]["salt_tax"][item].append(item.year_from)
+            context["vars"]["salt_tax"][item].append(item.salt_tax)
+            # for charts
+            for_chart_year_salt_tax_list.append(item.year_from)
+            for_chart_salt_tax_list.append(item.salt_tax)
+
+        context["year_bals"] = for_chart_year_balance_list
+        context["bals"] = for_chart_balance_list
+        context["year_sals"] = for_chart_year_salt_tax_list
+        context["sals"] = for_chart_salt_tax_list
+
+        years = context["year_bals"]
+        salts = context["sals"]
+        bals = context["bals"]
+
+        #print('printing years lllllllllllnnnnlllllllll')
+        # print(years)
+        full_year_range = []
+        full_salt_range = []
+        full_bal_range = []
+        year_max = max(years)
+        year_min = min(years)
+        for i in range(year_min, year_max+1):
+            if i in years:
+                my_index = years.index(i)
+                full_year_range.append(years[my_index])
+                full_salt_range.append(salts[my_index])
+                full_bal_range.append(bals[my_index])
+
+            else:
+                full_year_range.append(i)
+                full_salt_range.append(None)
+                full_bal_range.append(None)
+
+        print(full_year_range)
+        print(full_bal_range)
+
+        context["sals"] = json.dumps(full_salt_range)
+        context["yearsals"] = json.dumps(full_year_range)
+        context["bals"] = json.dumps(full_bal_range)
+        context["yearmin"] = json.dumps(year_min)
+
+        #context["vars"]["salt_tax"] = [mysalttaxes, 'salt_tax']
+        # print(self)
+        # print("----")
+        # print(context["bals"])
+        # print("++++")
+        # print(context["year_sals"])
+
+        return context

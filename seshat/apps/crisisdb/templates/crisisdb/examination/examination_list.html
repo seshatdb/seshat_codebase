@@ -1,0 +1,165 @@
+{% extends "core/list_base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% load humanize %}
+
+{% block download_button %}
+    <a href="{% url 'examination-create' %}" class="btn btn-outline-success mx-3 my-4 float-end"><i class="fas fa-plus"></i> &nbsp; Add More Facts</a>
+    <a href="{% url 'examination-download' %}" class="btn btn-outline-primary ms-auto my-4 float-end"><i class="fas fa-download"></i> &nbsp; Download All</a>
+{% endblock download_button %}
+
+{% block main_description %}
+
+{% endblock main_description %}
+
+{% block myheadings_list %}
+<th style="text-align: center;" scope="col">Examination</th>
+<th style="text-align: center;" scope="col">no of Participants</th>
+<th style="text-align: center;" scope="col">Degrees Awarded</th>
+<th style="text-align: center;" scope="col">Passing Ratio</th>
+<th style="text-align: center;" scope="col">Place</th>
+<th style="text-align: center;" scope="col">Ratio Examiner Per Candidate</th>
+<th style="text-align: center;" scope="col">no of Examiners</th>
+{% endblock myheadings_list %}
+
+{% block extra_vars_list %}
+
+<td class = "{% if obj.tag == 'DSP' %}
+text-danger
+{% elif obj.tag == 'SSP' %}
+text-warning
+{% elif obj.tag == 'UNK' %}
+text-secondary
+{% elif obj.tag == 'IFR' %}
+text-primary
+{% else %}
+text-success
+{% endif %} fw-bold" style="text-align: center;">{{ obj.examination }}
+    {% if obj.display_citations %}
+    <sup>
+        <span type="button" data-bs-toggle="popover" title="Refs:" data-bs-html="true" data-bs-content=" {{ obj.display_citations }}">&nbsp;<i class="far fa-bookmark text-info"></i></span>
+    </sup>
+    {% endif %}
+
+</td>
+
+<td class = "{% if obj.tag == 'DSP' %}
+text-danger
+{% elif obj.tag == 'SSP' %}
+text-warning
+{% elif obj.tag == 'UNK' %}
+text-secondary
+{% elif obj.tag == 'IFR' %}
+text-primary
+{% else %}
+text-success
+{% endif %} fw-bold" style="text-align: center;">{{ obj.no_of_participants|intcomma }}
+    {% if obj.display_citations %}
+    <sup>
+        <span type="button" data-bs-toggle="popover" title="Refs:" data-bs-html="true" data-bs-content=" {{ obj.display_citations }}">&nbsp;<i class="far fa-bookmark text-info"></i></span>
+    </sup>
+    {% endif %}
+
+</td>
+
+<td class = "{% if obj.tag == 'DSP' %}
+text-danger
+{% elif obj.tag == 'SSP' %}
+text-warning
+{% elif obj.tag == 'UNK' %}
+text-secondary
+{% elif obj.tag == 'IFR' %}
+text-primary
+{% else %}
+text-success
+{% endif %} fw-bold" style="text-align: center;">{{ obj.degrees_awarded|intcomma }}
+    {% if obj.display_citations %}
+    <sup>
+        <span type="button" data-bs-toggle="popover" title="Refs:" data-bs-html="true" data-bs-content=" {{ obj.display_citations }}">&nbsp;<i class="far fa-bookmark text-info"></i></span>
+    </sup>
+    {% endif %}
+
+</td>
+
+<td class = "{% if obj.tag == 'DSP' %}
+text-danger
+{% elif obj.tag == 'SSP' %}
+text-warning
+{% elif obj.tag == 'UNK' %}
+text-secondary
+{% elif obj.tag == 'IFR' %}
+text-primary
+{% else %}
+text-success
+{% endif %} fw-bold" style="text-align: center;">{{ obj.passing_ratio }}
+    {% if obj.display_citations %}
+    <sup>
+        <span type="button" data-bs-toggle="popover" title="Refs:" data-bs-html="true" data-bs-content=" {{ obj.display_citations }}">&nbsp;<i class="far fa-bookmark text-info"></i></span>
+    </sup>
+    {% endif %}
+
+</td>
+
+<td class = "{% if obj.tag == 'DSP' %}
+text-danger
+{% elif obj.tag == 'SSP' %}
+text-warning
+{% elif obj.tag == 'UNK' %}
+text-secondary
+{% elif obj.tag == 'IFR' %}
+text-primary
+{% else %}
+text-success
+{% endif %} fw-bold" style="text-align: center;">{{ obj.place }}
+    {% if obj.display_citations %}
+    <sup>
+        <span type="button" data-bs-toggle="popover" title="Refs:" data-bs-html="true" data-bs-content=" {{ obj.display_citations }}">&nbsp;<i class="far fa-bookmark text-info"></i></span>
+    </sup>
+    {% endif %}
+
+</td>
+
+<td class = "{% if obj.tag == 'DSP' %}
+text-danger
+{% elif obj.tag == 'SSP' %}
+text-warning
+{% elif obj.tag == 'UNK' %}
+text-secondary
+{% elif obj.tag == 'IFR' %}
+text-primary
+{% else %}
+text-success
+{% endif %} fw-bold" style="text-align: center;">{{ obj.ratio_examiner_per_candidate }}
+    {% if obj.display_citations %}
+    <sup>
+        <span type="button" data-bs-toggle="popover" title="Refs:" data-bs-html="true" data-bs-content=" {{ obj.display_citations }}">&nbsp;<i class="far fa-bookmark text-info"></i></span>
+    </sup>
+    {% endif %}
+
+</td>
+
+<td class = "{% if obj.tag == 'DSP' %}
+text-danger
+{% elif obj.tag == 'SSP' %}
+text-warning
+{% elif obj.tag == 'UNK' %}
+text-secondary
+{% elif obj.tag == 'IFR' %}
+text-primary
+{% else %}
+text-success
+{% endif %} fw-bold" style="text-align: center;">{{ obj.no_of_examiners|intcomma }}
+    {% if obj.display_citations %}
+    <sup>
+        <span type="button" data-bs-toggle="popover" title="Refs:" data-bs-html="true" data-bs-content=" {{ obj.display_citations }}">&nbsp;<i class="far fa-bookmark text-info"></i></span>
+    </sup>
+    {% endif %}
+
+</td>
+{% endblock extra_vars_list %}
+
+<!-- Update Button -->
+{% block update_button %}
+    <td style="text-align: center;"><a href="{% url 'examination-update' obj.id %}"><button class="btn btn-outline-primary btn-sm">Update</button></a></td>
+{% endblock update_button %}
+        

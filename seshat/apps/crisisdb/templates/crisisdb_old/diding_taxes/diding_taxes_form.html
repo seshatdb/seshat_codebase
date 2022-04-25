@@ -1,0 +1,10 @@
+{% extends "core/form_base.html" %}
+{% load crispy_forms_tags %}
+{% load humanize %}
+
+{% block extra_vars %}
+    <div class="col-md-4 mb-2">
+        {{ form.total_revenue|as_crispy_field }}
+    </div>
+{% endblock extra_vars %}
+        

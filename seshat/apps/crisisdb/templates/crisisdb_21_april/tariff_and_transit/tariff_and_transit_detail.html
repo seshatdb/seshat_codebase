@@ -1,0 +1,19 @@
+{% extends "core/detail_base.html" %}
+{% load static %}
+{% load humanize %}
+
+{% block addmore %}
+<a href="{% url 'tariff_and_transit-create' %}" class="btn btn-outline-success mx-3 my-4 float-end"> &#128934; &nbsp; Add Another Fact &nbsp; <i class="fa fa-plus"></i>
+</a>
+<a href="{% url 'tariff_and_transits' %}" class="btn btn-outline-primary ms-auto my-4 float-end">&#8983; See All Such Facts
+</a>
+{% endblock addmore %}
+
+{% block myheadings %}
+<th style="text-align: center;" scope="col">Tariff and Transit</th>
+{% endblock myheadings %}
+
+{% block extracols %}
+<td style="text-align: center;">{{ object.tariff_and_transit|intcomma }}</td>
+{% endblock extracols %}
+        

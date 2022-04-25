@@ -1,0 +1,9 @@
+{% extends "core/seshat-base.html" %}
+
+{% block content %}
+<div class="container p-5">
+  <h3 class="pb-3">You successfully logged out of your Seshat account!</h3>
+  <a href="{% url 'login'%}"><button class="btn px-4 btn-outline-success">Click here to login again</button> </a>
+</div>
+
+{% endblock %}

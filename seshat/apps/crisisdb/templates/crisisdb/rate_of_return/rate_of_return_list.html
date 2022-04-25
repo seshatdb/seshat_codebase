@@ -1,0 +1,91 @@
+{% extends "core/list_base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% load humanize %}
+
+{% block download_button %}
+    <a href="{% url 'rate_of_return-create' %}" class="btn btn-outline-success mx-3 my-4 float-end"><i class="fas fa-plus"></i> &nbsp; Add More Facts</a>
+    <a href="{% url 'rate_of_return-download' %}" class="btn btn-outline-primary ms-auto my-4 float-end"><i class="fas fa-download"></i> &nbsp; Download All</a>
+{% endblock download_button %}
+
+{% block main_description %}
+
+<div class="row">
+<p>
+by level of education corrected for foregone wages and life expectancy, and the probability of successful examination
+</p>
+</div>
+
+{% endblock main_description %}
+
+{% block myheadings_list %}
+<th class = "fw-bold" style="text-align: center;" scope="col">Rate of Return</th>
+<th class = "fw-light" style="text-align: center;" scope="col">Job Category</th>
+<th class = "fw-light" style="text-align: center;" scope="col">Job Description</th>
+{% endblock myheadings_list %}
+
+{% block extra_vars_list %}
+
+<td class = "{% if obj.tag == 'DSP' %}
+text-danger
+{% elif obj.tag == 'SSP' %}
+text-warning
+{% elif obj.tag == 'UNK' %}
+text-secondary
+{% elif obj.tag == 'IFR' %}
+text-primary
+{% else %}
+text-success
+{% endif %} fw-bold" style="text-align: center;">{{ obj.rate_of_return|intcomma }}
+    {% if obj.display_citations %}
+    <sup>
+        <span type="button" data-bs-toggle="popover" title="Refs:" data-bs-html="true" data-bs-content=" {{ obj.display_citations }}">&nbsp;<i class="far fa-bookmark text-info"></i></span>
+    </sup>
+    {% endif %}
+
+</td>
+
+<td class = "{% if obj.tag == 'DSP' %}
+text-danger
+{% elif obj.tag == 'SSP' %}
+text-warning
+{% elif obj.tag == 'UNK' %}
+text-secondary
+{% elif obj.tag == 'IFR' %}
+text-primary
+{% else %}
+text-success
+{% endif %} fw-light" style="text-align: center;">{{ obj.job_category }}
+    {% if obj.display_citations %}
+    <sup>
+        <span type="button" data-bs-toggle="popover" title="Refs:" data-bs-html="true" data-bs-content=" {{ obj.display_citations }}">&nbsp;<i class="far fa-bookmark text-info"></i></span>
+    </sup>
+    {% endif %}
+
+</td>
+
+<td class = "{% if obj.tag == 'DSP' %}
+text-danger
+{% elif obj.tag == 'SSP' %}
+text-warning
+{% elif obj.tag == 'UNK' %}
+text-secondary
+{% elif obj.tag == 'IFR' %}
+text-primary
+{% else %}
+text-success
+{% endif %} fw-light" style="text-align: center;">{{ obj.job_description }}
+    {% if obj.display_citations %}
+    <sup>
+        <span type="button" data-bs-toggle="popover" title="Refs:" data-bs-html="true" data-bs-content=" {{ obj.display_citations }}">&nbsp;<i class="far fa-bookmark text-info"></i></span>
+    </sup>
+    {% endif %}
+
+</td>
+{% endblock extra_vars_list %}
+
+<!-- Update Button -->
+{% block update_button %}
+    <td style="text-align: center;"><a href="{% url 'rate_of_return-update' obj.id %}"><button class="btn btn-outline-primary btn-sm">Update</button></a></td>
+{% endblock update_button %}
+        

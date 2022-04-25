@@ -1,0 +1,31 @@
+{% extends "core/detail_base.html" %}
+{% load static %}
+{% load humanize %}
+
+{% block addmore %}
+<a href="{% url 'worker_wage-create' %}" class="btn btn-outline-success mx-3 my-4 float-end"> &#128934; &nbsp; Add Another Fact &nbsp; <i class="fa fa-plus"></i>
+</a>
+<a href="{% url 'wagess' %}" class="btn btn-outline-primary ms-auto my-4 float-end">&#8983; See All Such Facts
+</a>
+{% endblock addmore %}
+
+{% block myheadings %}
+<th style="text-align: center;" scope="col">Worker Wage</th>
+<th style="text-align: center;" scope="col">Area</th>
+<th style="text-align: center;" scope="col">Unskilled Construction</th>
+<th style="text-align: center;" scope="col">Skilled Construction</th>
+<th style="text-align: center;" scope="col">Number of Districts With Available Data</th>
+<th style="text-align: center;" scope="col">Unskilled Arms Manufacturer</th>
+<th style="text-align: center;" scope="col">Population in Millions in 1787</th>
+{% endblock myheadings %}
+
+{% block extracols %}
+<td style="text-align: center;">{{ object.worker_wage }}</td>
+<td style="text-align: center;">{{ object.area }}</td>
+<td style="text-align: center;">{{ object.unskilled_construction }}</td>
+<td style="text-align: center;">{{ object.skilled_construction }}</td>
+<td style="text-align: center;">{{ object.number_of_districts_with_available_data|intcomma }}</td>
+<td style="text-align: center;">{{ object.unskilled_arms_manufacturer }}</td>
+<td style="text-align: center;">{{ object.population_in_millions_in_1787 }}</td>
+{% endblock extracols %}
+        

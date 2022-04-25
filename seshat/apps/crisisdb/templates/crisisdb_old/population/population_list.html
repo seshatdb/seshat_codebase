@@ -1,0 +1,27 @@
+{% extends "core/list_base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% load humanize %}
+
+{% block download_button %}
+    <a href="{% url 'population-create' %}" class="btn btn-outline-success mx-3 my-4 float-end">&#128934; &nbsp; Add More Facts</a>
+    <a href="{% url 'population-download' %}" class="btn btn-outline-primary ms-auto my-4 float-end">&#128427; &nbsp; Download All</a>
+{% endblock download_button %}
+
+{% block myheadings_list %}
+    <th style="text-align: center;" scope="col">Total Population</th>
+{% endblock myheadings_list %}
+
+{% block extra_vars_list %}
+    <td style="text-align: center;">{{ obj.total_population|intcomma }}
+        <sup>
+            <span type="button" data-bs-toggle="popover" title="Refs:" data-bs-html="true" data-bs-content=" {{ obj.display_citations }}">&nbsp;<i class="far fa-bookmark text-success"></i></span>
+        </sup>
+    </td>
+{% endblock extra_vars_list %}
+
+<!-- Update Button -->
+{% block update_button %}
+    <td style="text-align: center;"><a href="{% url 'population-update' obj.id %}"><button class="btn btn-outline-primary btn-sm">Update</button></a></td>
+{% endblock update_button %}
+        

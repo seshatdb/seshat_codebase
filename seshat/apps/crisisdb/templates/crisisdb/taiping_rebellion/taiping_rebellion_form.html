@@ -1,0 +1,41 @@
+{% extends "core/form_base.html" %}
+{% load crispy_forms_tags %}
+{% load humanize %}
+
+{% block extra_vars %}
+    <div class="col-md-4 mb-2">
+        {{ form.taiping_rebellion|as_crispy_field }}
+    </div>
+{% endblock extra_vars %}
+
+{% block extra_vars2 %}
+
+<div class="col-md-4 mb-2">
+    {{ form.rebel|as_crispy_field }}
+</div>
+
+<div class="col-md-4 mb-2">
+    {{ form.place|as_crispy_field }}
+</div>
+
+<div class="col-md-4 mb-2">
+    {{ form.ethnic_composition|as_crispy_field }}
+</div>
+
+<div class="col-md-4 mb-2">
+    {{ form.family_background|as_crispy_field }}
+</div>
+
+<div class="col-md-4 mb-2">
+    {{ form.role|as_crispy_field }}
+</div>
+
+<div class="col-md-4 mb-2">
+    {{ form.rank|as_crispy_field }}
+</div>
+
+<div class="col-md-4 mb-2">
+    {{ form.civil_examination|as_crispy_field }}
+</div>
+{% endblock extra_vars2 %}
+        

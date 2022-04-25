@@ -1,0 +1,16 @@
+{% extends "core/seshat-base.html" %}
+{% load crispy_forms_tags %}
+{% load humanize %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <form action="" method="post">
+            {% csrf_token %}
+            <div class="pb-3 h3">Are you sure you want to delete the information?</div>
+            <input class="btn btn-danger" type="submit" value="Confirm and Delete" />
+        </form>
+    </div>
+</div>
+{% endblock content %}
+
