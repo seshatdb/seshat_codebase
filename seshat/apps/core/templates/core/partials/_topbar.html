@@ -16,7 +16,7 @@
                     <a href="{% url 'logout' %}" class="pe-4"><strong>Logout </strong></a>
                     <a href="{% url 'login' %}" class="pe-2"> <i class="fa fa-lock-open"></i> &nbsp; Logged in as: &nbsp; <strong> {{ user.get_username }} <i class="fas fa-user"></i> </strong></a>
                 {% else %}
-                    <a href="" class="pe-4"><strong> Sign Up <i class="fas fa-user-plus"></i> </strong></a>
+                    <a href="{% url 'login' %}" class="pe-4"><strong> Sign Up <i class="fas fa-user-plus"></i> </strong></a>
                     <a href="{% url 'login' %}" class="pe-2"><strong>Login <i class="fas fa-sign-in-alt"></i></strong></a>
                 {% endif %}
 

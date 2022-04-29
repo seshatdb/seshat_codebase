@@ -10,23 +10,38 @@
         </p>
         <hr>
     </div>
-    <div class="row align-items-end">
-        {% for v in mylist %}
-        <div class="col-md-2 text-center">
-            <div class="card mt-4 border-0" style="background-color: #fefae6;">
-                    <div class="card-body mt-auto border border-success border-2 rounded">
-                        <div>
-                            <h6 class="card-title text-center display"> <strong class="text-success">{{v.0}}</strong></h6>
-                            <h5 class="card-title text-center lead"><span class="text-success"><strong>{{v.1}}</strong></span> </h5>              
-                        </div>
-                        <div>
-                            <a class="btn btn-sm btn-outline-primary" href="{{v.2}}" class="card-link"> <i class="fa fa-eye"></i> &nbsp; View &nbsp;</a>
-                            <a class="btn btn-sm btn-outline-success" href="{{v.3}}" class="card-link"> &nbsp; Add &nbsp; <i class="fa fa-plus"></i></a>
+    <div class="row">
+        {% for section, subsect_dic in mylist.items %}
+            <h3> <i class="fas fa-caret-right"></i> Section: <span class="badge rounded-pill bg-primary">{{ section }}</span></h3>
+        {% for subsection, var_list in subsect_dic.items %}
+            <h5> <i class="fas fa-chevron-circle-down"></i> Subsection: <span class="badge rounded-pill bg-success">{{ subsection }}</span></h5>
+            <div class="row align-items-end mb-4">
+                {% for list_item in var_list %}
+                <div class="col-md-2 text-center">
+                    <div class="card mt-4 border-0" style="background-color: #fefae6;">
+                        <div class="card-body mt-auto border border-success border-2 rounded">
+                            <div>
+                                <a href="{{list_item.2}}">
+                                <h6 class="card-title text-center display">
+                                    <strong class="text-success">{{list_item.0}}</strong>
+                                </h6>
+                                <h5 class="card-title text-center lead">
+                                    <span class="text-success"><strong>{{list_item.1}}</strong></span>
+                                </h5>     
+                                </a>         
+                            </div>
+                            <div>
+                                <a class="btn btn-sm btn-outline-success" href="{{list_item.3}}" class="card-link"> Add &nbsp; <i class="fa fa-plus"></i></a>
+                                <a class="btn btn-sm btn-outline-primary" href="{{list_item.2}}" class="card-link"> <i class="fa fa-eye"></i> &nbsp; View</a>
+                            </div>
                         </div>
                     </div>
+                </div>
+                {% endfor %}
             </div>
-        </div>
         {% endfor %}
+        <hr>           
+        {% endfor %} 
     </div>
 </div>
 {% endblock %}
