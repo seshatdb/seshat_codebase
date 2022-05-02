@@ -2,8 +2,11 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-  <div class="container my-5 d-flex align-items-center justify-content-center">
-    <div class="px-4 py-4" style="border-radius:10px; border:2px solid #356859">
+  <div class="container d-flex">
+    <div class="px-4 py-4">
+      <h4 class="py-2">Welcome to the Seshat Login Page.</h4>
+      <h5 class="py-2 text-secondary">Please enter your credentials below:</h5>
+
       {% if form.errors %}
         <p>Your username and password didn't match. Please try again.</p>
       {% endif %}
@@ -16,18 +19,18 @@
           <p>Please login to see this page.</p>
         {% endif %}
       {% endif %}
-
       <form method="post" action="{% url 'login' %}">
         {% csrf_token %}
-        <table>
-          <tr>
-            <td> {{ form.username|as_crispy_field }}</td>
-          </tr>
-          <tr></tr>
-          <tr>
-            <td>{{ form.password|as_crispy_field }}</td>
-          </tr>
-        </table>
+        <div class="row">
+          <div class="col-md-4 mt-3">
+            {{ form.username|as_crispy_field }}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4 mt-3">
+            {{ form.password|as_crispy_field }}
+          </div>
+        </div>
         <br>
         <input class="btn btn-success px-5" type="submit" value="login" />
         <input type="hidden" name="next" value="{{ next }}" />

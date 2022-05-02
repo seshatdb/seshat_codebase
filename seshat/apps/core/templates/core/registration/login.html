@@ -2,8 +2,9 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
+
   <div class="container my-5 d-flex align-items-center justify-content-center">
-    <div class="px-4 py-4" style="border-radius:10px; border:2px solid #356859">
+    <div class="px-4 py-5" style="border-radius:10px; border:2px solid #356859">
       {% if form.errors %}
         <p>Your username and password didn't match. Please try again.</p>
       {% endif %}
@@ -16,7 +17,6 @@
           <p>Please login to see this page.</p>
         {% endif %}
       {% endif %}
-
       <form method="post" action="{% url 'login' %}">
         {% csrf_token %}
         <table>
@@ -34,7 +34,7 @@
       </form>
 
       {# Assumes you setup the password_reset view in your URLconf #}
-      <p class="mt-3"><a href="{% url 'password_reset' %}">Forgot password?</a></p>
+      <p class="mt-3"><a href="{% url 'password_reset' %}">Forgot your password?</a></p>
       </div>
 </div>
 {% endblock %}

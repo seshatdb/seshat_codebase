@@ -5,16 +5,16 @@
                 <i class="fa fa-envelope-open"></i> <span style="font-family: 'Lobster', serif;"> info@seshat.com </span>
             </div>
             <div class="col-md-4 text-center">
-                <a href = "#"> <i class="fab fa-twitter"> </i></a>
-                <a href = "#"> <i class="fab fa-facebook"> </i></a>
-                <a href = "#"> <i class="fab fa-linkedin"> </i></a>
-                <a href = "#"> <i class="fab fa-instagram"> </i></a>
-                <a href = "#"> <i class="fab fa-pinterest"> </i></a>
+                    <a href = "#"> <i class="fab fa-twitter"> </i></a>
+                    <a href = "#"> <i class="fab fa-facebook"> </i></a>
+                    <a href = "#"> <i class="fab fa-linkedin"> </i></a>
+                    <a href = "#"> <i class="fab fa-instagram"> </i></a>
+                    <a href = "#"> <i class="fab fa-pinterest"> </i></a>
             </div>
             <div class="col-md-4 text-end">
                 {% if user.is_authenticated %}
                     <a href="{% url 'logout' %}" class="pe-4"><strong>Logout </strong></a>
-                    <a href="{% url 'login' %}" class="pe-2"> <i class="fa fa-lock-open"></i> &nbsp; Logged in as: &nbsp; <strong> {{ user.get_username }} <i class="fas fa-user"></i> </strong></a>
+                    <a href="{% url 'login' %}" class="pe-2 text-success"> <i class="fas fa-user-check"></i> &nbsp; Logged in as: <strong> {{ user.get_username }} </strong></a>
                 {% else %}
                     <a href="{% url 'login' %}" class="pe-4"><strong> Sign Up <i class="fas fa-user-plus"></i> </strong></a>
                     <a href="{% url 'login' %}" class="pe-2"><strong>Login <i class="fas fa-sign-in-alt"></i></strong></a>
@@ -22,5 +22,13 @@
 
             </div>
         </div>
+        <!-- <div class="row">
+            {% if profile.user.last_login == None %}
+                <div class="alert alert-success alert-dismissible fade show">
+                    <strong>Success!</strong> You have successfully logged in.
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            {% endif %}
+        </div> -->
     </div>
 </section>
