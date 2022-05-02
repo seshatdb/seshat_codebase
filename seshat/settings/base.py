@@ -128,6 +128,9 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+CSRF_TRUSTED_ORIGINS = ['https://majidbenam.com', 'http://*.majidbenam.com',
+                        'https://seshatdb.herokuapp.com', ]
+
 # ==============================================================================
 # I18N AND L10N SETTINGS
 # ==============================================================================

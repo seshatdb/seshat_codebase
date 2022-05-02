@@ -1,7 +1,7 @@
 # flake8: noqa
 
-import sentry_sdk
-from sentry_sdk.integrations.django import DjangoIntegration
+# import sentry_sdk
+# from sentry_sdk.integrations.django import DjangoIntegration
 
 import seshat
 from .base import *
@@ -22,8 +22,6 @@ from .base import *
 
 # SESSION_COOKIE_SECURE = True
 
-CSRF_TRUSTED_ORIGINS = ['https://majidbenam.com',
-                        'https://seshatdb.herokuapp.com']
 # ==============================================================================
 # THIRD-PARTY APPS SETTINGS
 # ==============================================================================
