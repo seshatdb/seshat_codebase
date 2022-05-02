@@ -22,7 +22,8 @@ from .base import *
 
 # SESSION_COOKIE_SECURE = True
 
-
+CSRF_TRUSTED_ORIGINS = ['https://majidbenam.com',
+                        'https://seshatdb.herokuapp.com']
 # ==============================================================================
 # THIRD-PARTY APPS SETTINGS
 # ==============================================================================
