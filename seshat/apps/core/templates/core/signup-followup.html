@@ -1,0 +1,10 @@
+{% extends "core/seshat-base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="container py-4">
+    <h3 class="text-success"> <i class="fas fa-check-circle"></i> You successfully signed up for a Seshat account.</h3>
+    <h4 class="px-3 py-3"> <i class="fas fa-arrow-alt-circle-right text-success"></i> To log into your account: <a href="{% url 'login' %}" class="pe-2"><strong> Click here </strong></a></h4>
+</div>
+
+{% endblock %}

@@ -17,6 +17,7 @@ class Profile(models.Model):
 
     )
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    email_confirmed = models.BooleanField(default=False)
     location = models.CharField(max_length=30, blank=True)
     role = models.PositiveSmallIntegerField(
         choices=ROLE_CHOICES, null=True, blank=True)
