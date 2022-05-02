@@ -9,6 +9,8 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_encode
 from django.template.loader import render_to_string
 from seshat.apps.core.tokens import account_activation_token
 from django.contrib.auth.models import User
+from django.views.decorators.cache import cache_page
+from django.views.decorators.csrf import csrf_protect
 
 
 import json
@@ -129,6 +131,8 @@ class PolityDetailView(generic.DetailView):
         return context
 
 
+@cache_page(60 * 15)
+@csrf_protect
 def signup(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)
@@ -166,22 +170,22 @@ def signupfollowup(request):
     return render(request, 'core/signup-followup.html')
 
 
-def activate(request, uidb64, token):
-    try:
-        uid = str(urlsafe_base64_decode(uidb64))
-        user = User.objects.get(pk=uid)
-    except (TypeError, ValueError, OverflowError, User.DoesNotExist):
-        user = None
+# def activate(request, uidb64, token):
+#     try:
+#         uid = str(urlsafe_base64_decode(uidb64))
+#         user = User.objects.get(pk=uid)
+#     except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+#         user = None
 
-    if user is not None and account_activation_token.check_token(user, token):
-        user.is_active = True
-        user.profile.email_confirmed = True
-        user.save()
-        login(request, user)
-        return redirect('signup-followup')
-    else:
-        return render(request, 'core/account_activation_invalid.html')
+#     if user is not None and account_activation_token.check_token(user, token):
+#         user.is_active = True
+#         user.profile.email_confirmed = True
+#         user.save()
+#         login(request, user)
+#         return redirect('signup-followup')
+#     else:
+#         return render(request, 'core/account_activation_invalid.html')
 
 
-def account_activation_sent(request):
-    return render(request, 'core/account_activation_sent.html')
+# def account_activation_sent(request):
+#     return render(request, 'core/account_activation_sent.html')
