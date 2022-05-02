@@ -8,37 +8,30 @@
     <a href="{% url 'diding_taxes-download' %}" class="btn btn-outline-primary ms-auto my-4 float-end"><i class="fas fa-download"></i> &nbsp; Download All</a>
 {% endblock download_button %}
 
-{% block main_description %}
 
+{% block main_description %}
+<div class="row">
+    <p>
+        Land taxes are collected as a means to imrove the quality of life for people. Land taxes are collected as a means to imrove the quality of life for people. Land taxes are collected as a means to imrove the quality of life for people. Land taxes are collected as a means to imrove the quality of life for people.
+    </p>
+</div>
 {% endblock main_description %}
+
 
 {% block myheadings_list %}
 <th style="text-align: center;" scope="col">Total Revenue
-<sup>
-<span type="button" data-bs-toggle="popover" data-bs-html="true" data-bs-content="Diding Taxes (in 1,000 taels)">&nbsp;<i class="fas fa-question-circle"></i></span>
-</sup>
-</th>
+    <sup>
+        <span type="button" data-bs-toggle="popover" data-bs-html="true" data-bs-content="Here We go.">&nbsp;<i class="fas fa-info text-info"></i></span>
+    </sup>
+   </th>
 {% endblock myheadings_list %}
 
 {% block extra_vars_list %}
 
-<td class = "{% if obj.tag == 'DSP' %}
-text-danger
-{% elif obj.tag == 'SSP' %}
-text-warning
-{% elif obj.tag == 'UNK' %}
-text-secondary
-{% elif obj.tag == 'IFR' %}
-text-primary
-{% else %}
-text-success
-{% endif %} fw-bold" style="text-align: center;">{{ obj.total_revenue|intcomma }}
-    {% if obj.display_citations %}
+<td style="text-align: center;">{{ obj.total_revenue|intcomma }}
     <sup>
         <span type="button" data-bs-toggle="popover" title="Refs:" data-bs-html="true" data-bs-content=" {{ obj.display_citations }}">&nbsp;<i class="far fa-bookmark text-info"></i></span>
     </sup>
-    {% endif %}
-
 </td>
 {% endblock extra_vars_list %}
 
