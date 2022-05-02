@@ -27,12 +27,12 @@ SESSION_COOKIE_SECURE = True
 # THIRD-PARTY APPS SETTINGS
 # ==============================================================================
 
-sentry_sdk.init(
-    dsn=config("SENTRY_DSN", default=""),
-    environment=SESHAT_ENVIRONMENT,
-    release="seshat@%s" % seshat.__version__,
-    integrations=[DjangoIntegration()],
-)
+# sentry_sdk.init(
+#     dsn=config("SENTRY_DSN", default=""),
+#     environment=SESHAT_ENVIRONMENT,
+#     release="seshat@%s" % seshat.__version__,
+#     integrations=[DjangoIntegration()],
+# )
 
 # Secret Key
 SECRET_KEY = config('SECRET_KEY')
