@@ -131,43 +131,43 @@ class PolityDetailView(generic.DetailView):
         return context
 
 
-@cache_page(60 * 15)
-@csrf_protect
-def signup(request):
-    if request.method == 'POST':
-        form = SignUpForm(request.POST)
-        if form.is_valid():
-            # user = form.save(commit=False)
-            # user.is_active = False
-            # user.save()
-            # current_site = get_current_site(request)
-            # subject = 'Activate Your Seshat Account'
-            # message = render_to_string('core/account_activation_email.html', {
-            #     'user': user,
-            #     'domain': current_site.domain,
-            #     'uid': urlsafe_base64_encode(force_str(user.pk).encode()),
-            #     'token': account_activation_token.make_token(user),
-            # })
-            # user.email_user(subject, message)
-            # print(message['uid'])
-            # return redirect('account_activation_sent')
-            user = form.save()
-            user.refresh_from_db()  # load the profile instance created by the signal
-            user.profile.first_name = form.cleaned_data.get('first_name')
-            user.profile.last_name = form.cleaned_data.get('last_name')
-            user.profile.email = form.cleaned_data.get('email')
-            user.save()
-            raw_password = form.cleaned_data.get('password1')
-            user = authenticate(username=user.username, password=raw_password)
-            #login(request, user)
-            return redirect('signup-followup')
-    else:
-        form = SignUpForm()
-    return render(request, 'core/signup.html', {'form': form})
+# @cache_page(60 * 15)
+# @csrf_protect
+# def signup(request):
+#     if request.method == 'POST':
+#         form = SignUpForm(request.POST)
+#         if form.is_valid():
+#             # user = form.save(commit=False)
+#             # user.is_active = False
+#             # user.save()
+#             # current_site = get_current_site(request)
+#             # subject = 'Activate Your Seshat Account'
+#             # message = render_to_string('core/account_activation_email.html', {
+#             #     'user': user,
+#             #     'domain': current_site.domain,
+#             #     'uid': urlsafe_base64_encode(force_str(user.pk).encode()),
+#             #     'token': account_activation_token.make_token(user),
+#             # })
+#             # user.email_user(subject, message)
+#             # print(message['uid'])
+#             # return redirect('account_activation_sent')
+#             user = form.save()
+#             user.refresh_from_db()  # load the profile instance created by the signal
+#             user.profile.first_name = form.cleaned_data.get('first_name')
+#             user.profile.last_name = form.cleaned_data.get('last_name')
+#             user.profile.email = form.cleaned_data.get('email')
+#             user.save()
+#             raw_password = form.cleaned_data.get('password1')
+#             user = authenticate(username=user.username, password=raw_password)
+#             #login(request, user)
+#             return redirect('signup-followup')
+#     else:
+#         form = SignUpForm()
+#     return render(request, 'core/signup.html', {'form': form})
 
 
-def signupfollowup(request):
-    return render(request, 'core/signup-followup.html')
+# def signupfollowup(request):
+#     return render(request, 'core/signup-followup.html')
 
 
 # def activate(request, uidb64, token):
