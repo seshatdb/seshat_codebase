@@ -130,8 +130,8 @@ AUTH_PASSWORD_VALIDATORS = [
 CSRF_TRUSTED_ORIGINS = ['https://majidbenam.com', 'http://*.majidbenam.com', 'http://majidbenam.com', 'www.majidbenam.com',
                         'https://seshatdb.herokuapp.com', 'http://seshatdb.herokuapp.com', 'www.seshatdb.herokuapp.com', ]
 
-USE_X_FORWARDED_HOST = True
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+#USE_X_FORWARDED_HOST = True
+#SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 # ==============================================================================
 # I18N AND L10N SETTINGS
