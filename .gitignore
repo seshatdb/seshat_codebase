@@ -132,6 +132,9 @@ celerybeat.pid
 # SageMath parsed files
 *.sage.py
 
+# Extra Registrations not needed
+#seshat/apps/core/templates/core/registration/
+
 # Environments
 .env
 .venv
