@@ -1,7 +1,13 @@
 {% autoescape off %}
-Hi {{ user.username }},
+Hello {{ user.username }},
 
-Please click on the link below to confirm your registration:
+Thank you for siging up on our website.
+
+Please click on the link below to confirm your registration for Seshat Website:
 
 http://{{ domain }}{% url 'activate' uidb64=uid token=token %}
+
+Best Regards
+
+Seshat Admin Team
 {% endautoescape %}
