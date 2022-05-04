@@ -149,6 +149,14 @@ USE_TZ = True
 
 LOCALE_PATHS = [BASE_DIR / "locale"]
 
+# Email config:
+EMAIL_FROM_USER = config('EMAIL_FROM_USER')
+EMAIL_HOST = config('EMAIL_HOST')
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+
 
 # ==============================================================================
 # STATIC FILES SETTINGS

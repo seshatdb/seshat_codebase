@@ -12,6 +12,7 @@ from django.contrib.auth.models import User
 from django.views.decorators.cache import cache_page
 from django.views.decorators.csrf import csrf_protect
 from django.contrib import messages
+from django.conf import settings
 
 from django.core.mail import EmailMessage
 
@@ -148,7 +149,12 @@ def signup(request):
                 'uid': urlsafe_base64_encode(force_bytes(user.pk)),
                 'token': account_activation_token.make_token(user)
             })
-            user.email_user(subject, message)
+            #user.email_user(subject, message)
+            to_be_sent_email = EmailMessage(subject=subject, body=message,
+                                            from_email=settings.EMAIL_FROM_USER, to=[user.email])
+
+            print(settings.EMAIL_HOST_USER)
+            to_be_sent_email.send()
             return redirect('account_activation_sent')
     else:
         form = SignUpForm()
@@ -156,6 +162,7 @@ def signup(request):
 
 
 def signupfollowup(request):
+    print(settings.EMAIL_HOST_USER)
     return render(request, 'core/signup-followup.html')
 
 
