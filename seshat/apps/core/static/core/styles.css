@@ -5,5 +5,5 @@ a {
 
 a:hover {
     color: #F87217;
-    text-decoration: none;
+    text-decoration: underline;
 }
