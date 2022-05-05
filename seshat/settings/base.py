@@ -7,6 +7,7 @@ import django_heroku
 import dj_database_url
 from decouple import Csv, config
 
+# base_dir is calculated based on this file (base.py) and then goes to parents above.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 #PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
@@ -22,7 +23,7 @@ DEBUG = config("DEBUG", default=True, cast=bool)
 
 #ALLOWED_HOSTS = config("ALLOWED_HOSTS", default="127.0.0.1,localhost", cast=Csv())
 ALLOWED_HOSTS = ['seshatdb.herokuapp.com', '127.0.0.1',
-                 'majidbenam.com', 'www.majidbenam.com']
+                 'majidbenam.com', 'www.majidbenam.com', 'https://majidbenam.com']
 
 INSTALLED_APPS = [
     "seshat.apps.accounts",
@@ -163,19 +164,28 @@ EMAIL_PORT = 587
 # ==============================================================================
 
 #STATIC_URL = "/static/"
+# this is all browser stuff, what you need to type in the address bar to see the image and stuff
 STATIC_URL = "static/"
 
 
+# this is not needed: the actual value is the default valu:
+# /home/majid/dev/seshat/seshat/seshat/staticfiles
+# and the files are actually stored there when we COLLECTSTATIC them
 STATIC_ROOT = BASE_DIR.parent.parent / "static"
+
 #STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
 
+# this one is pretty pointless too
+# but let's keep things as it is for the moment
+# I believe this says: anything under the base directory that is inside a directory called 'static' will be collected as statidfile,
+# regardless of how deep down in the directory hierarchy it might be. It just needs to be a in a older called media in any of the apps, etc.
 STATICFILES_DIRS = [BASE_DIR / "static"]
 
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 #STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
-
+# We might need to turn these on in production!
 # STATICFILES_FINDERS = (
 #     "django.contrib.staticfiles.finders.FileSystemFinder",
 #     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
@@ -214,4 +224,5 @@ LOGIN_REDIRECT_URL = 'seshat-index'
 # =================
 #LOGOUT_REDIRECT_URL = 'logout'
 
+# I believe this says: Hey Heroku, do your local settings, don't care about my static_root, static_url etc.
 django_heroku.settings(locals())

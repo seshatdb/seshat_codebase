@@ -1,3 +1,5 @@
+{% load static %}
+
 <br>
 <div class="container text-center my-5">
     <div class="row">
@@ -28,26 +30,45 @@
         <div class="accordion-item">
         <h2 class="accordion-header" id="headingTwo">
             <button class="accordion-button collapsed seshat-accordion" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                <h4> Who Are We Really?</h4>
+                <h4>Research Ethics</h4>
             </button>
         </h2>
         <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
             <div class="accordion-body lead">
-                    <strong>This is the second item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+                The Seshat project involves the study of myriad different communities and populations from the past. Some peoples living today trace their ancestry to one or more of these past groups. As researchers, we have an obligation to present fair-minded, responsible, and respectful information concerning the past. While maintaining a commitment to scientific enquiry, we are committed to avoiding biased interpretation or representation of past or contemporary cultures, to refraining from using harmful or disrespectful terminology, and to treating sensitive information or topics with appropriate nuance and respect for the dignity and lived experiences of descendant communities.
             </div>
         </div>
         </div>
         <div class="accordion-item">
         <h2 class="accordion-header" id="headingThree">
             <button class="accordion-button collapsed seshat-accordion" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                <h4> Who Are We Actually?</h4>
+                <h4>You want to see our logo? </h4>
             </button>
         </h2>
         <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
             <div class="accordion-body lead">
-            <strong>This is the third item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+            <img src="{% static 'SeshatLogo.png' %}" class="seshat-logo img-thumbnail rounded mx-auto d-block" alt="No Seshat Logo found.">
             </div>
         </div>
+        </div>
+
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingThree">
+                <button class="accordion-button collapsed seshat-accordion" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                    <h4>Data Review Board</h4>
+                </button>
+            </h2>
+            <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                <div class="accordion-body lead">
+                    <p>
+                        All Seshat codes go through an iterative process of editing and review before being used in analyses submitted for publication. For each variable, the initial value coded by RAs is later checked, edited, and augmented by Seshat experts, then reviewed by a Data Review Board (DRB). The latter comprises the senior team responsible for data management on a given paper, generally consisting of a combination of humanities scholars (e.g. historians, archaeologists, classicists, and anthropologists) and scientists (e.g. data analysts and complexity scientists). Typically, the DRB will include all members of the Seshat Board of Directors.
+                    </p>
+                    
+                    <p>
+                        The DRB engages Seshat experts to review coding decisions, provide literature recommendations, and assist with the interpretation of complicated or conflicting evidence. When Seshat experts point out disagreements in the literature or disagree among themselves on a particular code, this is recorded so that multiple analyses can be run taking into account contrasting interpretations. The DRB scrutinizes all initial coding decisions and may request further expert review, where appropriate, to address remaining points of uncertainty. The DRB is also responsible for ensuring that coding conventions are consistently applied across NGAs and by all Seshat RAs. The DRB is ultimately responsible for the data presented in published work.
+                    </p>
+                                   </div>
+            </div>
         </div>
     </div>
 </div>

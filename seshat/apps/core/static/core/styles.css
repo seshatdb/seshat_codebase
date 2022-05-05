@@ -5,5 +5,22 @@ a {
 
 a:hover {
     color: #F87217;
-    text-decoration: underline;
+    text-decoration: none;
+}
+
+.seshat-logo {
+    width: 300px;  
+    height: auto;  
+}
+
+.isfahan-sky-light {
+    color: #c9d8f9;
+}
+
+.isfahan-sky-dark {
+    color: #4682B4;
+}
+
+.seshat-brownie {
+    color: #893101;
 }
