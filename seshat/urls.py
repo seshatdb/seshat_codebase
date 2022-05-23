@@ -24,6 +24,7 @@ urlpatterns = [
     path('profiles/', include("seshat.apps.accounts.urls")),
     path('accounts/', include('django.contrib.auth.urls')),
     path('crisisdb/', include('seshat.apps.crisisdb.urls')),
+    path('api/', include('seshat.apps.seshat_api.urls')),
 
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -39,8 +39,10 @@ INSTALLED_APPS = [
     'crispy_forms',
     "seshat.apps.core",
     "seshat.apps.crisisdb",
+    "seshat.apps.seshat_api",
     "django_filters",
     "corsheaders",
+    "rest_framework",
 
 ]
 
@@ -218,6 +220,17 @@ SESHAT_ENVIRONMENT = config("SESHAT_ENVIRONMENT", default="local")
 # =================
 
 LOGIN_REDIRECT_URL = 'seshat-index'
+
+
+# REST Framework
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10,
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
+}
+
 
 # =================
 # Logout Redirect

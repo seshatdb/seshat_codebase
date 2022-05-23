@@ -144,7 +144,7 @@ class Citation(models.Model):
 
 class SeshatCommon(models.Model):
     polity = models.ForeignKey(Polity, on_delete=models.SET_NULL, related_name="%(app_label)s_%(class)s_related",
-                               related_query_name="%(app_label)s_%(class)ss", null=True)
+                               related_query_name="%(app_label)s_%(class)s", null=True)
     section = models.ForeignKey(
         Section, on_delete=models.SET_NULL, related_name="%(app_label)s_%(class)s_related",
         related_query_name="%(app_label)s_%(class)ss", blank=True, null=True,)
