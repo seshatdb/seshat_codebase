@@ -1,0 +1,199 @@
+{% extends "core/seshat-base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<!-- form-row and form-group etc are removed in Bootstrap 5 -->
+<div class="container mt-3">
+    <form action="" method="post">
+        {% csrf_token %}
+        <legend>
+            <div class="row d-flex align-items-center">
+                <div class="col-md-9">
+                    <h6 class="lead-2 text-secondary">Search Data in:</h6>
+                    <h6><span class="display-6">CrisisDB</span></h6>
+                </div>
+            </div>       
+            <hr>
+        </legend>
+
+        <!-- Polities -->
+        <div class="row">
+            <div class="col-md-8">
+                <span class="h5">  <i class="fa-solid fa-circle-chevron-right"></i> </span>  <span class="h4"> <strong> Polity: &nbsp; &nbsp;</strong> &nbsp; </span>
+            </div>
+            <div class="col-md-4 text-end">
+                <input type="checkbox" class="btn-check" id="btn-check-pol" autocomplete="off" onclick="polCheckBox(this)">
+                <label class="btn btn-outline-success" for="btn-check-pol">select all polities</label>
+             </div>
+        </div>
+        <div class="row mt-2 mb-3 ps-2">
+        <div class="col-md-12 border border-secondary p-2 rounded">
+            {% for polity in majid %}
+            <div class="form-check form-check-inline pe-3">
+                <input class="form-check-input poloption" type="checkbox" id="{{ polity }}" value="{{ polity }}">
+                <label class="form-check-label" for="{{ polity }}"> <span class="h6 pull-left"><strong>{{polity}} &nbsp; &nbsp;</strong> &nbsp; </span></label>
+            </div>
+            {% endfor %}
+        </div>
+        </div>
+
+        <!-- Variables NOT based on sections (TODO: subsections) -->
+        <div class="row">
+            <div class="col-md-8">
+                <span class="h5">  <i class="fa-solid fa-circle-chevron-right"></i> </span>  <span class="h4"> <strong> Variables: &nbsp; &nbsp;</strong> &nbsp; </span>
+            </div>
+            <div class="col-md-4 text-end">
+                <input type="checkbox" class="btn-check" id="btn-check-var" autocomplete="off" onclick="varCheckBox(this)">
+                <label class="btn btn-outline-success" for="btn-check-var">select all variables</label>
+             </div>
+        </div>
+
+        <div class="row mt-2 mb-3 ps-2">
+            <div class="col-md-12 border border-secondary p-2 rounded">
+                {% for var, var_name in benam.items %}
+                <div class="form-check form-check-inline pe-3 pb-2">
+                    <input class="form-check-input varoption" type="checkbox" id="{{ var }}" value="{{ var }}">
+                    <label class="form-check-label" for="{{ var }}"><span class="h6 pull-left">{{var_name}} &nbsp; &nbsp;</> &nbsp; </span></label>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Variables based on sections (TODO: subsections) -->
+
+<!-- 
+        <div class="row">
+            <div class="col-md-12">
+                <strong> <i class="fa-solid fa-circle-chevron-right"></i> &nbsp; Variables <small>(based on Section/Subsection)</small>: &nbsp; &nbsp;</strong> &nbsp; <div class="form-check form-check-inline text-success">
+                    <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1" onclick="varCheckBox()">
+                    <label class="form-check-label" for="inlineCheckbox1"> <strong>all</strong> variables &nbsp; </label>
+                  </div>
+            </div>
+        </div>
+        <div class="row mt-2 mb-3 ps-2">
+            <div class="col-md-12 border border-secondary p-2 rounded">
+                {% for sec, sec_dic in crisi.items %}
+                <div class="ps-2">
+                    <strong> <i class="fa-solid fa-caret-right"></i> &nbsp; {{ sec }}: &nbsp; &nbsp;</strong> <div class="form-check form-check-inline text-success">
+                        <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1" onclick="{{sec}}CheckBox()">
+                        <label class="form-check-label" for="inlineCheckbox1"> <strong>all</strong> </label>
+                      </div>
+                </div>
+                {% for var, var_name in sec_dic.items %}
+                <div class="form-check form-check-inline ps-5 pt-2">
+                    <input class="form-check-input varoption {{sec}}option" type="checkbox" id="{{ var }}" value="{{ var }}">
+                    <label class="form-check-label" for="{{ var }}">{{ var_name }}</label>
+                </div>
+                {% endfor %}
+                {% if not forloop.last %}
+                <hr>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div> -->
+
+
+        <div class="row">
+            <div class="col-md-12">
+                <strong>Style: </strong> 
+            </div>
+            </div>
+            <div class="row mt-2 mb-3 ps-2">
+            <div class="col-md-12 border border-secondary p-2 rounded">
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="equi_style" value="equinox_style">
+                    <label class="form-check-label" for="equi_style">Equinox</label>
+                  </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="wide_ts" value="wide_style" onclick="timeseries(this)" disabled>
+                    <label class="form-check-label" for="wide_ts">Wide (Time Series)</label>
+                  </div>
+                  <div id="resolution">
+                  </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 mb-2 py-2 d-grid mx-auto">
+                <button type="submit" class="btn btn-outline-success my-auto btn-block btn-lg">Downlaod CSV</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+    function polCheckBox(source) {
+        let checkboxs = document.getElementsByClassName("poloption");
+        for(let i = 0; i < checkboxs.length ; i++) { //zero-based array
+          checkboxs[i].checked = source.checked
+        }
+      }
+      function varCheckBox(source) {
+        let checkboxs = document.getElementsByClassName("varoption");
+        for(let i = 0; i < checkboxs.length ; i++) { //zero-based array
+          checkboxs[i].checked = source.checked
+        }
+      }
+      function financesCheckBox() {
+        let checkboxs = document.getElementsByClassName('financesoption');
+        for(let i = 0; i < checkboxs.length ; i++) { //zero-based array
+          checkboxs[i].checked = !checkboxs[i].checked;
+        }
+      }
+
+      function timeseries() {
+        let my_hr = document.createElement('hr');
+
+        let my_res1 = document.createElement('input');
+        my_res1.type = "radio";
+        my_res1.className = "form-check-input"
+        let my_res2 = document.createElement('input');
+        my_res2.type = "radio";
+        my_res2.className = "form-check-input"
+
+        let my_res3 = document.createElement('input');
+        my_res3.type = "radio";
+        my_res3.className = "form-check-input"
+
+        let my_lab1 = document.createElement('label');
+        my_lab1.className= "form-check-label ps-2 pe-3"
+        let my_lab2 = document.createElement('label');
+        my_lab2.className= "form-check-label ps-2 pe-3"
+
+        let my_lab3 = document.createElement('label');
+        my_lab3.className= "form-check-label ps-2 pe-3"
+
+        let my_lab = document.createElement('label');
+        my_lab.textContent = "Time Series Resolution:";
+        my_lab.className= "form-check-label ps-2 pe-3"
+
+        my_lab1.setAttribute('for', "resolutionRadioOptions");
+        my_lab2.setAttribute('for', "resolutionRadioOptions");
+        my_lab3.setAttribute('for', "resolutionRadioOptions");
+
+        my_res1.setAttribute('name', "resolutionRadioOptions");
+        my_res2.setAttribute('name', "resolutionRadioOptions");
+        my_res3.setAttribute('name', "resolutionRadioOptions");
+
+
+
+        my_lab1.textContent = "100 years";
+        my_lab2.textContent = "50 years";
+        my_lab3.textContent = "10 years";
+
+        var o1 = document.getElementById("wide_ts");
+        var o2 = document.getElementById("resolution");
+
+        if(o1.checked) {
+            o2.appendChild(my_hr);
+            o2.appendChild(my_lab);
+            o2.appendChild(my_res1);
+            o2.appendChild(my_lab1);
+            o2.appendChild(my_res2);
+            o2.appendChild(my_lab2);
+            o2.appendChild(my_res3);
+            o2.appendChild(my_lab3);
+
+        }
+    }
+</script>
+{% endblock %}

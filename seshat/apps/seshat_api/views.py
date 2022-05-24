@@ -24,7 +24,7 @@ class UserViewSet(viewsets.ModelViewSet):
     """
     queryset = User.objects.all().order_by('-date_joined')
     serializer_class = UserSerializer
-    #permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
 
 class GroupViewSet(viewsets.ModelViewSet):
@@ -33,7 +33,7 @@ class GroupViewSet(viewsets.ModelViewSet):
     """
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
-    #permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
 
 class PolityViewSet(viewsets.ModelViewSet):
@@ -42,6 +42,7 @@ class PolityViewSet(viewsets.ModelViewSet):
     """
     queryset = Polity.objects.all()
     serializer_class = PolitySerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
 
 @api_view(['GET', 'POST'])

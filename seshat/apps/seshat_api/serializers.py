@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User, Group
 from rest_framework import serializers
-from seshat.apps.crisisdb.models import Famine_event, Land_yield, Total_tax
+from seshat.apps.crisisdb.models import Famine_event, Land_yield, Total_tax, Total_revenue, Salt_tax
 from .models import Album
 from ..core.models import Polity, Reference
 
@@ -36,16 +36,29 @@ class Total_taxSerializer(serializers.ModelSerializer):
         fields = ['year_from', 'year_to', 'total_amount_of_taxes_collected']
 
 
+class Total_revenueSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Total_revenue
+        fields = ['year_from', 'year_to', 'total_revenue']
+
+
+class Salt_taxSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Salt_tax
+        fields = ['year_from', 'year_to', 'salt_tax']
+
+
 class PolitySerializer(serializers.ModelSerializer):
-    crisisdb_gdp_per_capita_related = serializers.StringRelatedField(
-        many=True,
-    )
+    #crisisdb_gdp_per_capita_related = serializers.StringRelatedField(many=True,)
     crisisdb_total_tax_related = Total_taxSerializer(many=True, read_only=True)
+    crisisdb_salt_tax_related = Salt_taxSerializer(many=True, read_only=True)
+    crisisdb_total_revenue_related = Total_revenueSerializer(
+        many=True, read_only=True)
 
     class Meta:
         model = Polity
         fields = ['id', 'name', 'start', 'end',
-                  'crisisdb_total_tax_related', 'crisisdb_gdp_per_capita_related']
+                  'crisisdb_total_tax_related', 'crisisdb_salt_tax_related', 'crisisdb_total_revenue_related']
 
 #     def create(self, validated_data):
 #         return Polity.objects.create(**validated_data)

@@ -12,7 +12,7 @@ import uuid
 
 from django.utils import translation
 
-from ..core.models import SeshatCommon, Certainty, Tags
+from ..core.models import SeshatCommon, Certainty, Tags, Section
 
 
 # choices
@@ -224,6 +224,9 @@ class Total_economic_output(SeshatCommon):
 class Total_revenue(SeshatCommon):
     name = models.CharField(max_length=100, default="Total_revenue")
     total_revenue = models.IntegerField(blank=True, null=True)
+    # section = models.ForeignKey(
+    #     Section, on_delete=models.SET_NULL, related_name="%(app_label)s_%(class)s_related",
+    #     related_query_name="%(app_label)s_%(class)ss", blank=True, null=True, default=2)
 
     class Meta:
         verbose_name = 'Total_revenue'
