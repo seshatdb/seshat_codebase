@@ -114,6 +114,7 @@ ipython_config.py
 #   https://python-poetry.org/docs/basic-usage/#commit-your-poetrylock-file-to-version-control
 #poetry.lock
 
+
 # pdm
 #   Similar to Pipfile.lock, it is generally recommended to include pdm.lock in version control.
 #pdm.lock
@@ -134,6 +135,9 @@ celerybeat.pid
 
 # Extra Registrations not needed
 #seshat/apps/core/templates/core/registration/
+
+# Personal Todo
+todo.txt 
 
 # Environments
 .env
