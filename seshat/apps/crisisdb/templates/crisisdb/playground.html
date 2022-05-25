@@ -4,11 +4,12 @@
 {% block content %}
 <!-- form-row and form-group etc are removed in Bootstrap 5 -->
 <div class="container mt-3">
-    <form action="" method="post">
+    <form action="{% url 'playgrounddownload' %}" method="post">
         {% csrf_token %}
         <legend>
             <div class="row d-flex align-items-center">
                 <div class="col-md-9">
+                    <h4 class="lead-2 text-secondary">Hi, {{user}}</h4>
                     <h6 class="lead-2 text-secondary">Search Data in:</h6>
                     <h6><span class="display-6">CrisisDB</span></h6>
                 </div>
@@ -28,12 +29,15 @@
         </div>
         <div class="row mt-2 mb-3 ps-2">
         <div class="col-md-12 border border-secondary p-2 rounded">
+            <fieldset>      
             {% for polity in majid %}
             <div class="form-check form-check-inline pe-3">
-                <input class="form-check-input poloption" type="checkbox" id="{{ polity }}" value="{{ polity }}">
+                <input class="form-check-input poloption" type="checkbox" id="{{ polity }}" value="{{ polity }}" name="selected_pols">
                 <label class="form-check-label" for="{{ polity }}"> <span class="h6 pull-left"><strong>{{polity}} &nbsp; &nbsp;</strong> &nbsp; </span></label>
             </div>
             {% endfor %}
+             </fieldset>      
+
         </div>
         </div>
 
@@ -50,12 +54,15 @@
 
         <div class="row mt-2 mb-3 ps-2">
             <div class="col-md-12 border border-secondary p-2 rounded">
+                <fieldset>      
                 {% for var, var_name in benam.items %}
                 <div class="form-check form-check-inline pe-3 pb-2">
-                    <input class="form-check-input varoption" type="checkbox" id="{{ var }}" value="{{ var }}">
+                    <input class="form-check-input varoption" type="checkbox" id="{{ var }}" value="{{ var }}" name="selected_vars">
                     <label class="form-check-label" for="{{ var }}"><span class="h6 pull-left">{{var_name}} &nbsp; &nbsp;</> &nbsp; </span></label>
                 </div>
                 {% endfor %}
+                <fieldset>      
+
             </div>
         </div>
 
@@ -114,7 +121,7 @@
         </div>
         <div class="row">
             <div class="col-md-4 mb-2 py-2 d-grid mx-auto">
-                <button type="submit" class="btn btn-outline-success my-auto btn-block btn-lg">Downlaod CSV</button>
+                <button type="submit" class="btn btn-outline-success my-auto btn-block">Download CSV</button>
             </div>
         </div>
     </form>

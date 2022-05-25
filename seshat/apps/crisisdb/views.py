@@ -26,6 +26,9 @@ from django.core.paginator import Paginator
 
 from django.http import HttpResponse
 
+import requests
+from requests.structures import CaseInsensitiveDict
+
 
 # class PopulationCreate(PermissionRequiredMixin, CreateView):
 #     model = Population
@@ -2683,8 +2686,79 @@ def QingVars(request):
 
 
 def playground(request):
+    if request.method == "POST":
+        print(request.POST.get("selected_pols", 'Hallo'))
     all_pols = list_of_all_Polities()
     all_vars = dic_of_all_vars()
     all_vars_plus = dic_of_all_vars_in_sections()
     context = {'majid': all_pols, 'benam': all_vars, 'crisi': all_vars_plus}
     return render(request, 'crisisdb/playground.html', context=context)
+
+
+@permission_required('admin.can_add_log_entry')
+def playgrounddownload(request):
+    # read the data from the previous from
+    # make sure you collect all the data from seshat_api
+    # sort it out and spit it out
+    # small task: download what we have on seshat_api
+    checked_pols = request.POST.getlist("selected_pols")
+    print("The checked politys are:", checked_pols)
+
+    checked_vars = request.POST.getlist("selected_vars")
+    print("The checked vars are:", checked_vars)
+
+    url = "http://127.0.0.1:8000/api/politys/"
+
+    headers = CaseInsensitiveDict()
+    headers["Accept"] = "application/json"
+
+    resp = requests.get(url, headers=headers)
+
+    all_my_data = resp.json()['results']
+
+    for polity_with_everything in all_my_data:
+        if polity_with_everything not in checked_pols:
+            continue
+        else:
+            an_equinox_row = []
+
+    print(dir(resp))
+    print('\n\n\n')
+    print(len(resp.json()['results']))
+    print('\n\n\n')
+
+    print(resp.content)
+    print('\n\n\n')
+
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="land_taxes_collecteds.csv"'
+
+    writer = csv.writer(response, delimiter='|')
+    # the top row is the same as Equinox, so no need to read data from user input for that
+    # writer.writerow(['year_from', 'year_to',
+    #                  'polity', 'land_taxes_collected', ])
+
+    # for obj in items:
+    #     writer.writerow([obj.year_from, obj.year_to,
+    #                      obj.polity, obj.land_taxes_collected, ])
+
+    # return response
+
+    return render(request, 'crisisdb/playgrounddownload.html')
+
+    # checked_pols.append()
+
+    # items = Land_taxes_collected.objects.all()
+
+    # response = HttpResponse(content_type='text/csv')
+    # response['Content-Disposition'] = 'attachment; filename="land_taxes_collecteds.csv"'
+
+    # writer = csv.writer(response, delimiter='|')
+    # writer.writerow(['year_from', 'year_to',
+    #                  'polity', 'land_taxes_collected', ])
+
+    # for obj in items:
+    #     writer.writerow([obj.year_from, obj.year_to,
+    #                      obj.polity, obj.land_taxes_collected, ])
+
+    # return response

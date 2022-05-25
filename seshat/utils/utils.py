@@ -19,11 +19,12 @@ def list_of_all_Polities():
 
 def dic_of_all_vars():
     myvars = django.apps.apps.get_models()
-    my_vars = {
-        'total_tax': 'Total Tax',
-        'salt_tax': 'Salt Tax',
-        'total_revenue': 'Total Revenue',
-    }
+    # my_vars = {
+    #     'total_tax': 'Total Tax',
+    #     'salt_tax': 'Salt Tax',
+    #     'total_revenue': 'Total Revenue',
+    # }
+    my_vars = {}
     my_vars_2 = {}
     for ct in ContentType.objects.all():
         m = ct.model_class()
@@ -32,7 +33,7 @@ def dic_of_all_vars():
             better_key = app_name + m.__name__
             better_value = m.__name__.replace('_', ' ')
             my_vars[better_key] = better_value
-            print(better_key, ': ', better_value)
+            #print(better_key, ': ', better_value)
             # print(f"{m.__module__}.{m.__name__}\t{m._default_manager.count()}")
     return (my_vars)
 

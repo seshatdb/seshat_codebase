@@ -542,3 +542,6 @@ urlpatterns += [
 
 
 # END OF GENERATIONS
+urlpatterns += [
+    path('playgrounddownload/', views.playgrounddownload,
+         name="playgrounddownload"), ]
