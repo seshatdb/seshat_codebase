@@ -2719,8 +2719,8 @@ def playgrounddownload(request):
     new_checked_vars = [item.lower() + '_related' for item in checked_vars]
     print("The modified checked vars are:", new_checked_vars)
 
-    # url = "http://127.0.0.1:8000/api/politys/"
-    url = "https://www.majidbenam.com/api/politys/"
+    url = "http://127.0.0.1:8000/api/politys/"
+    #url = "https://www.majidbenam.com/api/politys/"
 
     headers = CaseInsensitiveDict()
     headers["Accept"] = "application/json"
@@ -2730,7 +2730,10 @@ def playgrounddownload(request):
     all_my_data = resp.json()['results']
 
     final_response = HttpResponse(content_type='text/csv')
-    final_response['Content-Disposition'] = 'attachment; filename="land_taxes_collecteds.csv"'
+    now = datetime.datetime.now()
+    now_str = now.strftime("%H%M%S")
+    myfile_name = 'CrisisDB_data_' + str(request.user) + '_' + now_str
+    final_response['Content-Disposition'] = f'attachment; filename="{myfile_name}.csv"'
 
     writer = csv.writer(final_response, delimiter='|')
     # the top row is the same as Equinox, so no need to read data from user input for that
@@ -2739,11 +2742,9 @@ def playgrounddownload(request):
 
     for polity_with_everything in all_my_data:
         if polity_with_everything['name'] not in checked_pols:
-            print('Halloooooooooooo,', polity_with_everything['name'])
             continue
         else:
             for variable in new_checked_vars:
-                print('Hallooooiiiiiiiioooo,', variable)
                 if variable not in polity_with_everything.keys():
                     continue
                 else:

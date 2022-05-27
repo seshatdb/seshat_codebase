@@ -25,7 +25,7 @@
         </div>
         <div class="row">
             <div class="col-md-8">
-                <span class="h6"> <i class="fas fa-caret-right"></i>  &nbsp; Choose which version of the database or frozen data is of your interest. </span>
+                <span class="h6"> <i class="fas fa-caret-right"></i>  &nbsp; Choose the version of the database or frozen data from which you want to collect your data. </span>
             </div>
         </div>
         <div class="row mt-2 mb-3 ps-2">
@@ -67,7 +67,7 @@
         </div>
         <div class="row">
             <div class="col-md-8">
-                <span class="h6"> <i class="fas fa-caret-right"></i>  &nbsp; Choose which polity or polities are of your interest. </span>
+                <span class="h6"> <i class="fas fa-caret-right"></i>  &nbsp; Choose the polity or polities of your interest. </span>
             </div>
         </div>
         <div class="row mt-2 mb-3 ps-2">
@@ -96,16 +96,16 @@
         </div>
         <div class="row">
             <div class="col-md-8">
-                <span class="h6"> <i class="fas fa-caret-right"></i>  &nbsp; Choose which variables are of your interest. </span>
+                <span class="h6"> <i class="fas fa-caret-right"></i>  &nbsp; Choose the variables of your interest. </span>
             </div>
         </div>
         <div class="row mt-2 mb-3 ps-2">
             <div class="col-md-12 border border-secondary p-2 rounded">
                 <fieldset>      
                 {% for var, var_name in benam.items %}
-                <div class="form-check form-check-inline pe-3 pb-2">
+                <div class="form-check form-check-inline pe-4 pb-2">
                     <input class="form-check-input varoption" type="checkbox" id="{{ var }}" value="{{ var }}" name="selected_vars">
-                    <label class="form-check-label" for="{{ var }}"><span class="h6 pull-left">{{var_name}} &nbsp; &nbsp;</> &nbsp; </span></label>
+                    <label class="form-check-label" for="{{ var }}"><span class="h6 pull-left"><strong>{{var_name.0}} </strong></span> <small class="badge bg-secondary">{{var_name.1}}</small> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</label>
                 </div>
                 {% endfor %}
                 <fieldset>      
@@ -148,14 +148,19 @@
 
 
         <div class="row">
-            <div class="col-md-12">
-                <strong>Style: </strong> 
+            <div class="col-md-8">
+                <span class="h5">  <i class="fa-solid fa-circle-chevron-right"></i> </span>  <span class="h4"> <strong> Style: &nbsp; &nbsp;</strong> &nbsp; </span>
+            </div>
+            <div class="row pt-2">
+                <div class="col-md-8">
+                    <span class="h6"> <i class="fas fa-caret-right"></i>  &nbsp; Choose the style of your interest. </span>
+                </div>
             </div>
             </div>
             <div class="row mt-2 mb-3 ps-2">
             <div class="col-md-12 border border-secondary p-2 rounded">
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="equi_style" value="equinox_style">
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="equi_style" value="equinox_style" checked>
                     <label class="form-check-label" for="equi_style">Equinox</label>
                   </div>
                 <div class="form-check form-check-inline">
