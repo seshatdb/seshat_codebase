@@ -2719,7 +2719,8 @@ def playgrounddownload(request):
     new_checked_vars = [item.lower() + '_related' for item in checked_vars]
     print("The modified checked vars are:", new_checked_vars)
 
-    url = "http://127.0.0.1:8000/api/politys/"
+    # url = "http://127.0.0.1:8000/api/politys/"
+    url = "https://www.majidbenam.com/api/politys/"
 
     headers = CaseInsensitiveDict()
     headers["Accept"] = "application/json"
