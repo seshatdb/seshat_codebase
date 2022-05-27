@@ -2695,6 +2695,15 @@ def playground(request):
     return render(request, 'crisisdb/playground.html', context=context)
 
 
+Tags_dic = {
+    'TRS': 'Trusted',
+    'DSP': 'Disputed',
+    'SSP': 'Suspected',
+    'IFR': 'Inferred',
+    'UNK': 'Unknown',
+}
+
+
 @permission_required('admin.can_add_log_entry')
 def playgrounddownload(request):
     # read the data from the previous from
@@ -2707,6 +2716,9 @@ def playgrounddownload(request):
     checked_vars = request.POST.getlist("selected_vars")
     print("The checked vars are:", checked_vars)
 
+    new_checked_vars = [item.lower() + '_related' for item in checked_vars]
+    print("The modified checked vars are:", new_checked_vars)
+
     url = "http://127.0.0.1:8000/api/politys/"
 
     headers = CaseInsensitiveDict()
@@ -2716,24 +2728,58 @@ def playgrounddownload(request):
 
     all_my_data = resp.json()['results']
 
+    final_response = HttpResponse(content_type='text/csv')
+    final_response['Content-Disposition'] = 'attachment; filename="land_taxes_collecteds.csv"'
+
+    writer = csv.writer(final_response, delimiter='|')
+    # the top row is the same as Equinox, so no need to read data from user input for that
+    writer.writerow(['polity', 'variable_name', 'variable_sub_name', 'value',
+                     'year_from', 'year_to', 'certainty', 'references', 'notes'])
+
     for polity_with_everything in all_my_data:
-        if polity_with_everything not in checked_pols:
+        if polity_with_everything['name'] not in checked_pols:
+            print('Halloooooooooooo,', polity_with_everything['name'])
             continue
         else:
-            an_equinox_row = []
+            for variable in new_checked_vars:
+                print('Hallooooiiiiiiiioooo,', variable)
+                if variable not in polity_with_everything.keys():
+                    continue
+                else:
+                    # we can get into a list of dictionaries
+                    for var_instance in polity_with_everything[variable]:
+                        all_inner_keys = var_instance.keys()
+                        print(all_inner_keys)
+                        all_used_keys = []
+                        for active_key in all_inner_keys:
+                            if active_key not in ['year_from', 'year_to', 'tag'] and active_key not in all_used_keys:
+                                an_equinox_row = []
+                                an_equinox_row.append(
+                                    polity_with_everything['name'])
+                                an_equinox_row.append(
+                                    variable[:-8])
+                                an_equinox_row.append(
+                                    active_key)
+                                an_equinox_row.append(
+                                    var_instance[active_key])
+                                all_used_keys.append(active_key)
+                                an_equinox_row.append(
+                                    var_instance['year_from'])
+                                an_equinox_row.append(
+                                    var_instance['year_to'])
+                                full_tag = Tags_dic[var_instance['tag']]
+                                an_equinox_row.append(full_tag)
+                                writer.writerow(an_equinox_row)
 
-    print(dir(resp))
-    print('\n\n\n')
-    print(len(resp.json()['results']))
-    print('\n\n\n')
+    # print(dir(resp))
+    # print('\n\n\n')
+    # print(len(resp.json()['results']))
+    # print('\n\n\n')
 
-    print(resp.content)
-    print('\n\n\n')
+    # print(resp.content)
+    # print('\n\n\n')
 
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="land_taxes_collecteds.csv"'
-
-    writer = csv.writer(response, delimiter='|')
+    return final_response
     # the top row is the same as Equinox, so no need to read data from user input for that
     # writer.writerow(['year_from', 'year_to',
     #                  'polity', 'land_taxes_collected', ])

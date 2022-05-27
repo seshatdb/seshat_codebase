@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User, Group
 from rest_framework import serializers
-from seshat.apps.crisisdb.models import Famine_event, Land_yield, Total_tax, Total_revenue, Salt_tax
+from seshat.apps.crisisdb.models import Famine_event, Land_yield, Total_tax, Total_revenue, Salt_tax, Annual_wages
 from .models import Album
 from ..core.models import Polity, Reference
 
@@ -33,19 +33,27 @@ class ReferenceSerializer(serializers.ModelSerializer):
 class Total_taxSerializer(serializers.ModelSerializer):
     class Meta:
         model = Total_tax
-        fields = ['year_from', 'year_to', 'total_amount_of_taxes_collected']
+        fields = ['year_from', 'year_to',
+                  'total_amount_of_taxes_collected', 'tag']
 
 
 class Total_revenueSerializer(serializers.ModelSerializer):
     class Meta:
         model = Total_revenue
-        fields = ['year_from', 'year_to', 'total_revenue']
+        fields = ['year_from', 'year_to', 'total_revenue', 'tag']
 
 
 class Salt_taxSerializer(serializers.ModelSerializer):
     class Meta:
         model = Salt_tax
-        fields = ['year_from', 'year_to', 'salt_tax']
+        fields = ['year_from', 'year_to', 'salt_tax', 'tag']
+
+
+class Annual_wagesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Annual_wages
+        fields = ['year_from', 'year_to', 'annual_wages',
+                  'job_category', 'job_description', 'tag']
 
 
 class PolitySerializer(serializers.ModelSerializer):
@@ -54,11 +62,13 @@ class PolitySerializer(serializers.ModelSerializer):
     crisisdb_salt_tax_related = Salt_taxSerializer(many=True, read_only=True)
     crisisdb_total_revenue_related = Total_revenueSerializer(
         many=True, read_only=True)
+    crisisdb_annual_wages_related = Annual_wagesSerializer(
+        many=True, read_only=True)
 
     class Meta:
         model = Polity
         fields = ['id', 'name', 'start', 'end',
-                  'crisisdb_total_tax_related', 'crisisdb_salt_tax_related', 'crisisdb_total_revenue_related']
+                  'crisisdb_total_tax_related', 'crisisdb_salt_tax_related', 'crisisdb_total_revenue_related', 'crisisdb_annual_wages_related']
 
 #     def create(self, validated_data):
 #         return Polity.objects.create(**validated_data)
