@@ -7,6 +7,17 @@
     <hr>
     <form method="post">
       {% csrf_token %}
+      <!-- START row -->
+      <div class="row">
+        <div class="col-sm-12">
+          {% if form.errors %}
+            <div class="alert alert-danger">Please fix the following errors:
+              {{form.errors}}
+            </div>
+          {% endif %}
+        </div>
+      </div>
+      <!-- END row -->
       <div class="row">
         <div class="col-md-6">
           {{ form.username|as_crispy_field }}
@@ -37,7 +48,7 @@
           {{ form.password2|as_crispy_field }}
         </div>
       </div>
-      <button class="btn btn-primary" type="submit">Sign up</button>
+      <button class="btn btn-primary mt-3" type="submit"> &nbsp; &nbsp;  Sign up &nbsp; &nbsp; </button>
     </form>
 </div>
 

@@ -1,5 +1,5 @@
 from django.contrib.sites.shortcuts import get_current_site
-from seshat.apps.core.forms import SignUpForm
+from seshat.apps.core.forms import SignUpForm, VariableHierarchyForm
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate
 from django.shortcuts import render
@@ -20,7 +20,7 @@ import json
 from django.views import generic
 from django.urls import reverse, reverse_lazy
 
-from .models import Polity
+from .models import Polity, VariableHierarchy, Section, Subsection
 
 
 def index(request):
@@ -189,3 +189,22 @@ def activate(request, uidb64, token):
 
 def account_activation_sent(request):
     return render(request, 'core/account_activation_sent.html')
+
+
+def variablehierarchysetting(request):
+    if request.method == 'POST':
+        form = VariableHierarchyForm(request.POST)
+        if form.is_valid():
+            data = request.POST
+            name = data["name"]
+            section = Section.objects.get(pk=data["section"])
+            subsection = Subsection.objects.get(pk=data["subsection"])
+            new_var_hierarchy = VariableHierarchy(
+                name=name, section=section, subsection=subsection)
+            new_var_hierarchy.save()
+            print('Valid Foooooooooooorm \n\n')
+            print(data)
+
+    else:
+        form = VariableHierarchyForm()
+    return render(request, 'core/variablehierarchy.html', {'form': form})

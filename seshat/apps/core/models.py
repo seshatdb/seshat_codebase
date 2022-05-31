@@ -1,3 +1,4 @@
+from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.db.models.fields.related import ManyToManyField
 from django.contrib.auth.models import User
@@ -87,6 +88,51 @@ class Subsection(models.Model):
     name = models.CharField(max_length=200)
     section = models.ForeignKey(
         Section, on_delete=models.SET_NULL, null=True, related_name="subsections")
+
+    def __str__(self) -> str:
+        """string for epresenting the model obj in Admin Site"""
+        return self.name
+
+
+# def get_all_vars_for_hierarchy():
+#     my_vars = []
+#     for ct in ContentType.objects.all():
+#         m = ct.model_class()
+#         if m.__module__ == "seshat.apps.crisisdb.models":
+#             app_name = m.__module__.split('.')[-2] + '_'
+#             better_key = app_name + m.__name__
+#             better_value = m.__name__.replace('_', ' ')
+#             inner_tuple = (better_key, better_value)
+#             my_vars.append(inner_tuple)
+#             #print(better_key, ': ', better_value)
+#             # print(f"{m.__module__}.{m.__name__}\t{m._default_manager.count()}")
+#     return (my_vars)
+
+
+# def ready(self):
+#     def get_all_vars_for_hierarchy():
+#         my_vars = []
+#         for ct in ContentType.objects.all():
+#             m = ct.model_class()
+#             if m.__module__ == "seshat.apps.crisisdb.models":
+#                 app_name = m.__module__.split('.')[-2] + '_'
+#                 better_key = app_name + m.__name__
+#                 better_value = m.__name__.replace('_', ' ')
+#                 inner_tuple = (better_key, better_value)
+#                 my_vars.append(inner_tuple)
+#                 #print(better_key, ': ', better_value)
+#                 # print(f"{m.__module__}.{m.__name__}\t{m._default_manager.count()}")
+#         return (my_vars)
+#     print(get_all_vars_for_hierarchy())
+
+
+class VariableHierarchy(models.Model):
+    name = models.CharField(
+        max_length=200)
+    section = models.ForeignKey(
+        Section, on_delete=models.SET_NULL, null=True, related_name="variablehierarchys")
+    subsection = models.ForeignKey(
+        Subsection, on_delete=models.SET_NULL, null=True, related_name="variablehierarchys")
 
     def __str__(self) -> str:
         """string for epresenting the model obj in Admin Site"""

@@ -20,4 +20,7 @@ urlpatterns += [
          name='account_activation_sent'),
     path('activate/<slug:uidb64>/<slug:token>/',
          views.activate, name='activate'),
+    path('variablehierarchy/', views.variablehierarchysetting,
+         name='variablehierarchy'),
+
 ]
