@@ -1,0 +1,32 @@
+{% extends "core/seshat-base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="container py-3">
+    <h2>Add variable hierarchy</h2>
+    <hr>
+<form method="POST">
+    {{ formset.management_form }}
+    {% csrf_token %}
+    {% for form in formset %}
+    {% for error in field.errors %}
+        <p style="color: red">{{ error }}</p>
+    {% endfor %}
+    <div class="row mt-2">
+        <div class="col-md-4">
+          {{ form.name|as_crispy_field }}
+        </div>
+        <div class="col-md-3">
+          {{ form.section|as_crispy_field }}
+        </div>
+        <div class="col-md-3">
+          {{ form.subsection|as_crispy_field }}
+        </div>
+      </div>
+
+    {% endfor %}
+    <input type="submit" value="Submit">
+
+</form>
+</div>
+{% endblock %}

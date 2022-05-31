@@ -1,3 +1,6 @@
+from dataclasses import dataclass
+from seshat.utils.utils import adder, dic_of_all_vars, list_of_all_Polities, dic_of_all_vars_in_sections
+
 from django.contrib.sites.shortcuts import get_current_site
 from seshat.apps.core.forms import SignUpForm, VariableHierarchyForm
 from django.shortcuts import render, redirect
@@ -21,6 +24,9 @@ from django.views import generic
 from django.urls import reverse, reverse_lazy
 
 from .models import Polity, VariableHierarchy, Section, Subsection
+
+# importing formset_factory
+from django.forms import formset_factory, modelformset_factory
 
 
 def index(request):
@@ -203,8 +209,35 @@ def variablehierarchysetting(request):
                 name=name, section=section, subsection=subsection)
             new_var_hierarchy.save()
             print('Valid Foooooooooooorm \n\n')
-            print(data)
+            # print(data)
 
     else:
         form = VariableHierarchyForm()
     return render(request, 'core/variablehierarchy.html', {'form': form})
+
+
+def varshierformset(request):
+    # lets see
+    all_vars = dic_of_all_vars()
+    VarHierFormSet = formset_factory(
+        VariableHierarchyForm, extra=len(all_vars))
+    if request.method == 'POST':
+        formset = VarHierFormSet(request.POST, request.FILES)
+        if formset.is_valid():
+            for n in range(len(formset)):
+                data = request.POST
+                print(data.keys())
+                name = data[f'form-{n}-name']
+                section = Section.objects.get(pk=data[f'form-{n}-section'])
+                subsection = Subsection.objects.get(
+                    pk=data[f'form-{n}-subsection'])
+                new_var_hierarchy = VariableHierarchy(
+                    name=name, section=section, subsection=subsection)
+                new_var_hierarchy.save()
+
+        else:
+            print('BAAAAAAD')
+    else:
+        formset = VarHierFormSet(initial=[
+            {'name': key} for key in all_vars.keys()])
+    return render(request, 'core/varshiers.html',  {'formset': formset, },)

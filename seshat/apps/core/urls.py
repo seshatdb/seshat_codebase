@@ -22,5 +22,7 @@ urlpatterns += [
          views.activate, name='activate'),
     path('variablehierarchy/', views.variablehierarchysetting,
          name='variablehierarchy'),
+    path('varshiers/', views.varshierformset,
+         name='variablehierarchy'),
 
 ]

@@ -130,13 +130,16 @@ class VariableHierarchy(models.Model):
     name = models.CharField(
         max_length=200)
     section = models.ForeignKey(
-        Section, on_delete=models.SET_NULL, null=True, related_name="variablehierarchys")
+        Section, on_delete=models.SET_NULL, null=True, related_name="variablehierarchys", default=1)
     subsection = models.ForeignKey(
-        Subsection, on_delete=models.SET_NULL, null=True, related_name="variablehierarchys")
+        Subsection, on_delete=models.SET_NULL, null=True, blank=True, related_name="variablehierarchys", default=1)
 
     def __str__(self) -> str:
         """string for epresenting the model obj in Admin Site"""
         return self.name
+
+    class Meta:
+        unique_together = ("name", "section", "subsection")
 
 
 class Reference(models.Model):

@@ -1,8 +1,12 @@
+from seshat.utils.utils import adder, dic_of_all_vars, list_of_all_Polities, dic_of_all_vars_in_sections
+
 from django import forms
+from django.forms import formset_factory
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
 from seshat.apps.core.models import VariableHierarchy
+from django.core.exceptions import NON_FIELD_ERRORS
 
 
 class SignUpForm(UserCreationForm):
@@ -40,12 +44,42 @@ class SignUpForm(UserCreationForm):
 
 
 class VariableHierarchyForm(forms.ModelForm):
+    my_vars = dic_of_all_vars()
+    my_vars_tuple = [(key, key) for key in my_vars.keys()]
+    print(my_vars_tuple)
+    name = forms.ChoiceField(
+        label="Variable Name",
+        widget=forms.Select(attrs={'class': 'form-control  mb-3', }), choices=my_vars_tuple)
+
     class Meta:
         model = VariableHierarchy
         fields = ('name', 'section', 'subsection')
         widgets = {
-            'name': forms.TextInput(
-                attrs={'class': 'form-control  mb-3', }),
             'section': forms.Select(attrs={'class': 'form-control  mb-3', }),
             'subsection': forms.Select(attrs={'class': 'form-control  mb-3', }),
         }
+
+
+class VariableHierarchyForm(forms.ModelForm):
+    my_vars = dic_of_all_vars()
+    my_vars_tuple = [(key, key) for key in my_vars.keys()]
+    # print(my_vars_tuple)
+    name = forms.ChoiceField(
+        label="Variable Name",
+        widget=forms.Select(attrs={'class': 'form-control  mb-3', }), choices=my_vars_tuple)
+
+    class Meta:
+        model = VariableHierarchy
+        fields = ('name', 'section', 'subsection')
+        widgets = {
+            'section': forms.Select(attrs={'class': 'form-control  mb-3', }),
+            'subsection': forms.Select(attrs={'class': 'form-control  mb-3', }),
+        }
+        error_messages = {
+            NON_FIELD_ERRORS: {
+                'unique_together': "%(model_name)s's %(field_labels)s are not unique.",
+            }
+        }
+
+
+# VarHierFormSet = formset_factory(VariableHierarchyForm, extra=10)
