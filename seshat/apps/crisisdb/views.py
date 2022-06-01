@@ -2719,6 +2719,16 @@ def playgrounddownload(request):
     new_checked_vars = [item.lower() + '_related' for item in checked_vars]
     print("The modified checked vars are:", new_checked_vars)
 
+    checked_separator = request.POST.get("SeparatorRadioOptions")
+    print("The checked politys are:", checked_separator)
+
+    if checked_separator == "comma":
+        checked_sep = ","
+    elif checked_separator == "bar":
+        checked_sep = "|"
+    else:
+        print("Bad selection of Separator.")
+
     #url = "http://127.0.0.1:8000/api/politys/"
     url = "https://www.majidbenam.com/api/politys/"
 
@@ -2735,7 +2745,8 @@ def playgrounddownload(request):
     myfile_name = 'CrisisDB_data_' + str(request.user) + '_' + now_str
     final_response['Content-Disposition'] = f'attachment; filename="{myfile_name}.csv"'
 
-    writer = csv.writer(final_response, delimiter='|')
+    # print(all_my_data)
+    writer = csv.writer(final_response, delimiter=checked_sep)
     # the top row is the same as Equinox, so no need to read data from user input for that
     writer.writerow(['polity', 'variable_name', 'variable_sub_name', 'value',
                      'year_from', 'year_to', 'certainty', 'references', 'notes'])
@@ -2751,7 +2762,7 @@ def playgrounddownload(request):
                     # we can get into a list of dictionaries
                     for var_instance in polity_with_everything[variable]:
                         all_inner_keys = var_instance.keys()
-                        print(all_inner_keys)
+                        # print(all_inner_keys)
                         all_used_keys = []
                         for active_key in all_inner_keys:
                             if active_key not in ['year_from', 'year_to', 'tag'] and active_key not in all_used_keys:
