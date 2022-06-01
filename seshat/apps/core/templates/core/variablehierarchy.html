@@ -8,15 +8,18 @@
     <form method="post">
       {% csrf_token %}
       <div class="row  mt-3">
-        <div class="col-md-4">
+        <div class="col-md-5">
           {{ form.name|as_crispy_field }}
         </div>
-        <div class="col-md-3">
+        <div class="col-md-2">
           {{ form.section|as_crispy_field }}
         </div>
-        <div class="col-md-3">
+        <div class="col-md-2">
           {{ form.subsection|as_crispy_field }}
         </div>
+        <div class="col-md-1">
+            {{ form.is_verified|as_crispy_field }}
+          </div>
         <div class="col-md-2">
             <button class="btn btn-primary mt-3" type="submit">Submit new Variable</button>
         </div>

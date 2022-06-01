@@ -133,6 +133,7 @@ class VariableHierarchy(models.Model):
         Section, on_delete=models.SET_NULL, null=True, related_name="variablehierarchys", default=1)
     subsection = models.ForeignKey(
         Subsection, on_delete=models.SET_NULL, null=True, blank=True, related_name="variablehierarchys", default=1)
+    is_verified = models.BooleanField(default=False)
 
     def __str__(self) -> str:
         """string for epresenting the model obj in Admin Site"""

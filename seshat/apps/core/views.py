@@ -203,12 +203,17 @@ def variablehierarchysetting(request):
         if form.is_valid():
             data = request.POST
             name = data["name"]
+            is_verified_str = data['is_verified']
+            if is_verified_str == 'on':
+                is_verified = True
+            else:
+                is_verified = False
             section = Section.objects.get(pk=data["section"])
             subsection = Subsection.objects.get(pk=data["subsection"])
             new_var_hierarchy = VariableHierarchy(
-                name=name, section=section, subsection=subsection)
+                name=name, section=section, subsection=subsection, is_verified=is_verified)
             new_var_hierarchy.save()
-            print('Valid Foooooooooooorm \n\n')
+            print('Valid Foooooooooooorm: \n\n', data['is_verified'])
             # print(data)
 
     else:
@@ -220,7 +225,7 @@ def varshierformset(request):
     # lets see
     all_vars = dic_of_all_vars()
     VarHierFormSet = formset_factory(
-        VariableHierarchyForm, extra=len(all_vars))
+        VariableHierarchyForm, extra=0)
     if request.method == 'POST':
         formset = VarHierFormSet(request.POST, request.FILES)
         if formset.is_valid():
@@ -228,16 +233,26 @@ def varshierformset(request):
                 data = request.POST
                 print(data.keys())
                 name = data[f'form-{n}-name']
+                is_verified_str = data[f'form-{n}-is_verified']
+                if is_verified_str == 'on':
+                    is_verified = True
+                else:
+                    is_verified = False
                 section = Section.objects.get(pk=data[f'form-{n}-section'])
                 subsection = Subsection.objects.get(
                     pk=data[f'form-{n}-subsection'])
                 new_var_hierarchy = VariableHierarchy(
-                    name=name, section=section, subsection=subsection)
+                    name=name, section=section, subsection=subsection, is_verified=is_verified)
                 new_var_hierarchy.save()
+                print(data)
 
         else:
             print('BAAAAAAD')
     else:
-        formset = VarHierFormSet(initial=[
-            {'name': key} for key in all_vars.keys()])
+        my_initials = [
+            {'name': key
+             # 'is_verified': VariableHierarchy.objects.filter(name=key)[0].is_verified
+             } for key in list(all_vars.keys())]
+        formset = VarHierFormSet(initial=my_initials)
+        print(my_initials)
     return render(request, 'core/varshiers.html',  {'formset': formset, },)

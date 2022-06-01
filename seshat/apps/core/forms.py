@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 
 from seshat.apps.core.models import VariableHierarchy
 from django.core.exceptions import NON_FIELD_ERRORS
+from crispy_forms.helper import FormHelper
 
 
 class SignUpForm(UserCreationForm):
@@ -43,21 +44,21 @@ class SignUpForm(UserCreationForm):
         }
 
 
-class VariableHierarchyForm(forms.ModelForm):
-    my_vars = dic_of_all_vars()
-    my_vars_tuple = [(key, key) for key in my_vars.keys()]
-    print(my_vars_tuple)
-    name = forms.ChoiceField(
-        label="Variable Name",
-        widget=forms.Select(attrs={'class': 'form-control  mb-3', }), choices=my_vars_tuple)
+# class VariableHierarchyForm(forms.ModelForm):
+#     my_vars = dic_of_all_vars()
+#     my_vars_tuple = [(key, key) for key in my_vars.keys()]
+#     print(my_vars_tuple)
+#     name = forms.ChoiceField(
+#         label="Variable Name",
+#         widget=forms.Select(attrs={'class': 'form-control  mb-3', }), choices=my_vars_tuple)
 
-    class Meta:
-        model = VariableHierarchy
-        fields = ('name', 'section', 'subsection')
-        widgets = {
-            'section': forms.Select(attrs={'class': 'form-control  mb-3', }),
-            'subsection': forms.Select(attrs={'class': 'form-control  mb-3', }),
-        }
+#     class Meta:
+#         model = VariableHierarchy
+#         fields = ('name', 'section', 'subsection')
+#         widgets = {
+#             'section': forms.Select(attrs={'class': 'form-control  mb-3', }),
+#             'subsection': forms.Select(attrs={'class': 'form-control  mb-3', }),
+#         }
 
 
 class VariableHierarchyForm(forms.ModelForm):
@@ -70,10 +71,11 @@ class VariableHierarchyForm(forms.ModelForm):
 
     class Meta:
         model = VariableHierarchy
-        fields = ('name', 'section', 'subsection')
+        fields = ('name', 'section', 'subsection', 'is_verified')
         widgets = {
             'section': forms.Select(attrs={'class': 'form-control  mb-3', }),
             'subsection': forms.Select(attrs={'class': 'form-control  mb-3', }),
+            'is_veridied': forms.CheckboxInput(attrs={'class': 'form-control mb-3', }),
         }
         error_messages = {
             NON_FIELD_ERRORS: {
@@ -81,5 +83,9 @@ class VariableHierarchyForm(forms.ModelForm):
             }
         }
 
+    def __init__(self, *args, **kwargs):
+        super(VariableHierarchyForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_show_labels = False
 
 # VarHierFormSet = formset_factory(VariableHierarchyForm, extra=10)
