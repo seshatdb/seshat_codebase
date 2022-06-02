@@ -11,6 +11,8 @@ router = routers.DefaultRouter()
 router.register(r'users', views.UserViewSet)
 router.register(r'groups', views.GroupViewSet)
 router.register(r'politys', views.PolityViewSet)
+router.register(r'sections', views.SectionViewSet)
+
 
 #router.register(r'references', views.ReferenceViewSet)
 

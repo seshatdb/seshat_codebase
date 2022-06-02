@@ -37,7 +37,7 @@ Certainty = (
 )
 
 Tags = (
-    ('TRS', 'Trusted'),
+    ('TRS', 'Evidenced'),
     ('DSP', 'Disputed'),
     ('SSP', 'Suspected'),
     ('IFR', 'Inferred'),

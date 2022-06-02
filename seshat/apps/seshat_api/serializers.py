@@ -2,7 +2,7 @@ from django.contrib.auth.models import User, Group
 from rest_framework import serializers
 from seshat.apps.crisisdb.models import Population, Land_taxes_collected, Land_yield, Total_tax, Total_economic_output, Total_revenue, Diding_taxes, Salt_tax, Tariff_and_transit, Misc_incomes, Total_expenditure, Balance, Lijin, Maritime_custom, Other_incomes, Revenue_official, Revenue_real, Gdp_total, Gdp_growth_rate, Shares_of_world_gdp, Gdp_per_capita, Rate_of_gdp_per_capita_growth, Wages, Annual_wages, Rate_of_return, Famine_event, Disease_event, Jinshi_degrees_awarded, Examination, Taiping_rebellion, Worker_wage
 from .models import Album
-from ..core.models import Polity, Reference
+from ..core.models import Polity, Reference, Section, Subsection, VariableHierarchy
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
@@ -219,6 +219,22 @@ class Worker_wageSerializer(serializers.ModelSerializer):
         model = Worker_wage
         fields = ['year_from', 'year_to', 'worker_wage', 'area', 'unskilled_construction', 'skilled_construction',
                   'number_of_districts_with_available_data', 'unskilled_arms_manufacturer', 'population_in_millions_in_1787', 'tag']
+
+# Section and Subsection Organizers
+
+
+class SectionSerializer(serializers.ModelSerializer):
+    subsections = serializers.StringRelatedField(many=True,)
+
+    class Meta:
+        model = Section
+        fields = ['name',
+                  'subsections']
+
+# class SectionSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Section
+#         fields = ['name', ]
 
 
 class PolitySerializer(serializers.ModelSerializer):

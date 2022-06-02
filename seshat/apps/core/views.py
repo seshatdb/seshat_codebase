@@ -25,6 +25,10 @@ from django.urls import reverse, reverse_lazy
 
 from .models import Polity, VariableHierarchy, Section, Subsection
 
+import requests
+from requests.structures import CaseInsensitiveDict
+
+
 # importing formset_factory
 from django.forms import formset_factory, modelformset_factory
 
@@ -198,6 +202,22 @@ def account_activation_sent(request):
 
 
 def variablehierarchysetting(request):
+    # Let's create aa API serializer for section and subsection heierarchy
+    url = "http://127.0.0.1:8000/api/sections/"
+
+    headers = CaseInsensitiveDict()
+    headers["Accept"] = "application/json"
+
+    resp = requests.get(url, headers=headers)
+
+    all_my_data = resp.json()['results']
+    sections_tree = {}
+    for list_item in all_my_data:
+        sections_tree[list_item['name']] = list_item['subsections']
+
+    context = {
+        'sectionOptions': sections_tree
+    }
     if request.method == 'POST':
         form = VariableHierarchyForm(request.POST)
         if form.is_valid():
@@ -218,7 +238,8 @@ def variablehierarchysetting(request):
 
     else:
         form = VariableHierarchyForm()
-    return render(request, 'core/variablehierarchy.html', {'form': form})
+    context['form'] = form
+    return render(request, 'core/variablehierarchy.html', context)
 
 
 def varshierformset(request):
@@ -256,3 +277,23 @@ def varshierformset(request):
         formset = VarHierFormSet(initial=my_initials)
         print(my_initials)
     return render(request, 'core/varshiers.html',  {'formset': formset, },)
+
+
+def dynamicdropdown(request):
+    # Let's create aa API serializer for section and subsection heierarchy
+    url = "http://127.0.0.1:8000/api/sections/"
+
+    headers = CaseInsensitiveDict()
+    headers["Accept"] = "application/json"
+
+    resp = requests.get(url, headers=headers)
+
+    all_my_data = resp.json()['results']
+    sections_tree = {}
+    for list_item in all_my_data:
+        sections_tree[list_item['name']] = list_item['subsections']
+
+    context = {
+        'sectionOptions': sections_tree
+    }
+    return render(request, 'core/dynamicdropdown.html', context=context)

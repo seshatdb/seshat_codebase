@@ -1,31 +1,85 @@
-{% extends "core/seshat-base.html" %}
-{% load crispy_forms_tags %}
-
+{% extends "core/seshat-base.html" %} {% load crispy_forms_tags %}
+<!-- A comment -->
 {% block content %}
 <div class="container py-3">
-    <h2>Add variable hierarchy</h2>
-    <hr>
-    <form method="post">
-      {% csrf_token %}
-      <div class="row  mt-3">
-        <div class="col-md-5">
-          {{ form.name|as_crispy_field }}
-        </div>
-        <div class="col-md-2">
-          {{ form.section|as_crispy_field }}
-        </div>
-        <div class="col-md-2">
-          {{ form.subsection|as_crispy_field }}
-        </div>
-        <div class="col-md-1">
-            {{ form.is_verified|as_crispy_field }}
-          </div>
-        <div class="col-md-2">
-            <button class="btn btn-primary mt-3" type="submit">Submit new Variable</button>
-        </div>
+  <h2>Add variable hierarchy</h2>
+  <hr />
+  <form method="post">
+    {% csrf_token %}
+    <div class="row mt-3">
+      <div class="col-md-3">{{ form.name|as_crispy_field }}</div>
+      <div class="col-md-3 category_div" id="category_div">
+        {{ form.section|as_crispy_field }}
       </div>
-
-    </form>
+      <div class="col-md-3 sub_category_div" id="sub_category_div">
+        {{ form.subsection|as_crispy_field }}
+      </div>
+      <div class="col-md-2">{{ form.is_verified|as_crispy_field }}</div>
+      <div class="col-md-1">
+        <button class="btn btn-primary mt-3" type="submit">Submit</button>
+      </div>
+    </div>
+  </form>
 </div>
 
+<hr />
+<div class="row">
+  <div class="col-md-4">
+    <div class="category_div" id="category_div">
+      Please specify Section:
+      <select
+        name="section"
+        class="required-entry"
+        id="section"
+        onchange="javascript: dynamicdropdown(this.options[this.selectedIndex].value);"
+      >
+        <option value="">Select Section</option>
+        {% for item in sectionOptions %}
+        <option value="{{ item }}">{{ item }}</option>
+        {% endfor %}
+      </select>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="sub_category_div" id="sub_category_div">
+      Please select framework:
+      <script type="text/javascript" language="JavaScript">
+        document.write(
+          '<select name="subsection" id="subsection"><option value="" >Please select Subsection</option></select>'
+        );
+      </script>
+      <noscript>
+        <select name="subsection" id="subsection">
+          <option value="">Please select Subsection</option>
+        </select>
+      </noscript>
+    </div>
+  </div>
+</div>
+<!-- DropDown Stuff -->
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script language="javascript" type="text/javascript">
+  function dynamicdropdown(selectedsection) {
+  document.getElementById("subsection").length = 0;
+  var select = document.getElementById("subsection");
+  {% autoescape off %}
+  var JSSelectoptions =  {{ sectionOptions }};
+  {% endautoescape %}
+  for (const [key, value] of Object.entries(JSSelectoptions)) {
+      if (selectedsection == 6){
+          select.options[0]=new Option("Please select Subsection","");
+          for (var i = 0; i < value.length; i++) {
+              console.log([key, value]);
+              console.log(value[i]);
+              select.options[select.options.length] = new Option(
+                  value[i],
+                  value[i]
+              );
+              }
+      }
+      }
+
+  return true;
+  }
+</script>
 {% endblock %}

@@ -24,5 +24,7 @@ urlpatterns += [
          name='variablehierarchy'),
     path('varshiers/', views.varshierformset,
          name='variablehierarchy'),
+    path('dynamicdropdown/', views.dynamicdropdown,
+         name='dynamicdropdown'),
 
 ]
