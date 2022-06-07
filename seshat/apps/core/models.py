@@ -125,7 +125,7 @@ class Subsection(models.Model):
 #     print(get_all_vars_for_hierarchy())
 
 
-class VariableHierarchy(models.Model):
+class Variablehierarchy(models.Model):
     name = models.CharField(
         max_length=200)
     section = models.ForeignKey(
@@ -138,8 +138,8 @@ class VariableHierarchy(models.Model):
         """string for epresenting the model obj in Admin Site"""
         return self.name
 
-    class Meta:
-        unique_together = ("name", "section", "subsection")
+    # class Meta:
+    #     unique_together = ("name", "section", "subsection")
 
 
 class Reference(models.Model):

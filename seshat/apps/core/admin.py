@@ -1,10 +1,10 @@
 from django.contrib import admin
-from .models import Polity, Country, Section, Subsection, Citation, Reference, VariableHierarchy
+from .models import Polity, Country, Section, Subsection, Citation, Reference, Variablehierarchy
 
 
 admin.site.register(Section)
 admin.site.register(Subsection)
-admin.site.register(VariableHierarchy)
+admin.site.register(Variablehierarchy)
 admin.site.register(Polity)
 admin.site.register(Country)
 admin.site.register(Citation)

@@ -5,7 +5,7 @@ from django.forms import formset_factory
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
-from seshat.apps.core.models import Section, Subsection, VariableHierarchy
+from seshat.apps.core.models import Section, Subsection, Variablehierarchy
 from django.core.exceptions import NON_FIELD_ERRORS
 from crispy_forms.helper import FormHelper
 
@@ -44,7 +44,7 @@ class SignUpForm(UserCreationForm):
         }
 
 
-# class VariableHierarchyForm(forms.ModelForm):
+# class VariablehierarchyForm(forms.ModelForm):
 #     my_vars = dic_of_all_vars()
 #     my_vars_tuple = [(key, key) for key in my_vars.keys()]
 #     print(my_vars_tuple)
@@ -53,16 +53,16 @@ class SignUpForm(UserCreationForm):
 #         widget=forms.Select(attrs={'class': 'form-control  mb-3', }), choices=my_vars_tuple)
 
 #     class Meta:
-#         model = VariableHierarchy
+#         model = Variablehierarchy
 #         fields = ('name', 'section', 'subsection')
 #         widgets = {
 #             'section': forms.Select(attrs={'class': 'form-control  mb-3', }),
 #             'subsection': forms.Select(attrs={'class': 'form-control  mb-3', }),
 #         }
 
-class VariableHierarchyFormNew(forms.Form):
+class VariablehierarchyFormNew(forms.Form):
     my_vars = dic_of_all_vars()
-    all_var_hiers_to_be_hidden = VariableHierarchy.objects.all()
+    all_var_hiers_to_be_hidden = Variablehierarchy.objects.all()
     all_var_hiers_to_be_hidden_names = []
     for var in all_var_hiers_to_be_hidden:
         if var.name in my_vars.keys():
@@ -102,4 +102,4 @@ class VariableHierarchyFormNew(forms.Form):
                                 'name': "subsection",
                                 'id': "subsection", }), choices=all_subsections_tuple)
 
-# VarHierFormSet = formset_factory(VariableHierarchyForm, extra=10)
+# VarHierFormSet = formset_factory(VariablehierarchyForm, extra=10)

@@ -1,7 +1,7 @@
 from seshat.utils.utils import adder, dic_of_all_vars, list_of_all_Polities, dic_of_all_vars_in_sections
 
 from django.contrib.sites.shortcuts import get_current_site
-from seshat.apps.core.forms import SignUpForm, VariableHierarchyFormNew
+from seshat.apps.core.forms import SignUpForm, VariablehierarchyFormNew
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate
 from django.shortcuts import render
@@ -25,7 +25,7 @@ import json
 from django.views import generic
 from django.urls import reverse, reverse_lazy
 
-from .models import Polity, VariableHierarchy, Section, Subsection
+from .models import Polity, Section, Subsection, Variablehierarchy
 
 import requests
 from requests.structures import CaseInsensitiveDict
@@ -205,7 +205,7 @@ def account_activation_sent(request):
 
 def variablehierarchysetting(request):
     my_vars = dic_of_all_vars()
-    all_var_hiers_to_be_hidden = VariableHierarchy.objects.all()
+    all_var_hiers_to_be_hidden = Variablehierarchy.objects.all()
     all_var_hiers_to_be_hidden_names = []
     for var in all_var_hiers_to_be_hidden:
         if var.name in my_vars.keys():
@@ -234,7 +234,7 @@ def variablehierarchysetting(request):
         'sectionOptions': sections_tree
     }
     if request.method == 'POST':
-        form = VariableHierarchyFormNew(request.POST)
+        form = VariablehierarchyFormNew(request.POST)
         if form.is_valid():
             data = request.POST
             variable_name = data["variable_name"]
@@ -243,7 +243,7 @@ def variablehierarchysetting(request):
                 name=data["subsection_name"])
             # check to see if subsection and section match
             if data["subsection_name"] in sections_tree[data["section_name"]]:
-                new_var_hierarchy = VariableHierarchy(
+                new_var_hierarchy = Variablehierarchy(
                     name=variable_name, section=section_name, subsection=subsection_name,)
                 new_var_hierarchy.save()
                 print('Valid Foooooooooooorm: \n\n',)
@@ -253,14 +253,14 @@ def variablehierarchysetting(request):
                 return HttpResponseRedirect(reverse('variablehierarchysetting'))
             else:
                 messages.warning(request, 'Form submission unssuccessful, section and subsection do not match.')
-                #return render(request, 'core/variablehierarchy.html', {'form': VariableHierarchyFormNew()})
+                #return render(request, 'core/Variablehierarchy.html', {'form': VariablehierarchyFormNew()})
 
         else:
             messages.error(request, 'Invalid form submission.')
             messages.error(request, form.errors)
 
     else:
-        form = VariableHierarchyFormNew()
+        form = VariablehierarchyFormNew()
     context['form'] = form
     context['variable_list'] = list(my_vars_tuple)
     #context['SuccessMessage'] = "Done Perfectly."
