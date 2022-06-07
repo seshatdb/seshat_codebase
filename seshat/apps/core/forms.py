@@ -105,41 +105,4 @@ class VariableHierarchyFormNew(forms.Form):
     is_verified = forms.BooleanField(
         label=" Verified?", required=False, widget=forms.CheckboxInput(attrs={'type': 'checkbox', 'class': 'form-control form-check-input align-middle'}))
 
-
-class VariableHierarchyForm(forms.ModelForm):
-    my_vars = dic_of_all_vars()
-    my_vars_tuple = [(key, key) for key in my_vars.keys()]
-    # print(my_vars_tuple)
-    all_sections = Section.objects.all()
-    my_sections_tuple = [(key.id, key.name) for key in all_sections]
-    name = forms.ChoiceField(
-        label="Variable Name",
-        widget=forms.Select(attrs={'class': 'form-control form-select mb-3', }), choices=my_vars_tuple)
-
-    class Meta:
-        model = VariableHierarchy
-        fields = ('name', 'section', 'subsection', 'is_verified')
-        widgets = {
-            'section': forms.Select(attrs={
-                'class': 'form-control form-select mb-3 required-entry',
-                'name': "section",
-                'id': "section",
-                'onchange': "javascript: dynamicdropdown(this.options[this.selectedIndex].value);"}),
-            'subsection': forms.Select(attrs={
-                'class': 'form-control form-select mb-3',
-                'name': "subsection",
-                'id': "subsection", },),
-            'is_verified': forms.CheckboxInput(attrs={'class': 'form-control mb-3', }),
-        }
-        error_messages = {
-            NON_FIELD_ERRORS: {
-                'unique_together': "%(model_name)s's %(field_labels)s are not unique.",
-            }
-        }
-
-    def __init__(self, *args, **kwargs):
-        super(VariableHierarchyForm, self).__init__(*args, **kwargs)
-        self.helper = FormHelper()
-        self.helper.form_show_labels = True
-
 # VarHierFormSet = formset_factory(VariableHierarchyForm, extra=10)

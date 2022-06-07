@@ -22,9 +22,4 @@ urlpatterns += [
          views.activate, name='activate'),
     path('variablehierarchy/', views.variablehierarchysetting,
          name='variablehierarchysetting'),
-    path('varshiers/', views.varshierformset,
-         name='variablehierarchy'),
-    path('dynamicdropdown/', views.dynamicdropdown,
-         name='dynamicdropdown'),
-
 ]

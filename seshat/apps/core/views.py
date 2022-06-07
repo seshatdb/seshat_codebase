@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from seshat.utils.utils import adder, dic_of_all_vars, list_of_all_Polities, dic_of_all_vars_in_sections
 
 from django.contrib.sites.shortcuts import get_current_site
-from seshat.apps.core.forms import SignUpForm, VariableHierarchyForm
+from seshat.apps.core.forms import SignUpForm, VariableHierarchyFormNew
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate
 from django.shortcuts import render
@@ -27,7 +27,6 @@ from django.views import generic
 from django.urls import reverse, reverse_lazy
 
 from .models import Polity, VariableHierarchy, Section, Subsection
-from .forms import VariableHierarchy, VariableHierarchyFormNew
 
 import requests
 from requests.structures import CaseInsensitiveDict
