@@ -21,7 +21,7 @@ urlpatterns += [
     path('activate/<slug:uidb64>/<slug:token>/',
          views.activate, name='activate'),
     path('variablehierarchy/', views.variablehierarchysetting,
-         name='variablehierarchy'),
+         name='variablehierarchysetting'),
     path('varshiers/', views.varshierformset,
          name='variablehierarchy'),
     path('dynamicdropdown/', views.dynamicdropdown,

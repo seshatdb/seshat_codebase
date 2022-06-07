@@ -5,7 +5,7 @@ from django.forms import formset_factory
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
-from seshat.apps.core.models import Section, VariableHierarchy
+from seshat.apps.core.models import Section, Subsection, VariableHierarchy
 from django.core.exceptions import NON_FIELD_ERRORS
 from crispy_forms.helper import FormHelper
 
@@ -59,6 +59,51 @@ class SignUpForm(UserCreationForm):
 #             'section': forms.Select(attrs={'class': 'form-control  mb-3', }),
 #             'subsection': forms.Select(attrs={'class': 'form-control  mb-3', }),
 #         }
+
+class VariableHierarchyFormNew(forms.Form):
+    my_vars = dic_of_all_vars()
+    all_var_hiers_to_be_hidden = VariableHierarchy.objects.filter(is_verified=True)
+    all_var_hiers_to_be_hidden_names = []
+    for var in all_var_hiers_to_be_hidden:
+        if var.name in my_vars.keys():
+            all_var_hiers_to_be_hidden_names.append(var.name)
+    my_vars_tuple = [('', ' -- Select Variable -- ')]
+    for var in my_vars.keys():
+        if var not in all_var_hiers_to_be_hidden_names:
+            my_var_tuple = (var, var)
+            my_vars_tuple.append(my_var_tuple)
+    # print(my_vars_tuple)
+    all_sections = Section.objects.all()
+    all_sections_tuple = [('', ' -- Select Section -- ')]
+    for section in all_sections:
+        my_section = section.name
+        my_section_tuple = (my_section, my_section)
+        all_sections_tuple.append(my_section_tuple)
+    # subsections
+    all_subsections = Subsection.objects.all()
+    all_subsections_tuple = [('', ' -- Select Section First -- ')]
+    for subsection in all_subsections:
+        my_subsection = subsection.name
+        my_subsection_tuple = (my_subsection, my_subsection)
+        all_subsections_tuple.append(my_subsection_tuple)
+    variable_name = forms.ChoiceField(
+        label="Variable Name",
+        widget=forms.Select(attrs={'class': 'form-control form-select mb-3', }), choices=my_vars_tuple)
+    section_name = forms.ChoiceField(
+        label="Section Name",
+        widget=forms.Select(attrs={'class': 'form-control form-select mb-3 required-entry',
+                                'name': "section",
+                                'id': "section",
+                                'onchange': "javascript: dynamicdropdown(this.options[this.selectedIndex].value);"
+                                }), choices=all_sections_tuple)
+    subsection_name = forms.ChoiceField(
+        label="Subsection Name",
+        widget=forms.Select(attrs={'class': 'form-control form-select mb-3',
+                                'name': "subsection",
+                                'id': "subsection", }), choices=all_subsections_tuple)
+    # forms.CheckboxInput(attrs={'class': 'form-control mb-3', })
+    is_verified = forms.BooleanField(
+        label=" Verified?", required=False, widget=forms.CheckboxInput(attrs={'type': 'checkbox', 'class': 'form-control form-check-input align-middle'}))
 
 
 class VariableHierarchyForm(forms.ModelForm):

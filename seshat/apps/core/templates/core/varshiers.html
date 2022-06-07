@@ -1,5 +1,6 @@
-{% extends "core/seshat-base.html" %} {% load crispy_forms_tags %} {% block
-content %}
+{% extends "core/seshat-base.html" %} {% load crispy_forms_tags %}
+<!-- New block -->
+{% block content %}
 <div class="container py-3">
   <h2>Add variable hierarchy</h2>
   <hr />
@@ -21,8 +22,11 @@ content %}
     </div>
   </div>
   <form method="POST">
-    {{ formset.management_form }} {% csrf_token %} {% for form in formset %} {%
-    for error in field.errors %}
+    {{ formset.management_form }} {% csrf_token %}
+    <!-- block -->
+    {% for form in formset %}
+    <!-- Inner for -->
+    {% for error in field.errors %}
     <p style="color: red">{{ error }}</p>
     {% endfor %}
     <div class="row mt-2">

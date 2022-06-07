@@ -2,54 +2,58 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-<div class="container py-3">
-    <h2>Sign up for a Seshat account:</h2>
-    <hr>
-    <form method="post">
-      {% csrf_token %}
-      <!-- START row -->
-      <div class="row">
-        <div class="col-sm-12">
-          {% if form.errors %}
-            <div class="alert alert-danger">Please fix the following errors:
-              {{form.errors}}
-            </div>
-          {% endif %}
+<div class="container pt-2 d-flex justify-content-center">
+  <h3>Sign up for a Seshat account:</h3>
+</div>
+<div class="container d-flex justify-content-center">
+  <hr class="bg-colorful" style="width:50%">
+</div>
+<div class="container py-3 d-flex justify-content-center">
+      <form method="post">
+        {% csrf_token %}
+        <!-- START row -->
+        <div class="row">
+          <div class="col-md-12">
+            {% if form.errors %}
+              <div class="alert alert-danger">Please fix the following errors:
+                {{form.errors}}
+              </div>
+            {% endif %}
+          </div>
         </div>
-      </div>
-      <!-- END row -->
-      <div class="row">
-        <div class="col-md-6">
-          {{ form.username|as_crispy_field }}
+        <!-- END row -->
+        <div class="row">
+          <div class="col-md-12">
+            {{ form.username|as_crispy_field }}
+          </div>
         </div>
-      </div>
-      <div class="row">
-        <div class="col-md-6">
-          {{ form.first_name|as_crispy_field }}
+        <div class="row">
+          <div class="col-md-12">
+            {{ form.first_name|as_crispy_field }}
+          </div>
         </div>
-      </div>
-      <div class="row">
-        <div class="col-md-6">
-          {{ form.last_name|as_crispy_field }}
+        <div class="row">
+          <div class="col-md-12">
+            {{ form.last_name|as_crispy_field }}
+          </div>
         </div>
-      </div>
-      <div class="row">
-        <div class="col-md-6">
-          {{ form.email|as_crispy_field }}
+        <div class="row">
+          <div class="col-md-12">
+            {{ form.email|as_crispy_field }}
+          </div>
         </div>
-      </div>
-      <div class="row">
-        <div class="col-md-6">
-          {{ form.password1|as_crispy_field }}
+        <div class="row">
+          <div class="col-md-12">
+            {{ form.password1|as_crispy_field }}
+          </div>
         </div>
-      </div>
-      <div class="row">
-        <div class="col-md-6">
-          {{ form.password2|as_crispy_field }}
+        <div class="row">
+          <div class="col-md-12">
+            {{ form.password2|as_crispy_field }}
+          </div>
         </div>
-      </div>
-      <button class="btn btn-primary mt-3" type="submit"> &nbsp; &nbsp;  Sign up &nbsp; &nbsp; </button>
-    </form>
+        <button class="btn btn-teal mt-3" type="submit"> &nbsp; &nbsp;  Sign up &nbsp; &nbsp; </button>
+      </form>
 </div>
 
 {% endblock %}
