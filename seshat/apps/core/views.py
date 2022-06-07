@@ -205,7 +205,7 @@ def account_activation_sent(request):
 
 def variablehierarchysetting(request):
     my_vars = dic_of_all_vars()
-    all_var_hiers_to_be_hidden = Variablehierarchy.objects.all()
+    all_var_hiers_to_be_hidden = Variablehierarchy.objects.filter(is_verified=True)
     all_var_hiers_to_be_hidden_names = []
     for var in all_var_hiers_to_be_hidden:
         if var.name in my_vars.keys():
@@ -239,13 +239,21 @@ def variablehierarchysetting(request):
         if form.is_valid():
             data = request.POST
             variable_name = data["variable_name"]
+            #is_verified_str = data["is_verified"]
+            is_verified_str = data.get("is_verified", False)
+            if is_verified_str == 'on':
+                is_verified = True
+            elif is_verified_str == 'off':
+                is_verified = False
+            else:
+                is_verified = False
             section_name = Section.objects.get(name=data["section_name"])
             subsection_name = Subsection.objects.get(
                 name=data["subsection_name"])
             # check to see if subsection and section match
             if data["subsection_name"] in sections_tree[data["section_name"]]:
                 new_var_hierarchy = Variablehierarchy(
-                    name=variable_name, section=section_name, subsection=subsection_name,)
+                    name=variable_name, section=section_name, subsection=subsection_name,  is_verified=is_verified)
                 new_var_hierarchy.save()
                 print('Valid Foooooooooooorm: \n\n',)
                 # print(data)

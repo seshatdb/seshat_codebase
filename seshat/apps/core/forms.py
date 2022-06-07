@@ -92,5 +92,8 @@ class VariablehierarchyFormNew(forms.Form):
         widget=forms.Select(attrs={'class': 'form-control form-select mb-3',
                                 'name': "subsection",
                                 'id': "subsection", }), choices=all_subsections_tuple)
+    # forms.CheckboxInput(attrs={'class': 'form-control mb-3', })
+    is_verified = forms.BooleanField(
+        label=" Verified?", required=False, widget=forms.CheckboxInput(attrs={'type': 'checkbox', 'class': 'form-control form-check-input align-middle'}))
 
 # VarHierFormSet = formset_factory(VariablehierarchyForm, extra=10)
