@@ -62,7 +62,7 @@ class SignUpForm(UserCreationForm):
 
 class VariableHierarchyFormNew(forms.Form):
     my_vars = dic_of_all_vars()
-    all_var_hiers_to_be_hidden = VariableHierarchy.objects.filter(is_verified=True)
+    all_var_hiers_to_be_hidden = VariableHierarchy.objects.all()
     all_var_hiers_to_be_hidden_names = []
     for var in all_var_hiers_to_be_hidden:
         if var.name in my_vars.keys():
@@ -101,8 +101,5 @@ class VariableHierarchyFormNew(forms.Form):
         widget=forms.Select(attrs={'class': 'form-control form-select mb-3',
                                 'name': "subsection",
                                 'id': "subsection", }), choices=all_subsections_tuple)
-    # forms.CheckboxInput(attrs={'class': 'form-control mb-3', })
-    is_verified = forms.BooleanField(
-        label=" Verified?", required=False, widget=forms.CheckboxInput(attrs={'type': 'checkbox', 'class': 'form-control form-check-input align-middle'}))
 
 # VarHierFormSet = formset_factory(VariableHierarchyForm, extra=10)

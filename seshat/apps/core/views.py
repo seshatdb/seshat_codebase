@@ -205,7 +205,7 @@ def account_activation_sent(request):
 
 def variablehierarchysetting(request):
     my_vars = dic_of_all_vars()
-    all_var_hiers_to_be_hidden = VariableHierarchy.objects.filter(is_verified=True)
+    all_var_hiers_to_be_hidden = VariableHierarchy.objects.all()
     all_var_hiers_to_be_hidden_names = []
     for var in all_var_hiers_to_be_hidden:
         if var.name in my_vars.keys():
@@ -238,21 +238,13 @@ def variablehierarchysetting(request):
         if form.is_valid():
             data = request.POST
             variable_name = data["variable_name"]
-            #is_verified_str = data["is_verified"]
-            is_verified_str = data.get("is_verified", False)
-            if is_verified_str == 'on':
-                is_verified = True
-            elif is_verified_str == 'off':
-                is_verified = False
-            else:
-                is_verified = False
             section_name = Section.objects.get(name=data["section_name"])
             subsection_name = Subsection.objects.get(
                 name=data["subsection_name"])
             # check to see if subsection and section match
             if data["subsection_name"] in sections_tree[data["section_name"]]:
                 new_var_hierarchy = VariableHierarchy(
-                    name=variable_name, section=section_name, subsection=subsection_name, is_verified=is_verified)
+                    name=variable_name, section=section_name, subsection=subsection_name,)
                 new_var_hierarchy.save()
                 print('Valid Foooooooooooorm: \n\n',)
                 # print(data)
@@ -273,60 +265,3 @@ def variablehierarchysetting(request):
     context['variable_list'] = list(my_vars_tuple)
     #context['SuccessMessage'] = "Done Perfectly."
     return render(request, 'core/variablehierarchy.html', context)
-
-
-def varshierformset(request):
-    # lets see
-    all_vars = dic_of_all_vars()
-    VarHierFormSet = formset_factory(
-        VariableHierarchyForm, extra=0)
-    if request.method == 'POST':
-        formset = VarHierFormSet(request.POST, request.FILES)
-        if formset.is_valid():
-            for n in range(len(formset)):
-                data = request.POST
-                print(data.keys())
-                name = data[f'form-{n}-name']
-                is_verified_str = data[f'form-{n}-is_verified']
-                if is_verified_str == 'on':
-                    is_verified = True
-                else:
-                    is_verified = False
-                section = Section.objects.get(pk=data[f'form-{n}-section'])
-                subsection = Subsection.objects.get(
-                    pk=data[f'form-{n}-subsection'])
-                new_var_hierarchy = VariableHierarchy(
-                    name=name, section=section, subsection=subsection, is_verified=is_verified)
-                new_var_hierarchy.save()
-                print(data)
-
-        else:
-            print('BAAAAAAD')
-    else:
-        my_initials = [
-            {'name': key
-             # 'is_verified': VariableHierarchy.objects.filter(name=key)[0].is_verified
-             } for key in list(all_vars.keys())]
-        formset = VarHierFormSet(initial=my_initials)
-        print(my_initials)
-    return render(request, 'core/varshiers.html',  {'formset': formset, },)
-
-
-def dynamicdropdown(request):
-    # Let's create aa API serializer for section and subsection heierarchy
-    url = "http://127.0.0.1:8000/api/sections/"
-
-    headers = CaseInsensitiveDict()
-    headers["Accept"] = "application/json"
-
-    resp = requests.get(url, headers=headers)
-
-    all_my_data = resp.json()['results']
-    sections_tree = {}
-    for list_item in all_my_data:
-        sections_tree[list_item['name']] = list_item['subsections']
-
-    context = {
-        'sectionOptions': sections_tree
-    }
-    return render(request, 'core/dynamicdropdown.html', context=context)
