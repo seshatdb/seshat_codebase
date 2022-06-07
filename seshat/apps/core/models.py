@@ -130,9 +130,9 @@ class VariableHierarchy(models.Model):
     name = models.CharField(
         max_length=200)
     section = models.ForeignKey(
-        Section, on_delete=models.SET_NULL, null=True, related_name="variablehierarchys",)
+        Section, on_delete=models.SET_NULL, null=True, blank=True,)
     subsection = models.ForeignKey(
-        Subsection, on_delete=models.SET_NULL, null=True, blank=True, related_name="variablehierarchys",)
+        Subsection, on_delete=models.SET_NULL, null=True, blank=True,)
     is_verified = models.BooleanField(default=False)
 
     def __str__(self) -> str:
