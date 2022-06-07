@@ -62,16 +62,7 @@ class SignUpForm(UserCreationForm):
 
 class VariablehierarchyFormNew(forms.Form):
     my_vars = dic_of_all_vars()
-    all_var_hiers_to_be_hidden = Variablehierarchy.objects.all()
-    all_var_hiers_to_be_hidden_names = []
-    for var in all_var_hiers_to_be_hidden:
-        if var.name in my_vars.keys():
-            all_var_hiers_to_be_hidden_names.append(var.name)
     my_vars_tuple = [('', ' -- Select Variable -- ')]
-    for var in my_vars.keys():
-        if var not in all_var_hiers_to_be_hidden_names:
-            my_var_tuple = (var, var)
-            my_vars_tuple.append(my_var_tuple)
     # print(my_vars_tuple)
     all_sections = Section.objects.all()
     all_sections_tuple = [('', ' -- Select Section -- ')]
