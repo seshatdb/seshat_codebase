@@ -219,7 +219,7 @@ def variablehierarchysetting(request):
             my_vars_tuple.append(my_var_tuple)
     # Let's create an API serializer for section and subsection heierarchy
     #url = "http://127.0.0.1:8000/api/sections/"
-    url = "https://majidbenam.com/api/sections/"
+    url = "https://www.majidbenam.com/api/sections/"
 
     headers = CaseInsensitiveDict()
     headers["Accept"] = "application/json"
