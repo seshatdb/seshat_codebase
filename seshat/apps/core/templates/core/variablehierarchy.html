@@ -9,15 +9,11 @@
 <!-- A comment -->
 <div class="container py-3">
     <div class="row">
-        <h2>Add variable hierarchy</h2>
-    </div>
-    <hr class="bg-fading">
-    <div class="row">
-        <h4>Please select the variable and its corresponding sections and subsection to be added to 
+        <h4> <i class="fas fa-tasks"></i> &nbsp; Please select the variable and its corresponding sections and subsection to be added to 
             the variable hierarchy.</h4>
             <ul class="list-unstyled mt-3">
-                <li class="h5 mb-3"><i class="fas fa-arrow-alt-circle-right"></i> &nbsp; The <span class="badge bg-pink"> SECTION </span>  you are looking for is not in the list? &nbsp; <span class="h4 display"><a class="btn btn-teal rounded-pill" href="https://www.majidbenam.com/admin/core/section/add/"><i class="fas fa-plus"></i>  &nbsp; Add a new Section</a></span class="h4 display"></li>
-                <li class="h5 mb-2"><i class="fas fa-arrow-alt-circle-right"></i> &nbsp; The <span class="badge bg-pink"> SUBECTION </span>  you are looking for is not in the list?  &nbsp; <span class="h4 display"><a class="btn btn-teal rounded-pill" href="https://www.majidbenam.com/admin/core/subsection/add/"><i class="fas fa-plus"></i>  &nbsp; Add a new Subsection</a></span class="h4 display"></li>
+                <li class="h5 mb-3"><i class="fas fa-arrow-alt-circle-right"></i> &nbsp; The <span class="badge bg-pink"> SECTION </span>  you are looking for is not in the list? &nbsp; <span class="h4 display"><a class="btn btn-teal rounded-pill" href="https://www.majidbenam.com/admin/core/section/add/"><i class="fas fa-plus"></i>  &nbsp; Add Section</a></span class="h4 display"></li>
+                <li class="h5 mb-2"><i class="fas fa-arrow-alt-circle-right"></i> &nbsp; The <span class="badge bg-pink"> SUBECTION </span>  you are looking for is not in the list?  &nbsp; <span class="h4 display"><a class="btn btn-teal rounded-pill" href="https://www.majidbenam.com/admin/core/subsection/add/"><i class="fas fa-plus"></i>  &nbsp; Add Subsection</a></span class="h4 display"></li>
             </ul>
     </div>
     <hr class="bg-colorful">
@@ -25,22 +21,31 @@
     {% csrf_token %}
     <div class="row mt-3 d-flex align-items-center">
         <div class="col-md-3">
-            <label for="var_name_independent">Select a Variable:</label>
-            <select class="form-control form-select mb-3" name="variable_name" id="var_name_independent">
+            <label for="variable_name">CrisisDB Variable:</label>
+            <select class="form-control form-select mb-3" name="variable_name" id="variable_name">
                 {% for var in variable_list %}
                 <option value="{{ var.0 }}">{{var.1}}</option>
                 {% endfor %}
             </select>
         </div>
       <div class="col-md-3 category_div" id="category_div">
-        {{ form.section_name|as_crispy_field }}
-      </div>
+        <label for="section_name">Section:</label>
+        <select class="form-control form-select mb-3" name="section_name" id="section" 
+        onchange="javascript: dynamicdropdown(this.options[this.selectedIndex].value);">
+            {% for section in section_list %}
+            <option value="{{ section.0 }}">{{section.1}}</option>
+            {% endfor %}
+        </select> 
+    </div>
       <div class="col-md-3 sub_category_div" id="sub_category_div">
-        {{ form.subsection_name|as_crispy_field }}
-      </div>
-      <div
-        class="col-md-2 form-check form-switch d-flex justify-content-center"
-      >
+        <label for="subsection">SubSection:</label>
+        <select class="form-control form-select mb-3" name="subsection_name" id="subsection">
+            {% for subsection in subsection_list %}
+            <option value="{{ subsection.0 }}">{{subsection.1}}</option>
+            {% endfor %}
+        </select> 
+    </div>
+      <div class="col-md-2 form-check form-switch d-flex justify-content-center">
         {{ form.is_verified|as_crispy_field }}
       </div>
       <div class="col-md-1">
@@ -62,7 +67,37 @@
     {% endif %}
   </div>
   <hr />
-
+  <h4 class="mb-3">
+    <i class="fas fa-tree"></i> Variable Hierarchy:
+  </h4>
+  <div class="tree well">
+        <ul>
+            <li>
+                <span class="database-tree"><i class="icon-folder-open"></i> CrisisDB Variables</span>
+                <ul>
+                {% for key, value in section_tree_data.items %}
+                    <li>
+                    <span class="section-tree"><i class="icon-minus-sign"></i>{{key}}</span>
+                    <ul>    
+                    {% for sub, vars in value.items %}
+                    <li>
+                        <span class="subsection-tree"><i class="icon-minus-sign"></i>{{sub}}</span>
+                        <ul>
+                            {% for var in vars %}
+                            <li>
+                                <span class="variable-tree"><i class="icon-leaf"></i>{{var}}</span> <a href="{% url var|lower|add:'s'  %}"> &nbsp; <i class="fas fa-angle-double-right"></i> More Details</a>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                        {% endfor %}
+                    </ul>
+                    </li>
+                {% endfor %}
+                </ul>
+            </li>
+        </ul>
+  </div>
 </div>
 <!-- DropDown Stuff -->
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -72,7 +107,7 @@
   var select = document.getElementById("subsection");
   {% autoescape off %}
   var JSSelectoptions =  {{ sectionOptions }};
-  {% endautoescape %}
+ {% endautoescape %}
   for (const [key, value] of Object.entries(JSSelectoptions)) {
       if (selectedsection == key){
           select.options[0]=new Option(" -- Please select Subsection -- ","");
@@ -89,5 +124,22 @@
 
   return true;
   }
+
+  // https://jsfiddle.net/jhfrench/GpdgF/
+  // Tree View Stuff
+  $(function() {
+    $('.tree li:has(ul)').addClass('parent_li').find(' > span').attr('title', 'Collapse this branch');
+    $('.tree li.parent_li > span').on('click', function(e) {
+      var children = $(this).parent('li.parent_li').find(' > ul > li');
+      if (children.is(":visible")) {
+        children.hide('fast');
+        $(this).attr('title', 'Expand this branch').find(' > i').addClass('icon-plus-sign').removeClass('icon-minus-sign');
+      } else {
+        children.show('fast');
+        $(this).attr('title', 'Collapse this branch').find(' > i').addClass('icon-minus-sign').removeClass('icon-plus-sign');
+      }
+      e.stopPropagation();
+    });
+  });
 </script>
 {% endblock %}

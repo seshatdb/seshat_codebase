@@ -64,36 +64,25 @@ class VariablehierarchyFormNew(forms.Form):
     my_vars = dic_of_all_vars()
     my_vars_tuple = [('', ' -- Select Variable -- ')]
     # print(my_vars_tuple)
-    all_sections = Section.objects.all()
-    all_sections_tuple = [('', ' -- Select Section -- ')]
-    for section in all_sections:
-        my_section = section.name
-        my_section_tuple = (my_section, my_section)
-        all_sections_tuple.append(my_section_tuple)
-    # subsections
-    all_subsections = Subsection.objects.all()
-    all_subsections_tuple = [('', ' -- Select Section First -- ')]
-    for subsection in all_subsections:
-        my_subsection = subsection.name
-        my_subsection_tuple = (my_subsection, my_subsection)
-        all_subsections_tuple.append(my_subsection_tuple)
     variable_name = forms.ChoiceField(
-        label="Variable Name",
-        widget=forms.Select(attrs={'class': 'form-control form-select mb-3', }), choices=my_vars_tuple)
+        widget=forms.Select(attrs={'class': 'form-control form-select mb-3', 'name': "variable_name", 'id': "variable_name",}))
     section_name = forms.ChoiceField(
-        label="Section Name",
+        label="Section",
         widget=forms.Select(attrs={'class': 'form-control form-select mb-3 required-entry',
                                 'name': "section",
                                 'id': "section",
                                 'onchange': "javascript: dynamicdropdown(this.options[this.selectedIndex].value);"
-                                }), choices=all_sections_tuple)
+                                }),)
     subsection_name = forms.ChoiceField(
-        label="Subsection Name",
+        label="Subsection",
         widget=forms.Select(attrs={'class': 'form-control form-select mb-3',
                                 'name': "subsection",
-                                'id': "subsection", }), choices=all_subsections_tuple)
+                                'id': "subsection", }),)
     # forms.CheckboxInput(attrs={'class': 'form-control mb-3', })
     is_verified = forms.BooleanField(
         label=" Verified?", required=False, widget=forms.CheckboxInput(attrs={'type': 'checkbox', 'class': 'form-control form-check-input align-middle'}))
+    
+    class Meta:
+        unique_together = ("variable_name", "section_name", "subsection_name")
 
 # VarHierFormSet = formset_factory(VariablehierarchyForm, extra=10)

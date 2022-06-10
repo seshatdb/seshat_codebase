@@ -138,8 +138,8 @@ class Variablehierarchy(models.Model):
         """string for epresenting the model obj in Admin Site"""
         return self.name
 
-    # class Meta:
-    #     unique_together = ("name", "section", "subsection")
+    class Meta:
+        unique_together = ("name", "section", "subsection")
 
 
 class Reference(models.Model):
