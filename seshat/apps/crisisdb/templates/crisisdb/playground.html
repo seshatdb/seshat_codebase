@@ -2,6 +2,8 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
+<!-- Rainbow hr -->
+{% include "core/partials/_rainbow.html" %}
 <!-- form-row and form-group etc are removed in Bootstrap 5 -->
 <div class="container mt-3">
     <form action="{% url 'playgrounddownload' %}" method="post">
@@ -9,12 +11,12 @@
         <legend>
             <div class="row d-flex align-items-center">
                 <div class="col-md-9">
-                    <h4 class="lead-2 text-secondary">Hi, {{user}}</h4>
-                    <h6 class="lead-2 text-secondary">Search Data in:</h6>
+                    <h4 class="lead-2 text-secondary">Hi, {{user}}.</h4>
+                    <h6 class="lead-2 text-secondary">In this page you can download a selected subset of the the data in:</h6>
                     <h6><span class="display-6">CrisisDB</span></h6>
                 </div>
             </div>       
-            <hr>
+            <hr class="bg-colorful">
         </legend>
 
         <!-- Databases -->
@@ -199,7 +201,7 @@
 
         <div class="row">
             <div class="col-md-4 mb-2 py-2 d-grid mx-auto">
-                <button type="submit" class="btn btn-outline-success my-auto btn-block">Download CSV</button>
+                <button type="submit" class="btn btn-teal my-auto btn-block"> <i class="fas fa-file-csv"></i> &nbsp; Download CSV</button>
             </div>
         </div>
     </form>
