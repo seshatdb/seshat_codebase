@@ -23,36 +23,30 @@
         </div>
         <!-- END row -->
         <div class="row">
-          <div class="col-md-12">
-            {{ form.username|as_crispy_field }}
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-12">
+          <div class="col-md-6">
             {{ form.first_name|as_crispy_field }}
           </div>
-        </div>
-        <div class="row">
-          <div class="col-md-12">
+          <div class="col-md-6">
             {{ form.last_name|as_crispy_field }}
           </div>
         </div>
         <div class="row">
-          <div class="col-md-12">
+          <div class="col-md-6">
+            {{ form.username|as_crispy_field }}
+          </div>
+          <div class="col-md-6">
             {{ form.email|as_crispy_field }}
           </div>
         </div>
         <div class="row">
-          <div class="col-md-12">
+          <div class="col-md-6">
             {{ form.password1|as_crispy_field }}
           </div>
-        </div>
-        <div class="row">
-          <div class="col-md-12">
+          <div class="col-md-6">
             {{ form.password2|as_crispy_field }}
           </div>
         </div>
-        <button class="btn btn-teal mt-3" type="submit"> &nbsp; &nbsp;  Sign up &nbsp; &nbsp; </button>
+        <button class="btn btn-primary col-12 fa-lg gradient-custom-2 mb-3 me-3 mt-3" type="submit"> &nbsp; &nbsp; <strong>Sign up</strong>  &nbsp; &nbsp; </button>
       </form>
 </div>
 
