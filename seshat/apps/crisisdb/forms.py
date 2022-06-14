@@ -28,10 +28,10 @@ commonfields = ['polity', 'year_from', 'year_to',
 
 commonwidgets = {
     'polity': forms.Select(attrs={'class': 'form-control  mb-3', }),
-    'year_from': forms.NumberInput(attrs={'class': 'form-control  mb-3', }),
-    'year_to': forms.NumberInput(attrs={'class': 'form-control  mb-3', }),
-    'description': Textarea(attrs={'class': 'form-control  mb-3', 'style': 'height: 140px'}),
-    'citations': forms.SelectMultiple(attrs={'class': 'form-control  mb-3',  'style': 'height: 140px'}),
+    'year_from': forms.NumberInput(attrs={'class': 'form-control  mb-3', 'placeholder':'Ex: 1897, -24, +100'}),
+    'year_to': forms.NumberInput(attrs={'class': 'form-control  mb-3', 'placeholder':'Ex: 1897, -24, +100'}),
+    'description': Textarea(attrs={'class': 'form-control  mb-3', 'style': 'height: 140px', 'placeholder':'Add a meaningful description (optional)'}),
+    'citations': forms.SelectMultiple(attrs={'class': 'form-control mb-3 js-states js-example-basic-multiple', 'text':'citations[]' , 'style': 'height: 340px', 'multiple': 'multiple'}),
     'tag': forms.Select(attrs={'class': 'form-control  mb-3', }),
     'finalized': forms.CheckboxInput(attrs={'class': ' mb-3', 'checked': True, }),
 }

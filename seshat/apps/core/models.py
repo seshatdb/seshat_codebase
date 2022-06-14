@@ -203,15 +203,15 @@ class SeshatCommon(models.Model):
     name = models.CharField(
         max_length=200,)
     year_from = models.IntegerField(blank=True, null=True)
-    year_to = models.IntegerField(blank=True, null=True)
+    year_to = models.IntegerField(blank=True, null=True,)
     # exra vars will be added in between
     description = models.TextField(
-        blank=True, null=True, help_text="Add an Optional description or a personal comment above.")
+        blank=True, null=True,)
     note = models.TextField(
-        blank=True, null=True, help_text="Add an Optional note or a personal comment above.")
+        blank=True, null=True,)
     citations = ManyToManyField(
         Citation, related_name="%(app_label)s_%(class)s_related",
-                               related_query_name="%(app_label)s_%(class)ss", help_text=mark_safe('Select one or more references for this fact. Hold CTRL to select multiple.'), blank=True,)
+                               related_query_name="%(app_label)s_%(class)ss", blank=True,)
     finalized = models.BooleanField(default=False)
     created_date = models.DateTimeField(
         auto_now_add=True, blank=True, null=True)

@@ -92,5 +92,14 @@
 
         {% block delete_option %}
         {% endblock delete_option %}
+        <script>
+            $(document).ready(function() {
+                $('.js-example-basic-multiple').select2({
+                    placeholder: "Select or serach",
+                    allowClear: true,
+                });
+            });
+        </script>
+
 </div>
 {% endblock %}
