@@ -9,8 +9,7 @@ a {
 
 label {
     color: rgba(var(--bs-success-rgb));
-    font-weight: bold;
-    padding-bottom: 4px;
+    font-weight: normal;
 }
 
 
@@ -43,9 +42,6 @@ hr {
     /* background: linear-gradient(var(--bs-teal), var(--bs-pink)); */
 
 }
-label{
-    cursor: pointer;
-}
 
 input{
     cursor: pointer;
@@ -60,6 +56,9 @@ input{
     font-weight: bold;
 }
 
+.line-break {
+    width: 100%;
+}
 
 .bg-teal, .btn-teal{
     background-color: var(--bs-teal);

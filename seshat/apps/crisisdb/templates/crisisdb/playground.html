@@ -6,6 +6,7 @@
 {% include "core/partials/_rainbow.html" %}
 <!-- form-row and form-group etc are removed in Bootstrap 5 -->
 <div class="container mt-3">
+    <div class="col-md-12">
     <form action="{% url 'playgrounddownload' %}" method="post">
         {% csrf_token %}
         <legend>
@@ -95,7 +96,7 @@
                 <div id="div_id_is_verified" class="control-group">
                     <div class="controls">
                         <input type="checkbox" name="is_verified" class="form-control form-check-input align-middle checkboxinput" id="id_is_verified" onclick="varCheckBox(this)">
-                        <label for="btn-check-var">select all</label>
+                        <label for="btn-check-var">select <strong>all</strong> variables</label>
                     </div>
                 </div>
             </div>
@@ -116,39 +117,41 @@
                     <div class="col-md-4 form-check form-switch d-flex justify-content-end">
                         <div id="div_id_is_verified" class="control-group">
                             <div class="controls">
-                                <input type="checkbox" name="is_verified" class="form-control form-check-input align-middle checkboxinput" id="btn-check-{{sec}}"  autocomplete="off" onclick="{{sec}}CheckBox(this)">
-                                <label for="btn-check-{{sec}}">select all</label>
+                                <label class="text-primary" for="btn-check-{{sec}}">select <strong>all</strong> in {{sec}}</label>
+                                <input type="checkbox" name="is_verified" class="form-control form-check-input align-middle checkboxinput" id="btn-check-{{sec}}" 
+                                autocomplete="off" onclick="selectAnyCheck(this, '{{sec}}')"> 
                             </div>
                         </div>
                     </div>
                 </div>
-                <br>
                 {% for sb, vrs in subsec.items %}
-                <div class="row">
+                <div class="row pb-2">
                     <div class="col-md-8">
-                        <span class="h5 ps-2">  <i class="fa-solid fa-arrow-right-long"></i> </span>  <span class="h5"> <strong>&nbsp; {{sb}} &nbsp; &nbsp;</strong> &nbsp; </span>
+                        <span class="h5 ps-3">  <i class="fa-solid fa-arrow-right-long"></i> </span>  <span class="h6 display"> <strong>&nbsp; {{sb}} &nbsp; &nbsp;</strong> &nbsp; </span>
                     </div>
                     <div class="col-md-4 form-check form-switch d-flex justify-content-end">
                         <div id="div_id_is_verified" class="control-group">
                             <div class="controls">
-                                <input type="checkbox" name="is_verified" class="form-control form-check-input align-middle checkboxinput" id="btn-check-{{sb}}"  autocomplete="off" onclick="{{sb}}CheckBox(this)">
-                                <label for="btn-check-{{sb}}">select all</label>
+                                <input type="checkbox" name="is_verified" class="form-control form-check-input align-middle checkboxinput" id="btn-check-{{sb}}"  autocomplete="off" onclick="selectAnyCheck(this, '{{sb}}')">
+                                <label  class="text-primary" for="btn-check-{{sb}}">select <strong>all</strong> in {{sb}}</label>
                             </div>
                         </div>
                     </div>
-                </div>
-                <br>
-                <div>
+                </div> 
+                <div class="line-break"></div>
+               
                     <!-- <h5 class="ps-2"> <i class="fa-solid fa-arrow-right-long"></i>  &nbsp; {{sb}}:</h5> -->
+                    <div class="row ps-4"> 
                     {% for var, var_name in vrs.items %}
-
-                    <div class="form-check form-check-inline pe-4 pb-2">
+                    <div class="form-check col-md-4">
                         <input class="form-check-input varoption {{sec}} {{sb}}" type="checkbox" id="{{ var }}" value="{{ var }}" name="selected_vars">
                         <label class="form-check-label" for="{{ var }}"><span class="h6 pull-left"><strong>{{var_name.0}} </strong></span> <small class="badge bg-secondary">{{var_name.1}}</small> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</label>
                     </div>
                     {% endfor %}
-                    <hr class="bg-colorful">
                 </div>
+
+                    <hr class="bg-colorful">
+
                 {% endfor %}
                {% endfor %}
 
@@ -213,6 +216,8 @@
             </div>
         </div>
     </form>
+            
+</div>
 </div>
 
 <script>
@@ -228,26 +233,13 @@
           checkboxs[i].checked = source.checked
         }
       }
-      function Social_MobilityCheckBox(source) {
-        let checkboxs = document.getElementsByClassName("Social_Mobility");
+      function selectAnyCheck(source, my_name) {
+        let checkboxs = document.getElementsByClassName(my_name);
         for(let i = 0; i < checkboxs.length ; i++) { //zero-based array
-          checkboxs[i].checked = source.checked;
-        }
+            checkboxs[i].checked = source.checked;
+          }
       }
 
-      function Economy_VariablesCheckBox(source) {
-        let checkboxs = document.getElementsByClassName("Economy_Variables");
-        for(let i = 0; i < checkboxs.length ; i++) { //zero-based array
-          checkboxs[i].checked = source.checked;
-        }
-      }
-
-      function State_FinancesCheckBox(source) {
-        let checkboxs = document.getElementsByClassName("State_Finances");
-        for(let i = 0; i < checkboxs.length ; i++) { //zero-based array
-          checkboxs[i].checked = source.checked;
-        }
-      }
       function timeseries() {
         let my_hr = document.createElement('hr');
 
