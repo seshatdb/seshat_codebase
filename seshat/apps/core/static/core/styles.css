@@ -43,7 +43,13 @@ hr {
     /* background: linear-gradient(var(--bs-teal), var(--bs-pink)); */
 
 }
+label{
+    cursor: pointer;
+}
 
+input{
+    cursor: pointer;
+}
 .bg-pink {
     background-color: var(--bs-pink);
 }

@@ -91,17 +91,21 @@
             <div class="col-md-8">
                 <span class="h5">  <i class="fa-solid fa-circle-chevron-right"></i> </span>  <span class="h4"> <strong> Variables: &nbsp; &nbsp;</strong> &nbsp; </span>
             </div>
-            <div class="col-md-4 text-end">
-                <input type="checkbox" class="btn-check" id="btn-check-var" autocomplete="off" onclick="varCheckBox(this)">
-                <label class="btn btn-outline-success" for="btn-check-var">select all variables</label>
-             </div>
+            <div class="col-md-4 form-check form-switch d-flex justify-content-end">
+                <div id="div_id_is_verified" class="control-group">
+                    <div class="controls">
+                        <input type="checkbox" name="is_verified" class="form-control form-check-input align-middle checkboxinput" id="id_is_verified" onclick="varCheckBox(this)">
+                        <label for="btn-check-var">select all</label>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="row">
             <div class="col-md-8">
                 <span class="h6"> <i class="fas fa-caret-right"></i>  &nbsp; Choose the variables of your interest. </span>
             </div>
         </div>
-        <div class="row mt-2 mb-3 ps-2">
+        <div class="row mt-2 ps-2">
             <div class="col-md-12 border border-secondary p-2 rounded">
                 <fieldset>      
                 {% for sec, subsec in all_var_hiers.items %}
@@ -109,10 +113,14 @@
                     <div class="col-md-8">
                         <span class="h5 ps-2">  <i class="fa-solid fa-circle-chevron-right"></i> </span>  <span class="h4"> <strong>&nbsp; {{sec}} &nbsp; &nbsp;</strong> &nbsp; </span>
                     </div>
-                    <div class="col-md-4 text-end">
-                        <input type="checkbox" class="btn-check" id="btn-check-{{sec}}" autocomplete="off" onclick="{{sec}}CheckBox(this)">
-                        <label class="btn btn-pink" for="btn-check-{{sec}}">select all in {{sec}}</label>
-                     </div>
+                    <div class="col-md-4 form-check form-switch d-flex justify-content-end">
+                        <div id="div_id_is_verified" class="control-group">
+                            <div class="controls">
+                                <input type="checkbox" name="is_verified" class="form-control form-check-input align-middle checkboxinput" id="btn-check-{{sec}}"  autocomplete="off" onclick="{{sec}}CheckBox(this)">
+                                <label for="btn-check-{{sec}}">select all</label>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <br>
                 {% for sb, vrs in subsec.items %}
@@ -120,10 +128,14 @@
                     <div class="col-md-8">
                         <span class="h5 ps-2">  <i class="fa-solid fa-arrow-right-long"></i> </span>  <span class="h5"> <strong>&nbsp; {{sb}} &nbsp; &nbsp;</strong> &nbsp; </span>
                     </div>
-                    <div class="col-md-4 text-end">
-                        <input type="checkbox" class="btn-check" id="btn-check-{{sb}}" autocomplete="off" onclick="{{sb}}CheckBox(this)">
-                        <label class="btn bg-teal" for="btn-check-{{sb}}">select all in {{sb}}</label>
-                     </div>
+                    <div class="col-md-4 form-check form-switch d-flex justify-content-end">
+                        <div id="div_id_is_verified" class="control-group">
+                            <div class="controls">
+                                <input type="checkbox" name="is_verified" class="form-control form-check-input align-middle checkboxinput" id="btn-check-{{sb}}"  autocomplete="off" onclick="{{sb}}CheckBox(this)">
+                                <label for="btn-check-{{sb}}">select all</label>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <br>
                 <div>

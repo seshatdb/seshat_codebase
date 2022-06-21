@@ -20,31 +20,18 @@ These are real wages, i.e. "Daily building labourers' wage divided by a daily su
 
 {% block myheadings_list %}
 <th style="text-align: center;" scope="col">Wages
-<sup>
-<span type="button" data-bs-toggle="popover" data-bs-html="true" data-bs-content="These are real wages, i.e. "Daily building labourers' wage divided by a daily subsistence basket" ">&nbsp;<i class="fas fa-question-circle"></i></span>
-</sup>
-</th>
+    <sup>
+        <span type="button" data-bs-toggle="popover" data-bs-html="true" data-bs-content="Here We go.">&nbsp;<i class="far fa-info text-info"></i></span>
+    </sup>
+   </th>
 {% endblock myheadings_list %}
 
 {% block extra_vars_list %}
 
-<td class = "{% if obj.tag == 'DSP' %}
-text-danger
-{% elif obj.tag == 'SSP' %}
-text-warning
-{% elif obj.tag == 'UNK' %}
-text-secondary
-{% elif obj.tag == 'IFR' %}
-text-primary
-{% else %}
-text-success
-{% endif %} fw-bold" style="text-align: center;">{{ obj.wages }}
-    {% if obj.display_citations %}
+<td style="text-align: center;">{{ obj.wages }}
     <sup>
         <span type="button" data-bs-toggle="popover" title="Refs:" data-bs-html="true" data-bs-content=" {{ obj.display_citations }}">&nbsp;<i class="far fa-bookmark text-info"></i></span>
     </sup>
-    {% endif %}
-
 </td>
 {% endblock extra_vars_list %}
 
@@ -52,4 +39,3 @@ text-success
 {% block update_button %}
     <td style="text-align: center;"><a href="{% url 'wages-update' obj.id %}"><button class="btn btn-outline-primary btn-sm">Update</button></a></td>
 {% endblock update_button %}
-        

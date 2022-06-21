@@ -1,5 +1,5 @@
 #from sqlalchemy import all_
-from seshat.utils.utils import adder, dic_of_all_vars, list_of_all_Polities, dic_of_all_vars_in_sections
+from seshat.utils.utils import adder, dic_of_all_vars, list_of_all_Polities, dic_of_all_vars_in_sections, dic_of_all_vars_with_varhier
 from django.db.models.base import Model
 # from django.http.response import HttpResponse
 from django.shortcuts import render, get_object_or_404, HttpResponse
@@ -2689,7 +2689,7 @@ def playground(request):
     if request.method == "POST":
         print(request.POST.get("selected_pols", 'Hallo'))
     all_pols = list_of_all_Polities()
-    all_vars = dic_of_all_vars()
+    all_vars = dic_of_all_vars_with_varhier()
     all_vars_plus = dic_of_all_vars_in_sections()
     context = {'allpols': all_pols, 'all_var_hiers': all_vars, 'crisi': all_vars_plus}
     return render(request, 'crisisdb/playground.html', context=context)
