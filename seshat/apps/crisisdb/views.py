@@ -2691,7 +2691,7 @@ def playground(request):
     all_pols = list_of_all_Polities()
     all_vars = dic_of_all_vars()
     all_vars_plus = dic_of_all_vars_in_sections()
-    context = {'majid': all_pols, 'benam': all_vars, 'crisi': all_vars_plus}
+    context = {'allpols': all_pols, 'all_var_hiers': all_vars, 'crisi': all_vars_plus}
     return render(request, 'crisisdb/playground.html', context=context)
 
 
@@ -2716,11 +2716,11 @@ def playgrounddownload(request):
     checked_vars = request.POST.getlist("selected_vars")
     print("The checked vars are:", checked_vars)
 
-    new_checked_vars = [item.lower() + '_related' for item in checked_vars]
+    new_checked_vars = ["crisisdb_" + item.lower() + '_related' for item in checked_vars]
     print("The modified checked vars are:", new_checked_vars)
 
     checked_separator = request.POST.get("SeparatorRadioOptions")
-    print("The checked politys are:", checked_separator)
+    print("The checked separator are:", checked_separator)
 
     if checked_separator == "comma":
         checked_sep = ","
@@ -2729,8 +2729,8 @@ def playgrounddownload(request):
     else:
         print("Bad selection of Separator.")
 
-    #url = "http://127.0.0.1:8000/api/politys/"
-    url = "https://www.majidbenam.com/api/politys/"
+    url = "http://127.0.0.1:8000/api/politys/"
+    #url = "https://www.majidbenam.com/api/politys/"
 
     headers = CaseInsensitiveDict()
     headers["Accept"] = "application/json"

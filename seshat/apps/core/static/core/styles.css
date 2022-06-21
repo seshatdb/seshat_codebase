@@ -48,6 +48,13 @@ hr {
     background-color: var(--bs-pink);
 }
 
+.btn-pink {
+    background-color: var(--bs-pink);
+    color:aliceblue;
+    font-weight: bold;
+}
+
+
 .bg-teal, .btn-teal{
     background-color: var(--bs-teal);
     font-weight: bold;
