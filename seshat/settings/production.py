@@ -26,6 +26,9 @@ SEURE_SSL_REDIRECT = True
 # THIRD-PARTY APPS SETTINGS
 # ==============================================================================
 
+my_current_server = "www.majidbenam.com"
+
+
 # sentry_sdk.init(
 #     dsn=config("SENTRY_DSN", default=""),
 #     environment=SESHAT_ENVIRONMENT,

@@ -36,7 +36,7 @@ a:hover {
 }
 
 hr {
-    height:4px !important;
+    height:2px !important;
     border-width:0;
     background-color:rgba(var(--bs-success-rgb));
     /* background: linear-gradient(var(--bs-teal), var(--bs-pink)); */

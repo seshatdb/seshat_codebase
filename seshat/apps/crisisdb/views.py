@@ -15,6 +15,7 @@ from django.http import HttpResponseRedirect, response, JsonResponse
 from ..core.models import Citation, Reference, Polity, Section, Subsection, Country
 
 # from .mycodes import *
+from django.conf import settings
 
 from django.urls import reverse, reverse_lazy
 
@@ -2696,7 +2697,7 @@ def playground(request):
 
 
 Tags_dic = {
-    'TRS': 'Trusted',
+    'TRS': 'Evidenced',
     'DSP': 'Disputed',
     'SSP': 'Suspected',
     'IFR': 'Inferred',
@@ -2729,8 +2730,11 @@ def playgrounddownload(request):
     else:
         print("Bad selection of Separator.")
 
-    url = "http://127.0.0.1:8000/api/politys/"
+    #url = "http://127.0.0.1:8000/api/politys/"
     #url = "https://www.majidbenam.com/api/politys/"
+    url = settings.MY_CURRENT_SERVER + "/api/politys/"
+    print(url)
+
 
     headers = CaseInsensitiveDict()
     headers["Accept"] = "application/json"

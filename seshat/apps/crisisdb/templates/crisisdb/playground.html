@@ -11,12 +11,15 @@
         {% csrf_token %}
         <legend>
             <div class="row d-flex align-items-center">
-                <div class="col-md-9">
+                <div class="col-md-8">
                     <h4 class="lead-2 text-secondary">Hi, {{user}}.</h4>
                     <h6 class="lead-2 text-secondary">In this page you can download a selected subset of the the data in:</h6>
-                    <h6><span class="display-6">CrisisDB</span></h6>
+                    <h6><span class="display-6"><i class="fa-solid fa-database"></i> CrisisDB</span></h6>
                 </div>
-            </div>       
+                <div class="col-md-4">
+                    <img src="https://seshatdatabank.info/wp-content/themes/seshat/img/logo.png" alt="No Seshat Logo">
+                </div>
+            </div> 
             <hr class="bg-colorful">
         </legend>
 
@@ -59,14 +62,18 @@
         </div>
         </div>
         <!-- Polities -->
-        <div class="row">
+        <div class="row py-2">
             <div class="col-md-8">
                 <span class="h5">  <i class="fa-solid fa-circle-chevron-right"></i> </span>  <span class="h4"> <strong> Polity: &nbsp; &nbsp;</strong> &nbsp; </span>
             </div>
-            <div class="col-md-4 text-end">
-                <input type="checkbox" class="btn-check" id="btn-check-pol" autocomplete="off" onclick="polCheckBox(this)">
-                <label class="btn btn-outline-success" for="btn-check-pol">select all polities</label>
-             </div>
+            <div class="col-md-4 form-check form-switch d-flex justify-content-end">
+                <div class="control-group">
+                    <div class="controls">
+                        <input type="checkbox" name="btn-check-pol" class="form-control form-check-input align-middle checkboxinput" id="btn-check-pol" onclick="polCheckBox(this)">
+                        <label for="btn-check-pol">select <strong><u>all</u></strong> polities</label>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="row">
             <div class="col-md-8">
@@ -88,15 +95,15 @@
         </div>
 
         <!-- Variables NOT based on sections (TODO: subsections) -->
-        <div class="row">
+        <div class="row py-2">
             <div class="col-md-8">
                 <span class="h5">  <i class="fa-solid fa-circle-chevron-right"></i> </span>  <span class="h4"> <strong> Variables: &nbsp; &nbsp;</strong> &nbsp; </span>
             </div>
             <div class="col-md-4 form-check form-switch d-flex justify-content-end">
-                <div id="div_id_is_verified" class="control-group">
+                <div class="control-group">
                     <div class="controls">
-                        <input type="checkbox" name="is_verified" class="form-control form-check-input align-middle checkboxinput" id="id_is_verified" onclick="varCheckBox(this)">
-                        <label for="btn-check-var">select <strong>all</strong> variables</label>
+                        <input type="checkbox" name="var_select_all" class="form-control form-check-input align-middle checkboxinput" id="var_select_all" onclick="varCheckBox(this)">
+                        <label for="var_select_all">select <strong><u>all</u></strong> variables</label>
                     </div>
                 </div>
             </div>
@@ -115,9 +122,9 @@
                         <span class="h5 ps-2">  <i class="fa-solid fa-circle-chevron-right"></i> </span>  <span class="h4"> <strong>&nbsp; {{sec}} &nbsp; &nbsp;</strong> &nbsp; </span>
                     </div>
                     <div class="col-md-4 form-check form-switch d-flex justify-content-end">
-                        <div id="div_id_is_verified" class="control-group">
+                        <div class="control-group">
                             <div class="controls">
-                                <label class="text-primary" for="btn-check-{{sec}}">select <strong>all</strong> in {{sec}}</label>
+                                <label class="text-primary" for="btn-check-{{sec}}">select <strong><u>all</u></strong> {{sec}}</label>
                                 <input type="checkbox" name="is_verified" class="form-control form-check-input align-middle checkboxinput" id="btn-check-{{sec}}" 
                                 autocomplete="off" onclick="selectAnyCheck(this, '{{sec}}')"> 
                             </div>
@@ -125,15 +132,15 @@
                     </div>
                 </div>
                 {% for sb, vrs in subsec.items %}
-                <div class="row pb-2">
+                <div class="row py-2">
                     <div class="col-md-8">
                         <span class="h5 ps-3">  <i class="fa-solid fa-arrow-right-long"></i> </span>  <span class="h6 display"> <strong>&nbsp; {{sb}} &nbsp; &nbsp;</strong> &nbsp; </span>
                     </div>
                     <div class="col-md-4 form-check form-switch d-flex justify-content-end">
-                        <div id="div_id_is_verified" class="control-group">
+                        <div class="control-group">
                             <div class="controls">
                                 <input type="checkbox" name="is_verified" class="form-control form-check-input align-middle checkboxinput" id="btn-check-{{sb}}"  autocomplete="off" onclick="selectAnyCheck(this, '{{sb}}')">
-                                <label  class="text-primary" for="btn-check-{{sb}}">select <strong>all</strong> in {{sb}}</label>
+                                <label  class="text-primary" for="btn-check-{{sb}}">select <strong><u>all</u></strong> {{sb}}</label>
                             </div>
                         </div>
                     </div>
@@ -145,7 +152,7 @@
                     {% for var, var_name in vrs.items %}
                     <div class="form-check col-md-4">
                         <input class="form-check-input varoption {{sec}} {{sb}}" type="checkbox" id="{{ var }}" value="{{ var }}" name="selected_vars">
-                        <label class="form-check-label" for="{{ var }}"><span class="h6 pull-left"><strong>{{var_name.0}} </strong></span> <small class="badge bg-secondary">{{var_name.1}}</small> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</label>
+                        <label class="form-check-label" for="{{ var }}"><span class="h6 pull-left">{{var_name.0}}</span> &nbsp; <small class="badge bg-teal text-dark">{{var_name.1}}</small> &nbsp;  </label>
                     </div>
                     {% endfor %}
                 </div>
@@ -160,7 +167,7 @@
             </div>
         </div>
 
-        <div class="row">
+        <div class="row py-2">
             <div class="col-md-8">
                 <span class="h5">  <i class="fa-solid fa-circle-chevron-right"></i> </span>  <span class="h4"> <strong> Style: &nbsp; &nbsp;</strong> &nbsp; </span>
             </div>
