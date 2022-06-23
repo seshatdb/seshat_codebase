@@ -129,7 +129,7 @@ class Population(SeshatCommon):
         return reverse('population-detail', args=[str(self.id)])
 
     def __str__(self) -> str:
-        return call_my_name(self)
+       return call_my_name(self)
 
 
 class Land_taxes_collected(SeshatCommon):

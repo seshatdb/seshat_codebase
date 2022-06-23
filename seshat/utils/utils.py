@@ -65,6 +65,8 @@ def dic_of_all_vars_with_varhier():
             app_name = m.__module__.split('.')[-2] + '_'
             better_key = app_name + m.__name__
             best_key = better_key.replace(' ', '_')[9:]
+            best_key = best_key[0].lower() + best_key[1:]
+            best_key = best_key.replace('gdp', 'GDP')
             better_value = m.__name__.replace('_', ' ')
             try:
                 this_varhier = Variablehierarchy.objects.get(name=best_key)
