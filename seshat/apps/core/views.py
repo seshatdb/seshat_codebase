@@ -210,7 +210,9 @@ def variablehierarchysetting(request):
     for var in all_var_hiers_to_be_hidden:
         with_crisisdb_name = "crisisdb_" + var.name
         if with_crisisdb_name in my_vars.keys():
-            all_var_hiers_to_be_hidden_names.append(with_crisisdb_name)
+            var_name = with_crisisdb_name[0:10] + with_crisisdb_name[10].lower() + with_crisisdb_name[11:]
+            var_name = var_name.replace('gdp', 'GDP')
+            all_var_hiers_to_be_hidden_names.append(var_name)
     print('I am here...\n\n')
     print(all_var_hiers_to_be_hidden_names)
     my_vars_tuple = [('', ' -- Select a CrisisDB Variable -- ')]
