@@ -10,6 +10,7 @@ a {
 label {
     color: rgba(var(--bs-success-rgb));
     font-weight: normal;
+    display: inline-block;
 }
 
 

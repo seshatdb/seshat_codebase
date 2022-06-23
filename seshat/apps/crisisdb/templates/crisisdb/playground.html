@@ -69,8 +69,8 @@
             <div class="col-md-4 form-check form-switch d-flex justify-content-end">
                 <div class="control-group">
                     <div class="controls">
-                        <input type="checkbox" name="btn-check-pol" class="form-control form-check-input align-middle checkboxinput" id="btn-check-pol" onclick="polCheckBox(this)">
-                        <label for="btn-check-pol">select <strong><u>all</u></strong> polities</label>
+                        <label class="form-check-label" for="btn-check-pol">select <strong><u>all</u></strong> polities</label>
+                        <input type="checkbox" name="btn-check-pol" class="form-control form-check-input" id="btn-check-pol" onclick="polCheckBox(this)">
                     </div>
                 </div>
             </div>
@@ -152,7 +152,7 @@
                     {% for var, var_name in vrs.items %}
                     <div class="form-check col-md-4">
                         <input class="form-check-input varoption {{sec}} {{sb}}" type="checkbox" id="{{ var }}" value="{{ var }}" name="selected_vars">
-                        <label class="form-check-label" for="{{ var }}"><span class="h6 pull-left">{{var_name.0}}</span> &nbsp; <small class="badge bg-teal text-dark">{{var_name.1}}</small> &nbsp;  </label>
+                        <label class="form-check-label" for="{{ var }}"><span class="h6 pull-left">{{var_name.0}}</span> &nbsp; <a href="{% url var|add:'s' %}"><small class="badge bg-teal text-dark">{{var_name.1}} </small> &nbsp; </a> </label>
                     </div>
                     {% endfor %}
                 </div>

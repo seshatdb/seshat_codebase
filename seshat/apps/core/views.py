@@ -253,8 +253,8 @@ def variablehierarchysetting(request):
         my_subsection_tuple = (my_subsection, my_subsection)
         all_subsections_tuple.append(my_subsection_tuple)
     # Let's create an API serializer for section and subsection heierarchy
-    url = "http://127.0.0.1:8000/api/sections/"
-    #url = "https://www.majidbenam.com/api/sections/"
+    #url = "http://127.0.0.1:8000/api/sections/"
+    url = "https://www.majidbenam.com/api/sections/"
     #url = settings.MY_CURRENT_SERVER + "/api/sections/"
 
     headers = CaseInsensitiveDict()
