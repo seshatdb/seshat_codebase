@@ -205,22 +205,37 @@ def account_activation_sent(request):
 
 def variablehierarchysetting(request):
     my_vars = dic_of_all_vars()
+    my_vars_keys = list(my_vars.keys())
+    my_vars_good_keys = []
+    for item in my_vars_keys:
+        good_key = item[0:9] + item[9].lower() + item[10:]
+        good_key = good_key.replace('gdp', 'GDP')
+        good_key = good_key.replace('gDP', 'GDP')
+        my_vars_good_keys.append(good_key)
     all_var_hiers_to_be_hidden = Variablehierarchy.objects.filter(is_verified=True)
     all_var_hiers_to_be_hidden_names = []
     for var in all_var_hiers_to_be_hidden:
         with_crisisdb_name = "crisisdb_" + var.name
-        if with_crisisdb_name in my_vars.keys():
+        var_name = with_crisisdb_name[0:9] + with_crisisdb_name[9].lower() + with_crisisdb_name[10:]
+        var_name = var_name.replace('gdp', 'GDP')
+        var_name = var_name.replace('gDP', 'GDP')
+
+        if with_crisisdb_name in my_vars_good_keys:
             var_name = with_crisisdb_name[0:9] + with_crisisdb_name[9].lower() + with_crisisdb_name[10:]
             var_name = var_name.replace('gdp', 'GDP')
+            var_name = var_name.replace('gDP', 'GDP')
+
             all_var_hiers_to_be_hidden_names.append(var_name)
     print('I am here...\n\n')
     print(all_var_hiers_to_be_hidden_names)
     my_vars_tuple = [('', ' -- Select a CrisisDB Variable -- ')]
-    for var in my_vars.keys():
+    for var in my_vars_good_keys:
         if var not in all_var_hiers_to_be_hidden_names:
             without_crisisdb_var = var[9:]
             var_name = without_crisisdb_var[0].lower() + without_crisisdb_var[1:]
             var_name = var_name.replace('gdp', 'GDP')
+            var_name = var_name.replace('gDP', 'GDP')
+
             my_var_tuple = (var_name, var_name)
             my_vars_tuple.append(my_var_tuple)
 
