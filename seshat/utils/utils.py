@@ -66,10 +66,14 @@ def dic_of_all_vars_with_varhier():
             better_key = app_name + m.__name__
             best_key = better_key.replace(' ', '_')[9:]
             better_value = m.__name__.replace('_', ' ')
-            this_varhier = Variablehierarchy.objects.get(name=best_key)
-            this_varhier_sec = str(this_varhier.section.name).replace(' ', '_')
-            this_varhier_subsec = str(this_varhier.subsection.name).replace(' ', '_')
-            my_secs[this_varhier_sec][this_varhier_subsec][best_key] = [better_value, m._default_manager.count()]
+            try:
+                this_varhier = Variablehierarchy.objects.get(name=best_key)
+                this_varhier_sec = str(this_varhier.section.name).replace(' ', '_')
+                this_varhier_subsec = str(this_varhier.subsection.name).replace(' ', '_')
+                my_secs[this_varhier_sec][this_varhier_subsec][best_key] = [better_value, m._default_manager.count()]
+            except:
+                continue
+
     return (my_secs)
 
 
