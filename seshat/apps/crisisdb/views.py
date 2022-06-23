@@ -2731,8 +2731,8 @@ def playgrounddownload(request):
         print("Bad selection of Separator.")
 
     #url = "http://127.0.0.1:8000/api/politys/"
-    #url = "https://www.majidbenam.com/api/politys/"
-    url = settings.MY_CURRENT_SERVER + "/api/politys/"
+    url = "https://www.majidbenam.com/api/politys/"
+    #url = settings.MY_CURRENT_SERVER + "/api/politys/"
     print(url)
 
 
