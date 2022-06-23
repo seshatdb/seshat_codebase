@@ -218,7 +218,7 @@ def variablehierarchysetting(request):
         if var not in all_var_hiers_to_be_hidden_names:
             without_crisisdb_var = var[9:]
             var_name = without_crisisdb_var[0].lower() + without_crisisdb_var[1:]
-            var_name = without_crisisdb_var.replace('gdp', 'GDP')
+            var_name = var_name.replace('gdp', 'GDP')
             my_var_tuple = (var_name, var_name)
             my_vars_tuple.append(my_var_tuple)
 
