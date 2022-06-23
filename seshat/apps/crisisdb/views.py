@@ -140,86 +140,86 @@ from requests.structures import CaseInsensitiveDict
 # }
 
 
-from .models import Land_taxes_collected, Land_yield, Total_tax, Total_economic_output, Total_revenue, Diding_taxes, Salt_tax, Tariff_and_transit, Misc_incomes, Total_expenditure, Balance, Lijin, Maritime_custom, Other_incomes, Revenue_official, Revenue_real, Gdp_total, Gdp_growth_rate, Shares_of_world_gdp, Gdp_per_capita, Rate_of_gdp_per_capita_growth, Wages, Annual_wages, Rate_of_return, Famine_event, Disease_event, Jinshi_degrees_awarded, Examination, Taiping_rebellion, Worker_wage
-from .forms import Land_taxes_collectedForm, Land_yieldForm, Total_taxForm, Total_economic_outputForm, Total_revenueForm, Diding_taxesForm, Salt_taxForm, Tariff_and_transitForm, Misc_incomesForm, Total_expenditureForm, BalanceForm, LijinForm, Maritime_customForm, Other_incomesForm, Revenue_officialForm, Revenue_realForm, Gdp_totalForm, Gdp_growth_rateForm, Shares_of_world_gdpForm, Gdp_per_capitaForm, Rate_of_gdp_per_capita_growthForm, WagesForm, Annual_wagesForm, Rate_of_returnForm, Famine_eventForm, Disease_eventForm, Jinshi_degrees_awardedForm, ExaminationForm, Taiping_rebellionForm, Worker_wageForm
+from .models import Population, Land_taxes_collected, Land_yield, Total_tax, Total_economic_output, Total_revenue, Diding_taxes, Salt_tax, Tariff_and_transit, Misc_incomes, Total_expenditure, Balance, Lijin, Maritime_custom, Other_incomes, Revenue_official, Revenue_real, Gdp_total, Gdp_growth_rate, Shares_of_world_gdp, Gdp_per_capita, Rate_of_gdp_per_capita_growth, Wages, Annual_wages, Rate_of_return, Famine_event, Disease_event, Jinshi_degrees_awarded, Examination, Taiping_rebellion, Worker_wage
+from .forms import PopulationForm, Land_taxes_collectedForm, Land_yieldForm, Total_taxForm, Total_economic_outputForm, Total_revenueForm, Diding_taxesForm, Salt_taxForm, Tariff_and_transitForm, Misc_incomesForm, Total_expenditureForm, BalanceForm, LijinForm, Maritime_customForm, Other_incomesForm, Revenue_officialForm, Revenue_realForm, Gdp_totalForm, Gdp_growth_rateForm, Shares_of_world_gdpForm, Gdp_per_capitaForm, Rate_of_gdp_per_capita_growthForm, WagesForm, Annual_wagesForm, Rate_of_returnForm, Famine_eventForm, Disease_eventForm, Jinshi_degrees_awardedForm, ExaminationForm, Taiping_rebellionForm, Worker_wageForm
 
-# class PopulationCreate(PermissionRequiredMixin, CreateView):
-#     model = Population
-#     form_class = PopulationForm
-#     template_name = "crisisdb/population/population_form.html"
-#     permission_required = 'catalog.can_mark_returned'
+class PopulationCreate(PermissionRequiredMixin, CreateView):
+    model = Population
+    form_class = PopulationForm
+    template_name = "crisisdb/population/population_form.html"
+    permission_required = 'catalog.can_mark_returned'
 
-#     def get_absolute_url(self):
-#         return reverse('population-create')
+    def get_absolute_url(self):
+        return reverse('population-create')
 
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         context["mysection"] = "No Section Provided"
-#         context["mysubsection"] = "No Subsection Provided"
-#         context["myvar"] = "Total Population"
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["mysection"] = "No Section Provided"
+        context["mysubsection"] = "No Subsection Provided"
+        context["myvar"] = "Total Population"
 
-#         return context
-
-
-# class PopulationUpdate(PermissionRequiredMixin, UpdateView):
-#     model = Population
-#     form_class = PopulationForm
-#     template_name = "crisisdb/population/population_form.html"
-#     permission_required = 'catalog.can_mark_returned'
-
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         context["mysection"] = "No Section Provided"
-#         context["mysubsection"] = "No Subsection Provided"
-#         context["myvar"] = "Total Population"
-
-#         return context
+        return context
 
 
-# class PopulationDelete(PermissionRequiredMixin, DeleteView):
-#     model = Population
-#     success_url = reverse_lazy('populations')
-#     permission_required = 'catalog.can_mark_returned'
+class PopulationUpdate(PermissionRequiredMixin, UpdateView):
+    model = Population
+    form_class = PopulationForm
+    template_name = "crisisdb/population/population_form.html"
+    permission_required = 'catalog.can_mark_returned'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["mysection"] = "No Section Provided"
+        context["mysubsection"] = "No Subsection Provided"
+        context["myvar"] = "Total Population"
+
+        return context
 
 
-# class PopulationListView(generic.ListView):
-#     model = Population
-#     template_name = "crisisdb/population/population_list.html"
-#     paginate_by = 5
-
-#     def get_absolute_url(self):
-#         return reverse('populations')
-
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         context["mysection"] = "No Section Provided"
-#         context["mysubsection"] = "No Subsection Provided"
-#         context["myvar"] = "Total Population"
-
-#         return context
+class PopulationDelete(PermissionRequiredMixin, DeleteView):
+    model = Population
+    success_url = reverse_lazy('populations')
+    permission_required = 'catalog.can_mark_returned'
 
 
-# class PopulationDetailView(generic.DetailView):
-#     model = Population
-#     template_name = "crisisdb/population/population_detail.html"
+class PopulationListView(generic.ListView):
+    model = Population
+    template_name = "crisisdb/population/population_list.html"
+    paginate_by = 5
+
+    def get_absolute_url(self):
+        return reverse('populations')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["mysection"] = "No Section Provided"
+        context["mysubsection"] = "No Subsection Provided"
+        context["myvar"] = "Total Population"
+
+        return context
 
 
-# @permission_required('admin.can_add_log_entry')
-# def population_download(request):
-#     items = Population.objects.all()
+class PopulationDetailView(generic.DetailView):
+    model = Population
+    template_name = "crisisdb/population/population_detail.html"
 
-#     response = HttpResponse(content_type='text/csv')
-#     response['Content-Disposition'] = 'attachment; filename="populations.csv"'
 
-#     writer = csv.writer(response, delimiter='|')
-#     writer.writerow(['year_from', 'year_to',
-#                      'polity', 'total_population', ])
+@permission_required('admin.can_add_log_entry')
+def population_download(request):
+    items = Population.objects.all()
 
-#     for obj in items:
-#         writer.writerow([obj.year_from, obj.year_to,
-#                          obj.polity, obj.total_population, ])
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="populations.csv"'
 
-#     return response
+    writer = csv.writer(response, delimiter='|')
+    writer.writerow(['year_from', 'year_to',
+                     'polity', 'total_population', ])
+
+    for obj in items:
+        writer.writerow([obj.year_from, obj.year_to,
+                         obj.polity, obj.total_population, ])
+
+    return response
 
 class Land_taxes_collectedCreate(PermissionRequiredMixin, CreateView):
     model = Land_taxes_collected

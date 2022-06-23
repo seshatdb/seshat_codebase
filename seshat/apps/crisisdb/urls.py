@@ -10,21 +10,21 @@ urlpatterns = [
 ]
 
 
-# urlpatterns += [
-#     path('population/create/', views.PopulationCreate.as_view(),
-#          name="population-create"),
+urlpatterns += [
+    path('population/create/', views.PopulationCreate.as_view(),
+         name="population-create"),
 
-#     path('populations/', views.PopulationListView.as_view(), name='populations'),
-#     path('population/<int:pk>', views.PopulationDetailView.as_view(),
-#          name='population-detail'),
-#     path('population/<int:pk>/update/',
-#          views.PopulationUpdate.as_view(), name="population-update"),
-#     path('population/<int:pk>/delete/',
-#          views.PopulationDelete.as_view(), name="population-delete"),
-#     # Download
-#     path('populationdownload/', views.population_download,
-#          name="population-download"),
-# ]
+    path('populations/', views.PopulationListView.as_view(), name='populations'),
+    path('population/<int:pk>', views.PopulationDetailView.as_view(),
+         name='population-detail'),
+    path('population/<int:pk>/update/',
+         views.PopulationUpdate.as_view(), name="population-update"),
+    path('population/<int:pk>/delete/',
+         views.PopulationDelete.as_view(), name="population-delete"),
+    # Download
+    path('populationdownload/', views.population_download,
+         name="population-download"),
+]
 
 # GENERATIONS
 

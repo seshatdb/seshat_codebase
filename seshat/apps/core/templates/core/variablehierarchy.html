@@ -85,7 +85,9 @@
                         <ul>
                             {% for var in vars %}
                             <li>
-                                <span class="variable-tree"><i class="icon-leaf"></i>{{var}}</span> <a href="{% url var|lower|add:'s'  %}"> &nbsp; <i class="fas fa-angle-double-right"></i> More Details</a>
+                                <span class="variable-tree"><i class="icon-leaf"></i>{{var}}</span> 
+                                <a href="{% url var|add:'s' %}">
+                                 &nbsp; <i class="fas fa-angle-double-right"></i> More Details</a>
                             </li>
                             {% endfor %}
                         </ul>
