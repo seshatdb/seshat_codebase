@@ -1,7 +1,7 @@
 from seshat.utils.utils import adder, dic_of_all_vars, list_of_all_Polities, dic_of_all_vars_in_sections
 
 from django.contrib.sites.shortcuts import get_current_site
-from seshat.apps.core.forms import SignUpForm, VariablehierarchyFormNew
+from seshat.apps.core.forms import SignUpForm, VariablehierarchyFormNew, CitationForm
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate
 from django.shortcuts import render
@@ -16,8 +16,12 @@ from django.views.decorators.csrf import csrf_protect
 from django.contrib import messages
 from django.conf import settings
 from django.http import HttpResponseRedirect
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.db import IntegrityError
 
 from markupsafe import Markup, escape
+from django.http import JsonResponse
 
 from django.core.mail import EmailMessage
 import html
@@ -25,7 +29,7 @@ import json
 from django.views import generic
 from django.urls import reverse, reverse_lazy
 
-from .models import Polity, Section, Subsection, Variablehierarchy
+from .models import Citation, Polity, Section, Subsection, Variablehierarchy, Reference
 
 import requests
 from requests.structures import CaseInsensitiveDict
@@ -38,6 +42,8 @@ from django.forms import formset_factory, modelformset_factory
 def index(request):
     return HttpResponse('<h1>Hello World.</h1>')
 
+def four_o_four(request):
+    return render(request, 'core/not_found_404.html')
 
 def seshatindex(request):
     context = {
@@ -49,10 +55,79 @@ def seshatindex(request):
     return render(request, 'core/seshat-index.html', context=context)
 
 
+class ReferenceListView(generic.ListView):
+    model = Reference
+    template_name = "core/references/reference_list.html"
+    paginate_by = 20
+
+    def get_absolute_url(self):
+        return reverse('references')
+
+class CitationListView(generic.ListView):
+    model = Citation
+    template_name = "core/references/citation_list.html"
+    paginate_by = 20
+
+    def get_absolute_url(self):
+        return reverse('citations')
+
+class CitationCreate(PermissionRequiredMixin, CreateView):
+    model = Citation
+    form_class = CitationForm
+    template_name = "core/references/citation_form.html"
+    permission_required = 'catalog.can_mark_returned'
+
+    def get_absolute_url(self):
+        return reverse('citation-create')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["mysection"] = "xyz"
+        context["mysubsection"] = "abc"
+        context["myvar"] = "def citation"
+        context["errors"] = "Halooooooooo"
+        print(context)
+
+        return context
+
+    def form_valid(self, form):
+        return super().form_valid(form)
+    
+    def form_invalid(self, form):
+        return HttpResponseRedirect(reverse('seshat-index'))
+
+
+class CitationUpdate(PermissionRequiredMixin, UpdateView):
+    model = Citation
+    form_class = CitationForm
+    template_name = "core/references/citation_update.html"
+    permission_required = 'catalog.can_mark_returned'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["mysection"] = "Fiscal Helath"
+        context["mysubsection"] = "No Subsection Provided"
+        context["myvar"] = "Citation Data"
+
+        return context
+
+class CitationDelete(PermissionRequiredMixin, DeleteView):
+    model = Citation
+    success_url = reverse_lazy('citations')
+    template_name = "core/delete_general.html"
+    permission_required = 'catalog.can_mark_returned'
+
+
+class CitationDetailView(generic.DetailView):
+    model = Citation
+    template_name = "core/references/citation_detail.html"
+
+
+# POLITY
 class PolityListView(generic.ListView):
     model = Polity
     template_name = "core/polity/polity_list.html"
-    paginate_by = 5
+    paginate_by = 10
 
     def get_absolute_url(self):
         return reverse('polities')
@@ -253,8 +328,8 @@ def variablehierarchysetting(request):
         my_subsection_tuple = (my_subsection, my_subsection)
         all_subsections_tuple.append(my_subsection_tuple)
     # Let's create an API serializer for section and subsection heierarchy
-    #url = "http://127.0.0.1:8000/api/sections/"
-    url = "https://www.majidbenam.com/api/sections/"
+    url = "http://127.0.0.1:8000/api/sections/"
+    #url = "https://www.majidbenam.com/api/sections/"
     #url = settings.MY_CURRENT_SERVER + "/api/sections/"
 
     headers = CaseInsensitiveDict()
@@ -333,3 +408,163 @@ def variablehierarchysetting(request):
 
     #context['SuccessMessage'] = "Done Perfectly."
     return render(request, 'core/variablehierarchy.html', context)
+
+
+
+
+###############
+def do_zotero(results):
+    import re
+    mother_ref_dic = []
+    for i, item in enumerate(results):
+        a_key = item['data']['key']
+        try:
+            potential_new_ref = Reference.objects.get(zotero_link=a_key)
+            continue
+        except:          
+            my_dic = {}
+            try:
+                if item['data']['key']:
+                    tuple_key = item['data']['key']
+                    my_dic['key'] = tuple_key
+                else:
+                    pass #print("key is empty for index: ", i, item['data']['itemType'])
+            except:
+                pass #print("No key for item with index: ", i)
+            try:
+                if item['data']['itemType']:
+                    tuple_item = item['data']['itemType']
+                    my_dic['itemType'] = tuple_item
+                else:
+                    pass #print("itemType is empty for index: ", i, item['data']['itemType'])
+            except:
+                pass #print("No itemType for item with index: ", i)
+            try:
+                num_of_creators = len(item['data']['creators'])
+                if num_of_creators < 4 and num_of_creators > 0:
+                    all_creators_list = []  
+                    for j in range(num_of_creators):
+                        try:
+                            try:
+                                good_name = item['data']['creators'][j]['lastName']
+                            except:
+                                good_name = item['data']['creators'][j]['name']
+                        except:
+                            good_name = ("NO_NAMES",)
+                        all_creators_list.append(good_name)
+                    good_name_with_space = "_".join(all_creators_list)
+                    good_name_with_underscore = good_name_with_space.replace(' ', '_')
+                    my_dic['mainCreator'] = good_name_with_underscore
+                elif num_of_creators > 3:
+                    try:
+                        try:
+                            good_name = item['data']['creators'][0]['lastName']
+                        except:
+                            good_name = item['data']['creators'][0]['name']
+                    except:
+                        good_name = ("NO_NAME",)
+                    good_name_with_space = good_name + '_et_al'
+                    good_name_with_underscore = good_name_with_space.replace(' ', '_')
+                    my_dic['mainCreator'] = good_name_with_underscore
+                else:
+                    my_dic['mainCreator'] = "NO_CREATOR" 
+                #pass #print(my_dic['mainCreator'])
+            except:
+                my_dic['mainCreator'] = "NO_CREATORS"
+                pass #print("No mainCreator for item with index: ", i, item['data']['itemType'])
+            try:
+                if item['data']['date']:
+                    full_date = item['data']['date']
+                    year = re.search(r'[12]\d{3}', full_date)
+                    year_int = int(year[0])
+                    my_dic['year'] = year_int
+                else:
+                    my_dic['year'] = 0
+                    #pass #print("year is empty for index: ", i, item['data']['itemType'])
+                #pass #print(my_dic['year'])
+            except:
+                my_dic['year'] = -1
+                #pass #print("No year for item with index: ", i, item['data']['itemType'])
+            try:
+                try:
+                    if item['data']['bookTitle']:
+                        if item['data']['itemType'] == 'bookSection':
+                            good_title = item['data']['title'] + " (IN) " + item['data']['bookTitle']
+                            pass #print (i, ": ", a_key, "    ", good_title)
+                        else:
+                            good_title = item['data']['title']
+                            pass #print (i, ": ", a_key, "    ", good_title)
+                        counter_bookTitle = counter_bookTitle + 1
+                        my_dic['title'] = good_title
+                    else:
+                        good_title = item['data']['title']
+                        my_dic['title'] = good_title
+                        pass #print (i, ": ", a_key, "    ", good_title)
+                except:
+                    my_dic['title'] = item['data']['title']
+                    pass #print (i, ": ", a_key, "    ", item['data']['title'])
+            except:
+                pass #print("No title for item with index: ", i)
+                
+            newref = Reference(title=my_dic['title'], year=my_dic['year'], creator=my_dic['mainCreator'], zotero_link =my_dic['key'])
+            if my_dic['year'] < 2018:
+                newref.save()
+                mother_ref_dic.append(my_dic)
+
+    print(len(mother_ref_dic))
+    #print(counter_bookTitle)
+    print("Bye Zotero")
+    return mother_ref_dic
+
+
+
+
+
+##########
+
+def update_citations_from_inside_zotero_update():
+    """
+    this function gets all the references and build a citation for them
+    """
+    from datetime import datetime
+    all_refs = Reference.objects.all()
+    for ref in all_refs:
+        a_citation = Citation.objects.get_or_create(ref=ref, page_from=None, page_to=None)
+        a_citation[0].save()
+    print("Halllooooo")
+    # Citation.objects.bulk_create(all_citations)
+    #return render (request, 'core/references/reference_list.html')
+
+###########
+
+def synczotero(request):
+    print("Hallo Zotero")
+
+    from pyzotero import zotero
+    zot = zotero.Zotero(1051264, 'group', 'VF5X3TCC3bUYov8Au5gCHf3a')
+    #results = zot.everything(zot.top())
+    results = zot.top(limit=100)
+
+    print(len(results))
+    counter_bookTitle = 0
+    new_refs = do_zotero(results)
+    context = {}
+    context["newly_adds"] = new_refs
+    update_citations_from_inside_zotero_update()
+    #num_1_ref = Reference.objects.get(zotero_link ="FGFSZUNB")
+    #num_1_ref.year = 2014
+    #num_1_ref.save()
+    return render (request, 'core/references/synczotero.html', context)
+
+
+def update_citations(request):
+    """
+    this function gets all the references and build a citation for them
+    """
+    all_refs = Reference.objects.all()
+    for ref in all_refs:
+        a_citation = Citation.objects.get_or_create(ref=ref, page_from=None, page_to=None)
+        a_citation[0].save()
+    # Citation.objects.bulk_create(all_citations)
+    return render (request, 'core/references/reference_list.html')
+

@@ -25,6 +25,10 @@
     <hr>
     {% block main_description %}
     {% endblock main_description %}
+    {% block secondary_description %}
+    {% endblock secondary_description %}
+    <hr>
+
     <div class="table-responsive">
         <table id="table_id" class="table align-middle table-striped">
             <thead>
@@ -75,6 +79,11 @@
                         <td style="text-align: center;"><span class="badge rounded-pill bg-primary">{{ obj.get_tag_display }}</span>
                     {% else  %}
                         <td style="text-align: center;"><span class="badge rounded-pill bg-success">{{ obj.get_tag_display }}</span>
+                    {% endif %}
+                    {% if obj.display_citations %}
+                    <sup>
+                        <span type="button" data-bs-toggle="popover" title="Refs:" data-bs-html="true" data-bs-content=" {{ obj.display_citations }}">&nbsp;<i class="far fa-bookmark text-info"></i></span>
+                    </sup>
                     {% endif %}
                     </td>
 

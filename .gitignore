@@ -2,6 +2,18 @@
 # Created by https://www.toptal.com/developers/gitignore/api/django
 # Edit at https://www.toptal.com/developers/gitignore?templates=django
 
+# coming from seshat-helper trash can
+views_2*.py
+admins_2*.py
+serializers_2*.py
+models_2*.py
+forms_2*.py
+urls_20*.py
+
+crisisdb_2*/
+
+
+
 ### Django ###
 *.log
 *.pot

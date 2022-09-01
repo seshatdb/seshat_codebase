@@ -5,14 +5,22 @@
 
 {% block content %}
 <div class="container">
+    <div class="h3 pt-4">
+        <h2>References:</h2>
+        <a href="{% url 'synczotero' %}" class="btn btn-outline-success"><i class="fa-solid fa-arrows-rotate"></i> &nbsp; Sync With Zotero</a>
+        <a href="{% url 'updatecitations' %}" class="btn btn-outline-success"><i class="fa-solid fa-wrench"></i> &nbsp; Update Citations</a>
+    </div>
     {% if object_list %}
     <div class="table-responsive">
         <table id="table_id" class="table align-middle table-striped">
             <thead>
               <tr>
                 <th scope="col" class="text-secondary">#</th>
-                <th scope="col" style="text-align: center" class="fw-light"> Title</th>
-                <th scope="col" style="text-align: center" class="fw-light"> Year(s)</th>
+                <th scope="col" style="text-align: left" class="fw-light"> Title</th>
+                <th scope="col" style="text-align: center" class="fw-light"> Year</th>
+                <th scope="col" style="text-align: center" class="fw-light"> Creator(s)</th>
+                <th scope="col" style="text-align: center" class="fw-light"> Zotero link</th>
+                <th scope="col" style="text-align: center" class="fw-light">Add Citation</th>
               </tr>
             </thead>
             <tbody>
@@ -20,10 +28,15 @@
                 <tr>
                     <div>
                         <td class="text-secondary" scope="row">{{ forloop.counter0|add:page_obj.start_index }}</td>
-                        <td style="text-align: center;"><a href="">{{ obj.name }}</a>
+                        <td style="text-align: left;"><a class="greenlink" href="https://www.zotero.org/groups/1051264/seshat_databank/items/{{ obj.zotero_link }}">{{ obj.title }}</a>
                         </td>
-                        <td style="text-align: center;"><a href="">{{ obj.start }} to {{ obj.end }}</a>
+                        <td style="text-align: center;">{{ obj.year }}
                         </td>
+                        <td style="text-align: center;"><i>{{ obj.creator }}</i>
+                        </td>
+                        <td style="text-align: center;"><a class="greenlink" href="https://www.zotero.org/groups/1051264/seshat_databank/items/{{ obj.zotero_link }}"><u>Zotero</u></a>
+                        </td>
+                        <td style="text-align: center;"><a href="{% url 'citation-create' %}" ><button class="btn btn-primary btn-sm"> <i class="fa-solid fa-plus"></i> Citation</button></a></td>
                     </div>
                 </tr>
                 {% endfor %}

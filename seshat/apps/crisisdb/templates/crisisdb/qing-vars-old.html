@@ -11,7 +11,7 @@
         <hr>
     </div>
     <div class="row">
-        {% for section, subsect_dic in my_dict.items %}
+        {% for section, subsect_dic in mylist.items %}
             <h3> <i class="fas fa-caret-right"></i> Section: <span class="badge rounded-pill bg-primary">{{ section }}</span></h3>
         {% for subsection, var_list in subsect_dic.items %}
             <h5> <i class="fas fa-chevron-circle-down"></i> Subsection: <span class="badge rounded-pill bg-success">{{ subsection }}</span></h5>
@@ -21,7 +21,7 @@
                     <div class="card mt-4 border-0" style="background-color: #fefae6;">
                         <div class="card-body mt-auto border border-success border-2 rounded">
                             <div>
-                                <a href="{{list_item.0}}">
+                                <a href="{{list_item.2}}">
                                 <h6 class="card-title text-center display">
                                     <strong class="text-success">{{list_item.0}}</strong>
                                 </h6>
@@ -31,8 +31,8 @@
                                 </a>         
                             </div>
                             <div>
-                                <a class="btn btn-sm btn-outline-success" href="{% url list_item.2 %}" class="card-link"> Add &nbsp; <i class="fa fa-plus"></i></a>
-                                <a class="btn btn-sm btn-outline-primary" href="{% url list_item.3 %}" class="card-link"> <i class="fa fa-eye"></i> &nbsp; View</a>
+                                <a class="btn btn-sm btn-outline-success" href="{{list_item.3}}" class="card-link"> Add &nbsp; <i class="fa fa-plus"></i></a>
+                                <a class="btn btn-sm btn-outline-primary" href="{{list_item.2}}" class="card-link"> <i class="fa fa-eye"></i> &nbsp; View</a>
                             </div>
                         </div>
                     </div>
@@ -44,5 +44,4 @@
         {% endfor %} 
     </div>
 </div>
-
 {% endblock %}

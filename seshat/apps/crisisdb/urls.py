@@ -5,6 +5,7 @@ from .models import Population, Land_taxes_collected, Land_yield, Total_tax, Tot
 from . import views
 
 urlpatterns = [
+    path('vars-old/', views.QingVarsOld, name='qing_vars_test'),
     path('vars/', views.QingVars, name='qing_vars'),
     path('playground/', views.playground, name='playground'),
 ]
@@ -309,10 +310,10 @@ urlpatterns += [
 ]
 
 urlpatterns += [
-    path('GDP_total/create/', views.Gdp_totalCreate.as_view(),
-         name="GDP_total-create"),
+    path('gdp_total/create/', views.Gdp_totalCreate.as_view(),
+         name="gdp_total-create"),
 
-    path('GDP_totals/', views.Gdp_totalListView.as_view(), name='GDP_totals'),
+    path('gdp_totals/', views.Gdp_totalListView.as_view(), name='gdp_totals'),
     path('GDP_total/<int:pk>', views.Gdp_totalDetailView.as_view(),
          name='GDP_total-detail'),
     path('GDP_total/<int:pk>/update/',
@@ -325,11 +326,11 @@ urlpatterns += [
 ]
 
 urlpatterns += [
-    path('GDP_growth_rate/create/', views.Gdp_growth_rateCreate.as_view(),
-         name="GDP_growth_rate-create"),
+    path('gdp_growth_rate/create/', views.Gdp_growth_rateCreate.as_view(),
+         name="gdp_growth_rate-create"),
 
-    path('GDP_growth_rates/', views.Gdp_growth_rateListView.as_view(),
-         name='GDP_growth_rates'),
+    path('gdp_growth_rates/', views.Gdp_growth_rateListView.as_view(),
+         name='gdp_growth_rates'),
     path('GDP_growth_rate/<int:pk>', views.Gdp_growth_rateDetailView.as_view(),
          name='GDP_growth_rate-detail'),
     path('GDP_growth_rate/<int:pk>/update/',
@@ -342,11 +343,11 @@ urlpatterns += [
 ]
 
 urlpatterns += [
-    path('shares_of_world_GDP/create/', views.Shares_of_world_gdpCreate.as_view(),
-         name="shares_of_world_GDP-create"),
+    path('shares_of_world_gdp/create/', views.Shares_of_world_gdpCreate.as_view(),
+         name="shares_of_world_gdp-create"),
 
-    path('shares_of_world_GDPs/', views.Shares_of_world_gdpListView.as_view(),
-         name='shares_of_world_GDPs'),
+    path('shares_of_world_gdps/', views.Shares_of_world_gdpListView.as_view(),
+         name='shares_of_world_gdps'),
     path('shares_of_world_GDP/<int:pk>', views.Shares_of_world_gdpDetailView.as_view(),
          name='shares_of_world_GDP-detail'),
     path('shares_of_world_GDP/<int:pk>/update/',
@@ -359,11 +360,11 @@ urlpatterns += [
 ]
 
 urlpatterns += [
-    path('GDP_per_capita/create/', views.Gdp_per_capitaCreate.as_view(),
-         name="GDP_per_capita-create"),
+    path('gdp/create/', views.Gdp_per_capitaCreate.as_view(),
+         name="gdp_per_capita-create"),
 
-    path('GDP_per_capitas/', views.Gdp_per_capitaListView.as_view(),
-         name='GDP_per_capitas'),
+    path('gdp_per_capitas/', views.Gdp_per_capitaListView.as_view(),
+         name='gdp_per_capitas'),
     path('GDP_per_capita/<int:pk>', views.Gdp_per_capitaDetailView.as_view(),
          name='GDP_per_capita-detail'),
     path('GDP_per_capita/<int:pk>/update/',
@@ -376,11 +377,11 @@ urlpatterns += [
 ]
 
 urlpatterns += [
-    path('rate_of_GDP_per_capita_growth/create/', views.Rate_of_gdp_per_capita_growthCreate.as_view(),
-         name="rate_of_GDP_per_capita_growth-create"),
+    path('rate_of_gdp_per_capita_growth/create/', views.Rate_of_gdp_per_capita_growthCreate.as_view(),
+         name="rate_of_gdp_per_capita_growth-create"),
 
-    path('rate_of_GDP_per_capita_growths/', views.Rate_of_gdp_per_capita_growthListView.as_view(),
-         name='rate_of_GDP_per_capita_growths'),
+    path('rate_of_gdp_per_capita_growths/', views.Rate_of_gdp_per_capita_growthListView.as_view(),
+         name='rate_of_gdp_per_capita_growths'),
     path('rate_of_GDP_per_capita_growth/<int:pk>', views.Rate_of_gdp_per_capita_growthDetailView.as_view(),
          name='rate_of_GDP_per_capita_growth-detail'),
     path('rate_of_GDP_per_capita_growth/<int:pk>/update/',

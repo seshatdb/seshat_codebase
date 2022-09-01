@@ -5,14 +5,29 @@
 
 {% block content %}
 <div class="container">
+    <div class="row d-flex align-items-center mt-3">
+        <div class="col-md-5 border-start border-5 border-success">
+            <!-- <h5 class="lead-2">List of all the data for: {{object_list.0.section}}</h5> -->
+            <h6><span class="display-6">Citation</span></h6>
+        </div>
+        <div class="col-md-3">
+        </div>
+        <div class="col-md-4">      
+            <!-- Download and Create Buttons -->
+            <a href="{% url 'citation-create' %}" class="btn btn-outline-success mx-3 my-4 float-end"><i class="fas fa-plus"></i> &nbsp; Add More Citations</a>
+        </div>
+      </div>
     {% if object_list %}
     <div class="table-responsive">
         <table id="table_id" class="table align-middle table-striped">
             <thead>
               <tr>
                 <th scope="col" class="text-secondary">#</th>
-                <th scope="col" style="text-align: center" class="fw-light"> Title</th>
-                <th scope="col" style="text-align: center" class="fw-light"> Year(s)</th>
+                <th scope="col" style="text-align: left" class="fw-light"> Citation Name </th>
+                <th scope="col" style="text-align: center" class="fw-light"> Page From</th>
+                <th scope="col" style="text-align: center" class="fw-light"> Page To</th>
+                <th scope="col" style="text-align: center" class="fw-light"> Full Publication</th>
+                <th scope="col" style="text-align: center" class="fw-light"> Zotero link</th>
               </tr>
             </thead>
             <tbody>
@@ -20,9 +35,30 @@
                 <tr>
                     <div>
                         <td class="text-secondary" scope="row">{{ forloop.counter0|add:page_obj.start_index }}</td>
-                        <td style="text-align: center;"><a href="">{{ obj.name }}</a>
+                        <td style="text-align: left;"><a class="greenlink" href="https://www.zotero.org/groups/1051264/seshat_databank/items/{{ obj.zotero_link }}">{{ obj }}</a>
                         </td>
-                        <td style="text-align: center;"><a href="">{{ obj.start }} to {{ obj.end }}</a>
+                        <td style="text-align: center;">
+                        {% if not obj.page_from %}
+                        -
+                        {% else %}
+                        {{ obj.page_from }}
+                        {% endif %}
+                        </td>
+                        <td style="text-align: center;">
+                        {% if not obj.page_to %}
+                        -
+                        {% else %}
+                        {{ obj.page_to }}
+                        {% endif %}
+                        </td>
+                        <td style="text-align: center;">
+                        {% if not obj.page_from and not obj.page_to %}
+                        <i class="fa-solid fa-circle-check text-success"></i>
+                        {% else %}
+                        <i class="fa-solid fa-circle-xmark text-warning"></i>
+                        {% endif %}
+                        </td>
+                        <td style="text-align: center;"><a class="greenlink" href="https://www.zotero.org/groups/1051264/seshat_databank/items/{{ obj.ref.zotero_link }}"><u>Zotero</u></a>
                         </td>
                     </div>
                 </tr>

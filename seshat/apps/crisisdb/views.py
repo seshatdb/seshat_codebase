@@ -8,11 +8,12 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.utils.safestring import mark_safe
 from django.views.generic.list import ListView
 
+from django.contrib.contenttypes.models import ContentType
 
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 from django.http import HttpResponseRedirect, response, JsonResponse
-from ..core.models import Citation, Reference, Polity, Section, Subsection, Country
+from ..core.models import Citation, Reference, Polity, Section, Subsection, Country, Variablehierarchy
 
 # from .mycodes import *
 from django.conf import settings
@@ -787,14 +788,30 @@ class Tariff_and_transitCreate(PermissionRequiredMixin, CreateView):
     template_name = "crisisdb/tariff_and_transit/tariff_and_transit_form.html"
     permission_required = 'catalog.can_mark_returned'
 
+
     def get_absolute_url(self):
         return reverse('tariff_and_transit-create')
 
     def get_context_data(self, **kwargs):
+        # get the explanattion:
+        all_var_hiers = Variablehierarchy.objects.all()
+        for item in all_var_hiers:
+            if item.name == "tariff_and_transit":
+                my_exp = item.explanation
+                my_sec = item.section.name
+                my_subsec = item.subsection.name
+                my_name = item.name
+                break
+            else:
+                my_exp = "No_Explanations"
+                my_sec = "No_SECTION"
+                my_subsec = "NO_SUBSECTION"
+                my_name = "NO_NAME"
         context = super().get_context_data(**kwargs)
-        context["mysection"] = "Fiscal Helath"
-        context["mysubsection"] = "No Subsection Provided"
-        context["myvar"] = "Tariff and Transit"
+        context["mysection"] = my_sec
+        context["mysubsection"] = my_subsec
+        context["myvar"] = my_name
+        context["my_exp"] = my_exp
 
         return context
 
@@ -2624,8 +2641,38 @@ def worker_wage_download(request):
 vars_dic = {'Land_taxes_collected': {'model': Land_taxes_collected, 'list': Land_taxes_collectedListView, 'create': Land_taxes_collectedCreate, 'section': 'Fiscal Helath', 'subsection': 'Unnamed Subsection'}, 'Land_yield': {'model': Land_yield, 'list': Land_yieldListView, 'create': Land_yieldCreate, 'section': 'Fiscal Helath', 'subsection': 'Unnamed Subsection'}, 'Total_tax': {'model': Total_tax, 'list': Total_taxListView, 'create': Total_taxCreate, 'section': 'Fiscal Helath', 'subsection': 'Unnamed Subsection'}, 'Total_economic_output': {'model': Total_economic_output, 'list': Total_economic_outputListView, 'create': Total_economic_outputCreate, 'section': 'Fiscal Helath', 'subsection': 'Unnamed Subsection'}, 'Total_revenue': {'model': Total_revenue, 'list': Total_revenueListView, 'create': Total_revenueCreate, 'section': 'Unnamed Section', 'subsection': 'Unnamed Subsection'}, 'Diding_taxes': {'model': Diding_taxes, 'list': Diding_taxesListView, 'create': Diding_taxesCreate, 'section': 'Fiscal Helath', 'subsection': 'Unnamed Subsection'}, 'Salt_tax': {'model': Salt_tax, 'list': Salt_taxListView, 'create': Salt_taxCreate, 'section': 'Fiscal Helath', 'subsection': 'Unnamed Subsection'}, 'Tariff_and_transit': {'model': Tariff_and_transit, 'list': Tariff_and_transitListView, 'create': Tariff_and_transitCreate, 'section': 'Fiscal Helath', 'subsection': 'Unnamed Subsection'}, 'Misc_incomes': {'model': Misc_incomes, 'list': Misc_incomesListView, 'create': Misc_incomesCreate, 'section': 'Fiscal Helath', 'subsection': 'Unnamed Subsection'}, 'Total_expenditure': {'model': Total_expenditure, 'list': Total_expenditureListView, 'create': Total_expenditureCreate, 'section': 'Fiscal Helath', 'subsection': 'Unnamed Subsection'}, 'Balance': {'model': Balance, 'list': BalanceListView, 'create': BalanceCreate, 'section': 'Fiscal Helath', 'subsection': 'Unnamed Subsection'}, 'Lijin': {'model': Lijin, 'list': LijinListView, 'create': LijinCreate, 'section': 'Fiscal Helath', 'subsection': 'Unnamed Subsection'}, 'Maritime_custom': {'model': Maritime_custom, 'list': Maritime_customListView, 'create': Maritime_customCreate, 'section': 'Fiscal Helath', 'subsection': 'Unnamed Subsection'}, 'Other_incomes': {'model': Other_incomes, 'list': Other_incomesListView, 'create': Other_incomesCreate, 'section': 'Fiscal Helath', 'subsection': 'Unnamed Subsection'}, 'Revenue_official': {'model': Revenue_official, 'list': Revenue_officialListView, 'create': Revenue_officialCreate, 'section': 'Fiscal Helath', 'subsection': 'Unnamed Subsection'}, 'Revenue_real': {'model': Revenue_real,
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           'list': Revenue_realListView, 'create': Revenue_realCreate, 'section': 'Fiscal Helath', 'subsection': 'Unnamed Subsection'}, 'Gdp_total': {'model': Gdp_total, 'list': Gdp_totalListView, 'create': Gdp_totalCreate, 'section': 'Aggregate Wealth', 'subsection': 'Unnamed Subsection'}, 'Gdp_growth_rate': {'model': Gdp_growth_rate, 'list': Gdp_growth_rateListView, 'create': Gdp_growth_rateCreate, 'section': 'Aggregate Wealth', 'subsection': 'Unnamed Subsection'}, 'Shares_of_world_gdp': {'model': Shares_of_world_gdp, 'list': Shares_of_world_gdpListView, 'create': Shares_of_world_gdpCreate, 'section': 'Aggregate Wealth', 'subsection': 'Unnamed Subsection'}, 'Gdp_per_capita': {'model': Gdp_per_capita, 'list': Gdp_per_capitaListView, 'create': Gdp_per_capitaCreate, 'section': 'Aggregate Wealth', 'subsection': 'Unnamed Subsection'}, 'Rate_of_gdp_per_capita_growth': {'model': Rate_of_gdp_per_capita_growth, 'list': Rate_of_gdp_per_capita_growthListView, 'create': Rate_of_gdp_per_capita_growthCreate, 'section': 'Aggregate Wealth', 'subsection': 'Unnamed Subsection'}, 'Wages': {'model': Wages, 'list': WagesListView, 'create': WagesCreate, 'section': 'Aggregate Wealth', 'subsection': 'Unnamed Subsection'}, 'Annual_wages': {'model': Annual_wages, 'list': Annual_wagesListView, 'create': Annual_wagesCreate, 'section': 'Institutional variables', 'subsection': 'Unnamed Subsection'}, 'Rate_of_return': {'model': Rate_of_return, 'list': Rate_of_returnListView, 'create': Rate_of_returnCreate, 'section': 'Wages', 'subsection': 'Unnamed Subsection'}, 'Famine_event': {'model': Famine_event, 'list': Famine_eventListView, 'create': Famine_eventCreate, 'section': 'Famines Section', 'subsection': 'Famines subsection'}, 'Disease_event': {'model': Disease_event, 'list': Disease_eventListView, 'create': Disease_eventCreate, 'section': 'Diseases Section', 'subsection': 'Unnamed Subsection'}, 'Jinshi_degrees_awarded': {'model': Jinshi_degrees_awarded, 'list': Jinshi_degrees_awardedListView, 'create': Jinshi_degrees_awardedCreate, 'section': 'Unnamed Section', 'subsection': 'Unnamed Subsection'}, 'Examination': {'model': Examination, 'list': ExaminationListView, 'create': ExaminationCreate, 'section': 'Unnamed Section', 'subsection': 'Unnamed Subsection'}, 'Taiping_rebellion': {'model': Taiping_rebellion, 'list': Taiping_rebellionListView, 'create': Taiping_rebellionCreate, 'section': 'Unnamed Section', 'subsection': 'Unnamed Subsection'}, 'Worker_wage': {'model': Worker_wage, 'list': Worker_wageListView, 'create': Worker_wageCreate, 'section': 'Unnamed Section', 'subsection': 'Unnamed Subsection'}}
 
-
 def QingVars(request):
+    all_sections = Section.objects.all()
+    all_subsections = Subsection.objects.all()
+    all_varhiers = Variablehierarchy.objects.all()
+    meta_data_dict = {}
+    for ct in ContentType.objects.all():
+        m = ct.model_class()
+        #full_name = m.__module__ + m.__name__
+        full_name = m.__name__
+        meta_data_dict[full_name.lower()] = [full_name.split('.')[-1].replace("_", ' '), m._default_manager.count(), full_name.lower()+"-create",full_name.lower()+"s"]
+        print (f".{m.__name__}\t{m._default_manager.count()}")
+    my_dict = {}
+    context = {}
+    for sect in all_sections:
+        my_dict[sect] = {}
+        for subsect in all_subsections:
+            list_of_all_varhiers_in_here = []
+            for item in all_varhiers:
+                #print(item, item.section, item.subsection, sect.name, subsect.name)
+                if item.section.name == sect.name and item.subsection.name == subsect.name:
+                    print("We hit it")
+                    list_of_all_varhiers_in_here.append(meta_data_dict[item.name.lower()])
+            if list_of_all_varhiers_in_here:
+                my_dict[sect][subsect] = list_of_all_varhiers_in_here
+    context["my_dict"] = my_dict
+    for ct in ContentType.objects.all():
+        m = ct.model_class()
+        print (f"{m.__module__}.{m.__name__}\t{m._default_manager.count()}")
+    return render(request, 'crisisdb/qing-vars.html', context=context)
+
+
+def QingVarsOld(request):
     context = {}
     mylist = []
     # create an amty dic for sections and subsections:

@@ -10,10 +10,16 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 from datetime import date
+from django.db.models import Q
+from django.db import IntegrityError
+from django.shortcuts import render, redirect
+from django.http import HttpResponse
+from django.http import Http404
 
 import uuid
 
 from django.utils import translation
+from django.contrib import messages
 
 
 APS = 'A;P*'
@@ -133,6 +139,7 @@ class Variablehierarchy(models.Model):
     subsection = models.ForeignKey(
         Subsection, on_delete=models.SET_NULL, null=True, blank=True,)
     is_verified = models.BooleanField(default=False)
+    explanation = models.TextField(blank=True, null=True,)
 
     def __str__(self) -> str:
         """string for epresenting the model obj in Admin Site"""
@@ -154,10 +161,23 @@ class Reference(models.Model):
         max_length=100, help_text="choose the 8-digit Zotero link")
     long_name = models.CharField(
         max_length=500, help_text='Enter the long name', blank=True, null=True)
+    created_date = models.DateTimeField(
+        auto_now_add=True, blank=True, null=True)
+    modified_date = models.DateTimeField(auto_now=True, blank=True, null=True)
 
     def __str__(self) -> str:
         """string for epresenting the model obj in Admin Site"""
-        return "(%s_%s)" % (self.creator, self.year)
+        original_title = self.title
+        if len(original_title) > 50:
+            shorter_title = original_title[0:50] + original_title[50:].split(" ")[0] + "..."
+        else:
+            shorter_title = original_title
+        return "(%s_%s): %s" % (self.creator, self.year, shorter_title)
+
+    class Meta:
+       #ordering = ['-year']
+       ordering = ['-modified_date']
+
 
 
 class Citation(models.Model):
@@ -168,6 +188,9 @@ class Citation(models.Model):
         Reference, on_delete=models.SET_NULL, null=True, related_name="citation")
     page_from = models.IntegerField(null=True, blank=True)
     page_to = models.IntegerField(null=True, blank=True)
+    created_date = models.DateTimeField(
+        auto_now_add=True, blank=True, null=True)
+    modified_date = models.DateTimeField(auto_now=True, blank=True, null=True)
 
     # class Meta:
     #     permissions = (("can_mark_returned", "Set book as returned"),
@@ -181,15 +204,58 @@ class Citation(models.Model):
             my_zotero_link = "#"
         return my_zotero_link
 
+    # def page_from_maker(self):
+    #     return(str(self.page_from))
+    # def page_to_maker(self):
+    #     return(str(self.page_to))
+
     def __str__(self) -> str:
         """String for representing the Model Object"""
-        if self.page_from == self.page_to or ((not self.page_to) and self.page_from):
-            return '({0}_{1}, p. {2})'.format(self.ref.creator, self.ref.year, self.page_from)
-        elif self.page_from and self.page_to:
-            return '({0}_{1}, pp. {2}-{3})'.format(self.ref.creator, self.ref.year, self.page_from, self.page_to)
+        original_title = self.ref.title
+        if len(original_title) > 50:
+            shorter_title = original_title[0:50] + original_title[50:].split(" ")[0] + "..."
         else:
-            return '({0}_{1})'.format(self.ref.creator, self.ref.year)
-
+            shorter_title = original_title
+        
+        if self.page_from == None and self.page_to == None:
+            return '({0}_{1}): {2}'.format(self.ref.creator, self.ref.year, shorter_title)
+        elif self.page_from == self.page_to or ((not self.page_to) and self.page_from):
+            return '({0}_{1}, p. {2}): {3}'.format(self.ref.creator, self.ref.year, self.page_from, shorter_title)
+        elif self.page_from == self.page_to or ((not self.page_from) and self.page_to):
+            return '({0}_{1}, p. {2}): {3}'.format(self.ref.creator, self.ref.year, self.page_to, shorter_title)
+        elif self.page_from and self.page_to:
+            return '({0}_{1}, pp. {2}-{3}): {4}'.format(self.ref.creator, self.ref.year, self.page_from, self.page_to, shorter_title)
+        else:
+            return '({0}_{1}): {2}'.format(self.ref.creator, self.ref.year, shorter_title)
+    class Meta:
+       #ordering = ['-year']
+       ordering = ['-created_date']
+       constraints = [
+        models.UniqueConstraint(
+            name="No_PAGE_TO_AND_FROM",
+            fields=("ref",),
+            condition=(Q(page_to__isnull=True) & Q(page_from__isnull=True)) 
+        ),
+        models.UniqueConstraint(
+            name="No_PAGE_TO",
+            fields=("ref", "page_from"),
+            condition=Q(page_to__isnull=True)
+        ),
+        models.UniqueConstraint(
+            name="No_PAGE_FROM",
+            fields=("ref", "page_to"),
+            condition=Q(page_from__isnull=True)
+        ),
+       ]
+       #unique_together = ["ref", "page_from", "page_to"]
+    def get_absolute_url(self):
+        return reverse('citations')
+    
+    def save(self, *args, **kwargs):
+        try:
+            super(Citation, self).save(*args, **kwargs)
+        except IntegrityError as e:
+            print(e)
 
 class SeshatCommon(models.Model):
     polity = models.ForeignKey(Polity, on_delete=models.SET_NULL, related_name="%(app_label)s_%(class)s_related",
@@ -229,3 +295,5 @@ class SeshatCommon(models.Model):
 #     job_category = models.CharField(choices=job_category_annual_wages_choices)
 #     job_description = models.CharField(
 #         choices=job_description_annual_wages_choices)
+
+

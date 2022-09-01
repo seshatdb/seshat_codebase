@@ -13,6 +13,10 @@ label {
     display: inline-block;
 }
 
+.greenlink {
+    color: rgba(var(--bs-success-rgb));
+    font-weight: 500;
+}
 
 a:hover {
     color: #F87217;

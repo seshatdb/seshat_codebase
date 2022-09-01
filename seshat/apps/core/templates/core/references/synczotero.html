@@ -5,24 +5,35 @@
 
 {% block content %}
 <div class="container">
-    {% if object_list %}
+    <div class="h3 pt-4">
+        <h2> Synchronizing with Zotero ...</h2>
+    </div>
+    {% if newly_adds %}
     <div class="table-responsive">
-        <table id="table_id" class="table align-middle table-striped">
+        <h6 class="text-success pt-3"><i class="fa-solid fa-list-check"></i> You successfully added the following refs from Zotero to your datbase.</h6>
+        <a href="{% url 'references' %}" class="btn btn-outline-success"><i class="fa-solid fa-circle-arrow-left"></i> &nbsp; Back to References</a>
+        <table id="table_id" class="pt-4 table align-middle table-striped">
             <thead>
               <tr>
                 <th scope="col" class="text-secondary">#</th>
-                <th scope="col" style="text-align: center" class="fw-light"> Title</th>
-                <th scope="col" style="text-align: center" class="fw-light"> Year(s)</th>
+                <th scope="col" style="text-align: left" class="fw-light"> Title</th>
+                <th scope="col" style="text-align: center" class="fw-light"> Year</th>
+                <th scope="col" style="text-align: center" class="fw-light"> Creator(s)</th>
+                <th scope="col" style="text-align: center" class="fw-light"> Zotero link</th>
               </tr>
             </thead>
             <tbody>
-                {% for obj in object_list %}
+                {% for obj in newly_adds %}
                 <tr>
                     <div>
-                        <td class="text-secondary" scope="row">{{ forloop.counter0|add:page_obj.start_index }}</td>
-                        <td style="text-align: center;"><a href="">{{ obj.name }}</a>
+                        <td class="text-secondary" scope="row">{{ forloop.counter0|add:1 }}</td>
+                        <td style="text-align: left;"><a href="https://www.zotero.org/groups/1051264/seshat_databank/items/{{ obj.zotero_link }}">{{ obj.title }}</a>
                         </td>
-                        <td style="text-align: center;"><a href="">{{ obj.start }} to {{ obj.end }}</a>
+                        <td style="text-align: center;">{{ obj.year }}
+                        </td>
+                        <td style="text-align: center;"><a href="">{{ obj.mainCreator }}</a>
+                        </td>
+                        <td style="text-align: center;"><a href="https://www.zotero.org/groups/1051264/seshat_databank/items/{{ obj.key }}"><u>Zotero</u></a>
                         </td>
                     </div>
                 </tr>
@@ -52,7 +63,8 @@
     {% else %}
     <div class="row">
         <div class="col-md-12 mt-4">
-            <h3> <i class="fa-solid fa-triangle-exclamation"></i> There are no Facts for this variable in the Database.</h3>
+            <h5 class="text-success"><i class="fa-solid fa-square-check"></i> Your database is already up to date.</h5>
+            <a href="{% url 'references' %}" class="btn btn-outline-success"><i class="fa-solid fa-circle-arrow-left"></i> &nbsp; Back to References</a>
         </div>
     </div>
     {% endif %}

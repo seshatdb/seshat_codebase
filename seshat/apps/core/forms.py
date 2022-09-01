@@ -5,10 +5,27 @@ from django.forms import formset_factory
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
-from seshat.apps.core.models import Section, Subsection, Variablehierarchy
+from seshat.apps.core.models import Section, Subsection, Variablehierarchy, Reference, Citation
 from django.core.exceptions import NON_FIELD_ERRORS
 from crispy_forms.helper import FormHelper
 
+
+class CitationForm(forms.ModelForm):
+    class Meta:
+        model = Citation
+        fields = ('ref', 'page_from', 'page_to', )
+        labels = {
+        'page_from': '<b>Start Page</b>',
+        'page_to': '<b>End Page</b>',
+        'ref': '<b>Select Your Reference: </b>',
+        }
+        widgets = {
+            'ref': forms.Select(attrs={'class': 'form-control form-select mb-3 js-states js-example-basic-single', 'text':'ref' ,}),
+            'page_from': forms.NumberInput(
+            attrs={'class': 'form-control  mb-3 fw-bold', }),
+            'page_to': forms.NumberInput(
+            attrs={'class': 'form-control  mb-3 fw-bold', })
+        }
 
 class SignUpForm(UserCreationForm):
     # first_name = forms.CharField(
