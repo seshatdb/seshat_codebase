@@ -8,7 +8,7 @@ admins_2*.py
 serializers_2*.py
 models_2*.py
 forms_2*.py
-urls_20*.py
+urls_2*.py
 
 crisisdb_2*/
 
