@@ -20,6 +20,7 @@ import uuid
 
 from django.utils import translation
 from django.contrib import messages
+from django.core.validators import URLValidator
 
 
 APS = 'A;P*'
@@ -152,15 +153,16 @@ class Variablehierarchy(models.Model):
 class Reference(models.Model):
     """Model Representing a Reference"""
     title = models.CharField(
-        max_length=200, help_text='Enter a title')
+        max_length=500, help_text='Enter a title')
     year = models.IntegerField(
         blank=True, null=True, help_text="year of Publication")
     creator = models.CharField(
-        max_length=100, help_text="Creator of pub")
+        max_length=500, help_text="Creator of pub")
     zotero_link = models.CharField(
-        max_length=100, help_text="choose the 8-digit Zotero link")
+        max_length=500, help_text="choose the 8-digit Zotero link", blank=True, null=True)
     long_name = models.CharField(
         max_length=500, help_text='Enter the long name', blank=True, null=True)
+    url_link = models.TextField(max_length=500, validators=[URLValidator()], blank=True, null=True)
     created_date = models.DateTimeField(
         auto_now_add=True, blank=True, null=True)
     modified_date = models.DateTimeField(auto_now=True, blank=True, null=True)
@@ -260,12 +262,6 @@ class Citation(models.Model):
 class SeshatCommon(models.Model):
     polity = models.ForeignKey(Polity, on_delete=models.SET_NULL, related_name="%(app_label)s_%(class)s_related",
                                related_query_name="%(app_label)s_%(class)s", null=True)
-    section = models.ForeignKey(
-        Section, on_delete=models.SET_NULL, related_name="%(app_label)s_%(class)s_related",
-        related_query_name="%(app_label)s_%(class)ss", blank=True, null=True,)
-    subsection = models.ForeignKey(
-        Subsection, on_delete=models.SET_NULL, related_name="%(app_label)s_%(class)s_related",
-        related_query_name="%(app_label)s_%(class)ss", blank=True, null=True,)
     name = models.CharField(
         max_length=200,)
     year_from = models.IntegerField(blank=True, null=True)

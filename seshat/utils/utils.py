@@ -25,14 +25,16 @@ def dic_of_all_vars():
     # }
     my_vars = {}
     my_vars_2 = {}
-    for ct in ContentType.objects.all():
-        m = ct.model_class()
-        if m.__module__ == "seshat.apps.crisisdb.models":
-            app_name = m.__module__.split('.')[-2] + '_'
-            better_key = app_name + m.__name__
-            better_value = m.__name__.replace('_', ' ')
-            my_vars[better_key] = better_value
-            my_vars[better_key] = [better_value, m._default_manager.count()]
+    # for ct in ContentType.objects.all():
+    #     m = ct.model_class()
+    #     if m.__module__ == "seshat.apps.crisisdb.models":
+    #         app_name = m.__module__.split('.')[-2] + '_'
+    #         better_key = app_name + m.__name__
+    #         better_value = m.__name__.replace('_', ' ')
+    #         my_vars[better_key] = better_value
+    #         my_vars[better_key] = [better_value, m._default_manager.count()]
+
+    
             #print(better_key, ': ', better_value)
             # print(f"{m.__module__}.{m.__name__}\t{m._default_manager.count()}")
     return (my_vars)

@@ -30,7 +30,7 @@ from django.views import generic
 from django.urls import reverse, reverse_lazy
 
 from .models import Citation, Polity, Section, Subsection, Variablehierarchy, Reference
-
+import pprint
 import requests
 from requests.structures import CaseInsensitiveDict
 
@@ -418,6 +418,14 @@ def do_zotero(results):
     mother_ref_dic = []
     for i, item in enumerate(results):
         a_key = item['data']['key']
+        if a_key == "3BQQ8WN8":
+            print("I skipped over  youuuuuuuuuuuuuuu: 3BQQ8WN8")
+            continue
+        if a_key == 'RR6R3383':
+            print("I skipped over  youuuuuuuuuuuuuuu: RR6R3383")
+            continue
+            
+            #print(pprint.pprint(item))
         try:
             potential_new_ref = Reference.objects.get(zotero_link=a_key)
             continue
@@ -444,6 +452,8 @@ def do_zotero(results):
                 if num_of_creators < 4 and num_of_creators > 0:
                     all_creators_list = []  
                     for j in range(num_of_creators):
+                        if a_key == "MM6AEU7H":
+                            print("I saw youuuuuuuuuuuuuuu more")
                         try:
                             try:
                                 good_name = item['data']['creators'][j]['lastName']
@@ -488,6 +498,8 @@ def do_zotero(results):
             try:
                 try:
                     if item['data']['bookTitle']:
+                        if a_key == "MM6AEU7H":
+                            print("I saw youuuuuuuuuuuuuuu more")
                         if item['data']['itemType'] == 'bookSection':
                             good_title = item['data']['title'] + " (IN) " + item['data']['bookTitle']
                             pass #print (i, ": ", a_key, "    ", good_title)
@@ -499,6 +511,8 @@ def do_zotero(results):
                     else:
                         good_title = item['data']['title']
                         my_dic['title'] = good_title
+                        if a_key == "MM6AEU7H":
+                            print("I saw youuuuuuuuuuuuuuu more")
                         pass #print (i, ": ", a_key, "    ", good_title)
                 except:
                     my_dic['title'] = item['data']['title']
@@ -506,8 +520,8 @@ def do_zotero(results):
             except:
                 pass #print("No title for item with index: ", i)
                 
-            newref = Reference(title=my_dic['title'], year=my_dic['year'], creator=my_dic['mainCreator'], zotero_link =my_dic['key'])
-            if my_dic['year'] < 2018:
+            newref = Reference(title=my_dic['title'], year=my_dic['year'], creator=my_dic['mainCreator'], zotero_link=my_dic['key'])
+            if my_dic['year'] < 2040:
                 newref.save()
                 mother_ref_dic.append(my_dic)
 
