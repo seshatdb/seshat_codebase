@@ -5,27 +5,31 @@
 {% block addmore %}
 <a href="{% url 'famine_event-create' %}" class="btn btn-outline-success mx-3 my-4 float-end"> &#128934; &nbsp; Add Another Fact &nbsp; <i class="fa fa-plus"></i>
 </a>
-<a href="{% url 'wagess' %}" class="btn btn-outline-primary ms-auto my-4 float-end">&#8983; See All Such Facts
+<a href="{% url 'famine_events' %}" class="btn btn-outline-primary ms-auto my-4 float-end">&#8983; See All Such Facts
 </a>
 {% endblock addmore %}
 
 {% block myheadings %}
-<th style="text-align: center;" scope="col">Famine Event</th>
-<th style="text-align: center;" scope="col">Latitude</th>
-<th style="text-align: center;" scope="col">Longitude</th>
-<th style="text-align: center;" scope="col">Elevation</th>
-<th style="text-align: center;" scope="col">Sub Category</th>
-<th style="text-align: center;" scope="col">Magnitude</th>
-<th style="text-align: center;" scope="col">Duration</th>
+<th class = "fw-normal" style="text-align: center;" scope="col">Famine Event
+<sup>
+<span type="button" data-bs-toggle="popover" data-bs-html="true" data-bs-content="NO DESCRIPTION">&nbsp;<i class="fas fa-question-circle"></i></span>
+</sup>
+</th>
 {% endblock myheadings %}
 
 {% block extracols %}
-<td style="text-align: center;">{{ object.famine_event }}</td>
-<td style="text-align: center;">{{ object.latitude }}</td>
-<td style="text-align: center;">{{ object.longitude|intcomma }}</td>
-<td style="text-align: center;">{{ object.elevation }}</td>
-<td style="text-align: center;">{{ object.sub_category }}</td>
-<td style="text-align: center;">{{ object.magnitude }}</td>
-<td style="text-align: center;">{{ object.duration }}</td>
+
+<td class = "{% if obj.tag == 'DSP' %}
+text-danger
+{% elif obj.tag == 'SSP' %}
+text-warning
+{% elif obj.tag == 'UNK' %}
+text-secondary
+{% elif obj.tag == 'IFR' %}
+text-primary
+{% else %}
+text-success
+{% endif %} fw-normal" style="text-align: center;">{{ obj.famine_event|intcomma }}
+</td>
 {% endblock extracols %}
         

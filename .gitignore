@@ -4,6 +4,7 @@
 
 # coming from seshat-helper trash can
 views_2*.py
+admin_2*.py
 admins_2*.py
 serializers_2*.py
 models_2*.py
@@ -11,6 +12,9 @@ forms_2*.py
 urls_2*.py
 
 crisisdb_2*/
+crisisdb_21*/
+crisisdb_old/
+
 
 
 

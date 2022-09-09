@@ -10,22 +10,14 @@
 
 {% block main_description %}
 
-<div class="row">
-<p>
-Here is my main description for famine events
-</p>
-</div>
-
 {% endblock main_description %}
 
 {% block myheadings_list %}
-<th style="text-align: center;" scope="col">Famine Event</th>
-<th style="text-align: center;" scope="col">Latitude</th>
-<th style="text-align: center;" scope="col">Longitude</th>
-<th style="text-align: center;" scope="col">Elevation</th>
-<th style="text-align: center;" scope="col">Sub Category</th>
-<th style="text-align: center;" scope="col">Magnitude</th>
-<th style="text-align: center;" scope="col">Duration</th>
+<th class = "fw-normal" style="text-align: center;" scope="col">Famine Event
+<sup>
+<span type="button" data-bs-toggle="popover" data-bs-html="true" data-bs-content="NO DESCRIPTION">&nbsp;<i class="fas fa-question-circle"></i></span>
+</sup>
+</th>
 {% endblock myheadings_list %}
 
 {% block extra_vars_list %}
@@ -40,127 +32,7 @@ text-secondary
 text-primary
 {% else %}
 text-success
-{% endif %} fw-bold" style="text-align: center;">{{ obj.famine_event }}
-    {% if obj.display_citations %}
-    <sup>
-        <span type="button" data-bs-toggle="popover" title="Refs:" data-bs-html="true" data-bs-content=" {{ obj.display_citations }}">&nbsp;<i class="far fa-bookmark text-info"></i></span>
-    </sup>
-    {% endif %}
-
-</td>
-
-<td class = "{% if obj.tag == 'DSP' %}
-text-danger
-{% elif obj.tag == 'SSP' %}
-text-warning
-{% elif obj.tag == 'UNK' %}
-text-secondary
-{% elif obj.tag == 'IFR' %}
-text-primary
-{% else %}
-text-success
-{% endif %} fw-bold" style="text-align: center;">{{ obj.latitude }}
-    {% if obj.display_citations %}
-    <sup>
-        <span type="button" data-bs-toggle="popover" title="Refs:" data-bs-html="true" data-bs-content=" {{ obj.display_citations }}">&nbsp;<i class="far fa-bookmark text-info"></i></span>
-    </sup>
-    {% endif %}
-
-</td>
-
-<td class = "{% if obj.tag == 'DSP' %}
-text-danger
-{% elif obj.tag == 'SSP' %}
-text-warning
-{% elif obj.tag == 'UNK' %}
-text-secondary
-{% elif obj.tag == 'IFR' %}
-text-primary
-{% else %}
-text-success
-{% endif %} fw-bold" style="text-align: center;">{{ obj.longitude|intcomma }}
-    {% if obj.display_citations %}
-    <sup>
-        <span type="button" data-bs-toggle="popover" title="Refs:" data-bs-html="true" data-bs-content=" {{ obj.display_citations }}">&nbsp;<i class="far fa-bookmark text-info"></i></span>
-    </sup>
-    {% endif %}
-
-</td>
-
-<td class = "{% if obj.tag == 'DSP' %}
-text-danger
-{% elif obj.tag == 'SSP' %}
-text-warning
-{% elif obj.tag == 'UNK' %}
-text-secondary
-{% elif obj.tag == 'IFR' %}
-text-primary
-{% else %}
-text-success
-{% endif %} fw-bold" style="text-align: center;">{{ obj.elevation }}
-    {% if obj.display_citations %}
-    <sup>
-        <span type="button" data-bs-toggle="popover" title="Refs:" data-bs-html="true" data-bs-content=" {{ obj.display_citations }}">&nbsp;<i class="far fa-bookmark text-info"></i></span>
-    </sup>
-    {% endif %}
-
-</td>
-
-<td class = "{% if obj.tag == 'DSP' %}
-text-danger
-{% elif obj.tag == 'SSP' %}
-text-warning
-{% elif obj.tag == 'UNK' %}
-text-secondary
-{% elif obj.tag == 'IFR' %}
-text-primary
-{% else %}
-text-success
-{% endif %} fw-bold" style="text-align: center;">{{ obj.sub_category }}
-    {% if obj.display_citations %}
-    <sup>
-        <span type="button" data-bs-toggle="popover" title="Refs:" data-bs-html="true" data-bs-content=" {{ obj.display_citations }}">&nbsp;<i class="far fa-bookmark text-info"></i></span>
-    </sup>
-    {% endif %}
-
-</td>
-
-<td class = "{% if obj.tag == 'DSP' %}
-text-danger
-{% elif obj.tag == 'SSP' %}
-text-warning
-{% elif obj.tag == 'UNK' %}
-text-secondary
-{% elif obj.tag == 'IFR' %}
-text-primary
-{% else %}
-text-success
-{% endif %} fw-bold" style="text-align: center;">{{ obj.magnitude }}
-    {% if obj.display_citations %}
-    <sup>
-        <span type="button" data-bs-toggle="popover" title="Refs:" data-bs-html="true" data-bs-content=" {{ obj.display_citations }}">&nbsp;<i class="far fa-bookmark text-info"></i></span>
-    </sup>
-    {% endif %}
-
-</td>
-
-<td class = "{% if obj.tag == 'DSP' %}
-text-danger
-{% elif obj.tag == 'SSP' %}
-text-warning
-{% elif obj.tag == 'UNK' %}
-text-secondary
-{% elif obj.tag == 'IFR' %}
-text-primary
-{% else %}
-text-success
-{% endif %} fw-bold" style="text-align: center;">{{ obj.duration }}
-    {% if obj.display_citations %}
-    <sup>
-        <span type="button" data-bs-toggle="popover" title="Refs:" data-bs-html="true" data-bs-content=" {{ obj.display_citations }}">&nbsp;<i class="far fa-bookmark text-info"></i></span>
-    </sup>
-    {% endif %}
-
+{% endif %} fw-normal" style="text-align: center;">{{ obj.famine_event|intcomma }}
 </td>
 {% endblock extra_vars_list %}
 

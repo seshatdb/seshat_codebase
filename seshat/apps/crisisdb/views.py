@@ -1,4 +1,4 @@
-#from sqlalchemy import all_
+
 from seshat.utils.utils import adder, dic_of_all_vars, list_of_all_Polities, dic_of_all_vars_in_sections, dic_of_all_vars_with_varhier
 from django.db.models.base import Model
 # from django.http.response import HttpResponse
@@ -32,771 +32,25 @@ import requests
 from requests.structures import CaseInsensitiveDict
 
 
-# class PopulationCreate(PermissionRequiredMixin, CreateView):
-#     model = Population
-#     form_class = PopulationForm
-#     template_name = "crisisdb/population/population_form.html"
-#     permission_required = 'catalog.can_mark_returned'
 
-#     def get_absolute_url(self):
-#         return reverse('population-create')
-
-#     def get_context_data(self, **kwargs):
-#         # Call the base implementation first to get a context
-#         context = super().get_context_data(**kwargs)
-#         mysection = Population.objects.first().section
-#         mysubsection = Population.objects.first().subsection
-#         myvar = Population.objects.first().name
-#         # form = RulertransitionForm
-#         # Add in a QuerySet of all the books
-#         context["mysection"] = mysection
-#         context["mysubsection"] = mysubsection
-#         context["myvar"] = myvar
-
-#         return context
+from .models import Agricultural_population, Arable_land, Arable_land_per_farmer, Gross_grain_shared_per_agricultural_population, Net_grain_shared_per_agricultural_population, Surplus, Military_expense, Silver_inflow, Silver_stock, Total_population, Gdp_per_capita, Drought_event, Locust_event, Socioeconomic_turmoil_event, Crop_failure_event, Famine_event, Disease_outbreak
 
 
-# class PopulationUpdate(PermissionRequiredMixin, UpdateView):
-#     model = Population
-#     # Not recommended (potential security issue if more fields added)
-#     form_class = PopulationForm
-#     template_name = "crisisdb/population/population_form.html"
-#     permission_required = 'catalog.can_mark_returned'
+from .forms import Agricultural_populationForm, Arable_landForm, Arable_land_per_farmerForm, Gross_grain_shared_per_agricultural_populationForm, Net_grain_shared_per_agricultural_populationForm, SurplusForm, Military_expenseForm, Silver_inflowForm, Silver_stockForm, Total_populationForm, Gdp_per_capitaForm, Drought_eventForm, Locust_eventForm, Socioeconomic_turmoil_eventForm, Crop_failure_eventForm, Famine_eventForm, Disease_outbreakForm
 
-
-# class PopulationDelete(PermissionRequiredMixin, DeleteView):
-#     model = Population
-#     success_url = reverse_lazy('populations')
-#     permission_required = 'catalog.can_mark_returned'
-
-
-# class PopulationListView(generic.ListView):
-#     model = Population
-#     template_name = "crisisdb/population/population_list.html"
-#     paginate_by = 5
-
-#     def get_context_data(self, **kwargs):
-#         # Call the base implementation first to get a context
-#         context = super().get_context_data(**kwargs)
-#         a_random_dic = {
-#             "ali": "Taghaviasl",
-#             "rashid": "Khazeiy",
-#         }
-#         myvar = {
-#             'file_name': 'Qing - Datasets.xls',
-#             'sheet_name': 'Qing Famine',
-#             'full_var_name': 'Famine Outbreak',
-#             'polity': 'CnQingE',
-#             'general_description': "UNAVAILABLE IN THE FILE",
-#             'data_source': ['https://clio-infra.eu/Indicators/LabourersRealWage.html', ],
-#         }
-#         # form = PopulationForm
-#         # Add in a QuerySet of all the books
-#         #context["mydata"] = a_random_dic
-#         #context["myvar"] = myvar
-#         print(context)
-#         return context
-
-#     def get_absolute_url(self):
-#         return reverse('populations')
-
-
-# class PopulationDetailView(generic.DetailView):
-#     model = Population
-#     template_name = "crisisdb/population/population_detail.html"
-
-
-# @permission_required('admin.can_add_log_entry')
-# def population_download(request):
-#     items = Population.objects.all()
-
-#     response = HttpResponse(content_type='text/csv')
-#     response['Content-Disposition'] = 'attachment; filename="populations.csv"'
-
-#     writer = csv.writer(response, delimiter='|')
-#     # writer.writerow(['title', 'author',
-#     #                  'isbn', 'genre', 'language', ])
-#     writer.writerow(['year_from', 'year_to',
-#                      'polity', 'total_population', ])
-
-#     for obj in items:
-#         writer.writerow([obj.year_from, obj.year_to,
-#                          obj.polity, obj.total_population, ])
-
-#     return response
-
-
-##################
-
-
-# End Of GENERATIONS
-##########
-# Let's take care of all vars here:
-# vars_dic = {
-#     'Population': {
-#         'model': Population,
-#         'list': PopulationListView,
-#         'create': PopulationCreate,
-#     },
-# }
-
-
-from .models import Population, Land_taxes_collected, Land_yield, Total_tax, Total_economic_output, Total_revenue, Diding_taxes, Salt_tax, Tariff_and_transit, Misc_incomes, Total_expenditure, Balance, Lijin, Maritime_custom, Other_incomes, Revenue_official, Revenue_real, Gdp_total, Gdp_growth_rate, Shares_of_world_gdp, Gdp_per_capita, Rate_of_gdp_per_capita_growth, Wages, Annual_wages, Rate_of_return, Famine_event, Disease_event, Jinshi_degrees_awarded, Examination, Taiping_rebellion, Worker_wage
-from .forms import PopulationForm, Land_taxes_collectedForm, Land_yieldForm, Total_taxForm, Total_economic_outputForm, Total_revenueForm, Diding_taxesForm, Salt_taxForm, Tariff_and_transitForm, Misc_incomesForm, Total_expenditureForm, BalanceForm, LijinForm, Maritime_customForm, Other_incomesForm, Revenue_officialForm, Revenue_realForm, Gdp_totalForm, Gdp_growth_rateForm, Shares_of_world_gdpForm, Gdp_per_capitaForm, Rate_of_gdp_per_capita_growthForm, WagesForm, Annual_wagesForm, Rate_of_returnForm, Famine_eventForm, Disease_eventForm, Jinshi_degrees_awardedForm, ExaminationForm, Taiping_rebellionForm, Worker_wageForm
-
-class PopulationCreate(PermissionRequiredMixin, CreateView):
-    model = Population
-    form_class = PopulationForm
-    template_name = "crisisdb/population/population_form.html"
-    permission_required = 'catalog.can_mark_returned'
+class Agricultural_populationCreate(PermissionRequiredMixin, CreateView):
+    model = Agricultural_population
+    form_class = Agricultural_populationForm
+    template_name = "crisisdb/agricultural_population/agricultural_population_form.html"
+    #permission_required = 'catalog.can_mark_returned'
 
     def get_absolute_url(self):
-        return reverse('population-create')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["mysection"] = "No Section Provided"
-        context["mysubsection"] = "No Subsection Provided"
-        context["myvar"] = "Total Population"
-
-        return context
-
-
-class PopulationUpdate(PermissionRequiredMixin, UpdateView):
-    model = Population
-    form_class = PopulationForm
-    template_name = "crisisdb/population/population_form.html"
-    permission_required = 'catalog.can_mark_returned'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["mysection"] = "No Section Provided"
-        context["mysubsection"] = "No Subsection Provided"
-        context["myvar"] = "Total Population"
-
-        return context
-
-
-class PopulationDelete(PermissionRequiredMixin, DeleteView):
-    model = Population
-    success_url = reverse_lazy('populations')
-    permission_required = 'catalog.can_mark_returned'
-
-
-class PopulationListView(generic.ListView):
-    model = Population
-    template_name = "crisisdb/population/population_list.html"
-    paginate_by = 5
-
-    def get_absolute_url(self):
-        return reverse('populations')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["mysection"] = "No Section Provided"
-        context["mysubsection"] = "No Subsection Provided"
-        context["myvar"] = "Total Population"
-
-        return context
-
-
-class PopulationDetailView(generic.DetailView):
-    model = Population
-    template_name = "crisisdb/population/population_detail.html"
-
-
-@permission_required('admin.can_add_log_entry')
-def population_download(request):
-    items = Population.objects.all()
-
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="populations.csv"'
-
-    writer = csv.writer(response, delimiter='|')
-    writer.writerow(['year_from', 'year_to',
-                     'polity', 'total_population', ])
-
-    for obj in items:
-        writer.writerow([obj.year_from, obj.year_to,
-                         obj.polity, obj.total_population, ])
-
-    return response
-
-class Land_taxes_collectedCreate(PermissionRequiredMixin, CreateView):
-    model = Land_taxes_collected
-    form_class = Land_taxes_collectedForm
-    template_name = "crisisdb/land_taxes_collected/land_taxes_collected_form.html"
-    permission_required = 'catalog.can_mark_returned'
-
-    def get_absolute_url(self):
-        return reverse('land_taxes_collected-create')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["mysection"] = "Fiscal Helath"
-        context["mysubsection"] = "No Subsection Provided"
-        context["myvar"] = "Land Taxes Collected"
-
-        return context
-
-
-class Land_taxes_collectedUpdate(PermissionRequiredMixin, UpdateView):
-    model = Land_taxes_collected
-    form_class = Land_taxes_collectedForm
-    template_name = "crisisdb/land_taxes_collected/land_taxes_collected_update.html"
-    permission_required = 'catalog.can_mark_returned'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["mysection"] = "Fiscal Helath"
-        context["mysubsection"] = "No Subsection Provided"
-        context["myvar"] = "Land Taxes Collected"
-
-        return context
-
-
-class Land_taxes_collectedDelete(PermissionRequiredMixin, DeleteView):
-    model = Land_taxes_collected
-    success_url = reverse_lazy('land_taxes_collecteds')
-    template_name = "core/delete_general.html"
-    permission_required = 'catalog.can_mark_returned'
-
-
-class Land_taxes_collectedListView(generic.ListView):
-    model = Land_taxes_collected
-    template_name = "crisisdb/land_taxes_collected/land_taxes_collected_list.html"
-    paginate_by = 10
-
-    def get_absolute_url(self):
-        return reverse('land_taxes_collecteds')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["mysection"] = "Fiscal Helath"
-        context["mysubsection"] = "No Subsection Provided"
-        context["myvar"] = "Land Taxes Collected"
-
-        return context
-
-
-class Land_taxes_collectedDetailView(generic.DetailView):
-    model = Land_taxes_collected
-    template_name = "crisisdb/land_taxes_collected/land_taxes_collected_detail.html"
-
-
-@permission_required('admin.can_add_log_entry')
-def land_taxes_collected_download(request):
-    items = Land_taxes_collected.objects.all()
-
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="land_taxes_collecteds.csv"'
-
-    writer = csv.writer(response, delimiter='|')
-    writer.writerow(['year_from', 'year_to',
-                     'polity', 'land_taxes_collected', ])
-
-    for obj in items:
-        writer.writerow([obj.year_from, obj.year_to,
-                         obj.polity, obj.land_taxes_collected, ])
-
-    return response
-
-
-class Land_yieldCreate(PermissionRequiredMixin, CreateView):
-    model = Land_yield
-    form_class = Land_yieldForm
-    template_name = "crisisdb/land_yield/land_yield_form.html"
-    permission_required = 'catalog.can_mark_returned'
-
-    def get_absolute_url(self):
-        return reverse('land_yield-create')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["mysection"] = "Fiscal Helath"
-        context["mysubsection"] = "No Subsection Provided"
-        context["myvar"] = "Land Yield"
-
-        return context
-
-
-class Land_yieldUpdate(PermissionRequiredMixin, UpdateView):
-    model = Land_yield
-    form_class = Land_yieldForm
-    template_name = "crisisdb/land_yield/land_yield_update.html"
-    permission_required = 'catalog.can_mark_returned'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["mysection"] = "Fiscal Helath"
-        context["mysubsection"] = "No Subsection Provided"
-        context["myvar"] = "Land Yield"
-
-        return context
-
-
-class Land_yieldDelete(PermissionRequiredMixin, DeleteView):
-    model = Land_yield
-    success_url = reverse_lazy('land_yields')
-    template_name = "core/delete_general.html"
-    permission_required = 'catalog.can_mark_returned'
-
-
-class Land_yieldListView(generic.ListView):
-    model = Land_yield
-    template_name = "crisisdb/land_yield/land_yield_list.html"
-    paginate_by = 10
-
-    def get_absolute_url(self):
-        return reverse('land_yields')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["mysection"] = "Fiscal Helath"
-        context["mysubsection"] = "No Subsection Provided"
-        context["myvar"] = "Land Yield"
-
-        return context
-
-
-class Land_yieldDetailView(generic.DetailView):
-    model = Land_yield
-    template_name = "crisisdb/land_yield/land_yield_detail.html"
-
-
-@permission_required('admin.can_add_log_entry')
-def land_yield_download(request):
-    items = Land_yield.objects.all()
-
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="land_yields.csv"'
-
-    writer = csv.writer(response, delimiter='|')
-    writer.writerow(['year_from', 'year_to',
-                     'polity', 'land_yield', ])
-
-    for obj in items:
-        writer.writerow([obj.year_from, obj.year_to,
-                         obj.polity, obj.land_yield, ])
-
-    return response
-
-
-class Total_taxCreate(PermissionRequiredMixin, CreateView):
-    model = Total_tax
-    form_class = Total_taxForm
-    template_name = "crisisdb/total_tax/total_tax_form.html"
-    permission_required = 'catalog.can_mark_returned'
-
-    def get_absolute_url(self):
-        return reverse('total_tax-create')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["mysection"] = "Fiscal Helath"
-        context["mysubsection"] = "No Subsection Provided"
-        context["myvar"] = "Total Amount of Taxes Collected"
-
-        return context
-
-
-class Total_taxUpdate(PermissionRequiredMixin, UpdateView):
-    model = Total_tax
-    form_class = Total_taxForm
-    template_name = "crisisdb/total_tax/total_tax_update.html"
-    permission_required = 'catalog.can_mark_returned'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["mysection"] = "Fiscal Helath"
-        context["mysubsection"] = "No Subsection Provided"
-        context["myvar"] = "Total Amount of Taxes Collected"
-
-        return context
-
-
-class Total_taxDelete(PermissionRequiredMixin, DeleteView):
-    model = Total_tax
-    success_url = reverse_lazy('total_taxs')
-    template_name = "core/delete_general.html"
-    permission_required = 'catalog.can_mark_returned'
-
-
-class Total_taxListView(generic.ListView):
-    model = Total_tax
-    template_name = "crisisdb/total_tax/total_tax_list.html"
-    paginate_by = 10
-
-    def get_absolute_url(self):
-        return reverse('total_taxs')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["mysection"] = "Fiscal Helath"
-        context["mysubsection"] = "No Subsection Provided"
-        context["myvar"] = "Total Amount of Taxes Collected"
-
-        return context
-
-
-class Total_taxDetailView(generic.DetailView):
-    model = Total_tax
-    template_name = "crisisdb/total_tax/total_tax_detail.html"
-
-
-@permission_required('admin.can_add_log_entry')
-def total_tax_download(request):
-    items = Total_tax.objects.all()
-
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="total_taxs.csv"'
-
-    writer = csv.writer(response, delimiter='|')
-    writer.writerow(['year_from', 'year_to',
-                     'polity', 'total_amount_of_taxes_collected', ])
-
-    for obj in items:
-        writer.writerow([obj.year_from, obj.year_to,
-                         obj.polity, obj.total_amount_of_taxes_collected, ])
-
-    return response
-
-
-class Total_economic_outputCreate(PermissionRequiredMixin, CreateView):
-    model = Total_economic_output
-    form_class = Total_economic_outputForm
-    template_name = "crisisdb/total_economic_output/total_economic_output_form.html"
-    permission_required = 'catalog.can_mark_returned'
-
-    def get_absolute_url(self):
-        return reverse('total_economic_output-create')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["mysection"] = "Fiscal Helath"
-        context["mysubsection"] = "No Subsection Provided"
-        context["myvar"] = "Total Economic Output"
-
-        return context
-
-
-class Total_economic_outputUpdate(PermissionRequiredMixin, UpdateView):
-    model = Total_economic_output
-    form_class = Total_economic_outputForm
-    template_name = "crisisdb/total_economic_output/total_economic_output_update.html"
-    permission_required = 'catalog.can_mark_returned'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["mysection"] = "Fiscal Helath"
-        context["mysubsection"] = "No Subsection Provided"
-        context["myvar"] = "Total Economic Output"
-
-        return context
-
-
-class Total_economic_outputDelete(PermissionRequiredMixin, DeleteView):
-    model = Total_economic_output
-    success_url = reverse_lazy('total_economic_outputs')
-    template_name = "core/delete_general.html"
-    permission_required = 'catalog.can_mark_returned'
-
-
-class Total_economic_outputListView(generic.ListView):
-    model = Total_economic_output
-    template_name = "crisisdb/total_economic_output/total_economic_output_list.html"
-    paginate_by = 10
-
-    def get_absolute_url(self):
-        return reverse('total_economic_outputs')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["mysection"] = "Fiscal Helath"
-        context["mysubsection"] = "No Subsection Provided"
-        context["myvar"] = "Total Economic Output"
-
-        return context
-
-
-class Total_economic_outputDetailView(generic.DetailView):
-    model = Total_economic_output
-    template_name = "crisisdb/total_economic_output/total_economic_output_detail.html"
-
-
-@permission_required('admin.can_add_log_entry')
-def total_economic_output_download(request):
-    items = Total_economic_output.objects.all()
-
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="total_economic_outputs.csv"'
-
-    writer = csv.writer(response, delimiter='|')
-    writer.writerow(['year_from', 'year_to',
-                     'polity', 'total_economic_output', ])
-
-    for obj in items:
-        writer.writerow([obj.year_from, obj.year_to,
-                         obj.polity, obj.total_economic_output, ])
-
-    return response
-
-
-class Total_revenueCreate(PermissionRequiredMixin, CreateView):
-    model = Total_revenue
-    form_class = Total_revenueForm
-    template_name = "crisisdb/total_revenue/total_revenue_form.html"
-    permission_required = 'catalog.can_mark_returned'
-
-    def get_absolute_url(self):
-        return reverse('total_revenue-create')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["mysection"] = "No Section Provided"
-        context["mysubsection"] = "No Subsection Provided"
-        context["myvar"] = "Total Revenue"
-
-        return context
-
-
-class Total_revenueUpdate(PermissionRequiredMixin, UpdateView):
-    model = Total_revenue
-    form_class = Total_revenueForm
-    template_name = "crisisdb/total_revenue/total_revenue_update.html"
-    permission_required = 'catalog.can_mark_returned'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["mysection"] = "No Section Provided"
-        context["mysubsection"] = "No Subsection Provided"
-        context["myvar"] = "Total Revenue"
-
-        return context
-
-
-class Total_revenueDelete(PermissionRequiredMixin, DeleteView):
-    model = Total_revenue
-    success_url = reverse_lazy('total_revenues')
-    template_name = "core/delete_general.html"
-    permission_required = 'catalog.can_mark_returned'
-
-
-class Total_revenueListView(generic.ListView):
-    model = Total_revenue
-    template_name = "crisisdb/total_revenue/total_revenue_list.html"
-    paginate_by = 10
-
-    def get_absolute_url(self):
-        return reverse('total_revenues')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["mysection"] = "No Section Provided"
-        context["mysubsection"] = "No Subsection Provided"
-        context["myvar"] = "Total Revenue"
-
-        return context
-
-
-class Total_revenueDetailView(generic.DetailView):
-    model = Total_revenue
-    template_name = "crisisdb/total_revenue/total_revenue_detail.html"
-
-
-@permission_required('admin.can_add_log_entry')
-def total_revenue_download(request):
-    items = Total_revenue.objects.all()
-
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="total_revenues.csv"'
-
-    writer = csv.writer(response, delimiter='|')
-    writer.writerow(['year_from', 'year_to',
-                     'polity', 'total_revenue', ])
-
-    for obj in items:
-        writer.writerow([obj.year_from, obj.year_to,
-                         obj.polity, obj.total_revenue, ])
-
-    return response
-
-
-class Diding_taxesCreate(PermissionRequiredMixin, CreateView):
-    model = Diding_taxes
-    form_class = Diding_taxesForm
-    template_name = "crisisdb/diding_taxes/diding_taxes_form.html"
-    permission_required = 'catalog.can_mark_returned'
-
-    def get_absolute_url(self):
-        return reverse('diding_taxes-create')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["mysection"] = "Fiscal Helath"
-        context["mysubsection"] = "No Subsection Provided"
-        context["myvar"] = "Total Revenue"
-
-        return context
-
-
-class Diding_taxesUpdate(PermissionRequiredMixin, UpdateView):
-    model = Diding_taxes
-    form_class = Diding_taxesForm
-    template_name = "crisisdb/diding_taxes/diding_taxes_update.html"
-    permission_required = 'catalog.can_mark_returned'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["mysection"] = "Fiscal Helath"
-        context["mysubsection"] = "No Subsection Provided"
-        context["myvar"] = "Total Revenue"
-
-        return context
-
-
-class Diding_taxesDelete(PermissionRequiredMixin, DeleteView):
-    model = Diding_taxes
-    success_url = reverse_lazy('diding_taxess')
-    template_name = "core/delete_general.html"
-    permission_required = 'catalog.can_mark_returned'
-
-
-class Diding_taxesListView(generic.ListView):
-    model = Diding_taxes
-    template_name = "crisisdb/diding_taxes/diding_taxes_list.html"
-    paginate_by = 10
-
-    def get_absolute_url(self):
-        return reverse('diding_taxess')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["mysection"] = "Fiscal Helath"
-        context["mysubsection"] = "No Subsection Provided"
-        context["myvar"] = "Total Revenue"
-
-        return context
-
-
-class Diding_taxesDetailView(generic.DetailView):
-    model = Diding_taxes
-    template_name = "crisisdb/diding_taxes/diding_taxes_detail.html"
-
-
-@permission_required('admin.can_add_log_entry')
-def diding_taxes_download(request):
-    items = Diding_taxes.objects.all()
-
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="diding_taxess.csv"'
-
-    writer = csv.writer(response, delimiter='|')
-    writer.writerow(['year_from', 'year_to',
-                     'polity', 'total_revenue', ])
-
-    for obj in items:
-        writer.writerow([obj.year_from, obj.year_to,
-                         obj.polity, obj.total_revenue, ])
-
-    return response
-
-
-class Salt_taxCreate(PermissionRequiredMixin, CreateView):
-    model = Salt_tax
-    form_class = Salt_taxForm
-    template_name = "crisisdb/salt_tax/salt_tax_form.html"
-    permission_required = 'catalog.can_mark_returned'
-
-    def get_absolute_url(self):
-        return reverse('salt_tax-create')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["mysection"] = "Fiscal Helath"
-        context["mysubsection"] = "No Subsection Provided"
-        context["myvar"] = "Salt Tax"
-
-        return context
-
-
-class Salt_taxUpdate(PermissionRequiredMixin, UpdateView):
-    model = Salt_tax
-    form_class = Salt_taxForm
-    template_name = "crisisdb/salt_tax/salt_tax_update.html"
-    permission_required = 'catalog.can_mark_returned'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["mysection"] = "Fiscal Helath"
-        context["mysubsection"] = "No Subsection Provided"
-        context["myvar"] = "Salt Tax"
-
-        return context
-
-
-class Salt_taxDelete(PermissionRequiredMixin, DeleteView):
-    model = Salt_tax
-    success_url = reverse_lazy('salt_taxs')
-    template_name = "core/delete_general.html"
-    permission_required = 'catalog.can_mark_returned'
-
-
-class Salt_taxListView(generic.ListView):
-    model = Salt_tax
-    template_name = "crisisdb/salt_tax/salt_tax_list.html"
-    paginate_by = 10
-
-    def get_absolute_url(self):
-        return reverse('salt_taxs')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["mysection"] = "Fiscal Helath"
-        context["mysubsection"] = "No Subsection Provided"
-        context["myvar"] = "Salt Tax"
-
-        return context
-
-
-class Salt_taxDetailView(generic.DetailView):
-    model = Salt_tax
-    template_name = "crisisdb/salt_tax/salt_tax_detail.html"
-
-
-@permission_required('admin.can_add_log_entry')
-def salt_tax_download(request):
-    items = Salt_tax.objects.all()
-
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="salt_taxs.csv"'
-
-    writer = csv.writer(response, delimiter='|')
-    writer.writerow(['year_from', 'year_to',
-                     'polity', 'salt_tax', ])
-
-    for obj in items:
-        writer.writerow([obj.year_from, obj.year_to,
-                         obj.polity, obj.salt_tax, ])
-
-    return response
-
-
-class Tariff_and_transitCreate(PermissionRequiredMixin, CreateView):
-    model = Tariff_and_transit
-    form_class = Tariff_and_transitForm
-    template_name = "crisisdb/tariff_and_transit/tariff_and_transit_form.html"
-    permission_required = 'catalog.can_mark_returned'
-
-
-    def get_absolute_url(self):
-        return reverse('tariff_and_transit-create')
-
+        return reverse('agricultural_population-create')
     def get_context_data(self, **kwargs):
         # get the explanattion:
         all_var_hiers = Variablehierarchy.objects.all()
         for item in all_var_hiers:
-            if item.name == "tariff_and_transit":
+            if item.name == "Agricultural Population":
                 my_exp = item.explanation
                 my_sec = item.section.name
                 my_subsec = item.subsection.name
@@ -816,962 +70,892 @@ class Tariff_and_transitCreate(PermissionRequiredMixin, CreateView):
         return context
 
 
-class Tariff_and_transitUpdate(PermissionRequiredMixin, UpdateView):
-    model = Tariff_and_transit
-    form_class = Tariff_and_transitForm
-    template_name = "crisisdb/tariff_and_transit/tariff_and_transit_update.html"
-    permission_required = 'catalog.can_mark_returned'
+class Agricultural_populationUpdate(PermissionRequiredMixin, UpdateView):
+    model = Agricultural_population
+    form_class = Agricultural_populationForm
+    template_name = "crisisdb/agricultural_population/agricultural_population_update.html"
+    #permission_required = 'catalog.can_mark_returned'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["mysection"] = "Fiscal Helath"
-        context["mysubsection"] = "No Subsection Provided"
-        context["myvar"] = "Tariff and Transit"
+        context["myvar"] = "Agricultural Population"
 
         return context
 
-
-class Tariff_and_transitDelete(PermissionRequiredMixin, DeleteView):
-    model = Tariff_and_transit
-    success_url = reverse_lazy('tariff_and_transits')
+class Agricultural_populationDelete(PermissionRequiredMixin, DeleteView):
+    model = Agricultural_population
+    success_url = reverse_lazy('agricultural_populations')
     template_name = "core/delete_general.html"
-    permission_required = 'catalog.can_mark_returned'
+    #permission_required = 'catalog.can_mark_returned'
 
 
-class Tariff_and_transitListView(generic.ListView):
-    model = Tariff_and_transit
-    template_name = "crisisdb/tariff_and_transit/tariff_and_transit_list.html"
+class Agricultural_populationListView(generic.ListView):
+    model = Agricultural_population
+    template_name = "crisisdb/agricultural_population/agricultural_population_list.html"
     paginate_by = 10
 
     def get_absolute_url(self):
-        return reverse('tariff_and_transits')
-
+        return reverse('agricultural_populations')
+    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["mysection"] = "Fiscal Helath"
-        context["mysubsection"] = "No Subsection Provided"
-        context["myvar"] = "Tariff and Transit"
+        context["myvar"] = "Agricultural Population"
 
         return context
+        
+class Agricultural_populationDetailView(generic.DetailView):
+    model = Agricultural_population
+    template_name = "crisisdb/agricultural_population/agricultural_population_detail.html"
 
 
-class Tariff_and_transitDetailView(generic.DetailView):
-    model = Tariff_and_transit
-    template_name = "crisisdb/tariff_and_transit/tariff_and_transit_detail.html"
-
-
-@permission_required('admin.can_add_log_entry')
-def tariff_and_transit_download(request):
-    items = Tariff_and_transit.objects.all()
+#@permission_required('admin.can_add_log_entry')
+def agricultural_population_download(request):
+    items = Agricultural_population.objects.all()
 
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="tariff_and_transits.csv"'
+    response['Content-Disposition'] = 'attachment; filename="agricultural_populations.csv"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['year_from', 'year_to',
-                     'polity', 'tariff_and_transit', ])
+                     'polity', 'agricultural_population', ])
 
     for obj in items:
         writer.writerow([obj.year_from, obj.year_to,
-                         obj.polity, obj.tariff_and_transit, ])
+                         obj.polity, obj.agricultural_population, ])
 
     return response
 
+        
 
-class Misc_incomesCreate(PermissionRequiredMixin, CreateView):
-    model = Misc_incomes
-    form_class = Misc_incomesForm
-    template_name = "crisisdb/misc_incomes/misc_incomes_form.html"
-    permission_required = 'catalog.can_mark_returned'
+class Arable_landCreate(PermissionRequiredMixin, CreateView):
+    model = Arable_land
+    form_class = Arable_landForm
+    template_name = "crisisdb/arable_land/arable_land_form.html"
+    #permission_required = 'catalog.can_mark_returned'
 
     def get_absolute_url(self):
-        return reverse('misc_incomes-create')
-
+        return reverse('arable_land-create')
     def get_context_data(self, **kwargs):
+        # get the explanattion:
+        all_var_hiers = Variablehierarchy.objects.all()
+        for item in all_var_hiers:
+            if item.name == "Arable Land":
+                my_exp = item.explanation
+                my_sec = item.section.name
+                my_subsec = item.subsection.name
+                my_name = item.name
+                break
+            else:
+                my_exp = "No_Explanations"
+                my_sec = "No_SECTION"
+                my_subsec = "NO_SUBSECTION"
+                my_name = "NO_NAME"
         context = super().get_context_data(**kwargs)
-        context["mysection"] = "Fiscal Helath"
-        context["mysubsection"] = "No Subsection Provided"
-        context["myvar"] = "Misc Incomes"
+        context["mysection"] = my_sec
+        context["mysubsection"] = my_subsec
+        context["myvar"] = my_name
+        context["my_exp"] = my_exp
 
         return context
 
 
-class Misc_incomesUpdate(PermissionRequiredMixin, UpdateView):
-    model = Misc_incomes
-    form_class = Misc_incomesForm
-    template_name = "crisisdb/misc_incomes/misc_incomes_update.html"
-    permission_required = 'catalog.can_mark_returned'
+class Arable_landUpdate(PermissionRequiredMixin, UpdateView):
+    model = Arable_land
+    form_class = Arable_landForm
+    template_name = "crisisdb/arable_land/arable_land_update.html"
+    #permission_required = 'catalog.can_mark_returned'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["mysection"] = "Fiscal Helath"
-        context["mysubsection"] = "No Subsection Provided"
-        context["myvar"] = "Misc Incomes"
+        context["myvar"] = "Arable Land"
 
         return context
 
-
-class Misc_incomesDelete(PermissionRequiredMixin, DeleteView):
-    model = Misc_incomes
-    success_url = reverse_lazy('misc_incomess')
+class Arable_landDelete(PermissionRequiredMixin, DeleteView):
+    model = Arable_land
+    success_url = reverse_lazy('arable_lands')
     template_name = "core/delete_general.html"
-    permission_required = 'catalog.can_mark_returned'
+    #permission_required = 'catalog.can_mark_returned'
 
 
-class Misc_incomesListView(generic.ListView):
-    model = Misc_incomes
-    template_name = "crisisdb/misc_incomes/misc_incomes_list.html"
+class Arable_landListView(generic.ListView):
+    model = Arable_land
+    template_name = "crisisdb/arable_land/arable_land_list.html"
     paginate_by = 10
 
     def get_absolute_url(self):
-        return reverse('misc_incomess')
-
+        return reverse('arable_lands')
+    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["mysection"] = "Fiscal Helath"
-        context["mysubsection"] = "No Subsection Provided"
-        context["myvar"] = "Misc Incomes"
+        context["myvar"] = "Arable Land"
 
         return context
+        
+class Arable_landDetailView(generic.DetailView):
+    model = Arable_land
+    template_name = "crisisdb/arable_land/arable_land_detail.html"
 
 
-class Misc_incomesDetailView(generic.DetailView):
-    model = Misc_incomes
-    template_name = "crisisdb/misc_incomes/misc_incomes_detail.html"
-
-
-@permission_required('admin.can_add_log_entry')
-def misc_incomes_download(request):
-    items = Misc_incomes.objects.all()
+#@permission_required('admin.can_add_log_entry')
+def arable_land_download(request):
+    items = Arable_land.objects.all()
 
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="misc_incomess.csv"'
+    response['Content-Disposition'] = 'attachment; filename="arable_lands.csv"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['year_from', 'year_to',
-                     'polity', 'misc_incomes', ])
+                     'polity', 'arable_land', ])
 
     for obj in items:
         writer.writerow([obj.year_from, obj.year_to,
-                         obj.polity, obj.misc_incomes, ])
+                         obj.polity, obj.arable_land, ])
 
     return response
 
+        
 
-class Total_expenditureCreate(PermissionRequiredMixin, CreateView):
-    model = Total_expenditure
-    form_class = Total_expenditureForm
-    template_name = "crisisdb/total_expenditure/total_expenditure_form.html"
-    permission_required = 'catalog.can_mark_returned'
+class Arable_land_per_farmerCreate(PermissionRequiredMixin, CreateView):
+    model = Arable_land_per_farmer
+    form_class = Arable_land_per_farmerForm
+    template_name = "crisisdb/arable_land_per_farmer/arable_land_per_farmer_form.html"
+    #permission_required = 'catalog.can_mark_returned'
 
     def get_absolute_url(self):
-        return reverse('total_expenditure-create')
-
+        return reverse('arable_land_per_farmer-create')
     def get_context_data(self, **kwargs):
+        # get the explanattion:
+        all_var_hiers = Variablehierarchy.objects.all()
+        for item in all_var_hiers:
+            if item.name == "Arable Land Per Farmer":
+                my_exp = item.explanation
+                my_sec = item.section.name
+                my_subsec = item.subsection.name
+                my_name = item.name
+                break
+            else:
+                my_exp = "No_Explanations"
+                my_sec = "No_SECTION"
+                my_subsec = "NO_SUBSECTION"
+                my_name = "NO_NAME"
         context = super().get_context_data(**kwargs)
-        context["mysection"] = "Fiscal Helath"
-        context["mysubsection"] = "No Subsection Provided"
-        context["myvar"] = "Total Expenditure"
+        context["mysection"] = my_sec
+        context["mysubsection"] = my_subsec
+        context["myvar"] = my_name
+        context["my_exp"] = my_exp
 
         return context
 
 
-class Total_expenditureUpdate(PermissionRequiredMixin, UpdateView):
-    model = Total_expenditure
-    form_class = Total_expenditureForm
-    template_name = "crisisdb/total_expenditure/total_expenditure_update.html"
-    permission_required = 'catalog.can_mark_returned'
+class Arable_land_per_farmerUpdate(PermissionRequiredMixin, UpdateView):
+    model = Arable_land_per_farmer
+    form_class = Arable_land_per_farmerForm
+    template_name = "crisisdb/arable_land_per_farmer/arable_land_per_farmer_update.html"
+    #permission_required = 'catalog.can_mark_returned'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["mysection"] = "Fiscal Helath"
-        context["mysubsection"] = "No Subsection Provided"
-        context["myvar"] = "Total Expenditure"
+        context["myvar"] = "Arable Land Per Farmer"
 
         return context
 
-
-class Total_expenditureDelete(PermissionRequiredMixin, DeleteView):
-    model = Total_expenditure
-    success_url = reverse_lazy('total_expenditures')
+class Arable_land_per_farmerDelete(PermissionRequiredMixin, DeleteView):
+    model = Arable_land_per_farmer
+    success_url = reverse_lazy('arable_land_per_farmers')
     template_name = "core/delete_general.html"
-    permission_required = 'catalog.can_mark_returned'
+    #permission_required = 'catalog.can_mark_returned'
 
 
-class Total_expenditureListView(generic.ListView):
-    model = Total_expenditure
-    template_name = "crisisdb/total_expenditure/total_expenditure_list.html"
+class Arable_land_per_farmerListView(generic.ListView):
+    model = Arable_land_per_farmer
+    template_name = "crisisdb/arable_land_per_farmer/arable_land_per_farmer_list.html"
     paginate_by = 10
 
     def get_absolute_url(self):
-        return reverse('total_expenditures')
-
+        return reverse('arable_land_per_farmers')
+    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["mysection"] = "Fiscal Helath"
-        context["mysubsection"] = "No Subsection Provided"
-        context["myvar"] = "Total Expenditure"
+        context["myvar"] = "Arable Land Per Farmer"
 
         return context
+        
+class Arable_land_per_farmerDetailView(generic.DetailView):
+    model = Arable_land_per_farmer
+    template_name = "crisisdb/arable_land_per_farmer/arable_land_per_farmer_detail.html"
 
 
-class Total_expenditureDetailView(generic.DetailView):
-    model = Total_expenditure
-    template_name = "crisisdb/total_expenditure/total_expenditure_detail.html"
-
-
-@permission_required('admin.can_add_log_entry')
-def total_expenditure_download(request):
-    items = Total_expenditure.objects.all()
+#@permission_required('admin.can_add_log_entry')
+def arable_land_per_farmer_download(request):
+    items = Arable_land_per_farmer.objects.all()
 
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="total_expenditures.csv"'
+    response['Content-Disposition'] = 'attachment; filename="arable_land_per_farmers.csv"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['year_from', 'year_to',
-                     'polity', 'total_expenditure', ])
+                     'polity', 'arable_land_per_farmer', ])
 
     for obj in items:
         writer.writerow([obj.year_from, obj.year_to,
-                         obj.polity, obj.total_expenditure, ])
+                         obj.polity, obj.arable_land_per_farmer, ])
 
     return response
 
+        
 
-class BalanceCreate(PermissionRequiredMixin, CreateView):
-    model = Balance
-    form_class = BalanceForm
-    template_name = "crisisdb/balance/balance_form.html"
-    permission_required = 'catalog.can_mark_returned'
+class Gross_grain_shared_per_agricultural_populationCreate(PermissionRequiredMixin, CreateView):
+    model = Gross_grain_shared_per_agricultural_population
+    form_class = Gross_grain_shared_per_agricultural_populationForm
+    template_name = "crisisdb/gross_grain_shared_per_agricultural_population/gross_grain_shared_per_agricultural_population_form.html"
+    #permission_required = 'catalog.can_mark_returned'
 
     def get_absolute_url(self):
-        return reverse('balance-create')
-
+        return reverse('gross_grain_shared_per_agricultural_population-create')
     def get_context_data(self, **kwargs):
+        # get the explanattion:
+        all_var_hiers = Variablehierarchy.objects.all()
+        for item in all_var_hiers:
+            if item.name == "Gross Grain Shared Per Agricultural Population":
+                my_exp = item.explanation
+                my_sec = item.section.name
+                my_subsec = item.subsection.name
+                my_name = item.name
+                break
+            else:
+                my_exp = "No_Explanations"
+                my_sec = "No_SECTION"
+                my_subsec = "NO_SUBSECTION"
+                my_name = "NO_NAME"
         context = super().get_context_data(**kwargs)
-        context["mysection"] = "Fiscal Helath"
-        context["mysubsection"] = "No Subsection Provided"
-        context["myvar"] = "Balance"
+        context["mysection"] = my_sec
+        context["mysubsection"] = my_subsec
+        context["myvar"] = my_name
+        context["my_exp"] = my_exp
 
         return context
 
 
-class BalanceUpdate(PermissionRequiredMixin, UpdateView):
-    model = Balance
-    form_class = BalanceForm
-    template_name = "crisisdb/balance/balance_update.html"
-    permission_required = 'catalog.can_mark_returned'
+class Gross_grain_shared_per_agricultural_populationUpdate(PermissionRequiredMixin, UpdateView):
+    model = Gross_grain_shared_per_agricultural_population
+    form_class = Gross_grain_shared_per_agricultural_populationForm
+    template_name = "crisisdb/gross_grain_shared_per_agricultural_population/gross_grain_shared_per_agricultural_population_update.html"
+    #permission_required = 'catalog.can_mark_returned'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["mysection"] = "Fiscal Helath"
-        context["mysubsection"] = "No Subsection Provided"
-        context["myvar"] = "Balance"
+        context["myvar"] = "Gross Grain Shared Per Agricultural Population"
 
         return context
 
-
-class BalanceDelete(PermissionRequiredMixin, DeleteView):
-    model = Balance
-    success_url = reverse_lazy('balances')
+class Gross_grain_shared_per_agricultural_populationDelete(PermissionRequiredMixin, DeleteView):
+    model = Gross_grain_shared_per_agricultural_population
+    success_url = reverse_lazy('gross_grain_shared_per_agricultural_populations')
     template_name = "core/delete_general.html"
-    permission_required = 'catalog.can_mark_returned'
+    #permission_required = 'catalog.can_mark_returned'
 
 
-class BalanceListView(generic.ListView):
-    model = Balance
-    template_name = "crisisdb/balance/balance_list.html"
+class Gross_grain_shared_per_agricultural_populationListView(generic.ListView):
+    model = Gross_grain_shared_per_agricultural_population
+    template_name = "crisisdb/gross_grain_shared_per_agricultural_population/gross_grain_shared_per_agricultural_population_list.html"
     paginate_by = 10
 
     def get_absolute_url(self):
-        return reverse('balances')
-
+        return reverse('gross_grain_shared_per_agricultural_populations')
+    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["mysection"] = "Fiscal Helath"
-        context["mysubsection"] = "No Subsection Provided"
-        context["myvar"] = "Balance"
+        context["myvar"] = "Gross Grain Shared Per Agricultural Population"
 
         return context
+        
+class Gross_grain_shared_per_agricultural_populationDetailView(generic.DetailView):
+    model = Gross_grain_shared_per_agricultural_population
+    template_name = "crisisdb/gross_grain_shared_per_agricultural_population/gross_grain_shared_per_agricultural_population_detail.html"
 
 
-class BalanceDetailView(generic.DetailView):
-    model = Balance
-    template_name = "crisisdb/balance/balance_detail.html"
-
-
-@permission_required('admin.can_add_log_entry')
-def balance_download(request):
-    items = Balance.objects.all()
+#@permission_required('admin.can_add_log_entry')
+def gross_grain_shared_per_agricultural_population_download(request):
+    items = Gross_grain_shared_per_agricultural_population.objects.all()
 
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="balances.csv"'
+    response['Content-Disposition'] = 'attachment; filename="gross_grain_shared_per_agricultural_populations.csv"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['year_from', 'year_to',
-                     'polity', 'balance', ])
+                     'polity', 'gross_grain_shared_per_agricultural_population', ])
 
     for obj in items:
         writer.writerow([obj.year_from, obj.year_to,
-                         obj.polity, obj.balance, ])
+                         obj.polity, obj.gross_grain_shared_per_agricultural_population, ])
 
     return response
 
+        
 
-class LijinCreate(PermissionRequiredMixin, CreateView):
-    model = Lijin
-    form_class = LijinForm
-    template_name = "crisisdb/lijin/lijin_form.html"
-    permission_required = 'catalog.can_mark_returned'
+class Net_grain_shared_per_agricultural_populationCreate(PermissionRequiredMixin, CreateView):
+    model = Net_grain_shared_per_agricultural_population
+    form_class = Net_grain_shared_per_agricultural_populationForm
+    template_name = "crisisdb/net_grain_shared_per_agricultural_population/net_grain_shared_per_agricultural_population_form.html"
+    #permission_required = 'catalog.can_mark_returned'
 
     def get_absolute_url(self):
-        return reverse('lijin-create')
-
+        return reverse('net_grain_shared_per_agricultural_population-create')
     def get_context_data(self, **kwargs):
+        # get the explanattion:
+        all_var_hiers = Variablehierarchy.objects.all()
+        for item in all_var_hiers:
+            if item.name == "Net Grain Shared Per Agricultural Population":
+                my_exp = item.explanation
+                my_sec = item.section.name
+                my_subsec = item.subsection.name
+                my_name = item.name
+                break
+            else:
+                my_exp = "No_Explanations"
+                my_sec = "No_SECTION"
+                my_subsec = "NO_SUBSECTION"
+                my_name = "NO_NAME"
         context = super().get_context_data(**kwargs)
-        context["mysection"] = "Fiscal Helath"
-        context["mysubsection"] = "No Subsection Provided"
-        context["myvar"] = "Lijin"
+        context["mysection"] = my_sec
+        context["mysubsection"] = my_subsec
+        context["myvar"] = my_name
+        context["my_exp"] = my_exp
 
         return context
 
 
-class LijinUpdate(PermissionRequiredMixin, UpdateView):
-    model = Lijin
-    form_class = LijinForm
-    template_name = "crisisdb/lijin/lijin_update.html"
-    permission_required = 'catalog.can_mark_returned'
+class Net_grain_shared_per_agricultural_populationUpdate(PermissionRequiredMixin, UpdateView):
+    model = Net_grain_shared_per_agricultural_population
+    form_class = Net_grain_shared_per_agricultural_populationForm
+    template_name = "crisisdb/net_grain_shared_per_agricultural_population/net_grain_shared_per_agricultural_population_update.html"
+    #permission_required = 'catalog.can_mark_returned'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["mysection"] = "Fiscal Helath"
-        context["mysubsection"] = "No Subsection Provided"
-        context["myvar"] = "Lijin"
+        context["myvar"] = "Net Grain Shared Per Agricultural Population"
 
         return context
 
-
-class LijinDelete(PermissionRequiredMixin, DeleteView):
-    model = Lijin
-    success_url = reverse_lazy('lijins')
+class Net_grain_shared_per_agricultural_populationDelete(PermissionRequiredMixin, DeleteView):
+    model = Net_grain_shared_per_agricultural_population
+    success_url = reverse_lazy('net_grain_shared_per_agricultural_populations')
     template_name = "core/delete_general.html"
-    permission_required = 'catalog.can_mark_returned'
+    #permission_required = 'catalog.can_mark_returned'
 
 
-class LijinListView(generic.ListView):
-    model = Lijin
-    template_name = "crisisdb/lijin/lijin_list.html"
+class Net_grain_shared_per_agricultural_populationListView(generic.ListView):
+    model = Net_grain_shared_per_agricultural_population
+    template_name = "crisisdb/net_grain_shared_per_agricultural_population/net_grain_shared_per_agricultural_population_list.html"
     paginate_by = 10
 
     def get_absolute_url(self):
-        return reverse('lijins')
-
+        return reverse('net_grain_shared_per_agricultural_populations')
+    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["mysection"] = "Fiscal Helath"
-        context["mysubsection"] = "No Subsection Provided"
-        context["myvar"] = "Lijin"
+        context["myvar"] = "Net Grain Shared Per Agricultural Population"
 
         return context
+        
+class Net_grain_shared_per_agricultural_populationDetailView(generic.DetailView):
+    model = Net_grain_shared_per_agricultural_population
+    template_name = "crisisdb/net_grain_shared_per_agricultural_population/net_grain_shared_per_agricultural_population_detail.html"
 
 
-class LijinDetailView(generic.DetailView):
-    model = Lijin
-    template_name = "crisisdb/lijin/lijin_detail.html"
-
-
-@permission_required('admin.can_add_log_entry')
-def lijin_download(request):
-    items = Lijin.objects.all()
+#@permission_required('admin.can_add_log_entry')
+def net_grain_shared_per_agricultural_population_download(request):
+    items = Net_grain_shared_per_agricultural_population.objects.all()
 
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="lijins.csv"'
+    response['Content-Disposition'] = 'attachment; filename="net_grain_shared_per_agricultural_populations.csv"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['year_from', 'year_to',
-                     'polity', 'lijin', ])
+                     'polity', 'net_grain_shared_per_agricultural_population', ])
 
     for obj in items:
         writer.writerow([obj.year_from, obj.year_to,
-                         obj.polity, obj.lijin, ])
+                         obj.polity, obj.net_grain_shared_per_agricultural_population, ])
 
     return response
 
+        
 
-class Maritime_customCreate(PermissionRequiredMixin, CreateView):
-    model = Maritime_custom
-    form_class = Maritime_customForm
-    template_name = "crisisdb/maritime_custom/maritime_custom_form.html"
-    permission_required = 'catalog.can_mark_returned'
+class SurplusCreate(PermissionRequiredMixin, CreateView):
+    model = Surplus
+    form_class = SurplusForm
+    template_name = "crisisdb/surplus/surplus_form.html"
+    #permission_required = 'catalog.can_mark_returned'
 
     def get_absolute_url(self):
-        return reverse('maritime_custom-create')
-
+        return reverse('surplus-create')
     def get_context_data(self, **kwargs):
+        # get the explanattion:
+        all_var_hiers = Variablehierarchy.objects.all()
+        for item in all_var_hiers:
+            if item.name == "Surplus":
+                my_exp = item.explanation
+                my_sec = item.section.name
+                my_subsec = item.subsection.name
+                my_name = item.name
+                break
+            else:
+                my_exp = "No_Explanations"
+                my_sec = "No_SECTION"
+                my_subsec = "NO_SUBSECTION"
+                my_name = "NO_NAME"
         context = super().get_context_data(**kwargs)
-        context["mysection"] = "Fiscal Helath"
-        context["mysubsection"] = "No Subsection Provided"
-        context["myvar"] = "Maritime Custom"
+        context["mysection"] = my_sec
+        context["mysubsection"] = my_subsec
+        context["myvar"] = my_name
+        context["my_exp"] = my_exp
 
         return context
 
 
-class Maritime_customUpdate(PermissionRequiredMixin, UpdateView):
-    model = Maritime_custom
-    form_class = Maritime_customForm
-    template_name = "crisisdb/maritime_custom/maritime_custom_update.html"
-    permission_required = 'catalog.can_mark_returned'
+class SurplusUpdate(PermissionRequiredMixin, UpdateView):
+    model = Surplus
+    form_class = SurplusForm
+    template_name = "crisisdb/surplus/surplus_update.html"
+    #permission_required = 'catalog.can_mark_returned'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["mysection"] = "Fiscal Helath"
-        context["mysubsection"] = "No Subsection Provided"
-        context["myvar"] = "Maritime Custom"
+        context["myvar"] = "Surplus"
 
         return context
 
-
-class Maritime_customDelete(PermissionRequiredMixin, DeleteView):
-    model = Maritime_custom
-    success_url = reverse_lazy('maritime_customs')
+class SurplusDelete(PermissionRequiredMixin, DeleteView):
+    model = Surplus
+    success_url = reverse_lazy('surplus')
     template_name = "core/delete_general.html"
-    permission_required = 'catalog.can_mark_returned'
+    #permission_required = 'catalog.can_mark_returned'
 
 
-class Maritime_customListView(generic.ListView):
-    model = Maritime_custom
-    template_name = "crisisdb/maritime_custom/maritime_custom_list.html"
+class SurplusListView(generic.ListView):
+    model = Surplus
+    template_name = "crisisdb/surplus/surplus_list.html"
     paginate_by = 10
 
     def get_absolute_url(self):
-        return reverse('maritime_customs')
-
+        return reverse('surplus')
+    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["mysection"] = "Fiscal Helath"
-        context["mysubsection"] = "No Subsection Provided"
-        context["myvar"] = "Maritime Custom"
+        context["myvar"] = "Surplus"
 
         return context
+        
+class SurplusDetailView(generic.DetailView):
+    model = Surplus
+    template_name = "crisisdb/surplus/surplus_detail.html"
 
 
-class Maritime_customDetailView(generic.DetailView):
-    model = Maritime_custom
-    template_name = "crisisdb/maritime_custom/maritime_custom_detail.html"
-
-
-@permission_required('admin.can_add_log_entry')
-def maritime_custom_download(request):
-    items = Maritime_custom.objects.all()
+#@permission_required('admin.can_add_log_entry')
+def surplus_download(request):
+    items = Surplus.objects.all()
 
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="maritime_customs.csv"'
+    response['Content-Disposition'] = 'attachment; filename="surplus.csv"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['year_from', 'year_to',
-                     'polity', 'maritime_custom', ])
+                     'polity', 'surplus', ])
 
     for obj in items:
         writer.writerow([obj.year_from, obj.year_to,
-                         obj.polity, obj.maritime_custom, ])
+                         obj.polity, obj.surplus, ])
 
     return response
 
+        
 
-class Other_incomesCreate(PermissionRequiredMixin, CreateView):
-    model = Other_incomes
-    form_class = Other_incomesForm
-    template_name = "crisisdb/other_incomes/other_incomes_form.html"
-    permission_required = 'catalog.can_mark_returned'
+class Military_expenseCreate(PermissionRequiredMixin, CreateView):
+    model = Military_expense
+    form_class = Military_expenseForm
+    template_name = "crisisdb/military_expense/military_expense_form.html"
+    #permission_required = 'catalog.can_mark_returned'
 
     def get_absolute_url(self):
-        return reverse('other_incomes-create')
-
+        return reverse('military_expense-create')
     def get_context_data(self, **kwargs):
+        # get the explanattion:
+        all_var_hiers = Variablehierarchy.objects.all()
+        for item in all_var_hiers:
+            if item.name == "Conflict":
+                my_exp = item.explanation
+                my_sec = item.section.name
+                my_subsec = item.subsection.name
+                my_name = item.name
+                break
+            else:
+                my_exp = "No_Explanations"
+                my_sec = "No_SECTION"
+                my_subsec = "NO_SUBSECTION"
+                my_name = "NO_NAME"
         context = super().get_context_data(**kwargs)
-        context["mysection"] = "Fiscal Helath"
-        context["mysubsection"] = "No Subsection Provided"
-        context["myvar"] = "Other Incomes"
+        context["mysection"] = my_sec
+        context["mysubsection"] = my_subsec
+        context["myvar"] = my_name
+        context["my_exp"] = my_exp
 
         return context
 
 
-class Other_incomesUpdate(PermissionRequiredMixin, UpdateView):
-    model = Other_incomes
-    form_class = Other_incomesForm
-    template_name = "crisisdb/other_incomes/other_incomes_update.html"
-    permission_required = 'catalog.can_mark_returned'
+class Military_expenseUpdate(PermissionRequiredMixin, UpdateView):
+    model = Military_expense
+    form_class = Military_expenseForm
+    template_name = "crisisdb/military_expense/military_expense_update.html"
+    #permission_required = 'catalog.can_mark_returned'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["mysection"] = "Fiscal Helath"
-        context["mysubsection"] = "No Subsection Provided"
-        context["myvar"] = "Other Incomes"
+        context["myvar"] = "Conflict"
 
         return context
 
-
-class Other_incomesDelete(PermissionRequiredMixin, DeleteView):
-    model = Other_incomes
-    success_url = reverse_lazy('other_incomess')
+class Military_expenseDelete(PermissionRequiredMixin, DeleteView):
+    model = Military_expense
+    success_url = reverse_lazy('military_expenses')
     template_name = "core/delete_general.html"
-    permission_required = 'catalog.can_mark_returned'
+    #permission_required = 'catalog.can_mark_returned'
 
 
-class Other_incomesListView(generic.ListView):
-    model = Other_incomes
-    template_name = "crisisdb/other_incomes/other_incomes_list.html"
+class Military_expenseListView(generic.ListView):
+    model = Military_expense
+    template_name = "crisisdb/military_expense/military_expense_list.html"
     paginate_by = 10
 
     def get_absolute_url(self):
-        return reverse('other_incomess')
-
+        return reverse('military_expenses')
+    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["mysection"] = "Fiscal Helath"
-        context["mysubsection"] = "No Subsection Provided"
-        context["myvar"] = "Other Incomes"
+        context["myvar"] = "Conflict"
 
         return context
+        
+class Military_expenseDetailView(generic.DetailView):
+    model = Military_expense
+    template_name = "crisisdb/military_expense/military_expense_detail.html"
 
 
-class Other_incomesDetailView(generic.DetailView):
-    model = Other_incomes
-    template_name = "crisisdb/other_incomes/other_incomes_detail.html"
-
-
-@permission_required('admin.can_add_log_entry')
-def other_incomes_download(request):
-    items = Other_incomes.objects.all()
+#@permission_required('admin.can_add_log_entry')
+def military_expense_download(request):
+    items = Military_expense.objects.all()
 
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="other_incomess.csv"'
+    response['Content-Disposition'] = 'attachment; filename="military_expenses.csv"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['year_from', 'year_to',
-                     'polity', 'other_incomes', ])
+                     'polity', 'conflict', 'expenditure', ])
 
     for obj in items:
         writer.writerow([obj.year_from, obj.year_to,
-                         obj.polity, obj.other_incomes, ])
+                         obj.polity, obj.conflict, obj.expenditure, ])
 
     return response
 
+        
 
-class Revenue_officialCreate(PermissionRequiredMixin, CreateView):
-    model = Revenue_official
-    form_class = Revenue_officialForm
-    template_name = "crisisdb/revenue_official/revenue_official_form.html"
-    permission_required = 'catalog.can_mark_returned'
+class Silver_inflowCreate(PermissionRequiredMixin, CreateView):
+    model = Silver_inflow
+    form_class = Silver_inflowForm
+    template_name = "crisisdb/silver_inflow/silver_inflow_form.html"
+    #permission_required = 'catalog.can_mark_returned'
 
     def get_absolute_url(self):
-        return reverse('revenue_official-create')
-
+        return reverse('silver_inflow-create')
     def get_context_data(self, **kwargs):
+        # get the explanattion:
+        all_var_hiers = Variablehierarchy.objects.all()
+        for item in all_var_hiers:
+            if item.name == "Silver Inflow":
+                my_exp = item.explanation
+                my_sec = item.section.name
+                my_subsec = item.subsection.name
+                my_name = item.name
+                break
+            else:
+                my_exp = "No_Explanations"
+                my_sec = "No_SECTION"
+                my_subsec = "NO_SUBSECTION"
+                my_name = "NO_NAME"
         context = super().get_context_data(**kwargs)
-        context["mysection"] = "Fiscal Helath"
-        context["mysubsection"] = "No Subsection Provided"
-        context["myvar"] = "Revenue Official"
+        context["mysection"] = my_sec
+        context["mysubsection"] = my_subsec
+        context["myvar"] = my_name
+        context["my_exp"] = my_exp
 
         return context
 
 
-class Revenue_officialUpdate(PermissionRequiredMixin, UpdateView):
-    model = Revenue_official
-    form_class = Revenue_officialForm
-    template_name = "crisisdb/revenue_official/revenue_official_update.html"
-    permission_required = 'catalog.can_mark_returned'
+class Silver_inflowUpdate(PermissionRequiredMixin, UpdateView):
+    model = Silver_inflow
+    form_class = Silver_inflowForm
+    template_name = "crisisdb/silver_inflow/silver_inflow_update.html"
+    #permission_required = 'catalog.can_mark_returned'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["mysection"] = "Fiscal Helath"
-        context["mysubsection"] = "No Subsection Provided"
-        context["myvar"] = "Revenue Official"
+        context["myvar"] = "Silver Inflow"
 
         return context
 
-
-class Revenue_officialDelete(PermissionRequiredMixin, DeleteView):
-    model = Revenue_official
-    success_url = reverse_lazy('revenue_officials')
+class Silver_inflowDelete(PermissionRequiredMixin, DeleteView):
+    model = Silver_inflow
+    success_url = reverse_lazy('silver_inflows')
     template_name = "core/delete_general.html"
-    permission_required = 'catalog.can_mark_returned'
+    #permission_required = 'catalog.can_mark_returned'
 
 
-class Revenue_officialListView(generic.ListView):
-    model = Revenue_official
-    template_name = "crisisdb/revenue_official/revenue_official_list.html"
+class Silver_inflowListView(generic.ListView):
+    model = Silver_inflow
+    template_name = "crisisdb/silver_inflow/silver_inflow_list.html"
     paginate_by = 10
 
     def get_absolute_url(self):
-        return reverse('revenue_officials')
-
+        return reverse('silver_inflows')
+    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["mysection"] = "Fiscal Helath"
-        context["mysubsection"] = "No Subsection Provided"
-        context["myvar"] = "Revenue Official"
+        context["myvar"] = "Silver Inflow"
 
         return context
+        
+class Silver_inflowDetailView(generic.DetailView):
+    model = Silver_inflow
+    template_name = "crisisdb/silver_inflow/silver_inflow_detail.html"
 
 
-class Revenue_officialDetailView(generic.DetailView):
-    model = Revenue_official
-    template_name = "crisisdb/revenue_official/revenue_official_detail.html"
-
-
-@permission_required('admin.can_add_log_entry')
-def revenue_official_download(request):
-    items = Revenue_official.objects.all()
+#@permission_required('admin.can_add_log_entry')
+def silver_inflow_download(request):
+    items = Silver_inflow.objects.all()
 
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="revenue_officials.csv"'
+    response['Content-Disposition'] = 'attachment; filename="silver_inflows.csv"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['year_from', 'year_to',
-                     'polity', 'revenue_official', ])
+                     'polity', 'silver_inflow', ])
 
     for obj in items:
         writer.writerow([obj.year_from, obj.year_to,
-                         obj.polity, obj.revenue_official, ])
+                         obj.polity, obj.silver_inflow, ])
 
     return response
 
+        
 
-class Revenue_realCreate(PermissionRequiredMixin, CreateView):
-    model = Revenue_real
-    form_class = Revenue_realForm
-    template_name = "crisisdb/revenue_real/revenue_real_form.html"
-    permission_required = 'catalog.can_mark_returned'
+class Silver_stockCreate(PermissionRequiredMixin, CreateView):
+    model = Silver_stock
+    form_class = Silver_stockForm
+    template_name = "crisisdb/silver_stock/silver_stock_form.html"
+    #permission_required = 'catalog.can_mark_returned'
 
     def get_absolute_url(self):
-        return reverse('revenue_real-create')
-
+        return reverse('silver_stock-create')
     def get_context_data(self, **kwargs):
+        # get the explanattion:
+        all_var_hiers = Variablehierarchy.objects.all()
+        for item in all_var_hiers:
+            if item.name == "Silver Stock":
+                my_exp = item.explanation
+                my_sec = item.section.name
+                my_subsec = item.subsection.name
+                my_name = item.name
+                break
+            else:
+                my_exp = "No_Explanations"
+                my_sec = "No_SECTION"
+                my_subsec = "NO_SUBSECTION"
+                my_name = "NO_NAME"
         context = super().get_context_data(**kwargs)
-        context["mysection"] = "Fiscal Helath"
-        context["mysubsection"] = "No Subsection Provided"
-        context["myvar"] = "Revenue Real"
+        context["mysection"] = my_sec
+        context["mysubsection"] = my_subsec
+        context["myvar"] = my_name
+        context["my_exp"] = my_exp
 
         return context
 
 
-class Revenue_realUpdate(PermissionRequiredMixin, UpdateView):
-    model = Revenue_real
-    form_class = Revenue_realForm
-    template_name = "crisisdb/revenue_real/revenue_real_update.html"
-    permission_required = 'catalog.can_mark_returned'
+class Silver_stockUpdate(PermissionRequiredMixin, UpdateView):
+    model = Silver_stock
+    form_class = Silver_stockForm
+    template_name = "crisisdb/silver_stock/silver_stock_update.html"
+    #permission_required = 'catalog.can_mark_returned'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["mysection"] = "Fiscal Helath"
-        context["mysubsection"] = "No Subsection Provided"
-        context["myvar"] = "Revenue Real"
+        context["myvar"] = "Silver Stock"
 
         return context
 
-
-class Revenue_realDelete(PermissionRequiredMixin, DeleteView):
-    model = Revenue_real
-    success_url = reverse_lazy('revenue_reals')
+class Silver_stockDelete(PermissionRequiredMixin, DeleteView):
+    model = Silver_stock
+    success_url = reverse_lazy('silver_stocks')
     template_name = "core/delete_general.html"
-    permission_required = 'catalog.can_mark_returned'
+    #permission_required = 'catalog.can_mark_returned'
 
 
-class Revenue_realListView(generic.ListView):
-    model = Revenue_real
-    template_name = "crisisdb/revenue_real/revenue_real_list.html"
+class Silver_stockListView(generic.ListView):
+    model = Silver_stock
+    template_name = "crisisdb/silver_stock/silver_stock_list.html"
     paginate_by = 10
 
     def get_absolute_url(self):
-        return reverse('revenue_reals')
-
+        return reverse('silver_stocks')
+    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["mysection"] = "Fiscal Helath"
-        context["mysubsection"] = "No Subsection Provided"
-        context["myvar"] = "Revenue Real"
+        context["myvar"] = "Silver Stock"
 
         return context
+        
+class Silver_stockDetailView(generic.DetailView):
+    model = Silver_stock
+    template_name = "crisisdb/silver_stock/silver_stock_detail.html"
 
 
-class Revenue_realDetailView(generic.DetailView):
-    model = Revenue_real
-    template_name = "crisisdb/revenue_real/revenue_real_detail.html"
-
-
-@permission_required('admin.can_add_log_entry')
-def revenue_real_download(request):
-    items = Revenue_real.objects.all()
+#@permission_required('admin.can_add_log_entry')
+def silver_stock_download(request):
+    items = Silver_stock.objects.all()
 
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="revenue_reals.csv"'
+    response['Content-Disposition'] = 'attachment; filename="silver_stocks.csv"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['year_from', 'year_to',
-                     'polity', 'revenue_real', ])
+                     'polity', 'silver_stock', ])
 
     for obj in items:
         writer.writerow([obj.year_from, obj.year_to,
-                         obj.polity, obj.revenue_real, ])
+                         obj.polity, obj.silver_stock, ])
 
     return response
 
+        
 
-class Gdp_totalCreate(PermissionRequiredMixin, CreateView):
-    model = Gdp_total
-    form_class = Gdp_totalForm
-    template_name = "crisisdb/GDP_total/GDP_total_form.html"
-    permission_required = 'catalog.can_mark_returned'
+class Total_populationCreate(PermissionRequiredMixin, CreateView):
+    model = Total_population
+    form_class = Total_populationForm
+    template_name = "crisisdb/total_population/total_population_form.html"
+    #permission_required = 'catalog.can_mark_returned'
 
     def get_absolute_url(self):
-        return reverse('GDP_total-create')
-
+        return reverse('total_population-create')
     def get_context_data(self, **kwargs):
+        # get the explanattion:
+        all_var_hiers = Variablehierarchy.objects.all()
+        for item in all_var_hiers:
+            if item.name == "Total Population":
+                my_exp = item.explanation
+                my_sec = item.section.name
+                my_subsec = item.subsection.name
+                my_name = item.name
+                break
+            else:
+                my_exp = "No_Explanations"
+                my_sec = "No_SECTION"
+                my_subsec = "NO_SUBSECTION"
+                my_name = "NO_NAME"
         context = super().get_context_data(**kwargs)
-        context["mysection"] = "Aggregate Wealth"
-        context["mysubsection"] = "No Subsection Provided"
-        context["myvar"] = "Gdp Total"
+        context["mysection"] = my_sec
+        context["mysubsection"] = my_subsec
+        context["myvar"] = my_name
+        context["my_exp"] = my_exp
 
         return context
 
 
-class Gdp_totalUpdate(PermissionRequiredMixin, UpdateView):
-    model = Gdp_total
-    form_class = Gdp_totalForm
-    template_name = "crisisdb/GDP_total/GDP_total_update.html"
-    permission_required = 'catalog.can_mark_returned'
+class Total_populationUpdate(PermissionRequiredMixin, UpdateView):
+    model = Total_population
+    form_class = Total_populationForm
+    template_name = "crisisdb/total_population/total_population_update.html"
+    #permission_required = 'catalog.can_mark_returned'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["mysection"] = "Aggregate Wealth"
-        context["mysubsection"] = "No Subsection Provided"
-        context["myvar"] = "Gdp Total"
+        context["myvar"] = "Total Population"
 
         return context
 
-
-class Gdp_totalDelete(PermissionRequiredMixin, DeleteView):
-    model = Gdp_total
-    success_url = reverse_lazy('GDP_totals')
+class Total_populationDelete(PermissionRequiredMixin, DeleteView):
+    model = Total_population
+    success_url = reverse_lazy('total_populations')
     template_name = "core/delete_general.html"
-    permission_required = 'catalog.can_mark_returned'
+    #permission_required = 'catalog.can_mark_returned'
 
 
-class Gdp_totalListView(generic.ListView):
-    model = Gdp_total
-    template_name = "crisisdb/GDP_total/GDP_total_list.html"
+class Total_populationListView(generic.ListView):
+    model = Total_population
+    template_name = "crisisdb/total_population/total_population_list.html"
     paginate_by = 10
 
     def get_absolute_url(self):
-        return reverse('GDP_totals')
-
+        return reverse('total_populations')
+    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["mysection"] = "Aggregate Wealth"
-        context["mysubsection"] = "No Subsection Provided"
-        context["myvar"] = "Gdp Total"
+        context["myvar"] = "Total Population"
 
         return context
+        
+class Total_populationDetailView(generic.DetailView):
+    model = Total_population
+    template_name = "crisisdb/total_population/total_population_detail.html"
 
 
-class Gdp_totalDetailView(generic.DetailView):
-    model = Gdp_total
-    template_name = "crisisdb/GDP_total/GDP_total_detail.html"
-
-
-@permission_required('admin.can_add_log_entry')
-def GDP_total_download(request):
-    items = Gdp_total.objects.all()
+#@permission_required('admin.can_add_log_entry')
+def total_population_download(request):
+    items = Total_population.objects.all()
 
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="GDP_totals.csv"'
+    response['Content-Disposition'] = 'attachment; filename="total_populations.csv"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['year_from', 'year_to',
-                     'polity', 'GDP_total', ])
+                     'polity', 'total_population', ])
 
     for obj in items:
         writer.writerow([obj.year_from, obj.year_to,
-                         obj.polity, obj.GDP_total, ])
+                         obj.polity, obj.total_population, ])
 
     return response
 
-
-class Gdp_growth_rateCreate(PermissionRequiredMixin, CreateView):
-    model = Gdp_growth_rate
-    form_class = Gdp_growth_rateForm
-    template_name = "crisisdb/GDP_growth_rate/GDP_growth_rate_form.html"
-    permission_required = 'catalog.can_mark_returned'
-
-    def get_absolute_url(self):
-        return reverse('GDP_growth_rate-create')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["mysection"] = "Aggregate Wealth"
-        context["mysubsection"] = "No Subsection Provided"
-        context["myvar"] = "Gdp Growth Rate"
-
-        return context
-
-
-class Gdp_growth_rateUpdate(PermissionRequiredMixin, UpdateView):
-    model = Gdp_growth_rate
-    form_class = Gdp_growth_rateForm
-    template_name = "crisisdb/GDP_growth_rate/GDP_growth_rate_update.html"
-    permission_required = 'catalog.can_mark_returned'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["mysection"] = "Aggregate Wealth"
-        context["mysubsection"] = "No Subsection Provided"
-        context["myvar"] = "Gdp Growth Rate"
-
-        return context
-
-
-class Gdp_growth_rateDelete(PermissionRequiredMixin, DeleteView):
-    model = Gdp_growth_rate
-    success_url = reverse_lazy('GDP_growth_rates')
-    template_name = "core/delete_general.html"
-    permission_required = 'catalog.can_mark_returned'
-
-
-class Gdp_growth_rateListView(generic.ListView):
-    model = Gdp_growth_rate
-    template_name = "crisisdb/GDP_growth_rate/GDP_growth_rate_list.html"
-    paginate_by = 10
-
-    def get_absolute_url(self):
-        return reverse('GDP_growth_rates')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["mysection"] = "Aggregate Wealth"
-        context["mysubsection"] = "No Subsection Provided"
-        context["myvar"] = "Gdp Growth Rate"
-
-        return context
-
-
-class Gdp_growth_rateDetailView(generic.DetailView):
-    model = Gdp_growth_rate
-    template_name = "crisisdb/GDP_growth_rate/GDP_growth_rate_detail.html"
-
-
-@permission_required('admin.can_add_log_entry')
-def GDP_growth_rate_download(request):
-    items = Gdp_growth_rate.objects.all()
-
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="GDP_growth_rates.csv"'
-
-    writer = csv.writer(response, delimiter='|')
-    writer.writerow(['year_from', 'year_to',
-                     'polity', 'GDP_growth_rate', ])
-
-    for obj in items:
-        writer.writerow([obj.year_from, obj.year_to,
-                         obj.polity, obj.GDP_growth_rate, ])
-
-    return response
-
-
-class Shares_of_world_gdpCreate(PermissionRequiredMixin, CreateView):
-    model = Shares_of_world_gdp
-    form_class = Shares_of_world_gdpForm
-    template_name = "crisisdb/shares_of_world_GDP/shares_of_world_GDP_form.html"
-    permission_required = 'catalog.can_mark_returned'
-
-    def get_absolute_url(self):
-        return reverse('shares_of_world_GDP-create')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["mysection"] = "Aggregate Wealth"
-        context["mysubsection"] = "No Subsection Provided"
-        context["myvar"] = "Shares of World Gdp"
-
-        return context
-
-
-class Shares_of_world_gdpUpdate(PermissionRequiredMixin, UpdateView):
-    model = Shares_of_world_gdp
-    form_class = Shares_of_world_gdpForm
-    template_name = "crisisdb/shares_of_world_GDP/shares_of_world_GDP_update.html"
-    permission_required = 'catalog.can_mark_returned'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["mysection"] = "Aggregate Wealth"
-        context["mysubsection"] = "No Subsection Provided"
-        context["myvar"] = "Shares of World Gdp"
-
-        return context
-
-
-class Shares_of_world_gdpDelete(PermissionRequiredMixin, DeleteView):
-    model = Shares_of_world_gdp
-    success_url = reverse_lazy('shares_of_world_GDPs')
-    template_name = "core/delete_general.html"
-    permission_required = 'catalog.can_mark_returned'
-
-
-class Shares_of_world_gdpListView(generic.ListView):
-    model = Shares_of_world_gdp
-    template_name = "crisisdb/shares_of_world_GDP/shares_of_world_GDP_list.html"
-    paginate_by = 10
-
-    def get_absolute_url(self):
-        return reverse('shares_of_world_GDPs')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["mysection"] = "Aggregate Wealth"
-        context["mysubsection"] = "No Subsection Provided"
-        context["myvar"] = "Shares of World Gdp"
-
-        return context
-
-
-class Shares_of_world_gdpDetailView(generic.DetailView):
-    model = Shares_of_world_gdp
-    template_name = "crisisdb/shares_of_world_GDP/shares_of_world_GDP_detail.html"
-
-
-@permission_required('admin.can_add_log_entry')
-def shares_of_world_GDP_download(request):
-    items = Shares_of_world_gdp.objects.all()
-
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="shares_of_world_GDPs.csv"'
-
-    writer = csv.writer(response, delimiter='|')
-    writer.writerow(['year_from', 'year_to',
-                     'polity', 'shares_of_world_GDP', ])
-
-    for obj in items:
-        writer.writerow([obj.year_from, obj.year_to,
-                         obj.polity, obj.shares_of_world_GDP, ])
-
-    return response
-
+        
 
 class Gdp_per_capitaCreate(PermissionRequiredMixin, CreateView):
     model = Gdp_per_capita
     form_class = Gdp_per_capitaForm
-    template_name = "crisisdb/GDP_per_capita/GDP_per_capita_form.html"
-    permission_required = 'catalog.can_mark_returned'
+    template_name = "crisisdb/gdp_per_capita/gdp_per_capita_form.html"
+    #permission_required = 'catalog.can_mark_returned'
 
     def get_absolute_url(self):
-        return reverse('GDP_per_capita-create')
-
+        return reverse('gdp_per_capita-create')
     def get_context_data(self, **kwargs):
+        # get the explanattion:
+        all_var_hiers = Variablehierarchy.objects.all()
+        for item in all_var_hiers:
+            if item.name == "Gdp Per Capita":
+                my_exp = item.explanation
+                my_sec = item.section.name
+                my_subsec = item.subsection.name
+                my_name = item.name
+                break
+            else:
+                my_exp = "No_Explanations"
+                my_sec = "No_SECTION"
+                my_subsec = "NO_SUBSECTION"
+                my_name = "NO_NAME"
         context = super().get_context_data(**kwargs)
-        context["mysection"] = "Aggregate Wealth"
-        context["mysubsection"] = "No Subsection Provided"
-        context["myvar"] = "Gdp Per Capita"
+        context["mysection"] = my_sec
+        context["mysubsection"] = my_subsec
+        context["myvar"] = my_name
+        context["my_exp"] = my_exp
 
         return context
 
@@ -1779,399 +963,444 @@ class Gdp_per_capitaCreate(PermissionRequiredMixin, CreateView):
 class Gdp_per_capitaUpdate(PermissionRequiredMixin, UpdateView):
     model = Gdp_per_capita
     form_class = Gdp_per_capitaForm
-    template_name = "crisisdb/GDP_per_capita/GDP_per_capita_update.html"
-    permission_required = 'catalog.can_mark_returned'
+    template_name = "crisisdb/gdp_per_capita/gdp_per_capita_update.html"
+    #permission_required = 'catalog.can_mark_returned'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["mysection"] = "Aggregate Wealth"
-        context["mysubsection"] = "No Subsection Provided"
         context["myvar"] = "Gdp Per Capita"
 
         return context
 
-
 class Gdp_per_capitaDelete(PermissionRequiredMixin, DeleteView):
     model = Gdp_per_capita
-    success_url = reverse_lazy('GDP_per_capitas')
+    success_url = reverse_lazy('gdp_per_capitas')
     template_name = "core/delete_general.html"
-    permission_required = 'catalog.can_mark_returned'
+    #permission_required = 'catalog.can_mark_returned'
 
 
 class Gdp_per_capitaListView(generic.ListView):
     model = Gdp_per_capita
-    template_name = "crisisdb/GDP_per_capita/GDP_per_capita_list.html"
+    template_name = "crisisdb/gdp_per_capita/gdp_per_capita_list.html"
     paginate_by = 10
 
     def get_absolute_url(self):
-        return reverse('GDP_per_capitas')
-
+        return reverse('gdp_per_capitas')
+    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["mysection"] = "Aggregate Wealth"
-        context["mysubsection"] = "No Subsection Provided"
         context["myvar"] = "Gdp Per Capita"
 
         return context
-
-
+        
 class Gdp_per_capitaDetailView(generic.DetailView):
     model = Gdp_per_capita
-    template_name = "crisisdb/GDP_per_capita/GDP_per_capita_detail.html"
+    template_name = "crisisdb/gdp_per_capita/gdp_per_capita_detail.html"
 
 
-@permission_required('admin.can_add_log_entry')
-def GDP_per_capita_download(request):
+#@permission_required('admin.can_add_log_entry')
+def gdp_per_capita_download(request):
     items = Gdp_per_capita.objects.all()
 
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="GDP_per_capitas.csv"'
+    response['Content-Disposition'] = 'attachment; filename="gdp_per_capitas.csv"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['year_from', 'year_to',
-                     'polity', 'GDP_per_capita', ])
+                     'polity', 'gdp_per_capita', ])
 
     for obj in items:
         writer.writerow([obj.year_from, obj.year_to,
-                         obj.polity, obj.GDP_per_capita, ])
+                         obj.polity, obj.gdp_per_capita, ])
 
     return response
 
+        
 
-class Rate_of_gdp_per_capita_growthCreate(PermissionRequiredMixin, CreateView):
-    model = Rate_of_gdp_per_capita_growth
-    form_class = Rate_of_gdp_per_capita_growthForm
-    template_name = "crisisdb/rate_of_GDP_per_capita_growth/rate_of_GDP_per_capita_growth_form.html"
-    permission_required = 'catalog.can_mark_returned'
+class Drought_eventCreate(PermissionRequiredMixin, CreateView):
+    model = Drought_event
+    form_class = Drought_eventForm
+    template_name = "crisisdb/drought_event/drought_event_form.html"
+    #permission_required = 'catalog.can_mark_returned'
 
     def get_absolute_url(self):
-        return reverse('rate_of_GDP_per_capita_growth-create')
-
+        return reverse('drought_event-create')
     def get_context_data(self, **kwargs):
+        # get the explanattion:
+        all_var_hiers = Variablehierarchy.objects.all()
+        for item in all_var_hiers:
+            if item.name == "Drought Event":
+                my_exp = item.explanation
+                my_sec = item.section.name
+                my_subsec = item.subsection.name
+                my_name = item.name
+                break
+            else:
+                my_exp = "No_Explanations"
+                my_sec = "No_SECTION"
+                my_subsec = "NO_SUBSECTION"
+                my_name = "NO_NAME"
         context = super().get_context_data(**kwargs)
-        context["mysection"] = "Aggregate Wealth"
-        context["mysubsection"] = "No Subsection Provided"
-        context["myvar"] = "Rate of Gdp Per Capita Growth"
+        context["mysection"] = my_sec
+        context["mysubsection"] = my_subsec
+        context["myvar"] = my_name
+        context["my_exp"] = my_exp
 
         return context
 
 
-class Rate_of_gdp_per_capita_growthUpdate(PermissionRequiredMixin, UpdateView):
-    model = Rate_of_gdp_per_capita_growth
-    form_class = Rate_of_gdp_per_capita_growthForm
-    template_name = "crisisdb/rate_of_GDP_per_capita_growth/rate_of_GDP_per_capita_growth_update.html"
-    permission_required = 'catalog.can_mark_returned'
+class Drought_eventUpdate(PermissionRequiredMixin, UpdateView):
+    model = Drought_event
+    form_class = Drought_eventForm
+    template_name = "crisisdb/drought_event/drought_event_update.html"
+    #permission_required = 'catalog.can_mark_returned'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["mysection"] = "Aggregate Wealth"
-        context["mysubsection"] = "No Subsection Provided"
-        context["myvar"] = "Rate of Gdp Per Capita Growth"
+        context["myvar"] = "Drought Event"
 
         return context
 
-
-class Rate_of_gdp_per_capita_growthDelete(PermissionRequiredMixin, DeleteView):
-    model = Rate_of_gdp_per_capita_growth
-    success_url = reverse_lazy('rate_of_GDP_per_capita_growths')
+class Drought_eventDelete(PermissionRequiredMixin, DeleteView):
+    model = Drought_event
+    success_url = reverse_lazy('drought_events')
     template_name = "core/delete_general.html"
-    permission_required = 'catalog.can_mark_returned'
+    #permission_required = 'catalog.can_mark_returned'
 
 
-class Rate_of_gdp_per_capita_growthListView(generic.ListView):
-    model = Rate_of_gdp_per_capita_growth
-    template_name = "crisisdb/rate_of_GDP_per_capita_growth/rate_of_GDP_per_capita_growth_list.html"
+class Drought_eventListView(generic.ListView):
+    model = Drought_event
+    template_name = "crisisdb/drought_event/drought_event_list.html"
     paginate_by = 10
 
     def get_absolute_url(self):
-        return reverse('rate_of_GDP_per_capita_growths')
-
+        return reverse('drought_events')
+    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["mysection"] = "Aggregate Wealth"
-        context["mysubsection"] = "No Subsection Provided"
-        context["myvar"] = "Rate of Gdp Per Capita Growth"
+        context["myvar"] = "Drought Event"
 
         return context
+        
+class Drought_eventDetailView(generic.DetailView):
+    model = Drought_event
+    template_name = "crisisdb/drought_event/drought_event_detail.html"
 
 
-class Rate_of_gdp_per_capita_growthDetailView(generic.DetailView):
-    model = Rate_of_gdp_per_capita_growth
-    template_name = "crisisdb/rate_of_GDP_per_capita_growth/rate_of_GDP_per_capita_growth_detail.html"
-
-
-@permission_required('admin.can_add_log_entry')
-def rate_of_GDP_per_capita_growth_download(request):
-    items = Rate_of_gdp_per_capita_growth.objects.all()
+#@permission_required('admin.can_add_log_entry')
+def drought_event_download(request):
+    items = Drought_event.objects.all()
 
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="rate_of_GDP_per_capita_growths.csv"'
+    response['Content-Disposition'] = 'attachment; filename="drought_events.csv"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['year_from', 'year_to',
-                     'polity', 'rate_of_GDP_per_capita_growth', ])
+                     'polity', 'drought_event', ])
 
     for obj in items:
         writer.writerow([obj.year_from, obj.year_to,
-                         obj.polity, obj.rate_of_GDP_per_capita_growth, ])
+                         obj.polity, obj.drought_event, ])
 
     return response
 
+        
 
-class WagesCreate(PermissionRequiredMixin, CreateView):
-    model = Wages
-    form_class = WagesForm
-    template_name = "crisisdb/wages/wages_form.html"
-    permission_required = 'catalog.can_mark_returned'
+class Locust_eventCreate(PermissionRequiredMixin, CreateView):
+    model = Locust_event
+    form_class = Locust_eventForm
+    template_name = "crisisdb/locust_event/locust_event_form.html"
+    #permission_required = 'catalog.can_mark_returned'
 
     def get_absolute_url(self):
-        return reverse('wages-create')
-
+        return reverse('locust_event-create')
     def get_context_data(self, **kwargs):
+        # get the explanattion:
+        all_var_hiers = Variablehierarchy.objects.all()
+        for item in all_var_hiers:
+            if item.name == "Locust Event":
+                my_exp = item.explanation
+                my_sec = item.section.name
+                my_subsec = item.subsection.name
+                my_name = item.name
+                break
+            else:
+                my_exp = "No_Explanations"
+                my_sec = "No_SECTION"
+                my_subsec = "NO_SUBSECTION"
+                my_name = "NO_NAME"
         context = super().get_context_data(**kwargs)
-        context["mysection"] = "Aggregate Wealth"
-        context["mysubsection"] = "No Subsection Provided"
-        context["myvar"] = "Wages"
+        context["mysection"] = my_sec
+        context["mysubsection"] = my_subsec
+        context["myvar"] = my_name
+        context["my_exp"] = my_exp
 
         return context
 
 
-class WagesUpdate(PermissionRequiredMixin, UpdateView):
-    model = Wages
-    form_class = WagesForm
-    template_name = "crisisdb/wages/wages_update.html"
-    permission_required = 'catalog.can_mark_returned'
+class Locust_eventUpdate(PermissionRequiredMixin, UpdateView):
+    model = Locust_event
+    form_class = Locust_eventForm
+    template_name = "crisisdb/locust_event/locust_event_update.html"
+    #permission_required = 'catalog.can_mark_returned'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["mysection"] = "Aggregate Wealth"
-        context["mysubsection"] = "No Subsection Provided"
-        context["myvar"] = "Wages"
+        context["myvar"] = "Locust Event"
 
         return context
 
-
-class WagesDelete(PermissionRequiredMixin, DeleteView):
-    model = Wages
-    success_url = reverse_lazy('wagess')
+class Locust_eventDelete(PermissionRequiredMixin, DeleteView):
+    model = Locust_event
+    success_url = reverse_lazy('locust_events')
     template_name = "core/delete_general.html"
-    permission_required = 'catalog.can_mark_returned'
+    #permission_required = 'catalog.can_mark_returned'
 
 
-class WagesListView(generic.ListView):
-    model = Wages
-    template_name = "crisisdb/wages/wages_list.html"
+class Locust_eventListView(generic.ListView):
+    model = Locust_event
+    template_name = "crisisdb/locust_event/locust_event_list.html"
     paginate_by = 10
 
     def get_absolute_url(self):
-        return reverse('wagess')
-
+        return reverse('locust_events')
+    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["mysection"] = "Aggregate Wealth"
-        context["mysubsection"] = "No Subsection Provided"
-        context["myvar"] = "Wages"
+        context["myvar"] = "Locust Event"
 
         return context
+        
+class Locust_eventDetailView(generic.DetailView):
+    model = Locust_event
+    template_name = "crisisdb/locust_event/locust_event_detail.html"
 
 
-class WagesDetailView(generic.DetailView):
-    model = Wages
-    template_name = "crisisdb/wages/wages_detail.html"
-
-
-@permission_required('admin.can_add_log_entry')
-def wages_download(request):
-    items = Wages.objects.all()
+#@permission_required('admin.can_add_log_entry')
+def locust_event_download(request):
+    items = Locust_event.objects.all()
 
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="wagess.csv"'
+    response['Content-Disposition'] = 'attachment; filename="locust_events.csv"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['year_from', 'year_to',
-                     'polity', 'wages', ])
+                     'polity', 'locust_event', ])
 
     for obj in items:
         writer.writerow([obj.year_from, obj.year_to,
-                         obj.polity, obj.wages, ])
+                         obj.polity, obj.locust_event, ])
 
     return response
 
+        
 
-class Annual_wagesCreate(PermissionRequiredMixin, CreateView):
-    model = Annual_wages
-    form_class = Annual_wagesForm
-    template_name = "crisisdb/annual_wages/annual_wages_form.html"
-    permission_required = 'catalog.can_mark_returned'
+class Socioeconomic_turmoil_eventCreate(PermissionRequiredMixin, CreateView):
+    model = Socioeconomic_turmoil_event
+    form_class = Socioeconomic_turmoil_eventForm
+    template_name = "crisisdb/socioeconomic_turmoil_event/socioeconomic_turmoil_event_form.html"
+    #permission_required = 'catalog.can_mark_returned'
 
     def get_absolute_url(self):
-        return reverse('annual_wages-create')
-
+        return reverse('socioeconomic_turmoil_event-create')
     def get_context_data(self, **kwargs):
+        # get the explanattion:
+        all_var_hiers = Variablehierarchy.objects.all()
+        for item in all_var_hiers:
+            if item.name == "Socioeconomic Turmoil Event":
+                my_exp = item.explanation
+                my_sec = item.section.name
+                my_subsec = item.subsection.name
+                my_name = item.name
+                break
+            else:
+                my_exp = "No_Explanations"
+                my_sec = "No_SECTION"
+                my_subsec = "NO_SUBSECTION"
+                my_name = "NO_NAME"
         context = super().get_context_data(**kwargs)
-        context["mysection"] = "Institutional variables"
-        context["mysubsection"] = "No Subsection Provided"
-        context["myvar"] = "Annual Wages"
+        context["mysection"] = my_sec
+        context["mysubsection"] = my_subsec
+        context["myvar"] = my_name
+        context["my_exp"] = my_exp
 
         return context
 
 
-class Annual_wagesUpdate(PermissionRequiredMixin, UpdateView):
-    model = Annual_wages
-    form_class = Annual_wagesForm
-    template_name = "crisisdb/annual_wages/annual_wages_update.html"
-    permission_required = 'catalog.can_mark_returned'
+class Socioeconomic_turmoil_eventUpdate(PermissionRequiredMixin, UpdateView):
+    model = Socioeconomic_turmoil_event
+    form_class = Socioeconomic_turmoil_eventForm
+    template_name = "crisisdb/socioeconomic_turmoil_event/socioeconomic_turmoil_event_update.html"
+    #permission_required = 'catalog.can_mark_returned'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["mysection"] = "Institutional variables"
-        context["mysubsection"] = "No Subsection Provided"
-        context["myvar"] = "Annual Wages"
+        context["myvar"] = "Socioeconomic Turmoil Event"
 
         return context
 
-
-class Annual_wagesDelete(PermissionRequiredMixin, DeleteView):
-    model = Annual_wages
-    success_url = reverse_lazy('annual_wagess')
+class Socioeconomic_turmoil_eventDelete(PermissionRequiredMixin, DeleteView):
+    model = Socioeconomic_turmoil_event
+    success_url = reverse_lazy('socioeconomic_turmoil_events')
     template_name = "core/delete_general.html"
-    permission_required = 'catalog.can_mark_returned'
+    #permission_required = 'catalog.can_mark_returned'
 
 
-class Annual_wagesListView(generic.ListView):
-    model = Annual_wages
-    template_name = "crisisdb/annual_wages/annual_wages_list.html"
+class Socioeconomic_turmoil_eventListView(generic.ListView):
+    model = Socioeconomic_turmoil_event
+    template_name = "crisisdb/socioeconomic_turmoil_event/socioeconomic_turmoil_event_list.html"
     paginate_by = 10
 
     def get_absolute_url(self):
-        return reverse('annual_wagess')
-
+        return reverse('socioeconomic_turmoil_events')
+    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["mysection"] = "Institutional variables"
-        context["mysubsection"] = "No Subsection Provided"
-        context["myvar"] = "Annual Wages"
+        context["myvar"] = "Socioeconomic Turmoil Event"
 
         return context
+        
+class Socioeconomic_turmoil_eventDetailView(generic.DetailView):
+    model = Socioeconomic_turmoil_event
+    template_name = "crisisdb/socioeconomic_turmoil_event/socioeconomic_turmoil_event_detail.html"
 
 
-class Annual_wagesDetailView(generic.DetailView):
-    model = Annual_wages
-    template_name = "crisisdb/annual_wages/annual_wages_detail.html"
-
-
-@permission_required('admin.can_add_log_entry')
-def annual_wages_download(request):
-    items = Annual_wages.objects.all()
+#@permission_required('admin.can_add_log_entry')
+def socioeconomic_turmoil_event_download(request):
+    items = Socioeconomic_turmoil_event.objects.all()
 
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="annual_wagess.csv"'
+    response['Content-Disposition'] = 'attachment; filename="socioeconomic_turmoil_events.csv"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['year_from', 'year_to',
-                     'polity', 'annual_wages', 'job_category', 'job_description', ])
+                     'polity', 'socioeconomic_turmoil_event', ])
 
     for obj in items:
         writer.writerow([obj.year_from, obj.year_to,
-                         obj.polity, obj.annual_wages, obj.job_category, obj.job_description, ])
+                         obj.polity, obj.socioeconomic_turmoil_event, ])
 
     return response
 
+        
 
-class Rate_of_returnCreate(PermissionRequiredMixin, CreateView):
-    model = Rate_of_return
-    form_class = Rate_of_returnForm
-    template_name = "crisisdb/rate_of_return/rate_of_return_form.html"
-    permission_required = 'catalog.can_mark_returned'
+class Crop_failure_eventCreate(PermissionRequiredMixin, CreateView):
+    model = Crop_failure_event
+    form_class = Crop_failure_eventForm
+    template_name = "crisisdb/crop_failure_event/crop_failure_event_form.html"
+    #permission_required = 'catalog.can_mark_returned'
 
     def get_absolute_url(self):
-        return reverse('rate_of_return-create')
-
+        return reverse('crop_failure_event-create')
     def get_context_data(self, **kwargs):
+        # get the explanattion:
+        all_var_hiers = Variablehierarchy.objects.all()
+        for item in all_var_hiers:
+            if item.name == "Crop Failure Event":
+                my_exp = item.explanation
+                my_sec = item.section.name
+                my_subsec = item.subsection.name
+                my_name = item.name
+                break
+            else:
+                my_exp = "No_Explanations"
+                my_sec = "No_SECTION"
+                my_subsec = "NO_SUBSECTION"
+                my_name = "NO_NAME"
         context = super().get_context_data(**kwargs)
-        context["mysection"] = "Wages"
-        context["mysubsection"] = "No Subsection Provided"
-        context["myvar"] = "Rate of Return"
+        context["mysection"] = my_sec
+        context["mysubsection"] = my_subsec
+        context["myvar"] = my_name
+        context["my_exp"] = my_exp
 
         return context
 
 
-class Rate_of_returnUpdate(PermissionRequiredMixin, UpdateView):
-    model = Rate_of_return
-    form_class = Rate_of_returnForm
-    template_name = "crisisdb/rate_of_return/rate_of_return_update.html"
-    permission_required = 'catalog.can_mark_returned'
+class Crop_failure_eventUpdate(PermissionRequiredMixin, UpdateView):
+    model = Crop_failure_event
+    form_class = Crop_failure_eventForm
+    template_name = "crisisdb/crop_failure_event/crop_failure_event_update.html"
+    #permission_required = 'catalog.can_mark_returned'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["mysection"] = "Wages"
-        context["mysubsection"] = "No Subsection Provided"
-        context["myvar"] = "Rate of Return"
+        context["myvar"] = "Crop Failure Event"
 
         return context
 
-
-class Rate_of_returnDelete(PermissionRequiredMixin, DeleteView):
-    model = Rate_of_return
-    success_url = reverse_lazy('rate_of_returns')
+class Crop_failure_eventDelete(PermissionRequiredMixin, DeleteView):
+    model = Crop_failure_event
+    success_url = reverse_lazy('crop_failure_events')
     template_name = "core/delete_general.html"
-    permission_required = 'catalog.can_mark_returned'
+    #permission_required = 'catalog.can_mark_returned'
 
 
-class Rate_of_returnListView(generic.ListView):
-    model = Rate_of_return
-    template_name = "crisisdb/rate_of_return/rate_of_return_list.html"
+class Crop_failure_eventListView(generic.ListView):
+    model = Crop_failure_event
+    template_name = "crisisdb/crop_failure_event/crop_failure_event_list.html"
     paginate_by = 10
 
     def get_absolute_url(self):
-        return reverse('rate_of_returns')
-
+        return reverse('crop_failure_events')
+    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["mysection"] = "Wages"
-        context["mysubsection"] = "No Subsection Provided"
-        context["myvar"] = "Rate of Return"
+        context["myvar"] = "Crop Failure Event"
 
         return context
+        
+class Crop_failure_eventDetailView(generic.DetailView):
+    model = Crop_failure_event
+    template_name = "crisisdb/crop_failure_event/crop_failure_event_detail.html"
 
 
-class Rate_of_returnDetailView(generic.DetailView):
-    model = Rate_of_return
-    template_name = "crisisdb/rate_of_return/rate_of_return_detail.html"
-
-
-@permission_required('admin.can_add_log_entry')
-def rate_of_return_download(request):
-    items = Rate_of_return.objects.all()
+#@permission_required('admin.can_add_log_entry')
+def crop_failure_event_download(request):
+    items = Crop_failure_event.objects.all()
 
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="rate_of_returns.csv"'
+    response['Content-Disposition'] = 'attachment; filename="crop_failure_events.csv"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['year_from', 'year_to',
-                     'polity', 'rate_of_return', 'job_category', 'job_description', ])
+                     'polity', 'crop_failure_event', ])
 
     for obj in items:
         writer.writerow([obj.year_from, obj.year_to,
-                         obj.polity, obj.rate_of_return, obj.job_category, obj.job_description, ])
+                         obj.polity, obj.crop_failure_event, ])
 
     return response
 
+        
 
 class Famine_eventCreate(PermissionRequiredMixin, CreateView):
     model = Famine_event
     form_class = Famine_eventForm
     template_name = "crisisdb/famine_event/famine_event_form.html"
-    permission_required = 'catalog.can_mark_returned'
+    #permission_required = 'catalog.can_mark_returned'
 
     def get_absolute_url(self):
         return reverse('famine_event-create')
-
     def get_context_data(self, **kwargs):
+        # get the explanattion:
+        all_var_hiers = Variablehierarchy.objects.all()
+        for item in all_var_hiers:
+            if item.name == "Famine Event":
+                my_exp = item.explanation
+                my_sec = item.section.name
+                my_subsec = item.subsection.name
+                my_name = item.name
+                break
+            else:
+                my_exp = "No_Explanations"
+                my_sec = "No_SECTION"
+                my_subsec = "NO_SUBSECTION"
+                my_name = "NO_NAME"
         context = super().get_context_data(**kwargs)
-        context["mysection"] = "No Section Provided"
-        context["mysubsection"] = "No Subsection Provided"
-        context["myvar"] = "Famine Event"
+        context["mysection"] = my_sec
+        context["mysubsection"] = my_subsec
+        context["myvar"] = my_name
+        context["my_exp"] = my_exp
 
         return context
 
@@ -2180,22 +1409,19 @@ class Famine_eventUpdate(PermissionRequiredMixin, UpdateView):
     model = Famine_event
     form_class = Famine_eventForm
     template_name = "crisisdb/famine_event/famine_event_update.html"
-    permission_required = 'catalog.can_mark_returned'
+    #permission_required = 'catalog.can_mark_returned'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["mysection"] = "No Section Provided"
-        context["mysubsection"] = "No Subsection Provided"
         context["myvar"] = "Famine Event"
 
         return context
-
 
 class Famine_eventDelete(PermissionRequiredMixin, DeleteView):
     model = Famine_event
     success_url = reverse_lazy('famine_events')
     template_name = "core/delete_general.html"
-    permission_required = 'catalog.can_mark_returned'
+    #permission_required = 'catalog.can_mark_returned'
 
 
 class Famine_eventListView(generic.ListView):
@@ -2205,22 +1431,19 @@ class Famine_eventListView(generic.ListView):
 
     def get_absolute_url(self):
         return reverse('famine_events')
-
+    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["mysection"] = "No Section Provided"
-        context["mysubsection"] = "No Subsection Provided"
         context["myvar"] = "Famine Event"
 
         return context
-
-
+        
 class Famine_eventDetailView(generic.DetailView):
     model = Famine_event
     template_name = "crisisdb/famine_event/famine_event_detail.html"
 
 
-@permission_required('admin.can_add_log_entry')
+#@permission_required('admin.can_add_log_entry')
 def famine_event_download(request):
     items = Famine_event.objects.all()
 
@@ -2229,418 +1452,104 @@ def famine_event_download(request):
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['year_from', 'year_to',
-                     'polity', 'famine_event', 'latitude', 'longitude', 'elevation', 'sub_category', 'magnitude', 'duration', ])
+                     'polity', 'famine_event', ])
 
     for obj in items:
         writer.writerow([obj.year_from, obj.year_to,
-                         obj.polity, obj.famine_event, obj.latitude, obj.longitude, obj.elevation, obj.sub_category, obj.magnitude, obj.duration, ])
+                         obj.polity, obj.famine_event, ])
 
     return response
 
+        
 
-class Disease_eventCreate(PermissionRequiredMixin, CreateView):
-    model = Disease_event
-    form_class = Disease_eventForm
-    template_name = "crisisdb/disease_event/disease_event_form.html"
-    permission_required = 'catalog.can_mark_returned'
+class Disease_outbreakCreate(PermissionRequiredMixin, CreateView):
+    model = Disease_outbreak
+    form_class = Disease_outbreakForm
+    template_name = "crisisdb/disease_outbreak/disease_outbreak_form.html"
+    #permission_required = 'catalog.can_mark_returned'
 
     def get_absolute_url(self):
-        return reverse('disease_event-create')
-
+        return reverse('disease_outbreak-create')
     def get_context_data(self, **kwargs):
+        # get the explanattion:
+        all_var_hiers = Variablehierarchy.objects.all()
+        for item in all_var_hiers:
+            if item.name == "Longitude":
+                my_exp = item.explanation
+                my_sec = item.section.name
+                my_subsec = item.subsection.name
+                my_name = item.name
+                break
+            else:
+                my_exp = "No_Explanations"
+                my_sec = "No_SECTION"
+                my_subsec = "NO_SUBSECTION"
+                my_name = "NO_NAME"
         context = super().get_context_data(**kwargs)
-        context["mysection"] = "No Section Provided"
-        context["mysubsection"] = "No Subsection Provided"
-        context["myvar"] = "Disease Event"
+        context["mysection"] = my_sec
+        context["mysubsection"] = my_subsec
+        context["myvar"] = my_name
+        context["my_exp"] = my_exp
 
         return context
 
 
-class Disease_eventUpdate(PermissionRequiredMixin, UpdateView):
-    model = Disease_event
-    form_class = Disease_eventForm
-    template_name = "crisisdb/disease_event/disease_event_update.html"
-    permission_required = 'catalog.can_mark_returned'
+class Disease_outbreakUpdate(PermissionRequiredMixin, UpdateView):
+    model = Disease_outbreak
+    form_class = Disease_outbreakForm
+    template_name = "crisisdb/disease_outbreak/disease_outbreak_update.html"
+    #permission_required = 'catalog.can_mark_returned'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["mysection"] = "No Section Provided"
-        context["mysubsection"] = "No Subsection Provided"
-        context["myvar"] = "Disease Event"
+        context["myvar"] = "Longitude"
 
         return context
 
-
-class Disease_eventDelete(PermissionRequiredMixin, DeleteView):
-    model = Disease_event
-    success_url = reverse_lazy('disease_events')
+class Disease_outbreakDelete(PermissionRequiredMixin, DeleteView):
+    model = Disease_outbreak
+    success_url = reverse_lazy('disease_outbreaks')
     template_name = "core/delete_general.html"
-    permission_required = 'catalog.can_mark_returned'
+    #permission_required = 'catalog.can_mark_returned'
 
 
-class Disease_eventListView(generic.ListView):
-    model = Disease_event
-    template_name = "crisisdb/disease_event/disease_event_list.html"
+class Disease_outbreakListView(generic.ListView):
+    model = Disease_outbreak
+    template_name = "crisisdb/disease_outbreak/disease_outbreak_list.html"
     paginate_by = 10
 
     def get_absolute_url(self):
-        return reverse('disease_events')
-
+        return reverse('disease_outbreaks')
+    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["mysection"] = "No Section Provided"
-        context["mysubsection"] = "No Subsection Provided"
-        context["myvar"] = "Disease Event"
+        context["myvar"] = "Longitude"
 
         return context
+        
+class Disease_outbreakDetailView(generic.DetailView):
+    model = Disease_outbreak
+    template_name = "crisisdb/disease_outbreak/disease_outbreak_detail.html"
 
 
-class Disease_eventDetailView(generic.DetailView):
-    model = Disease_event
-    template_name = "crisisdb/disease_event/disease_event_detail.html"
-
-
-@permission_required('admin.can_add_log_entry')
-def disease_event_download(request):
-    items = Disease_event.objects.all()
+#@permission_required('admin.can_add_log_entry')
+def disease_outbreak_download(request):
+    items = Disease_outbreak.objects.all()
 
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="disease_events.csv"'
+    response['Content-Disposition'] = 'attachment; filename="disease_outbreaks.csv"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['year_from', 'year_to',
-                     'polity', 'disease_event', 'latitude', 'longitude', 'elevation', 'sub_category', 'magnitude', 'duration', ])
+                     'polity', 'longitude', 'latitude', 'elevation', 'sub_category', 'magnitude', 'duration', ])
 
     for obj in items:
         writer.writerow([obj.year_from, obj.year_to,
-                         obj.polity, obj.disease_event, obj.latitude, obj.longitude, obj.elevation, obj.sub_category, obj.magnitude, obj.duration, ])
+                         obj.polity, obj.longitude, obj.latitude, obj.elevation, obj.sub_category, obj.magnitude, obj.duration, ])
 
     return response
 
-
-class Jinshi_degrees_awardedCreate(PermissionRequiredMixin, CreateView):
-    model = Jinshi_degrees_awarded
-    form_class = Jinshi_degrees_awardedForm
-    template_name = "crisisdb/jinshi_degrees_awarded/jinshi_degrees_awarded_form.html"
-    permission_required = 'catalog.can_mark_returned'
-
-    def get_absolute_url(self):
-        return reverse('jinshi_degrees_awarded-create')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["mysection"] = "No Section Provided"
-        context["mysubsection"] = "No Subsection Provided"
-        context["myvar"] = "Jinshi Degrees Awarded"
-
-        return context
-
-
-class Jinshi_degrees_awardedUpdate(PermissionRequiredMixin, UpdateView):
-    model = Jinshi_degrees_awarded
-    form_class = Jinshi_degrees_awardedForm
-    template_name = "crisisdb/jinshi_degrees_awarded/jinshi_degrees_awarded_update.html"
-    permission_required = 'catalog.can_mark_returned'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["mysection"] = "No Section Provided"
-        context["mysubsection"] = "No Subsection Provided"
-        context["myvar"] = "Jinshi Degrees Awarded"
-
-        return context
-
-
-class Jinshi_degrees_awardedDelete(PermissionRequiredMixin, DeleteView):
-    model = Jinshi_degrees_awarded
-    success_url = reverse_lazy('jinshi_degrees_awardeds')
-    template_name = "core/delete_general.html"
-    permission_required = 'catalog.can_mark_returned'
-
-
-class Jinshi_degrees_awardedListView(generic.ListView):
-    model = Jinshi_degrees_awarded
-    template_name = "crisisdb/jinshi_degrees_awarded/jinshi_degrees_awarded_list.html"
-    paginate_by = 10
-
-    def get_absolute_url(self):
-        return reverse('jinshi_degrees_awardeds')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["mysection"] = "No Section Provided"
-        context["mysubsection"] = "No Subsection Provided"
-        context["myvar"] = "Jinshi Degrees Awarded"
-
-        return context
-
-
-class Jinshi_degrees_awardedDetailView(generic.DetailView):
-    model = Jinshi_degrees_awarded
-    template_name = "crisisdb/jinshi_degrees_awarded/jinshi_degrees_awarded_detail.html"
-
-
-@permission_required('admin.can_add_log_entry')
-def jinshi_degrees_awarded_download(request):
-    items = Jinshi_degrees_awarded.objects.all()
-
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="jinshi_degrees_awardeds.csv"'
-
-    writer = csv.writer(response, delimiter='|')
-    writer.writerow(['year_from', 'year_to',
-                     'polity', 'jinshi_degrees_awarded', 'emperor', 'population_in_year_x', ])
-
-    for obj in items:
-        writer.writerow([obj.year_from, obj.year_to,
-                         obj.polity, obj.jinshi_degrees_awarded, obj.emperor, obj.population_in_year_x, ])
-
-    return response
-
-
-class ExaminationCreate(PermissionRequiredMixin, CreateView):
-    model = Examination
-    form_class = ExaminationForm
-    template_name = "crisisdb/examination/examination_form.html"
-    permission_required = 'catalog.can_mark_returned'
-
-    def get_absolute_url(self):
-        return reverse('examination-create')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["mysection"] = "No Section Provided"
-        context["mysubsection"] = "No Subsection Provided"
-        context["myvar"] = "Examination"
-
-        return context
-
-
-class ExaminationUpdate(PermissionRequiredMixin, UpdateView):
-    model = Examination
-    form_class = ExaminationForm
-    template_name = "crisisdb/examination/examination_update.html"
-    permission_required = 'catalog.can_mark_returned'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["mysection"] = "No Section Provided"
-        context["mysubsection"] = "No Subsection Provided"
-        context["myvar"] = "Examination"
-
-        return context
-
-
-class ExaminationDelete(PermissionRequiredMixin, DeleteView):
-    model = Examination
-    success_url = reverse_lazy('examinations')
-    template_name = "core/delete_general.html"
-    permission_required = 'catalog.can_mark_returned'
-
-
-class ExaminationListView(generic.ListView):
-    model = Examination
-    template_name = "crisisdb/examination/examination_list.html"
-    paginate_by = 10
-
-    def get_absolute_url(self):
-        return reverse('examinations')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["mysection"] = "No Section Provided"
-        context["mysubsection"] = "No Subsection Provided"
-        context["myvar"] = "Examination"
-
-        return context
-
-
-class ExaminationDetailView(generic.DetailView):
-    model = Examination
-    template_name = "crisisdb/examination/examination_detail.html"
-
-
-@permission_required('admin.can_add_log_entry')
-def examination_download(request):
-    items = Examination.objects.all()
-
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="examinations.csv"'
-
-    writer = csv.writer(response, delimiter='|')
-    writer.writerow(['year_from', 'year_to',
-                     'polity', 'examination', 'no_of_participants', 'degrees_awarded', 'passing_ratio', 'place', 'ratio_examiner_per_candidate', 'no_of_examiners', ])
-
-    for obj in items:
-        writer.writerow([obj.year_from, obj.year_to,
-                         obj.polity, obj.examination, obj.no_of_participants, obj.degrees_awarded, obj.passing_ratio, obj.place, obj.ratio_examiner_per_candidate, obj.no_of_examiners, ])
-
-    return response
-
-
-class Taiping_rebellionCreate(PermissionRequiredMixin, CreateView):
-    model = Taiping_rebellion
-    form_class = Taiping_rebellionForm
-    template_name = "crisisdb/taiping_rebellion/taiping_rebellion_form.html"
-    permission_required = 'catalog.can_mark_returned'
-
-    def get_absolute_url(self):
-        return reverse('taiping_rebellion-create')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["mysection"] = "No Section Provided"
-        context["mysubsection"] = "No Subsection Provided"
-        context["myvar"] = "Taiping Rebellion"
-
-        return context
-
-
-class Taiping_rebellionUpdate(PermissionRequiredMixin, UpdateView):
-    model = Taiping_rebellion
-    form_class = Taiping_rebellionForm
-    template_name = "crisisdb/taiping_rebellion/taiping_rebellion_update.html"
-    permission_required = 'catalog.can_mark_returned'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["mysection"] = "No Section Provided"
-        context["mysubsection"] = "No Subsection Provided"
-        context["myvar"] = "Taiping Rebellion"
-
-        return context
-
-
-class Taiping_rebellionDelete(PermissionRequiredMixin, DeleteView):
-    model = Taiping_rebellion
-    success_url = reverse_lazy('taiping_rebellions')
-    template_name = "core/delete_general.html"
-    permission_required = 'catalog.can_mark_returned'
-
-
-class Taiping_rebellionListView(generic.ListView):
-    model = Taiping_rebellion
-    template_name = "crisisdb/taiping_rebellion/taiping_rebellion_list.html"
-    paginate_by = 10
-
-    def get_absolute_url(self):
-        return reverse('taiping_rebellions')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["mysection"] = "No Section Provided"
-        context["mysubsection"] = "No Subsection Provided"
-        context["myvar"] = "Taiping Rebellion"
-
-        return context
-
-
-class Taiping_rebellionDetailView(generic.DetailView):
-    model = Taiping_rebellion
-    template_name = "crisisdb/taiping_rebellion/taiping_rebellion_detail.html"
-
-
-@permission_required('admin.can_add_log_entry')
-def taiping_rebellion_download(request):
-    items = Taiping_rebellion.objects.all()
-
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="taiping_rebellions.csv"'
-
-    writer = csv.writer(response, delimiter='|')
-    writer.writerow(['year_from', 'year_to',
-                     'polity', 'taiping_rebellion', 'rebel', 'place', 'ethnic_composition', 'family_background', 'role', 'rank', 'civil_examination', ])
-
-    for obj in items:
-        writer.writerow([obj.year_from, obj.year_to,
-                         obj.polity, obj.taiping_rebellion, obj.rebel, obj.place, obj.ethnic_composition, obj.family_background, obj.role, obj.rank, obj.civil_examination, ])
-
-    return response
-
-
-class Worker_wageCreate(PermissionRequiredMixin, CreateView):
-    model = Worker_wage
-    form_class = Worker_wageForm
-    template_name = "crisisdb/worker_wage/worker_wage_form.html"
-    permission_required = 'catalog.can_mark_returned'
-
-    def get_absolute_url(self):
-        return reverse('worker_wage-create')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["mysection"] = "No Section Provided"
-        context["mysubsection"] = "No Subsection Provided"
-        context["myvar"] = "Worker Wage"
-
-        return context
-
-
-class Worker_wageUpdate(PermissionRequiredMixin, UpdateView):
-    model = Worker_wage
-    form_class = Worker_wageForm
-    template_name = "crisisdb/worker_wage/worker_wage_update.html"
-    permission_required = 'catalog.can_mark_returned'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["mysection"] = "No Section Provided"
-        context["mysubsection"] = "No Subsection Provided"
-        context["myvar"] = "Worker Wage"
-
-        return context
-
-
-class Worker_wageDelete(PermissionRequiredMixin, DeleteView):
-    model = Worker_wage
-    success_url = reverse_lazy('worker_wages')
-    template_name = "core/delete_general.html"
-    permission_required = 'catalog.can_mark_returned'
-
-
-class Worker_wageListView(generic.ListView):
-    model = Worker_wage
-    template_name = "crisisdb/worker_wage/worker_wage_list.html"
-    paginate_by = 10
-
-    def get_absolute_url(self):
-        return reverse('worker_wages')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["mysection"] = "No Section Provided"
-        context["mysubsection"] = "No Subsection Provided"
-        context["myvar"] = "Worker Wage"
-
-        return context
-
-
-class Worker_wageDetailView(generic.DetailView):
-    model = Worker_wage
-    template_name = "crisisdb/worker_wage/worker_wage_detail.html"
-
-
-@permission_required('admin.can_add_log_entry')
-def worker_wage_download(request):
-    items = Worker_wage.objects.all()
-
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="worker_wages.csv"'
-
-    writer = csv.writer(response, delimiter='|')
-    writer.writerow(['year_from', 'year_to',
-                     'polity', 'worker_wage', 'area', 'unskilled_construction', 'skilled_construction', 'number_of_districts_with_available_data', 'unskilled_arms_manufacturer', 'population_in_millions_in_1787', ])
-
-    for obj in items:
-        writer.writerow([obj.year_from, obj.year_to,
-                         obj.polity, obj.worker_wage, obj.area, obj.unskilled_construction, obj.skilled_construction, obj.number_of_districts_with_available_data, obj.unskilled_arms_manufacturer, obj.population_in_millions_in_1787, ])
-
-    return response
-
-
-vars_dic = {'Land_taxes_collected': {'model': Land_taxes_collected, 'list': Land_taxes_collectedListView, 'create': Land_taxes_collectedCreate, 'section': 'Fiscal Helath', 'subsection': 'Unnamed Subsection'}, 'Land_yield': {'model': Land_yield, 'list': Land_yieldListView, 'create': Land_yieldCreate, 'section': 'Fiscal Helath', 'subsection': 'Unnamed Subsection'}, 'Total_tax': {'model': Total_tax, 'list': Total_taxListView, 'create': Total_taxCreate, 'section': 'Fiscal Helath', 'subsection': 'Unnamed Subsection'}, 'Total_economic_output': {'model': Total_economic_output, 'list': Total_economic_outputListView, 'create': Total_economic_outputCreate, 'section': 'Fiscal Helath', 'subsection': 'Unnamed Subsection'}, 'Total_revenue': {'model': Total_revenue, 'list': Total_revenueListView, 'create': Total_revenueCreate, 'section': 'Unnamed Section', 'subsection': 'Unnamed Subsection'}, 'Diding_taxes': {'model': Diding_taxes, 'list': Diding_taxesListView, 'create': Diding_taxesCreate, 'section': 'Fiscal Helath', 'subsection': 'Unnamed Subsection'}, 'Salt_tax': {'model': Salt_tax, 'list': Salt_taxListView, 'create': Salt_taxCreate, 'section': 'Fiscal Helath', 'subsection': 'Unnamed Subsection'}, 'Tariff_and_transit': {'model': Tariff_and_transit, 'list': Tariff_and_transitListView, 'create': Tariff_and_transitCreate, 'section': 'Fiscal Helath', 'subsection': 'Unnamed Subsection'}, 'Misc_incomes': {'model': Misc_incomes, 'list': Misc_incomesListView, 'create': Misc_incomesCreate, 'section': 'Fiscal Helath', 'subsection': 'Unnamed Subsection'}, 'Total_expenditure': {'model': Total_expenditure, 'list': Total_expenditureListView, 'create': Total_expenditureCreate, 'section': 'Fiscal Helath', 'subsection': 'Unnamed Subsection'}, 'Balance': {'model': Balance, 'list': BalanceListView, 'create': BalanceCreate, 'section': 'Fiscal Helath', 'subsection': 'Unnamed Subsection'}, 'Lijin': {'model': Lijin, 'list': LijinListView, 'create': LijinCreate, 'section': 'Fiscal Helath', 'subsection': 'Unnamed Subsection'}, 'Maritime_custom': {'model': Maritime_custom, 'list': Maritime_customListView, 'create': Maritime_customCreate, 'section': 'Fiscal Helath', 'subsection': 'Unnamed Subsection'}, 'Other_incomes': {'model': Other_incomes, 'list': Other_incomesListView, 'create': Other_incomesCreate, 'section': 'Fiscal Helath', 'subsection': 'Unnamed Subsection'}, 'Revenue_official': {'model': Revenue_official, 'list': Revenue_officialListView, 'create': Revenue_officialCreate, 'section': 'Fiscal Helath', 'subsection': 'Unnamed Subsection'}, 'Revenue_real': {'model': Revenue_real,
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          'list': Revenue_realListView, 'create': Revenue_realCreate, 'section': 'Fiscal Helath', 'subsection': 'Unnamed Subsection'}, 'Gdp_total': {'model': Gdp_total, 'list': Gdp_totalListView, 'create': Gdp_totalCreate, 'section': 'Aggregate Wealth', 'subsection': 'Unnamed Subsection'}, 'Gdp_growth_rate': {'model': Gdp_growth_rate, 'list': Gdp_growth_rateListView, 'create': Gdp_growth_rateCreate, 'section': 'Aggregate Wealth', 'subsection': 'Unnamed Subsection'}, 'Shares_of_world_gdp': {'model': Shares_of_world_gdp, 'list': Shares_of_world_gdpListView, 'create': Shares_of_world_gdpCreate, 'section': 'Aggregate Wealth', 'subsection': 'Unnamed Subsection'}, 'Gdp_per_capita': {'model': Gdp_per_capita, 'list': Gdp_per_capitaListView, 'create': Gdp_per_capitaCreate, 'section': 'Aggregate Wealth', 'subsection': 'Unnamed Subsection'}, 'Rate_of_gdp_per_capita_growth': {'model': Rate_of_gdp_per_capita_growth, 'list': Rate_of_gdp_per_capita_growthListView, 'create': Rate_of_gdp_per_capita_growthCreate, 'section': 'Aggregate Wealth', 'subsection': 'Unnamed Subsection'}, 'Wages': {'model': Wages, 'list': WagesListView, 'create': WagesCreate, 'section': 'Aggregate Wealth', 'subsection': 'Unnamed Subsection'}, 'Annual_wages': {'model': Annual_wages, 'list': Annual_wagesListView, 'create': Annual_wagesCreate, 'section': 'Institutional variables', 'subsection': 'Unnamed Subsection'}, 'Rate_of_return': {'model': Rate_of_return, 'list': Rate_of_returnListView, 'create': Rate_of_returnCreate, 'section': 'Wages', 'subsection': 'Unnamed Subsection'}, 'Famine_event': {'model': Famine_event, 'list': Famine_eventListView, 'create': Famine_eventCreate, 'section': 'Famines Section', 'subsection': 'Famines subsection'}, 'Disease_event': {'model': Disease_event, 'list': Disease_eventListView, 'create': Disease_eventCreate, 'section': 'Diseases Section', 'subsection': 'Unnamed Subsection'}, 'Jinshi_degrees_awarded': {'model': Jinshi_degrees_awarded, 'list': Jinshi_degrees_awardedListView, 'create': Jinshi_degrees_awardedCreate, 'section': 'Unnamed Section', 'subsection': 'Unnamed Subsection'}, 'Examination': {'model': Examination, 'list': ExaminationListView, 'create': ExaminationCreate, 'section': 'Unnamed Section', 'subsection': 'Unnamed Subsection'}, 'Taiping_rebellion': {'model': Taiping_rebellion, 'list': Taiping_rebellionListView, 'create': Taiping_rebellionCreate, 'section': 'Unnamed Section', 'subsection': 'Unnamed Subsection'}, 'Worker_wage': {'model': Worker_wage, 'list': Worker_wageListView, 'create': Worker_wageCreate, 'section': 'Unnamed Section', 'subsection': 'Unnamed Subsection'}}
-
+        
 def QingVars(request):
     all_sections = Section.objects.all()
     all_subsections = Subsection.objects.all()
@@ -2651,7 +1560,7 @@ def QingVars(request):
         #full_name = m.__module__ + m.__name__
         full_name = m.__name__
         meta_data_dict[full_name.lower()] = [full_name.split('.')[-1].replace("_", ' '), m._default_manager.count(), full_name.lower()+"-create",full_name.lower()+"s"]
-        print (f".{m.__name__}\t{m._default_manager.count()}")
+        print (f".{m.__name__}	{m._default_manager.count()}")
     my_dict = {}
     context = {}
     for sect in all_sections:
@@ -2668,69 +1577,9 @@ def QingVars(request):
     context["my_dict"] = my_dict
     for ct in ContentType.objects.all():
         m = ct.model_class()
-        print (f"{m.__module__}.{m.__name__}\t{m._default_manager.count()}")
+        print (f"{m.__module__}.{m.__name__}	{m._default_manager.count()}")
     return render(request, 'crisisdb/qing-vars.html', context=context)
 
-
-def QingVarsOld(request):
-    context = {}
-    mylist = []
-    # create an amty dic for sections and subsections:
-    ultimate_dic = {'Unnamed Section': {'Unnamed Subsection': []}}
-    for k, v in vars_dic.items():
-        if 'section' not in v.keys():
-            if 'subsection' in v.keys():
-                ultimate_dic['Unnamed Section'][v['subsection']] = []
-            else:
-                # remember that we already have those 'unnamed section' and 'unnamed subsections' in the ultimate dic
-                continue
-        if v['section'] not in ultimate_dic.keys():
-            ultimate_dic[v['section']] = {}
-            ultimate_dic[v['section']][v['subsection']] = []
-            if 'subsection' not in v.keys():
-                ultimate_dic[v['section']]['Unnamed Subsection'] = []
-        else:
-            if v['subsection'] not in ultimate_dic[v['section']].keys():
-                ultimate_dic[v['section']][v['subsection']] = []
-            else:
-                print("good to go...")
-    for k, v in vars_dic.items():
-        # each k is actually the name of the model
-        # we can go through the list to make sections and subsections
-        inner_list = []
-
-        spaced_value_list_0 = k.split("_")
-        spaced_value_list = []
-        for item in spaced_value_list_0:
-            if len(item) >= 3 and item.lower() not in ["for", "and", "from", "the"]:
-                spaced_value_list.append(item.capitalize())
-            else:
-                spaced_value_list.append(item)
-
-        spaced_value = " ".join([myvalue for myvalue in spaced_value_list])
-        inner_list.append(spaced_value)
-        inner_list.append(v['model'].objects.count())
-        list_link = v['list']()
-        inner_list.append(list_link.get_absolute_url())
-        create_link = v['create']()
-        inner_list.append(create_link.get_absolute_url())
-        if 'section' not in v.keys() and 'subsection' not in v.keys():
-            ultimate_dic['Unnamed Section']['Unnamed Subsection'].append(
-                inner_list)
-        elif 'section' in v.keys() and 'subsection' not in v.keys():
-            ultimate_dic[v['section']]['Unnamed Subsection'].append(inner_list)
-        elif 'section' not in v.keys() and 'subsection' in v.keys():
-            ultimate_dic['Unnamed Section'][v['section']].append(inner_list)
-        else:
-            ultimate_dic[v['section']][v['subsection']].append(inner_list)
-        # mylist.append(inner_list)
-
-    #context["mylist"] = mylist
-    context["mylist"] = ultimate_dic
-
-    #context["agrpod"] = Agr_Prod_Pop.objects.all()
-    print(context['mylist'])
-    return render(request, 'crisisdb/qing-vars.html', context=context)
 
 
 def playground(request):
@@ -2751,8 +1600,6 @@ Tags_dic = {
     'UNK': 'Unknown',
 }
 
-
-@permission_required('admin.can_add_log_entry')
 def playgrounddownload(request):
     # read the data from the previous from
     # make sure you collect all the data from seshat_api
@@ -2777,9 +1624,8 @@ def playgrounddownload(request):
     else:
         print("Bad selection of Separator.")
 
-    #url = "http://127.0.0.1:8000/api/politys/"
-    url = "https://www.majidbenam.com/api/politys/"
-    #url = settings.MY_CURRENT_SERVER + "/api/politys/"
+    url = "http://127.0.0.1:8000/api/politys/"
+    #url = "https://www.majidbenam.com/api/politys/"
     print(url)
 
 
@@ -2835,40 +1681,5 @@ def playgrounddownload(request):
                                 an_equinox_row.append(full_tag)
                                 writer.writerow(an_equinox_row)
 
-    # print(dir(resp))
-    # print('\n\n\n')
-    # print(len(resp.json()['results']))
-    # print('\n\n\n')
-
-    # print(resp.content)
-    # print('\n\n\n')
-
     return final_response
-    # the top row is the same as Equinox, so no need to read data from user input for that
-    # writer.writerow(['year_from', 'year_to',
-    #                  'polity', 'land_taxes_collected', ])
 
-    # for obj in items:
-    #     writer.writerow([obj.year_from, obj.year_to,
-    #                      obj.polity, obj.land_taxes_collected, ])
-
-    # return response
-
-    return render(request, 'crisisdb/playgrounddownload.html')
-
-    # checked_pols.append()
-
-    # items = Land_taxes_collected.objects.all()
-
-    # response = HttpResponse(content_type='text/csv')
-    # response['Content-Disposition'] = 'attachment; filename="land_taxes_collecteds.csv"'
-
-    # writer = csv.writer(response, delimiter='|')
-    # writer.writerow(['year_from', 'year_to',
-    #                  'polity', 'land_taxes_collected', ])
-
-    # for obj in items:
-    #     writer.writerow([obj.year_from, obj.year_to,
-    #                      obj.polity, obj.land_taxes_collected, ])
-
-    # return response
