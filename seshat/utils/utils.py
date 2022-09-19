@@ -34,49 +34,28 @@ def dic_of_all_vars():
     #         my_vars[better_key] = better_value
     #         my_vars[better_key] = [better_value, m._default_manager.count()]
 
-    
+
             #print(better_key, ': ', better_value)
             # print(f"{m.__module__}.{m.__name__}\t{m._default_manager.count()}")
     return (my_vars)
 
 
 def dic_of_all_vars_with_varhier():
-    myvars = django.apps.apps.get_models()
-    # my_vars = {
-    #     'total_tax': 'Total Tax',
-    #     'salt_tax': 'Salt Tax',
-    #     'total_revenue': 'Total Revenue',
-    # }
-    my_vars = {}
-    my_vars_2 = {}
-    my_secs = {}
-    all_var_hiers = Variablehierarchy.objects.all()
-    for varhier in all_var_hiers:
-        var_subsec = str(varhier.subsection.name).replace(' ', '_')
-        var_sec = str(varhier.section.name).replace(' ', '_')
-        if var_sec not in my_secs.keys():
-            my_secs[var_sec] = {var_subsec:{}}
-        else:
-            if var_subsec not in my_secs[var_sec].keys():
-                my_secs[var_sec][var_subsec] = {}
-            else:
-                pass 
-    for ct in ContentType.objects.all():
-        m = ct.model_class()
-        if m.__module__ == "seshat.apps.crisisdb.models":
-            app_name = m.__module__.split('.')[-2] + '_'
-            better_key = app_name + m.__name__
-            best_key = better_key.replace(' ', '_')[9:]
-            best_key = best_key[0].lower() + best_key[1:]
-            best_key = best_key.replace('gdp', 'GDP')
-            better_value = m.__name__.replace('_', ' ')
-            try:
-                this_varhier = Variablehierarchy.objects.get(name=best_key)
-                this_varhier_sec = str(this_varhier.section.name).replace(' ', '_')
-                this_varhier_subsec = str(this_varhier.subsection.name).replace(' ', '_')
-                my_secs[this_varhier_sec][this_varhier_subsec][best_key] = [better_value, m._default_manager.count()]
-            except:
-                continue
+    my_secs = {'Economy Variables': {'Productivity': ['agricultural_population',
+   'arable_land',
+   'arable_land_per_farmer',
+   'gross_grain_shared_per_agricultural_population',
+   'net_grain_shared_per_agricultural_population',
+   'surplus',
+   'gdp_per_capita'],
+  'State Finances': ['military_expense', 'silver_inflow', 'silver_stock']},
+ 'Social Complexity Variables': {'Social Scale': ['total_population']},
+ 'Well Being': {'Biological Well-Being': ['drought_event',
+   'locust_event',
+   'socioeconomic_turmoil_event',
+   'crop_failure_event',
+   'famine_event',
+   'disease_outbreak']}}
 
     return (my_secs)
 

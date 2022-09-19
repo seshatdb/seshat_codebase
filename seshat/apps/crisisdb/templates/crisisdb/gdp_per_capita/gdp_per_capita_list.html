@@ -8,6 +8,10 @@
     <a href="{% url 'gdp_per_capita-download' %}" class="btn btn-outline-primary ms-auto my-4 float-end"><i class="fas fa-download"></i> &nbsp; Download All</a>
 {% endblock download_button %}
 
+{% block metadownload_button %}
+    <a href="{% url 'gdp_per_capita-metadownload' %}" class="btn btn-primary ms-auto py-2 float-end"><i class="fas fa-download"></i> &nbsp; Download MetaData</a>
+{% endblock metadownload_button %}
+
 {% block main_description %}
 
 {% endblock main_description %}

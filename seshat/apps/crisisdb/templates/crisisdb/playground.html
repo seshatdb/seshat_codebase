@@ -149,10 +149,10 @@
                
                     <!-- <h5 class="ps-2"> <i class="fa-solid fa-arrow-right-long"></i>  &nbsp; {{sb}}:</h5> -->
                     <div class="row ps-4"> 
-                    {% for var, var_name in vrs.items %}
+                    {% for var in vrs %}
                     <div class="form-check col-md-4">
                         <input class="form-check-input varoption {{sec}} {{sb}}" type="checkbox" id="{{ var }}" value="{{ var }}" name="selected_vars">
-                        <label class="form-check-label" for="{{ var }}"><span class="h6 pull-left">{{var_name.0}}</span> &nbsp; <a href="{% url var|add:'s' %}"><small class="badge bg-teal text-dark">{{var_name.1}} </small> &nbsp; </a> </label>
+                        <label class="form-check-label" for="{{ var }}"><span class="h6 pull-left">{{var}}</span></label>
                     </div>
                     {% endfor %}
                 </div>

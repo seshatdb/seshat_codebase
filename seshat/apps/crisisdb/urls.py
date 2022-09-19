@@ -6,6 +6,8 @@ from . import views
 urlpatterns = [
     path('vars/', views.QingVars, name='qing_vars'),
     path('playground/', views.playground, name='playground'),
+    path('playgrounddownload/', views.playgrounddownload,
+         name="playgrounddownload"), 
 ]
 
 
@@ -23,6 +25,8 @@ urlpatterns += [
     # Download
     path('agricultural_populationdownload/', views.agricultural_population_download,
          name="agricultural_population-download"),
+    path('agricultural_populationmetadownload/', views.agricultural_population_meta_download,
+         name="agricultural_population-metadownload"),
 ]
         
 
@@ -40,6 +44,8 @@ urlpatterns += [
     # Download
     path('arable_landdownload/', views.arable_land_download,
          name="arable_land-download"),
+    path('arable_landmetadownload/', views.arable_land_meta_download,
+         name="arable_land-metadownload"),
 ]
         
 
@@ -57,6 +63,8 @@ urlpatterns += [
     # Download
     path('arable_land_per_farmerdownload/', views.arable_land_per_farmer_download,
          name="arable_land_per_farmer-download"),
+    path('arable_land_per_farmermetadownload/', views.arable_land_per_farmer_meta_download,
+         name="arable_land_per_farmer-metadownload"),
 ]
         
 
@@ -74,6 +82,8 @@ urlpatterns += [
     # Download
     path('gross_grain_shared_per_agricultural_populationdownload/', views.gross_grain_shared_per_agricultural_population_download,
          name="gross_grain_shared_per_agricultural_population-download"),
+    path('gross_grain_shared_per_agricultural_populationmetadownload/', views.gross_grain_shared_per_agricultural_population_meta_download,
+         name="gross_grain_shared_per_agricultural_population-metadownload"),
 ]
         
 
@@ -91,6 +101,8 @@ urlpatterns += [
     # Download
     path('net_grain_shared_per_agricultural_populationdownload/', views.net_grain_shared_per_agricultural_population_download,
          name="net_grain_shared_per_agricultural_population-download"),
+    path('net_grain_shared_per_agricultural_populationmetadownload/', views.net_grain_shared_per_agricultural_population_meta_download,
+         name="net_grain_shared_per_agricultural_population-metadownload"),
 ]
         
 
@@ -108,6 +120,8 @@ urlpatterns += [
     # Download
     path('surplusdownload/', views.surplus_download,
          name="surplus-download"),
+    path('surplusmetadownload/', views.surplus_meta_download,
+         name="surplus-metadownload"),
 ]
         
 
@@ -125,6 +139,8 @@ urlpatterns += [
     # Download
     path('military_expensedownload/', views.military_expense_download,
          name="military_expense-download"),
+    path('military_expensemetadownload/', views.military_expense_meta_download,
+         name="military_expense-metadownload"),
 ]
         
 
@@ -142,6 +158,8 @@ urlpatterns += [
     # Download
     path('silver_inflowdownload/', views.silver_inflow_download,
          name="silver_inflow-download"),
+    path('silver_inflowmetadownload/', views.silver_inflow_meta_download,
+         name="silver_inflow-metadownload"),
 ]
         
 
@@ -159,6 +177,8 @@ urlpatterns += [
     # Download
     path('silver_stockdownload/', views.silver_stock_download,
          name="silver_stock-download"),
+    path('silver_stockmetadownload/', views.silver_stock_meta_download,
+         name="silver_stock-metadownload"),
 ]
         
 
@@ -176,6 +196,8 @@ urlpatterns += [
     # Download
     path('total_populationdownload/', views.total_population_download,
          name="total_population-download"),
+    path('total_populationmetadownload/', views.total_population_meta_download,
+         name="total_population-metadownload"),
 ]
         
 
@@ -193,6 +215,8 @@ urlpatterns += [
     # Download
     path('gdp_per_capitadownload/', views.gdp_per_capita_download,
          name="gdp_per_capita-download"),
+    path('gdp_per_capitametadownload/', views.gdp_per_capita_meta_download,
+         name="gdp_per_capita-metadownload"),
 ]
         
 
@@ -210,6 +234,8 @@ urlpatterns += [
     # Download
     path('drought_eventdownload/', views.drought_event_download,
          name="drought_event-download"),
+    path('drought_eventmetadownload/', views.drought_event_meta_download,
+         name="drought_event-metadownload"),
 ]
         
 
@@ -227,6 +253,8 @@ urlpatterns += [
     # Download
     path('locust_eventdownload/', views.locust_event_download,
          name="locust_event-download"),
+    path('locust_eventmetadownload/', views.locust_event_meta_download,
+         name="locust_event-metadownload"),
 ]
         
 
@@ -244,6 +272,8 @@ urlpatterns += [
     # Download
     path('socioeconomic_turmoil_eventdownload/', views.socioeconomic_turmoil_event_download,
          name="socioeconomic_turmoil_event-download"),
+    path('socioeconomic_turmoil_eventmetadownload/', views.socioeconomic_turmoil_event_meta_download,
+         name="socioeconomic_turmoil_event-metadownload"),
 ]
         
 
@@ -261,6 +291,8 @@ urlpatterns += [
     # Download
     path('crop_failure_eventdownload/', views.crop_failure_event_download,
          name="crop_failure_event-download"),
+    path('crop_failure_eventmetadownload/', views.crop_failure_event_meta_download,
+         name="crop_failure_event-metadownload"),
 ]
         
 
@@ -278,6 +310,8 @@ urlpatterns += [
     # Download
     path('famine_eventdownload/', views.famine_event_download,
          name="famine_event-download"),
+    path('famine_eventmetadownload/', views.famine_event_meta_download,
+         name="famine_event-metadownload"),
 ]
         
 
@@ -295,5 +329,7 @@ urlpatterns += [
     # Download
     path('disease_outbreakdownload/', views.disease_outbreak_download,
          name="disease_outbreak-download"),
+    path('disease_outbreakmetadownload/', views.disease_outbreak_meta_download,
+         name="disease_outbreak-metadownload"),
 ]
         

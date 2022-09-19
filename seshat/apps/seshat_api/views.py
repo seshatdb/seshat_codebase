@@ -10,7 +10,7 @@ from django.http import HttpResponse, JsonResponse
 
 #from django.http import HttpResponse
 from ..core.models import Polity, Reference, Section
-from .serializers import UserSerializer, GroupSerializer, PolitySerializer, ReferenceSerializer, AlbumSerializer, Total_taxSerializer, SectionSerializer
+from .serializers import UserSerializer, GroupSerializer, PolitySerializer, ReferenceSerializer
 
 from .models import Album, Track
 
@@ -45,13 +45,13 @@ class PolityViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
 
-class SectionViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows groups to be viewed or edited.
-    """
-    queryset = Section.objects.all()
-    serializer_class = SectionSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+# class SectionViewSet(viewsets.ModelViewSet):
+#     """
+#     API endpoint that allows groups to be viewed or edited.
+#     """
+#     queryset = Section.objects.all()
+#     serializer_class = SectionSerializer
+#     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
 
 @api_view(['GET', 'POST'])

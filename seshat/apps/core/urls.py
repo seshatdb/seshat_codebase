@@ -21,6 +21,7 @@ urlpatterns += [
     path('variablehierarchy/', views.variablehierarchysetting,
          name='variablehierarchysetting'),
      path('synczotero/', views.synczotero, name='synczotero'),
+     path('synczotero100/', views.synczotero100, name='synczotero100'),
      path('updatecitations/', views.update_citations, name='updatecitations'),
 ]
 

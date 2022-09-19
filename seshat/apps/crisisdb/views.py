@@ -42,39 +42,51 @@ class Agricultural_populationCreate(PermissionRequiredMixin, CreateView):
     model = Agricultural_population
     form_class = Agricultural_populationForm
     template_name = "crisisdb/agricultural_population/agricultural_population_form.html"
-    #permission_required = 'catalog.can_mark_returned'
+    permission_required = 'catalog.can_mark_returned'
 
     def get_absolute_url(self):
         return reverse('agricultural_population-create')
     def get_context_data(self, **kwargs):
         # get the explanattion:
         all_var_hiers = Variablehierarchy.objects.all()
-        for item in all_var_hiers:
-            if item.name == "Agricultural Population":
-                my_exp = item.explanation
-                my_sec = item.section.name
-                my_subsec = item.subsection.name
-                my_name = item.name
-                break
-            else:
-                my_exp = "No_Explanations"
-                my_sec = "No_SECTION"
-                my_subsec = "NO_SUBSECTION"
-                my_name = "NO_NAME"
-        context = super().get_context_data(**kwargs)
-        context["mysection"] = my_sec
-        context["mysubsection"] = my_subsec
-        context["myvar"] = my_name
-        context["my_exp"] = my_exp
+        if all_var_hiers:
+            for item in all_var_hiers:
+                if item.name == "Agricultural Population":
+                    my_exp = item.explanation
+                    my_sec = item.section.name
+                    my_subsec = item.subsection.name
+                    my_name = item.name
+                    break
+                else:
+                    my_exp = "No_Explanations"
+                    my_sec = "No_SECTION"
+                    my_subsec = "NO_SUBSECTION"
+                    my_name = "NO_NAME"
+            context = super().get_context_data(**kwargs)
+            context["mysection"] = my_sec
+            context["mysubsection"] = my_subsec
+            context["myvar"] = my_name
+            context["my_exp"] = my_exp
 
-        return context
+            return context
+        else:
+            context = super().get_context_data(**kwargs)
+            my_exp = "No_Explanations"
+            my_sec = "No_SECTION"
+            my_subsec = "NO_SUBSECTION"
+            my_name = "NO_NAME"
+            context["mysection"] = my_sec
+            context["mysubsection"] = my_subsec
+            context["myvar"] = "Agricultural Population"
+            context["my_exp"] = my_exp
+            return context
 
 
 class Agricultural_populationUpdate(PermissionRequiredMixin, UpdateView):
     model = Agricultural_population
     form_class = Agricultural_populationForm
     template_name = "crisisdb/agricultural_population/agricultural_population_update.html"
-    #permission_required = 'catalog.can_mark_returned'
+    permission_required = 'catalog.can_mark_returned'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -86,7 +98,7 @@ class Agricultural_populationDelete(PermissionRequiredMixin, DeleteView):
     model = Agricultural_population
     success_url = reverse_lazy('agricultural_populations')
     template_name = "core/delete_general.html"
-    #permission_required = 'catalog.can_mark_returned'
+    permission_required = 'catalog.can_mark_returned'
 
 
 class Agricultural_populationListView(generic.ListView):
@@ -100,6 +112,12 @@ class Agricultural_populationListView(generic.ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["myvar"] = "Agricultural Population"
+        context["var_main_desc"] = "No Explanations."
+        context["var_main_desc_source"] = ""
+        context["var_section"] = "Economy Variables"
+        context["var_subsection"] = "Productivity"
+        context["var_null_meaning"] = "The value is not available."
+        context["inner_vars"] = {'agricultural_population': {'min': 0, 'max': None, 'scale': 1000, 'var_exp_source': None, 'var_exp': 'No Explanations.', 'units': 'People', 'choices': None}}
 
         return context
         
@@ -108,7 +126,7 @@ class Agricultural_populationDetailView(generic.DetailView):
     template_name = "crisisdb/agricultural_population/agricultural_population_detail.html"
 
 
-#@permission_required('admin.can_add_log_entry')
+@permission_required('admin.can_add_log_entry')
 def agricultural_population_download(request):
     items = Agricultural_population.objects.all()
 
@@ -125,45 +143,77 @@ def agricultural_population_download(request):
 
     return response
 
+@permission_required('admin.can_add_log_entry')
+def agricultural_population_meta_download(request):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="agricultural_populations.csv"'
+    
+    my_meta_data_dic = {'notes': 'Notes for the Variable agricultural_population are missing!', 'main_desc': 'No Explanations.', 'main_desc_source': 'No Explanations.', 'section': 'Economy Variables', 'subsection': 'Productivity', 'null_meaning': 'The value is not available.'}
+    my_meta_data_dic_inner_vars = {'agricultural_population': {'min': 0, 'max': None, 'scale': 1000, 'var_exp_source': None, 'var_exp': 'No Explanations.', 'units': 'People', 'choices': None}}
+    writer = csv.writer(response, delimiter='|')
+    # bring in the meta data nedded
+    for k, v in my_meta_data_dic.items():
+        writer.writerow([k, v])
+
+    for k_in, v_in in my_meta_data_dic_inner_vars.items():
+        writer.writerow([k_in,])
+        for inner_key, inner_value in v_in.items():
+            if inner_value:
+                writer.writerow([inner_key, inner_value])
+
+    return response
+
         
 
 class Arable_landCreate(PermissionRequiredMixin, CreateView):
     model = Arable_land
     form_class = Arable_landForm
     template_name = "crisisdb/arable_land/arable_land_form.html"
-    #permission_required = 'catalog.can_mark_returned'
+    permission_required = 'catalog.can_mark_returned'
 
     def get_absolute_url(self):
         return reverse('arable_land-create')
     def get_context_data(self, **kwargs):
         # get the explanattion:
         all_var_hiers = Variablehierarchy.objects.all()
-        for item in all_var_hiers:
-            if item.name == "Arable Land":
-                my_exp = item.explanation
-                my_sec = item.section.name
-                my_subsec = item.subsection.name
-                my_name = item.name
-                break
-            else:
-                my_exp = "No_Explanations"
-                my_sec = "No_SECTION"
-                my_subsec = "NO_SUBSECTION"
-                my_name = "NO_NAME"
-        context = super().get_context_data(**kwargs)
-        context["mysection"] = my_sec
-        context["mysubsection"] = my_subsec
-        context["myvar"] = my_name
-        context["my_exp"] = my_exp
+        if all_var_hiers:
+            for item in all_var_hiers:
+                if item.name == "Arable Land":
+                    my_exp = item.explanation
+                    my_sec = item.section.name
+                    my_subsec = item.subsection.name
+                    my_name = item.name
+                    break
+                else:
+                    my_exp = "No_Explanations"
+                    my_sec = "No_SECTION"
+                    my_subsec = "NO_SUBSECTION"
+                    my_name = "NO_NAME"
+            context = super().get_context_data(**kwargs)
+            context["mysection"] = my_sec
+            context["mysubsection"] = my_subsec
+            context["myvar"] = my_name
+            context["my_exp"] = my_exp
 
-        return context
+            return context
+        else:
+            context = super().get_context_data(**kwargs)
+            my_exp = "No_Explanations"
+            my_sec = "No_SECTION"
+            my_subsec = "NO_SUBSECTION"
+            my_name = "NO_NAME"
+            context["mysection"] = my_sec
+            context["mysubsection"] = my_subsec
+            context["myvar"] = "Arable Land"
+            context["my_exp"] = my_exp
+            return context
 
 
 class Arable_landUpdate(PermissionRequiredMixin, UpdateView):
     model = Arable_land
     form_class = Arable_landForm
     template_name = "crisisdb/arable_land/arable_land_update.html"
-    #permission_required = 'catalog.can_mark_returned'
+    permission_required = 'catalog.can_mark_returned'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -175,7 +225,7 @@ class Arable_landDelete(PermissionRequiredMixin, DeleteView):
     model = Arable_land
     success_url = reverse_lazy('arable_lands')
     template_name = "core/delete_general.html"
-    #permission_required = 'catalog.can_mark_returned'
+    permission_required = 'catalog.can_mark_returned'
 
 
 class Arable_landListView(generic.ListView):
@@ -189,6 +239,12 @@ class Arable_landListView(generic.ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["myvar"] = "Arable Land"
+        context["var_main_desc"] = "No Explanations."
+        context["var_main_desc_source"] = ""
+        context["var_section"] = "Economy Variables"
+        context["var_subsection"] = "Productivity"
+        context["var_null_meaning"] = "The value is not available."
+        context["inner_vars"] = {'arable_land': {'min': None, 'max': None, 'scale': 1000, 'var_exp_source': None, 'var_exp': 'No Explanations.', 'units': 'mu?', 'choices': None}}
 
         return context
         
@@ -197,7 +253,7 @@ class Arable_landDetailView(generic.DetailView):
     template_name = "crisisdb/arable_land/arable_land_detail.html"
 
 
-#@permission_required('admin.can_add_log_entry')
+@permission_required('admin.can_add_log_entry')
 def arable_land_download(request):
     items = Arable_land.objects.all()
 
@@ -214,45 +270,77 @@ def arable_land_download(request):
 
     return response
 
+@permission_required('admin.can_add_log_entry')
+def arable_land_meta_download(request):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="arable_lands.csv"'
+    
+    my_meta_data_dic = {'notes': 'Notes for the Variable arable_land are missing!', 'main_desc': 'No Explanations.', 'main_desc_source': 'No Explanations.', 'section': 'Economy Variables', 'subsection': 'Productivity', 'null_meaning': 'The value is not available.'}
+    my_meta_data_dic_inner_vars = {'arable_land': {'min': None, 'max': None, 'scale': 1000, 'var_exp_source': None, 'var_exp': 'No Explanations.', 'units': 'mu?', 'choices': None}}
+    writer = csv.writer(response, delimiter='|')
+    # bring in the meta data nedded
+    for k, v in my_meta_data_dic.items():
+        writer.writerow([k, v])
+
+    for k_in, v_in in my_meta_data_dic_inner_vars.items():
+        writer.writerow([k_in,])
+        for inner_key, inner_value in v_in.items():
+            if inner_value:
+                writer.writerow([inner_key, inner_value])
+
+    return response
+
         
 
 class Arable_land_per_farmerCreate(PermissionRequiredMixin, CreateView):
     model = Arable_land_per_farmer
     form_class = Arable_land_per_farmerForm
     template_name = "crisisdb/arable_land_per_farmer/arable_land_per_farmer_form.html"
-    #permission_required = 'catalog.can_mark_returned'
+    permission_required = 'catalog.can_mark_returned'
 
     def get_absolute_url(self):
         return reverse('arable_land_per_farmer-create')
     def get_context_data(self, **kwargs):
         # get the explanattion:
         all_var_hiers = Variablehierarchy.objects.all()
-        for item in all_var_hiers:
-            if item.name == "Arable Land Per Farmer":
-                my_exp = item.explanation
-                my_sec = item.section.name
-                my_subsec = item.subsection.name
-                my_name = item.name
-                break
-            else:
-                my_exp = "No_Explanations"
-                my_sec = "No_SECTION"
-                my_subsec = "NO_SUBSECTION"
-                my_name = "NO_NAME"
-        context = super().get_context_data(**kwargs)
-        context["mysection"] = my_sec
-        context["mysubsection"] = my_subsec
-        context["myvar"] = my_name
-        context["my_exp"] = my_exp
+        if all_var_hiers:
+            for item in all_var_hiers:
+                if item.name == "Arable Land Per Farmer":
+                    my_exp = item.explanation
+                    my_sec = item.section.name
+                    my_subsec = item.subsection.name
+                    my_name = item.name
+                    break
+                else:
+                    my_exp = "No_Explanations"
+                    my_sec = "No_SECTION"
+                    my_subsec = "NO_SUBSECTION"
+                    my_name = "NO_NAME"
+            context = super().get_context_data(**kwargs)
+            context["mysection"] = my_sec
+            context["mysubsection"] = my_subsec
+            context["myvar"] = my_name
+            context["my_exp"] = my_exp
 
-        return context
+            return context
+        else:
+            context = super().get_context_data(**kwargs)
+            my_exp = "No_Explanations"
+            my_sec = "No_SECTION"
+            my_subsec = "NO_SUBSECTION"
+            my_name = "NO_NAME"
+            context["mysection"] = my_sec
+            context["mysubsection"] = my_subsec
+            context["myvar"] = "Arable Land Per Farmer"
+            context["my_exp"] = my_exp
+            return context
 
 
 class Arable_land_per_farmerUpdate(PermissionRequiredMixin, UpdateView):
     model = Arable_land_per_farmer
     form_class = Arable_land_per_farmerForm
     template_name = "crisisdb/arable_land_per_farmer/arable_land_per_farmer_update.html"
-    #permission_required = 'catalog.can_mark_returned'
+    permission_required = 'catalog.can_mark_returned'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -264,7 +352,7 @@ class Arable_land_per_farmerDelete(PermissionRequiredMixin, DeleteView):
     model = Arable_land_per_farmer
     success_url = reverse_lazy('arable_land_per_farmers')
     template_name = "core/delete_general.html"
-    #permission_required = 'catalog.can_mark_returned'
+    permission_required = 'catalog.can_mark_returned'
 
 
 class Arable_land_per_farmerListView(generic.ListView):
@@ -278,6 +366,12 @@ class Arable_land_per_farmerListView(generic.ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["myvar"] = "Arable Land Per Farmer"
+        context["var_main_desc"] = "No Explanations."
+        context["var_main_desc_source"] = ""
+        context["var_section"] = "Economy Variables"
+        context["var_subsection"] = "Productivity"
+        context["var_null_meaning"] = "The value is not available."
+        context["inner_vars"] = {'arable_land_per_farmer': {'min': None, 'max': None, 'scale': 1, 'var_exp_source': None, 'var_exp': 'No Explanations.', 'units': 'mu?', 'choices': None}}
 
         return context
         
@@ -286,7 +380,7 @@ class Arable_land_per_farmerDetailView(generic.DetailView):
     template_name = "crisisdb/arable_land_per_farmer/arable_land_per_farmer_detail.html"
 
 
-#@permission_required('admin.can_add_log_entry')
+@permission_required('admin.can_add_log_entry')
 def arable_land_per_farmer_download(request):
     items = Arable_land_per_farmer.objects.all()
 
@@ -303,45 +397,77 @@ def arable_land_per_farmer_download(request):
 
     return response
 
+@permission_required('admin.can_add_log_entry')
+def arable_land_per_farmer_meta_download(request):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="arable_land_per_farmers.csv"'
+    
+    my_meta_data_dic = {'notes': 'Notes for the Variable arable_land_per_farmer are missing!', 'main_desc': 'No Explanations.', 'main_desc_source': 'No Explanations.', 'section': 'Economy Variables', 'subsection': 'Productivity', 'null_meaning': 'The value is not available.'}
+    my_meta_data_dic_inner_vars = {'arable_land_per_farmer': {'min': None, 'max': None, 'scale': 1, 'var_exp_source': None, 'var_exp': 'No Explanations.', 'units': 'mu?', 'choices': None}}
+    writer = csv.writer(response, delimiter='|')
+    # bring in the meta data nedded
+    for k, v in my_meta_data_dic.items():
+        writer.writerow([k, v])
+
+    for k_in, v_in in my_meta_data_dic_inner_vars.items():
+        writer.writerow([k_in,])
+        for inner_key, inner_value in v_in.items():
+            if inner_value:
+                writer.writerow([inner_key, inner_value])
+
+    return response
+
         
 
 class Gross_grain_shared_per_agricultural_populationCreate(PermissionRequiredMixin, CreateView):
     model = Gross_grain_shared_per_agricultural_population
     form_class = Gross_grain_shared_per_agricultural_populationForm
     template_name = "crisisdb/gross_grain_shared_per_agricultural_population/gross_grain_shared_per_agricultural_population_form.html"
-    #permission_required = 'catalog.can_mark_returned'
+    permission_required = 'catalog.can_mark_returned'
 
     def get_absolute_url(self):
         return reverse('gross_grain_shared_per_agricultural_population-create')
     def get_context_data(self, **kwargs):
         # get the explanattion:
         all_var_hiers = Variablehierarchy.objects.all()
-        for item in all_var_hiers:
-            if item.name == "Gross Grain Shared Per Agricultural Population":
-                my_exp = item.explanation
-                my_sec = item.section.name
-                my_subsec = item.subsection.name
-                my_name = item.name
-                break
-            else:
-                my_exp = "No_Explanations"
-                my_sec = "No_SECTION"
-                my_subsec = "NO_SUBSECTION"
-                my_name = "NO_NAME"
-        context = super().get_context_data(**kwargs)
-        context["mysection"] = my_sec
-        context["mysubsection"] = my_subsec
-        context["myvar"] = my_name
-        context["my_exp"] = my_exp
+        if all_var_hiers:
+            for item in all_var_hiers:
+                if item.name == "Gross Grain Shared Per Agricultural Population":
+                    my_exp = item.explanation
+                    my_sec = item.section.name
+                    my_subsec = item.subsection.name
+                    my_name = item.name
+                    break
+                else:
+                    my_exp = "No_Explanations"
+                    my_sec = "No_SECTION"
+                    my_subsec = "NO_SUBSECTION"
+                    my_name = "NO_NAME"
+            context = super().get_context_data(**kwargs)
+            context["mysection"] = my_sec
+            context["mysubsection"] = my_subsec
+            context["myvar"] = my_name
+            context["my_exp"] = my_exp
 
-        return context
+            return context
+        else:
+            context = super().get_context_data(**kwargs)
+            my_exp = "No_Explanations"
+            my_sec = "No_SECTION"
+            my_subsec = "NO_SUBSECTION"
+            my_name = "NO_NAME"
+            context["mysection"] = my_sec
+            context["mysubsection"] = my_subsec
+            context["myvar"] = "Gross Grain Shared Per Agricultural Population"
+            context["my_exp"] = my_exp
+            return context
 
 
 class Gross_grain_shared_per_agricultural_populationUpdate(PermissionRequiredMixin, UpdateView):
     model = Gross_grain_shared_per_agricultural_population
     form_class = Gross_grain_shared_per_agricultural_populationForm
     template_name = "crisisdb/gross_grain_shared_per_agricultural_population/gross_grain_shared_per_agricultural_population_update.html"
-    #permission_required = 'catalog.can_mark_returned'
+    permission_required = 'catalog.can_mark_returned'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -353,7 +479,7 @@ class Gross_grain_shared_per_agricultural_populationDelete(PermissionRequiredMix
     model = Gross_grain_shared_per_agricultural_population
     success_url = reverse_lazy('gross_grain_shared_per_agricultural_populations')
     template_name = "core/delete_general.html"
-    #permission_required = 'catalog.can_mark_returned'
+    permission_required = 'catalog.can_mark_returned'
 
 
 class Gross_grain_shared_per_agricultural_populationListView(generic.ListView):
@@ -367,6 +493,12 @@ class Gross_grain_shared_per_agricultural_populationListView(generic.ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["myvar"] = "Gross Grain Shared Per Agricultural Population"
+        context["var_main_desc"] = "No Explanations."
+        context["var_main_desc_source"] = ""
+        context["var_section"] = "Economy Variables"
+        context["var_subsection"] = "Productivity"
+        context["var_null_meaning"] = "The value is not available."
+        context["inner_vars"] = {'gross_grain_shared_per_agricultural_population': {'min': None, 'max': None, 'scale': 1, 'var_exp_source': None, 'var_exp': 'No Explanations.', 'units': '(catties per capita)', 'choices': None}}
 
         return context
         
@@ -375,7 +507,7 @@ class Gross_grain_shared_per_agricultural_populationDetailView(generic.DetailVie
     template_name = "crisisdb/gross_grain_shared_per_agricultural_population/gross_grain_shared_per_agricultural_population_detail.html"
 
 
-#@permission_required('admin.can_add_log_entry')
+@permission_required('admin.can_add_log_entry')
 def gross_grain_shared_per_agricultural_population_download(request):
     items = Gross_grain_shared_per_agricultural_population.objects.all()
 
@@ -392,45 +524,77 @@ def gross_grain_shared_per_agricultural_population_download(request):
 
     return response
 
+@permission_required('admin.can_add_log_entry')
+def gross_grain_shared_per_agricultural_population_meta_download(request):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="gross_grain_shared_per_agricultural_populations.csv"'
+    
+    my_meta_data_dic = {'notes': 'Notes for the Variable gross_grain_shared_per_agricultural_population are missing!', 'main_desc': 'No Explanations.', 'main_desc_source': 'No Explanations.', 'section': 'Economy Variables', 'subsection': 'Productivity', 'null_meaning': 'The value is not available.'}
+    my_meta_data_dic_inner_vars = {'gross_grain_shared_per_agricultural_population': {'min': None, 'max': None, 'scale': 1, 'var_exp_source': None, 'var_exp': 'No Explanations.', 'units': '(catties per capita)', 'choices': None}}
+    writer = csv.writer(response, delimiter='|')
+    # bring in the meta data nedded
+    for k, v in my_meta_data_dic.items():
+        writer.writerow([k, v])
+
+    for k_in, v_in in my_meta_data_dic_inner_vars.items():
+        writer.writerow([k_in,])
+        for inner_key, inner_value in v_in.items():
+            if inner_value:
+                writer.writerow([inner_key, inner_value])
+
+    return response
+
         
 
 class Net_grain_shared_per_agricultural_populationCreate(PermissionRequiredMixin, CreateView):
     model = Net_grain_shared_per_agricultural_population
     form_class = Net_grain_shared_per_agricultural_populationForm
     template_name = "crisisdb/net_grain_shared_per_agricultural_population/net_grain_shared_per_agricultural_population_form.html"
-    #permission_required = 'catalog.can_mark_returned'
+    permission_required = 'catalog.can_mark_returned'
 
     def get_absolute_url(self):
         return reverse('net_grain_shared_per_agricultural_population-create')
     def get_context_data(self, **kwargs):
         # get the explanattion:
         all_var_hiers = Variablehierarchy.objects.all()
-        for item in all_var_hiers:
-            if item.name == "Net Grain Shared Per Agricultural Population":
-                my_exp = item.explanation
-                my_sec = item.section.name
-                my_subsec = item.subsection.name
-                my_name = item.name
-                break
-            else:
-                my_exp = "No_Explanations"
-                my_sec = "No_SECTION"
-                my_subsec = "NO_SUBSECTION"
-                my_name = "NO_NAME"
-        context = super().get_context_data(**kwargs)
-        context["mysection"] = my_sec
-        context["mysubsection"] = my_subsec
-        context["myvar"] = my_name
-        context["my_exp"] = my_exp
+        if all_var_hiers:
+            for item in all_var_hiers:
+                if item.name == "Net Grain Shared Per Agricultural Population":
+                    my_exp = item.explanation
+                    my_sec = item.section.name
+                    my_subsec = item.subsection.name
+                    my_name = item.name
+                    break
+                else:
+                    my_exp = "No_Explanations"
+                    my_sec = "No_SECTION"
+                    my_subsec = "NO_SUBSECTION"
+                    my_name = "NO_NAME"
+            context = super().get_context_data(**kwargs)
+            context["mysection"] = my_sec
+            context["mysubsection"] = my_subsec
+            context["myvar"] = my_name
+            context["my_exp"] = my_exp
 
-        return context
+            return context
+        else:
+            context = super().get_context_data(**kwargs)
+            my_exp = "No_Explanations"
+            my_sec = "No_SECTION"
+            my_subsec = "NO_SUBSECTION"
+            my_name = "NO_NAME"
+            context["mysection"] = my_sec
+            context["mysubsection"] = my_subsec
+            context["myvar"] = "Net Grain Shared Per Agricultural Population"
+            context["my_exp"] = my_exp
+            return context
 
 
 class Net_grain_shared_per_agricultural_populationUpdate(PermissionRequiredMixin, UpdateView):
     model = Net_grain_shared_per_agricultural_population
     form_class = Net_grain_shared_per_agricultural_populationForm
     template_name = "crisisdb/net_grain_shared_per_agricultural_population/net_grain_shared_per_agricultural_population_update.html"
-    #permission_required = 'catalog.can_mark_returned'
+    permission_required = 'catalog.can_mark_returned'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -442,7 +606,7 @@ class Net_grain_shared_per_agricultural_populationDelete(PermissionRequiredMixin
     model = Net_grain_shared_per_agricultural_population
     success_url = reverse_lazy('net_grain_shared_per_agricultural_populations')
     template_name = "core/delete_general.html"
-    #permission_required = 'catalog.can_mark_returned'
+    permission_required = 'catalog.can_mark_returned'
 
 
 class Net_grain_shared_per_agricultural_populationListView(generic.ListView):
@@ -456,6 +620,12 @@ class Net_grain_shared_per_agricultural_populationListView(generic.ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["myvar"] = "Net Grain Shared Per Agricultural Population"
+        context["var_main_desc"] = "No Explanations."
+        context["var_main_desc_source"] = ""
+        context["var_section"] = "Economy Variables"
+        context["var_subsection"] = "Productivity"
+        context["var_null_meaning"] = "The value is not available."
+        context["inner_vars"] = {'net_grain_shared_per_agricultural_population': {'min': None, 'max': None, 'scale': 1, 'var_exp_source': None, 'var_exp': 'No Explanations.', 'units': '(catties per capita)', 'choices': None}}
 
         return context
         
@@ -464,7 +634,7 @@ class Net_grain_shared_per_agricultural_populationDetailView(generic.DetailView)
     template_name = "crisisdb/net_grain_shared_per_agricultural_population/net_grain_shared_per_agricultural_population_detail.html"
 
 
-#@permission_required('admin.can_add_log_entry')
+@permission_required('admin.can_add_log_entry')
 def net_grain_shared_per_agricultural_population_download(request):
     items = Net_grain_shared_per_agricultural_population.objects.all()
 
@@ -481,45 +651,77 @@ def net_grain_shared_per_agricultural_population_download(request):
 
     return response
 
+@permission_required('admin.can_add_log_entry')
+def net_grain_shared_per_agricultural_population_meta_download(request):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="net_grain_shared_per_agricultural_populations.csv"'
+    
+    my_meta_data_dic = {'notes': 'Notes for the Variable net_grain_shared_per_agricultural_population are missing!', 'main_desc': 'No Explanations.', 'main_desc_source': 'No Explanations.', 'section': 'Economy Variables', 'subsection': 'Productivity', 'null_meaning': 'The value is not available.'}
+    my_meta_data_dic_inner_vars = {'net_grain_shared_per_agricultural_population': {'min': None, 'max': None, 'scale': 1, 'var_exp_source': None, 'var_exp': 'No Explanations.', 'units': '(catties per capita)', 'choices': None}}
+    writer = csv.writer(response, delimiter='|')
+    # bring in the meta data nedded
+    for k, v in my_meta_data_dic.items():
+        writer.writerow([k, v])
+
+    for k_in, v_in in my_meta_data_dic_inner_vars.items():
+        writer.writerow([k_in,])
+        for inner_key, inner_value in v_in.items():
+            if inner_value:
+                writer.writerow([inner_key, inner_value])
+
+    return response
+
         
 
 class SurplusCreate(PermissionRequiredMixin, CreateView):
     model = Surplus
     form_class = SurplusForm
     template_name = "crisisdb/surplus/surplus_form.html"
-    #permission_required = 'catalog.can_mark_returned'
+    permission_required = 'catalog.can_mark_returned'
 
     def get_absolute_url(self):
         return reverse('surplus-create')
     def get_context_data(self, **kwargs):
         # get the explanattion:
         all_var_hiers = Variablehierarchy.objects.all()
-        for item in all_var_hiers:
-            if item.name == "Surplus":
-                my_exp = item.explanation
-                my_sec = item.section.name
-                my_subsec = item.subsection.name
-                my_name = item.name
-                break
-            else:
-                my_exp = "No_Explanations"
-                my_sec = "No_SECTION"
-                my_subsec = "NO_SUBSECTION"
-                my_name = "NO_NAME"
-        context = super().get_context_data(**kwargs)
-        context["mysection"] = my_sec
-        context["mysubsection"] = my_subsec
-        context["myvar"] = my_name
-        context["my_exp"] = my_exp
+        if all_var_hiers:
+            for item in all_var_hiers:
+                if item.name == "Surplus":
+                    my_exp = item.explanation
+                    my_sec = item.section.name
+                    my_subsec = item.subsection.name
+                    my_name = item.name
+                    break
+                else:
+                    my_exp = "No_Explanations"
+                    my_sec = "No_SECTION"
+                    my_subsec = "NO_SUBSECTION"
+                    my_name = "NO_NAME"
+            context = super().get_context_data(**kwargs)
+            context["mysection"] = my_sec
+            context["mysubsection"] = my_subsec
+            context["myvar"] = my_name
+            context["my_exp"] = my_exp
 
-        return context
+            return context
+        else:
+            context = super().get_context_data(**kwargs)
+            my_exp = "No_Explanations"
+            my_sec = "No_SECTION"
+            my_subsec = "NO_SUBSECTION"
+            my_name = "NO_NAME"
+            context["mysection"] = my_sec
+            context["mysubsection"] = my_subsec
+            context["myvar"] = "Surplus"
+            context["my_exp"] = my_exp
+            return context
 
 
 class SurplusUpdate(PermissionRequiredMixin, UpdateView):
     model = Surplus
     form_class = SurplusForm
     template_name = "crisisdb/surplus/surplus_update.html"
-    #permission_required = 'catalog.can_mark_returned'
+    permission_required = 'catalog.can_mark_returned'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -531,7 +733,7 @@ class SurplusDelete(PermissionRequiredMixin, DeleteView):
     model = Surplus
     success_url = reverse_lazy('surplus')
     template_name = "core/delete_general.html"
-    #permission_required = 'catalog.can_mark_returned'
+    permission_required = 'catalog.can_mark_returned'
 
 
 class SurplusListView(generic.ListView):
@@ -545,6 +747,12 @@ class SurplusListView(generic.ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["myvar"] = "Surplus"
+        context["var_main_desc"] = "No Explanations."
+        context["var_main_desc_source"] = ""
+        context["var_section"] = "Economy Variables"
+        context["var_subsection"] = "Productivity"
+        context["var_null_meaning"] = "The value is not available."
+        context["inner_vars"] = {'surplus': {'min': None, 'max': None, 'scale': 1, 'var_exp_source': None, 'var_exp': 'No Explanations.', 'units': '(catties per capita)', 'choices': None}}
 
         return context
         
@@ -553,7 +761,7 @@ class SurplusDetailView(generic.DetailView):
     template_name = "crisisdb/surplus/surplus_detail.html"
 
 
-#@permission_required('admin.can_add_log_entry')
+@permission_required('admin.can_add_log_entry')
 def surplus_download(request):
     items = Surplus.objects.all()
 
@@ -570,45 +778,77 @@ def surplus_download(request):
 
     return response
 
+@permission_required('admin.can_add_log_entry')
+def surplus_meta_download(request):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="surplus.csv"'
+    
+    my_meta_data_dic = {'notes': 'Notes for the Variable surplus are missing!', 'main_desc': 'No Explanations.', 'main_desc_source': 'No Explanations.', 'section': 'Economy Variables', 'subsection': 'Productivity', 'null_meaning': 'The value is not available.'}
+    my_meta_data_dic_inner_vars = {'surplus': {'min': None, 'max': None, 'scale': 1, 'var_exp_source': None, 'var_exp': 'No Explanations.', 'units': '(catties per capita)', 'choices': None}}
+    writer = csv.writer(response, delimiter='|')
+    # bring in the meta data nedded
+    for k, v in my_meta_data_dic.items():
+        writer.writerow([k, v])
+
+    for k_in, v_in in my_meta_data_dic_inner_vars.items():
+        writer.writerow([k_in,])
+        for inner_key, inner_value in v_in.items():
+            if inner_value:
+                writer.writerow([inner_key, inner_value])
+
+    return response
+
         
 
 class Military_expenseCreate(PermissionRequiredMixin, CreateView):
     model = Military_expense
     form_class = Military_expenseForm
     template_name = "crisisdb/military_expense/military_expense_form.html"
-    #permission_required = 'catalog.can_mark_returned'
+    permission_required = 'catalog.can_mark_returned'
 
     def get_absolute_url(self):
         return reverse('military_expense-create')
     def get_context_data(self, **kwargs):
         # get the explanattion:
         all_var_hiers = Variablehierarchy.objects.all()
-        for item in all_var_hiers:
-            if item.name == "Conflict":
-                my_exp = item.explanation
-                my_sec = item.section.name
-                my_subsec = item.subsection.name
-                my_name = item.name
-                break
-            else:
-                my_exp = "No_Explanations"
-                my_sec = "No_SECTION"
-                my_subsec = "NO_SUBSECTION"
-                my_name = "NO_NAME"
-        context = super().get_context_data(**kwargs)
-        context["mysection"] = my_sec
-        context["mysubsection"] = my_subsec
-        context["myvar"] = my_name
-        context["my_exp"] = my_exp
+        if all_var_hiers:
+            for item in all_var_hiers:
+                if item.name == "Conflict":
+                    my_exp = item.explanation
+                    my_sec = item.section.name
+                    my_subsec = item.subsection.name
+                    my_name = item.name
+                    break
+                else:
+                    my_exp = "No_Explanations"
+                    my_sec = "No_SECTION"
+                    my_subsec = "NO_SUBSECTION"
+                    my_name = "NO_NAME"
+            context = super().get_context_data(**kwargs)
+            context["mysection"] = my_sec
+            context["mysubsection"] = my_subsec
+            context["myvar"] = my_name
+            context["my_exp"] = my_exp
 
-        return context
+            return context
+        else:
+            context = super().get_context_data(**kwargs)
+            my_exp = "No_Explanations"
+            my_sec = "No_SECTION"
+            my_subsec = "NO_SUBSECTION"
+            my_name = "NO_NAME"
+            context["mysection"] = my_sec
+            context["mysubsection"] = my_subsec
+            context["myvar"] = "Conflict"
+            context["my_exp"] = my_exp
+            return context
 
 
 class Military_expenseUpdate(PermissionRequiredMixin, UpdateView):
     model = Military_expense
     form_class = Military_expenseForm
     template_name = "crisisdb/military_expense/military_expense_update.html"
-    #permission_required = 'catalog.can_mark_returned'
+    permission_required = 'catalog.can_mark_returned'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -620,7 +860,7 @@ class Military_expenseDelete(PermissionRequiredMixin, DeleteView):
     model = Military_expense
     success_url = reverse_lazy('military_expenses')
     template_name = "core/delete_general.html"
-    #permission_required = 'catalog.can_mark_returned'
+    permission_required = 'catalog.can_mark_returned'
 
 
 class Military_expenseListView(generic.ListView):
@@ -634,6 +874,12 @@ class Military_expenseListView(generic.ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["myvar"] = "Conflict"
+        context["var_main_desc"] = "Main Descriptions for the Variable military_expense are missing!"
+        context["var_main_desc_source"] = "https://en.wikipedia.org/wiki/Disease_outbreak"
+        context["var_section"] = "Economy Variables"
+        context["var_subsection"] = "State Finances"
+        context["var_null_meaning"] = "The value is not available."
+        context["inner_vars"] = {'conflict': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The name of the conflict', 'units': None, 'choices': None}, 'expenditure': {'min': None, 'max': None, 'scale': 1, 'var_exp_source': None, 'var_exp': 'The military expenses in millions silver taels.', 'units': 'millions silver taels', 'choices': None}}
 
         return context
         
@@ -642,7 +888,7 @@ class Military_expenseDetailView(generic.DetailView):
     template_name = "crisisdb/military_expense/military_expense_detail.html"
 
 
-#@permission_required('admin.can_add_log_entry')
+@permission_required('admin.can_add_log_entry')
 def military_expense_download(request):
     items = Military_expense.objects.all()
 
@@ -659,45 +905,77 @@ def military_expense_download(request):
 
     return response
 
+@permission_required('admin.can_add_log_entry')
+def military_expense_meta_download(request):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="military_expenses.csv"'
+    
+    my_meta_data_dic = {'notes': 'Not sure about Section and Subsection.', 'main_desc': 'Main Descriptions for the Variable military_expense are missing!', 'main_desc_source': 'Main Descriptions for the Variable military_expense are missing!', 'section': 'Economy Variables', 'subsection': 'State Finances', 'null_meaning': 'The value is not available.'}
+    my_meta_data_dic_inner_vars = {'conflict': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The name of the conflict', 'units': None, 'choices': None}, 'expenditure': {'min': None, 'max': None, 'scale': 1, 'var_exp_source': None, 'var_exp': 'The military expenses in millions silver taels.', 'units': 'millions silver taels', 'choices': None}}
+    writer = csv.writer(response, delimiter='|')
+    # bring in the meta data nedded
+    for k, v in my_meta_data_dic.items():
+        writer.writerow([k, v])
+
+    for k_in, v_in in my_meta_data_dic_inner_vars.items():
+        writer.writerow([k_in,])
+        for inner_key, inner_value in v_in.items():
+            if inner_value:
+                writer.writerow([inner_key, inner_value])
+
+    return response
+
         
 
 class Silver_inflowCreate(PermissionRequiredMixin, CreateView):
     model = Silver_inflow
     form_class = Silver_inflowForm
     template_name = "crisisdb/silver_inflow/silver_inflow_form.html"
-    #permission_required = 'catalog.can_mark_returned'
+    permission_required = 'catalog.can_mark_returned'
 
     def get_absolute_url(self):
         return reverse('silver_inflow-create')
     def get_context_data(self, **kwargs):
         # get the explanattion:
         all_var_hiers = Variablehierarchy.objects.all()
-        for item in all_var_hiers:
-            if item.name == "Silver Inflow":
-                my_exp = item.explanation
-                my_sec = item.section.name
-                my_subsec = item.subsection.name
-                my_name = item.name
-                break
-            else:
-                my_exp = "No_Explanations"
-                my_sec = "No_SECTION"
-                my_subsec = "NO_SUBSECTION"
-                my_name = "NO_NAME"
-        context = super().get_context_data(**kwargs)
-        context["mysection"] = my_sec
-        context["mysubsection"] = my_subsec
-        context["myvar"] = my_name
-        context["my_exp"] = my_exp
+        if all_var_hiers:
+            for item in all_var_hiers:
+                if item.name == "Silver Inflow":
+                    my_exp = item.explanation
+                    my_sec = item.section.name
+                    my_subsec = item.subsection.name
+                    my_name = item.name
+                    break
+                else:
+                    my_exp = "No_Explanations"
+                    my_sec = "No_SECTION"
+                    my_subsec = "NO_SUBSECTION"
+                    my_name = "NO_NAME"
+            context = super().get_context_data(**kwargs)
+            context["mysection"] = my_sec
+            context["mysubsection"] = my_subsec
+            context["myvar"] = my_name
+            context["my_exp"] = my_exp
 
-        return context
+            return context
+        else:
+            context = super().get_context_data(**kwargs)
+            my_exp = "No_Explanations"
+            my_sec = "No_SECTION"
+            my_subsec = "NO_SUBSECTION"
+            my_name = "NO_NAME"
+            context["mysection"] = my_sec
+            context["mysubsection"] = my_subsec
+            context["myvar"] = "Silver Inflow"
+            context["my_exp"] = my_exp
+            return context
 
 
 class Silver_inflowUpdate(PermissionRequiredMixin, UpdateView):
     model = Silver_inflow
     form_class = Silver_inflowForm
     template_name = "crisisdb/silver_inflow/silver_inflow_update.html"
-    #permission_required = 'catalog.can_mark_returned'
+    permission_required = 'catalog.can_mark_returned'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -709,7 +987,7 @@ class Silver_inflowDelete(PermissionRequiredMixin, DeleteView):
     model = Silver_inflow
     success_url = reverse_lazy('silver_inflows')
     template_name = "core/delete_general.html"
-    #permission_required = 'catalog.can_mark_returned'
+    permission_required = 'catalog.can_mark_returned'
 
 
 class Silver_inflowListView(generic.ListView):
@@ -723,6 +1001,12 @@ class Silver_inflowListView(generic.ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["myvar"] = "Silver Inflow"
+        context["var_main_desc"] = "Silver inflow in Millions of silver taels??"
+        context["var_main_desc_source"] = ""
+        context["var_section"] = "Economy Variables"
+        context["var_subsection"] = "State Finances"
+        context["var_null_meaning"] = "The value is not available."
+        context["inner_vars"] = {'silver_inflow': {'min': None, 'max': None, 'scale': 1000000, 'var_exp_source': None, 'var_exp': 'Silver inflow in Millions of silver taels??', 'units': 'Millions of silver taels??', 'choices': None}}
 
         return context
         
@@ -731,7 +1015,7 @@ class Silver_inflowDetailView(generic.DetailView):
     template_name = "crisisdb/silver_inflow/silver_inflow_detail.html"
 
 
-#@permission_required('admin.can_add_log_entry')
+@permission_required('admin.can_add_log_entry')
 def silver_inflow_download(request):
     items = Silver_inflow.objects.all()
 
@@ -748,45 +1032,77 @@ def silver_inflow_download(request):
 
     return response
 
+@permission_required('admin.can_add_log_entry')
+def silver_inflow_meta_download(request):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="silver_inflows.csv"'
+    
+    my_meta_data_dic = {'notes': 'Needs suoervision on the units and scale.', 'main_desc': 'Silver inflow in Millions of silver taels??', 'main_desc_source': 'Silver inflow in Millions of silver taels??', 'section': 'Economy Variables', 'subsection': 'State Finances', 'null_meaning': 'The value is not available.'}
+    my_meta_data_dic_inner_vars = {'silver_inflow': {'min': None, 'max': None, 'scale': 1000000, 'var_exp_source': None, 'var_exp': 'Silver inflow in Millions of silver taels??', 'units': 'Millions of silver taels??', 'choices': None}}
+    writer = csv.writer(response, delimiter='|')
+    # bring in the meta data nedded
+    for k, v in my_meta_data_dic.items():
+        writer.writerow([k, v])
+
+    for k_in, v_in in my_meta_data_dic_inner_vars.items():
+        writer.writerow([k_in,])
+        for inner_key, inner_value in v_in.items():
+            if inner_value:
+                writer.writerow([inner_key, inner_value])
+
+    return response
+
         
 
 class Silver_stockCreate(PermissionRequiredMixin, CreateView):
     model = Silver_stock
     form_class = Silver_stockForm
     template_name = "crisisdb/silver_stock/silver_stock_form.html"
-    #permission_required = 'catalog.can_mark_returned'
+    permission_required = 'catalog.can_mark_returned'
 
     def get_absolute_url(self):
         return reverse('silver_stock-create')
     def get_context_data(self, **kwargs):
         # get the explanattion:
         all_var_hiers = Variablehierarchy.objects.all()
-        for item in all_var_hiers:
-            if item.name == "Silver Stock":
-                my_exp = item.explanation
-                my_sec = item.section.name
-                my_subsec = item.subsection.name
-                my_name = item.name
-                break
-            else:
-                my_exp = "No_Explanations"
-                my_sec = "No_SECTION"
-                my_subsec = "NO_SUBSECTION"
-                my_name = "NO_NAME"
-        context = super().get_context_data(**kwargs)
-        context["mysection"] = my_sec
-        context["mysubsection"] = my_subsec
-        context["myvar"] = my_name
-        context["my_exp"] = my_exp
+        if all_var_hiers:
+            for item in all_var_hiers:
+                if item.name == "Silver Stock":
+                    my_exp = item.explanation
+                    my_sec = item.section.name
+                    my_subsec = item.subsection.name
+                    my_name = item.name
+                    break
+                else:
+                    my_exp = "No_Explanations"
+                    my_sec = "No_SECTION"
+                    my_subsec = "NO_SUBSECTION"
+                    my_name = "NO_NAME"
+            context = super().get_context_data(**kwargs)
+            context["mysection"] = my_sec
+            context["mysubsection"] = my_subsec
+            context["myvar"] = my_name
+            context["my_exp"] = my_exp
 
-        return context
+            return context
+        else:
+            context = super().get_context_data(**kwargs)
+            my_exp = "No_Explanations"
+            my_sec = "No_SECTION"
+            my_subsec = "NO_SUBSECTION"
+            my_name = "NO_NAME"
+            context["mysection"] = my_sec
+            context["mysubsection"] = my_subsec
+            context["myvar"] = "Silver Stock"
+            context["my_exp"] = my_exp
+            return context
 
 
 class Silver_stockUpdate(PermissionRequiredMixin, UpdateView):
     model = Silver_stock
     form_class = Silver_stockForm
     template_name = "crisisdb/silver_stock/silver_stock_update.html"
-    #permission_required = 'catalog.can_mark_returned'
+    permission_required = 'catalog.can_mark_returned'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -798,7 +1114,7 @@ class Silver_stockDelete(PermissionRequiredMixin, DeleteView):
     model = Silver_stock
     success_url = reverse_lazy('silver_stocks')
     template_name = "core/delete_general.html"
-    #permission_required = 'catalog.can_mark_returned'
+    permission_required = 'catalog.can_mark_returned'
 
 
 class Silver_stockListView(generic.ListView):
@@ -812,6 +1128,12 @@ class Silver_stockListView(generic.ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["myvar"] = "Silver Stock"
+        context["var_main_desc"] = "Silver stock in Millions of silver taels??"
+        context["var_main_desc_source"] = ""
+        context["var_section"] = "Economy Variables"
+        context["var_subsection"] = "State Finances"
+        context["var_null_meaning"] = "The value is not available."
+        context["inner_vars"] = {'silver_stock': {'min': None, 'max': None, 'scale': 1000000, 'var_exp_source': None, 'var_exp': 'Silver stock in Millions of silver taels??', 'units': 'Millions of silver taels??', 'choices': None}}
 
         return context
         
@@ -820,7 +1142,7 @@ class Silver_stockDetailView(generic.DetailView):
     template_name = "crisisdb/silver_stock/silver_stock_detail.html"
 
 
-#@permission_required('admin.can_add_log_entry')
+@permission_required('admin.can_add_log_entry')
 def silver_stock_download(request):
     items = Silver_stock.objects.all()
 
@@ -837,45 +1159,77 @@ def silver_stock_download(request):
 
     return response
 
+@permission_required('admin.can_add_log_entry')
+def silver_stock_meta_download(request):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="silver_stocks.csv"'
+    
+    my_meta_data_dic = {'notes': 'Needs suoervision on the units and scale.', 'main_desc': 'Silver stock in Millions of silver taels??', 'main_desc_source': 'Silver stock in Millions of silver taels??', 'section': 'Economy Variables', 'subsection': 'State Finances', 'null_meaning': 'The value is not available.'}
+    my_meta_data_dic_inner_vars = {'silver_stock': {'min': None, 'max': None, 'scale': 1000000, 'var_exp_source': None, 'var_exp': 'Silver stock in Millions of silver taels??', 'units': 'Millions of silver taels??', 'choices': None}}
+    writer = csv.writer(response, delimiter='|')
+    # bring in the meta data nedded
+    for k, v in my_meta_data_dic.items():
+        writer.writerow([k, v])
+
+    for k_in, v_in in my_meta_data_dic_inner_vars.items():
+        writer.writerow([k_in,])
+        for inner_key, inner_value in v_in.items():
+            if inner_value:
+                writer.writerow([inner_key, inner_value])
+
+    return response
+
         
 
 class Total_populationCreate(PermissionRequiredMixin, CreateView):
     model = Total_population
     form_class = Total_populationForm
     template_name = "crisisdb/total_population/total_population_form.html"
-    #permission_required = 'catalog.can_mark_returned'
+    permission_required = 'catalog.can_mark_returned'
 
     def get_absolute_url(self):
         return reverse('total_population-create')
     def get_context_data(self, **kwargs):
         # get the explanattion:
         all_var_hiers = Variablehierarchy.objects.all()
-        for item in all_var_hiers:
-            if item.name == "Total Population":
-                my_exp = item.explanation
-                my_sec = item.section.name
-                my_subsec = item.subsection.name
-                my_name = item.name
-                break
-            else:
-                my_exp = "No_Explanations"
-                my_sec = "No_SECTION"
-                my_subsec = "NO_SUBSECTION"
-                my_name = "NO_NAME"
-        context = super().get_context_data(**kwargs)
-        context["mysection"] = my_sec
-        context["mysubsection"] = my_subsec
-        context["myvar"] = my_name
-        context["my_exp"] = my_exp
+        if all_var_hiers:
+            for item in all_var_hiers:
+                if item.name == "Total Population":
+                    my_exp = item.explanation
+                    my_sec = item.section.name
+                    my_subsec = item.subsection.name
+                    my_name = item.name
+                    break
+                else:
+                    my_exp = "No_Explanations"
+                    my_sec = "No_SECTION"
+                    my_subsec = "NO_SUBSECTION"
+                    my_name = "NO_NAME"
+            context = super().get_context_data(**kwargs)
+            context["mysection"] = my_sec
+            context["mysubsection"] = my_subsec
+            context["myvar"] = my_name
+            context["my_exp"] = my_exp
 
-        return context
+            return context
+        else:
+            context = super().get_context_data(**kwargs)
+            my_exp = "No_Explanations"
+            my_sec = "No_SECTION"
+            my_subsec = "NO_SUBSECTION"
+            my_name = "NO_NAME"
+            context["mysection"] = my_sec
+            context["mysubsection"] = my_subsec
+            context["myvar"] = "Total Population"
+            context["my_exp"] = my_exp
+            return context
 
 
 class Total_populationUpdate(PermissionRequiredMixin, UpdateView):
     model = Total_population
     form_class = Total_populationForm
     template_name = "crisisdb/total_population/total_population_update.html"
-    #permission_required = 'catalog.can_mark_returned'
+    permission_required = 'catalog.can_mark_returned'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -887,7 +1241,7 @@ class Total_populationDelete(PermissionRequiredMixin, DeleteView):
     model = Total_population
     success_url = reverse_lazy('total_populations')
     template_name = "core/delete_general.html"
-    #permission_required = 'catalog.can_mark_returned'
+    permission_required = 'catalog.can_mark_returned'
 
 
 class Total_populationListView(generic.ListView):
@@ -901,6 +1255,12 @@ class Total_populationListView(generic.ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["myvar"] = "Total Population"
+        context["var_main_desc"] = "Total population or simply population, of a given area is the total number of people in that area at a given time."
+        context["var_main_desc_source"] = ""
+        context["var_section"] = "Social Complexity Variables"
+        context["var_subsection"] = "Social Scale"
+        context["var_null_meaning"] = "The value is not available."
+        context["inner_vars"] = {'total_population': {'min': 0, 'max': None, 'scale': 1000, 'var_exp_source': None, 'var_exp': 'The total population of a country (or a polity).', 'units': 'People', 'choices': None}}
 
         return context
         
@@ -909,7 +1269,7 @@ class Total_populationDetailView(generic.DetailView):
     template_name = "crisisdb/total_population/total_population_detail.html"
 
 
-#@permission_required('admin.can_add_log_entry')
+@permission_required('admin.can_add_log_entry')
 def total_population_download(request):
     items = Total_population.objects.all()
 
@@ -926,45 +1286,77 @@ def total_population_download(request):
 
     return response
 
+@permission_required('admin.can_add_log_entry')
+def total_population_meta_download(request):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="total_populations.csv"'
+    
+    my_meta_data_dic = {'notes': 'Note that the population values are scaled.', 'main_desc': 'Total population or simply population, of a given area is the total number of people in that area at a given time.', 'main_desc_source': 'Total population or simply population, of a given area is the total number of people in that area at a given time.', 'section': 'Social Complexity Variables', 'subsection': 'Social Scale', 'null_meaning': 'The value is not available.'}
+    my_meta_data_dic_inner_vars = {'total_population': {'min': 0, 'max': None, 'scale': 1000, 'var_exp_source': None, 'var_exp': 'The total population of a country (or a polity).', 'units': 'People', 'choices': None}}
+    writer = csv.writer(response, delimiter='|')
+    # bring in the meta data nedded
+    for k, v in my_meta_data_dic.items():
+        writer.writerow([k, v])
+
+    for k_in, v_in in my_meta_data_dic_inner_vars.items():
+        writer.writerow([k_in,])
+        for inner_key, inner_value in v_in.items():
+            if inner_value:
+                writer.writerow([inner_key, inner_value])
+
+    return response
+
         
 
 class Gdp_per_capitaCreate(PermissionRequiredMixin, CreateView):
     model = Gdp_per_capita
     form_class = Gdp_per_capitaForm
     template_name = "crisisdb/gdp_per_capita/gdp_per_capita_form.html"
-    #permission_required = 'catalog.can_mark_returned'
+    permission_required = 'catalog.can_mark_returned'
 
     def get_absolute_url(self):
         return reverse('gdp_per_capita-create')
     def get_context_data(self, **kwargs):
         # get the explanattion:
         all_var_hiers = Variablehierarchy.objects.all()
-        for item in all_var_hiers:
-            if item.name == "Gdp Per Capita":
-                my_exp = item.explanation
-                my_sec = item.section.name
-                my_subsec = item.subsection.name
-                my_name = item.name
-                break
-            else:
-                my_exp = "No_Explanations"
-                my_sec = "No_SECTION"
-                my_subsec = "NO_SUBSECTION"
-                my_name = "NO_NAME"
-        context = super().get_context_data(**kwargs)
-        context["mysection"] = my_sec
-        context["mysubsection"] = my_subsec
-        context["myvar"] = my_name
-        context["my_exp"] = my_exp
+        if all_var_hiers:
+            for item in all_var_hiers:
+                if item.name == "Gdp Per Capita":
+                    my_exp = item.explanation
+                    my_sec = item.section.name
+                    my_subsec = item.subsection.name
+                    my_name = item.name
+                    break
+                else:
+                    my_exp = "No_Explanations"
+                    my_sec = "No_SECTION"
+                    my_subsec = "NO_SUBSECTION"
+                    my_name = "NO_NAME"
+            context = super().get_context_data(**kwargs)
+            context["mysection"] = my_sec
+            context["mysubsection"] = my_subsec
+            context["myvar"] = my_name
+            context["my_exp"] = my_exp
 
-        return context
+            return context
+        else:
+            context = super().get_context_data(**kwargs)
+            my_exp = "No_Explanations"
+            my_sec = "No_SECTION"
+            my_subsec = "NO_SUBSECTION"
+            my_name = "NO_NAME"
+            context["mysection"] = my_sec
+            context["mysubsection"] = my_subsec
+            context["myvar"] = "Gdp Per Capita"
+            context["my_exp"] = my_exp
+            return context
 
 
 class Gdp_per_capitaUpdate(PermissionRequiredMixin, UpdateView):
     model = Gdp_per_capita
     form_class = Gdp_per_capitaForm
     template_name = "crisisdb/gdp_per_capita/gdp_per_capita_update.html"
-    #permission_required = 'catalog.can_mark_returned'
+    permission_required = 'catalog.can_mark_returned'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -976,7 +1368,7 @@ class Gdp_per_capitaDelete(PermissionRequiredMixin, DeleteView):
     model = Gdp_per_capita
     success_url = reverse_lazy('gdp_per_capitas')
     template_name = "core/delete_general.html"
-    #permission_required = 'catalog.can_mark_returned'
+    permission_required = 'catalog.can_mark_returned'
 
 
 class Gdp_per_capitaListView(generic.ListView):
@@ -990,6 +1382,12 @@ class Gdp_per_capitaListView(generic.ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["myvar"] = "Gdp Per Capita"
+        context["var_main_desc"] = "The Gross Domestic Product per capita, or GDP per capita, is a measure of a country's economic output that accounts for its number of people. It divides the country's gross domestic product by its total population."
+        context["var_main_desc_source"] = "https://www.thebalance.com/gdp-per-capita-formula-u-s-compared-to-highest-and-lowest-3305848"
+        context["var_section"] = "Economy Variables"
+        context["var_subsection"] = "Productivity"
+        context["var_null_meaning"] = "The value is not available."
+        context["inner_vars"] = {'gdp_per_capita': {'min': None, 'max': None, 'scale': 1, 'var_exp_source': 'https://www.thebalance.com/gdp-per-capita-formula-u-s-compared-to-highest-and-lowest-3305848', 'var_exp': "The Gross Domestic Product per capita, or GDP per capita, is a measure of a country's economic output that accounts for its number of people. It divides the country's gross domestic product by its total population.", 'units': 'Dollars (in 2009?)', 'choices': None}}
 
         return context
         
@@ -998,7 +1396,7 @@ class Gdp_per_capitaDetailView(generic.DetailView):
     template_name = "crisisdb/gdp_per_capita/gdp_per_capita_detail.html"
 
 
-#@permission_required('admin.can_add_log_entry')
+@permission_required('admin.can_add_log_entry')
 def gdp_per_capita_download(request):
     items = Gdp_per_capita.objects.all()
 
@@ -1015,45 +1413,77 @@ def gdp_per_capita_download(request):
 
     return response
 
+@permission_required('admin.can_add_log_entry')
+def gdp_per_capita_meta_download(request):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="gdp_per_capitas.csv"'
+    
+    my_meta_data_dic = {'notes': 'The exact year based on which the value of Dollar is taken into account is not clear.', 'main_desc': "The Gross Domestic Product per capita, or GDP per capita, is a measure of a country's economic output that accounts for its number of people. It divides the country's gross domestic product by its total population.", 'main_desc_source': "The Gross Domestic Product per capita, or GDP per capita, is a measure of a country's economic output that accounts for its number of people. It divides the country's gross domestic product by its total population.", 'section': 'Economy Variables', 'subsection': 'Productivity', 'null_meaning': 'The value is not available.'}
+    my_meta_data_dic_inner_vars = {'gdp_per_capita': {'min': None, 'max': None, 'scale': 1, 'var_exp_source': 'https://www.thebalance.com/gdp-per-capita-formula-u-s-compared-to-highest-and-lowest-3305848', 'var_exp': "The Gross Domestic Product per capita, or GDP per capita, is a measure of a country's economic output that accounts for its number of people. It divides the country's gross domestic product by its total population.", 'units': 'Dollars (in 2009?)', 'choices': None}}
+    writer = csv.writer(response, delimiter='|')
+    # bring in the meta data nedded
+    for k, v in my_meta_data_dic.items():
+        writer.writerow([k, v])
+
+    for k_in, v_in in my_meta_data_dic_inner_vars.items():
+        writer.writerow([k_in,])
+        for inner_key, inner_value in v_in.items():
+            if inner_value:
+                writer.writerow([inner_key, inner_value])
+
+    return response
+
         
 
 class Drought_eventCreate(PermissionRequiredMixin, CreateView):
     model = Drought_event
     form_class = Drought_eventForm
     template_name = "crisisdb/drought_event/drought_event_form.html"
-    #permission_required = 'catalog.can_mark_returned'
+    permission_required = 'catalog.can_mark_returned'
 
     def get_absolute_url(self):
         return reverse('drought_event-create')
     def get_context_data(self, **kwargs):
         # get the explanattion:
         all_var_hiers = Variablehierarchy.objects.all()
-        for item in all_var_hiers:
-            if item.name == "Drought Event":
-                my_exp = item.explanation
-                my_sec = item.section.name
-                my_subsec = item.subsection.name
-                my_name = item.name
-                break
-            else:
-                my_exp = "No_Explanations"
-                my_sec = "No_SECTION"
-                my_subsec = "NO_SUBSECTION"
-                my_name = "NO_NAME"
-        context = super().get_context_data(**kwargs)
-        context["mysection"] = my_sec
-        context["mysubsection"] = my_subsec
-        context["myvar"] = my_name
-        context["my_exp"] = my_exp
+        if all_var_hiers:
+            for item in all_var_hiers:
+                if item.name == "Drought Event":
+                    my_exp = item.explanation
+                    my_sec = item.section.name
+                    my_subsec = item.subsection.name
+                    my_name = item.name
+                    break
+                else:
+                    my_exp = "No_Explanations"
+                    my_sec = "No_SECTION"
+                    my_subsec = "NO_SUBSECTION"
+                    my_name = "NO_NAME"
+            context = super().get_context_data(**kwargs)
+            context["mysection"] = my_sec
+            context["mysubsection"] = my_subsec
+            context["myvar"] = my_name
+            context["my_exp"] = my_exp
 
-        return context
+            return context
+        else:
+            context = super().get_context_data(**kwargs)
+            my_exp = "No_Explanations"
+            my_sec = "No_SECTION"
+            my_subsec = "NO_SUBSECTION"
+            my_name = "NO_NAME"
+            context["mysection"] = my_sec
+            context["mysubsection"] = my_subsec
+            context["myvar"] = "Drought Event"
+            context["my_exp"] = my_exp
+            return context
 
 
 class Drought_eventUpdate(PermissionRequiredMixin, UpdateView):
     model = Drought_event
     form_class = Drought_eventForm
     template_name = "crisisdb/drought_event/drought_event_update.html"
-    #permission_required = 'catalog.can_mark_returned'
+    permission_required = 'catalog.can_mark_returned'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -1065,7 +1495,7 @@ class Drought_eventDelete(PermissionRequiredMixin, DeleteView):
     model = Drought_event
     success_url = reverse_lazy('drought_events')
     template_name = "core/delete_general.html"
-    #permission_required = 'catalog.can_mark_returned'
+    permission_required = 'catalog.can_mark_returned'
 
 
 class Drought_eventListView(generic.ListView):
@@ -1079,6 +1509,12 @@ class Drought_eventListView(generic.ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["myvar"] = "Drought Event"
+        context["var_main_desc"] = "number of geographic sites indicating drought"
+        context["var_main_desc_source"] = "https://www1.ncdc.noaa.gov/pub/data/paleo/historical/asia/china/reaches2020drought-category-sites.txt"
+        context["var_section"] = "Well Being"
+        context["var_subsection"] = "Biological Well-Being"
+        context["var_null_meaning"] = "The value is not available."
+        context["inner_vars"] = {'drought_event': {'min': 0, 'max': None, 'scale': 1, 'var_exp_source': None, 'var_exp': 'number of geographic sites indicating drought', 'units': 'Numbers', 'choices': None}}
 
         return context
         
@@ -1087,7 +1523,7 @@ class Drought_eventDetailView(generic.DetailView):
     template_name = "crisisdb/drought_event/drought_event_detail.html"
 
 
-#@permission_required('admin.can_add_log_entry')
+@permission_required('admin.can_add_log_entry')
 def drought_event_download(request):
     items = Drought_event.objects.all()
 
@@ -1104,45 +1540,77 @@ def drought_event_download(request):
 
     return response
 
+@permission_required('admin.can_add_log_entry')
+def drought_event_meta_download(request):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="drought_events.csv"'
+    
+    my_meta_data_dic = {'notes': 'Notes for the Variable drought_event are missing!', 'main_desc': 'number of geographic sites indicating drought', 'main_desc_source': 'number of geographic sites indicating drought', 'section': 'Well Being', 'subsection': 'Biological Well-Being', 'null_meaning': 'The value is not available.'}
+    my_meta_data_dic_inner_vars = {'drought_event': {'min': 0, 'max': None, 'scale': 1, 'var_exp_source': None, 'var_exp': 'number of geographic sites indicating drought', 'units': 'Numbers', 'choices': None}}
+    writer = csv.writer(response, delimiter='|')
+    # bring in the meta data nedded
+    for k, v in my_meta_data_dic.items():
+        writer.writerow([k, v])
+
+    for k_in, v_in in my_meta_data_dic_inner_vars.items():
+        writer.writerow([k_in,])
+        for inner_key, inner_value in v_in.items():
+            if inner_value:
+                writer.writerow([inner_key, inner_value])
+
+    return response
+
         
 
 class Locust_eventCreate(PermissionRequiredMixin, CreateView):
     model = Locust_event
     form_class = Locust_eventForm
     template_name = "crisisdb/locust_event/locust_event_form.html"
-    #permission_required = 'catalog.can_mark_returned'
+    permission_required = 'catalog.can_mark_returned'
 
     def get_absolute_url(self):
         return reverse('locust_event-create')
     def get_context_data(self, **kwargs):
         # get the explanattion:
         all_var_hiers = Variablehierarchy.objects.all()
-        for item in all_var_hiers:
-            if item.name == "Locust Event":
-                my_exp = item.explanation
-                my_sec = item.section.name
-                my_subsec = item.subsection.name
-                my_name = item.name
-                break
-            else:
-                my_exp = "No_Explanations"
-                my_sec = "No_SECTION"
-                my_subsec = "NO_SUBSECTION"
-                my_name = "NO_NAME"
-        context = super().get_context_data(**kwargs)
-        context["mysection"] = my_sec
-        context["mysubsection"] = my_subsec
-        context["myvar"] = my_name
-        context["my_exp"] = my_exp
+        if all_var_hiers:
+            for item in all_var_hiers:
+                if item.name == "Locust Event":
+                    my_exp = item.explanation
+                    my_sec = item.section.name
+                    my_subsec = item.subsection.name
+                    my_name = item.name
+                    break
+                else:
+                    my_exp = "No_Explanations"
+                    my_sec = "No_SECTION"
+                    my_subsec = "NO_SUBSECTION"
+                    my_name = "NO_NAME"
+            context = super().get_context_data(**kwargs)
+            context["mysection"] = my_sec
+            context["mysubsection"] = my_subsec
+            context["myvar"] = my_name
+            context["my_exp"] = my_exp
 
-        return context
+            return context
+        else:
+            context = super().get_context_data(**kwargs)
+            my_exp = "No_Explanations"
+            my_sec = "No_SECTION"
+            my_subsec = "NO_SUBSECTION"
+            my_name = "NO_NAME"
+            context["mysection"] = my_sec
+            context["mysubsection"] = my_subsec
+            context["myvar"] = "Locust Event"
+            context["my_exp"] = my_exp
+            return context
 
 
 class Locust_eventUpdate(PermissionRequiredMixin, UpdateView):
     model = Locust_event
     form_class = Locust_eventForm
     template_name = "crisisdb/locust_event/locust_event_update.html"
-    #permission_required = 'catalog.can_mark_returned'
+    permission_required = 'catalog.can_mark_returned'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -1154,7 +1622,7 @@ class Locust_eventDelete(PermissionRequiredMixin, DeleteView):
     model = Locust_event
     success_url = reverse_lazy('locust_events')
     template_name = "core/delete_general.html"
-    #permission_required = 'catalog.can_mark_returned'
+    permission_required = 'catalog.can_mark_returned'
 
 
 class Locust_eventListView(generic.ListView):
@@ -1168,6 +1636,12 @@ class Locust_eventListView(generic.ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["myvar"] = "Locust Event"
+        context["var_main_desc"] = "number of geographic sites indicating locusts"
+        context["var_main_desc_source"] = "https://www1.ncdc.noaa.gov/pub/data/paleo/historical/asia/china/reaches2020drought-category-sites.txt"
+        context["var_section"] = "Well Being"
+        context["var_subsection"] = "Biological Well-Being"
+        context["var_null_meaning"] = "The value is not available."
+        context["inner_vars"] = {'locust_event': {'min': 0, 'max': None, 'scale': 1, 'var_exp_source': None, 'var_exp': 'number of geographic sites indicating locusts', 'units': 'Numbers', 'choices': None}}
 
         return context
         
@@ -1176,7 +1650,7 @@ class Locust_eventDetailView(generic.DetailView):
     template_name = "crisisdb/locust_event/locust_event_detail.html"
 
 
-#@permission_required('admin.can_add_log_entry')
+@permission_required('admin.can_add_log_entry')
 def locust_event_download(request):
     items = Locust_event.objects.all()
 
@@ -1193,45 +1667,77 @@ def locust_event_download(request):
 
     return response
 
+@permission_required('admin.can_add_log_entry')
+def locust_event_meta_download(request):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="locust_events.csv"'
+    
+    my_meta_data_dic = {'notes': 'Notes for the Variable locust_event are missing!', 'main_desc': 'number of geographic sites indicating locusts', 'main_desc_source': 'number of geographic sites indicating locusts', 'section': 'Well Being', 'subsection': 'Biological Well-Being', 'null_meaning': 'The value is not available.'}
+    my_meta_data_dic_inner_vars = {'locust_event': {'min': 0, 'max': None, 'scale': 1, 'var_exp_source': None, 'var_exp': 'number of geographic sites indicating locusts', 'units': 'Numbers', 'choices': None}}
+    writer = csv.writer(response, delimiter='|')
+    # bring in the meta data nedded
+    for k, v in my_meta_data_dic.items():
+        writer.writerow([k, v])
+
+    for k_in, v_in in my_meta_data_dic_inner_vars.items():
+        writer.writerow([k_in,])
+        for inner_key, inner_value in v_in.items():
+            if inner_value:
+                writer.writerow([inner_key, inner_value])
+
+    return response
+
         
 
 class Socioeconomic_turmoil_eventCreate(PermissionRequiredMixin, CreateView):
     model = Socioeconomic_turmoil_event
     form_class = Socioeconomic_turmoil_eventForm
     template_name = "crisisdb/socioeconomic_turmoil_event/socioeconomic_turmoil_event_form.html"
-    #permission_required = 'catalog.can_mark_returned'
+    permission_required = 'catalog.can_mark_returned'
 
     def get_absolute_url(self):
         return reverse('socioeconomic_turmoil_event-create')
     def get_context_data(self, **kwargs):
         # get the explanattion:
         all_var_hiers = Variablehierarchy.objects.all()
-        for item in all_var_hiers:
-            if item.name == "Socioeconomic Turmoil Event":
-                my_exp = item.explanation
-                my_sec = item.section.name
-                my_subsec = item.subsection.name
-                my_name = item.name
-                break
-            else:
-                my_exp = "No_Explanations"
-                my_sec = "No_SECTION"
-                my_subsec = "NO_SUBSECTION"
-                my_name = "NO_NAME"
-        context = super().get_context_data(**kwargs)
-        context["mysection"] = my_sec
-        context["mysubsection"] = my_subsec
-        context["myvar"] = my_name
-        context["my_exp"] = my_exp
+        if all_var_hiers:
+            for item in all_var_hiers:
+                if item.name == "Socioeconomic Turmoil Event":
+                    my_exp = item.explanation
+                    my_sec = item.section.name
+                    my_subsec = item.subsection.name
+                    my_name = item.name
+                    break
+                else:
+                    my_exp = "No_Explanations"
+                    my_sec = "No_SECTION"
+                    my_subsec = "NO_SUBSECTION"
+                    my_name = "NO_NAME"
+            context = super().get_context_data(**kwargs)
+            context["mysection"] = my_sec
+            context["mysubsection"] = my_subsec
+            context["myvar"] = my_name
+            context["my_exp"] = my_exp
 
-        return context
+            return context
+        else:
+            context = super().get_context_data(**kwargs)
+            my_exp = "No_Explanations"
+            my_sec = "No_SECTION"
+            my_subsec = "NO_SUBSECTION"
+            my_name = "NO_NAME"
+            context["mysection"] = my_sec
+            context["mysubsection"] = my_subsec
+            context["myvar"] = "Socioeconomic Turmoil Event"
+            context["my_exp"] = my_exp
+            return context
 
 
 class Socioeconomic_turmoil_eventUpdate(PermissionRequiredMixin, UpdateView):
     model = Socioeconomic_turmoil_event
     form_class = Socioeconomic_turmoil_eventForm
     template_name = "crisisdb/socioeconomic_turmoil_event/socioeconomic_turmoil_event_update.html"
-    #permission_required = 'catalog.can_mark_returned'
+    permission_required = 'catalog.can_mark_returned'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -1243,7 +1749,7 @@ class Socioeconomic_turmoil_eventDelete(PermissionRequiredMixin, DeleteView):
     model = Socioeconomic_turmoil_event
     success_url = reverse_lazy('socioeconomic_turmoil_events')
     template_name = "core/delete_general.html"
-    #permission_required = 'catalog.can_mark_returned'
+    permission_required = 'catalog.can_mark_returned'
 
 
 class Socioeconomic_turmoil_eventListView(generic.ListView):
@@ -1257,6 +1763,12 @@ class Socioeconomic_turmoil_eventListView(generic.ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["myvar"] = "Socioeconomic Turmoil Event"
+        context["var_main_desc"] = "number of geographic sites indicating socioeconomic turmoil"
+        context["var_main_desc_source"] = "https://www1.ncdc.noaa.gov/pub/data/paleo/historical/asia/china/reaches2020drought-category-sites.txt"
+        context["var_section"] = "Well Being"
+        context["var_subsection"] = "Biological Well-Being"
+        context["var_null_meaning"] = "The value is not available."
+        context["inner_vars"] = {'socioeconomic_turmoil_event': {'min': 0, 'max': None, 'scale': 1, 'var_exp_source': None, 'var_exp': 'number of geographic sites indicating socioeconomic turmoil', 'units': 'Numbers', 'choices': None}}
 
         return context
         
@@ -1265,7 +1777,7 @@ class Socioeconomic_turmoil_eventDetailView(generic.DetailView):
     template_name = "crisisdb/socioeconomic_turmoil_event/socioeconomic_turmoil_event_detail.html"
 
 
-#@permission_required('admin.can_add_log_entry')
+@permission_required('admin.can_add_log_entry')
 def socioeconomic_turmoil_event_download(request):
     items = Socioeconomic_turmoil_event.objects.all()
 
@@ -1282,45 +1794,77 @@ def socioeconomic_turmoil_event_download(request):
 
     return response
 
+@permission_required('admin.can_add_log_entry')
+def socioeconomic_turmoil_event_meta_download(request):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="socioeconomic_turmoil_events.csv"'
+    
+    my_meta_data_dic = {'notes': 'Notes for the Variable socioeconomic_turmoil_event are missing!', 'main_desc': 'number of geographic sites indicating socioeconomic turmoil', 'main_desc_source': 'number of geographic sites indicating socioeconomic turmoil', 'section': 'Well Being', 'subsection': 'Biological Well-Being', 'null_meaning': 'The value is not available.'}
+    my_meta_data_dic_inner_vars = {'socioeconomic_turmoil_event': {'min': 0, 'max': None, 'scale': 1, 'var_exp_source': None, 'var_exp': 'number of geographic sites indicating socioeconomic turmoil', 'units': 'Numbers', 'choices': None}}
+    writer = csv.writer(response, delimiter='|')
+    # bring in the meta data nedded
+    for k, v in my_meta_data_dic.items():
+        writer.writerow([k, v])
+
+    for k_in, v_in in my_meta_data_dic_inner_vars.items():
+        writer.writerow([k_in,])
+        for inner_key, inner_value in v_in.items():
+            if inner_value:
+                writer.writerow([inner_key, inner_value])
+
+    return response
+
         
 
 class Crop_failure_eventCreate(PermissionRequiredMixin, CreateView):
     model = Crop_failure_event
     form_class = Crop_failure_eventForm
     template_name = "crisisdb/crop_failure_event/crop_failure_event_form.html"
-    #permission_required = 'catalog.can_mark_returned'
+    permission_required = 'catalog.can_mark_returned'
 
     def get_absolute_url(self):
         return reverse('crop_failure_event-create')
     def get_context_data(self, **kwargs):
         # get the explanattion:
         all_var_hiers = Variablehierarchy.objects.all()
-        for item in all_var_hiers:
-            if item.name == "Crop Failure Event":
-                my_exp = item.explanation
-                my_sec = item.section.name
-                my_subsec = item.subsection.name
-                my_name = item.name
-                break
-            else:
-                my_exp = "No_Explanations"
-                my_sec = "No_SECTION"
-                my_subsec = "NO_SUBSECTION"
-                my_name = "NO_NAME"
-        context = super().get_context_data(**kwargs)
-        context["mysection"] = my_sec
-        context["mysubsection"] = my_subsec
-        context["myvar"] = my_name
-        context["my_exp"] = my_exp
+        if all_var_hiers:
+            for item in all_var_hiers:
+                if item.name == "Crop Failure Event":
+                    my_exp = item.explanation
+                    my_sec = item.section.name
+                    my_subsec = item.subsection.name
+                    my_name = item.name
+                    break
+                else:
+                    my_exp = "No_Explanations"
+                    my_sec = "No_SECTION"
+                    my_subsec = "NO_SUBSECTION"
+                    my_name = "NO_NAME"
+            context = super().get_context_data(**kwargs)
+            context["mysection"] = my_sec
+            context["mysubsection"] = my_subsec
+            context["myvar"] = my_name
+            context["my_exp"] = my_exp
 
-        return context
+            return context
+        else:
+            context = super().get_context_data(**kwargs)
+            my_exp = "No_Explanations"
+            my_sec = "No_SECTION"
+            my_subsec = "NO_SUBSECTION"
+            my_name = "NO_NAME"
+            context["mysection"] = my_sec
+            context["mysubsection"] = my_subsec
+            context["myvar"] = "Crop Failure Event"
+            context["my_exp"] = my_exp
+            return context
 
 
 class Crop_failure_eventUpdate(PermissionRequiredMixin, UpdateView):
     model = Crop_failure_event
     form_class = Crop_failure_eventForm
     template_name = "crisisdb/crop_failure_event/crop_failure_event_update.html"
-    #permission_required = 'catalog.can_mark_returned'
+    permission_required = 'catalog.can_mark_returned'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -1332,7 +1876,7 @@ class Crop_failure_eventDelete(PermissionRequiredMixin, DeleteView):
     model = Crop_failure_event
     success_url = reverse_lazy('crop_failure_events')
     template_name = "core/delete_general.html"
-    #permission_required = 'catalog.can_mark_returned'
+    permission_required = 'catalog.can_mark_returned'
 
 
 class Crop_failure_eventListView(generic.ListView):
@@ -1346,6 +1890,12 @@ class Crop_failure_eventListView(generic.ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["myvar"] = "Crop Failure Event"
+        context["var_main_desc"] = "number of geographic sites indicating crop failure"
+        context["var_main_desc_source"] = "https://www1.ncdc.noaa.gov/pub/data/paleo/historical/asia/china/reaches2020drought-category-sites.txt"
+        context["var_section"] = "Well Being"
+        context["var_subsection"] = "Biological Well-Being"
+        context["var_null_meaning"] = "The value is not available."
+        context["inner_vars"] = {'crop_failure_event': {'min': 0, 'max': None, 'scale': 1, 'var_exp_source': None, 'var_exp': 'number of geographic sites indicating crop failure', 'units': 'Numbers', 'choices': None}}
 
         return context
         
@@ -1354,7 +1904,7 @@ class Crop_failure_eventDetailView(generic.DetailView):
     template_name = "crisisdb/crop_failure_event/crop_failure_event_detail.html"
 
 
-#@permission_required('admin.can_add_log_entry')
+@permission_required('admin.can_add_log_entry')
 def crop_failure_event_download(request):
     items = Crop_failure_event.objects.all()
 
@@ -1371,45 +1921,77 @@ def crop_failure_event_download(request):
 
     return response
 
+@permission_required('admin.can_add_log_entry')
+def crop_failure_event_meta_download(request):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="crop_failure_events.csv"'
+    
+    my_meta_data_dic = {'notes': 'Notes for the Variable crop_failure_event are missing!', 'main_desc': 'number of geographic sites indicating crop failure', 'main_desc_source': 'number of geographic sites indicating crop failure', 'section': 'Well Being', 'subsection': 'Biological Well-Being', 'null_meaning': 'The value is not available.'}
+    my_meta_data_dic_inner_vars = {'crop_failure_event': {'min': 0, 'max': None, 'scale': 1, 'var_exp_source': None, 'var_exp': 'number of geographic sites indicating crop failure', 'units': 'Numbers', 'choices': None}}
+    writer = csv.writer(response, delimiter='|')
+    # bring in the meta data nedded
+    for k, v in my_meta_data_dic.items():
+        writer.writerow([k, v])
+
+    for k_in, v_in in my_meta_data_dic_inner_vars.items():
+        writer.writerow([k_in,])
+        for inner_key, inner_value in v_in.items():
+            if inner_value:
+                writer.writerow([inner_key, inner_value])
+
+    return response
+
         
 
 class Famine_eventCreate(PermissionRequiredMixin, CreateView):
     model = Famine_event
     form_class = Famine_eventForm
     template_name = "crisisdb/famine_event/famine_event_form.html"
-    #permission_required = 'catalog.can_mark_returned'
+    permission_required = 'catalog.can_mark_returned'
 
     def get_absolute_url(self):
         return reverse('famine_event-create')
     def get_context_data(self, **kwargs):
         # get the explanattion:
         all_var_hiers = Variablehierarchy.objects.all()
-        for item in all_var_hiers:
-            if item.name == "Famine Event":
-                my_exp = item.explanation
-                my_sec = item.section.name
-                my_subsec = item.subsection.name
-                my_name = item.name
-                break
-            else:
-                my_exp = "No_Explanations"
-                my_sec = "No_SECTION"
-                my_subsec = "NO_SUBSECTION"
-                my_name = "NO_NAME"
-        context = super().get_context_data(**kwargs)
-        context["mysection"] = my_sec
-        context["mysubsection"] = my_subsec
-        context["myvar"] = my_name
-        context["my_exp"] = my_exp
+        if all_var_hiers:
+            for item in all_var_hiers:
+                if item.name == "Famine Event":
+                    my_exp = item.explanation
+                    my_sec = item.section.name
+                    my_subsec = item.subsection.name
+                    my_name = item.name
+                    break
+                else:
+                    my_exp = "No_Explanations"
+                    my_sec = "No_SECTION"
+                    my_subsec = "NO_SUBSECTION"
+                    my_name = "NO_NAME"
+            context = super().get_context_data(**kwargs)
+            context["mysection"] = my_sec
+            context["mysubsection"] = my_subsec
+            context["myvar"] = my_name
+            context["my_exp"] = my_exp
 
-        return context
+            return context
+        else:
+            context = super().get_context_data(**kwargs)
+            my_exp = "No_Explanations"
+            my_sec = "No_SECTION"
+            my_subsec = "NO_SUBSECTION"
+            my_name = "NO_NAME"
+            context["mysection"] = my_sec
+            context["mysubsection"] = my_subsec
+            context["myvar"] = "Famine Event"
+            context["my_exp"] = my_exp
+            return context
 
 
 class Famine_eventUpdate(PermissionRequiredMixin, UpdateView):
     model = Famine_event
     form_class = Famine_eventForm
     template_name = "crisisdb/famine_event/famine_event_update.html"
-    #permission_required = 'catalog.can_mark_returned'
+    permission_required = 'catalog.can_mark_returned'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -1421,7 +2003,7 @@ class Famine_eventDelete(PermissionRequiredMixin, DeleteView):
     model = Famine_event
     success_url = reverse_lazy('famine_events')
     template_name = "core/delete_general.html"
-    #permission_required = 'catalog.can_mark_returned'
+    permission_required = 'catalog.can_mark_returned'
 
 
 class Famine_eventListView(generic.ListView):
@@ -1435,6 +2017,12 @@ class Famine_eventListView(generic.ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["myvar"] = "Famine Event"
+        context["var_main_desc"] = "number of geographic sites indicating famine"
+        context["var_main_desc_source"] = "https://www1.ncdc.noaa.gov/pub/data/paleo/historical/asia/china/reaches2020drought-category-sites.txt"
+        context["var_section"] = "Well Being"
+        context["var_subsection"] = "Biological Well-Being"
+        context["var_null_meaning"] = "The value is not available."
+        context["inner_vars"] = {'famine_event': {'min': 0, 'max': None, 'scale': 1, 'var_exp_source': None, 'var_exp': 'number of geographic sites indicating famine', 'units': 'Numbers', 'choices': None}}
 
         return context
         
@@ -1443,7 +2031,7 @@ class Famine_eventDetailView(generic.DetailView):
     template_name = "crisisdb/famine_event/famine_event_detail.html"
 
 
-#@permission_required('admin.can_add_log_entry')
+@permission_required('admin.can_add_log_entry')
 def famine_event_download(request):
     items = Famine_event.objects.all()
 
@@ -1460,45 +2048,77 @@ def famine_event_download(request):
 
     return response
 
+@permission_required('admin.can_add_log_entry')
+def famine_event_meta_download(request):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="famine_events.csv"'
+    
+    my_meta_data_dic = {'notes': 'Notes for the Variable famine_event are missing!', 'main_desc': 'number of geographic sites indicating famine', 'main_desc_source': 'number of geographic sites indicating famine', 'section': 'Well Being', 'subsection': 'Biological Well-Being', 'null_meaning': 'The value is not available.'}
+    my_meta_data_dic_inner_vars = {'famine_event': {'min': 0, 'max': None, 'scale': 1, 'var_exp_source': None, 'var_exp': 'number of geographic sites indicating famine', 'units': 'Numbers', 'choices': None}}
+    writer = csv.writer(response, delimiter='|')
+    # bring in the meta data nedded
+    for k, v in my_meta_data_dic.items():
+        writer.writerow([k, v])
+
+    for k_in, v_in in my_meta_data_dic_inner_vars.items():
+        writer.writerow([k_in,])
+        for inner_key, inner_value in v_in.items():
+            if inner_value:
+                writer.writerow([inner_key, inner_value])
+
+    return response
+
         
 
 class Disease_outbreakCreate(PermissionRequiredMixin, CreateView):
     model = Disease_outbreak
     form_class = Disease_outbreakForm
     template_name = "crisisdb/disease_outbreak/disease_outbreak_form.html"
-    #permission_required = 'catalog.can_mark_returned'
+    permission_required = 'catalog.can_mark_returned'
 
     def get_absolute_url(self):
         return reverse('disease_outbreak-create')
     def get_context_data(self, **kwargs):
         # get the explanattion:
         all_var_hiers = Variablehierarchy.objects.all()
-        for item in all_var_hiers:
-            if item.name == "Longitude":
-                my_exp = item.explanation
-                my_sec = item.section.name
-                my_subsec = item.subsection.name
-                my_name = item.name
-                break
-            else:
-                my_exp = "No_Explanations"
-                my_sec = "No_SECTION"
-                my_subsec = "NO_SUBSECTION"
-                my_name = "NO_NAME"
-        context = super().get_context_data(**kwargs)
-        context["mysection"] = my_sec
-        context["mysubsection"] = my_subsec
-        context["myvar"] = my_name
-        context["my_exp"] = my_exp
+        if all_var_hiers:
+            for item in all_var_hiers:
+                if item.name == "Longitude":
+                    my_exp = item.explanation
+                    my_sec = item.section.name
+                    my_subsec = item.subsection.name
+                    my_name = item.name
+                    break
+                else:
+                    my_exp = "No_Explanations"
+                    my_sec = "No_SECTION"
+                    my_subsec = "NO_SUBSECTION"
+                    my_name = "NO_NAME"
+            context = super().get_context_data(**kwargs)
+            context["mysection"] = my_sec
+            context["mysubsection"] = my_subsec
+            context["myvar"] = my_name
+            context["my_exp"] = my_exp
 
-        return context
+            return context
+        else:
+            context = super().get_context_data(**kwargs)
+            my_exp = "No_Explanations"
+            my_sec = "No_SECTION"
+            my_subsec = "NO_SUBSECTION"
+            my_name = "NO_NAME"
+            context["mysection"] = my_sec
+            context["mysubsection"] = my_subsec
+            context["myvar"] = "Longitude"
+            context["my_exp"] = my_exp
+            return context
 
 
 class Disease_outbreakUpdate(PermissionRequiredMixin, UpdateView):
     model = Disease_outbreak
     form_class = Disease_outbreakForm
     template_name = "crisisdb/disease_outbreak/disease_outbreak_update.html"
-    #permission_required = 'catalog.can_mark_returned'
+    permission_required = 'catalog.can_mark_returned'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -1510,7 +2130,7 @@ class Disease_outbreakDelete(PermissionRequiredMixin, DeleteView):
     model = Disease_outbreak
     success_url = reverse_lazy('disease_outbreaks')
     template_name = "core/delete_general.html"
-    #permission_required = 'catalog.can_mark_returned'
+    permission_required = 'catalog.can_mark_returned'
 
 
 class Disease_outbreakListView(generic.ListView):
@@ -1524,6 +2144,12 @@ class Disease_outbreakListView(generic.ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["myvar"] = "Longitude"
+        context["var_main_desc"] = "A sudden increase in occurrences of a disease when cases are in excess of normal expectancy for the location or season."
+        context["var_main_desc_source"] = "https://en.wikipedia.org/wiki/Disease_outbreak"
+        context["var_section"] = "Well Being"
+        context["var_subsection"] = "Biological Well-Being"
+        context["var_null_meaning"] = "The value is not available."
+        context["inner_vars"] = {'longitude': {'min': -180, 'max': 180, 'scale': 1, 'var_exp_source': None, 'var_exp': 'The longitude (in degrees) of the place where the disease was spread.', 'units': 'Degrees', 'choices': None}, 'latitude': {'min': -180, 'max': 180, 'scale': 1, 'var_exp_source': None, 'var_exp': 'The latitude (in degrees) of the place where the disease was spread.', 'units': 'Degrees', 'choices': None}, 'elevation': {'min': 0, 'max': 5000, 'scale': 1, 'var_exp_source': None, 'var_exp': 'Elevation from mean sea level (in meters) of the place where the disease was spread.', 'units': 'Meters', 'choices': None}, 'sub_category': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The category of the disease.', 'units': None, 'choices': ['Peculiar Epidemics', 'Pestilence', 'Miasm', 'Pox', 'Uncertain Pestilence', 'Dysentery', 'Malaria', 'Influenza', 'Cholera', 'Diptheria', 'Plague']}, 'magnitude': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'How heavy the disease was.', 'units': None, 'choices': ['Uncertain', 'Light', 'Heavy', 'No description', 'Heavy- Multiple Times', 'No Happening', 'Moderate']}, 'duration': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'How long the disease lasted.', 'units': None, 'choices': ['No description', 'Over 90 Days', 'Uncertain', '30-60 Days', '1-10 Days', '60-90 Days']}}
 
         return context
         
@@ -1532,7 +2158,7 @@ class Disease_outbreakDetailView(generic.DetailView):
     template_name = "crisisdb/disease_outbreak/disease_outbreak_detail.html"
 
 
-#@permission_required('admin.can_add_log_entry')
+@permission_required('admin.can_add_log_entry')
 def disease_outbreak_download(request):
     items = Disease_outbreak.objects.all()
 
@@ -1549,35 +2175,87 @@ def disease_outbreak_download(request):
 
     return response
 
+@permission_required('admin.can_add_log_entry')
+def disease_outbreak_meta_download(request):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="disease_outbreaks.csv"'
+    
+    my_meta_data_dic = {'notes': 'Notes for the Variable disease_outbreak are missing!', 'main_desc': 'A sudden increase in occurrences of a disease when cases are in excess of normal expectancy for the location or season.', 'main_desc_source': 'A sudden increase in occurrences of a disease when cases are in excess of normal expectancy for the location or season.', 'section': 'Well Being', 'subsection': 'Biological Well-Being', 'null_meaning': 'The value is not available.'}
+    my_meta_data_dic_inner_vars = {'longitude': {'min': -180, 'max': 180, 'scale': 1, 'var_exp_source': None, 'var_exp': 'The longitude (in degrees) of the place where the disease was spread.', 'units': 'Degrees', 'choices': None}, 'latitude': {'min': -180, 'max': 180, 'scale': 1, 'var_exp_source': None, 'var_exp': 'The latitude (in degrees) of the place where the disease was spread.', 'units': 'Degrees', 'choices': None}, 'elevation': {'min': 0, 'max': 5000, 'scale': 1, 'var_exp_source': None, 'var_exp': 'Elevation from mean sea level (in meters) of the place where the disease was spread.', 'units': 'Meters', 'choices': None}, 'sub_category': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The category of the disease.', 'units': None, 'choices': ['Peculiar Epidemics', 'Pestilence', 'Miasm', 'Pox', 'Uncertain Pestilence', 'Dysentery', 'Malaria', 'Influenza', 'Cholera', 'Diptheria', 'Plague']}, 'magnitude': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'How heavy the disease was.', 'units': None, 'choices': ['Uncertain', 'Light', 'Heavy', 'No description', 'Heavy- Multiple Times', 'No Happening', 'Moderate']}, 'duration': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'How long the disease lasted.', 'units': None, 'choices': ['No description', 'Over 90 Days', 'Uncertain', '30-60 Days', '1-10 Days', '60-90 Days']}}
+    writer = csv.writer(response, delimiter='|')
+    # bring in the meta data nedded
+    for k, v in my_meta_data_dic.items():
+        writer.writerow([k, v])
+
+    for k_in, v_in in my_meta_data_dic_inner_vars.items():
+        writer.writerow([k_in,])
+        for inner_key, inner_value in v_in.items():
+            if inner_value:
+                writer.writerow([inner_key, inner_value])
+
+    return response
+
         
 def QingVars(request):
-    all_sections = Section.objects.all()
-    all_subsections = Subsection.objects.all()
-    all_varhiers = Variablehierarchy.objects.all()
-    meta_data_dict = {}
-    for ct in ContentType.objects.all():
-        m = ct.model_class()
-        #full_name = m.__module__ + m.__name__
-        full_name = m.__name__
-        meta_data_dict[full_name.lower()] = [full_name.split('.')[-1].replace("_", ' '), m._default_manager.count(), full_name.lower()+"-create",full_name.lower()+"s"]
-        print (f".{m.__name__}	{m._default_manager.count()}")
-    my_dict = {}
+    my_sections_dic = {'Other_Sections': {'Other_Subsections': []},
+ 'Economy Variables': {'Productivity': [['Agricultural population',
+    'agricultural_populations',
+    'agricultural_population-create'],
+   ['Arable land', 'arable_lands', 'arable_land-create'],
+   ['Arable land per farmer',
+    'arable_land_per_farmers',
+    'arable_land_per_farmer-create'],
+   ['Gross grain shared per agricultural population',
+    'gross_grain_shared_per_agricultural_populations',
+    'gross_grain_shared_per_agricultural_population-create'],
+   ['Net grain shared per agricultural population',
+    'net_grain_shared_per_agricultural_populations',
+    'net_grain_shared_per_agricultural_population-create'],
+   ['Surplus', 'surplus', 'surplus-create'],
+   ['Gdp per capita', 'gdp_per_capitas', 'gdp_per_capita-create']],
+  'State Finances': [['Military expense',
+    'military_expenses',
+    'military_expense-create'],
+   ['Silver inflow', 'silver_inflows', 'silver_inflow-create'],
+   ['Silver stock', 'silver_stocks', 'silver_stock-create']]},
+ 'Social Complexity Variables': {'Social Scale': [['Total population',
+    'total_populations',
+    'total_population-create']]},
+ 'Well Being': {'Biological Well-Being': [['Drought event',
+    'drought_events',
+    'drought_event-create'],
+   ['Locust event', 'locust_events', 'locust_event-create'],
+   ['Socioeconomic turmoil event',
+    'socioeconomic_turmoil_events',
+    'socioeconomic_turmoil_event-create'],
+   ['Crop failure event', 'crop_failure_events', 'crop_failure_event-create'],
+   ['Famine event', 'famine_events', 'famine_event-create'],
+   ['Disease outbreak', 'disease_outbreaks', 'disease_outbreak-create']]}}
+    # all_sections = Section.objects.all()
+    # all_subsections = Subsection.objects.all()
+    # all_varhiers = Variablehierarchy.objects.all()
+    # meta_data_dict = {}
+    # for ct in my_sections_dic.items():
+    #     m = ct.model_class()
+    #     #full_name = m.__module__ + m.__name__
+    #     full_name = m.__name__
+    #     meta_data_dict[full_name.lower()] = [full_name.split('.')[-1].replace("_", ' '), m._default_manager.count(), full_name.lower()+"-create",full_name.lower()+"s"]
+    #     print (f".{m.__name__}	{m._default_manager.count()}")
+    # my_dict = {}
     context = {}
-    for sect in all_sections:
-        my_dict[sect] = {}
-        for subsect in all_subsections:
-            list_of_all_varhiers_in_here = []
-            for item in all_varhiers:
-                #print(item, item.section, item.subsection, sect.name, subsect.name)
-                if item.section.name == sect.name and item.subsection.name == subsect.name:
-                    print("We hit it")
-                    list_of_all_varhiers_in_here.append(meta_data_dict[item.name.lower()])
-            if list_of_all_varhiers_in_here:
-                my_dict[sect][subsect] = list_of_all_varhiers_in_here
-    context["my_dict"] = my_dict
-    for ct in ContentType.objects.all():
-        m = ct.model_class()
-        print (f"{m.__module__}.{m.__name__}	{m._default_manager.count()}")
+
+    # for sect in all_sections:
+    #     my_dict[sect] = {}
+    #     for subsect in all_subsections:
+    #         list_of_all_varhiers_in_here = []
+    #         for item in all_varhiers:
+    #             #print(item, item.section, item.subsection, sect.name, subsect.name)
+    #             if item.section.name == sect.name and item.subsection.name == subsect.name:
+    #                 print("We hit it")
+    #                 list_of_all_varhiers_in_here.append(meta_data_dict[item.name.lower()])
+    #         if list_of_all_varhiers_in_here:
+    #             my_dict[sect][subsect] = list_of_all_varhiers_in_here
+    context["my_dict"] = my_sections_dic
     return render(request, 'crisisdb/qing-vars.html', context=context)
 
 

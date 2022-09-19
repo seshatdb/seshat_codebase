@@ -7,8 +7,9 @@
 <div class="container">
     <div class="h3 pt-4">
         <h2>References:</h2>
-        <a href="{% url 'synczotero' %}" class="btn btn-outline-success"><i class="fa-solid fa-arrows-rotate"></i> &nbsp; Sync With Zotero</a>
-        <a href="{% url 'updatecitations' %}" class="btn btn-outline-success"><i class="fa-solid fa-wrench"></i> &nbsp; Update Citations</a>
+        <a href="{% url 'synczotero' %}" class="btn btn-outline-success"><i class="fa-solid fa-arrows-rotate"></i> &nbsp; <b>Sync with Zotero (ALL)</b></a> <span class="h6"><i class="fa-solid fa-stopwatch"></i> ~10 mins</span>
+        <span>  &nbsp;  &nbsp;  &nbsp; </span>
+        <a href="{% url 'synczotero100' %}" class="btn btn-success"><i class="fa-solid fa-arrows-rotate"></i> &nbsp; <b>Sync with Zotero (last 100 refs)</b></a> <span class="h6"><i class="fa-solid fa-stopwatch"></i> < 1 min</span>
     </div>
     {% if object_list %}
     <div class="table-responsive">

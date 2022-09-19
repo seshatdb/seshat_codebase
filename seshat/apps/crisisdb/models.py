@@ -19,7 +19,7 @@ from ..core.models import SeshatCommon, Certainty, Tags, Section, Subsection
 ########## End of Model Imports
 
 ########## Beginning of tuple choices for CrisisDB Models
-DISEASE_OUTBREAK_CHOICES = (
+SUB_CATEGORY_DISEASE_OUTBREAK_CHOICES = (
 ('Peculiar Epidemics', 'Peculiar Epidemics'),
 ('Pestilence', 'Pestilence'),
 ('Miasm', 'Miasm'),
@@ -33,7 +33,7 @@ DISEASE_OUTBREAK_CHOICES = (
 ('Plague', 'Plague'),
 )
 
-DISEASE_OUTBREAK_CHOICES = (
+MAGNITUDE_DISEASE_OUTBREAK_CHOICES = (
 ('Uncertain', 'Uncertain'),
 ('Light', 'Light'),
 ('Heavy', 'Heavy'),
@@ -43,7 +43,7 @@ DISEASE_OUTBREAK_CHOICES = (
 ('Moderate', 'Moderate'),
 )
 
-DISEASE_OUTBREAK_CHOICES = (
+DURATION_DISEASE_OUTBREAK_CHOICES = (
 ('No description', 'No description'),
 ('Over 90 Days', 'Over 90 Days'),
 ('Uncertain', 'Uncertain'),
@@ -456,9 +456,9 @@ class Disease_outbreak(SeshatCommon):
     longitude = models.DecimalField(max_digits= 25, decimal_places = 10, blank=True, null=True)
     latitude = models.DecimalField(max_digits= 25, decimal_places = 10, blank=True, null=True)
     elevation = models.DecimalField(max_digits= 25, decimal_places = 10, blank=True, null=True)
-    sub_category = models.CharField(max_length=500, choices=sub_category_disease_outbreak_choices)
-    magnitude = models.CharField(max_length=500, choices=magnitude_disease_outbreak_choices)
-    duration = models.CharField(max_length=500, choices=duration_disease_outbreak_choices)
+    sub_category = models.CharField(max_length=500, choices=SUB_CATEGORY_DISEASE_OUTBREAK_CHOICES)
+    magnitude = models.CharField(max_length=500, choices=MAGNITUDE_DISEASE_OUTBREAK_CHOICES)
+    duration = models.CharField(max_length=500, choices=DURATION_DISEASE_OUTBREAK_CHOICES)
 
     class Meta:
         verbose_name = 'Disease_outbreak'

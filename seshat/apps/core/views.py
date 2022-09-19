@@ -556,6 +556,25 @@ def synczotero(request):
 
     from pyzotero import zotero
     zot = zotero.Zotero(1051264, 'group', 'VF5X3TCC3bUYov8Au5gCHf3a')
+    results = zot.everything(zot.top())
+    #results = zot.top(limit=100)
+
+    print(len(results))
+    counter_bookTitle = 0
+    new_refs = do_zotero(results)
+    context = {}
+    context["newly_adds"] = new_refs
+    update_citations_from_inside_zotero_update()
+    #num_1_ref = Reference.objects.get(zotero_link ="FGFSZUNB")
+    #num_1_ref.year = 2014
+    #num_1_ref.save()
+    return render (request, 'core/references/synczotero.html', context)
+
+def synczotero100(request):
+    print("Hallo Zotero")
+
+    from pyzotero import zotero
+    zot = zotero.Zotero(1051264, 'group', 'VF5X3TCC3bUYov8Au5gCHf3a')
     #results = zot.everything(zot.top())
     results = zot.top(limit=100)
 
@@ -569,6 +588,7 @@ def synczotero(request):
     #num_1_ref.year = 2014
     #num_1_ref.save()
     return render (request, 'core/references/synczotero.html', context)
+
 
 
 def update_citations(request):

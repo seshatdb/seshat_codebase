@@ -41,7 +41,7 @@ class Agricultural_populationForm(forms.ModelForm):
         labels = commonlabels
         
         widgets = dict(commonwidgets)
-        widgets['agricultural_population'] = forms.NumberInputwidgets['agricultural_population'] = forms.NumberInput
+        widgets['agricultural_population'] = forms.NumberInput(attrs={'class': 'form-control  mb-3', })
         
 
 class Arable_landForm(forms.ModelForm):
@@ -52,7 +52,7 @@ class Arable_landForm(forms.ModelForm):
         labels = commonlabels
         
         widgets = dict(commonwidgets)
-        widgets['arable_land'] = forms.NumberInputwidgets['arable_land'] = forms.NumberInput
+        widgets['arable_land'] = forms.NumberInput(attrs={'class': 'form-control  mb-3', })
         
 
 class Arable_land_per_farmerForm(forms.ModelForm):
@@ -63,7 +63,7 @@ class Arable_land_per_farmerForm(forms.ModelForm):
         labels = commonlabels
         
         widgets = dict(commonwidgets)
-        widgets['arable_land_per_farmer'] = forms.NumberInputwidgets['arable_land_per_farmer'] = forms.NumberInput
+        widgets['arable_land_per_farmer'] = forms.NumberInput(attrs={'class': 'form-control  mb-3', })
         
 
 class Gross_grain_shared_per_agricultural_populationForm(forms.ModelForm):
@@ -74,7 +74,7 @@ class Gross_grain_shared_per_agricultural_populationForm(forms.ModelForm):
         labels = commonlabels
         
         widgets = dict(commonwidgets)
-        widgets['gross_grain_shared_per_agricultural_population'] = forms.NumberInputwidgets['gross_grain_shared_per_agricultural_population'] = forms.NumberInput
+        widgets['gross_grain_shared_per_agricultural_population'] = forms.NumberInput(attrs={'class': 'form-control  mb-3', })
         
 
 class Net_grain_shared_per_agricultural_populationForm(forms.ModelForm):
@@ -85,7 +85,7 @@ class Net_grain_shared_per_agricultural_populationForm(forms.ModelForm):
         labels = commonlabels
         
         widgets = dict(commonwidgets)
-        widgets['net_grain_shared_per_agricultural_population'] = forms.NumberInputwidgets['net_grain_shared_per_agricultural_population'] = forms.NumberInput
+        widgets['net_grain_shared_per_agricultural_population'] = forms.NumberInput(attrs={'class': 'form-control  mb-3', })
         
 
 class SurplusForm(forms.ModelForm):
@@ -96,7 +96,7 @@ class SurplusForm(forms.ModelForm):
         labels = commonlabels
         
         widgets = dict(commonwidgets)
-        widgets['surplus'] = forms.NumberInputwidgets['surplus'] = forms.NumberInput
+        widgets['surplus'] = forms.NumberInput(attrs={'class': 'form-control  mb-3', })
         
 
 class Military_expenseForm(forms.ModelForm):
@@ -108,8 +108,8 @@ class Military_expenseForm(forms.ModelForm):
         labels = commonlabels
         
         widgets = dict(commonwidgets)
-        widgets['conflict'] = forms.TextInputwidgets['conflict'] = forms.TextInput
-        widgets['expenditure'] = forms.NumberInputwidgets['expenditure'] = forms.NumberInput
+        widgets['conflict'] = forms.TextInput(attrs={'class': 'form-control  mb-3', })
+        widgets['expenditure'] = forms.NumberInput(attrs={'class': 'form-control  mb-3', })
         
 
 class Silver_inflowForm(forms.ModelForm):
@@ -120,7 +120,7 @@ class Silver_inflowForm(forms.ModelForm):
         labels = commonlabels
         
         widgets = dict(commonwidgets)
-        widgets['silver_inflow'] = forms.NumberInputwidgets['silver_inflow'] = forms.NumberInput
+        widgets['silver_inflow'] = forms.NumberInput(attrs={'class': 'form-control  mb-3', })
         
 
 class Silver_stockForm(forms.ModelForm):
@@ -131,7 +131,7 @@ class Silver_stockForm(forms.ModelForm):
         labels = commonlabels
         
         widgets = dict(commonwidgets)
-        widgets['silver_stock'] = forms.NumberInputwidgets['silver_stock'] = forms.NumberInput
+        widgets['silver_stock'] = forms.NumberInput(attrs={'class': 'form-control  mb-3', })
         
 
 class Total_populationForm(forms.ModelForm):
@@ -142,7 +142,7 @@ class Total_populationForm(forms.ModelForm):
         labels = commonlabels
         
         widgets = dict(commonwidgets)
-        widgets['total_population'] = forms.NumberInputwidgets['total_population'] = forms.NumberInput
+        widgets['total_population'] = forms.NumberInput(attrs={'class': 'form-control  mb-3', })
         
 
 class Gdp_per_capitaForm(forms.ModelForm):
@@ -153,7 +153,7 @@ class Gdp_per_capitaForm(forms.ModelForm):
         labels = commonlabels
         
         widgets = dict(commonwidgets)
-        widgets['gdp_per_capita'] = forms.NumberInputwidgets['gdp_per_capita'] = forms.NumberInput
+        widgets['gdp_per_capita'] = forms.NumberInput(attrs={'class': 'form-control  mb-3', })
         
 
 class Drought_eventForm(forms.ModelForm):
@@ -164,7 +164,7 @@ class Drought_eventForm(forms.ModelForm):
         labels = commonlabels
         
         widgets = dict(commonwidgets)
-        widgets['drought_event'] = forms.NumberInputwidgets['drought_event'] = forms.NumberInput
+        widgets['drought_event'] = forms.NumberInput(attrs={'class': 'form-control  mb-3', })
         
 
 class Locust_eventForm(forms.ModelForm):
@@ -175,7 +175,7 @@ class Locust_eventForm(forms.ModelForm):
         labels = commonlabels
         
         widgets = dict(commonwidgets)
-        widgets['locust_event'] = forms.NumberInputwidgets['locust_event'] = forms.NumberInput
+        widgets['locust_event'] = forms.NumberInput(attrs={'class': 'form-control  mb-3', })
         
 
 class Socioeconomic_turmoil_eventForm(forms.ModelForm):
@@ -186,7 +186,7 @@ class Socioeconomic_turmoil_eventForm(forms.ModelForm):
         labels = commonlabels
         
         widgets = dict(commonwidgets)
-        widgets['socioeconomic_turmoil_event'] = forms.NumberInputwidgets['socioeconomic_turmoil_event'] = forms.NumberInput
+        widgets['socioeconomic_turmoil_event'] = forms.NumberInput(attrs={'class': 'form-control  mb-3', })
         
 
 class Crop_failure_eventForm(forms.ModelForm):
@@ -197,7 +197,7 @@ class Crop_failure_eventForm(forms.ModelForm):
         labels = commonlabels
         
         widgets = dict(commonwidgets)
-        widgets['crop_failure_event'] = forms.NumberInputwidgets['crop_failure_event'] = forms.NumberInput
+        widgets['crop_failure_event'] = forms.NumberInput(attrs={'class': 'form-control  mb-3', })
         
 
 class Famine_eventForm(forms.ModelForm):
@@ -208,7 +208,7 @@ class Famine_eventForm(forms.ModelForm):
         labels = commonlabels
         
         widgets = dict(commonwidgets)
-        widgets['famine_event'] = forms.NumberInputwidgets['famine_event'] = forms.NumberInput
+        widgets['famine_event'] = forms.NumberInput(attrs={'class': 'form-control  mb-3', })
         
 
 class Disease_outbreakForm(forms.ModelForm):
@@ -224,10 +224,10 @@ class Disease_outbreakForm(forms.ModelForm):
         labels = commonlabels
         
         widgets = dict(commonwidgets)
-        widgets['longitude'] = forms.NumberInputwidgets['longitude'] = forms.NumberInput
-        widgets['latitude'] = forms.NumberInputwidgets['latitude'] = forms.NumberInput
-        widgets['elevation'] = forms.NumberInputwidgets['elevation'] = forms.NumberInput
-        widgets['sub_category'] = forms.Selectwidgets['sub_category'] = forms.Select
-        widgets['magnitude'] = forms.Selectwidgets['magnitude'] = forms.Select
-        widgets['duration'] = forms.Selectwidgets['duration'] = forms.Select
+        widgets['longitude'] = forms.NumberInput(attrs={'class': 'form-control  mb-3', })
+        widgets['latitude'] = forms.NumberInput(attrs={'class': 'form-control  mb-3', })
+        widgets['elevation'] = forms.NumberInput(attrs={'class': 'form-control  mb-3', })
+        widgets['sub_category'] = forms.Select(attrs={'class': 'form-control  mb-3', })
+        widgets['magnitude'] = forms.Select(attrs={'class': 'form-control  mb-3', })
+        widgets['duration'] = forms.Select(attrs={'class': 'form-control  mb-3', })
         
