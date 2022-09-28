@@ -53,8 +53,8 @@ Tags = (
 
 class Polity(models.Model):
     name = models.CharField(max_length=100)
-    start = models.IntegerField(blank=True, null=True)
-    end = models.IntegerField(blank=True, null=True)
+    start_year = models.IntegerField(blank=True, null=True)
+    end_year = models.IntegerField(blank=True, null=True)
     created_date = models.DateTimeField(
         auto_now_add=True, blank=True, null=True)
     modified_date = models.DateTimeField(auto_now=True, blank=True, null=True)
@@ -66,6 +66,10 @@ class Polity(models.Model):
     def __str__(self) -> str:
         """string for epresenting the model obj in Admin Site"""
         return self.name
+
+    class Meta:
+        unique_together = ("name",)
+    
 
 
 class Country(models.Model):
@@ -80,6 +84,9 @@ class Country(models.Model):
     def __str__(self) -> str:
         """string for epresenting the model obj in Admin Site"""
         return self.name
+    
+    class Meta:
+        unique_together = ("name",)
 
 
 class Section(models.Model):
@@ -88,6 +95,9 @@ class Section(models.Model):
     def __str__(self) -> str:
         """string for epresenting the model obj in Admin Site"""
         return self.name
+
+    class Meta:
+        unique_together = ("name",)
 
 
 class Subsection(models.Model):
@@ -98,6 +108,9 @@ class Subsection(models.Model):
     def __str__(self) -> str:
         """string for epresenting the model obj in Admin Site"""
         return self.name
+    
+    class Meta:
+        unique_together = ("name", "section")
 
 
 # def get_all_vars_for_hierarchy():
@@ -178,6 +191,7 @@ class Reference(models.Model):
 
     class Meta:
        #ordering = ['-year']
+       unique_together = ("title", "zotero_link")
        ordering = ['-modified_date']
 
 
@@ -261,7 +275,7 @@ class Citation(models.Model):
 
 class SeshatCommon(models.Model):
     polity = models.ForeignKey(Polity, on_delete=models.SET_NULL, related_name="%(app_label)s_%(class)s_related",
-                               related_query_name="%(app_label)s_%(class)s", null=True)
+                               related_query_name="%(app_label)s_%(class)s", null=True, blank=True)
     name = models.CharField(
         max_length=200,)
     year_from = models.IntegerField(blank=True, null=True)

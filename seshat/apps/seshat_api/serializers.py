@@ -3,7 +3,7 @@
 
 from django.contrib.auth.models import User, Group
 from rest_framework import serializers
-from seshat.apps.crisisdb.models import Agricultural_population, Arable_land, Arable_land_per_farmer, Gross_grain_shared_per_agricultural_population, Net_grain_shared_per_agricultural_population, Surplus, Military_expense, Silver_inflow, Silver_stock, Total_population, Gdp_per_capita, Drought_event, Locust_event, Socioeconomic_turmoil_event, Crop_failure_event, Famine_event, Disease_outbreak
+from seshat.apps.crisisdb.models import External_conflict, Internal_conflict, External_conflict_side, Agricultural_population, Arable_land, Arable_land_per_farmer, Gross_grain_shared_per_agricultural_population, Net_grain_shared_per_agricultural_population, Surplus, Military_expense, Silver_inflow, Silver_stock, Total_population, Gdp_per_capita, Drought_event, Locust_event, Socioeconomic_turmoil_event, Crop_failure_event, Famine_event, Disease_outbreak
 from ..core.models import Polity, Reference, Section, Subsection, Variablehierarchy
 
 ################ End of Serializers Imports
@@ -26,6 +26,21 @@ class ReferenceSerializer(serializers.ModelSerializer):
         
 ################ End of Base Serializers
 ################ Beginning of Serializers Imports
+
+class External_conflictSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = External_conflict
+        fields = ['year_from', 'year_to', 'conflict_name', 'tag']
+
+class Internal_conflictSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Internal_conflict
+        fields = ['year_from', 'year_to', 'conflict', 'expenditure', 'leader', 'casualty', 'tag']
+
+class External_conflict_sideSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = External_conflict_side
+        fields = ['year_from', 'year_to', 'conflict_id', 'expenditure', 'leader', 'casualty', 'tag']
 
 class Agricultural_populationSerializer(serializers.ModelSerializer):
     class Meta:
@@ -112,6 +127,9 @@ class Disease_outbreakSerializer(serializers.ModelSerializer):
         model = Disease_outbreak
         fields = ['year_from', 'year_to', 'longitude', 'latitude', 'elevation', 'sub_category', 'magnitude', 'duration', 'tag']
 class PolitySerializer(serializers.ModelSerializer):
+	crisisdb_external_conflict_related = External_conflictSerializer(many=True, read_only=True)
+	crisisdb_internal_conflict_related = Internal_conflictSerializer(many=True, read_only=True)
+	crisisdb_external_conflict_side_related = External_conflict_sideSerializer(many=True, read_only=True)
 	crisisdb_agricultural_population_related = Agricultural_populationSerializer(many=True, read_only=True)
 	crisisdb_arable_land_related = Arable_landSerializer(many=True, read_only=True)
 	crisisdb_arable_land_per_farmer_related = Arable_land_per_farmerSerializer(many=True, read_only=True)
@@ -132,6 +150,6 @@ class PolitySerializer(serializers.ModelSerializer):
 
 	class Meta:
 		model = Polity
-		fields = ['id', 'name', 'start', 'end', 'crisisdb_agricultural_population_related', 'crisisdb_arable_land_related', 'crisisdb_arable_land_per_farmer_related', 'crisisdb_gross_grain_shared_per_agricultural_population_related', 'crisisdb_net_grain_shared_per_agricultural_population_related', 'crisisdb_surplus_related', 'crisisdb_military_expense_related', 'crisisdb_silver_inflow_related', 'crisisdb_silver_stock_related', 'crisisdb_total_population_related', 'crisisdb_gdp_per_capita_related', 'crisisdb_drought_event_related', 'crisisdb_locust_event_related', 'crisisdb_socioeconomic_turmoil_event_related', 'crisisdb_crop_failure_event_related', 'crisisdb_famine_event_related', 'crisisdb_disease_outbreak_related']
+		fields = ['id', 'name', 'start_year', 'end_year', 'crisisdb_external_conflict_related', 'crisisdb_internal_conflict_related', 'crisisdb_external_conflict_side_related', 'crisisdb_agricultural_population_related', 'crisisdb_arable_land_related', 'crisisdb_arable_land_per_farmer_related', 'crisisdb_gross_grain_shared_per_agricultural_population_related', 'crisisdb_net_grain_shared_per_agricultural_population_related', 'crisisdb_surplus_related', 'crisisdb_military_expense_related', 'crisisdb_silver_inflow_related', 'crisisdb_silver_stock_related', 'crisisdb_total_population_related', 'crisisdb_gdp_per_capita_related', 'crisisdb_drought_event_related', 'crisisdb_locust_event_related', 'crisisdb_socioeconomic_turmoil_event_related', 'crisisdb_crop_failure_event_related', 'crisisdb_famine_event_related', 'crisisdb_disease_outbreak_related']
     
 ################ End of Serializers Imports

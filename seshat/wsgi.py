@@ -12,7 +12,7 @@ import os
 from django.core.wsgi import get_wsgi_application
 #from whitenoise.django import DjangoWhiteNoise
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'seshat.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'seshat.settings.base')
 # if not os.path.exists(".env"):
 #    os.environ["DJANGO_SETTINGS_MODULE"] = "seshat.settings.production"
 

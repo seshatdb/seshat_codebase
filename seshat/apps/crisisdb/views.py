@@ -33,10 +33,394 @@ from requests.structures import CaseInsensitiveDict
 
 
 
-from .models import Agricultural_population, Arable_land, Arable_land_per_farmer, Gross_grain_shared_per_agricultural_population, Net_grain_shared_per_agricultural_population, Surplus, Military_expense, Silver_inflow, Silver_stock, Total_population, Gdp_per_capita, Drought_event, Locust_event, Socioeconomic_turmoil_event, Crop_failure_event, Famine_event, Disease_outbreak
+from .models import External_conflict, Internal_conflict, External_conflict_side, Agricultural_population, Arable_land, Arable_land_per_farmer, Gross_grain_shared_per_agricultural_population, Net_grain_shared_per_agricultural_population, Surplus, Military_expense, Silver_inflow, Silver_stock, Total_population, Gdp_per_capita, Drought_event, Locust_event, Socioeconomic_turmoil_event, Crop_failure_event, Famine_event, Disease_outbreak
 
 
-from .forms import Agricultural_populationForm, Arable_landForm, Arable_land_per_farmerForm, Gross_grain_shared_per_agricultural_populationForm, Net_grain_shared_per_agricultural_populationForm, SurplusForm, Military_expenseForm, Silver_inflowForm, Silver_stockForm, Total_populationForm, Gdp_per_capitaForm, Drought_eventForm, Locust_eventForm, Socioeconomic_turmoil_eventForm, Crop_failure_eventForm, Famine_eventForm, Disease_outbreakForm
+from .forms import External_conflictForm, Internal_conflictForm, External_conflict_sideForm, Agricultural_populationForm, Arable_landForm, Arable_land_per_farmerForm, Gross_grain_shared_per_agricultural_populationForm, Net_grain_shared_per_agricultural_populationForm, SurplusForm, Military_expenseForm, Silver_inflowForm, Silver_stockForm, Total_populationForm, Gdp_per_capitaForm, Drought_eventForm, Locust_eventForm, Socioeconomic_turmoil_eventForm, Crop_failure_eventForm, Famine_eventForm, Disease_outbreakForm
+
+class External_conflictCreate(PermissionRequiredMixin, CreateView):
+    model = External_conflict
+    form_class = External_conflictForm
+    template_name = "crisisdb/external_conflict/external_conflict_form.html"
+    permission_required = 'catalog.can_mark_returned'
+
+    def get_absolute_url(self):
+        return reverse('external_conflict-create')
+    def get_context_data(self, **kwargs):
+        # get the explanattion:
+        all_var_hiers = Variablehierarchy.objects.all()
+        if all_var_hiers:
+            for item in all_var_hiers:
+                if item.name == "External Conflict":
+                    my_exp = item.explanation
+                    my_sec = item.section.name
+                    my_subsec = item.subsection.name
+                    my_name = item.name
+                    break
+                else:
+                    my_exp = "No_Explanations"
+                    my_sec = "No_SECTION"
+                    my_subsec = "NO_SUBSECTION"
+                    my_name = "NO_NAME"
+            context = super().get_context_data(**kwargs)
+            context["mysection"] = my_sec
+            context["mysubsection"] = my_subsec
+            context["myvar"] = my_name
+            context["my_exp"] = my_exp
+
+            return context
+        else:
+            context = super().get_context_data(**kwargs)
+            my_exp = "No_Explanations"
+            my_sec = "No_SECTION"
+            my_subsec = "NO_SUBSECTION"
+            my_name = "NO_NAME"
+            context["mysection"] = my_sec
+            context["mysubsection"] = my_subsec
+            context["myvar"] = "External Conflict"
+            context["my_exp"] = my_exp
+            return context
+
+
+class External_conflictUpdate(PermissionRequiredMixin, UpdateView):
+    model = External_conflict
+    form_class = External_conflictForm
+    template_name = "crisisdb/external_conflict/external_conflict_update.html"
+    permission_required = 'catalog.can_mark_returned'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["myvar"] = "External Conflict"
+
+        return context
+
+class External_conflictDelete(PermissionRequiredMixin, DeleteView):
+    model = External_conflict
+    success_url = reverse_lazy('external_conflicts')
+    template_name = "core/delete_general.html"
+    permission_required = 'catalog.can_mark_returned'
+
+
+class External_conflictListView(generic.ListView):
+    model = External_conflict
+    template_name = "crisisdb/external_conflict/external_conflict_list.html"
+    paginate_by = 10
+
+    def get_absolute_url(self):
+        return reverse('external_conflicts')
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["myvar"] = "External Conflict"
+        context["var_main_desc"] = "Main descriptions for the variable external Conflict are missing!"
+        context["var_main_desc_source"] = ""
+        context["var_section"] = "Conflict Variables"
+        context["var_subsection"] = "External Conflicts Subsection"
+        context["var_null_meaning"] = "The value is not available."
+        context["inner_vars"] = {'conflict_name': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The unique name of this external conflict', 'units': None, 'choices': None}}
+        context["potential_cols"] = []
+
+        return context
+        
+class External_conflictDetailView(generic.DetailView):
+    model = External_conflict
+    template_name = "crisisdb/external_conflict/external_conflict_detail.html"
+
+
+@permission_required('admin.can_add_log_entry')
+def external_conflict_download(request):
+    items = External_conflict.objects.all()
+
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="external_conflicts.csv"'
+
+    writer = csv.writer(response, delimiter='|')
+    writer.writerow(['year_from', 'year_to',
+                     'polity', 'conflict_name', ])
+
+    for obj in items:
+        writer.writerow([obj.year_from, obj.year_to,
+                         obj.polity, obj.conflict_name, ])
+
+    return response
+
+@permission_required('admin.can_add_log_entry')
+def external_conflict_meta_download(request):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="external_conflicts.csv"'
+    
+    my_meta_data_dic = {'notes': 'This is a new model definition fror External conflicts', 'main_desc': 'Main Descriptions for the Variable external_conflict are missing!', 'main_desc_source': 'Main Descriptions for the Variable external_conflict are missing!', 'section': 'Conflict Variables', 'subsection': 'External Conflicts Subsection', 'null_meaning': 'The value is not available.'}
+    my_meta_data_dic_inner_vars = {'conflict_name': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The unique name of this external conflict', 'units': None, 'choices': None}}
+    writer = csv.writer(response, delimiter='|')
+    # bring in the meta data nedded
+    for k, v in my_meta_data_dic.items():
+        writer.writerow([k, v])
+
+    for k_in, v_in in my_meta_data_dic_inner_vars.items():
+        writer.writerow([k_in,])
+        for inner_key, inner_value in v_in.items():
+            if inner_value:
+                writer.writerow([inner_key, inner_value])
+
+    return response
+
+        
+
+class Internal_conflictCreate(PermissionRequiredMixin, CreateView):
+    model = Internal_conflict
+    form_class = Internal_conflictForm
+    template_name = "crisisdb/internal_conflict/internal_conflict_form.html"
+    permission_required = 'catalog.can_mark_returned'
+
+    def get_absolute_url(self):
+        return reverse('internal_conflict-create')
+    def get_context_data(self, **kwargs):
+        # get the explanattion:
+        all_var_hiers = Variablehierarchy.objects.all()
+        if all_var_hiers:
+            for item in all_var_hiers:
+                if item.name == "Internal Conflict":
+                    my_exp = item.explanation
+                    my_sec = item.section.name
+                    my_subsec = item.subsection.name
+                    my_name = item.name
+                    break
+                else:
+                    my_exp = "No_Explanations"
+                    my_sec = "No_SECTION"
+                    my_subsec = "NO_SUBSECTION"
+                    my_name = "NO_NAME"
+            context = super().get_context_data(**kwargs)
+            context["mysection"] = my_sec
+            context["mysubsection"] = my_subsec
+            context["myvar"] = my_name
+            context["my_exp"] = my_exp
+
+            return context
+        else:
+            context = super().get_context_data(**kwargs)
+            my_exp = "No_Explanations"
+            my_sec = "No_SECTION"
+            my_subsec = "NO_SUBSECTION"
+            my_name = "NO_NAME"
+            context["mysection"] = my_sec
+            context["mysubsection"] = my_subsec
+            context["myvar"] = "Internal Conflict"
+            context["my_exp"] = my_exp
+            return context
+
+
+class Internal_conflictUpdate(PermissionRequiredMixin, UpdateView):
+    model = Internal_conflict
+    form_class = Internal_conflictForm
+    template_name = "crisisdb/internal_conflict/internal_conflict_update.html"
+    permission_required = 'catalog.can_mark_returned'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["myvar"] = "Internal Conflict"
+
+        return context
+
+class Internal_conflictDelete(PermissionRequiredMixin, DeleteView):
+    model = Internal_conflict
+    success_url = reverse_lazy('internal_conflicts')
+    template_name = "core/delete_general.html"
+    permission_required = 'catalog.can_mark_returned'
+
+
+class Internal_conflictListView(generic.ListView):
+    model = Internal_conflict
+    template_name = "crisisdb/internal_conflict/internal_conflict_list.html"
+    paginate_by = 10
+
+    def get_absolute_url(self):
+        return reverse('internal_conflicts')
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["myvar"] = "Internal Conflict"
+        context["var_main_desc"] = "Main descriptions for the variable internal Conflict are missing!"
+        context["var_main_desc_source"] = ""
+        context["var_section"] = "Conflict Variables"
+        context["var_subsection"] = "Internal Conflicts Subsection"
+        context["var_null_meaning"] = "The value is not available."
+        context["inner_vars"] = {'conflict': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The name of the conflict', 'units': None, 'choices': None}, 'expenditure': {'min': None, 'max': None, 'scale': 1000000, 'var_exp_source': None, 'var_exp': 'The military expenses in millions silver taels.', 'units': 'silver taels', 'choices': None}, 'leader': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The leader of the conflict', 'units': None, 'choices': None}, 'casualty': {'min': None, 'max': None, 'scale': 1, 'var_exp_source': None, 'var_exp': 'The number of people who died in this conflict.', 'units': 'People', 'choices': None}}
+        context["potential_cols"] = ['Units', 'Scale']
+
+        return context
+        
+class Internal_conflictDetailView(generic.DetailView):
+    model = Internal_conflict
+    template_name = "crisisdb/internal_conflict/internal_conflict_detail.html"
+
+
+@permission_required('admin.can_add_log_entry')
+def internal_conflict_download(request):
+    items = Internal_conflict.objects.all()
+
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="internal_conflicts.csv"'
+
+    writer = csv.writer(response, delimiter='|')
+    writer.writerow(['year_from', 'year_to',
+                     'polity', 'conflict', 'expenditure', 'leader', 'casualty', ])
+
+    for obj in items:
+        writer.writerow([obj.year_from, obj.year_to,
+                         obj.polity, obj.conflict, obj.expenditure, obj.leader, obj.casualty, ])
+
+    return response
+
+@permission_required('admin.can_add_log_entry')
+def internal_conflict_meta_download(request):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="internal_conflicts.csv"'
+    
+    my_meta_data_dic = {'notes': 'This is a new model definition fror internal conflicts', 'main_desc': 'Main Descriptions for the Variable internal_conflict are missing!', 'main_desc_source': 'Main Descriptions for the Variable internal_conflict are missing!', 'section': 'Conflict Variables', 'subsection': 'Internal Conflicts Subsection', 'null_meaning': 'The value is not available.'}
+    my_meta_data_dic_inner_vars = {'conflict': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The name of the conflict', 'units': None, 'choices': None}, 'expenditure': {'min': None, 'max': None, 'scale': 1000000, 'var_exp_source': None, 'var_exp': 'The military expenses in millions silver taels.', 'units': 'silver taels', 'choices': None}, 'leader': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The leader of the conflict', 'units': None, 'choices': None}, 'casualty': {'min': None, 'max': None, 'scale': 1, 'var_exp_source': None, 'var_exp': 'The number of people who died in this conflict.', 'units': 'People', 'choices': None}}
+    writer = csv.writer(response, delimiter='|')
+    # bring in the meta data nedded
+    for k, v in my_meta_data_dic.items():
+        writer.writerow([k, v])
+
+    for k_in, v_in in my_meta_data_dic_inner_vars.items():
+        writer.writerow([k_in,])
+        for inner_key, inner_value in v_in.items():
+            if inner_value:
+                writer.writerow([inner_key, inner_value])
+
+    return response
+
+        
+
+class External_conflict_sideCreate(PermissionRequiredMixin, CreateView):
+    model = External_conflict_side
+    form_class = External_conflict_sideForm
+    template_name = "crisisdb/external_conflict_side/external_conflict_side_form.html"
+    permission_required = 'catalog.can_mark_returned'
+
+    def get_absolute_url(self):
+        return reverse('external_conflict_side-create')
+    def get_context_data(self, **kwargs):
+        # get the explanattion:
+        all_var_hiers = Variablehierarchy.objects.all()
+        if all_var_hiers:
+            for item in all_var_hiers:
+                if item.name == "External Conflict Side":
+                    my_exp = item.explanation
+                    my_sec = item.section.name
+                    my_subsec = item.subsection.name
+                    my_name = item.name
+                    break
+                else:
+                    my_exp = "No_Explanations"
+                    my_sec = "No_SECTION"
+                    my_subsec = "NO_SUBSECTION"
+                    my_name = "NO_NAME"
+            context = super().get_context_data(**kwargs)
+            context["mysection"] = my_sec
+            context["mysubsection"] = my_subsec
+            context["myvar"] = my_name
+            context["my_exp"] = my_exp
+
+            return context
+        else:
+            context = super().get_context_data(**kwargs)
+            my_exp = "No_Explanations"
+            my_sec = "No_SECTION"
+            my_subsec = "NO_SUBSECTION"
+            my_name = "NO_NAME"
+            context["mysection"] = my_sec
+            context["mysubsection"] = my_subsec
+            context["myvar"] = "External Conflict Side"
+            context["my_exp"] = my_exp
+            return context
+
+
+class External_conflict_sideUpdate(PermissionRequiredMixin, UpdateView):
+    model = External_conflict_side
+    form_class = External_conflict_sideForm
+    template_name = "crisisdb/external_conflict_side/external_conflict_side_update.html"
+    permission_required = 'catalog.can_mark_returned'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["myvar"] = "External Conflict Side"
+
+        return context
+
+class External_conflict_sideDelete(PermissionRequiredMixin, DeleteView):
+    model = External_conflict_side
+    success_url = reverse_lazy('external_conflict_sides')
+    template_name = "core/delete_general.html"
+    permission_required = 'catalog.can_mark_returned'
+
+
+class External_conflict_sideListView(generic.ListView):
+    model = External_conflict_side
+    template_name = "crisisdb/external_conflict_side/external_conflict_side_list.html"
+    paginate_by = 10
+
+    def get_absolute_url(self):
+        return reverse('external_conflict_sides')
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["myvar"] = "External Conflict Side"
+        context["var_main_desc"] = "Main descriptions for the variable external Conflict Side are missing!"
+        context["var_main_desc_source"] = ""
+        context["var_section"] = "Conflict Variables"
+        context["var_subsection"] = "External Conflicts Subsection"
+        context["var_null_meaning"] = "The value is not available."
+        context["inner_vars"] = {'conflict_id': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The external_conflict which is the actual conflict we are talking about', 'units': None, 'choices': None}, 'expenditure': {'min': None, 'max': None, 'scale': 1, 'var_exp_source': None, 'var_exp': 'The military expenses (from this side) in silver taels.', 'units': 'silver taels', 'choices': None}, 'leader': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The leader of this side of conflict', 'units': None, 'choices': None}, 'casualty': {'min': None, 'max': None, 'scale': 1, 'var_exp_source': None, 'var_exp': 'The number of people who died (from this side) in this conflict.', 'units': 'People', 'choices': None}}
+        context["potential_cols"] = ['Units', 'Scale']
+
+        return context
+        
+class External_conflict_sideDetailView(generic.DetailView):
+    model = External_conflict_side
+    template_name = "crisisdb/external_conflict_side/external_conflict_side_detail.html"
+
+
+@permission_required('admin.can_add_log_entry')
+def external_conflict_side_download(request):
+    items = External_conflict_side.objects.all()
+
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="external_conflict_sides.csv"'
+
+    writer = csv.writer(response, delimiter='|')
+    writer.writerow(['year_from', 'year_to',
+                     'polity', 'conflict_id', 'expenditure', 'leader', 'casualty', ])
+
+    for obj in items:
+        writer.writerow([obj.year_from, obj.year_to,
+                         obj.polity, obj.conflict_id, obj.expenditure, obj.leader, obj.casualty, ])
+
+    return response
+
+@permission_required('admin.can_add_log_entry')
+def external_conflict_side_meta_download(request):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="external_conflict_sides.csv"'
+    
+    my_meta_data_dic = {'notes': 'This is a new model definition for External conflict sides', 'main_desc': 'Main Descriptions for the Variable external_conflict_side are missing!', 'main_desc_source': 'Main Descriptions for the Variable external_conflict_side are missing!', 'section': 'Conflict Variables', 'subsection': 'External Conflicts Subsection', 'null_meaning': 'The value is not available.'}
+    my_meta_data_dic_inner_vars = {'conflict_id': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The external_conflict which is the actual conflict we are talking about', 'units': None, 'choices': None}, 'expenditure': {'min': None, 'max': None, 'scale': 1, 'var_exp_source': None, 'var_exp': 'The military expenses (from this side) in silver taels.', 'units': 'silver taels', 'choices': None}, 'leader': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The leader of this side of conflict', 'units': None, 'choices': None}, 'casualty': {'min': None, 'max': None, 'scale': 1, 'var_exp_source': None, 'var_exp': 'The number of people who died (from this side) in this conflict.', 'units': 'People', 'choices': None}}
+    writer = csv.writer(response, delimiter='|')
+    # bring in the meta data nedded
+    for k, v in my_meta_data_dic.items():
+        writer.writerow([k, v])
+
+    for k_in, v_in in my_meta_data_dic_inner_vars.items():
+        writer.writerow([k_in,])
+        for inner_key, inner_value in v_in.items():
+            if inner_value:
+                writer.writerow([inner_key, inner_value])
+
+    return response
+
+        
 
 class Agricultural_populationCreate(PermissionRequiredMixin, CreateView):
     model = Agricultural_population
@@ -112,12 +496,13 @@ class Agricultural_populationListView(generic.ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["myvar"] = "Agricultural Population"
-        context["var_main_desc"] = "No Explanations."
+        context["var_main_desc"] = "No explanations."
         context["var_main_desc_source"] = ""
         context["var_section"] = "Economy Variables"
         context["var_subsection"] = "Productivity"
         context["var_null_meaning"] = "The value is not available."
         context["inner_vars"] = {'agricultural_population': {'min': 0, 'max': None, 'scale': 1000, 'var_exp_source': None, 'var_exp': 'No Explanations.', 'units': 'People', 'choices': None}}
+        context["potential_cols"] = ['Units', 'Scale']
 
         return context
         
@@ -239,12 +624,13 @@ class Arable_landListView(generic.ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["myvar"] = "Arable Land"
-        context["var_main_desc"] = "No Explanations."
+        context["var_main_desc"] = "No explanations."
         context["var_main_desc_source"] = ""
         context["var_section"] = "Economy Variables"
         context["var_subsection"] = "Productivity"
         context["var_null_meaning"] = "The value is not available."
         context["inner_vars"] = {'arable_land': {'min': None, 'max': None, 'scale': 1000, 'var_exp_source': None, 'var_exp': 'No Explanations.', 'units': 'mu?', 'choices': None}}
+        context["potential_cols"] = ['Units', 'Scale']
 
         return context
         
@@ -366,12 +752,13 @@ class Arable_land_per_farmerListView(generic.ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["myvar"] = "Arable Land Per Farmer"
-        context["var_main_desc"] = "No Explanations."
+        context["var_main_desc"] = "No explanations."
         context["var_main_desc_source"] = ""
         context["var_section"] = "Economy Variables"
         context["var_subsection"] = "Productivity"
         context["var_null_meaning"] = "The value is not available."
         context["inner_vars"] = {'arable_land_per_farmer': {'min': None, 'max': None, 'scale': 1, 'var_exp_source': None, 'var_exp': 'No Explanations.', 'units': 'mu?', 'choices': None}}
+        context["potential_cols"] = ['Units', 'Scale']
 
         return context
         
@@ -493,12 +880,13 @@ class Gross_grain_shared_per_agricultural_populationListView(generic.ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["myvar"] = "Gross Grain Shared Per Agricultural Population"
-        context["var_main_desc"] = "No Explanations."
+        context["var_main_desc"] = "No explanations."
         context["var_main_desc_source"] = ""
         context["var_section"] = "Economy Variables"
         context["var_subsection"] = "Productivity"
         context["var_null_meaning"] = "The value is not available."
         context["inner_vars"] = {'gross_grain_shared_per_agricultural_population': {'min': None, 'max': None, 'scale': 1, 'var_exp_source': None, 'var_exp': 'No Explanations.', 'units': '(catties per capita)', 'choices': None}}
+        context["potential_cols"] = ['Units', 'Scale']
 
         return context
         
@@ -620,12 +1008,13 @@ class Net_grain_shared_per_agricultural_populationListView(generic.ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["myvar"] = "Net Grain Shared Per Agricultural Population"
-        context["var_main_desc"] = "No Explanations."
+        context["var_main_desc"] = "No explanations."
         context["var_main_desc_source"] = ""
         context["var_section"] = "Economy Variables"
         context["var_subsection"] = "Productivity"
         context["var_null_meaning"] = "The value is not available."
         context["inner_vars"] = {'net_grain_shared_per_agricultural_population': {'min': None, 'max': None, 'scale': 1, 'var_exp_source': None, 'var_exp': 'No Explanations.', 'units': '(catties per capita)', 'choices': None}}
+        context["potential_cols"] = ['Units', 'Scale']
 
         return context
         
@@ -747,12 +1136,13 @@ class SurplusListView(generic.ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["myvar"] = "Surplus"
-        context["var_main_desc"] = "No Explanations."
+        context["var_main_desc"] = "No explanations."
         context["var_main_desc_source"] = ""
         context["var_section"] = "Economy Variables"
         context["var_subsection"] = "Productivity"
         context["var_null_meaning"] = "The value is not available."
         context["inner_vars"] = {'surplus': {'min': None, 'max': None, 'scale': 1, 'var_exp_source': None, 'var_exp': 'No Explanations.', 'units': '(catties per capita)', 'choices': None}}
+        context["potential_cols"] = ['Units', 'Scale']
 
         return context
         
@@ -813,7 +1203,7 @@ class Military_expenseCreate(PermissionRequiredMixin, CreateView):
         all_var_hiers = Variablehierarchy.objects.all()
         if all_var_hiers:
             for item in all_var_hiers:
-                if item.name == "Conflict":
+                if item.name == "Military Expense":
                     my_exp = item.explanation
                     my_sec = item.section.name
                     my_subsec = item.subsection.name
@@ -839,7 +1229,7 @@ class Military_expenseCreate(PermissionRequiredMixin, CreateView):
             my_name = "NO_NAME"
             context["mysection"] = my_sec
             context["mysubsection"] = my_subsec
-            context["myvar"] = "Conflict"
+            context["myvar"] = "Military Expense"
             context["my_exp"] = my_exp
             return context
 
@@ -852,7 +1242,7 @@ class Military_expenseUpdate(PermissionRequiredMixin, UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["myvar"] = "Conflict"
+        context["myvar"] = "Military Expense"
 
         return context
 
@@ -873,13 +1263,14 @@ class Military_expenseListView(generic.ListView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["myvar"] = "Conflict"
-        context["var_main_desc"] = "Main Descriptions for the Variable military_expense are missing!"
+        context["myvar"] = "Military Expense"
+        context["var_main_desc"] = "Main descriptions for the variable military Expense are missing!"
         context["var_main_desc_source"] = "https://en.wikipedia.org/wiki/Disease_outbreak"
         context["var_section"] = "Economy Variables"
         context["var_subsection"] = "State Finances"
         context["var_null_meaning"] = "The value is not available."
-        context["inner_vars"] = {'conflict': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The name of the conflict', 'units': None, 'choices': None}, 'expenditure': {'min': None, 'max': None, 'scale': 1, 'var_exp_source': None, 'var_exp': 'The military expenses in millions silver taels.', 'units': 'millions silver taels', 'choices': None}}
+        context["inner_vars"] = {'conflict': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The name of the conflict', 'units': None, 'choices': None}, 'expenditure': {'min': None, 'max': None, 'scale': 1000000, 'var_exp_source': None, 'var_exp': 'The military expenses in millions silver taels.', 'units': 'silver taels', 'choices': None}}
+        context["potential_cols"] = ['Units', 'Scale']
 
         return context
         
@@ -911,7 +1302,7 @@ def military_expense_meta_download(request):
     response['Content-Disposition'] = 'attachment; filename="military_expenses.csv"'
     
     my_meta_data_dic = {'notes': 'Not sure about Section and Subsection.', 'main_desc': 'Main Descriptions for the Variable military_expense are missing!', 'main_desc_source': 'Main Descriptions for the Variable military_expense are missing!', 'section': 'Economy Variables', 'subsection': 'State Finances', 'null_meaning': 'The value is not available.'}
-    my_meta_data_dic_inner_vars = {'conflict': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The name of the conflict', 'units': None, 'choices': None}, 'expenditure': {'min': None, 'max': None, 'scale': 1, 'var_exp_source': None, 'var_exp': 'The military expenses in millions silver taels.', 'units': 'millions silver taels', 'choices': None}}
+    my_meta_data_dic_inner_vars = {'conflict': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The name of the conflict', 'units': None, 'choices': None}, 'expenditure': {'min': None, 'max': None, 'scale': 1000000, 'var_exp_source': None, 'var_exp': 'The military expenses in millions silver taels.', 'units': 'silver taels', 'choices': None}}
     writer = csv.writer(response, delimiter='|')
     # bring in the meta data nedded
     for k, v in my_meta_data_dic.items():
@@ -1001,12 +1392,13 @@ class Silver_inflowListView(generic.ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["myvar"] = "Silver Inflow"
-        context["var_main_desc"] = "Silver inflow in Millions of silver taels??"
+        context["var_main_desc"] = "Silver inflow in millions of silver taels??"
         context["var_main_desc_source"] = ""
         context["var_section"] = "Economy Variables"
         context["var_subsection"] = "State Finances"
         context["var_null_meaning"] = "The value is not available."
-        context["inner_vars"] = {'silver_inflow': {'min': None, 'max': None, 'scale': 1000000, 'var_exp_source': None, 'var_exp': 'Silver inflow in Millions of silver taels??', 'units': 'Millions of silver taels??', 'choices': None}}
+        context["inner_vars"] = {'silver_inflow': {'min': None, 'max': None, 'scale': 1000000, 'var_exp_source': None, 'var_exp': 'Silver inflow in Millions of silver taels??', 'units': 'silver taels??', 'choices': None}}
+        context["potential_cols"] = ['Units', 'Scale']
 
         return context
         
@@ -1038,7 +1430,7 @@ def silver_inflow_meta_download(request):
     response['Content-Disposition'] = 'attachment; filename="silver_inflows.csv"'
     
     my_meta_data_dic = {'notes': 'Needs suoervision on the units and scale.', 'main_desc': 'Silver inflow in Millions of silver taels??', 'main_desc_source': 'Silver inflow in Millions of silver taels??', 'section': 'Economy Variables', 'subsection': 'State Finances', 'null_meaning': 'The value is not available.'}
-    my_meta_data_dic_inner_vars = {'silver_inflow': {'min': None, 'max': None, 'scale': 1000000, 'var_exp_source': None, 'var_exp': 'Silver inflow in Millions of silver taels??', 'units': 'Millions of silver taels??', 'choices': None}}
+    my_meta_data_dic_inner_vars = {'silver_inflow': {'min': None, 'max': None, 'scale': 1000000, 'var_exp_source': None, 'var_exp': 'Silver inflow in Millions of silver taels??', 'units': 'silver taels??', 'choices': None}}
     writer = csv.writer(response, delimiter='|')
     # bring in the meta data nedded
     for k, v in my_meta_data_dic.items():
@@ -1128,12 +1520,13 @@ class Silver_stockListView(generic.ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["myvar"] = "Silver Stock"
-        context["var_main_desc"] = "Silver stock in Millions of silver taels??"
+        context["var_main_desc"] = "Silver stock in millions of silver taels??"
         context["var_main_desc_source"] = ""
         context["var_section"] = "Economy Variables"
         context["var_subsection"] = "State Finances"
         context["var_null_meaning"] = "The value is not available."
-        context["inner_vars"] = {'silver_stock': {'min': None, 'max': None, 'scale': 1000000, 'var_exp_source': None, 'var_exp': 'Silver stock in Millions of silver taels??', 'units': 'Millions of silver taels??', 'choices': None}}
+        context["inner_vars"] = {'silver_stock': {'min': None, 'max': None, 'scale': 1000000, 'var_exp_source': None, 'var_exp': 'Silver stock in Millions of silver taels??', 'units': 'silver taels??', 'choices': None}}
+        context["potential_cols"] = ['Units', 'Scale']
 
         return context
         
@@ -1165,7 +1558,7 @@ def silver_stock_meta_download(request):
     response['Content-Disposition'] = 'attachment; filename="silver_stocks.csv"'
     
     my_meta_data_dic = {'notes': 'Needs suoervision on the units and scale.', 'main_desc': 'Silver stock in Millions of silver taels??', 'main_desc_source': 'Silver stock in Millions of silver taels??', 'section': 'Economy Variables', 'subsection': 'State Finances', 'null_meaning': 'The value is not available.'}
-    my_meta_data_dic_inner_vars = {'silver_stock': {'min': None, 'max': None, 'scale': 1000000, 'var_exp_source': None, 'var_exp': 'Silver stock in Millions of silver taels??', 'units': 'Millions of silver taels??', 'choices': None}}
+    my_meta_data_dic_inner_vars = {'silver_stock': {'min': None, 'max': None, 'scale': 1000000, 'var_exp_source': None, 'var_exp': 'Silver stock in Millions of silver taels??', 'units': 'silver taels??', 'choices': None}}
     writer = csv.writer(response, delimiter='|')
     # bring in the meta data nedded
     for k, v in my_meta_data_dic.items():
@@ -1261,6 +1654,7 @@ class Total_populationListView(generic.ListView):
         context["var_subsection"] = "Social Scale"
         context["var_null_meaning"] = "The value is not available."
         context["inner_vars"] = {'total_population': {'min': 0, 'max': None, 'scale': 1000, 'var_exp_source': None, 'var_exp': 'The total population of a country (or a polity).', 'units': 'People', 'choices': None}}
+        context["potential_cols"] = ['Units', 'Scale']
 
         return context
         
@@ -1382,12 +1776,13 @@ class Gdp_per_capitaListView(generic.ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["myvar"] = "Gdp Per Capita"
-        context["var_main_desc"] = "The Gross Domestic Product per capita, or GDP per capita, is a measure of a country's economic output that accounts for its number of people. It divides the country's gross domestic product by its total population."
+        context["var_main_desc"] = "The gross domestic product per capita, or gdp per capita, is a measure of a country's economic output that accounts for its number of people. it divides the country's gross domestic product by its total population."
         context["var_main_desc_source"] = "https://www.thebalance.com/gdp-per-capita-formula-u-s-compared-to-highest-and-lowest-3305848"
         context["var_section"] = "Economy Variables"
         context["var_subsection"] = "Productivity"
         context["var_null_meaning"] = "The value is not available."
         context["inner_vars"] = {'gdp_per_capita': {'min': None, 'max': None, 'scale': 1, 'var_exp_source': 'https://www.thebalance.com/gdp-per-capita-formula-u-s-compared-to-highest-and-lowest-3305848', 'var_exp': "The Gross Domestic Product per capita, or GDP per capita, is a measure of a country's economic output that accounts for its number of people. It divides the country's gross domestic product by its total population.", 'units': 'Dollars (in 2009?)', 'choices': None}}
+        context["potential_cols"] = ['Units', 'Scale']
 
         return context
         
@@ -1509,12 +1904,13 @@ class Drought_eventListView(generic.ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["myvar"] = "Drought Event"
-        context["var_main_desc"] = "number of geographic sites indicating drought"
+        context["var_main_desc"] = "Number of geographic sites indicating drought"
         context["var_main_desc_source"] = "https://www1.ncdc.noaa.gov/pub/data/paleo/historical/asia/china/reaches2020drought-category-sites.txt"
         context["var_section"] = "Well Being"
         context["var_subsection"] = "Biological Well-Being"
         context["var_null_meaning"] = "The value is not available."
         context["inner_vars"] = {'drought_event': {'min': 0, 'max': None, 'scale': 1, 'var_exp_source': None, 'var_exp': 'number of geographic sites indicating drought', 'units': 'Numbers', 'choices': None}}
+        context["potential_cols"] = ['Units', 'Scale']
 
         return context
         
@@ -1636,12 +2032,13 @@ class Locust_eventListView(generic.ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["myvar"] = "Locust Event"
-        context["var_main_desc"] = "number of geographic sites indicating locusts"
+        context["var_main_desc"] = "Number of geographic sites indicating locusts"
         context["var_main_desc_source"] = "https://www1.ncdc.noaa.gov/pub/data/paleo/historical/asia/china/reaches2020drought-category-sites.txt"
         context["var_section"] = "Well Being"
         context["var_subsection"] = "Biological Well-Being"
         context["var_null_meaning"] = "The value is not available."
         context["inner_vars"] = {'locust_event': {'min': 0, 'max': None, 'scale': 1, 'var_exp_source': None, 'var_exp': 'number of geographic sites indicating locusts', 'units': 'Numbers', 'choices': None}}
+        context["potential_cols"] = ['Units', 'Scale']
 
         return context
         
@@ -1763,12 +2160,13 @@ class Socioeconomic_turmoil_eventListView(generic.ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["myvar"] = "Socioeconomic Turmoil Event"
-        context["var_main_desc"] = "number of geographic sites indicating socioeconomic turmoil"
+        context["var_main_desc"] = "Number of geographic sites indicating socioeconomic turmoil"
         context["var_main_desc_source"] = "https://www1.ncdc.noaa.gov/pub/data/paleo/historical/asia/china/reaches2020drought-category-sites.txt"
         context["var_section"] = "Well Being"
         context["var_subsection"] = "Biological Well-Being"
         context["var_null_meaning"] = "The value is not available."
         context["inner_vars"] = {'socioeconomic_turmoil_event': {'min': 0, 'max': None, 'scale': 1, 'var_exp_source': None, 'var_exp': 'number of geographic sites indicating socioeconomic turmoil', 'units': 'Numbers', 'choices': None}}
+        context["potential_cols"] = ['Units', 'Scale']
 
         return context
         
@@ -1890,12 +2288,13 @@ class Crop_failure_eventListView(generic.ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["myvar"] = "Crop Failure Event"
-        context["var_main_desc"] = "number of geographic sites indicating crop failure"
+        context["var_main_desc"] = "Number of geographic sites indicating crop failure"
         context["var_main_desc_source"] = "https://www1.ncdc.noaa.gov/pub/data/paleo/historical/asia/china/reaches2020drought-category-sites.txt"
         context["var_section"] = "Well Being"
         context["var_subsection"] = "Biological Well-Being"
         context["var_null_meaning"] = "The value is not available."
         context["inner_vars"] = {'crop_failure_event': {'min': 0, 'max': None, 'scale': 1, 'var_exp_source': None, 'var_exp': 'number of geographic sites indicating crop failure', 'units': 'Numbers', 'choices': None}}
+        context["potential_cols"] = ['Units', 'Scale']
 
         return context
         
@@ -2017,12 +2416,13 @@ class Famine_eventListView(generic.ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["myvar"] = "Famine Event"
-        context["var_main_desc"] = "number of geographic sites indicating famine"
+        context["var_main_desc"] = "Number of geographic sites indicating famine"
         context["var_main_desc_source"] = "https://www1.ncdc.noaa.gov/pub/data/paleo/historical/asia/china/reaches2020drought-category-sites.txt"
         context["var_section"] = "Well Being"
         context["var_subsection"] = "Biological Well-Being"
         context["var_null_meaning"] = "The value is not available."
         context["inner_vars"] = {'famine_event': {'min': 0, 'max': None, 'scale': 1, 'var_exp_source': None, 'var_exp': 'number of geographic sites indicating famine', 'units': 'Numbers', 'choices': None}}
+        context["potential_cols"] = ['Units', 'Scale']
 
         return context
         
@@ -2083,7 +2483,7 @@ class Disease_outbreakCreate(PermissionRequiredMixin, CreateView):
         all_var_hiers = Variablehierarchy.objects.all()
         if all_var_hiers:
             for item in all_var_hiers:
-                if item.name == "Longitude":
+                if item.name == "Disease Outbreak":
                     my_exp = item.explanation
                     my_sec = item.section.name
                     my_subsec = item.subsection.name
@@ -2109,7 +2509,7 @@ class Disease_outbreakCreate(PermissionRequiredMixin, CreateView):
             my_name = "NO_NAME"
             context["mysection"] = my_sec
             context["mysubsection"] = my_subsec
-            context["myvar"] = "Longitude"
+            context["myvar"] = "Disease Outbreak"
             context["my_exp"] = my_exp
             return context
 
@@ -2122,7 +2522,7 @@ class Disease_outbreakUpdate(PermissionRequiredMixin, UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["myvar"] = "Longitude"
+        context["myvar"] = "Disease Outbreak"
 
         return context
 
@@ -2143,13 +2543,14 @@ class Disease_outbreakListView(generic.ListView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["myvar"] = "Longitude"
+        context["myvar"] = "Disease Outbreak"
         context["var_main_desc"] = "A sudden increase in occurrences of a disease when cases are in excess of normal expectancy for the location or season."
         context["var_main_desc_source"] = "https://en.wikipedia.org/wiki/Disease_outbreak"
         context["var_section"] = "Well Being"
         context["var_subsection"] = "Biological Well-Being"
         context["var_null_meaning"] = "The value is not available."
         context["inner_vars"] = {'longitude': {'min': -180, 'max': 180, 'scale': 1, 'var_exp_source': None, 'var_exp': 'The longitude (in degrees) of the place where the disease was spread.', 'units': 'Degrees', 'choices': None}, 'latitude': {'min': -180, 'max': 180, 'scale': 1, 'var_exp_source': None, 'var_exp': 'The latitude (in degrees) of the place where the disease was spread.', 'units': 'Degrees', 'choices': None}, 'elevation': {'min': 0, 'max': 5000, 'scale': 1, 'var_exp_source': None, 'var_exp': 'Elevation from mean sea level (in meters) of the place where the disease was spread.', 'units': 'Meters', 'choices': None}, 'sub_category': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The category of the disease.', 'units': None, 'choices': ['Peculiar Epidemics', 'Pestilence', 'Miasm', 'Pox', 'Uncertain Pestilence', 'Dysentery', 'Malaria', 'Influenza', 'Cholera', 'Diptheria', 'Plague']}, 'magnitude': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'How heavy the disease was.', 'units': None, 'choices': ['Uncertain', 'Light', 'Heavy', 'No description', 'Heavy- Multiple Times', 'No Happening', 'Moderate']}, 'duration': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'How long the disease lasted.', 'units': None, 'choices': ['No description', 'Over 90 Days', 'Uncertain', '30-60 Days', '1-10 Days', '60-90 Days']}}
+        context["potential_cols"] = ['Max', 'Units', 'Scale', 'Min']
 
         return context
         
@@ -2196,41 +2597,10 @@ def disease_outbreak_meta_download(request):
     return response
 
         
+# THE temporary function for creating the my_sections_dic dic: test_for_varhier_dic inside utils
+# and the qing_vars_links_creator() inside utils.py
 def QingVars(request):
-    my_sections_dic = {'Other_Sections': {'Other_Subsections': []},
- 'Economy Variables': {'Productivity': [['Agricultural population',
-    'agricultural_populations',
-    'agricultural_population-create'],
-   ['Arable land', 'arable_lands', 'arable_land-create'],
-   ['Arable land per farmer',
-    'arable_land_per_farmers',
-    'arable_land_per_farmer-create'],
-   ['Gross grain shared per agricultural population',
-    'gross_grain_shared_per_agricultural_populations',
-    'gross_grain_shared_per_agricultural_population-create'],
-   ['Net grain shared per agricultural population',
-    'net_grain_shared_per_agricultural_populations',
-    'net_grain_shared_per_agricultural_population-create'],
-   ['Surplus', 'surplus', 'surplus-create'],
-   ['Gdp per capita', 'gdp_per_capitas', 'gdp_per_capita-create']],
-  'State Finances': [['Military expense',
-    'military_expenses',
-    'military_expense-create'],
-   ['Silver inflow', 'silver_inflows', 'silver_inflow-create'],
-   ['Silver stock', 'silver_stocks', 'silver_stock-create']]},
- 'Social Complexity Variables': {'Social Scale': [['Total population',
-    'total_populations',
-    'total_population-create']]},
- 'Well Being': {'Biological Well-Being': [['Drought event',
-    'drought_events',
-    'drought_event-create'],
-   ['Locust event', 'locust_events', 'locust_event-create'],
-   ['Socioeconomic turmoil event',
-    'socioeconomic_turmoil_events',
-    'socioeconomic_turmoil_event-create'],
-   ['Crop failure event', 'crop_failure_events', 'crop_failure_event-create'],
-   ['Famine event', 'famine_events', 'famine_event-create'],
-   ['Disease outbreak', 'disease_outbreaks', 'disease_outbreak-create']]}}
+    my_sections_dic = {'Other_Sections': {'Other_Subsections': []}, 'Conflict Variables': {'External Conflicts Subsection': [['External conflict', 'external_conflicts', 'external_conflict-create', 'external_conflict-download', 'external_conflict-metadownload'], ['External conflict side', 'external_conflict_sides', 'external_conflict_side-create', 'external_conflict_side-download', 'external_conflict_side-metadownload']], 'Internal Conflicts Subsection': [['Internal conflict', 'internal_conflicts', 'internal_conflict-create', 'internal_conflict-download', 'internal_conflict-metadownload']]}, 'Economy Variables': {'Productivity': [['Agricultural population', 'agricultural_populations', 'agricultural_population-create', 'agricultural_population-download', 'agricultural_population-metadownload'], ['Arable land', 'arable_lands', 'arable_land-create', 'arable_land-download', 'arable_land-metadownload'], ['Arable land per farmer', 'arable_land_per_farmers', 'arable_land_per_farmer-create', 'arable_land_per_farmer-download', 'arable_land_per_farmer-metadownload'], ['Gross grain shared per agricultural population', 'gross_grain_shared_per_agricultural_populations', 'gross_grain_shared_per_agricultural_population-create', 'gross_grain_shared_per_agricultural_population-download', 'gross_grain_shared_per_agricultural_population-metadownload'], ['Net grain shared per agricultural population', 'net_grain_shared_per_agricultural_populations', 'net_grain_shared_per_agricultural_population-create', 'net_grain_shared_per_agricultural_population-download', 'net_grain_shared_per_agricultural_population-metadownload'], ['Surplus', 'surplus', 'surplus-create', 'surplus-download', 'surplus-metadownload'], ['Gdp per capita', 'gdp_per_capitas', 'gdp_per_capita-create', 'gdp_per_capita-download', 'gdp_per_capita-metadownload']], 'State Finances': [['Military expense', 'military_expenses', 'military_expense-create', 'military_expense-download', 'military_expense-metadownload'], ['Silver inflow', 'silver_inflows', 'silver_inflow-create', 'silver_inflow-download', 'silver_inflow-metadownload'], ['Silver stock', 'silver_stocks', 'silver_stock-create', 'silver_stock-download', 'silver_stock-metadownload']]}, 'Social Complexity Variables': {'Social Scale': [['Total population', 'total_populations', 'total_population-create', 'total_population-download', 'total_population-metadownload']]}, 'Well Being': {'Biological Well-Being': [['Drought event', 'drought_events', 'drought_event-create', 'drought_event-download', 'drought_event-metadownload'], ['Locust event', 'locust_events', 'locust_event-create', 'locust_event-download', 'locust_event-metadownload'], ['Socioeconomic turmoil event', 'socioeconomic_turmoil_events', 'socioeconomic_turmoil_event-create', 'socioeconomic_turmoil_event-download', 'socioeconomic_turmoil_event-metadownload'], ['Crop failure event', 'crop_failure_events', 'crop_failure_event-create', 'crop_failure_event-download', 'crop_failure_event-metadownload'], ['Famine event', 'famine_events', 'famine_event-create', 'famine_event-download', 'famine_event-metadownload'], ['Disease outbreak', 'disease_outbreaks', 'disease_outbreak-create', 'disease_outbreak-download', 'disease_outbreak-metadownload']]}}
     # all_sections = Section.objects.all()
     # all_subsections = Subsection.objects.all()
     # all_varhiers = Variablehierarchy.objects.all()

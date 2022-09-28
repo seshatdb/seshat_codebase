@@ -1,4 +1,4 @@
-from .models import Agricultural_population, Arable_land, Arable_land_per_farmer, Gross_grain_shared_per_agricultural_population, Net_grain_shared_per_agricultural_population, Surplus, Military_expense, Silver_inflow, Silver_stock, Total_population, Gdp_per_capita, Drought_event, Locust_event, Socioeconomic_turmoil_event, Crop_failure_event, Famine_event, Disease_outbreak
+from .models import External_conflict, Internal_conflict, External_conflict_side, Agricultural_population, Arable_land, Arable_land_per_farmer, Gross_grain_shared_per_agricultural_population, Net_grain_shared_per_agricultural_population, Surplus, Military_expense, Silver_inflow, Silver_stock, Total_population, Gdp_per_capita, Drought_event, Locust_event, Socioeconomic_turmoil_event, Crop_failure_event, Famine_event, Disease_outbreak
 import datetime
 
 from django import forms
@@ -32,6 +32,51 @@ commonwidgets = {
     'tag': forms.Select(attrs={'class': 'form-control  mb-3', }),
     'finalized': forms.CheckboxInput(attrs={'class': ' mb-3', 'checked': True, }),
 }
+
+class External_conflictForm(forms.ModelForm):
+    class Meta:
+        model = External_conflict
+        fields = commonfields.copy()
+        fields.append('conflict_name')
+        labels = commonlabels
+        
+        widgets = dict(commonwidgets)
+        widgets['conflict_name'] = forms.TextInput(attrs={'class': 'form-control  mb-3', })
+        
+
+class Internal_conflictForm(forms.ModelForm):
+    class Meta:
+        model = Internal_conflict
+        fields = commonfields.copy()
+        fields.append('conflict')
+        fields.append('expenditure')
+        fields.append('leader')
+        fields.append('casualty')
+        labels = commonlabels
+        
+        widgets = dict(commonwidgets)
+        widgets['conflict'] = forms.TextInput(attrs={'class': 'form-control  mb-3', })
+        widgets['expenditure'] = forms.NumberInput(attrs={'class': 'form-control  mb-3', })
+        widgets['leader'] = forms.TextInput(attrs={'class': 'form-control  mb-3', })
+        widgets['casualty'] = forms.NumberInput(attrs={'class': 'form-control  mb-3', })
+        
+
+class External_conflict_sideForm(forms.ModelForm):
+    class Meta:
+        model = External_conflict_side
+        fields = commonfields.copy()
+        fields.append('conflict_id')
+        fields.append('expenditure')
+        fields.append('leader')
+        fields.append('casualty')
+        labels = commonlabels
+        
+        widgets = dict(commonwidgets)
+        widgets['conflict_id'] = forms.Select(attrs={'class': 'form-control  mb-3', })
+        widgets['expenditure'] = forms.NumberInput(attrs={'class': 'form-control  mb-3', })
+        widgets['leader'] = forms.TextInput(attrs={'class': 'form-control  mb-3', })
+        widgets['casualty'] = forms.NumberInput(attrs={'class': 'form-control  mb-3', })
+        
 
 class Agricultural_populationForm(forms.ModelForm):
     class Meta:

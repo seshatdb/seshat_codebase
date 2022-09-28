@@ -77,11 +77,11 @@ def clean_times(self):
         raise ValidationError({
             'year_from': 'The start year is out of range!',
         })
-    if self.year_from and (self.year_from < self.polity.start):
+    if self.year_from and (self.year_from < self.polity.start_year):
         raise ValidationError({
             'year_from': 'The start year is earlier than the start year of the corresponding polity!',
         })
-    if self.year_to and (self.year_to > self.polity.end):
+    if self.year_to and (self.year_to > self.polity.end_year):
         raise ValidationError({
             'year_to': 'The end year is later than the end year of the corresponding polity!',
         })
@@ -98,11 +98,85 @@ def clean_times(self):
 
 ########## Beginning of class Definitions for CrisisDB Models
 
+class External_conflict(SeshatCommon):
+    name = models.CharField(max_length=100, default="External_conflict")
+    conflict_name = models.CharField(max_length=500, blank=True, null=True)
+
+    class Meta:
+        # unique_together = ('polity', 'year_from', 'year_to', 'tag', 'conflict_name')
+        verbose_name = 'External_conflict'
+        verbose_name_plural = 'External_conflicts'
+
+    @property
+    def display_citations(self):
+        return return_citations(self)
+
+
+    def get_absolute_url(self):
+        return reverse('internal_conflict-detail', args=[str(self.id)])
+
+    def __str__(self) -> str:
+        return self.conflict_name
+        
+        
+class Internal_conflict(SeshatCommon):
+    name = models.CharField(max_length=100, default="Internal_conflict")
+    conflict = models.CharField(max_length=500, blank=True, null=True)
+    expenditure = models.DecimalField(max_digits= 25, decimal_places = 10, blank=True, null=True)
+    leader = models.CharField(max_length=500, blank=True, null=True)
+    casualty = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        # unique_together = ('polity', 'year_from', 'year_to', 'tag', 'conflict', 'expenditure', 'leader', 'casualty')
+        verbose_name = 'Internal_conflict'
+        verbose_name_plural = 'Internal_conflicts'
+
+    @property
+    def display_citations(self):
+        return return_citations(self)
+
+    def clean(self):
+        clean_times(self)
+
+    def get_absolute_url(self):
+        return reverse('internal_conflict-detail', args=[str(self.id)])
+
+    def __str__(self) -> str:
+        return call_my_name(self)
+        
+        
+class External_conflict_side(SeshatCommon):
+    name = models.CharField(max_length=100, default="External_conflict_side")
+    conflict_id = models.ForeignKey(External_conflict, on_delete=models.SET_NULL, null=True, related_name="External_conflicts")
+    expenditure = models.DecimalField(max_digits= 25, decimal_places = 10, blank=True, null=True)
+    leader = models.CharField(max_length=500, blank=True, null=True)
+    casualty = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        # unique_together = ('polity', 'year_from', 'year_to', 'tag', 'conflict_id', 'expenditure', 'leader', 'casualty')
+        verbose_name = 'External_conflict_side'
+        verbose_name_plural = 'External_conflict_sides'
+
+    @property
+    def display_citations(self):
+        return return_citations(self)
+
+    def clean(self):
+        clean_times(self)
+
+    def get_absolute_url(self):
+        return reverse('external_conflict_side-detail', args=[str(self.id)])
+
+    def __str__(self) -> str:
+        return call_my_name(self)
+        
+        
 class Agricultural_population(SeshatCommon):
     name = models.CharField(max_length=100, default="Agricultural_population")
     agricultural_population = models.IntegerField(blank=True, null=True)
 
     class Meta:
+        # unique_together = ('polity', 'year_from', 'year_to', 'tag', 'agricultural_population')
         verbose_name = 'Agricultural_population'
         verbose_name_plural = 'Agricultural_populations'
 
@@ -125,6 +199,7 @@ class Arable_land(SeshatCommon):
     arable_land = models.IntegerField(blank=True, null=True)
 
     class Meta:
+        # unique_together = ('polity', 'year_from', 'year_to', 'tag', 'arable_land')
         verbose_name = 'Arable_land'
         verbose_name_plural = 'Arable_lands'
 
@@ -147,6 +222,7 @@ class Arable_land_per_farmer(SeshatCommon):
     arable_land_per_farmer = models.IntegerField(blank=True, null=True)
 
     class Meta:
+        # unique_together = ('polity', 'year_from', 'year_to', 'tag', 'arable_land_per_farmer')
         verbose_name = 'Arable_land_per_farmer'
         verbose_name_plural = 'Arable_land_per_farmers'
 
@@ -169,6 +245,7 @@ class Gross_grain_shared_per_agricultural_population(SeshatCommon):
     gross_grain_shared_per_agricultural_population = models.IntegerField(blank=True, null=True)
 
     class Meta:
+        # unique_together = ('polity', 'year_from', 'year_to', 'tag', 'gross_grain_shared_per_agricultural_population')
         verbose_name = 'Gross_grain_shared_per_agricultural_population'
         verbose_name_plural = 'Gross_grain_shared_per_agricultural_populations'
 
@@ -191,6 +268,7 @@ class Net_grain_shared_per_agricultural_population(SeshatCommon):
     net_grain_shared_per_agricultural_population = models.IntegerField(blank=True, null=True)
 
     class Meta:
+        # unique_together = ('polity', 'year_from', 'year_to', 'tag', 'net_grain_shared_per_agricultural_population')
         verbose_name = 'Net_grain_shared_per_agricultural_population'
         verbose_name_plural = 'Net_grain_shared_per_agricultural_populations'
 
@@ -213,6 +291,7 @@ class Surplus(SeshatCommon):
     surplus = models.IntegerField(blank=True, null=True)
 
     class Meta:
+        # unique_together = ('polity', 'year_from', 'year_to', 'tag', 'surplus')
         verbose_name = 'Surplus'
         verbose_name_plural = 'Surplus'
 
@@ -236,6 +315,7 @@ class Military_expense(SeshatCommon):
     expenditure = models.DecimalField(max_digits= 25, decimal_places = 10, blank=True, null=True)
 
     class Meta:
+        # unique_together = ('polity', 'year_from', 'year_to', 'tag', 'conflict', 'expenditure')
         verbose_name = 'Military_expense'
         verbose_name_plural = 'Military_expenses'
 
@@ -258,6 +338,7 @@ class Silver_inflow(SeshatCommon):
     silver_inflow = models.IntegerField(blank=True, null=True)
 
     class Meta:
+        # unique_together = ('polity', 'year_from', 'year_to', 'tag', 'silver_inflow')
         verbose_name = 'Silver_inflow'
         verbose_name_plural = 'Silver_inflows'
 
@@ -280,6 +361,7 @@ class Silver_stock(SeshatCommon):
     silver_stock = models.IntegerField(blank=True, null=True)
 
     class Meta:
+        # unique_together = ('polity', 'year_from', 'year_to', 'tag', 'silver_stock')
         verbose_name = 'Silver_stock'
         verbose_name_plural = 'Silver_stocks'
 
@@ -302,6 +384,7 @@ class Total_population(SeshatCommon):
     total_population = models.IntegerField(blank=True, null=True)
 
     class Meta:
+        # unique_together = ('polity', 'year_from', 'year_to', 'tag', 'total_population')
         verbose_name = 'Total_population'
         verbose_name_plural = 'Total_populations'
 
@@ -324,6 +407,7 @@ class Gdp_per_capita(SeshatCommon):
     gdp_per_capita = models.DecimalField(max_digits= 25, decimal_places = 10, blank=True, null=True)
 
     class Meta:
+        # unique_together = ('polity', 'year_from', 'year_to', 'tag', 'gdp_per_capita')
         verbose_name = 'Gdp_per_capita'
         verbose_name_plural = 'Gdp_per_capitas'
 
@@ -346,6 +430,7 @@ class Drought_event(SeshatCommon):
     drought_event = models.IntegerField(blank=True, null=True)
 
     class Meta:
+        # unique_together = ('polity', 'year_from', 'year_to', 'tag', 'drought_event')
         verbose_name = 'Drought_event'
         verbose_name_plural = 'Drought_events'
 
@@ -368,6 +453,7 @@ class Locust_event(SeshatCommon):
     locust_event = models.IntegerField(blank=True, null=True)
 
     class Meta:
+        # unique_together = ('polity', 'year_from', 'year_to', 'tag', 'locust_event')
         verbose_name = 'Locust_event'
         verbose_name_plural = 'Locust_events'
 
@@ -390,6 +476,7 @@ class Socioeconomic_turmoil_event(SeshatCommon):
     socioeconomic_turmoil_event = models.IntegerField(blank=True, null=True)
 
     class Meta:
+        # unique_together = ('polity', 'year_from', 'year_to', 'tag', 'socioeconomic_turmoil_event')
         verbose_name = 'Socioeconomic_turmoil_event'
         verbose_name_plural = 'Socioeconomic_turmoil_events'
 
@@ -412,6 +499,7 @@ class Crop_failure_event(SeshatCommon):
     crop_failure_event = models.IntegerField(blank=True, null=True)
 
     class Meta:
+        # unique_together = ('polity', 'year_from', 'year_to', 'tag', 'crop_failure_event')
         verbose_name = 'Crop_failure_event'
         verbose_name_plural = 'Crop_failure_events'
 
@@ -434,6 +522,7 @@ class Famine_event(SeshatCommon):
     famine_event = models.IntegerField(blank=True, null=True)
 
     class Meta:
+        # unique_together = ('polity', 'year_from', 'year_to', 'tag', 'famine_event')
         verbose_name = 'Famine_event'
         verbose_name_plural = 'Famine_events'
 
@@ -461,6 +550,7 @@ class Disease_outbreak(SeshatCommon):
     duration = models.CharField(max_length=500, choices=DURATION_DISEASE_OUTBREAK_CHOICES)
 
     class Meta:
+        # unique_together = ('polity', 'year_from', 'year_to', 'tag', 'longitude', 'latitude', 'elevation', 'sub_category', 'magnitude', 'duration')
         verbose_name = 'Disease_outbreak'
         verbose_name_plural = 'Disease_outbreaks'
 

@@ -1,4 +1,4 @@
-from .models import Agricultural_population, Arable_land, Arable_land_per_farmer, Gross_grain_shared_per_agricultural_population, Net_grain_shared_per_agricultural_population, Surplus, Military_expense, Silver_inflow, Silver_stock, Total_population, Gdp_per_capita, Drought_event, Locust_event, Socioeconomic_turmoil_event, Crop_failure_event, Famine_event, Disease_outbreak
+from .models import External_conflict, Internal_conflict, External_conflict_side, Agricultural_population, Arable_land, Arable_land_per_farmer, Gross_grain_shared_per_agricultural_population, Net_grain_shared_per_agricultural_population, Surplus, Military_expense, Silver_inflow, Silver_stock, Total_population, Gdp_per_capita, Drought_event, Locust_event, Socioeconomic_turmoil_event, Crop_failure_event, Famine_event, Disease_outbreak
 from django.urls import path
 
 from . import views
@@ -10,6 +10,62 @@ urlpatterns = [
          name="playgrounddownload"), 
 ]
 
+
+urlpatterns += [
+    path('external_conflict/create/', views.External_conflictCreate.as_view(),
+         name="external_conflict-create"),
+    path('external_conflicts/', views.External_conflictListView.as_view(), name='external_conflicts'),
+    path('external_conflict/<int:pk>', views.External_conflictDetailView.as_view(),
+         name='external_conflict-detail'),
+    path('external_conflict/<int:pk>/update/',
+         views.External_conflictUpdate.as_view(), name="external_conflict-update"),
+    path('external_conflict/<int:pk>/delete/',
+         views.External_conflictDelete.as_view(), name="external_conflict-delete"),
+    # Download
+    path('external_conflictdownload/', views.external_conflict_download,
+         name="external_conflict-download"),
+    path('external_conflictmetadownload/', views.external_conflict_meta_download,
+         name="external_conflict-metadownload"),
+]
+        
+
+urlpatterns += [
+    path('internal_conflict/create/', views.Internal_conflictCreate.as_view(),
+         name="internal_conflict-create"),
+
+    path('internal_conflicts/', views.Internal_conflictListView.as_view(), name='internal_conflicts'),
+    path('internal_conflict/<int:pk>', views.Internal_conflictDetailView.as_view(),
+         name='internal_conflict-detail'),
+    path('internal_conflict/<int:pk>/update/',
+         views.Internal_conflictUpdate.as_view(), name="internal_conflict-update"),
+    path('internal_conflict/<int:pk>/delete/',
+         views.Internal_conflictDelete.as_view(), name="internal_conflict-delete"),
+    # Download
+    path('internal_conflictdownload/', views.internal_conflict_download,
+         name="internal_conflict-download"),
+    path('internal_conflictmetadownload/', views.internal_conflict_meta_download,
+         name="internal_conflict-metadownload"),
+]
+        
+
+urlpatterns += [
+    path('external_conflict_side/create/', views.External_conflict_sideCreate.as_view(),
+         name="external_conflict_side-create"),
+
+    path('external_conflict_sides/', views.External_conflict_sideListView.as_view(), name='external_conflict_sides'),
+    path('external_conflict_side/<int:pk>', views.External_conflict_sideDetailView.as_view(),
+         name='external_conflict_side-detail'),
+    path('external_conflict_side/<int:pk>/update/',
+         views.External_conflict_sideUpdate.as_view(), name="external_conflict_side-update"),
+    path('external_conflict_side/<int:pk>/delete/',
+         views.External_conflict_sideDelete.as_view(), name="external_conflict_side-delete"),
+    # Download
+    path('external_conflict_sidedownload/', views.external_conflict_side_download,
+         name="external_conflict_side-download"),
+    path('external_conflict_sidemetadownload/', views.external_conflict_side_meta_download,
+         name="external_conflict_side-metadownload"),
+]
+        
 
 urlpatterns += [
     path('agricultural_population/create/', views.Agricultural_populationCreate.as_view(),

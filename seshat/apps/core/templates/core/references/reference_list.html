@@ -17,9 +17,9 @@
             <thead>
               <tr>
                 <th scope="col" class="text-secondary">#</th>
-                <th scope="col" style="text-align: left" class="fw-light"> Title</th>
-                <th scope="col" style="text-align: center" class="fw-light"> Year</th>
                 <th scope="col" style="text-align: center" class="fw-light"> Creator(s)</th>
+                <th scope="col" style="text-align: center" class="fw-light"> Year</th>
+                <th scope="col" style="text-align: left" class="fw-light"> Title</th>
                 <th scope="col" style="text-align: center" class="fw-light"> Zotero link</th>
                 <th scope="col" style="text-align: center" class="fw-light">Add Citation</th>
               </tr>
@@ -29,11 +29,11 @@
                 <tr>
                     <div>
                         <td class="text-secondary" scope="row">{{ forloop.counter0|add:page_obj.start_index }}</td>
-                        <td style="text-align: left;"><a class="greenlink" href="https://www.zotero.org/groups/1051264/seshat_databank/items/{{ obj.zotero_link }}">{{ obj.title }}</a>
-                        </td>
+                        <td style="text-align: center;"><i>{{ obj.creator }}</i>
                         <td style="text-align: center;">{{ obj.year }}
                         </td>
-                        <td style="text-align: center;"><i>{{ obj.creator }}</i>
+                        <td style="text-align: left;"><a class="greenlink" href="https://www.zotero.org/groups/1051264/seshat_databank/items/{{ obj.zotero_link }}">{{ obj.title }}</a>
+                        </td>
                         </td>
                         <td style="text-align: center;"><a class="greenlink" href="https://www.zotero.org/groups/1051264/seshat_databank/items/{{ obj.zotero_link }}"><u>Zotero</u></a>
                         </td>
