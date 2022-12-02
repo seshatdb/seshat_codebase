@@ -1,0 +1,14 @@
+{% load humanize %}
+
+<td class = "{% if obj.tag == 'DSP' %}
+text-danger
+{% elif obj.tag == 'SSP' %}
+text-warning
+{% elif obj.tag == 'UNK' %}
+text-secondary
+{% elif obj.tag == 'IFR' %}
+text-primary
+{% else %}
+text-success
+{% endif %} fw-normal" style="text-align: center;">{{ value.agricultural_population|intcomma }}
+</td>

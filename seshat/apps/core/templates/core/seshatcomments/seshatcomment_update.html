@@ -1,0 +1,92 @@
+{% extends "core/seshat-base.html" %}
+{% load crispy_forms_tags %}
+{% load humanize %}
+
+
+{% block content %}
+<div class="container table-responsive">
+    <form action="" method="post">
+            {% csrf_token %}
+            <legend>
+                <div class="row d-flex align-items-center">
+                    <div class="col-md-9">
+                        <h3 class="lead-2 pt-4">Update Description:</h3>
+                        <h5 class="lead-2 text-secondary">Each Desciption has several subdescriptions:</h5>
+                    </div>
+                    {% if messages %}
+                    <ul class="messages mt-3">
+                        {% for message in messages %}
+                        <div class="container-fluid p-0">
+                            <div class="alert {{ message.tags }} alert-dismissible" role="alert" >
+                                <i class="fa-solid fa-circle-info"></i> Thank you <b>{{ user }}</b>. {{ message }}
+                            </div>
+                          </div>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                </div>
+            </legend>
+        <table id="table_id" class="table align-middle table-striped table-bordered">
+            <thead>
+                <tr>
+                  <th scope="col" class="text-secondary">#</th>
+                  <th scope="col" style="text-align: left"> Curator(s)</th>
+                  <th scope="col" style="text-align: left"> Text</th>
+                  <th scope="col" style="text-align: left"> Citations</th>
+                  <th scope="col" style="text-align: center">Update</th>
+                  <th scope="col" style="text-align: center">Insert</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% autoescape off %}
+                  {% for subcom in object.inner_comments_related.all %}
+                    <tr>
+                        <td class="text-secondary" scope="row">{{ forloop.counter0|add:1}}</td>
+                        <td class="col-md-2">
+                                {{ subcom.comment_curator }}
+                        </td>
+                        <td class="col-md-6">
+                                {{ subcom.comment_part_text }}
+                        </td>
+                        <td class="col-md-3">
+                            {% if subcom.display_citations %}
+                                {{ subcom.display_citations }}
+                            {% else %}
+                            <i class="fa-solid fa-minus text-danger"></i>
+                            {% endif %}
+
+                        </td>
+                        <td style="text-align: center">
+                            <a class="btn btn-danger btn-sm py-1" href="{% url 'seshatcommentpart-update' subcom.pk %}"><i class="fa-regular fa-pen-to-square"></i></a>
+                        </td>
+                        <td style="text-align: center">
+                            <a class="btn btn-warning btn-sm py-1" href="{% url 'seshatcommentpart-create2' com_id=subcom.comment_id subcom_order=subcom.comment_order|add:1 %}"><i class="fa-solid fa-arrow-down-short-wide"></i></a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                {% endautoescape %}
+            </tbody>
+          </table>
+        </form>
+</div>
+
+    <script>
+        var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+        var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+          return new bootstrap.Popover(popoverTriggerEl)
+        })
+
+        function DisplayProgressMessage(ctl, msg) {
+            $(ctl).prop("class", "btn btn-success px-4 disabled");
+            $(ctl).text(msg);
+            return true;
+        }
+    </script>
+  {% endblock %}
+
+
+
+
+
+
+        

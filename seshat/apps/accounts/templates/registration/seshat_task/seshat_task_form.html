@@ -1,0 +1,32 @@
+{% extends "core/seshat-base.html" %}
+{% load crispy_forms_tags %}
+{% load humanize %}
+
+{% block content %}
+
+<div class="container mt-3">
+    <h2>Task Assignment Page</h2>
+    <hr>
+    <form action="" method="post">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-md-4 mb-2">
+                <div>
+                    {{ form.giver|as_crispy_field }}
+                </div>
+                <hr>
+              <div> 
+                {{ form.taker|as_crispy_field }}
+              </div>
+              <div class="col-md-12 my-5 py-2 d-grid mx-auto">
+                <button type="submit" class="btn btn-success my-auto btn-block btn-lg">Assign Task*</button>
+              </div>
+            </div>
+            <div class="col-md-8 mb-2">
+              {{ form.task_description|as_crispy_field }}
+              {{ form.task_url|as_crispy_field }}
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock content %}

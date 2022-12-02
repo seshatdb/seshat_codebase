@@ -1,0 +1,10 @@
+{% load humanize %}
+
+<td style="text-align: center;">
+    <div class="py-1">
+        <a href="{% url 'human_sacrifice-update' value.id %}"><button class="btn btn-warning btn-sm btn-block">Fact</button></a>
+    </div>
+    <div class="py-1">
+        <a href="{% url 'seshatcomment-update' value.comment.id %}"><button class="btn btn-danger btn-sm">Desc</button></a>
+    </div>
+</td>

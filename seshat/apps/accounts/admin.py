@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 
-from .models import Profile
+from .models import Profile, Seshat_Expert, Seshat_Task
 
 
 class ProfileInline(admin.StackedInline):
@@ -31,3 +31,9 @@ class CustomUserAdmin(admin.ModelAdmin):
 
 admin.site.unregister(User)
 admin.site.register(User, CustomUserAdmin)
+admin.site.register(Profile)
+admin.site.register(Seshat_Expert)
+admin.site.register(Seshat_Task)
+
+
+

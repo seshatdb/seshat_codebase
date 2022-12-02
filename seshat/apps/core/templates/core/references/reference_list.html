@@ -6,10 +6,21 @@
 {% block content %}
 <div class="container">
     <div class="h3 pt-4">
-        <h2>References:</h2>
-        <a href="{% url 'synczotero' %}" class="btn btn-outline-success"><i class="fa-solid fa-arrows-rotate"></i> &nbsp; <b>Sync with Zotero (ALL)</b></a> <span class="h6"><i class="fa-solid fa-stopwatch"></i> ~10 mins</span>
-        <span>  &nbsp;  &nbsp;  &nbsp; </span>
-        <a href="{% url 'synczotero100' %}" class="btn btn-success"><i class="fa-solid fa-arrows-rotate"></i> &nbsp; <b>Sync with Zotero (last 100 refs)</b></a> <span class="h6"><i class="fa-solid fa-stopwatch"></i> < 1 min</span>
+        <h6 class="lead-2 text-secondary">List of all</h6>
+        <table class="table align-middle table-striped mb-4">
+            <tr class="col-md-12">
+                <td class="col-md-5">
+                    <h2>References: <a href="{% url 'no_zotero_refs_list' %}" class="lead ">(See the Refs with No Zotero)</a></h2>
+                </td>
+                <td class="col-md-7" style="text-align: right">
+                    <span class="h6 px-4">
+                        Sync with Zotero:
+                    </span>
+                    <a href="{% url 'synczotero' %}" class="btn btn-success"  onclick="return DisplayProgressMessage(this, 'Syncing with Zotero...');"><i class="fa-solid fa-arrows-rotate"></i> &nbsp; <b>ALL</b></a><span class="h6 text-secondary px-1"><i class="fa-solid fa-stopwatch"></i> ~10 mins</span>
+                    <a href="{% url 'synczotero100' %}" class="btn btn-success" onclick="return DisplayProgressMessage(this, 'Syncing with Zotero...');"><i class="fa-solid fa-arrows-rotate"></i> &nbsp; <b>last 100</b></a><span class="h6 text-secondary px-1"><i class="fa-solid fa-stopwatch"></i> < 1 min</span>
+                </td>
+            </tr>
+        </table>
     </div>
     {% if object_list %}
     <div class="table-responsive">
@@ -29,15 +40,29 @@
                 <tr>
                     <div>
                         <td class="text-secondary" scope="row">{{ forloop.counter0|add:page_obj.start_index }}</td>
-                        <td style="text-align: center;"><i>{{ obj.creator }}</i>
-                        <td style="text-align: center;">{{ obj.year }}
+                        <td style="text-align: center;">
+                            <i>{{ obj.creator }}</i>
                         </td>
-                        <td style="text-align: left;"><a class="greenlink" href="https://www.zotero.org/groups/1051264/seshat_databank/items/{{ obj.zotero_link }}">{{ obj.title }}</a>
+                        <td style="text-align: center;">
+                            {{ obj.year }}
                         </td>
+                        <td style="text-align: left;">
+                            {% if "NOZOTERO_LINK" in obj.zotero_link %}
+                                <span>{{ obj.reference_short_title }}</span>
+                            {% else %}
+                                <a class="greenlink" href="https://www.zotero.org/groups/1051264/seshat_databank/items/{{ obj.zotero_link }}">{{ obj.reference_short_title }}</a>
+                            {% endif %}
                         </td>
-                        <td style="text-align: center;"><a class="greenlink" href="https://www.zotero.org/groups/1051264/seshat_databank/items/{{ obj.zotero_link }}"><u>Zotero</u></a>
+                        <td style="text-align: center;">
+                            {% if "NOZOTERO_LINK" in obj.zotero_link %}
+                            <span><u>No Zotero</u></span>
+                            {% else %}
+                                <a class="greenlink" href="https://www.zotero.org/groups/1051264/seshat_databank/items/{{ obj.zotero_link }}"><u>Zotero</u></a>
+                            {% endif %}
                         </td>
-                        <td style="text-align: center;"><a href="{% url 'citation-create' %}" ><button class="btn btn-primary btn-sm"> <i class="fa-solid fa-plus"></i> Citation</button></a></td>
+                        <td style="text-align: center;">
+                            <a href="{% url 'citation-create' %}" ><button class="btn btn-primary btn-sm"> <i class="fa-solid fa-plus"></i> Citation</button></a>
+                        </td>
                     </div>
                 </tr>
                 {% endfor %}
@@ -76,6 +101,12 @@
         var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
           return new bootstrap.Popover(popoverTriggerEl)
         })
+
+        function DisplayProgressMessage(ctl, msg) {
+            $(ctl).prop("class", "btn btn-success px-4 disabled");
+            $(ctl).text(msg);
+            return true;
+        }
     </script>
   {% endblock %}
 

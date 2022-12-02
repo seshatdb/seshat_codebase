@@ -1,0 +1,24 @@
+{% extends "core/seshat-base.html" %}
+{% load crispy_forms_tags %}
+
+{% load i18n %}
+
+{% block head_title %}{% trans "Sign Out" %}{% endblock %}
+
+{% block content %}
+<div class="container my-4 py-2 ps-4">
+
+<h1>{% trans "Sign Out" %}</h1>
+
+<h5>{% trans 'Are you sure you want to sign out?' %}</h5>
+
+<form method="post" action="{% url 'account_logout' %}">
+  {% csrf_token %}
+  {% if redirect_field_value %}
+  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+  {% endif %}
+  <button type="submit" class=" fw-bold btn btn-primary col-3 gradient-custom-2 mb-3 me-3 my-3">{% trans 'Sign Out' %}</button>
+</form>
+</div>
+
+{% endblock %}

@@ -1,11 +1,98 @@
-{% extends "core/form_base.html" %}
+{% extends "core/seshat-base.html" %}
 {% load crispy_forms_tags %}
-{% load humanize %}
 
-{% block extra_vars %}
-    <div class="col-md-4 mb-2">
-        <p>Hi</p>
-    </div>
-{% endblock extra_vars %}
+{% block content %}
+<!-- form-row and form-group etc are removed in Bootstrap 5 -->
+<div class="container mt-3">
+    <form action="" method="post">
+        {% csrf_token %}
+        <legend>
+            <div class="row d-flex align-items-center">
+                <div class="col-md-8">
+                    <h6 class="lead-2 text-secondary">Update the data for:</h6>
+                    <h6><span class="display-6">Citation*</span></h6>
+                    <h6 class="lead-2 text-secondary">* Citations are based on References in Zotero and can contain page numbers.</h6>
+                    <h6 class="lead-2 text-secondary">* Citations can refer to the full publication (if start_page and end_page are left blank).</h6>
+                </div>
+                <div class="col-md-4">      
+                    <!-- Download and Create Buttons -->
+                    <a href="{% url 'citations' %}" class="btn btn-outline-success mx-3 my-4 float-end"><i class="fa-solid fa-table-list"></i> &nbsp; See All Citations</a>
+                </div>
+            </div>  
+            <hr> 
+            <div>
+                {% if messages %}
+                <ul class="messages mt-3">
+                    {% for message in messages %}
+                    <div class="container-fluid p-0">
+                        <div class="alert {{ message.tags }} alert-dismissible" role="alert" >
+                            <i class="fa-solid fa-circle-info"></i> Thank you <b>{{ user }}</b>. {{ message }}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </ul>
+                <hr>
+                {% endif %}
 
+                {% if form.non_field_errors %}
+                {% for error in form.non_field_errors %}
+                <div class="container-fluid p-0">
+                  <div class="text-danger" role="alert" >
+                    <i class="fa-solid fa-triangle-exclamation"></i>  {{ error }}
+                  </div>
+                </div>
+                {% endfor %}
+                <hr> 
+                {% endif %}
+
+                <h6 class="lead-2 text-secondary">citation Text:
+                </h6> 
+                <h6 class="lead-2">{{object.ref.long_name}}
+                </h6> 
+            </div>    
+        </legend>
+        <div class="row">
+          <div class="col-md-6 mb-2">
+            {{ form.ref|as_crispy_field }}
+          </div>
+          <div class="col-md-2 mb-2">
+            {{ form.page_from|as_crispy_field }}
+          </div>
+          <div class="col-md-2 mb-2">
+            {{ form.page_to|as_crispy_field }}
+          </div>
+          <div class="col-md-2 mb-2 d-grid mx-auto">
+            <button type="submit" class="btn btn-success my-auto btn-block">Update Citation</button>
+          </div>
+                  <!-- Here come the extra vars -->
+          {% block extra_vars %}
+          {% endblock extra_vars %}
+        </div>
+
+        {% if form.errors %}
+        {% for field in form %}
+            {% for error in field.errors %}
+                <div class="text-danger"><h3> {{ error }} </h3></div>
+            {% endfor %}
+        {% endfor %}
+        {% endif %}
+          </form>
         
+        <div class="col-md-12">
+            <hr>
+            <h6>* Your entered data will soon be checked by a Seshat Expert.</h6>
+        </div>
+
+        {% block delete_option %}
+        {% endblock delete_option %}
+        <script>
+            $(document).ready(function() {
+                $('.js-example-basic-single').select2({
+                    placeholder: "Select or serach",
+                    allowClear: true,
+                });
+            });
+        </script>
+
+</div>
+{% endblock %}

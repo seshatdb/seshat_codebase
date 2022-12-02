@@ -1,7 +1,7 @@
 from seshat.utils.utils import adder, dic_of_all_vars, list_of_all_Polities, dic_of_all_vars_in_sections
 
 from django.contrib.sites.shortcuts import get_current_site
-from seshat.apps.core.forms import SignUpForm, VariablehierarchyFormNew, CitationForm
+from seshat.apps.core.forms import SignUpForm, VariablehierarchyFormNew, CitationForm, ReferenceForm, SeshatCommentForm, SeshatCommentPartForm, PolityForm, CapitalForm
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate
 from django.shortcuts import render
@@ -19,21 +19,43 @@ from django.http import HttpResponseRedirect
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.db import IntegrityError
+from django.contrib.auth.decorators import login_required, permission_required
+
+from django.core.paginator import Paginator
 
 from markupsafe import Markup, escape
 from django.http import JsonResponse
 
 from django.core.mail import EmailMessage
 import html
+import csv
+
 import json
 from django.views import generic
 from django.urls import reverse, reverse_lazy
 
-from .models import Citation, Polity, Section, Subsection, Variablehierarchy, Reference
+from django.contrib.messages.views import SuccessMessageMixin
+
+
+from .models import Citation, Polity, Section, Subsection, Variablehierarchy, Reference, SeshatComment, SeshatCommentPart, Nga, Ngapolityrel, Capital
 import pprint
 import requests
 from requests.structures import CaseInsensitiveDict
+from seshat.utils.utils import adder, dic_of_all_vars, list_of_all_Polities, dic_of_all_vars_in_sections, dic_of_all_vars_with_varhier, get_all_data_for_a_polity, polity_detail_data_collector
 
+from django.shortcuts import HttpResponse
+
+
+def is_ajax(request):
+    return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
+
+
+def ajax_test(request):
+    if is_ajax(request=request):
+        message = "This is ajax"
+    else:
+        message = "Not ajax"
+    return HttpResponse(message)
 
 # importing formset_factory
 from django.forms import formset_factory, modelformset_factory
@@ -63,6 +85,111 @@ class ReferenceListView(generic.ListView):
     def get_absolute_url(self):
         return reverse('references')
 
+# references without a Zotero link:
+def no_zotero_refs_list(request):
+    selected_no_zotero_refs = Reference.objects.filter(zotero_link__startswith='NOZOTERO_')
+    #all_refs = Reference.objects.all()
+    #selected_no_zotero_refs = []
+    #for ref in all_refs:
+    #    if "NOZOTERO_" in ref.zotero_link:
+    #        selected_no_zotero_refs.append(ref)
+
+    paginator = Paginator(selected_no_zotero_refs, 10) # Show 25 refs per page.
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+
+    context = {}
+    context['object_list'] = selected_no_zotero_refs
+    context['page_obj'] = page_obj
+    context['is_paginated'] = False
+
+
+    # Citation.objects.bulk_create(all_citations)
+    return render (request, 'core/references/reference_list_nozotero.html', context)
+
+def reference_update_modal(request, pk):
+    # Either render only the modal content, or a full standalone page
+    if is_ajax(request=request):
+        template_name = 'core/references/reference_update_modal.html'
+    else:
+        template_name = 'core/references/reference_update.html'
+
+    object = Reference.objects.get(pk=pk)
+    if request.method == 'POST':
+        form = ReferenceForm(instance=object, data=request.POST)
+        if form.is_valid():
+            form.save()
+            if not is_ajax(request=request):
+                # reload the page
+                next = request.META['PATH_INFO']
+                return HttpResponseRedirect(next)
+            # if is_ajax(), we just return the validated form, so the modal will close
+    else:
+        form = ReferenceForm(instance=object)
+
+    return render(request, template_name, {
+        'object': object,
+        'form': form,
+    })
+
+###########
+
+
+class ReferenceCreate(PermissionRequiredMixin, CreateView):
+    model = Reference
+    form_class = ReferenceForm
+    template_name = "core/references/reference_form.html"
+    permission_required = 'catalog.can_mark_returned'
+
+    def get_absolute_url(self):
+        return reverse('reference-create')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["mysection"] = "xyz"
+        context["mysubsection"] = "abc"
+        context["myvar"] = "def reference"
+        context["errors"] = "Halooooooooo"
+        print(context)
+
+        return context
+
+    def form_valid(self, form):
+        return super().form_valid(form)
+    
+    def form_invalid(self, form):
+        return HttpResponseRedirect(reverse('seshat-index'))
+
+
+class ReferenceUpdate(PermissionRequiredMixin, UpdateView):
+    model = Reference
+    form_class = ReferenceForm
+    template_name = "core/references/reference_update.html"
+    permission_required = 'catalog.can_mark_returned'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["mysection"] = "Fiscal Heeeelath"
+        context["mysubsection"] = "No Subsection Proeeeevided"
+        context["myvar"] = "Reference Daeeeeta"
+
+        return context
+
+class ReferenceDelete(PermissionRequiredMixin, DeleteView):
+    model = Reference
+    success_url = reverse_lazy('references')
+    template_name = "core/delete_general.html"
+    permission_required = 'catalog.can_mark_returned'
+
+
+class ReferenceDetailView(generic.DetailView):
+    model = Reference
+    template_name = "core/references/reference_detail.html"
+
+
+
+# Citations
 class CitationListView(generic.ListView):
     model = Citation
     template_name = "core/references/citation_list.html"
@@ -71,11 +198,17 @@ class CitationListView(generic.ListView):
     def get_absolute_url(self):
         return reverse('citations')
 
-class CitationCreate(PermissionRequiredMixin, CreateView):
+class CitationCreate(PermissionRequiredMixin, SuccessMessageMixin, CreateView):
     model = Citation
     form_class = CitationForm
     template_name = "core/references/citation_form.html"
     permission_required = 'catalog.can_mark_returned'
+    success_message = "Yoohoooo..."
+
+    def form_invalid(self, form):
+        context = self.get_context_data(form=form)
+        context.update({"my_message": "Soemthign went wrong"})
+        return self.render_to_response(context)
 
     def get_absolute_url(self):
         return reverse('citation-create')
@@ -93,21 +226,27 @@ class CitationCreate(PermissionRequiredMixin, CreateView):
     def form_valid(self, form):
         return super().form_valid(form)
     
-    def form_invalid(self, form):
-        return HttpResponseRedirect(reverse('seshat-index'))
+    # def form_invalid(self, form):
+    #     return HttpResponseRedirect(reverse('seshat-index'))
 
 
-class CitationUpdate(PermissionRequiredMixin, UpdateView):
+class CitationUpdate(PermissionRequiredMixin, SuccessMessageMixin, UpdateView):
     model = Citation
     form_class = CitationForm
     template_name = "core/references/citation_update.html"
     permission_required = 'catalog.can_mark_returned'
+    success_message = "Yoohoooo..."
+
+    def form_invalid(self, form):
+        context = self.get_context_data(form=form)
+        context.update({"my_message": "Soemthign went wrong"})
+        return self.render_to_response(context)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["mysection"] = "Fiscal Helath"
         context["mysubsection"] = "No Subsection Provided"
-        context["myvar"] = "Citation Data"
+        context["myvar"] = "Citation Data xyz"
 
         return context
 
@@ -122,21 +261,199 @@ class CitationDetailView(generic.DetailView):
     model = Citation
     template_name = "core/references/citation_detail.html"
 
+# SeshatComment
+class SeshatCommentListView(generic.ListView):
+    model = SeshatComment
+    template_name = "core/seshatcomments/seshatcomment_list.html"
+    paginate_by = 20
+
+    def get_absolute_url(self):
+        return reverse('seshatcomments')
+
+class SeshatCommentCreate(PermissionRequiredMixin, CreateView):
+    model = SeshatComment
+    form_class = SeshatCommentForm
+    template_name = "core/seshatcomments/seshatcomment_form.html"
+    permission_required = 'catalog.can_mark_returned'
+
+    def get_absolute_url(self):
+        return reverse('seshatcomment-create')
+
+
+    def form_valid(self, form):
+        return super().form_valid(form)
+    
+    def form_invalid(self, form):
+        return HttpResponseRedirect(reverse('seshat-index'))
+
+
+class SeshatCommentUpdate(PermissionRequiredMixin, UpdateView):
+    model = SeshatComment
+    form_class = SeshatCommentForm
+    template_name = "core/seshatcomments/seshatcomment_update.html"
+    permission_required = 'catalog.can_mark_returned'
+
+
+class SeshatCommentDelete(PermissionRequiredMixin, DeleteView):
+    model = SeshatComment
+    success_url = reverse_lazy('seshatcomments')
+    template_name = "core/delete_general.html"
+    permission_required = 'catalog.can_mark_returned'
+
+
+class SeshatCommentDetailView(generic.DetailView):
+    model = SeshatComment
+    template_name = "core/seshatcomments/seshatcomment_detail.html"
+
+
+# SeshatCommentPart
+class SeshatCommentPartListView(generic.ListView):
+    model = SeshatCommentPart
+    template_name = "core/seshatcomments/seshatcommentpart_list.html"
+    paginate_by = 20
+
+    def get_absolute_url(self):
+        return reverse('seshatcommentparts')
+
+class SeshatCommentPartCreate(PermissionRequiredMixin, CreateView):
+    model = SeshatCommentPart
+    form_class = SeshatCommentPartForm
+    template_name = "core/seshatcomments/seshatcommentpart_form.html"
+    permission_required = 'catalog.can_mark_returned'
+
+    def get_absolute_url(self):
+        return reverse('seshatcommentpart-create')
+
+
+    def form_valid(self, form):
+        return super().form_valid(form)
+    
+    def form_invalid(self, form):
+        return HttpResponseRedirect(reverse('seshat-index'))
+
+class SeshatCommentPartCreate2(PermissionRequiredMixin, CreateView):
+    model = SeshatCommentPart
+    form_class = SeshatCommentPartForm
+    template_name = "core/seshatcomments/seshatcommentpart_form_prefilled.html"
+    permission_required = 'catalog.can_mark_returned'
+
+    def get_absolute_url(self):
+        return reverse('seshatcommentpart-create2')
+
+
+    def form_valid(self, form):
+        return super().form_valid(form)
+    
+    def form_invalid(self, form):
+        return HttpResponseRedirect(reverse('seshat-index'))
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        print("Haloooooo_________ooooooooooo", self.kwargs['com_id'])
+        print("Halooooooooooooooooo", self.kwargs['subcom_order'])
+        context["com_id"] = self.kwargs['com_id']
+        context["subcom_order"] = self.kwargs['subcom_order']
+        #context["subcom_order"] = self.comment_order
+
+        print(context)
+
+        return context
+
+class SeshatCommentPartUpdate(PermissionRequiredMixin, SuccessMessageMixin, UpdateView):
+    model = SeshatCommentPart
+    form_class = SeshatCommentPartForm
+    template_name = "core/seshatcomments/seshatcommentpart_update.html"
+    permission_required = 'catalog.can_mark_returned'
+    success_message = "You successfully updated the subdescription."
+
+
+class SeshatCommentPartDelete(PermissionRequiredMixin, DeleteView):
+    model = SeshatCommentPart
+    success_url = reverse_lazy('seshatcommentparts')
+    template_name = "core/delete_general.html"
+    permission_required = 'catalog.can_mark_returned'
+
+
+class SeshatCommentPartDetailView(generic.DetailView):
+    model = SeshatCommentPart
+    template_name = "core/seshatcomments/seshatcommentpart_detail.html"
 
 # POLITY
+
+class PolityCreate(PermissionRequiredMixin, CreateView):
+    model = Polity
+    form_class = PolityForm
+    template_name = "core/polity/polity_form.html"
+    permission_required = 'catalog.can_mark_returned'
+    success_url = reverse_lazy('polities')
+
+    def form_valid(self, form):
+        return super().form_valid(form)
+    
+    def form_invalid(self, form):
+        return HttpResponseRedirect(reverse('seshat-index'))
+
+
+class PolityUpdate(PermissionRequiredMixin, SuccessMessageMixin, UpdateView):
+    model = Polity
+    form_class = PolityForm
+    template_name = "core/polity/polity_form.html"
+    permission_required = 'catalog.can_mark_returned'
+    success_message = "You successfully updated the Polity."
+    success_url = reverse_lazy('polities')
+
+
 class PolityListView(generic.ListView):
     model = Polity
     template_name = "core/polity/polity_list.html"
-    paginate_by = 10
+    #paginate_by = 10
 
     def get_absolute_url(self):
         return reverse('polities')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["mysection"] = "Fiscal Helath"
-        context["mysubsection"] = "No Subsection Provided"
-        context["myvar"] = "Revenue Official"
+        all_ngas = Nga.objects.all()
+        all_pols = Polity.objects.all().order_by('start_year')
+        all_nga_pol_rels  = Ngapolityrel.objects.all()
+        all_world_regions = {}
+        for a_nga in all_ngas:
+            if a_nga.world_region not in all_world_regions.keys():
+                all_world_regions[a_nga.world_region] = [a_nga.subregion]
+            else:
+                if a_nga.subregion not in all_world_regions[a_nga.world_region]:
+                    all_world_regions[a_nga.world_region].append(a_nga.subregion)
+        
+        ultimate_wregion_dic = {'Europe': {},
+        'Southwest Asia': {},
+        'Africa':  {},
+        'Central Eurasia': {},
+        'South Asia':  {},
+        'Southeast Asia': {},
+        'East Asia':  {},
+        'Oceania-Australia':  {},
+        'North America':  {},
+        'South America':  {},
+        }
+        all_politys_on_the_polity_list_page = []
+        for a_world_region, all_its_sub_regions in all_world_regions.items():
+            for a_subregion in all_its_sub_regions:
+                list_for_a_subregion = []
+                for a_polity in all_pols:
+                    for a_rel in all_nga_pol_rels:
+                        if a_rel.polity_party.name == a_polity.name and a_world_region == a_rel.nga_party.world_region and a_subregion == a_rel.nga_party.subregion and a_polity not in list_for_a_subregion:
+                            list_for_a_subregion.append(a_polity)
+                            if a_polity not in all_politys_on_the_polity_list_page:
+                                all_politys_on_the_polity_list_page.append(a_polity)
+                        
+                ultimate_wregion_dic[a_world_region][a_subregion] = list_for_a_subregion
+        context["all_ngas"] = all_ngas
+        context["all_nga_pol_rels"] = all_nga_pol_rels
+        context["all_world_regions"] = all_world_regions
+        context["ultimate_wregion_dic"] = ultimate_wregion_dic
+
+        print(f"out of {len(all_pols)}: {len(all_politys_on_the_polity_list_page)} were taken care of.")
+        
 
         return context
 
@@ -147,80 +464,105 @@ class PolityDetailView(generic.DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["vars"] = {}
-        mybalances = self.object.crisisdb_balance_related.all()
+        
+        try:
+            context["all_data"] = get_all_data_for_a_polity(self.object.pk, "crisisdb") 
+        except:
+            context["all_data"] = None
+        #x = polity_detail_data_collector(self.object.pk)
+        #context["all_data"] = dict(x)
+        print(self.object.pk)
+        context["all_vars"] = {
+            "arable_land": "arable_land",
+            "agricultural_population": "agricultural_population",
+        }
+        print(context["all_data"])
 
-        # We can theoretically write a loop that goes through a list of everything we might be interested in
-        # we can then put if loops to check if the graphs are available to templates.
-        # Then we show them.
-        for_chart_year_balance_list = list()
-        for_chart_balance_list = list()
-        for_chart_year_salt_tax_list = list()
-        for_chart_salt_tax_list = list()
 
-        context["vars"]["balance"] = {}
-        for item in mybalances:
-            context["vars"]["balance"][item] = []
-            context["vars"]["balance"][item].append(item.year_from)
-            context["vars"]["balance"][item].append(item.balance)
-            # for charts:
-            for_chart_year_balance_list.append(item.year_from)
-            for_chart_balance_list.append(item.balance)
+        try:
+            my_pol = Polity.objects.get(pk=self.object.pk)
+            nga_pol_rels = my_pol.polity_sides.all()
+            time_deltas = []
+            for nga_pol_rel in nga_pol_rels:
+                if (nga_pol_rel.year_from, nga_pol_rel.year_to) not in time_deltas:
+                    time_deltas.append((nga_pol_rel.year_from, nga_pol_rel.year_to))
 
-        mysalttaxes = self.object.crisisdb_salt_tax_related.all()
-        context["vars"]["salt_tax"] = {}
-        for item in mysalttaxes:
-            context["vars"]["salt_tax"][item] = []
-            context["vars"]["salt_tax"][item].append(item.year_from)
-            context["vars"]["salt_tax"][item].append(item.salt_tax)
-            # for charts
-            for_chart_year_salt_tax_list.append(item.year_from)
-            for_chart_salt_tax_list.append(item.salt_tax)
-
-        context["year_bals"] = for_chart_year_balance_list
-        context["bals"] = for_chart_balance_list
-        context["year_sals"] = for_chart_year_salt_tax_list
-        context["sals"] = for_chart_salt_tax_list
-
-        years = context["year_bals"]
-        salts = context["sals"]
-        bals = context["bals"]
-
-        #print('printing years lllllllllllnnnnlllllllll')
-        # print(years)
-        full_year_range = []
-        full_salt_range = []
-        full_bal_range = []
-        year_max = max(years)
-        year_min = min(years)
-        for i in range(year_min, year_max+1):
-            if i in years:
-                my_index = years.index(i)
-                full_year_range.append(years[my_index])
-                full_salt_range.append(salts[my_index])
-                full_bal_range.append(bals[my_index])
-
-            else:
-                full_year_range.append(i)
-                full_salt_range.append(None)
-                full_bal_range.append(None)
-
-        print(full_year_range)
-        print(full_bal_range)
-
-        context["sals"] = json.dumps(full_salt_range)
-        context["yearsals"] = json.dumps(full_year_range)
-        context["bals"] = json.dumps(full_bal_range)
-        context["yearmin"] = json.dumps(year_min)
-
-        #context["vars"]["salt_tax"] = [mysalttaxes, 'salt_tax']
-        # print(self)
-        # print("----")
-        # print(context["bals"])
-        # print("++++")
-        # print(context["year_sals"])
+            concise_rels = {}
+            for time_delta in time_deltas:
+                nga_list = []
+                for nga_pol_rel in nga_pol_rels:
+                    if time_delta[0] == nga_pol_rel.year_from and time_delta[1] == nga_pol_rel.year_to:
+                        nga_list.append(nga_pol_rel.nga_party)
+                
+                concise_rels[time_delta] = nga_list # "  ~~~   ".join(nga_list)
+            context["nga_pol_rel"] = concise_rels
+            print("__________________________")
+        except:
+            context["nga_pol_rel"] = None
+            print("*************")
 
         return context
+
+
+# Capital
+
+class CapitalCreate(PermissionRequiredMixin, SuccessMessageMixin, CreateView):
+    model = Capital
+    form_class = CapitalForm
+    template_name = "core/capital/capital_form_create.html"
+    permission_required = 'catalog.can_mark_returned'
+    success_message = "You successfully created a new Capital."
+    success_url = reverse_lazy('capitals')
+
+    # def form_valid(self, form):
+    #     return super().form_valid(form)
+    
+    # def form_invalid(self, form):
+    #     return HttpResponseRedirect(reverse('capital-create'))
+
+
+class CapitalUpdate(PermissionRequiredMixin, SuccessMessageMixin, UpdateView):
+    model = Capital
+    form_class = CapitalForm
+    template_name = "core/capital/capital_form.html"
+    permission_required = 'catalog.can_mark_returned'
+    success_message = "You successfully updated the Capital."
+    success_url = reverse_lazy('capitals')
+
+
+class CapitalListView(generic.ListView):
+    model = Capital
+    template_name = "core/capital/capital_list.html"
+    #paginate_by = 10
+
+    def get_absolute_url(self):
+        return reverse('capitals')
+    
+
+class CapitalDelete(PermissionRequiredMixin, DeleteView):
+    model = Capital
+    success_url = reverse_lazy('capitals')
+    template_name = "core/delete_general.html"
+    permission_required = 'catalog.can_mark_returned'
+    success_message = "You successfully deleted one Capital."
+
+    
+
+@permission_required('admin.can_add_log_entry')
+def capital_download(request):
+    items = Capital.objects.all()
+
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="capitals.csv"'
+
+    writer = csv.writer(response, delimiter='|')
+    writer.writerow(['capital', 'polity',
+                     'current_country', 'longitude', 'latitude' ])
+
+    for obj in items:
+        writer.writerow([obj.name, obj.polity_cap, obj.current_country, obj.longitude, obj.latitude])
+
+    return response
 
 
 def signup(request):

@@ -9,9 +9,17 @@
             <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="{% url 'seshat-index' %}">Home</a>
             </li>
-            <li class="nav-item">
-            <a class="nav-link" href="#">Classic Seshat</a>
-            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Classic Seshat
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item" href="{% url 'polities' %}">Polities</a></li>
+                    <li><a class="dropdown-item" href="{% url 'capitals' %}">Capitals</a></li>
+                </ul>
+                </li>
+
+
             <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 CrisisDB
@@ -26,18 +34,32 @@
 
             </ul>
             </li>
-            <li class="nav-item">
-            <a class="nav-link disabled">Visualizations</a>
-            </li>
-            <li class="nav-item">
-                <a href="{% url 'admin:index' %}" class="nav-link">ADMIN</a>
-            </li>
-            <li class="nav-item">
-                <a href="{% url 'api-root' %}" class="nav-link">API</a>
-            </li>
-            <li class="nav-item">
-                <a href="{% url 'references' %}" class="nav-link">References</a>
-            </li>
+
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Others
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <li>
+                        <a class="dropdown-item" href="{% url 'polities' %}" class="nav-link">Polities</a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="{% url 'admin:index' %}" class="nav-link">ADMIN</a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="{% url 'api-root' %}" class="nav-link">API</a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="{% url 'references' %}" class="nav-link">References</a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="{% url 'human_sacrifices' %}" class="nav-link">Human Sacrifice</a>
+                    </li>
+                </ul>
+                </li>
+
+
+
         </ul>
         <form class="d-flex">
             <input class="form-control me-2" type="search" placeholder="Search something" aria-label="Search">

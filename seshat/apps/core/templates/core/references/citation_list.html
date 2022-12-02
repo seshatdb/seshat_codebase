@@ -17,6 +17,30 @@
             <a href="{% url 'citation-create' %}" class="btn btn-outline-success mx-3 my-4 float-end"><i class="fas fa-plus"></i> &nbsp; Add More Citations</a>
         </div>
       </div>
+      <hr>
+      {% if messages %}
+      <ul class="messages mt-3">
+          {% for message in messages %}
+          <div class="container-fluid p-0">
+              <div class="alert {{ message.tags }} alert-dismissible" role="alert" >
+                  <i class="fa-solid fa-circle-info"></i> Thank you <b>{{ user }}</b>. {{ message }}!!! {{my_message}}
+              </div>
+            </div>
+
+          {% endfor %}
+      </ul>
+      <hr>
+      {% endif %}
+      {% if form.non_field_errors %}
+      {% for error in form.non_field_errors %}
+      <div class="container-fluid p-0">
+        <div class="text-danger" role="alert" >
+          <i class="fa-solid fa-triangle-exclamation"></i>  {{ error }}
+        </div>
+      </div>
+      {% endfor %}
+      <hr> 
+      {% endif %}
     {% if object_list %}
     <div class="table-responsive">
         <table id="table_id" class="table align-middle table-striped">
@@ -28,6 +52,7 @@
                 <th scope="col" style="text-align: center" class="fw-light"> Page To</th>
                 <th scope="col" style="text-align: center" class="fw-light"> Full Publication</th>
                 <th scope="col" style="text-align: center" class="fw-light"> Zotero link</th>
+                <th scope="col" style="text-align: center" class="fw-light"> Update link</th>
               </tr>
             </thead>
             <tbody>
@@ -59,6 +84,8 @@
                         {% endif %}
                         </td>
                         <td style="text-align: center;"><a class="greenlink" href="https://www.zotero.org/groups/1051264/seshat_databank/items/{{ obj.ref.zotero_link }}"><u>Zotero</u></a>
+                        </td>
+                        <td style="text-align: center;"><a class="greenlink" href="{% url 'citation-update' obj.id %}"><u>update</u></a>
                         </td>
                     </div>
                 </tr>

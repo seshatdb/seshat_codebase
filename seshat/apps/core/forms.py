@@ -5,12 +5,40 @@ from django.forms import formset_factory
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
-from seshat.apps.core.models import Section, Subsection, Variablehierarchy, Reference, Citation
+from seshat.apps.core.models import Section, Subsection, Variablehierarchy, Reference, Citation, SeshatComment, SeshatCommentPart, Polity, Capital
 from django.core.exceptions import NON_FIELD_ERRORS
 from crispy_forms.helper import FormHelper
 
+from django.core.exceptions import ValidationError
+
+
+class ReferenceForm(forms.ModelForm):
+    class Meta:
+        model = Reference
+        fields = ('title', 'year', 'creator', 'zotero_link', 'long_name')
+        labels = {
+        'title': '<b>title</b>',
+        'year': '<b>Year</b>',
+        'creator': '<b>Creator </b>',
+        'zotero_link': '<b>zotero_link</b>',
+        'long_name': '<b>Long Name</b>',
+        }
+        widgets = {
+            'title': forms.TextInput(
+                attrs={'class': 'form-control mb-3', }),
+            'year': forms.NumberInput(
+                attrs={'class': 'form-control  mb-3 fw-bold', }),
+            'creator': forms.TextInput(
+                attrs={'class': 'form-control mb-3', }),
+            'zotero_link': forms.TextInput(
+                attrs={'class': 'form-control mb-3',}),
+            'long_name': forms.Textarea(attrs={'class': 'form-control  mb-3', 'style': 'height: 100px',}),
+
+        }
+
 
 class CitationForm(forms.ModelForm):
+
     class Meta:
         model = Citation
         fields = ('ref', 'page_from', 'page_to', )
@@ -26,6 +54,107 @@ class CitationForm(forms.ModelForm):
             'page_to': forms.NumberInput(
             attrs={'class': 'form-control  mb-3 fw-bold', })
         }
+    def clean(self):
+        cleaned_data = super(CitationForm, self).clean()
+        cleaned_page_from = cleaned_data.get("page_from")
+        cleaned_page_to = cleaned_data.get("page_to")
+        referenced_ref = cleaned_data.get("ref")
+        #all_references = Reference.objects.all()
+        all_citations =  Citation.objects.all()
+        for a_citation in all_citations:
+            if a_citation.ref.id == referenced_ref.id and cleaned_page_from == a_citation.page_from and a_citation.page_to == cleaned_page_to:
+                print(f"PPPPPPPPPPPP : There is a citation with this info and it has the id: {str(a_citation.id)}", referenced_ref.id, referenced_ref.long_name)
+                raise ValidationError("There is already a citation with the given information. We cannot create a duplicate.")
+        #if not cleaned_page_from and not cleaned_page_to:
+        #    raise ValidationError('Page to and from are empty. Bad.')
+        return cleaned_data
+
+
+class PolityForm(forms.ModelForm):
+    class Meta:
+        model = Polity
+        fields = ('name', 'new_name', 'long_name', 'start_year', 'end_year')
+        labels = {
+        'name': '<b>Polity Id (Old)</b>',
+        'new_name': '<b>Polity Id (New)</b>',
+        'long_name': '<b>Long Name</b>',
+        'start_year': '<b>Start Year</b>',
+        'end_year': '<b>End Year</b>',
+        }
+        widgets = {
+            'name': forms.TextInput(
+                attrs={'class': 'form-control mb-3', }),
+            'new_name': forms.TextInput(
+                attrs={'class': 'form-control mb-3', }),
+            'long_name': forms.TextInput(
+                attrs={'class': 'form-control mb-3', }),
+            'start_year': forms.NumberInput(
+                attrs={'class': 'form-control  mb-3 fw-bold', }),
+            'end_year': forms.NumberInput(
+                attrs={'class': 'form-control  mb-3 fw-bold', }),
+        }
+
+class CapitalForm(forms.ModelForm):
+    class Meta:
+        model = Capital
+        fields = ('name', 'latitude', 'longitude', 'polity_cap', 'current_country', 'is_verified', 'url_on_the_map', 'note')
+        labels = {
+        'name': '<b>Capital</b>',
+        'latitude': '<b>Latitude</b>',
+        'longitude': '<b>Longitude</b>',
+        'polity_cap': '<b>Polity</b>',
+        'current_country': '<b>Current Country</b>',
+        'is_verified': '<b class="text-primary">Verified?</b>',
+        'url_on_the_map': '<b>Link on Google Maps</b>',
+        'note': '<b>Add an optional Note</b>',
+        }
+        widgets = {
+            'name': forms.TextInput(
+                attrs={'class': 'form-control mb-3', }),
+            'polity_cap': forms.Select(attrs={'class': 'form-control form-select mb-3',}),
+            'current_country': forms.TextInput(
+                attrs={'class': 'form-control mb-3', }),
+            'url_on_the_map': forms.Textarea(attrs={'class': 'form-control  mb-3', 'style': 'height: 120px', 'placeholder':'Add the full URL from Google Maps (optional)'}),
+            'note': forms.Textarea(attrs={'class': 'form-control  mb-3', 'style': 'height: 120px', 'placeholder':'Add a note (optional)'}),
+            'latitude': forms.NumberInput(
+                attrs={'class': 'form-control  mb-3 fw-bold', }),
+            'longitude': forms.NumberInput(
+                attrs={'class': 'form-control  mb-3 fw-bold', }),
+            'is_verified' : forms.CheckboxInput(attrs={'type': 'checkbox', 'class': 'form-control form-check-input mb-3'}),
+            #'is_verified' : forms.Select(attrs={'class': 'form-control form-select mb-3',}),
+        }
+
+
+class SeshatCommentForm(forms.ModelForm):
+    class Meta:
+        model = SeshatComment
+        fields = ('text',)
+        labels = {
+        'text': '<b>Description</b>',
+        }
+        widgets = {
+            'text': forms.Textarea(attrs={'class': 'form-control  mb-3', 'style': 'height: 100px',}),
+        }
+
+class SeshatCommentPartForm(forms.ModelForm):
+    class Meta:
+        model = SeshatCommentPart
+        fields = ('comment', 'comment_part_text', 'comment_citations', 'comment_order')
+        labels = {
+        'comment': '<b>Description ID</b>',
+        'comment_part_text': '<b>SubDescription Text</b>',
+        'comment_citations': '<b>SubDescription Citations</b>',
+        'comment_order': '<b>SubDescription Order in the Description:</b>',
+        }
+        widgets = {
+            'comment': forms.NumberInput(
+                attrs={'class': 'form-control  mb-3 fw-bold', }),
+            'comment_order': forms.NumberInput(
+                attrs={'class': 'form-control  mb-3 fw-bold', }),
+            'comment_part_text': forms.Textarea(attrs={'class': 'form-control  mb-3', 'style': 'height: 300px',}),
+            'comment_citations': forms.SelectMultiple(attrs={'class': 'form-control mb-3 js-states js-example-basic-multiple', 'text':'citations[]' , 'style': 'height: 340px', 'multiple': 'multiple'}),
+        }
+
 
 class SignUpForm(UserCreationForm):
     # first_name = forms.CharField(

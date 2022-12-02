@@ -17,6 +17,7 @@
                 <h5> <i class="fas fa-chevron-circle-down"></i> <span class="badge rounded-pill bg-success">{{ subsection }}</span></h5>
                 <table class="table align-middle table-striped">
                 {% for list_item in var_list %}
+                {% if list_item.0 != "Human_sacrifice" %}
                 <tr>
                     <td scope="row" class="col-md-6">
                         <a  href="{% url list_item.1 %}"><i class="fa-regular fa-circle-right"></i> &nbsp; {{list_item.0}}</a></td>
@@ -27,6 +28,7 @@
                         <a class="btn btn-sm btn-info ms-auto float-end me-2" href="{% url list_item.3 %}" class="card-link"><i class="fa-solid fa-file-arrow-down"></i> &nbsp; Download All </a>
                     </td>
                 </tr>
+                {% endif %}
                 {% endfor %}
                 </table>
             {% endfor %}
@@ -36,3 +38,18 @@
 </div>
 
 {% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

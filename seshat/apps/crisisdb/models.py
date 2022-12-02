@@ -19,6 +19,17 @@ from ..core.models import SeshatCommon, Certainty, Tags, Section, Subsection
 ########## End of Model Imports
 
 ########## Beginning of tuple choices for CrisisDB Models
+HUMAN_SACRIFICE_HUMAN_SACRIFICE_CHOICES = (
+('U', 'Unknown'),
+('A;P', 'Scholarly Disagreement'),
+('P*', 'Present'),
+('P', 'Inferred Present'),
+('A~P', 'Transitional Period (from Absent to Present)'),
+('A', 'Absent'),
+('A*', 'Inferred Absent'),
+('P~A', 'Transitional Period (from Present to Absent)'),
+)
+
 SUB_CATEGORY_DISEASE_OUTBREAK_CHOICES = (
 ('Peculiar Epidemics', 'Peculiar Epidemics'),
 ('Pestilence', 'Pestilence'),
@@ -98,6 +109,29 @@ def clean_times(self):
 
 ########## Beginning of class Definitions for CrisisDB Models
 
+class Human_sacrifice(SeshatCommon):
+    name = models.CharField(max_length=100, default="Human_sacrifice")
+    human_sacrifice = models.CharField(max_length=500, choices=HUMAN_SACRIFICE_HUMAN_SACRIFICE_CHOICES)
+
+    class Meta:
+        # unique_together = ('polity', 'year_from', 'year_to', 'tag', 'human_sacrifice')
+        verbose_name = 'Human_sacrifice'
+        verbose_name_plural = 'Human_sacrifices'
+
+    @property
+    def display_citations(self):
+        return return_citations(self)
+
+    def clean(self):
+        clean_times(self)
+
+    def get_absolute_url(self):
+        return reverse('human_sacrifice-detail', args=[str(self.id)])
+
+    def __str__(self) -> str:
+        return call_my_name(self)
+        
+        
 class External_conflict(SeshatCommon):
     name = models.CharField(max_length=100, default="External_conflict")
     conflict_name = models.CharField(max_length=500, blank=True, null=True)
@@ -111,12 +145,14 @@ class External_conflict(SeshatCommon):
     def display_citations(self):
         return return_citations(self)
 
+    def clean(self):
+        clean_times(self)
 
     def get_absolute_url(self):
-        return reverse('internal_conflict-detail', args=[str(self.id)])
+        return reverse('external_conflict-detail', args=[str(self.id)])
 
     def __str__(self) -> str:
-        return self.conflict_name
+        return call_my_name(self)
         
         
 class Internal_conflict(SeshatCommon):

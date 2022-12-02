@@ -8,14 +8,9 @@
         {% csrf_token %}
         <legend>
             <div class="row d-flex align-items-center">
-                <div class="col-md-9">
+                <div class="col-md-12">
                     <h6 class="lead-2 text-secondary">Enter new data for:</h6>
                     <h6><span class="display-6">{{ myvar }}</span></h6>
-                </div>
-                <div class="col-md-3">
-                    <h6><span class="text-secondary">Section</span>: <mark>{{mysection}}</mark> &nbsp; / &nbsp;</h6>
-                    <h6><span class="text-secondary">Subsection</span>: <mark>{{mysubsection}} </mark> </h6>
-                    </h6>                
                 </div>
             </div> 
             <div class="row d-flex align-items-center">
@@ -51,14 +46,6 @@
         <div class="row">
             {% block extra_vars2 %}
             {% endblock extra_vars2 %}
-        </div>
-        <div class="row">
-            <div class="col-md-6 mb-2">
-              {{ form.citations|as_crispy_field }}
-            </div>
-            <div class="col-md-6 mb-2">
-                {{ form.description|as_crispy_field }}
-            </div>
         </div>
         <div class="row">
             {% if request.user.is_staff %}
@@ -102,14 +89,6 @@
 
         {% block delete_option %}
         {% endblock delete_option %}
-        <script>
-            $(document).ready(function() {
-                $('.js-example-basic-multiple').select2({
-                    placeholder: "Select or serach",
-                    allowClear: true,
-                });
-            });
-        </script>
 
 </div>
 {% endblock %}

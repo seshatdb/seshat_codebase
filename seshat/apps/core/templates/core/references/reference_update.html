@@ -1,0 +1,58 @@
+{% extends "core/seshat-base.html" %}
+{% load crispy_forms_tags %}
+{% load humanize %}
+
+{% block content %}
+<div class="container mt-3">
+    <form action="" method="post">
+        {% csrf_token %}
+        <legend>
+            <div class="row d-flex align-items-center">
+                <div class="col-md-9">
+                    <h3 class="lead-2">Update Reference:</h3>
+                    <h5 class="lead-2 text-secondary">You only need to update the value of the zotero link.</h5>
+
+                </div>
+            </div>
+            <hr>
+        </legend>
+        <div class="row">
+            <div class="col-md-12 mb-2">
+              {{ form.long_name|as_crispy_field }}
+            </div>
+          </div>
+        <div class="row">
+          <div class="col-md-5 mb-2">
+            {{ form.title|as_crispy_field }}
+          </div>
+          <div class="col-md-2 mb-2">
+            {{ form.year|as_crispy_field }}
+          </div>
+          <div class="col-md-2 mb-2">
+            {{ form.creator|as_crispy_field }}
+          </div>
+          <div class="col-md-3 mb-2">
+            {{ form.zotero_link|as_crispy_field }}
+          </div>
+        </div>
+
+                <!-- Here come the extra vars in the second row -->
+        <div class="row">
+            <div class="col-md-4 mb-2 py-2 d-grid mx-auto">
+                <button type="submit" class="btn btn-outline-success my-auto btn-block btn-lg">Update Reference</button>
+            </div>
+
+        </div>
+        <script>
+            $(document).ready(function() {
+                $('.js-example-basic-multiple').select2({
+                    placeholder: "Select or serach",
+                    allowClear: true,
+                });
+            });
+        </script>
+    </form>
+</div>
+{% endblock content %}
+
+        

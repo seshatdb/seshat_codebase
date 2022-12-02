@@ -5,6 +5,10 @@ import pprint
 from django.contrib.contenttypes.models import ContentType
 
 
+import requests
+from requests.structures import CaseInsensitiveDict
+
+
 vars_dic_for_utils = {
     "external_conflict": {"notes": "This is a new model definition fror External conflicts", "main_desc": "Main Descriptions for the Variable external_conflict are missing!", "main_desc_source": "", "cols": 1, "section": "Conflict Variables", "subsection": "External Conflicts Subsection", "null_meaning": "The value is not available.", "col1": {"dtype": ["CharField", "TextInput"], "varname": "conflict_name", "var_exp": "The unique name of this external conflict", "var_exp_source": None}},
    "internal_conflict": {"notes": "This is a new model definition fror internal conflicts", "main_desc": "Main Descriptions for the Variable internal_conflict are missing!", "main_desc_source": "", "cols": 4, "section": "Conflict Variables", "subsection": "Internal Conflicts Subsection", "null_meaning": "The value is not available.", "col1": {"dtype": ["CharField", "TextInput"], "varname": "conflict", "var_exp": "The name of the conflict", "var_exp_source": None}, "col2": {"dtype": ["DecimalField", "NumberInput"], "varname": "expenditure", "var_exp": "The military expenses in millions silver taels.", "units": "millions silver taels", "min": None, "max": None, "scale": 1, "decimal_places": 15, "max_digits": 20, "var_exp_source": None}, "col3": {"dtype": ["CharField", "TextInput"], "varname": "leader", "var_exp": "The leader of the conflict", "var_exp_source": None}, "col4": {"dtype": ["IntegerField", "NumberInput"], "varname": "casualty", "var_exp": "The number of people who died in this conflict.", "units": "People", "min": None, "max": None, "scale": 1, "var_exp_source": None}}, "external_conflict_side": {"notes": "This is a new model definition fror External conflict sides", "main_desc": "Main Descriptions for the Variable external_conflict_side are missing!", "main_desc_source": "", "cols": 4, "section": "Conflict Variables", "subsection": "External Conflicts Subsection", "null_meaning": "The value is not available.", "col1": {"dtype": ["CharField", "TextInput"], "varname": "conflict", "var_exp": "The unique name of the conflict", "var_exp_source": None}, "col2": {"dtype": ["DecimalField", "NumberInput"], "varname": "expenditure", "var_exp": "The military expenses (from this side) in silver taels.", "units": "silver taels", "min": None, "max": None, "scale": 1, "decimal_places": 15, "max_digits": 20, "var_exp_source": None}, "col3": {"dtype": ["CharField", "TextInput"], "varname": "leader", "var_exp": "The leader of this side of conflict", "var_exp_source": None}, "col4": {"dtype": ["IntegerField", "NumberInput"], "varname": "casualty", "var_exp": "The number of people who died (from this side) in this conflict.", "units": "People", "min": None, "max": None, "scale": 1, "var_exp_source": None}},
@@ -195,3 +199,45 @@ def qing_vars_links_creator(vars_dic_for_here):
             my_list = [k.replace("_", " ").capitalize(), k+"s", k+"-create",  k+"-download", k+"-metadownload"]
             varhier_dic[v["section"]][v["subsection"]].append(my_list)   
     return varhier_dic
+
+
+def get_all_data_for_a_polity(polity_id, db_name):
+    all_vars = []
+    a_huge_context_data_dic = {}
+    for ct in ContentType.objects.all():
+        m = ct.model_class()
+        if m and m.__module__ == f"seshat.apps.{db_name}.models" and (m.__name__ == "Arable_land" or m.__name__ == "Agricultural_population" or m.__name__ == "Human_sacrifice"):
+            all_vars.append(m.__name__)
+            print(polity_id, ": ", m.__name__)
+            my_data = m.objects.filter(polity = polity_id)
+            a_huge_context_data_dic[m.__name__ + "_for_polity"] = my_data
+            # coooooooooooool
+            # this gets all the potential keys
+            print("___")
+            #print("Data: ", dir(my_data[0]))
+        # else:
+        #     print(polity_id, ": ", m)
+    return a_huge_context_data_dic
+
+
+def polity_detail_data_collector(polity_id):
+    url = "http://127.0.0.1:8000/api/politys-api/"
+    #url = "https://www.majidbenam.com/api/politys/"
+
+    headers = CaseInsensitiveDict()
+    headers["Accept"] = "application/json"
+
+    resp = requests.get(url, headers=headers)
+
+    all_my_data = resp.json()['results']
+    # I want to go through the data and create the proper data to give the function
+    for polity_with_everything in all_my_data:
+        if polity_with_everything['id'] == polity_id:
+            print("Hffffffffffallo")
+            print(type(polity_with_everything), polity_with_everything.keys())
+            final_response = dict(polity_with_everything)
+            break
+        else:
+            final_response = {}
+    #print(final_response)
+    return final_response

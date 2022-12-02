@@ -1,4 +1,4 @@
-from .models import External_conflict, Internal_conflict, External_conflict_side, Agricultural_population, Arable_land, Arable_land_per_farmer, Gross_grain_shared_per_agricultural_population, Net_grain_shared_per_agricultural_population, Surplus, Military_expense, Silver_inflow, Silver_stock, Total_population, Gdp_per_capita, Drought_event, Locust_event, Socioeconomic_turmoil_event, Crop_failure_event, Famine_event, Disease_outbreak
+from .models import Human_sacrifice, External_conflict, Internal_conflict, External_conflict_side, Agricultural_population, Arable_land, Arable_land_per_farmer, Gross_grain_shared_per_agricultural_population, Net_grain_shared_per_agricultural_population, Surplus, Military_expense, Silver_inflow, Silver_stock, Total_population, Gdp_per_capita, Drought_event, Locust_event, Socioeconomic_turmoil_event, Crop_failure_event, Famine_event, Disease_outbreak
 import datetime
 
 from django import forms
@@ -32,6 +32,17 @@ commonwidgets = {
     'tag': forms.Select(attrs={'class': 'form-control  mb-3', }),
     'finalized': forms.CheckboxInput(attrs={'class': ' mb-3', 'checked': True, }),
 }
+
+class Human_sacrificeForm(forms.ModelForm):
+    class Meta:
+        model = Human_sacrifice
+        fields = commonfields.copy()
+        fields.append('human_sacrifice')
+        labels = commonlabels
+        
+        widgets = dict(commonwidgets)
+        widgets['human_sacrifice'] = forms.Select(attrs={'class': 'form-control  mb-3', })
+        
 
 class External_conflictForm(forms.ModelForm):
     class Meta:

@@ -1,4 +1,4 @@
-from .models import External_conflict, Internal_conflict, External_conflict_side, Agricultural_population, Arable_land, Arable_land_per_farmer, Gross_grain_shared_per_agricultural_population, Net_grain_shared_per_agricultural_population, Surplus, Military_expense, Silver_inflow, Silver_stock, Total_population, Gdp_per_capita, Drought_event, Locust_event, Socioeconomic_turmoil_event, Crop_failure_event, Famine_event, Disease_outbreak
+from .models import Human_sacrifice, External_conflict, Internal_conflict, External_conflict_side, Agricultural_population, Arable_land, Arable_land_per_farmer, Gross_grain_shared_per_agricultural_population, Net_grain_shared_per_agricultural_population, Surplus, Military_expense, Silver_inflow, Silver_stock, Total_population, Gdp_per_capita, Drought_event, Locust_event, Socioeconomic_turmoil_event, Crop_failure_event, Famine_event, Disease_outbreak
 from django.urls import path
 
 from . import views
@@ -8,12 +8,34 @@ urlpatterns = [
     path('playground/', views.playground, name='playground'),
     path('playgrounddownload/', views.playgrounddownload,
          name="playgrounddownload"), 
+     path('fpl_all/', views.fpl_all,
+         name="fpl_all"), 
 ]
 
 
 urlpatterns += [
+    path('human_sacrifice/create/', views.Human_sacrificeCreate.as_view(),
+         name="human_sacrifice-create"),
+
+    path('human_sacrifices/', views.Human_sacrificeListView.as_view(), name='human_sacrifices'),
+    path('human_sacrifice/<int:pk>', views.Human_sacrificeDetailView.as_view(),
+         name='human_sacrifice-detail'),
+    path('human_sacrifice/<int:pk>/update/',
+         views.Human_sacrificeUpdate.as_view(), name="human_sacrifice-update"),
+    path('human_sacrifice/<int:pk>/delete/',
+         views.Human_sacrificeDelete.as_view(), name="human_sacrifice-delete"),
+    # Download
+    path('human_sacrificedownload/', views.human_sacrifice_download,
+         name="human_sacrifice-download"),
+    path('human_sacrificemetadownload/', views.human_sacrifice_meta_download,
+         name="human_sacrifice-metadownload"),
+]
+        
+
+urlpatterns += [
     path('external_conflict/create/', views.External_conflictCreate.as_view(),
          name="external_conflict-create"),
+
     path('external_conflicts/', views.External_conflictListView.as_view(), name='external_conflicts'),
     path('external_conflict/<int:pk>', views.External_conflictDetailView.as_view(),
          name='external_conflict-detail'),

@@ -1,0 +1,40 @@
+{% extends "core/seshat-base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+  <div class="container my-5 d-flex align-items-center justify-content-center">
+    <div class="px-4 py-5" style="border-radius:10px; border:2px solid #356859">
+      {% if form.errors %}
+        <h6 class="text-success"> Your username and password didn't match. Please try again.</h6>
+      {% endif %}
+
+      {% if next %}
+        {% if user.is_authenticated %}
+          <p>Your account doesn't have access to this page. To proceed,
+          please login with an account that has access.</p>
+        {% else %}
+          <p>Please login to see this page.</p>
+        {% endif %}
+      {% endif %}
+      <form method="post" action="{% url 'account_login' %}">
+        {% csrf_token %}
+        <table>
+          <tr>
+            <td> {{ form.username|as_crispy_field }}</td>
+          </tr>
+          <tr></tr>
+          <tr>
+            <td>{{ form.password|as_crispy_field }}</td>
+          </tr>
+        </table>
+        <br>
+        <input class="btn btn-success px-5" type="submit" value="login" />
+        <input type="hidden" name="next" value="{{ next }}" />
+      </form>
+
+      {# Assumes you setup the password_reset view in your URLconf #}
+      <p class="mt-3"><a href="{% url 'account_password_reset' %}">Forgot your password?</a></p>
+      </div>
+</div>
+{% endblock %}

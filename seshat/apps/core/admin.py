@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Polity, Country, Section, Subsection, Citation, Reference, Variablehierarchy
+from .models import Polity, Country, Section, Subsection, Citation, Reference, Variablehierarchy, SeshatComment, SeshatCommentPart, Nga, Ngapolityrel, Capital
 
 
 admin.site.register(Section)
@@ -9,6 +9,15 @@ admin.site.register(Polity)
 admin.site.register(Country)
 admin.site.register(Citation)
 admin.site.register(Reference)
+admin.site.register(SeshatComment)
+admin.site.register(SeshatCommentPart)
+admin.site.register(Nga)
+admin.site.register(Ngapolityrel)
+admin.site.register(Capital)
+
+
+
+
 
 
 # class CustomUserAdmin(UserAdmin):

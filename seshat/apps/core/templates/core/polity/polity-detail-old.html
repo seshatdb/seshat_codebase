@@ -1,0 +1,140 @@
+{% extends "core/seshat-base.html" %}
+{% load static %}
+{% load humanize %}
+
+
+{% block content %}
+
+
+<div class="container">
+    <div class="row mt-3">
+        <div class="col-md-6">
+            <h3> <span class="text-secondary"> Polity: </span>{{ object.name }}</h3>
+            <h5> <span class="text-secondary"> from: </span> {{ object.start_year }} to  {{ object.end_year }}</h5>
+        </div>
+    </div>
+    <hr>
+    <div class="row my-4">
+        <div class="col-md-6 border border border-secondary p-3 border-4"id="chart1"></div>
+        <div class="col-md-6 border border-secondary p-3 border-4 border-start-0"id="chart2"></div>
+    </div>
+    <script src="https://code.highcharts.com/highcharts.src.js"></script>
+    <script>
+        Highcharts.chart('chart1', {
+            chart: {
+                type: 'scatter',
+                zoomType: 'xy'
+              },
+            title: {
+                text: 'Balance in this Polity'
+            },
+            yAxis: {
+                title: {
+                    text: 'Balance'
+                },
+                type: 'linear',
+            },
+            xAxis: {
+                title: {
+                    text: 'year'
+                },
+                data:  {{ yearsals }},
+                
+            },
+            legend: {
+                layout: 'vertical',
+                align: 'left',
+                verticalAlign: 'top',
+                x: 80,
+                y: 0,
+                floating: true,
+                backgroundColor: Highcharts.defaultOptions.chart.backgroundColor,
+                borderWidth: 1
+              },
+            plotOptions: {
+                series: {
+                    label: {
+                        connectorAllowed: false
+                    },
+                    pointStart: {{ yearmin }},
+                }
+            },
+            series: [{
+                name: 'Balance',
+                color: 'blue',
+                fillColor: 'blue',
+                lineWidth: 1,
+                data: {{ bals }},
+            },]
+        });
+        Highcharts.chart('chart2', {
+            chart: {
+                type: 'scatter',
+                zoomType: 'xy'
+              },
+            title: {
+                text: 'Salt Tax in this Polity'
+            },
+            yAxis: {
+                title: {
+                    text: 'Salt Tax'
+                },
+                type: 'linear',
+            },
+            xAxis: {
+                title: {
+                    text: 'year'
+                },
+                data: {{ yearsals }},
+            },
+            legend: {
+                layout: 'vertical',
+                align: 'left',
+                verticalAlign: 'top',
+                x: 80,
+                y: 0,
+                floating: true,
+                backgroundColor: Highcharts.defaultOptions.chart.backgroundColor,
+                borderWidth: 1
+              },
+            plotOptions: {
+                series: {
+                    pointStart: 1812,
+                    pointStart: {{ yearmin }},
+                }
+            },
+            series: [{
+                name: 'Salt Tax',
+                color: 'green',
+                fillColor: 'green',
+                lineWidth: 2,
+                data: {{ sals }},
+            },]
+        });
+    </script>
+
+    <div class="row">
+        <div class="col-md-6">
+            {% for balance in mybalances %}
+            <h6>Years:{{ balance.year_from }}, balance: {{ balance.balance }}</h6>
+            {% endfor %}
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-md-6">
+            {% for key, values in vars.items %}
+                <h6>{{ key }}: </h6> 
+                    {% for kk, vv in values.items %}
+                      <p>In year {{ vv.0 }}, the value of {{ key }} was: {{ vv.1 }}.</p> 
+                    {% endfor %}
+                    <hr>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="row">
+        <div id="chart1"></div>
+    </div>
+</div>
+
+{% endblock content%}

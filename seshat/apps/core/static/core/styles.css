@@ -1,5 +1,5 @@
 a {
-    color: #893101;
+    color: teal;
     text-decoration: none;
 }
 
@@ -129,4 +129,22 @@ hr.bg-fading {
 .select2-container--default .select2-results__option--highlighted.select2-results__option--selectable {
     background-color: rgba(var(--bs-success-rgb))!important;
 
+}
+/* For the tables being not so wide open all over the place. Neater so. */
+
+.table>:not(caption)>*>* {
+    padding: .25rem .25rem;
+}
+
+.table {
+    margin-bottom: 0;
+}
+
+.zanzendegiazadi
+{
+    background:#000000;
+    font-family:"Arabic Typesetting", serif;
+    font-size:12pt;
+    padding:0 0 0 0;
+    margin: 0 0 0 0;
 }

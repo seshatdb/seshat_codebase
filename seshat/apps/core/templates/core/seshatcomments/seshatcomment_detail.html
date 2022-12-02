@@ -1,0 +1,51 @@
+{% extends "core/seshat-base.html" %}
+{% load crispy_forms_tags %}
+{% load humanize %}
+
+{% block content %}
+<div class="container mt-3">
+    <form action="" method="post">
+        {% csrf_token %}
+        <legend>
+            <div class="row d-flex align-items-center">
+                <div class="col-md-9">
+                    <h3 class="lead-2">Update Description:</h3>
+                    <h5 class="lead-2 text-secondary">You only need to update the value of the zotero link.</h5>
+
+                </div>
+            </div>
+            <hr>
+        </legend>
+        <div class="row">
+            <div class="col-md-12 mb-2">
+              {{ obj }}
+            </div>
+          </div>
+          {% for subcom in obj.inner_comments_related.all %}
+            <div class="row">
+            <div class="col-md-5 mb-2">
+                {{ subcom.comment_part_text|as_crispy_field }}
+            </div>
+            </div>
+        {% endfor%}
+
+                <!-- Here come the extra vars in the second row -->
+        <div class="row">
+            <div class="col-md-4 mb-2 py-2 d-grid mx-auto">
+                <button type="submit" class="btn btn-outline-success my-auto btn-block btn-lg">Update SeshatComment</button>
+            </div>
+
+        </div>
+        <script>
+            $(document).ready(function() {
+                $('.js-example-basic-multiple').select2({
+                    placeholder: "Select or search",
+                    allowClear: true,
+                });
+            });
+        </script>
+    </form>
+</div>
+{% endblock content %}
+
+        

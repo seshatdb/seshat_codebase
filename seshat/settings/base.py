@@ -7,6 +7,15 @@ import django_heroku
 import dj_database_url
 from decouple import Csv, config
 
+from django.contrib.messages import constants as messages
+MESSAGE_TAGS = {
+        messages.DEBUG: 'alert-secondary',
+        messages.INFO: 'alert-info',
+        messages.SUCCESS: 'alert-success',
+        messages.WARNING: 'alert-warning',
+        messages.ERROR: 'alert-danger',
+}
+
 # base_dir is calculated based on this file (base.py) and then goes to parents above.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -30,6 +39,14 @@ else:
 ALLOWED_HOSTS = ['seshatdb.herokuapp.com', '127.0.0.1',
                  'majidbenam.com', 'www.majidbenam.com', 'https://majidbenam.com']
 
+AUTHENTICATION_BACKENDS = [
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+
+    # `allauth` specific authentication methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
 INSTALLED_APPS = [
     "seshat.apps.accounts",
     "django.contrib.admin",
@@ -40,6 +57,9 @@ INSTALLED_APPS = [
     "whitenoise.runserver_nostatic",
     "django.contrib.staticfiles",
 
+    'django.contrib.sites', # Add this
+
+
     'django.contrib.humanize',
     'crispy_forms',
     "seshat.apps.core",
@@ -48,8 +68,45 @@ INSTALLED_APPS = [
     "django_filters",
     "corsheaders",
     "rest_framework",
+    "mathfilters",
+    # all-auth
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    #'allauth.socialaccount.providers.github',
+    'allauth.socialaccount.providers.google',
 
 ]
+
+# all-auth
+LOGIN_REDIRECT_URL = 'seshat-index'
+ACCOUNT_LOGOUT_REDIRECT = 'seshat-index'
+SITE_ID = 2
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+#ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+
+#SOCIALACCOUNT_AUTO_SIGNUP = False
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        # 'APP': {
+        #     'client_id': '77017415274-u1f5efvo1ubkmp1uqc4h7otic27d5qmc.apps.googleusercontent.com',
+        #     'secret': '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',
+        #     'key': ''
+        # },
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        }
+    }
+}
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 

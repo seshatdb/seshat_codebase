@@ -1,0 +1,77 @@
+{% extends "core/seshat-base.html" %}
+{% load crispy_forms_tags %}
+{% load humanize %}
+
+
+{% block content %}
+<div class="container">
+        <form action="" method="post">
+            {% csrf_token %}
+            <legend>
+                <div class="row d-flex align-items-center">
+                    <div class="col-md-9">
+                        <h3 class="lead-2 pt-4">Update SubDescription:</h3>
+                    </div>
+                    {% if messages %}
+                    <ul class="messages mt-3">
+                        {% for message in messages %}
+                        <div class="container-fluid p-0">
+                            <div class="alert {{ message.tags }} alert-dismissible" role="alert" >
+                              {{ message }}
+                            </div>
+                          </div>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                </div>
+            </legend>
+                  <tr>
+                    <div class="row">
+                        <div class="col-md-6">
+                            {{ form.comment_part_text|as_crispy_field }}
+                        </div>
+                        <div class="col-md-6">
+                            {{ form.comment_citations|as_crispy_field }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            {{ form.comment|as_crispy_field }}
+                        </div>
+                        <div class="col-md-6">
+                            {{ form.comment_order|as_crispy_field }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6" style="text-align: left">
+                            <a href=""><button class="btn btn-block btn-lg btn-danger">Update</button></a>
+                        </div>
+                    </div>
+                </tr>
+        </form>
+    <script>
+        $(document).ready(function() {
+            $('.js-example-basic-multiple').select2({
+                placeholder: "Select or search",
+                allowClear: true,
+            });
+        });
+        var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+        var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+          return new bootstrap.Popover(popoverTriggerEl)
+        })
+
+        function DisplayProgressMessage(ctl, msg) {
+            $(ctl).prop("class", "btn btn-success px-4 disabled");
+            $(ctl).text(msg);
+            return true;
+        }
+    </script>
+  {% endblock %}
+
+
+
+
+
+
+        

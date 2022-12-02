@@ -1,0 +1,57 @@
+{% extends "core/seshat-base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<!-- form-row and form-group etc are removed in Bootstrap 5 -->
+<div class="container mt-3">
+    <form action="" method="post">
+        {% csrf_token %}
+        <legend>
+            <div class="row d-flex align-items-center">
+                <div class="col-md-12">
+                    <h6 class="lead-2 text-secondary">Enter new data for:</h6>
+                    <h6><span class="display-6">Polity</span></h6>
+                </div>
+            </div> 
+            <hr>
+        </legend>
+        <div class="row">
+          <div class="col-md-2 mb-2">
+            {{ form.name|as_crispy_field }}
+          </div>
+          <div class="col-md-3 mb-2">
+            {{ form.new_name|as_crispy_field }}
+          </div>
+          <div class="col-md-3 mb-2">
+            {{ form.long_name|as_crispy_field }}
+          </div>
+          <div class="col-md-2 mb-2">
+                {{ form.start_year|as_crispy_field }}
+          </div>
+          <div class="col-md-2 mb-2">
+            {{ form.end_year|as_crispy_field }}
+        </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 mb-2 py-2 d-grid mx-auto">
+                <button type="submit" class="btn btn-outline-success my-auto btn-block btn-lg">Submit for Review*</button>
+            </div>
+
+        </div>
+
+        <!-- {% if form.errors %}
+        {% for field in form %}
+            {% for error in field.errors %}
+                <div class="text-danger"><h3> {{ error }} </h3></div>
+            {% endfor %}
+        {% endfor %}
+        {% endif %} -->
+          </form>
+
+        <div class="col-md-12">
+            <hr>
+            <h6>* Your entered data will soon be checked by a Seshat Expert.</h6>
+        </div>
+
+</div>
+{% endblock %}

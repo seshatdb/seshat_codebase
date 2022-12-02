@@ -1,0 +1,100 @@
+{% extends "core/seshat-base.html" %}
+{% load crispy_forms_tags %}
+{% load humanize %}
+
+{% block content %}
+<!-- form-row and form-group etc are removed in Bootstrap 5 -->
+<div class="container mt-3">
+    <form action="" method="post">
+        {% csrf_token %}
+        <legend>
+          <div class="row d-flex align-items-center">
+            <div class="row d-flex align-items-center mb-1">
+              <div class="col-md-6">
+                <h6 class="lead-2 text-secondary">Enter new data for:</h6>
+                <h6><span class="display-6">Capital</span></h6>
+              </div>
+              <div class="col-md-6">      
+                  <a href="{% url 'capitals' %}" class="btn btn-outline-success mx-3 my-4 float-end"><i class="fa-solid fa-table-list"></i> &nbsp; All Capitals</a>
+              </div>
+          </div>
+          </div> 
+            <hr>
+            {% if messages %}
+            <ul class="messages mt-3">
+                {% for message in messages %}
+                <div class="container-fluid p-0">
+                    <div class="alert {{ message.tags }} alert-dismissible" role="alert" >
+                        <i class="fa-solid fa-circle-info"></i> Thank you <b>{{ user }}</b>. {{ message }}
+                    </div>
+                </div>
+                {% endfor %}
+
+            </ul>
+            <hr>
+            {% endif %}
+
+            {% if form.non_field_errors %}
+            {% for error in form.non_field_errors %}
+            <div class="container-fluid p-0">
+              <div class="text-danger" role="alert" >
+                <i class="fa-solid fa-triangle-exclamation"></i>  {{ error }}
+              </div>
+            </div>
+            {% endfor %}
+            <hr> 
+            {% endif %}
+        </legend>
+        <div class="row">
+          <div class="col-md-2 mb-2">
+            {{ form.name|as_crispy_field }}
+          </div>
+          <div class="col-md-3 mb-2">
+            {{ form.polity_cap|as_crispy_field }}
+          </div>
+          <div class="col-md-2 mb-2">
+            {{ form.longitude|as_crispy_field }}
+          </div>
+          <div class="col-md-2 mb-2">
+                {{ form.latitude|as_crispy_field }}
+          </div>
+          <div class="col-md-3 mb-2">
+            {{ form.current_country|as_crispy_field }}
+        </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6 mb-2">
+              {{ form.url_on_the_map|as_crispy_field }}
+          </div>
+          <div class="col-md-6 mb-2">
+            {{ form.note|as_crispy_field }}
+        </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12 mb-2" style="text-align:center;">
+                {{ form.is_verified|as_crispy_field }}
+            </div>
+          </div>
+        <div class="row">
+            <div class="col-md-4 mb-2 py-2 d-grid mx-auto">
+                <button type="submit" class="btn btn-outline-success my-auto btn-block btn-lg">Submit for Review*</button>
+          </div>
+
+        </div>
+
+        <!-- {% if form.errors %}
+        {% for field in form %}
+            {% for error in field.errors %}
+                <div class="text-danger"><h3> {{ error }} </h3></div>
+            {% endfor %}
+        {% endfor %}
+        {% endif %} -->
+          </form>
+
+        <div class="col-md-12">
+            <hr>
+            <h6>* Your entered data will soon be checked by a Seshat Expert.</h6>
+        </div>
+
+</div>
+{% endblock %}
