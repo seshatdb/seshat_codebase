@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 
@@ -9,15 +9,70 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 from django.contrib.auth.decorators import login_required, permission_required
 from django.urls import reverse, reverse_lazy
 
-from .models import Seshat_Expert, Seshat_Task
+from .models import Seshat_Expert, Seshat_Task, Profile
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
-from .forms import Seshat_TaskForm
+from .forms import Seshat_TaskForm, ProfileForm
 from django.views import generic
+from django.http import HttpResponseRedirect
 
 
 def accounts(request):
     return HttpResponse('<h1>Hello Accounts.</h1>')
+
+
+# @login_required
+# def edit_profile(request):
+#     if request.method == 'POST':
+#         form = ProfileForm(request.POST, instance=request.user)
+#         profile_form = ProfileForm(request.POST, request.FILES, instance=request.user.userprofile)  # request.FILES is show the selected image or file
+
+#         if form.is_valid() and profile_form.is_valid():
+#             user_form = form.save()
+#             custom_form = profile_form.save(False)
+#             custom_form.user = user_form
+#             custom_form.save()
+#             return redirect('accounts:view_profile')
+#     else:
+#         form = EditProfileForm(instance=request.user)
+#         profile_form = ProfileForm(instance=request.user.userprofile)
+#         args = {}
+#         # args.update(csrf(request))
+#         args['form'] = form
+#         args['profile_form'] = profile_form
+#         return render(request, 'profiles/edit_profile.html', args)
+
+
+class ProfileUpdate(PermissionRequiredMixin, UpdateView):
+    model = Profile
+    context_object_name = 'user'
+    form_class = ProfileForm
+    template_name = "registration/profile_update.html"
+    queryset = Profile.objects.all()
+    permission_required = 'catalog.can_mark_returned'
+
+    def get_context_data(self, **kwargs):
+        context = super(ProfileUpdate, self).get_context_data(**kwargs)
+        user = self.request.user
+        context['profile_form'] = ProfileForm(
+            instance=self.request.user.profile,
+            initial={'first_name': user.first_name, 'last_name': user.last_name},
+        )
+        return context
+    
+    def form_valid(self, form):
+        profile = form.save()
+        user = profile.user
+        user.last_name = form.cleaned_data['last_name']
+        user.first_name = form.cleaned_data['first_name']
+        user.save()
+        return HttpResponseRedirect(reverse_lazy('user-profile'))
+
+# class UserUpdate(PermissionRequiredMixin, UpdateView):
+#     model = Profile
+#     form_class = EditProfileForm
+#     template_name = "registration/profile_update.html"
+#     permission_required = 'catalog.can_mark_returned'
 
 @login_required
 def profile(request):
@@ -82,11 +137,6 @@ class Seshat_taskCreate(PermissionRequiredMixin, CreateView):
     template_name = "registration/seshat_task/seshat_task_form.html"
     permission_required = 'catalog.can_mark_returned'
 
-# class Seshat_taskUpdate(PermissionRequiredMixin, UpdateView):
-#     model = Seshat_Task
-#     form_class = Seshat_TaskForm
-#     template_name = "registration/seshat_task/seshat_task_update.html"
-#     permission_required = 'catalog.can_mark_returned'
 
 # class Seshat_taskDelete(PermissionRequiredMixin, DeleteView):
 #     model = Seshat_Task

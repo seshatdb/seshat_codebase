@@ -2837,7 +2837,7 @@ def playgrounddownload(request):
     else:
         print("Bad selection of Separator.")
 
-    url = "http://127.0.0.1:8000/api/politys/"
+    url = "http://127.0.0.1:8000/api/politys-api/"
     #url = "https://www.majidbenam.com/api/politys/"
     print(url)
 
@@ -2855,7 +2855,7 @@ def playgrounddownload(request):
     myfile_name = 'CrisisDB_data_' + str(request.user) + '_' + now_str
     final_response['Content-Disposition'] = f'attachment; filename="{myfile_name}.csv"'
 
-    # print(all_my_data)
+    #print(all_my_data)
     writer = csv.writer(final_response, delimiter=checked_sep)
     # the top row is the same as Equinox, so no need to read data from user input for that
     writer.writerow(['polity', 'variable_name', 'variable_sub_name', 'value',

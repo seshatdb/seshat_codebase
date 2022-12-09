@@ -1,5 +1,7 @@
 from django.urls import path, include
 
+#from django.conf.urls import url
+
 from . import views
 from .models import Seshat_Task
 
@@ -22,3 +24,8 @@ urlpatterns += [
     #      views.Seshat_taskDelete.as_view(), name="seshat_task-delete"),
 ]
     
+
+urlpatterns += [ path('profile/<int:pk>/update/', views.ProfileUpdate.as_view(), name="profile-update"),]
+#urlpatterns += patterns('accounts.views',
+                    #    url(r'^view_profile/$', 'view_profile', name ='view_profile'),
+                    #    url(r'^view_profile/edit_profile/$', 'edit_profile', name ='edit_profile'))

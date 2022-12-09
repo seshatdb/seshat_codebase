@@ -1,0 +1,55 @@
+{% extends "core/seshat-base.html" %}
+{% load static %}
+{% load humanize %}
+{% load mathfilters %}
+
+
+{% block content %}
+<div class="container">
+    <div class="row mt-3">
+        <div class="col-md-12">
+            <div class="row d-flex align-items-center mb-2">
+                <div class="col-md-6">
+                    <h2 class="fw-bold">{{ object.name }}</h2>
+                </div>
+                <div class="col-md-6">      
+                    <a href="{% url 'ngas' %}" class="btn btn-outline-success mx-3 my-4 float-end"><i class="fa-solid fa-list-ul"></i> &nbsp; See All NGAs</a>
+            </div>
+        </div>
+            <h6 class="text-secondary">* NGA (Natural Geographic Area) is defined spatially by the area enclosed within a boundary drawn on the world map.</h6>
+            <h6 class="text-secondary">* It does not change with time.</h6>
+            <h6 class="text-secondary">* Its rough spatial scale is 100 km × 100 km (+/- 50%). Examples: Latium, Upper Egypt, Middle Yellow River Valley.</h6>
+        </div>
+        <div class="pt-4">
+            <table id="table_id" class="table align-middle table-striped table-bordered">
+                <thead>
+                  <tr>
+                    <th class="text-success"> </th>
+                    <th class="text-secondary"> World Region</th>
+                    <th class="text-secondary"> World Subregion</th>
+                    <th class="text-secondary"> Current Country</th>
+                    <th class="text-secondary" style="text-align: center;"> Update</th>
+
+                  </tr>
+                </thead>
+                <tbody>
+                        <tr>
+                        <td class="text-success fw-bold"> <i class="fa-solid fa-globe"></i> &nbsp; {{ object.name}}</td>
+                        <td class="text-secondary" style="text-align: left;"> {{ object.get_world_region_display }}
+                        </td>
+                        <td style="text-align: left;"> <span class="text-secondary">{{ object.subregion }}</a></td>
+                        </td>
+                        <td style="text-align: left;"> <span class="text-secondary">{{ object.fao_country }}</a></td>
+                        <td style="text-align: center;">
+                                <a href="{% url 'nga-update' object.id %}" class="btn btn-outline-danger my-auto btn-block">Update </a>
+                            </td>   
+                    </tr>
+                </tbody>
+              </table>
+        </div>
+       
+    </div>
+   
+</div>
+
+{% endblock content%}

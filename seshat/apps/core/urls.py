@@ -23,6 +23,14 @@ urlpatterns += [
      path('core/polities/<int:pk>/update/',
          views.PolityUpdate.as_view(), name="polity-update"),
 
+
+    path('core/ngas/create/', views.NgaCreate.as_view(),
+         name="nga-create"),
+    path('core/ngas/', views.NgaListView.as_view(), name='ngas'),
+    path('core/nga/<int:pk>', views.NgaDetailView.as_view(), name='nga-detail'),
+     path('core/ngas/<int:pk>/update/',
+         views.NgaUpdate.as_view(), name="nga-update"),
+
     path('core/capitals/create/', views.CapitalCreate.as_view(),
          name="capital-create"),
     path('core/capitals/', views.CapitalListView.as_view(), name='capitals'),

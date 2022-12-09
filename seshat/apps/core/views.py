@@ -1,7 +1,7 @@
 from seshat.utils.utils import adder, dic_of_all_vars, list_of_all_Polities, dic_of_all_vars_in_sections
 
 from django.contrib.sites.shortcuts import get_current_site
-from seshat.apps.core.forms import SignUpForm, VariablehierarchyFormNew, CitationForm, ReferenceForm, SeshatCommentForm, SeshatCommentPartForm, PolityForm, CapitalForm
+from seshat.apps.core.forms import SignUpForm, VariablehierarchyFormNew, CitationForm, ReferenceForm, SeshatCommentForm, SeshatCommentPartForm, PolityForm, CapitalForm, NgaForm
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate
 from django.shortcuts import render
@@ -502,6 +502,42 @@ class PolityDetailView(generic.DetailView):
             print("*************")
 
         return context
+
+
+    
+# NGA
+
+class NgaCreate(PermissionRequiredMixin, CreateView):
+    model = Nga
+    form_class = NgaForm
+    template_name = "core/nga/nga_form.html"
+    permission_required = 'catalog.can_mark_returned'
+    success_url = reverse_lazy('ngas')
+
+    def form_valid(self, form):
+        return super().form_valid(form)
+    
+    def form_invalid(self, form):
+        return HttpResponseRedirect(reverse('seshat-index'))
+
+
+class NgaUpdate(PermissionRequiredMixin, SuccessMessageMixin, UpdateView):
+    model = Nga
+    form_class = NgaForm
+    template_name = "core/nga/nga_update.html"
+    permission_required = 'catalog.can_mark_returned'
+    success_message = "You successfully updated the Nga."
+    success_url = reverse_lazy('ngas')
+
+
+class NgaListView(generic.ListView):
+    model = Nga
+    template_name = "core/nga/nga_list.html"
+    #paginate_by = 10
+
+class NgaDetailView(generic.DetailView):
+    model = Nga
+    template_name = "core/nga/nga_detail.html"
 
 
 # Capital

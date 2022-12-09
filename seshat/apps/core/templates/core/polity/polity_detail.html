@@ -8,7 +8,14 @@
 <div class="container">
     <div class="row mt-3">
         <div class="col-md-12">
-            <h3 class="display-5">{{ object.long_name }}: <span class="text-success h3">( {{ object.name }} | {{ object.new_name }} )</span> </h3>
+            <div class="row d-flex align-items-center mb-2">
+                <div class="col-md-9">
+                    <h2 class="fw-bold">{{ object.long_name }}: <span class="text-primary h3">({{ object.new_name }} )</span></h2>
+                </div>
+                <div class="col-md-3">      
+                    <a href="{% url 'polities' %}" class="btn btn-outline-success mx-3 my-4 float-end"><i class="fa-solid fa-list-ul"></i> &nbsp; See All Polities</a>
+                </div>
+            </div>
             <h5> <span class="text-secondary">Duration:</span> 
                 {% block years_short_for_top_pol %}
                 {% if  object.start_year == object.end_year %}
@@ -43,7 +50,6 @@
             <h6 class="text-secondary">* A polity can be either centralized or not (e.g., organized as a confederation). For those periods when a region is divided up among a multitude of small-scale polities (e.g., independent villages or even many small chiefdoms) or when it is controlled in quick succession by a number of different regimes, we use the concept of 'quasi-polity'.</h6>
 
         </div>
-        <hr>
         <div class="table-responsive mb-4">
             <h4 class="mt-4">
                 NGA Settlements:
@@ -114,12 +120,10 @@
     </div>
     {% for key, values in all_data.items %}
     {% if "Human_sacrifice_for_polity" == key %}
-    <hr>
-    <h4 class="mt-3">Human Sacrifice Data</h4>
+    <h4 class="mt-4">Human Sacrifice Data</h4>
 
     <h6 class="text-secondary"> <span><u>What is Human Sacrifice?</u></span>  </h6>
     <h6><span> <i class="fa-solid fa-caret-right"></i> Human Sacrifice is the deliberate and ritualized killing of a person to please or placate supernatural entities (including gods, spirits, and ancestors) or gain other supernatural benefits.  </span></h6>
-    {% endif %}
 
             <div class="table-responsive mb-4">
                 <table id="table_id" class="table align-middle table-striped table-bordered">
@@ -138,7 +142,7 @@
                                     <span type="button" data-bs-toggle="popover" data-bs-html="true" data-bs-content="The tag shows whether the input data is Trusted, Disputed, Suspected, Inferred, or Unknown.">&nbsp;<i class="far fa-question-circle" style="color:dimgrey"></i></span>
                                 </sup>
                             </th>
-                            <th scope="col" style="text-align: center" class="fw-light">Checked</th>
+                            <th scope="col" style="text-align: center" class="fw-light">Expert-Checked</th>
                             <th scope="col" style="text-align: center" class="fw-light">Description</th>
                             <th scope="col" style="text-align: center" class="fw-light">Edit</th>
 
@@ -231,7 +235,10 @@
                     </tbody>
                 </table>
             </div>
+            {% endif %}
+
     {% endfor %}
+
     <div class="row">
         <div id="chart1"></div>
     </div>

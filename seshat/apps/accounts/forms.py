@@ -8,7 +8,7 @@ from django.utils.translation import gettext_lazy as _
 from django.contrib.admin.widgets import FilteredSelectMultiple
 
 from django.template.defaulttags import register
-from .models import Seshat_Task, Seshat_Expert
+from .models import Seshat_Task, Seshat_Expert, Profile, User
 
 
 class Seshat_TaskForm(forms.ModelForm):
@@ -27,4 +27,43 @@ class Seshat_TaskForm(forms.ModelForm):
         'taker': forms.SelectMultiple(attrs={'class': 'form-group mt-3 px-2', }),
         'task_description': forms.Textarea(attrs={'class': 'form-control  mb-3', }),
         'task_url': forms.TextInput(attrs={'class': 'form-control  mb-3', })
+}
+
+        
+# class EditProfileForm(ModelForm):
+#     class Meta:
+#         model = User
+#         fields = (
+#                  'email',
+#                  'first_name',
+#                  'last_name'
+#                 )
+        
+#         widgets = {
+#         'email': forms.Textarea(attrs={'class': 'form-control  mb-3', }),
+#         'first_name': forms.TextInput(attrs={'class': 'form-control  mb-3', }),
+#         'last_name': forms.TextInput(attrs={'class': 'form-control  mb-3', }),
+# }
+
+class ProfileForm(forms.ModelForm):
+    first_name = forms.CharField(max_length=32)
+    last_name = forms.CharField(max_length=32)
+    class Meta:
+        model = Profile
+        fields = ["first_name", "last_name", "role", "location", "bio", ]
+        labels = {
+            'first_name': "first_name",
+            'last_name': "last_name",
+            'role': 'role',
+            'location': 'location',
+            'bio': 'Bio',
+        }
+                
+        widgets = {
+         'bio': forms.Textarea(attrs={'class': 'form-control  mb-3', }),
+#         'role': forms.TextInput(attrs={'class': 'form-control  mb-3', }),
+#         'location': forms.TextInput(attrs={'class': 'form-control  mb-3', }),
+#         'last_name': forms.TextInput(attrs={'class': 'form-control  mb-3', }),
+#         'first_name': forms.TextInput(attrs={'class': 'form-control  mb-3', }),
+
 }

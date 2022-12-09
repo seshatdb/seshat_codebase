@@ -56,7 +56,7 @@ from django.core.validators import URLValidator
 
 
 Tags = (
-    ('TRS', 'Evidenced'),
+    ('TRS', 'Referenced'),
     ('DSP', 'Disputed'),
     ('SSP', 'Suspected'),
     ('IFR', 'Inferred'),
@@ -77,15 +77,15 @@ A_TO_P = "A~P"
 
 
 WORLD_REGION_CHOICES = (('Europe', 'Europe'),
-        ('SouthwestAsia', 'Southwest Asia'),
+        ('Southwest Asia', 'Southwest Asia'),
         ('Africa', 'Africa'),
-        ('CentralEurasia', 'Central Eurasia'),
-        ('SouthAsia', 'South Asia'),
-        ('SoutheastAsia', 'Southeast Asia'),
-        ('EastAsia', 'East Asia'),
+        ('Central Eurasia', 'Central Eurasia'),
+        ('South Asia', 'South Asia'),
+        ('Southeast Asia', 'Southeast Asia'),
+        ('East Asia', 'East Asia'),
         ('Oceania-Australia', 'Oceania-Australia'),
-        ('NorthAmerica', 'North America'),
-        ('SouthAmerica', 'South America'))
+        ('North America', 'North America'),
+        ('South America', 'South America'))
 
 Certainty = (
     (AP, 'scholarly disagreement or uncertainty'),
@@ -114,6 +114,9 @@ class Nga(models.Model):
     nga_code = models.CharField(max_length=20, blank=True, null=True)
     fao_country = models.CharField(max_length=100, blank=True, null=True)
     world_region = models.CharField(max_length=100, choices=WORLD_REGION_CHOICES, default="Europe")
+
+    def get_absolute_url(self):
+        return reverse('ngas')
 
     def __str__(self) -> str:
         """string for epresenting the model obj in Admin Site"""

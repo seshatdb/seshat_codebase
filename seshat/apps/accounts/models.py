@@ -23,6 +23,9 @@ class Profile(models.Model):
     location = models.CharField(max_length=30, blank=True)
     role = models.PositiveSmallIntegerField(
         choices=ROLE_CHOICES, null=True, blank=True)
+    
+    def get_absolute_url(self):
+        return reverse('user-profile')
 
     def __str__(self):  # __unicode__ for Python 2
         return self.user.username

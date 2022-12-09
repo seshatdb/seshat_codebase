@@ -5,7 +5,7 @@ from django.forms import formset_factory
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
-from seshat.apps.core.models import Section, Subsection, Variablehierarchy, Reference, Citation, SeshatComment, SeshatCommentPart, Polity, Capital
+from seshat.apps.core.models import Section, Subsection, Variablehierarchy, Reference, Citation, SeshatComment, SeshatCommentPart, Polity, Capital, Nga
 from django.core.exceptions import NON_FIELD_ERRORS
 from crispy_forms.helper import FormHelper
 
@@ -93,6 +93,28 @@ class PolityForm(forms.ModelForm):
             'end_year': forms.NumberInput(
                 attrs={'class': 'form-control  mb-3 fw-bold', }),
         }
+
+        
+class NgaForm(forms.ModelForm):
+    class Meta:
+        model = Nga
+        fields = ('name', 'world_region', 'subregion', 'fao_country')
+        labels = {
+        'name': '<b>Polity Id (Old)</b>',
+        'world_region': '<b>World Region</b>',
+        'subregion': '<b>Subregion</b>',
+        'fao_country': '<b>Current Country</b>',
+        }
+        widgets = {
+            'name': forms.TextInput(
+                attrs={'class': 'form-control mb-3', }),
+            'world_region': forms.Select(attrs={'class': 'form-control form-select mb-3',}),
+            'subregion': forms.TextInput(
+                attrs={'class': 'form-control mb-3', }),
+            'fao_country': forms.TextInput(
+                attrs={'class': 'form-control mb-3', }),
+        }
+
 
 class CapitalForm(forms.ModelForm):
     class Meta:

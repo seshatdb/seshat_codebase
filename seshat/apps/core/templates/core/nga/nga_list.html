@@ -1,0 +1,80 @@
+{% extends "core/seshat-base.html" %}
+{% load static %}
+{% load humanize %}
+{% load mathfilters %}
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+<div class="container">
+    <h6 class="lead-2 text-secondary pt-4">List of all:</h6>
+    <h2>NGAs</h2>
+    <div class="col-md-12">
+        <h6 class="text-secondary">* NGA (Natural Geographic Area) is defined spatially by the area enclosed within a boundary drawn on the world map.</h6>
+        <h6 class="text-secondary">* It does not change with time.</h6>
+        <h6 class="text-secondary">* Its rough spatial scale is 100 km × 100 km (+/- 50%). Examples: Latium, Upper Egypt, Middle Yellow River Valley.</h6>
+    </div>
+    {% if messages %}
+    <ul class="messages mt-3">
+        {% for message in messages %}
+        <div class="container-fluid p-0">
+            <div class="alert {{ message.tags }} alert-dismissible" role="alert" >
+                <i class="fa-solid fa-circle-info"></i> Thank you <b>{{ user }}</b>. {{ message }}
+            </div>
+        </div>
+        {% endfor %}
+        {% if form.non_field_errors %}
+        {% for error in form.non_field_errors %}
+        <div class="container-fluid p-0">
+          <div class="text-danger" role="alert" >
+            <i class="fa-solid fa-triangle-exclamation"></i>  {{ error }}
+          </div>
+        </div>
+        {% endfor %}
+        <hr> 
+        {% endif %}
+    </ul>
+    {% endif %}
+    <div class="table-responsive pt-3">
+    {% if object_list %}
+    <table id="table_id" class="table align-middle table-striped table-bordered">
+        <thead>
+          <tr>
+            <th class="text-secondary" style="text-align: center;"> #</th>
+            <th class="text-success"> NGA</th>
+            <th class="text-secondary"> World Region</th>
+            <th class="text-secondary"> World Subregion</th>
+            <th class="text-secondary"> Current Country</th>
+            <th class="text-secondary" style="text-align: center;"> Update</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for a_nga in object_list %}
+                <tr>
+                <td class="text-secondary" style="text-align: center;" scope="row">{{ forloop.counter }}</td>
+                <td class="text-success fw-bold"> <i class="fa-solid fa-globe"></i> &nbsp; <a  href="{% url 'nga-detail' a_nga.id %}" >{{ a_nga.name}}</a> </td>
+                <td class="text-secondary" style="text-align: left;"> {{ a_nga.world_region}}
+                </td>
+                <td style="text-align: left;"> <span class="text-secondary">{{ a_nga.subregion }}</td>
+                </td>
+                <td style="text-align: left;"> <span class="text-secondary">{{ a_nga.fao_country }}</td>
+                <td style="text-align: center;">
+                    <a href="{% url 'nga-update' a_nga.id %}" class="btn btn-outline-danger my-auto btn-block">Update </a>
+                </td>    
+            </tr>
+            {% endfor %}
+
+        </tbody>
+      </table>
+      {% else %}
+      <div class="row">
+          <div class="col-md-12 mt-4">
+              <h3> <i class="fa-solid fa-triangle-exclamation"></i> There are no NGA in the Database.</h3>
+          </div>
+      </div>
+      {% endif %}
+      </div>
+  {% endblock %}
+
+
+

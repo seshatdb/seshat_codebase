@@ -1,0 +1,66 @@
+{% extends "core/seshat-base.html" %}
+{% load static %}
+{% load humanize %}
+{% load mathfilters %}
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+<div class="container">
+    <div class="row mt-3">
+        <div class="col-md-12">
+            <h3 class="display-5">{{ object.name }}:</h3>
+            <h6 class="text-secondary">* NGA (Natural Geographic Area) is defined spatially by the area enclosed within a boundary drawn on the world map.</h6>
+            <h6 class="text-secondary">* It does not change with time.</h6>
+            <h6 class="text-secondary">* Its rough spatial scale is 100 km × 100 km (+/- 50%). Examples: Latium, Upper Egypt, Middle Yellow River Valley.</h6>
+        </div>
+        {% if messages %}
+        <ul class="messages mt-3">
+            {% for message in messages %}
+            <div class="container-fluid p-0">
+                <div class="alert {{ message.tags }} alert-dismissible" role="alert" >
+                    <i class="fa-solid fa-circle-info"></i> Thank you <b>{{ user }}</b>. {{ message }}
+                </div>
+            </div>
+            {% endfor %}
+            {% if form.non_field_errors %}
+            {% for error in form.non_field_errors %}
+            <div class="container-fluid p-0">
+              <div class="text-danger" role="alert" >
+                <i class="fa-solid fa-triangle-exclamation"></i>  {{ error }}
+              </div>
+            </div>
+            {% endfor %}
+            <hr> 
+            {% endif %}
+        </ul>
+        {% endif %}
+        <div class="pt-4">
+          <form action="" method="post">
+            {% csrf_token %}
+          <div class="row">
+            <div class="col-md-3 mb-2">
+              {{ form.name|as_crispy_field }}
+            </div>
+            <div class="col-md-3 mb-2">
+              {{ form.world_region|as_crispy_field }}
+            </div>
+            <div class="col-md-3 mb-2">
+              {{ form.subregion|as_crispy_field }}
+            </div>
+            <div class="col-md-3 mb-2">
+                  {{ form.fao_country|as_crispy_field }}
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-3 mb-2 py-2 d-grid mx-auto">
+              <button type="submit" class="btn btn-outline-success my-auto btn-block btn-lg">Submit for Review*</button>
+          </div>
+          </div>
+        </div>
+       </form>
+    </div>
+   
+</div>
+
+{% endblock content%}
