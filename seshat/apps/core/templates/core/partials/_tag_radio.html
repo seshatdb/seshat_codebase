@@ -1,0 +1,13 @@
+<div class="col-md-2 mb-2">
+    <fieldset>
+        <legend class="h6">{{form.tag.label}}</legend>
+        {% for radio in form.tag %}
+        <div class="form-check">
+            <label for="{{ radio.id_for_label }}">
+                <span class="radio">{{ radio.tag }}</span>
+                {{ radio.choice_label }}
+            </label>
+        </div>
+        {% endfor %}
+    </fieldset>
+  </div>

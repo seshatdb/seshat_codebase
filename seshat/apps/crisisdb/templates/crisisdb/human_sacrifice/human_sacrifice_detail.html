@@ -5,31 +5,27 @@
 {% block addmore %}
 <a href="{% url 'human_sacrifice-create' %}" class="btn btn-outline-success mx-3 my-4 float-end"> &#128934; &nbsp; Add Another Fact &nbsp; <i class="fa fa-plus"></i>
 </a>
-<a href="{% url 'human_sacrifices' %}" class="btn btn-outline-primary ms-auto my-4 float-end">&#8983; See All Such Facts
+<a href="{% url 'human_sacrifices_all' %}" class="btn btn-outline-primary ms-auto my-4 float-end">&#8983; See All Such Facts
 </a>
 {% endblock addmore %}
 
 {% block myheadings %}
-<th class = "fw-normal" style="text-align: center;" scope="col">Human Sacrifice
-<sup>
-<span type="button" data-bs-toggle="popover" data-bs-html="true" data-bs-content="NO DESCRIPTION">&nbsp;<i class="fas fa-question-circle"></i></span>
-</sup>
-</th>
+<th class = "fw-normal" style="text-align: center;" scope="col">Human Sacrifice</th>
 {% endblock myheadings %}
 
 {% block extracols %}
 
-<td class = "{% if obj.tag == 'DSP' %}
+<td class = "{% if object.tag == 'DSP' %}
 text-danger
-{% elif obj.tag == 'SSP' %}
+{% elif object.tag == 'SSP' %}
 text-warning
-{% elif obj.tag == 'UNK' %}
+{% elif object.tag == 'UNK' %}
 text-secondary
-{% elif obj.tag == 'IFR' %}
+{% elif object.tag == 'IFR' %}
 text-primary
 {% else %}
 text-success
-{% endif %} fw-normal" style="text-align: center;">{{ object.human_sacrifice }}
+{% endif %} fw-normal" style="text-align: center;">{{ object.get_human_sacrifice_display }}
 </td>
 {% endblock extracols %}
         

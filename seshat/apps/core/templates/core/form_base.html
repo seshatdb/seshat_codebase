@@ -25,8 +25,30 @@
      
             <hr>
         </legend>
+        {% if messages %}
+        <ul class="messages mt-3">
+            {% for message in messages %}
+            <div class="container-fluid p-0">
+                <div class="alert {{ message.tags }} alert-dismissible" role="alert" >
+                    <i class="fa-solid fa-circle-info"></i> Thank you <b>{{ user }}</b>. {{ message }}
+                </div>
+            </div>
+            {% endfor %}
+            {% if form.non_field_errors %}
+            {% for error in form.non_field_errors %}
+            <div class="container-fluid p-0">
+              <div class="text-danger" role="alert" >
+                <i class="fa-solid fa-triangle-exclamation"></i>  {{ error }}
+              </div>
+            </div>
+            {% endfor %}
+            <hr> 
+            {% endif %}
+        </ul>
+        <hr>
+        {% endif %}
         <div class="row">
-          <div class="col-md-2 mb-2">
+          <div class="col-md-3 mb-2">
             {{ form.polity|as_crispy_field }}
           </div>
           <div class="col-md-2 mb-2">
@@ -39,21 +61,31 @@
           {% block extra_vars %}
           {% endblock extra_vars %}
           <div class="col-md-2 mb-2">
-                {{ form.tag|as_crispy_field }}
+            <fieldset>
+                <legend class="h6">{{form.tag.label}}</legend>
+                {% for radio in form.tag %}
+                <div class="form-check">
+                    <label for="{{ radio.id_for_label }}">
+                        <span class="radio">{{ radio.tag }}</span>
+                        {{ radio.choice_label }}
+                    </label>
+                </div>
+                {% endfor %}
+            </fieldset>
           </div>
-        </div>
-                <!-- Here come the extra vars in the second row -->
-        <div class="row">
-            {% block extra_vars2 %}
-            {% endblock extra_vars2 %}
+            <div class="col-md-4 mb-2">
+                {{ form.is_disputed|as_crispy_field }}
+                {{ form.expert_reviewed|as_crispy_field }}
+                {{ form.drb_reviewed|as_crispy_field }}
+            </div>
         </div>
         <div class="row">
             {% if request.user.is_staff %}
             <div class="col-md-4 py-3 ps-4">
                 <div class="mb-2">
-                    <i class="fas fa-user-check"></i> You are a Seshat Expert; you can finalize a fact.
+                    <i class="fas fa-user-check"></i> You are a Seshat Expert; you can enter a fact.
                 </div> 
-                <div  class="mb-2">
+                <div  class="mb-2" style="display: none;">
                     {{ form.finalized|as_crispy_field }}
                 </div>               
             </div>

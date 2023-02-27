@@ -15,19 +15,17 @@ import uuid
 from django.utils import translation
 
 from ..core.models import SeshatCommon, Certainty, Tags, Section, Subsection
+from seshat.apps.accounts.models import Seshat_Expert
 
 ########## End of Model Imports
 
 ########## Beginning of tuple choices for CrisisDB Models
 HUMAN_SACRIFICE_HUMAN_SACRIFICE_CHOICES = (
 ('U', 'Unknown'),
-('A;P', 'Scholarly Disagreement'),
-('P*', 'Present'),
-('P', 'Inferred Present'),
-('A~P', 'Transitional Period (from Absent to Present)'),
+('P', 'Present'),
+('A~P', 'Transitional (Absent -> Present)'),
 ('A', 'Absent'),
-('A*', 'Inferred Absent'),
-('P~A', 'Transitional Period (from Present to Absent)'),
+('P~A', 'Transitional (Present -> Absent)'),
 )
 
 SUB_CATEGORY_DISEASE_OUTBREAK_CHOICES = (
@@ -113,10 +111,13 @@ class Human_sacrifice(SeshatCommon):
     name = models.CharField(max_length=100, default="Human_sacrifice")
     human_sacrifice = models.CharField(max_length=500, choices=HUMAN_SACRIFICE_HUMAN_SACRIFICE_CHOICES)
 
+
+
     class Meta:
         # unique_together = ('polity', 'year_from', 'year_to', 'tag', 'human_sacrifice')
         verbose_name = 'Human_sacrifice'
         verbose_name_plural = 'Human_sacrifices'
+        ordering = ['year_from', 'year_to']
 
     @property
     def display_citations(self):
@@ -124,6 +125,12 @@ class Human_sacrifice(SeshatCommon):
 
     def clean(self):
         clean_times(self)
+
+    def clean_name(self):
+        return "human_sacrifice"
+    
+    def show_value(self):
+        return self.get_human_sacrifice_display()
 
     def get_absolute_url(self):
         return reverse('human_sacrifice-detail', args=[str(self.id)])

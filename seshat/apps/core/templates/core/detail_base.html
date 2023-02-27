@@ -6,26 +6,36 @@
 <div class="container">
   <div class="row">
     <div class="col-md-6">
-      <h1 class="my-4">Well done. </h1>
+      <h1 class="my-4">{{object.name}}  </h1>
     </div>
     <div class="col-md-6"> 
         {% block addmore %}
         {% endblock addmore %}
     </div>
   </div>
-  <div class="row">
-    <div class="col-md-12">
-      <div class="alert alert-success" role="alert">
-        <i class="fas fa-check"></i> You successfully suggested to add the following information to Seshat Database:
+  {% if messages %}
+  <ul class="messages mt-3">
+      {% for message in messages %}
+      <div class="container-fluid p-0">
+          <div class="alert {{ message.tags }} alert-dismissible" role="alert" >
+              <i class="fa-solid fa-circle-info"></i> Thank you <b>{{ user }}</b>. {{ message }}
+          </div>
       </div>
-    </div>  
-  </div>
-  <div class="row">
-    <div class="col-md-12 mb-4">
-      <h6><span class="text-secondary">Section</span>: <mark>{{object.section}}</mark> &nbsp; / &nbsp; <span class="text-secondary">Subsection</span>: <mark>{{object.subsection}} </mark></h6>
-    </div>  
-  </div>
-  <table class="table align-middle table-striped">
+      {% endfor %}
+      {% if form.non_field_errors %}
+      {% for error in form.non_field_errors %}
+      <div class="container-fluid p-0">
+        <div class="text-danger" role="alert" >
+          <i class="fa-solid fa-triangle-exclamation"></i>  {{ error }}
+        </div>
+      </div>
+      {% endfor %}
+      <hr> 
+      {% endif %}
+  </ul>
+  <hr>
+  {% endif %}
+  <table class="table align-middle table-striped table-bordered">
     <thead>        
       <tr>
         <!-- headings for the newly added row come here -->
@@ -36,9 +46,12 @@
         <!-- extra headings -->
         {% block myheadings %}
         {% endblock myheadings %}
+        <th scope="col" style="text-align: center" class="fw-light">Confidence</th>
+        <th class = "fw-normal" style="text-align: center;" scope="col">Disputed?</th>
+        <th class = "fw-normal" style="text-align: center;" scope="col">Expert Reviewed?</th>
+        <th class = "fw-normal" style="text-align: center;" scope="col">DRB?</th>
         <th scope="col" style="text-align: center">References</th>
-        <th scope="col" style="text-align: center">Certainty</th>
-        <th scope="col" style="text-align: center">Verified</th>
+        <th scope="col" style="text-align: center">Update</th>
 
       </tr>
     </thead>
@@ -46,44 +59,60 @@
           <tr>
             <div>
               <th class="text-secondary" scope="row">1</th>
-              <td style="text-align: center;">{{ object.polity.name }}</td>
+              <td style="text-align: center;">
+                {% if object.polity.long_name %}
+                <h6 class="fw-bold">
+                    <a href="{% url 'polity-detail-main' object.polity.id %}">{{ object.polity.long_name }}</a>
+                </h6>
+                {% else %}
+                <h6 class="fw-bold">
+                    <a href="{% url 'polity-detail-main' object.polity.id %}">{{ object.polity.name }}</a>
+                </h6>
+                {% endif %}
+              
+              </td>
               <td style="text-align: center;">{{ object.year_from }}</td>
               <td style="text-align: center;">{{ object.year_to }}</td>
               <!-- columns for extra vars come here -->
               {% block extracols %}
               {% endblock extracols %}
-
-              <td> {% autoescape off %}{{ object.display_citations }}{% endautoescape %}</td>
-              
-              <!-- Tag tag (Disputed/Suspected etc.) -->
-              {% if object.tag == "DSP" %}
-                  <td style="text-align: center;"><span class="badge rounded-pill bg-danger">{{object.get_tag_display }}</span></td>
-              {% elif object.tag == "SSP" %}
-                  <td style="text-align: center;"> <span class="badge rounded-pill bg-warning text-dark">{{object.get_tag_display }}</span></td>
-              {% elif object.tag == "UNK" %}
-                  <td style="text-align: center;"><span class="badge rounded-pill bg-secondary">{{object.get_tag_display }}</span></td>
-              {% elif object.tag == "IFR" %}
-                  <td style="text-align: center;"><span class="badge rounded-pill bg-primary">{{object.get_tag_display }}</span></td>
+              <td style="text-align: center;">
+                {{ object.get_tag_display }}
+            </td>
+            <td style="text-align: center;">
+              {% if object.is_disputed %}
+              <b class="text-danger">Yes</b>
               {% else  %}
-                  <td style="text-align: center;"><span class="badge rounded-pill bg-success">{{object.get_tag_display }}</span></td>
+              <b class="text-success">No</b>
               {% endif %}
-          
-              {% if object.finalized %}
-                  <td class="tetx-success" style="text-align: center;"><i class="fas fa-check"></i></td>
-              {% else %}
-                  <td class="text-danger" style="text-align: center;"><i class="fas fa-times-circle"></i></td>
+          </td>
+          <td style="text-align: center;">
+              {% if object.expert_reviewed %}
+              <i class="fa-solid fa-circle-check text-success"></i>
+              {% else  %}
+              <i class="fa-regular fa-circle-xmark text-danger"></i>
               {% endif %}
+          </td>
+          <td style="text-align: center;">
+              {% if object.drb_reviewed %}
+              <i class="fa-solid fa-circle-check text-success"></i>
+              {% else  %}
+              <i class="fa-regular fa-circle-xmark text-danger"></i>
+              {% endif %}
+          </td>
+              <td> {% autoescape off %}{{ object.display_citations }}{% endautoescape %}</td>
+              <td style="text-align: center;">
+                {% with object.clean_name|add:"-update" as meat %}
+                <div class="py-1">
+                  <a href="{% url meat object.id %}"><button class="btn btn-warning btn-sm btn-block">Update</button></a>
+                </div>
+                {% endwith %}
 
+              </td>
         </div>
         </tr>
     </tbody>
   </table>
-
-  <h1 class="display-6 mt-5 mb-3">Fact Under Review:</h1>
-
-  <div class="alert alert-warning" role="alert">
-    <i class="fas fa-user-check"></i> A Seshat Expert will confirm it soon. Please wait.
-  </div>
 
 </div>
   {% endblock %}

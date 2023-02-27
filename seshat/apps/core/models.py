@@ -56,11 +56,9 @@ from django.core.validators import URLValidator
 
 
 Tags = (
-    ('TRS', 'Referenced'),
-    ('DSP', 'Disputed'),
+    ('TRS', 'Evidenced'),
     ('SSP', 'Suspected'),
     ('IFR', 'Inferred'),
-    ('UNK', 'Unknown'),
 )
 
 APS = 'A;P*'
@@ -149,6 +147,7 @@ class Polity(models.Model):
 
     class Meta:
         unique_together = ("name",)
+        ordering = ['long_name']
 
 class Capital(models.Model):
     name = models.CharField(max_length=100)
@@ -285,19 +284,13 @@ class Variablehierarchy(models.Model):
 
 class Reference(models.Model):
     """Model Representing a Reference"""
-    title = models.CharField(
-        max_length=500,)
-    year = models.IntegerField(
-        blank=True, null=True, )
-    creator = models.CharField(
-        max_length=500, )
-    zotero_link = models.CharField(
-        max_length=500, blank=True, null=True)
-    long_name = models.CharField(
-        max_length=500, blank=True, null=True)
+    title = models.CharField(max_length=500,)
+    year = models.IntegerField(blank=True, null=True, )
+    creator = models.CharField(max_length=500, )
+    zotero_link = models.CharField(max_length=500, blank=True, null=True)
+    long_name = models.CharField(max_length=500, blank=True, null=True)
     url_link = models.TextField(max_length=500, validators=[URLValidator()], blank=True, null=True)
-    created_date = models.DateTimeField(
-        auto_now_add=True, blank=True, null=True)
+    created_date = models.DateTimeField(auto_now_add=True, blank=True, null=True)
     modified_date = models.DateTimeField(auto_now=True, blank=True, null=True)
 
     def __str__(self) -> str:
@@ -321,7 +314,7 @@ class Reference(models.Model):
         else:
             shorter_name = "BlaBla"
 
-        if "NOZOTERO_LINK" in self.zotero_link:
+        if self.zotero_link and "NOZOTERO_LINK" in self.zotero_link:
             return f'(NOZOTERO_REF: {shorter_name})'
         elif self.title:
             return self.title
@@ -333,8 +326,8 @@ class Reference(models.Model):
 
     class Meta:
        #ordering = ['-year']
-       unique_together = ("title", "zotero_link")
-       ordering = ['-modified_date']
+       unique_together = ("zotero_link",)
+       ordering = ['-created_date', 'title']
 
 
 
@@ -414,7 +407,7 @@ class Citation(models.Model):
     
     class Meta:
        #ordering = ['-year']
-       ordering = ['-modified_date']
+       ordering = ['-created_date']
        constraints = [
         models.UniqueConstraint(
             name="No_PAGE_TO_AND_FROM",
@@ -538,7 +531,7 @@ class SeshatCommentPart(models.Model):
         return reverse('seshatcomment-update',  args=[str(self.comment.id)])
 
     class Meta:
-        ordering = ['comment_order']
+        ordering = ['comment_order', "modified_date"]
 
 class SeshatCommon(models.Model):
     polity = models.ForeignKey(Polity, on_delete=models.SET_NULL, related_name="%(app_label)s_%(class)s_related",
@@ -560,6 +553,10 @@ class SeshatCommon(models.Model):
         auto_now_add=True, blank=True, null=True)
     modified_date = models.DateTimeField(auto_now=True, blank=True, null=True)
     tag = models.CharField(max_length=5, choices=Tags, default="TRS")
+    is_disputed = models.BooleanField(default=False, blank=True, null=True)
+    is_uncertain = models.BooleanField(default=False, blank=True, null=True)
+    expert_reviewed = models.BooleanField(null=True, blank=True, default=True)
+    drb_reviewed = models.BooleanField(null=True, blank=True, default=False)
     curator = models.ManyToManyField(Seshat_Expert,  related_name="%(app_label)s_%(class)s_related",
                                related_query_name="%(app_label)s_%(class)ss", blank=True,)
     comment = models.ForeignKey(SeshatComment, on_delete=models.DO_NOTHING, related_name="%(app_label)s_%(class)s_related", related_query_name="%(app_label)s_%(class)s", null=True, blank=True)

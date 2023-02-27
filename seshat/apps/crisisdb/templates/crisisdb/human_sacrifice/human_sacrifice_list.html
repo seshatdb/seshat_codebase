@@ -5,7 +5,8 @@
 
 {% block download_button %}
     <a href="{% url 'human_sacrifice-create' %}" class="btn btn-outline-success mx-3 my-4 float-end"><i class="fas fa-plus"></i> &nbsp; Add More Facts</a>
-    <a href="{% url 'human_sacrifice-download' %}" class="btn btn-outline-primary ms-auto my-4 float-end"><i class="fas fa-download"></i> &nbsp; Download All</a>
+    <a href="{% url 'human_sacrifice-download' %}" class="btn btn-outline-primary mx-3 my-4 float-end"><i class="fas fa-download"></i> &nbsp; Download All</a>
+    <a href="{% url 'human_sacrifices_all' %}" class="btn btn-warning mx-3 my-4 float-end"><i class="fa-solid fa-table-list"></i> &nbsp; See One-Page Mode</a>
 {% endblock download_button %}
 
 {% block metadownload_button %}
@@ -22,7 +23,7 @@
 <span type="button" data-bs-toggle="popover" data-bs-html="true" data-bs-content="NO DESCRIPTION">&nbsp;<i class="fas fa-question-circle"></i></span>
 </sup>
 </th>
-
+<th class = "fw-normal" style="text-align: center;">Disputed?</th>
 <th class = "fw-normal" style="text-align: center;" scope="col">Description
     <sup>
     <span type="button" data-bs-toggle="popover" data-bs-html="true" data-bs-content="NO DESCRIPTION">&nbsp;<i class="fas fa-question-circle"></i></span>
@@ -54,9 +55,22 @@ text-success
     {% else  %}
     <span class="badge rounded-pill bg-success">{{ obj.get_tag_display }}</span>
     {% endif %}</small></p>
+</td>
+<td class="col-md-1" style="text-align: center;">
+    {% if obj.is_disputed %}
+    <b class="text-danger">Yes</b>
+    {% else  %}
+    <b class="text-success">No</b>
+    {% endif %}
+</td>
 
 {% autoescape off %}
-<td class="col-md-6"><small> {{ obj.comment }} </small></td>
+{% if obj.comment %}
+<td class="col-md-4"><small> {{ obj.comment }} </small></td>
+{% else  %}
+<td class="col-md-4"><small> Empty Comment. </small></td>
+{% endif %}
+
 {% endautoescape %}
 
 {% endblock extra_vars_list %}
@@ -67,9 +81,16 @@ text-success
         <div class="py-1">
             <a href="{% url 'human_sacrifice-update' obj.id %}"><button class="btn btn-warning btn-sm btn-block">Fact</button></a>
         </div>
+        {% if obj.comment.id == 1 %}
         <div class="py-1">
-            <a href="{% url 'seshatcomment-update' obj.comment.id %}"><button class="btn btn-danger btn-sm">Desc</button></a>
+            <a href="{% url 'create_subcomment' obj.id %}"><button class="btn btn-danger btn-sm">Create</button></a>
         </div>
+        {% else  %}
+        <div class="py-1">
+            <a href="{% url 'seshatcomment-update' obj.comment.id %}"><button class="btn btn-success btn-sm">Desc</button></a>
+        </div>
+        {% endif %}
+
     </td>
 {% endblock update_button %}
         

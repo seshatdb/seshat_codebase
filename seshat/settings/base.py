@@ -64,6 +64,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     "seshat.apps.core",
     "seshat.apps.general",
+    "seshat.apps.sc",
     "seshat.apps.crisisdb",
     "seshat.apps.seshat_api",
     "django_filters",

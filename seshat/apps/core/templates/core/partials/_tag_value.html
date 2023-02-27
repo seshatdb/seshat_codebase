@@ -1,0 +1,18 @@
+<!-- Tag tag (Disputed/Suspected etc.) -->
+{% if value.tag == "DSP" %}
+    <td style="text-align: center;"><span class="badge rounded-pill bg-danger">{{ value.get_tag_display }}</span>
+{% elif  value.tag == "SSP" %}
+    <td style="text-align: center;"> <span class="badge rounded-pill bg-warning text-dark">{{ value.get_tag_display }}</span>
+{% elif  value.tag == "UNK" %}
+    <td style="text-align: center;"><span class="badge rounded-pill bg-secondary">{{ value.get_tag_display }}</span>
+{% elif  value.tag == "IFR" %}
+    <td style="text-align: center;"><span class="badge rounded-pill bg-primary">{{ value.get_tag_display }}</span>
+{% else  %}
+    <td style="text-align: center;"><span class="badge rounded-pill bg-success">{{ value.get_tag_display }}</span>
+{% endif %}
+{% if value.display_citations %}
+<sup>
+    <span type="button"  tabindex="0" data-bs-toggle="popover" title="Refs:" data-bs-html="true" data-bs-trigger="focus" data-bs-content="{{ value.display_citations }}">&nbsp;<i class="fa-solid fa-bookmark"></i></span>
+</sup>
+{% endif %}
+</td>

@@ -1,0 +1,27 @@
+<td style="text-align: center;">
+    {% if obj.tag == "DSP" %}
+            <span class="badge rounded-pill bg-danger">{{ object.get_tag_display }}</span>
+    {% elif  object.tag == "SSP" %}
+            <span class="badge rounded-pill bg-warning text-dark">{{ object.get_tag_display }}</span>
+    {% elif  object.tag == "UNK" %}
+            <span class="badge rounded-pill bg-secondary">{{ object.get_tag_display }}</span>
+    {% elif  object.tag == "IFR" %}
+            <span class="badge rounded-pill bg-primary">{{ object.get_tag_display }}</span>
+    {% else  %}
+            <span class="badge rounded-pill bg-success">{{ object.get_tag_display }}</span>
+    {% endif %}
+</td>
+<td style="text-align: center;">
+    {% if object.is_disputed %}
+    <b class="text-danger">Yes</b>
+    {% else  %}
+    <b class="text-success">No</b>
+    {% endif %}
+</td>
+<td style="text-align: center;">
+    {% if object.expert_reviewed %}
+    <i class="fa-solid fa-check text-success"></i>
+    {% else  %}
+    <i class="fa-solid fa-xmark text-danger"></i>
+    {% endif %}
+</td>

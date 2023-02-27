@@ -52,7 +52,10 @@ class Seshat_Expert(models.Model):
         choices=ROLE_CHOICES, null=True, blank=True)
 
     def __str__(self):  # __unicode__ for Python 2
-        return self.user.username + " (" + self.role + ")"
+        if self.user.first_name and self.user.last_name:
+            return self.user.first_name + " " + self.user.last_name
+        else:
+            return self.user.username + " (" + self.role + ")"
 
 class Seshat_Task(models.Model):
     giver = models.ForeignKey(Seshat_Expert, on_delete=models.CASCADE)

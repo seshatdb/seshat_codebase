@@ -1,0 +1,29 @@
+{% load humanize %}
+{% load mathfilters %}
+
+{% if object.year_from == None %}
+<td style="text-align: center;"> Year Range of <i class="text-secondary">{{ object.polity.long_name }}</i> is assumed. <br>
+    <span class="fw-bold text-secondary">[{{ object.polity.start_year}}, {{ object.polity.end_year}}]</span></td>
+{% elif object.year_from == object.year_to %}
+    {% if object.year_from < 0 %}
+    <td style="text-align: center;">{{ object.year_from|abs|intcomma }} <span class="text-secondary">BCE</span> </td>
+    {% else %}
+    <td style="text-align: center;">{{ object.year_from }} <span class="text-secondary">CE</span></td>
+    {% endif %}
+{% elif object.year_to == None %}
+    {% if object.year_from < 0 %}
+    <td style="text-align: center;">{{ object.year_from|abs }} <span class="text-secondary">BCE</span></td>
+    {% else %}
+    <td style="text-align: center;">{{ object.year_from }} <span class="text-secondary">CE</span></td>
+    {% endif %}
+{% elif object.year_to == None and object.year_from == None %}
+<td style="text-align: center;"> <i class="fa-solid fa-minus"></i> </td>
+{% else %}
+    {% if object.year_from < 0 and object.year_to < 0 %}
+    <td style="text-align: center;">{{ object.year_from|abs }} <span class="text-secondary">BCE</span> <i class="fas fa-long-arrow-alt-right"></i> {{ object.year_to|abs }} <span class="text-secondary">BCE</span></td>
+    {% elif object.year_from < 0 and object.year_to >= 0 %}
+    <td style="text-align: center;">{{ object.year_from|abs }} <span class="text-secondary">BCE</span> <i class="fas fa-long-arrow-alt-right"></i> {{ object.year_to }} <span class="text-secondary">CE</span></td>
+    {% else %}
+    <td style="text-align: center;">{{ object.year_from }} <span class="text-secondary">CE</span> <i class="fas fa-long-arrow-alt-right"></i> {{ object.year_to }} <span class="text-secondary">CE</span></td>
+    {% endif %}
+{% endif %}

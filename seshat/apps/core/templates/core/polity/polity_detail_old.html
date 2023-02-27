@@ -330,4 +330,211 @@
     </div>
 </div>
 
+
+
+
+
+<h5> 
+    <span class="text-secondary"><i class="fa-solid fa-people-group"></i> Research Assistant(s):                        
+</span> 
+{% for ra in object.general_polity_research_assistant_related.all %}
+{% if forloop.counter0 > 0 %}
+,&nbsp;
+{% endif %}
+<span>{{ ra.polity_ra }}</span>
+{% endfor %} <a class="h6" href="">(see more)</a>
+</h5>
+<h5> <span class="text-secondary"><i class="fa-solid fa-people-group"></i> Seshat Expert(s):                        
+</span> 
+{% for ra in object.general_polity_expert_related.all %}
+{% if forloop.counter0 > 0 %}
+,&nbsp;
+{% endif %}
+<span>{{ ra.expert }}</span>
+{% endfor %} <a class="h6" href="">(see more)</a>
+</h5>
+{% if object.general_polity_editor_related.all %}
+<h5> <span class="text-secondary"><i class="fa-solid fa-people-group"></i> Seshat Editor(s):                        
+</span> 
+{% for ra in object.general_polity_editor_related.all %}
+{% if forloop.counter0 > 0 %}
+,&nbsp;
+{% endif %}
+<span>{{ ra.editor }}</span>
+{% endfor %} <a class="h6" href="">(see more)</a>
+</h5>
+{% endif %}
+
+<h5> <span class="text-secondary"><i class="fa-solid fa-file-signature"></i> Polity Original Name(s):</span>
+    {% for original_name_name in object.general_polity_original_name_related.all %}
+    {% if forloop.counter0 > 0 %}
+    ,&nbsp;
+    {% endif %}
+    <span>{{ original_name_name.original_name }}</span>
+
+    {% endfor %} <a class="h6" href="">(see more)</a>
+</h5>
+<h5> <span class="text-secondary"><i class="fa-solid fa-signature"></i> Alternative Name(s):</span>
+    {% for alternative_name_name in object.general_polity_alternative_name_related.all %}
+    {% if forloop.counter0 > 0 %}
+    ,&nbsp;
+    {% endif %}
+    <span>{{ alternative_name_name.alternative_name }}</span>
+    {% endfor %} <a class="h6" href="">(see more)</a>
+</h5>
+<h5> <span class="text-secondary"><i class="fa-solid fa-map-location-dot"></i> UTM Zone:                        
+</span> 
+{% for utmzone in object.general_polity_utm_zone_related.all %}
+<span>{{ utmzone.utm_zone }}</span>
+{% endfor %} <a class="h6" href="">(see more)</a>
+</h5>
+<h5> <span class="text-secondary"><i class="fa-solid fa-heart-pulse"></i> Duration:                        
+</span> 
+    {% include "core/partials/_year_block_object.html" %}
+</h5>
+<h5> <span class="text-secondary"><i class="fa-solid fa-dove"></i> Peak Year(s):</span>
+    {% for object in object.general_polity_peak_years_related.all %}
+    {% include "core/partials/_year_block_object_peak_years.html" %}
+    {% endfor %} <a class="h6" href="">(see more)</a>
+</h5>
+<h5> <span class="text-secondary"><i class="fa-solid fa-arrows-to-circle"></i> Degree of Centralization:</span>
+    {% for degree_of_centralization_name in object.general_polity_degree_of_centralization_related.all %}
+    {% if forloop.counter0 > 0 %}
+    ,&nbsp;
+    {% endif %}
+    <span>{{ degree_of_centralization_name.degree_of_centralization }}</span>
+    {% endfor %} <a class="h6" href="">(see more)</a>
+</h5>
+<h5> <span class="text-secondary"><i class="fa-solid fa-landmark-flag"></i> Capital(s):</span>
+    {% for capital_name in object.general_polity_capital_related.all %}
+    {% if forloop.counter0 > 0 %}
+    ,&nbsp;
+    {% endif %}
+    <span>{{ capital_name.capital }}</span>
+    {% endfor %} <a class="h6" href="">(see more)</a>
+</h5>
+<h5> <span class="text-secondary"><i class="fa-solid fa-language"></i> Language(s):</span>
+    {% for language_name in object.general_polity_language_related.all %}
+    {% if forloop.counter0 > 0 %}
+    ,&nbsp;
+    {% endif %}
+    <span>{{ language_name.language }}</span>
+    {% endfor %} <a class="h6" href="">(see more)</a>
+</h5>
+<h5> <span class="text-secondary"><i class="fa-solid fa-language"></i> Language Genus:</span>
+    {% for language_genus_name in object.general_polity_language_genus_related.all %}
+    {% if forloop.counter0 > 0 %}
+    ,&nbsp;
+    {% endif %}
+    <span>{{ language_genus_name.language_genus }}</span>
+    {% endfor %} <a class="h6" href="">(see more)</a>
+</h5>
+<h5> <span class="text-secondary"><i class="fa-solid fa-language"></i> Linguistic Family:</span>
+    {% for linguistic_family_name in object.general_polity_linguistic_family_related.all %}
+    {% if forloop.counter0 > 0 %}
+    ,&nbsp;
+    {% endif %}
+    <span>{{ linguistic_family_name.linguistic_family }}</span>
+    {% endfor %} <a class="h6" href="">(see more)</a>
+</h5>
+<h5> <span class="text-secondary"><i class="fa-solid fa-cross"></i> Religion(s):</span>
+    {% for religion_name in object.general_polity_religion_related.all %}
+    {% if forloop.counter0 > 0 %}
+    ,&nbsp;
+    {% endif %}
+    <span>{{ religion_name.religion }}</span>
+    {% endfor %} <a class="h6" href="">(see more)</a>
+</h5>
+
+<h5> <span class="text-secondary"><i class="fa-solid fa-cross"></i> Religion Family:</span>
+    {% for religion_family_name in object.general_polity_religion_family_related.all %}
+    {% if forloop.counter0 > 0 %}
+    ,&nbsp;
+    {% endif %}
+    <a href="{% url 'polity_religion_family-detail' religion_family_name.id %}">{{ religion_family_name.religion_family }}</a>
+    {% endfor %} <a class="h6" href="">(see more)</a>
+</h5>
+<h5> <span class="text-secondary"><i class="fa-solid fa-cross"></i> Religion Genus:</span>
+    {% for religion_genus_name in object.general_polity_religion_genus_related.all %}
+    {% if forloop.counter0 > 0 %}
+    ,&nbsp;
+    {% endif %}
+    <a href="{% url 'polity_religion_genus-detail' religion_genus_name.id %}">{{ religion_genus_name.religion_genus }}</a>
+    {% endfor %} <a class="h6" href="">(see more)</a>
+</h5>
+
+<h5> <span class="text-secondary"><i class="fa-solid fa-cross"></i> 
+    Alternate Religion(s):</span>
+    {% for alternate_religion_name in object.general_polity_alternate_religion_related.all %}
+    {% if forloop.counter0 > 0 %}
+    ,&nbsp;
+    {% endif %}
+    <a href="{% url 'polity_alternate_religion-detail' alternate_religion_name.id %}">{{ alternate_religion_name.alternate_religion }}</a>
+    {% endfor %} <a class="h6" href="">(see more)</a>
+</h5>
+<h5> <span class="text-secondary"><i class="fa-solid fa-cross"></i> Alternate Religion Family:</span>
+    {% for alternate_religion_family_name in object.general_polity_alternate_religion_family_related.all %}
+    {% if forloop.counter0 > 0 %}
+    ,&nbsp;
+    {% endif %}
+    <a href="{% url 'polity_alternate_religion_family-detail' alternate_religion_family_name.id %}">{{ alternate_religion_family_name.alternate_religion_family }}</a>
+    {% endfor %} <a class="h6" href="">(see more)</a>
+</h5>
+<h5> <span class="text-secondary"><i class="fa-solid fa-cross"></i> Alternate Religion Genus:</span>
+    {% for alternate_religion_genus_name in object.general_polity_alternate_religion_genus_related.all %}
+    {% if forloop.counter0 > 0 %}
+    ,&nbsp;
+    {% endif %}
+    <a href="{% url 'polity_alternate_religion_genus-detail' alternate_religion_genus_name.id %}">{{ alternate_religion_genus_name.alternate_religion_genus }}</a>
+    {% endfor %} <a class="h6" href="">(see more)</a>
+</h5>
+<h5> <span class="text-secondary"><i class="fa-solid fa-cross"></i> Religious Tradition(s):</span>
+    {% for religious_tradition_name in object.general_polity_religious_tradition_related.all %}
+    {% if forloop.counter0 > 0 %}
+    ,&nbsp;
+    {% endif %}
+    <a href="{% url 'polity_religious_tradition-detail' religious_tradition_name.id %}">{{ religious_tradition_name.religious_tradition }}</a>
+    {% endfor %} <a class="h6" href="">(see more)</a>
+</h5>
+<h5> <span class="text-secondary"><i class="fa-solid fa-circle-nodes"></i> Supracultural Entity:</span>
+    {% for supracultural_entity_name in object.general_polity_supracultural_entity_related.all %}
+    {% if forloop.counter0 > 0 %}
+    ,&nbsp;
+    {% endif %}
+    <span>{{ supracultural_entity_name.supracultural_entity }}</span>
+    {% endfor %} <a class="h6" href="">(see more)</a>
+</h5>
+<h5> <span class="text-secondary"><i class="fa-solid fa-circle-nodes"></i> Scale of Supracultural Interaction:</span>
+    {% for scale_of_supracultural_interaction_name in object.general_polity_scale_of_supracultural_interaction_related.all %}
+    {% if forloop.counter0 > 0 %}
+    ,&nbsp;
+    {% endif %}
+    <span>[{{ scale_of_supracultural_interaction_name.scale_from|intcomma }} <span class="text-secondary">to</span> {{ scale_of_supracultural_interaction_name.scale_to|intcomma }}] km<sup>2</sup></span>
+    {% endfor %} <a class="h6" href="">(see more)</a>
+</h5>
+<h5> <span class="text-secondary"><i class="fa-solid fa-circle-arrow-left"></i> Preceding Entity:</span>
+    {% for preceding_entity_name in object.general_polity_preceding_entity_related.all %}
+    {% if forloop.counter0 > 0 %}
+    ,&nbsp;
+    {% endif %}
+    <a href="{% url 'polity_preceding_entity-detail' preceding_entity_name.id %}">{{ preceding_entity_name.preceding_entity }}</a>
+    {% endfor %} <a class="h6" href="">(see more)</a>
+</h5>
+<h5> <span class="text-secondary"><i class="fa-regular fa-heart"></i> Relationship to Preceding Entity:</span>
+    {% for relationship_to_preceding_entity_name in object.general_polity_relationship_to_preceding_entity_related.all %}
+    {% if forloop.counter0 > 0 %}
+    ,&nbsp;
+    {% endif %}
+    <span>{{ relationship_to_preceding_entity_name.relationship_to_preceding_entity }}</span>
+    {% endfor %} <a class="h6" href="">(see more)</a>
+</h5>
+<h5> <span class="text-secondary"><i class="fa-solid fa-circle-arrow-right"></i> Succeeding Entity:</span>
+    {% for succeeding_entity_name in object.general_polity_succeeding_entity_related.all %}
+    {% if forloop.counter0 > 0 %}
+    ,&nbsp;
+    {% endif %}
+    <a href="{% url 'polity_succeeding_entity-detail' succeeding_entity_name.id %}">{{ succeeding_entity_name.succeeding_entity }}</a>
+    {% endfor %} <a class="h6" href="">(see more)</a>
+</h5>
+
 {% endblock content%}

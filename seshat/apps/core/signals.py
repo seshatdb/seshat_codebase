@@ -1,13 +1,36 @@
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from .models import SeshatCommentPart, SeshatComment
+from django.db.models import F
 
-from .models import Reference, Citation
 
-@receiver(post_save, sender=Reference)
-def create_citation(sender, instance, created, **kwargs):
-    if created:
-        Citation.objects.create(ref=instance)
+@receiver(post_save, sender=SeshatCommentPart)
+def update_subcomment_ordering(sender, instance, **kwargs):
+    if not instance.pk:
+        last_subcomment = instance.comment.inner_comments_related.last()
+        instance.comment_order = last_subcomment.comment_order + 1 if last_subcomment else 0
+        #instance.save()
+        SeshatCommentPart.objects.filter(pk=instance.pk).update(comment_order=instance.comment_order)
+    else:
+        # Re-order all the subcomments if the order of the current subcomment has changed
+        comment_order = instance.comment_order
+        subcomments = instance.comment.inner_comments_related.filter(comment_order__gte=comment_order).exclude(pk=instance.pk).order_by('comment_order')
+        subcomments.update(comment_order=F('comment_order') + 1)
+        # for i, subcomment in enumerate(subcomments):
+        #     print(f"Changed: {subcomment.comment_order}   -----> to {order + i + 1}")
+        #     subcomment.comment_order = order + i + 1
+        #     # remember that any of these save() s triggers a new round of updating!
+        #     subcomment.save()
 
-# @receiver(post_save, sender=Reference)
-# def save_citation(sender, instance, **kwargs):
-#     instance.citation.save()
+
+# @receiver(post_save, sender=SeshatCommentPart)
+# def update_subcomment_ordering(sender, instance, **kwargs):
+#     if not instance.pk:
+#         last_subcomment = instance.comment.subcomments.last()
+#         instance.order = last_subcomment.order + 1 if last_subcomment else 0
+#         SeshatCommentPart.objects.filter(pk=instance.pk).update(order=instance.order)
+#     else:
+#         # Re-order all the subcomments if the order of the current subcomment has changed
+#         order = instance.order
+#         subcomments = instance.comment.subcomments.filter(order__gte=order).exclude(pk=instance.pk)
+#         subcomments.update(order=F('order') + 1)

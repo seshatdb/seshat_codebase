@@ -2,7 +2,7 @@
 from seshat.utils.utils import adder, dic_of_all_vars, list_of_all_Polities, dic_of_all_vars_in_sections, dic_of_all_vars_with_varhier
 from django.db.models.base import Model
 # from django.http.response import HttpResponse
-from django.shortcuts import render, get_object_or_404, HttpResponse
+from django.shortcuts import render, get_object_or_404, HttpResponse, redirect
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.auth.decorators import login_required, permission_required
 from django.utils.safestring import mark_safe
@@ -13,7 +13,8 @@ from django.contrib.contenttypes.models import ContentType
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 from django.http import HttpResponseRedirect, response, JsonResponse
-from ..core.models import Citation, Reference, Polity, Section, Subsection, Country, Variablehierarchy
+from ..core.models import Citation, Reference, Polity, Section, Subsection, Country, Variablehierarchy, SeshatComment, SeshatCommentPart
+from seshat.apps.accounts.models import Seshat_Expert
 
 # from .mycodes import *
 from django.conf import settings
@@ -55,13 +56,13 @@ class Human_sacrificeCreate(PermissionRequiredMixin, CreateView):
                     my_exp = item.explanation
                     my_sec = item.section.name
                     my_subsec = item.subsection.name
-                    my_name = item.name
+                    my_name = "Human Sacrifice"
                     break
                 else:
-                    my_exp = "No_Explanations"
+                    my_exp = "Human Sacrifice is the deliberate and ritualized killing of a person to please or placate supernatural entities (including gods, spirits, and ancestors) or gain other supernatural benefits."
                     my_sec = "No_SECTION"
                     my_subsec = "NO_SUBSECTION"
-                    my_name = "NO_NAME"
+                    my_name = "Human Sacrifice"
             context = super().get_context_data(**kwargs)
             context["mysection"] = my_sec
             context["mysubsection"] = my_subsec
@@ -80,6 +81,11 @@ class Human_sacrificeCreate(PermissionRequiredMixin, CreateView):
             context["myvar"] = "Human Sacrifice"
             context["my_exp"] = my_exp
             return context
+
+    def form_valid(self, form):
+        the_mother_comment = SeshatComment.objects.get(pk=1)
+        form.instance.comment = the_mother_comment
+        return super().form_valid(form)
 
 
 class Human_sacrificeUpdate(PermissionRequiredMixin, UpdateView):
@@ -117,8 +123,38 @@ class Human_sacrificeListView(generic.ListView):
         context["var_section"] = "Religion and Normative Ideology"
         context["var_subsection"] = "Human Sacrifice"
         context["var_null_meaning"] = "The value is not available."
-        context["inner_vars"] = {'human_sacrifice': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The Human Sacrifce', 'units': None, 'choices': ['U', 'A;P', 'P*', 'P', 'A~P', 'A', 'A*', 'P~A']}}
+        context["inner_vars"] = {'human_sacrifice': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The absence or presence of Human Sacrifce.', 'units': None, 'choices': ['- Unknown', '- Present', '- Transitional (Present -> Absent)', '- Absent', '- Transitional (Absent -> Present)']}}
         context["potential_cols"] = []
+
+        return context
+
+
+class Human_sacrificeListViewAll(generic.ListView):
+    model = Human_sacrifice
+    template_name = "crisisdb/human_sacrifice/human_sacrifice_list_all.html"
+    #paginate_by = 10
+
+    def get_absolute_url(self):
+        return reverse('human_sacrifices_all')
+
+    def get_queryset(self):
+        order = self.request.GET.get('orderby', 'year_from')
+        order2 = self.request.GET.get('orderby2', 'year_to')
+        #orders = [order, order2]
+        new_context = Human_sacrifice.objects.all().order_by(order, order2)
+        return new_context
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["myvar"] = "Human Sacrifice"
+        context["var_main_desc"] = "The deliberate and ritualized killing of a person to please or placate supernatural entities (including gods, spirits, and ancestors) or gain other supernatural benefits."
+        context["var_main_desc_source"] = ""
+        context["var_section"] = "Religion and Normative Ideology"
+        context["var_subsection"] = "Human Sacrifice"
+        context["var_null_meaning"] = "The value is not available."
+        context["inner_vars"] = {'human_sacrifice': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The absence or presence of Human Sacrifce.', 'units': None, 'choices': ['- Unknown', '- Present', '- Transitional (Present -> Absent)', '- Absent', '- Transitional (Absent -> Present)']}}
+        context["potential_cols"] = ["choices"]
+        context['orderby'] = self.request.GET.get('orderby', 'year_from')
 
         return context
         
@@ -135,14 +171,46 @@ def human_sacrifice_download(request):
     response['Content-Disposition'] = 'attachment; filename="human_sacrifices.csv"'
 
     writer = csv.writer(response, delimiter='|')
-    writer.writerow(['year_from', 'year_to',
-                     'polity', 'human_sacrifice', ])
+    writer.writerow(['variable_name', 'year_from', 'year_to',
+                     'polity_name', 'polity_new_ID', 'polity_old_ID', 'human_sacrifice_abbr', 'human_sacrifice_long', 'confidence', 'is_disputed', 'expert_checked', 'DRB_reviewed'])
 
     for obj in items:
-        writer.writerow([obj.year_from, obj.year_to,
-                         obj.polity, obj.human_sacrifice, ])
+        writer.writerow([obj.name, obj.year_from, obj.year_to,
+                         obj.polity, obj.polity.new_name, obj.polity.name, obj.human_sacrifice, obj.get_human_sacrifice_display(), obj.get_tag_display(), obj.is_disputed,
+                         obj.expert_reviewed, obj.drb_reviewed,])
 
     return response
+
+@login_required
+def create_a_comment_with_a_subcomment(request, hs_instance_id):
+    """
+    Upon calling this function, I want to create a subcomment and assign it to a comment and then assign the comment to the model_name with id=hs_instance_id.
+    """
+    # Create a new comment instance and save it to the database
+    comment_instance = SeshatComment.objects.create(text='a new_comment_text')
+    user_logged_in = request.user
+    
+    # Get the Seshat_Expert instance associated with the user
+    try:
+        seshat_expert_instance = Seshat_Expert.objects.get(user=user_logged_in)
+    except Seshat_Expert.DoesNotExist:
+        seshat_expert_instance = None
+    #user_at_work = User.
+    # Create the subcomment instance and save it to the database
+    subcomment_instance = SeshatCommentPart.objects.create(comment_part_text='a subcomment text', comment=comment_instance, comment_curator= seshat_expert_instance,comment_order=1)
+    #subcomment = comment_instance.seshatcommentpart.create(comment_part_text=request.POST.get('a subcomment text'))
+
+    # Get the ModelName instance
+    hs_instance = Human_sacrifice.objects.get(id=hs_instance_id)
+
+    # Assign the comment to the ModelName instance
+    hs_instance.comment = comment_instance
+
+    hs_instance.save()
+
+    # return redirect('human_sacrifice-detail', pk=hs_instance_id)
+    return redirect('seshatcomment-update', pk=comment_instance.id)
+
 
 @permission_required('admin.can_add_log_entry')
 def human_sacrifice_meta_download(request):

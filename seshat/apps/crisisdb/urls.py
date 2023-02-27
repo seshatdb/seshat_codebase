@@ -18,6 +18,7 @@ urlpatterns += [
          name="human_sacrifice-create"),
 
     path('human_sacrifices/', views.Human_sacrificeListView.as_view(), name='human_sacrifices'),
+    path('human_sacrifices_all/', views.Human_sacrificeListViewAll.as_view(), name='human_sacrifices_all'),
     path('human_sacrifice/<int:pk>', views.Human_sacrificeDetailView.as_view(),
          name='human_sacrifice-detail'),
     path('human_sacrifice/<int:pk>/update/',
@@ -29,6 +30,8 @@ urlpatterns += [
          name="human_sacrifice-download"),
     path('human_sacrificemetadownload/', views.human_sacrifice_meta_download,
          name="human_sacrifice-metadownload"),
+     path('create_subcomment/<int:hs_instance_id>/', views.create_a_comment_with_a_subcomment, name='create_subcomment'),
+
 ]
         
 

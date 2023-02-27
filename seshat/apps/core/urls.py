@@ -15,6 +15,8 @@ urlpatterns += [
     path('core/references/<int:pk>/delete/', views.ReferenceDelete.as_view(), name="reference-delete"),
         path('core/references/no_zotero_refs_list/', views.no_zotero_refs_list, name='no_zotero_refs_list'),
      path('core/references/<int:pk>/updatemodal/', views.reference_update_modal, name='reference_update_modal'),
+     path('referencesdownload/', views.references_download,
+         name="references_download"),
 
     path('core/polities/create/', views.PolityCreate.as_view(),
          name="polity-create"),
@@ -107,6 +109,7 @@ urlpatterns += [
      #    name="balance-download"),
 ]
 
+urlpatterns += [path('core/discussion_room/', views.discussion_room, name="discussion_room"),]
 
 urlpatterns += [
      path('core/not_found_404', views.four_o_four,

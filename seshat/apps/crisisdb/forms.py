@@ -15,22 +15,28 @@ from django.template.defaulttags import register
 commonlabels = {
     'year_from': 'Start Year',
     'year_to': 'End Year',
-    'tag': 'Certainty',
+    'tag': 'Confidence Level',
+    "is_disputed" : "&nbsp; <b> There is a Dispute? </b>",
+    "expert_reviewed" : "&nbsp; Expert Checked?",
+    "drb_reviewed" : "&nbsp; Data Review Board Reviewed?",
     'citations': 'Add one or more Citations',
     'finalized': 'This piece of data is verified.',
 }
 
 commonfields = ['polity', 'year_from', 'year_to',
-                'description', 'tag', 'finalized', 'citations']
+                'description', 'tag', 'is_disputed', 'expert_reviewed', 'drb_reviewed', 'finalized', 'citations']
 
 commonwidgets = {
     'polity': forms.Select(attrs={'class': 'form-control  mb-3', }),
-    'year_from': forms.NumberInput(attrs={'class': 'form-control  mb-3', 'placeholder':'Ex: 1897, -24, +100'}),
-    'year_to': forms.NumberInput(attrs={'class': 'form-control  mb-3', 'placeholder':'Ex: 1897, -24, +100'}),
+    'year_from': forms.NumberInput(attrs={'class': 'form-control  mb-3',}),
+    'year_to': forms.NumberInput(attrs={'class': 'form-control  mb-3', }),
     'description': Textarea(attrs={'class': 'form-control  mb-3', 'style': 'height: 140px', 'placeholder':'Add a meaningful description (optional)'}),
     'citations': forms.SelectMultiple(attrs={'class': 'form-control mb-3 js-states js-example-basic-multiple', 'text':'citations[]' , 'style': 'height: 340px', 'multiple': 'multiple'}),
-    'tag': forms.Select(attrs={'class': 'form-control  mb-3', }),
-    'finalized': forms.CheckboxInput(attrs={'class': ' mb-3', 'checked': True, }),
+    'tag': forms.RadioSelect(),
+    "is_disputed" : forms.CheckboxInput(attrs={'class': 'mb-3', }),
+    "expert_reviewed" : forms.CheckboxInput(attrs={'class': 'mb-3', }),
+    "drb_reviewed" : forms.CheckboxInput(attrs={'class': 'mb-3', }),
+    'finalized': forms.CheckboxInput(attrs={'class': 'mb-3', 'checked': True, }),
 }
 
 class Human_sacrificeForm(forms.ModelForm):
@@ -38,10 +44,24 @@ class Human_sacrificeForm(forms.ModelForm):
         model = Human_sacrifice
         fields = commonfields.copy()
         fields.append('human_sacrifice')
+        #fields.append('comment')
+        #fields.append('is_disputed')
+        #fields.append('expert_reviewed')
+        #fields.append('drb_reviewed')
+
         labels = commonlabels
+        #labels["comment"] = "&nbsp; <b> com id </b>"
+        #labels["expert_reviewed"] = "&nbsp; Expert Checked?"
+        #labels["drb_reviewed"] = "&nbsp; Data Review Board Reviewed?"
+
         
         widgets = dict(commonwidgets)
-        widgets['human_sacrifice'] = forms.Select(attrs={'class': 'form-control  mb-3', })
+        widgets['human_sacrifice'] = forms.RadioSelect()
+        #widgets['comment'] = forms.HiddenInput()
+
+        #widgets["is_disputed"] = forms.CheckboxInput(attrs={'class': 'mb-3', })
+        #widgets["expert_reviewed"] = forms.CheckboxInput(attrs={'class': 'mb-3', })
+        #widgets["drb_reviewed"] = forms.CheckboxInput(attrs={'class': 'mb-3', })
         
 
 class External_conflictForm(forms.ModelForm):

@@ -220,6 +220,26 @@ def get_all_data_for_a_polity(polity_id, db_name):
     return a_huge_context_data_dic
 
 
+def get_all_general_data_for_a_polity(polity_id):
+    a_huge_context_data_dic = {}
+    for ct in ContentType.objects.all():
+        m = ct.model_class()
+        if m and m.__module__ == "seshat.apps.general.models":
+            my_data = m.objects.filter(polity = polity_id)
+            a_huge_context_data_dic[m.__name__] = my_data
+    return a_huge_context_data_dic
+
+def get_all_sc_data_for_a_polity(polity_id):
+    a_huge_context_data_dic = {}
+    for ct in ContentType.objects.all():
+        m = ct.model_class()
+        if m and m.__module__ == "seshat.apps.sc.models":
+            my_data = m.objects.filter(polity = polity_id)
+            a_huge_context_data_dic[m.__name__] = my_data
+    return a_huge_context_data_dic
+
+
+
 def polity_detail_data_collector(polity_id):
     url = "http://127.0.0.1:8000/api/politys-api/"
     #url = "https://www.majidbenam.com/api/politys/"

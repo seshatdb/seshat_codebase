@@ -32,24 +32,28 @@
                         </div>
                         <div class="col-md-6">
                             {{ form.comment_citations|as_crispy_field }}
+                            <div class="pt-5">
+                                <select name="comment_curator" class="form-control form-select mb-3" id="id_comment_curator">      
+                                    <option value="{{ comment_curator_id }}" selected>{{ comment_curator }}</option>
+                                  </select>
+                            </div>
+                            <div class="pt-5" style="text-align: right">
+                                <a href=""><button class="btn btn-block btn-lg btn-primary">Submit for Update</button></a>
+                                <a href="{% url 'seshatcommentpart-delete' object.pk %}" type="cancel" class="btn btn-outline-danger my-auto btn-block btn-lg">Delete </a>
+                            </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-6">
+                    <div class="row" style="display: none;">
+                        <div class="col-md-6" style="display: none;">
                             {{ form.comment|as_crispy_field }}
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-6" style="display: none;">
                             {{ form.comment_order|as_crispy_field }}
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6" style="text-align: left">
-                            <a href=""><button class="btn btn-block btn-lg btn-danger">Update</button></a>
                         </div>
                     </div>
                 </tr>
         </form>
-    <script>
+    <script defer>
         $(document).ready(function() {
             $('.js-example-basic-multiple').select2({
                 placeholder: "Select or search",

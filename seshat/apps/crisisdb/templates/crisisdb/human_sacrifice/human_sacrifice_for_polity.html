@@ -10,5 +10,9 @@ text-secondary
 text-primary
 {% else %}
 text-success
-{% endif %} fw-normal" style="text-align: center;">{{ value.get_human_sacrifice_display }}
+{% endif %} fw-normal" style="text-align: center;">
+{{ value.get_human_sacrifice_display }}
+</td>
+<td>
+{{ value.is_disputed }}
 </td>

@@ -161,12 +161,13 @@ class SeshatCommentForm(forms.ModelForm):
 class SeshatCommentPartForm(forms.ModelForm):
     class Meta:
         model = SeshatCommentPart
-        fields = ('comment', 'comment_part_text', 'comment_citations', 'comment_order')
+        fields = ('comment', 'comment_part_text', 'comment_citations', 'comment_order', 'comment_curator')
         labels = {
         'comment': '<b>Description ID</b>',
         'comment_part_text': '<b>SubDescription Text</b>',
         'comment_citations': '<b>SubDescription Citations</b>',
         'comment_order': '<b>SubDescription Order in the Description:</b>',
+        'comment_curator': '<b>Curator:</b>',
         }
         widgets = {
             'comment': forms.NumberInput(
@@ -175,6 +176,7 @@ class SeshatCommentPartForm(forms.ModelForm):
                 attrs={'class': 'form-control  mb-3 fw-bold', }),
             'comment_part_text': forms.Textarea(attrs={'class': 'form-control  mb-3', 'style': 'height: 300px',}),
             'comment_citations': forms.SelectMultiple(attrs={'class': 'form-control mb-3 js-states js-example-basic-multiple', 'text':'citations[]' , 'style': 'height: 340px', 'multiple': 'multiple'}),
+            'comment_curator': forms.Select(attrs={'class': 'form-control form-select mb-3',}),
         }
 
 

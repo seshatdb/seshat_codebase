@@ -1,17 +1,31 @@
 {% extends "core/seshat-base.html" %}
 {% load crispy_forms_tags %}
+
 {% load humanize %}
 
 
 {% block content %}
+{% if object.text == "No Descriptions provided." %}
+<div class="container pt-4">
+    <h4>No discriptions for this fact.</h4>
+    <h6 class="pt-3">Add one please:</h6>
+    <a href="#"><button class="btn btn-danger btn-sm">Create</button></a>
+</div>
+{% else %}
 <div class="container table-responsive">
     <form action="" method="post">
             {% csrf_token %}
             <legend>
                 <div class="row d-flex align-items-center">
                     <div class="col-md-9">
-                        <h3 class="lead-2 pt-4">Update Description:</h3>
-                        <h5 class="lead-2 text-secondary">Each Desciption has several subdescriptions:</h5>
+                        <h5 class="lead-2 pt-4">Update Description for:</h5>
+                        <h4 class="pb-4">
+                            {% for hs_inst in object.crisisdb_human_sacrifice_related.all %}
+                            <span class="lead-2 text-success pb-4">{{hs_inst.name}}</span>
+                             in: <span><a href="{% url 'polity-detail-main' hs_inst.polity.id %}">{{hs_inst.polity}}</a></span>
+                            {% endfor %}
+                        </h4>
+                        <h5 class="lead-2 text-secondary">* Each Desciption has several subdescriptions:</h5>
                     </div>
                     {% if messages %}
                     <ul class="messages mt-3">
@@ -39,7 +53,9 @@
               </thead>
               <tbody>
                 {% autoescape off %}
-                  {% for subcom in object.inner_comments_related.all %}
+
+                {% for subcom in object.inner_comments_related.all %}
+
                     <tr>
                         <td class="text-secondary" scope="row">{{ forloop.counter0|add:1}}</td>
                         <td class="col-md-2">
@@ -69,24 +85,21 @@
           </table>
         </form>
 </div>
+{% endif %}
+<script>
+    var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+    var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+      return new bootstrap.Popover(popoverTriggerEl)
+    })
 
-    <script>
-        var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
-        var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
-          return new bootstrap.Popover(popoverTriggerEl)
-        })
+    function DisplayProgressMessage(ctl, msg) {
+        $(ctl).prop("class", "btn btn-success px-4 disabled");
+        $(ctl).text(msg);
+        return true;
+    }
+</script>
 
-        function DisplayProgressMessage(ctl, msg) {
-            $(ctl).prop("class", "btn btn-success px-4 disabled");
-            $(ctl).text(msg);
-            return true;
-        }
-    </script>
   {% endblock %}
-
-
-
-
 
 
         

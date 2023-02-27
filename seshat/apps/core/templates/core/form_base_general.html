@@ -1,0 +1,118 @@
+{% extends "core/seshat-base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<!-- form-row and form-group etc are removed in Bootstrap 5 -->
+<div class="container mt-3">
+    <form action="" method="post">
+        {% csrf_token %}
+        <legend>
+
+            <div class="row d-flex align-items-center">
+                <div class="col-md-12">
+                    <h6 class="lead-2 text-secondary">Enter new data for:</h6>
+                    <h6><span class="display-6">{{ myvar }}</span></h6>
+                    <h6 class="lead-2 text-secondary">{{my_exp}}</h6>
+                </div>
+            </div> 
+     
+            <hr>
+        </legend>
+        {% if messages %}
+        <ul class="messages mt-3">
+            {% for message in messages %}
+            <div class="container-fluid p-0">
+                <div class="alert {{ message.tags }} alert-dismissible" role="alert" >
+                    <i class="fa-solid fa-circle-info"></i> Thank you <b>{{ user }}</b>. {{ message }}
+                </div>
+            </div>
+            {% endfor %}
+            {% if form.non_field_errors %}
+            {% for error in form.non_field_errors %}
+            <div class="container-fluid p-0">
+              <div class="text-danger" role="alert" >
+                <i class="fa-solid fa-triangle-exclamation"></i>  {{ error }}
+              </div>
+            </div>
+            {% endfor %}
+            <hr> 
+            {% endif %}
+        </ul>
+        <hr>
+        {% endif %}
+        <div class="row">
+          <div class="col-md-4 mb-2">
+            {{ form.polity|as_crispy_field }}
+          </div>
+          <div class="col-md-2 mb-2">
+            {{ form.year_from|as_crispy_field }}
+          </div>
+          <div class="col-md-2 mb-2">
+            {{ form.year_to|as_crispy_field }}
+          </div>
+                  <!-- Here come the extra vars -->
+          {% block extra_vars %}
+          {% endblock extra_vars %}
+          <div class="col-md-2 mb-2">
+            <fieldset>
+                <legend class="h6">{{form.tag.label}}</legend>
+                {% for radio in form.tag %}
+                <div class="form-check">
+                    <label for="{{ radio.id_for_label }}">
+                        <span class="radio">{{ radio.tag }}</span>
+                        {{ radio.choice_label }}
+                    </label>
+                </div>
+                {% endfor %}
+            </fieldset>
+          </div>
+            <div class="col-md-2 mb-2">
+                {{ form.is_disputed|as_crispy_field }}
+                {{ form.expert_reviewed|as_crispy_field }}
+            </div>
+        </div>
+        <div class="row">
+            {% if request.user.is_staff %}
+            <div class="col-md-4 py-3 ps-4">
+                <div class="mb-2">
+                    <i class="fas fa-user-check"></i> You are a Seshat Expert; you can enter a fact.
+                </div> 
+                <div  class="mb-2" style="display: none;">
+                    {{ form.finalized|as_crispy_field }}
+                </div>               
+            </div>
+            {% else %}
+            <div class="col-md-4 py-3 ps-4">
+                <input type="checkbox" id="seshatexpert" name="vehicle2" value="Car" onclick="return false">
+                <label for="seshatexpert"> You are not a Seshat Expert.</label>
+            </div>
+            {% endif %}
+            <div class="col-md-4 mb-2 py-2 d-grid mx-auto">
+                {% block delete_button %}
+                {% endblock delete_button %}
+            </div>
+            <div class="col-md-4 mb-2 py-2 d-grid mx-auto">
+                <button type="submit" class="btn btn-outline-success my-auto btn-block btn-lg">Submit for Review*</button>
+            </div>
+
+        </div>
+
+        <!-- {% if form.errors %}
+        {% for field in form %}
+            {% for error in field.errors %}
+                <div class="text-danger"><h3> {{ error }} </h3></div>
+            {% endfor %}
+        {% endfor %}
+        {% endif %} -->
+          </form>
+
+        <div class="col-md-12">
+            <hr>
+            <h6>* Your entered data will soon be checked by a Seshat Expert.</h6>
+        </div>
+
+        {% block delete_option %}
+        {% endblock delete_option %}
+
+</div>
+{% endblock %}

@@ -1,0 +1,26 @@
+{% load humanize %}
+{% load mathfilters %}
+
+{% if  object.start_year == object.end_year %}
+    {% if  object.start_year < 0 %}
+    {{ object.start_year|abs }} <span class="text-secondary">BCE</span> 
+    {% else %}
+    {{ object.start_year }} <span class="text-secondary">CE</span>
+    {% endif %}
+{% elif object.end_year == None %}
+    {% if  object.start_year < 0 %}
+    {{ object.start_year|abs }} <span class="text-secondary">BCE</span>
+    {% else %}
+    {{ object.start_year }} <span class="text-secondary">CE</span>
+    {% endif %}
+{% elif object.end_year == None and  object.start_year == None %}
+    <i class="fa-solid fa-minus"></i> 
+{% else %}
+    {% if  object.start_year < 0 and object.end_year < 0 %}
+    {{ object.start_year|abs }} <span class="text-secondary">BCE</span> <i class="fas fa-long-arrow-alt-right"></i> {{ object.end_year|abs }} <span class="text-secondary">BCE</span>
+    {% elif  object.start_year < 0 and object.end_year >= 0 %}
+    {{ object.start_year|abs }} <span class="text-secondary">BCE</span> <i class="fas fa-long-arrow-alt-right"></i> {{ object.end_year }} <span class="text-secondary">CE</span>
+    {% else %}
+    {{ object.start_year }} <span class="text-secondary">CE</span> <i class="fas fa-long-arrow-alt-right"></i> {{ object.end_year }} <span class="text-secondary">CE</span>
+    {% endif %}
+{% endif %}

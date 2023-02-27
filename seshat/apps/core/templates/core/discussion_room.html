@@ -1,0 +1,634 @@
+{% extends "core/seshat-base.html" %}
+{% load static %}
+{% load humanize %}
+
+{% block content %}
+<div class="container">
+<h1 class="pt-3 "> Discussion Room:</h1>
+<h3 class="pt-1"> This is the room for our more detailed discussions.</h3>
+<h5>Let's jump into the confidence/dispute issue. I have used the examples that Jim sent me and modified them a bit to include some more potential (imaginary) cases.</h5>
+<hr>
+<h2><span class="badge bg-primary">Case 1: Numeric Values</span></h2>
+<!-- Example 1 -->
+<h4><span class="text-primary">Example 1: (Two Numeric values are disputed) </span></h4>
+<div class="row">
+    <div class="table-responsive col-md-6">
+        <h6> What we had so far:</h6>
+
+        <table id="table_id" class="table align-middle table-hover table-striped table-bordered" style="padding: 0.25 rem !important;">
+            <thead>
+            <tr>
+                <th scope="col" style="text-align: left" class="fw-light"> 
+                    Polity </th>
+                <th scope="col" style="text-align: left" class="fw-light">
+                Year(s)
+                </th>
+                <th scope="col" style="text-align: left" class="fw-light">Coded Value</th>
+                <th scope="col" style="text-align: left" class="fw-light">Disputed?</th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="text-secondary">IqAbbs1</td>
+                    <td class="text-secondary">900CE</td>
+                    <td>300000</td>
+                    <td>disputed</td>
+                </tr>   
+                <tr>
+                    <td class="text-secondary">IqAbbs1</td>
+                    <td class="text-secondary">900CE</td>
+                    <td>900000</td>
+                    <td>disputed</td>
+                </tr>   
+                
+            </tbody>
+        </table>
+    </div>
+    <div class="table-responsive col-md-6">
+        <h6> What we can have now:</h6>
+
+        <table id="table_id" class="table align-middle table-hover table-striped table-bordered" style="padding: 0.25 rem !important;">
+            <thead>
+            <tr>
+                <th scope="col" style="text-align: left" class="fw-light"> 
+                    Polity </th>
+                <th scope="col" style="text-align: left" class="fw-light">
+                Year(s)
+                </th>
+                <th scope="col" style="text-align: left" class="fw-light">Coded Value</th>
+                <th scope="col" style="text-align: left" class="fw-bold text-success">Confidence<sup>1</sup></th>
+                <th scope="col" style="text-align: left" class="fw-bold text-danger">Disputed?<sup>2</sup></th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="text-secondary">IqAbbs1</td>
+                    <td class="text-secondary">900CE</td>
+                    <td>300000</td>
+                    <td>Inferred</td>
+                    <td>True</td>
+                </tr>   
+                <tr>
+                    <td class="text-secondary">IqAbbs1</td>
+                    <td class="text-secondary">900CE</td>
+                    <td>900000</td>
+                    <td>Evidenced</td>
+                    <td>True</td>
+                </tr>    
+            </tbody>
+        </table>
+        <h6 class="pt-2 text-success"> 1. The potential values for <u>Confidence</u>  are: (Inferred/Evidenced/Suspected).</h6>
+        <h6 class="text-danger"> 2. The potential values for <u>Disputed</u> are: (True/False).</h6>
+    </div>
+</div>
+<!-- Example 2 -->
+<hr>
+<h4><span class="text-primary">Example 2: (More than two numeric values are disputed) </span></h4>
+<div class="row">
+    <div class="table-responsive col-md-6">
+        <h6> What we had so far:</h6>
+
+        <table id="table_id" class="table align-middle table-hover table-striped table-bordered" style="padding: 0.25 rem !important;">
+            <thead>
+            <tr>
+                <th scope="col" style="text-align: left" class="fw-light"> 
+                    Polity </th>
+                <th scope="col" style="text-align: left" class="fw-light">
+                Year(s)
+                </th>
+                <th scope="col" style="text-align: left" class="fw-light">Coded Value</th>
+                <th scope="col" style="text-align: left" class="fw-light">Disputed?</th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="text-secondary">IrPart1</td>
+                    <td class="text-secondary">1CE</td>
+                    <td>7500000</td>
+                    <td>disputed</td>
+                </tr>   
+                <tr>
+                    <td class="text-secondary">IrPart1</td>
+                    <td class="text-secondary">1CE</td>
+                    <td>15000000</td>
+                    <td>disputed</td>
+                </tr>   
+                <tr>
+                    <td class="text-secondary">IrPart1</td>
+                    <td class="text-secondary">1CE</td>
+                    <td>25000000</td>
+                    <td>disputed</td>
+                </tr>   
+            </tbody>
+        </table>
+    </div>
+    <div class="table-responsive col-md-6">
+        <h6> What we can have now:</h6>
+
+        <table id="table_id" class="table align-middle table-hover table-striped table-bordered" style="padding: 0.25 rem !important;">
+            <thead>
+            <tr>
+                <th scope="col" style="text-align: left" class="fw-light"> 
+                    Polity </th>
+                <th scope="col" style="text-align: left" class="fw-light">
+                Year(s)
+                </th>
+                <th scope="col" style="text-align: left" class="fw-light">Coded Value</th>
+                <th scope="col" style="text-align: left" class="fw-bold text-success">Confidence<sup>1</sup></th>
+                <th scope="col" style="text-align: left" class="fw-bold text-danger">Disputed?<sup>2</sup></th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="text-secondary">IrPart1</td>
+                    <td class="text-secondary">1CE</td>
+                    <td>7500000</td>
+                    <td>Evidenced</td>
+                    <td>True</td>
+                </tr>   
+                <tr>
+                    <td class="text-secondary">IrPart1</td>
+                    <td class="text-secondary">1CE</td>
+                    <td>15000000</td>
+                    <td>Evidenced</td>
+                    <td>True</td>
+                </tr>   
+                <tr>
+                    <td class="text-secondary">IrPart1</td>
+                    <td class="text-secondary">1CE</td>
+                    <td>25000000</td>
+                    <td>Suspected</td>
+                    <td>True</td>
+                </tr>  
+            </tbody>
+        </table>
+        <h6 class="pt-2 text-success"> 1. The potential values for <u>Confidence</u>  are: (Inferred/Evidenced/Suspected).</h6>
+        <h6 class="text-danger"> 2. The potential values for <u>Disputed</u> are: (True/False).</h6>
+    </div>
+</div>
+<!-- Example 3 a -->
+<hr>
+<h4><span class="text-primary">Example 3.a: (Two or more dates* are disputed) </span></h4>
+<h6 class="text-secondary pb-3">* Remember that <u>Dates</u> are simple numeric values (integers) in the new databse. <u>Date ranges</u> will be a set of numeric values. We actually use years instead of dates. So we can have values such as <u>yaer_from</u> or <u>year_to</u> and <u>peak_year_from</u> or <u>peak_year_to</u>, which can represent a year range together.</h6>
+<div class="row">
+    <div class="table-responsive col-md-6">
+        <h6> What we had so far:</h6>
+
+        <table id="table_id" class="table align-middle table-hover table-striped table-bordered" style="padding: 0.25 rem !important;">
+            <thead>
+            <tr>
+                <th scope="col" style="text-align: left" class="fw-light"> 
+                    Polity </th>
+                <th scope="col" style="text-align: left" class="fw-light">Coded Value (Peak Date)</th>
+                <th scope="col" style="text-align: left" class="fw-light">Disputed?</th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="text-secondary">IrSeleu</td>
+                    <td>281 BCE</td>
+                    <td>disputed</td>
+                </tr>   
+                <tr>
+                    <td class="text-secondary">IrSeleu</td>
+                    <td>190 BCE</td>
+                    <td>disputed</td>
+                </tr>   
+                
+            </tbody>
+        </table>
+    </div>
+    <div class="table-responsive col-md-6">
+        <h6> What we can have now:</h6>
+
+        <table id="table_id" class="table align-middle table-hover table-striped table-bordered" style="padding: 0.25 rem !important;">
+            <thead>
+            <tr>
+                <th scope="col" style="text-align: left" class="fw-light"> 
+                    Polity </th>
+                <th scope="col" style="text-align: left" class="fw-light">Coded Value (peak_year)</th>
+                <th scope="col" style="text-align: left" class="fw-bold text-success">Confidence<sup>1</sup></th>
+                <th scope="col" style="text-align: left" class="fw-bold text-danger">Disputed?<sup>2</sup></th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="text-secondary">IrSeleu</td>
+                    <td>-281</td>
+                    <td>Inferred</td>
+                    <td>True</td>
+                </tr>   
+                <tr>
+                    <td class="text-secondary">IrSeleu</td>
+                    <td>-190</td>
+                    <td>Evidenced</td>
+                    <td>True</td>
+                </tr>    
+            </tbody>
+        </table>
+        <h6 class="pt-2 text-success"> 1. The potential values for <u>Confidence</u>  are: (Inferred/Evidenced/Suspected).</h6>
+        <h6 class="text-danger"> 2. The potential values for <u>Disputed</u> are: (True/False).</h6>
+    </div>
+</div>
+
+<!-- Example 3 b -->
+<hr>
+<h4><span class="text-primary">Example 3.b: (Two or more date ranges* are disputed) </span></h4>
+<h6 class="text-secondary pb-3">* Remember that <u>Dates</u> are simple numeric values (integers) in the new databse. <u>Date ranges</u> will be a set of numeric values. We actually use years instead of dates. So we can have values such as <u>yaer_from</u> or <u>year_to</u> and <u>peak_year_from</u> or <u>peak_year_to</u>, which can represent a year range together.</h6>
+<div class="row">
+    <div class="table-responsive col-md-4">
+        <h6> What we had so far:</h6>
+
+        <table id="table_id" class="table align-middle table-hover table-striped table-bordered" style="padding: 0.25 rem !important;">
+            <thead>
+            <tr>
+                <th scope="col" style="text-align: left" class="fw-light"> 
+                    Polity </th>
+                <th scope="col" style="text-align: left" class="fw-light">Coded Value (Peak Date)</th>
+                <th scope="col" style="text-align: left" class="fw-light">Disputed?</th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="text-secondary">IrSeleuB</td>
+                    <td>281-271 BCE</td>
+                    <td>disputed</td>
+                </tr>   
+                <tr>
+                    <td class="text-secondary">IrSeleuB</td>
+                    <td>190-180 BCE</td>
+                    <td>disputed</td>
+                </tr>   
+                
+            </tbody>
+        </table>
+    </div>
+    <div class="table-responsive col-md-8">
+        <h6> What we can have now:</h6>
+
+        <table id="table_id" class="table align-middle table-hover table-striped table-bordered" style="padding: 0.25 rem !important;">
+            <thead>
+            <tr>
+                <th scope="col" style="text-align: left" class="fw-light"> 
+                    Polity </th>
+                <th scope="col" style="text-align: left" class="fw-light">Coded Value (peak_year_from)</th>
+                <th scope="col" style="text-align: left" class="fw-light">Coded Value (peak_year_to)</th>
+                <th scope="col" style="text-align: left" class="fw-bold text-success">Confidence<sup>1</sup></th>
+                <th scope="col" style="text-align: left" class="fw-bold text-danger">Disputed?<sup>2</sup></th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="text-secondary">IrSeleuB</td>
+                    <td>-281</td>
+                    <td>-271</td>
+                    <td>Inferred</td>
+                    <td>True</td>
+                </tr>   
+                <tr>
+                    <td class="text-secondary">IrSeleuB</td>
+                    <td>-190</td>
+                    <td>-180</td>
+                    <td>Evidenced</td>
+                    <td>True</td>
+                </tr>    
+            </tbody>
+        </table>
+        <h6 class="pt-2 text-success"> 1. The potential values for <u>Confidence</u>  are: (Inferred/Evidenced/Suspected).</h6>
+        <h6 class="text-danger"> 2. The potential values for <u>Disputed</u> are: (True/False).</h6>
+    </div>
+    <h5 class="pt-2"><span class="badge bg-warning text-dark">Note 1:</span> <br class="pb-2"></h5> <p>- We can report facts as <u>Disputed</u> as soon as there is the slightest mismatch between two coded sets of values.</p>
+    <h5 class="pt-2"><span class="badge bg-warning text-dark">Note 2:</span> <br class="pb-2"></h5> <p>- In the column that is supposed to be a numeric value, we cannot store anything that is not a number. In particular, the value 'unknown' cannot be put into the database. For such cases, we simply use the concept of a null value, or no value at all (This can be done with <b>None</b> in Python, or <b>null</b> in SQL, etc.) <br>-  When inserting the data manually through the front-end interface, we just need to leave the column for that coded value empty. That's it. <br>- How we then save it in .csv files for further use, depends totally on what we would like to do with the data. For example, if we are using R, we can simply save those values as <b>NULL</b> (as accepted by R) or as a string "unknown value" or "None", or simply anything we prefer. <br class="pt-2">- Therefore, we can have such rows in the SQL database:</p>
+    <br>
+    <div class="row">
+        <div class="table-responsive col-md-12">    
+            <table id="table_id" class="table align-middle table-hover table-striped table-bordered" style="padding: 0.25 rem !important;">
+                <thead>
+                <tr>
+                    <th style="text-align: center"><i class="fa-solid fa-bars"></i></th>
+                    <th scope="col" style="text-align: left" class="fw-light"> 
+                        Polity </th>
+                    <th scope="col" style="text-align: left" class="fw-light"> 
+                            year_from </th>
+                    <th scope="col" style="text-align: left" class="fw-light"> 
+                                year_to </th>
+                    <th scope="col" style="text-align: left" class="fw-light">Coded Value (Population)</th>
+                    <th scope="col" style="text-align: left" class="fw-bold text-success">Confidence</th>
+                    <th scope="col" style="text-align: left" class="fw-bold text-danger">Disputed?</th>
+                </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="text-align: center"><i class="fa-solid fa-square-check text-success"></i></td>
+                            <td class="text-secondary">LbAcPho<sup  class="text-primary fw-bold">1</sup></td>
+                            <td class="text-secondary">-1200</td>
+                            <td class="text-secondary">-332</td>
+                            <td> (null)<sup  class="text-secondary fw-bold">3</sup> </td>
+                            <td>Evidenced</td>
+                            <td>False</td>
+                    </tr>   
+                    <tr>
+                        <td style="text-align: center"><i class="fa-solid fa-square-check text-success"></i></td>
+                        <td class="text-secondary">LbAcPhoB <sup  class="text-success fw-bold">2</sup></td>
+                        <td class="text-secondary">-700</td>
+                        <td class="text-secondary">-652</td>
+                        <td> (null) </td>
+                        <td>Suspected</td>
+                        <td>False</td>
+                    </tr>   
+                </tbody>
+            </table>
+            <h6 class="pt-2 text-primary"> 1. This row means we have evidence that the population is unknown.</h6>
+            <h6 class="text-success"> 2. This row means that we have a suspicion that the population might be unknown. The confidence can later be changed to Evidenced if a Seshat Expert decides so.</h6>
+            <h6 class="text-secondary"> 3. As mentioned above, (null) here means: no value was entered for population. This is equivalent to the cases when we used to call 'unknwon'. This is different from 'uncoded', as for 'uncoded' values, we don't have a corresponding confidence and disputed tag and they simply don't exist in the database.</h6>
+        </div>
+    </div>
+    
+
+</div>
+<hr>
+<!-- CAse 2 -->
+<h2 class="pt-3"><span class="badge bg-primary">Case 2: Multiple-choice options</span></h2>
+
+<!-- Example 4 a -->
+<h4><span class="text-primary">Example 4.a: (Two or more multiple-choice options are disputed) </span></h4>
+<div class="row">
+    <div class="table-responsive col-md-5">
+        <h6> What we had so far:</h6>
+
+        <table id="table_id" class="table align-middle table-hover table-striped table-bordered" style="padding: 0.25 rem !important;">
+            <thead>
+            <tr>
+                <th scope="col" style="text-align: left" class="fw-light"> 
+                    Polity </th>
+                <th scope="col" style="text-align: left" class="fw-light"> 
+                        Years </th>
+                <th scope="col" style="text-align: left" class="fw-light">Coded Value (HS in-group)</th>
+                <th scope="col" style="text-align: left" class="fw-light">Disputed?</th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="text-secondary">LbAcPho</td>
+                    <td  style="text-align: center"> - *</td>
+                    <td>present</td>
+                    <td>disputed</td>
+                </tr>   
+                <tr>
+                    <td class="text-secondary">LbAcPho</td>
+                    <td  style="text-align: center"> - </td>
+                    <td>unknown</td>
+                    <td>disputed</td>
+                </tr>   
+            </tbody>
+        </table>
+        <h6 class="pt-2 text-success"> * Note that whenever <u>Years</u> are not given in the old database, the polity year_range is assumed.</h6>
+    </div>
+    <div class="table-responsive col-md-7">
+        <h6> What we can have now:</h6>
+
+        <table id="table_id" class="table align-middle table-hover table-striped table-bordered" style="padding: 0.25 rem !important;">
+            <thead>
+            <tr>
+                <th scope="col" style="text-align: left" class="fw-light"> 
+                    Polity </th>
+                <th scope="col" style="text-align: left" class="fw-light"> 
+                        year_from </th>
+                <th scope="col" style="text-align: left" class="fw-light"> 
+                            year_to </th>
+                <th scope="col" style="text-align: left" class="fw-light">Coded Value (hs_in_group)<sup  class="text-primary fw-bold">1</sup> </th>
+                <th scope="col" style="text-align: left" class="fw-bold text-success">Confidence<sup>2</sup></th>
+                <th scope="col" style="text-align: left" class="fw-bold text-danger">Disputed?<sup>3</sup></th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="text-secondary">LbAcPho</td>
+                    <td class="text-secondary">-1200</td>
+                    <td class="text-secondary">-332</td>
+                    <td>present</td>
+                    <td>Evidenced</td>
+                    <td>True</td>
+                </tr>   
+                <tr>
+                    <td class="text-secondary">LbAcPho</td>
+                    <td class="text-secondary">-1200</td>
+                    <td class="text-secondary">-332</td>
+                    <td>unknown</td>
+                    <td>Evidenced</td>
+                    <td>True</td>
+                </tr>    
+            </tbody>
+        </table>
+        <h6 class="pt-2 text-primary"> 1. The potential coded values for <u>Human Sacrifice</u> are: (Absent/Present/transitional period (a->p)/ transitional period (p->a)). Note that "Scholarly Disagreement" will <u><b>NOT</b></u> be a potenntial value as it is represented in the 'Disputed?' column.</h6>
+        <h6 class="text-success"> 2. The potential values for <u>Confidence</u>  are: (Inferred/Evidenced/Suspected).</h6>
+        <h6 class="text-danger"> 3. The potential values for <u>Disputed</u> are: (True/False).</h6>
+    </div>
+    <div class="pt-3">
+        <span class="py-2 text-danger"> <span class="h5"><i class="fa-regular fa-circle-question text-danger"></i></span> <b>QUESTION 1:</b> Is the confidence level of <u>Suspected</u> only used for cases when coded value is  <u>unknown</u>? In other words, are <u>suspected present</u> or <u>suspected transitional period (a->p)</u> also valid combinations of coded value and confidence or not?</span>
+    </div>
+</div>
+
+
+<!-- Example 4 b -->
+<hr>
+<h4><span class="text-primary">Example 4.b: (Two or more multiple-choice options are disputed, with different <u>confidence</u> levels) </span></h4>
+<div class="row">
+    <div class="table-responsive col-md-5">
+        <h6> What we had so far:</h6>
+
+        <table id="table_id" class="table align-middle table-hover table-striped table-bordered" style="padding: 0.25 rem !important;">
+            <thead>
+            <tr>
+                <th scope="col" style="text-align: left" class="fw-light"> 
+                    Polity </th>
+                <th scope="col" style="text-align: left" class="fw-light"> 
+                        Years </th>
+                <th scope="col" style="text-align: left" class="fw-light">Coded Value (HS relative)</th>
+                <th scope="col" style="text-align: left" class="fw-light">Disputed?</th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="text-secondary">LbAcPho</td>
+                    <td  style="text-align: center"> - *</td>
+                    <td>inferred present</td>
+                    <td>disputed</td>
+                </tr>   
+                <tr>
+                    <td class="text-secondary">LbAcPho</td>
+                    <td  style="text-align: center"> - </td>
+                    <td>unknown</td>
+                    <td>disputed</td>
+                </tr>   
+            </tbody>
+        </table>
+        <h6 class="pt-2 text-success"> * Note that whenever <u>Years</u> are not given in the old database, the polity year_range is assumed.</h6>
+    </div>
+    <div class="table-responsive col-md-7">
+        <h6> What we can have now:</h6>
+
+        <table id="table_id" class="table align-middle table-hover table-striped table-bordered" style="padding: 0.25 rem !important;">
+            <thead>
+            <tr>
+                <th scope="col" style="text-align: left" class="fw-light"> 
+                    Polity </th>
+                <th scope="col" style="text-align: left" class="fw-light"> 
+                        year_from </th>
+                <th scope="col" style="text-align: left" class="fw-light"> 
+                            year_to </th>
+                <th scope="col" style="text-align: left" class="fw-light">Coded Value (hs_relative)<sup  class="text-primary fw-bold">1</sup></th>
+                <th scope="col" style="text-align: left" class="fw-bold text-success">Confidence<sup>2</sup></th>
+                <th scope="col" style="text-align: left" class="fw-bold text-danger">Disputed?<sup>3</sup></th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="text-secondary">LbAcPho</td>
+                    <td class="text-secondary">-1200</td>
+                    <td class="text-secondary">-332</td>
+                    <td>present</td>
+                    <td>Inferred</td>
+                    <td>True</td>
+                </tr>   
+                <tr>
+                    <td class="text-secondary">LbAcPho</td>
+                    <td class="text-secondary">-1200</td>
+                    <td class="text-secondary">-332</td>
+                    <td>unknown</td>
+                    <td>Evidenced</td>
+                    <td>True</td>
+                </tr>    
+            </tbody>
+        </table>
+        <h6 class="pt-2 text-primary"> 1. The potential coded values for <u>Human Sacrifice</u> are: (Absent/Present/transitional period (a->p)/ transitional period (p->a)). Note that "Scholarly Disagreement" will <u><b>NOT</b></u> be a potenntial value as it is represented in the 'Disputed?' column.</h6>
+        <h6 class="text-success"> 2. The potential values for <u>Confidence</u>  are: (Inferred/Evidenced/Suspected).</h6>
+        <h6 class="text-danger"> 3. The potential values for <u>Disputed</u> are: (True/False).</h6>
+    </div>
+    <div class="pt-3">
+        <span class="py-2 text-danger"> <span class="h5"><i class="fa-regular fa-circle-question text-danger"></i></span> <b>QUESTION 2:</b> I assume we won't have a dispute if the cases are only different in confidence level (and the coded values in the new database are the same). Right? Let's say if in the case above, the value coded as <u>unknown</u> was <u>present</u>. Even if the tag was <u>suspected</u> instead of <u>inferred</u>. In other words, are any combinations of <u>present</u> and <u>inferred present</u> and <u> suspected present</u> in dispute?</span>
+    </div>
+
+</div>
+
+<!-- Example 4 c -->
+<hr>
+<h4><span class="text-primary">Example 4.c: (More multiple-choice options are disputed: another <u>imaginary</u>  example) </span></h4>
+<div class="row">
+    <div class="table-responsive col-md-5">
+        <h6> What we had so far:</h6>
+
+        <table id="table_id" class="table align-middle table-hover table-striped table-bordered" style="padding: 0.25 rem !important;">
+            <thead>
+            <tr>
+                <th scope="col" style="text-align: left" class="fw-light"> 
+                    Polity </th>
+                <th scope="col" style="text-align: left" class="fw-light"> 
+                        Years </th>
+                <th scope="col" style="text-align: left" class="fw-light">Coded Value (HS in-group)</th>
+                <th scope="col" style="text-align: left" class="fw-light">Disputed?</th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="text-secondary">LbAcPho</td>
+                    <td  style="text-align: center"> - *</td>
+                    <td>present</td>
+                    <td>disputed</td>
+                </tr>   
+                <tr>
+                    <td class="text-secondary">LbAcPho</td>
+                    <td  style="text-align: center"> - </td>
+                    <td>unknown</td>
+                    <td>disputed</td>
+                </tr>   
+                <tr>
+                    <td class="text-secondary">LbAcPho</td>
+                    <td  style="text-align: center"> - </td>
+                    <td>inferred absent</td>
+                    <td>disputed</td>
+                </tr>   
+                <tr>
+                    <td class="text-secondary">LbAcPho</td>
+                    <td  style="text-align: center"> - </td>
+                    <td>suspected transitional period (a->p)</td>
+                    <td>disputed</td>
+                </tr>   
+            </tbody>
+        </table>
+        <h6 class="pt-2 text-success"> * Note that whenever <u>Years</u> are not given in the old database, the polity year_range is assumed.</h6>
+    </div>
+    <div class="table-responsive col-md-7">
+        <h6> What we can have now:</h6>
+
+        <table id="table_id" class="table align-middle table-hover table-striped table-bordered" style="padding: 0.25 rem !important;">
+            <thead>
+            <tr>
+                <th scope="col" style="text-align: left" class="fw-light"> 
+                    Polity </th>
+                <th scope="col" style="text-align: left" class="fw-light"> 
+                        year_from </th>
+                <th scope="col" style="text-align: left" class="fw-light"> 
+                            year_to </th>
+                <th scope="col" style="text-align: left" class="fw-light">Coded Value (hs_in_group)<sup  class="text-primary fw-bold">1</sup></th>
+                <th scope="col" style="text-align: left" class="fw-bold text-success">Confidence<sup>2</sup></th>
+                <th scope="col" style="text-align: left" class="fw-bold text-danger">Disputed?<sup>3</sup></th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="text-secondary">LbAcPho</td>
+                    <td class="text-secondary">-1200</td>
+                    <td class="text-secondary">-332</td>
+                    <td>present</td>
+                    <td>Evidenced</td>
+                    <td>True</td>
+                </tr>   
+                <tr>
+                    <td class="text-secondary">LbAcPho</td>
+                    <td class="text-secondary">-1200</td>
+                    <td class="text-secondary">-332</td>
+                    <td>unknown</td>
+                    <td>Evidenced</td>
+                    <td>True</td>
+                </tr>   
+                <tr>
+                    <td class="text-secondary">LbAcPho</td>
+                    <td class="text-secondary">-1200</td>
+                    <td class="text-secondary">-332</td>
+                    <td>absent</td>
+                    <td>inferred</td>
+                    <td>True</td>
+                </tr> 
+                <tr>
+                    <td class="text-secondary">LbAcPho</td>
+                    <td class="text-secondary">-1200</td>
+                    <td class="text-secondary">-332</td>
+                    <td>transitional period (a->p)</td>
+                    <td>Suspected</td>
+                    <td>True</td>
+                </tr>  
+            </tbody>
+        </table>
+        <h6 class="pt-2 text-primary"> 1. The potential coded values for <u>Human Sacrifice</u> are: (Absent/Present/transitional period (a->p)/ transitional period (p->a)). Note that "Scholarly Disagreement" will <u><b>NOT</b></u> be a potenntial value as it is represented in the 'Disputed?' column.</h6>
+        <h6 class="text-success"> 2. The potential values for <u>Confidence</u>  are: (Inferred/Evidenced/Suspected).</h6>
+        <h6 class="text-danger"> 3. The potential values for <u>Disputed</u> are: (True/False).</h6>
+    </div>
+
+</div>
+<hr>
+<div>
+    <h4>
+        Changed On Seshat-db.com to Disputed? 
+    </h4>
+    <h5>512: EgNaqa2 (Naqada II): Scholarly Disagreement,
+</h5>
+<h5>
+    39: KhChenl (Chenla),
+</h5>
+<h5>
+    48: IdMedng (Medang Kingdom)
+</h5>
+</div>
+</div>
+{% endblock %}

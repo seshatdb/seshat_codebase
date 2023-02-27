@@ -1,3 +1,30 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import Polity_research_assistant, Polity_utm_zone, Polity_original_name, Polity_alternative_name, Polity_peak_years, Polity_duration, Polity_degree_of_centralization, Polity_suprapolity_relations, Polity_capital, Polity_language, Polity_linguistic_family, Polity_language_genus, Polity_religion_genus, Polity_religion_family, Polity_religion, Polity_relationship_to_preceding_entity, Polity_preceding_entity, Polity_succeeding_entity, Polity_supracultural_entity, Polity_scale_of_supracultural_interaction, Polity_alternate_religion_genus, Polity_alternate_religion_family, Polity_alternate_religion, Polity_expert, Polity_editor, Polity_religious_tradition
+
+admin.site.register(Polity_research_assistant)
+admin.site.register(Polity_utm_zone)
+admin.site.register(Polity_original_name)
+admin.site.register(Polity_alternative_name)
+admin.site.register(Polity_peak_years)
+admin.site.register(Polity_duration)
+admin.site.register(Polity_degree_of_centralization)
+admin.site.register(Polity_suprapolity_relations)
+admin.site.register(Polity_capital)
+admin.site.register(Polity_language)
+admin.site.register(Polity_linguistic_family)
+admin.site.register(Polity_language_genus)
+admin.site.register(Polity_religion_genus)
+admin.site.register(Polity_religion_family)
+admin.site.register(Polity_religion)
+admin.site.register(Polity_relationship_to_preceding_entity)
+admin.site.register(Polity_preceding_entity)
+admin.site.register(Polity_succeeding_entity)
+admin.site.register(Polity_supracultural_entity)
+admin.site.register(Polity_scale_of_supracultural_interaction)
+admin.site.register(Polity_alternate_religion_genus)
+admin.site.register(Polity_alternate_religion_family)
+admin.site.register(Polity_alternate_religion)
+admin.site.register(Polity_expert)
+admin.site.register(Polity_editor)
+admin.site.register(Polity_religious_tradition)

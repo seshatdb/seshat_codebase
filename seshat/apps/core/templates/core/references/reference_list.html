@@ -12,11 +12,10 @@
                 <td class="col-md-5">
                     <h2>References: <a href="{% url 'no_zotero_refs_list' %}" class="lead ">(See the Refs with No Zotero)</a></h2>
                 </td>
-                <td class="col-md-7" style="text-align: right">
+                <td class="col-md-5" style="text-align: right">
                     <span class="h6 px-4">
                         Sync with Zotero:
                     </span>
-                    <a href="{% url 'synczotero' %}" class="btn btn-success"  onclick="return DisplayProgressMessage(this, 'Syncing with Zotero...');"><i class="fa-solid fa-arrows-rotate"></i> &nbsp; <b>ALL</b></a><span class="h6 text-secondary px-1"><i class="fa-solid fa-stopwatch"></i> ~10 mins</span>
                     <a href="{% url 'synczotero100' %}" class="btn btn-success" onclick="return DisplayProgressMessage(this, 'Syncing with Zotero...');"><i class="fa-solid fa-arrows-rotate"></i> &nbsp; <b>last 100</b></a><span class="h6 text-secondary px-1"><i class="fa-solid fa-stopwatch"></i> < 1 min</span>
                 </td>
             </tr>
@@ -24,14 +23,15 @@
     </div>
     {% if object_list %}
     <div class="table-responsive">
-        <table id="table_id" class="table align-middle table-striped">
+        <table id="table_id" class="table align-middle table-striped table-bordered">
             <thead>
               <tr>
                 <th scope="col" class="text-secondary">#</th>
+                <th scope="col" style="text-align: left" class="fw-light"> Title</th>
                 <th scope="col" style="text-align: center" class="fw-light"> Creator(s)</th>
                 <th scope="col" style="text-align: center" class="fw-light"> Year</th>
-                <th scope="col" style="text-align: left" class="fw-light"> Title</th>
                 <th scope="col" style="text-align: center" class="fw-light"> Zotero link</th>
+                <th scope="col" style="text-align: center" class="fw-light"> Created</th>
                 <th scope="col" style="text-align: center" class="fw-light">Add Citation</th>
               </tr>
             </thead>
@@ -40,12 +40,6 @@
                 <tr>
                     <div>
                         <td class="text-secondary" scope="row">{{ forloop.counter0|add:page_obj.start_index }}</td>
-                        <td style="text-align: center;">
-                            <i>{{ obj.creator }}</i>
-                        </td>
-                        <td style="text-align: center;">
-                            {{ obj.year }}
-                        </td>
                         <td style="text-align: left;">
                             {% if "NOZOTERO_LINK" in obj.zotero_link %}
                                 <span>{{ obj.reference_short_title }}</span>
@@ -54,14 +48,23 @@
                             {% endif %}
                         </td>
                         <td style="text-align: center;">
+                            <i>{{ obj.creator }}</i>
+                        </td>
+                        <td style="text-align: center;">
+                            {{ obj.year }}
+                        </td>
+                        <td style="text-align: center;">
                             {% if "NOZOTERO_LINK" in obj.zotero_link %}
                             <span><u>No Zotero</u></span>
                             {% else %}
                                 <a class="greenlink" href="https://www.zotero.org/groups/1051264/seshat_databank/items/{{ obj.zotero_link }}"><u>Zotero</u></a>
                             {% endif %}
                         </td>
+                        <td style="text-align: center;" class="text-secondary">
+                            <span>{{ obj.created_date|date:"j/n/Y" }}</span>
+                        </td>
                         <td style="text-align: center;">
-                            <a href="{% url 'citation-create' %}" ><button class="btn btn-primary btn-sm"> <i class="fa-solid fa-plus"></i> Citation</button></a>
+                            <a href="{% url 'citation-create' %}" ><button class="btn btn-primary btn-sm"> <i class="fa-solid fa-plus"></i></button></a>
                         </td>
                     </div>
                 </tr>

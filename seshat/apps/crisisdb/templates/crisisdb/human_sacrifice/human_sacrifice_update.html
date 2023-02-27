@@ -3,14 +3,21 @@
 {% load humanize %}
 
 {% block extra_vars %}
-    <div class="col-md-4 mb-2">
-        {{ form.human_sacrifice|as_crispy_field }}
-    </div>
+<div class="col-md-3 mb-2">
+    <fieldset>
+        <legend class="h6">{{form.human_sacrifice.label}}</legend>
+        {% for radio in form.human_sacrifice %}
+        <div class="form-check">
+            <label for="{{ radio.id_for_label }}">
+                <span class="radio">{{ radio.tag }}</span>
+                {{ radio.choice_label }}
+            </label>
+        </div>
+        {% endfor %}
+    </fieldset>
+</div>
+{{ form.comment.as_hidden }}
 {% endblock extra_vars %}
-
-{% block extra_vars2 %}
-
-{% endblock extra_vars2 %}
 
 {% block delete_button %}
     <a href="{% url 'human_sacrifice-delete' object.id %}" type="cancel" class="btn btn-outline-danger my-auto btn-block btn-lg">Delete </a>

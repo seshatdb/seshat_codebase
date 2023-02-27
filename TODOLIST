@@ -1,0 +1,14 @@
+In my django models.py I have "HumanSacrifice" models that have a foreign key calles "description" that refers to a model called "SeshatComment". An instance of "SeshatComment" can have multiple "SeshatSubcomment"s. Each Subcomment has a text field called "subcomment_text" and one or more of "Citation" model instances. Each "Citation" can have a "Reference" and a textfield called "my_note". I have a default Citation that does not have a "Reference" and I use it for new instances of "HumanSacrifice". What I want to do is to create an HTML fom in Django that, upon clicking, gives me the chance to attach a new SeshatComment to my Human Sacrifice instance. I believe the form should create a new "SeshatComment" with a default "SeshatSubcomment" text: "A sample subcomment text here".
+
+INSERT INTO core_seshatcommentpart (comment_part_text, comment_id, comment_curator_id, comment_order) VALUES ('Sample Subcomment from Backend', 8, 2, 1);
+
+....to normally connect do not have a citation connected to a single default citation (which has only a text and no references).
+- I need to trigger the creation of a new seshat subcomment (and then seshat comment) and attaching them to the HS fact as soon as we click a button.
+
+
+class SeshatCommon(models.Model):
+    polity = models.ForeignKey(Polity, on_delete=models.SET_NULL, related_name="%(app_label)s_%(class)s_related",
+                               related_query_name="%(app_label)s_%(class)s", null=True, blank=True)
+    name = models.CharField(
+        max_length=200,)
+    comment = models.ForeignKey(SeshatComment, on_delete=models.DO_NOTHING, related_name="%(app_label)s_%(class)s_related", related_query_name="%(app_label)s_%(class)s", null=True, blank=True)

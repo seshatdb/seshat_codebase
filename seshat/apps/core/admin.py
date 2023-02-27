@@ -39,3 +39,10 @@ admin.site.register(Capital)
 
 # admin.site.unregister(User)
 # admin.site.register(User, CustomUserAdmin)
+
+
+class CustomReferenceAdmin(admin.ModelAdmin):
+    list_display = ('title', 'created_date', 'creator',)
+
+admin.site.unregister(Reference)
+admin.site.register(Reference, CustomReferenceAdmin)

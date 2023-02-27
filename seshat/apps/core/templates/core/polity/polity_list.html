@@ -9,6 +9,9 @@
 <div class="container">
     <h6 class="lead-2 text-secondary pt-4">List of all:</h6>
     <h2>Polities</h2>
+    <h6 class="text-secondary">* A polity is defined as an independent political unit. Kinds of polities range from villages (local
+        communities) through simple and complex chiefdoms to states and empires.</h6>
+    <h6 class="text-secondary pb-3">* A polity can be either centralized or not (e.g., organized as a confederation). For those periods when a region is divided up among a multitude of small-scale polities (e.g., independent villages or even many small chiefdoms) or when it is controlled in quick succession by a number of different regimes, we use the concept of 'quasi-polity'.</h6>
     {% if messages %}
     <ul class="messages mt-3">
         {% for message in messages %}
@@ -106,7 +109,7 @@
             <th></th>
             <th> <i class="fa-solid fa-circle-chevron-right"></i> &nbsp; Polity</th>
             <th> <i class="fa-regular fa-calendar-check"></i> &nbsp; Year Range</th>
-            <th></th>
+            <th  class="text-secondary" style="text-align: center;"> Old Wiki Link</th>
           </tr>
         </thead>
         <tbody>
@@ -115,11 +118,11 @@
 
                 <td class="col-md-1"></td>
                 {% if a_polity.long_name %}
-                <td class="col-md-7" style="text-align: left;"> <span class="fw-bold"><i class="fa-solid fa-caret-right text-success"></i>&nbsp; {{ a_polity.long_name }} &nbsp; </span>
+                <td class="col-md-6" style="text-align: left;"> <span class="fw-bold"><i class="fa-solid fa-caret-right text-success"></i>&nbsp; {{ a_polity.long_name }} &nbsp; </span>
                     {% if a_polity.new_name %}
-                    (<a href="{% url 'polity-detail-main' a_polity.id %}">{{ a_polity.new_name }}</a>) 
+                    (<a href="{% url 'polity-detail-main' a_polity.id %}"><b>{{ a_polity.new_name }}</b></a>) 
                     {% else %}
-                    (<a href="{% url 'polity-detail-main' a_polity.id %}">{{ a_polity.name }}</a>) 
+                    (<a href="{% url 'polity-detail-main' a_polity.id %}"><b>{{ a_polity.name }}</b></a>) 
                     <span class="text-danger">NEW Polity ID Missing</span>  
                     <a href="{% url 'polity-update' a_polity.id %}"><span class="badge bg-small bg-warning text-dark">click to update</span></a>
                     {% endif %}
@@ -155,7 +158,7 @@
                     {% endif %}
                     {% endblock years_short_for_top_pol %}
                 </td>
-                <td class="col-md-1"></td>
+                <td class="col-md-2"  style="text-align: center;"> <a href='http://seshatdatabank.info/browser/{{ a_polity.name }}' target="_blank"> <i class="fa-solid fa-arrow-up-right-from-square"></i> {{ a_polity.name }}</a></td>
 
             </tr>
             {% endfor %}

@@ -20,6 +20,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.db import IntegrityError
 from django.contrib.auth.decorators import login_required, permission_required
+from seshat.apps.accounts.models import Seshat_Expert
 
 from django.core.paginator import Paginator
 
@@ -41,7 +42,7 @@ from .models import Citation, Polity, Section, Subsection, Variablehierarchy, Re
 import pprint
 import requests
 from requests.structures import CaseInsensitiveDict
-from seshat.utils.utils import adder, dic_of_all_vars, list_of_all_Polities, dic_of_all_vars_in_sections, dic_of_all_vars_with_varhier, get_all_data_for_a_polity, polity_detail_data_collector
+from seshat.utils.utils import adder, dic_of_all_vars, list_of_all_Polities, dic_of_all_vars_in_sections, dic_of_all_vars_with_varhier, get_all_data_for_a_polity, polity_detail_data_collector, get_all_general_data_for_a_polity, get_all_sc_data_for_a_polity
 
 from django.shortcuts import HttpResponse
 
@@ -84,6 +85,17 @@ class ReferenceListView(generic.ListView):
 
     def get_absolute_url(self):
         return reverse('references')
+
+    def get_queryset(self):
+        queryset = Reference.objects.exclude(creator='MAJIDBENAM').all()
+        return queryset
+    
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     selected_only_zotero_refs = Reference.objects.exclude(creator='MAJIDBENAM')
+    #     context['object_list'] = selected_only_zotero_refs
+
+    #     return context
 
 # references without a Zotero link:
 def no_zotero_refs_list(request):
@@ -187,6 +199,22 @@ class ReferenceDetailView(generic.DetailView):
     model = Reference
     template_name = "core/references/reference_detail.html"
 
+
+
+@permission_required('admin.can_add_log_entry')
+def references_download(request):
+    items = Reference.objects.all()
+
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="referencess.csv"'
+
+    writer = csv.writer(response, delimiter='|')
+    writer.writerow(['zotero_link', 'creator'])
+
+    for obj in items:
+        writer.writerow([obj.zotero_link, obj.creator])
+
+    return response
 
 
 # Citations
@@ -293,6 +321,37 @@ class SeshatCommentUpdate(PermissionRequiredMixin, UpdateView):
     template_name = "core/seshatcomments/seshatcomment_update.html"
     permission_required = 'catalog.can_mark_returned'
 
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+
+    #     related_models = [model for model in dir(self.object) if '_related' in model]
+
+    #     for model_name in related_models:
+    #         print(model_name)
+    #         related_objects = getattr(self.object, model_name)
+    #         if related_objects:
+    #             context['related_objects'] = related_objects
+    #             break
+
+    #     return context
+
+
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     #an_instance = SeshatComment.objects.first()
+    #     #related_fact = 
+    #     #print("Haloooooo_________ooooooooooo", self.kwargs['com_id'])
+    #     #print("Halooooooooooooooooo", self.kwargs['subcom_order'])
+    #     #related_fact = self.        context["com_id"] = self.kwargs['com_id']
+    #     #context["subcom_order"] = self.kwargs['subcom_order']
+    #     #context["subcom_order"] = self.comment_order
+
+    #     print("HEre we gooooooooooo: ", dir(self.object))
+    #     #for potential_attr in dir(isinstance):
+            
+    #     #if an_instance
+
+    #     return context
 
 class SeshatCommentDelete(PermissionRequiredMixin, DeleteView):
     model = SeshatComment
@@ -349,10 +408,16 @@ class SeshatCommentPartCreate2(PermissionRequiredMixin, CreateView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        logged_in_user = self.request.user
+        logged_in_expert = Seshat_Expert.objects.get(user=logged_in_user)
         print("Haloooooo_________ooooooooooo", self.kwargs['com_id'])
         print("Halooooooooooooooooo", self.kwargs['subcom_order'])
         context["com_id"] = self.kwargs['com_id']
         context["subcom_order"] = self.kwargs['subcom_order']
+        context["comment_curator"] = logged_in_expert
+        context["comment_curator_id"] = logged_in_expert.id
+        context["comment_curator_name"] = "Selected USER"
+
         #context["subcom_order"] = self.comment_order
 
         print(context)
@@ -367,9 +432,29 @@ class SeshatCommentPartUpdate(PermissionRequiredMixin, SuccessMessageMixin, Upda
     success_message = "You successfully updated the subdescription."
 
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        logged_in_user = self.request.user
+        logged_in_expert = Seshat_Expert.objects.get(user=logged_in_user)
+        #context["com_id"] = self.kwargs['com_id']
+        #context["subcom_order"] = self.kwargs['subcom_order']
+        context["comment_curator"] = logged_in_expert
+        context["comment_curator_id"] = logged_in_expert.id
+        context["comment_curator_name"] = "Selected USER"
+
+        #context["subcom_order"] = self.comment_order
+
+        print(context)
+
+        return context
+
+
 class SeshatCommentPartDelete(PermissionRequiredMixin, DeleteView):
     model = SeshatCommentPart
     success_url = reverse_lazy('seshatcommentparts')
+    #success_url = reverse_lazy('seshatcommentparts')
+
+    #('seshatcomment-update', self.pk)
     template_name = "core/delete_general.html"
     permission_required = 'catalog.can_mark_returned'
 
@@ -377,6 +462,12 @@ class SeshatCommentPartDelete(PermissionRequiredMixin, DeleteView):
 class SeshatCommentPartDetailView(generic.DetailView):
     model = SeshatCommentPart
     template_name = "core/seshatcomments/seshatcommentpart_detail.html"
+
+
+
+
+##### Extra function for seshat comments
+
 
 # POLITY
 
@@ -403,9 +494,11 @@ class PolityUpdate(PermissionRequiredMixin, SuccessMessageMixin, UpdateView):
     success_url = reverse_lazy('polities')
 
 
-class PolityListView(generic.ListView):
+class PolityListView(PermissionRequiredMixin, SuccessMessageMixin, generic.ListView):
     model = Polity
     template_name = "core/polity/polity_list.html"
+    permission_required = 'catalog.can_mark_returned'
+
     #paginate_by = 10
 
     def get_absolute_url(self):
@@ -451,24 +544,31 @@ class PolityListView(generic.ListView):
         context["all_nga_pol_rels"] = all_nga_pol_rels
         context["all_world_regions"] = all_world_regions
         context["ultimate_wregion_dic"] = ultimate_wregion_dic
+        print(ultimate_wregion_dic)
 
         print(f"out of {len(all_pols)}: {len(all_politys_on_the_polity_list_page)} were taken care of.")
         
 
         return context
 
-
-class PolityDetailView(generic.DetailView):
+class PolityDetailView(PermissionRequiredMixin, SuccessMessageMixin, generic.DetailView):
     model = Polity
     template_name = "core/polity/polity_detail.html"
+    permission_required = 'catalog.can_mark_returned'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        
         try:
             context["all_data"] = get_all_data_for_a_polity(self.object.pk, "crisisdb") 
+            context["all_general_data"] = get_all_general_data_for_a_polity(self.object.pk)
+            context["all_sc_data"] = get_all_sc_data_for_a_polity(self.object.pk)
+
+            context["majid"] = {"utm_zone": "benam"}
         except:
             context["all_data"] = None
+            context["all_general_data"] = None
+            context["all_sc_data"] = None
+
         #x = polity_detail_data_collector(self.object.pk)
         #context["all_data"] = dict(x)
         print(self.object.pk)
@@ -476,9 +576,6 @@ class PolityDetailView(generic.DetailView):
             "arable_land": "arable_land",
             "agricultural_population": "agricultural_population",
         }
-        print(context["all_data"])
-
-
         try:
             my_pol = Polity.objects.get(pk=self.object.pk)
             nga_pol_rels = my_pol.polity_sides.all()
@@ -593,10 +690,10 @@ def capital_download(request):
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['capital', 'polity',
-                     'current_country', 'longitude', 'latitude' ])
+                     'current_country', 'longitude', 'latitude','is_verified', 'note'])
 
     for obj in items:
-        writer.writerow([obj.name, obj.polity_cap, obj.current_country, obj.longitude, obj.latitude])
+        writer.writerow([obj.name, obj.polity_cap, obj.current_country, obj.longitude, obj.latitude, obj.is_verified, obj.note])
 
     return response
 
@@ -650,6 +747,11 @@ def activate(request, uidb64, token):
         return redirect('signup-followup')
     else:
         return render(request, 'core/account_activation_invalid.html')
+
+
+# Discussion Room
+def discussion_room(request):
+    return render(request, 'core/discussion_room.html')
 
 
 def account_activation_sent(request):
@@ -789,23 +891,34 @@ def variablehierarchysetting(request):
 
 
 
-
 ###############
 def do_zotero(results):
     import re
     mother_ref_dic = []
     for i, item in enumerate(results):
+        #print(i, ": ", item['data']['key'], item['data']['date'])
+        #if item['data']['key'] in ["MJT9UJE4", "NIKCMK5L", "QTI79LX9"]:
+        #    print("______________")
+        #    print(item)
         a_key = item['data']['key']
         if a_key == "3BQQ8WN8":
-            print("I skipped over  youuuuuuuuuuuuuuu: 3BQQ8WN8")
+            print("I skipped over  youuuuuuuuuuuuuuu: 3BQQ8WN8 because you are not in the database!")
             continue
         if a_key == 'RR6R3383':
-            print("I skipped over  youuuuuuuuuuuuuuu: RR6R3383")
+            print("I skipped over  youuuuuuuuuuuuuuu: RR6R3383 because your title is too big")
             continue
             
             #print(pprint.pprint(item))
         try:
+            # we need to make sure that all the changes in Zotero will be reflected here.
             potential_new_ref = Reference.objects.get(zotero_link=a_key)
+            # full_date = item['data'].get('date')
+            # if full_date:
+            #     year = re.search(r'[12]\d{3}', full_date)
+            #     if year:
+            #         year_int = int(year[0])
+            #         if potential_new_ref.year != year_int:
+            #             print(f"Item Changed On Zotero: {a_key}")
             continue
         except:          
             my_dic = {}
@@ -831,7 +944,7 @@ def do_zotero(results):
                     all_creators_list = []  
                     for j in range(num_of_creators):
                         if a_key == "MM6AEU7H":
-                            print("I saw youuuuuuuuuuuuuuu more")
+                            print("I saw youuuuuuuuuuuuuuu more probably because you have contributors instead of authors")
                         try:
                             try:
                                 good_name = item['data']['creators'][j]['lastName']
@@ -897,9 +1010,16 @@ def do_zotero(results):
                     pass #print (i, ": ", a_key, "    ", item['data']['title'])
             except:
                 pass #print("No title for item with index: ", i)
-                
-            newref = Reference(title=my_dic['title'], year=my_dic['year'], creator=my_dic['mainCreator'], zotero_link=my_dic['key'])
-            if my_dic['year'] < 2040:
+            
+            pot_title = my_dic.get('title')
+            if not pot_title:
+                pot_title = "NO_TITLE_PROVIDED_IN_ZOTERO"
+            print("Years: ", my_dic.get('year'))
+            print("****************")
+            newref = Reference(title=pot_title, year=my_dic.get('year'), creator=my_dic.get('mainCreator'), zotero_link=my_dic.get('key'))
+            #newref = Reference(title=my_dic['title'], year=my_dic['year'], creator=my_dic['mainCreator'], zotero_link=my_dic['key'])
+
+            if my_dic.get('year') < 2040:
                 newref.save()
                 mother_ref_dic.append(my_dic)
 
@@ -939,7 +1059,7 @@ def synczotero(request):
 
     print(len(results))
     counter_bookTitle = 0
-    new_refs = do_zotero(results)
+    new_refs = do_zotero(results[0:300])
     context = {}
     context["newly_adds"] = new_refs
     update_citations_from_inside_zotero_update()

@@ -10,45 +10,79 @@
         <div class="col-md-12">
             <div class="row d-flex align-items-center mb-2">
                 <div class="col-md-9">
-                    <h2 class="fw-bold">{{ object.long_name }}: <span class="text-primary h3">({{ object.new_name }} )</span></h2>
+                    <h2 class="fw-bold">{{ object.long_name }}: <span class="text-primary h3">({{ object.new_name }})</span></h2>
                 </div>
                 <div class="col-md-3">      
-                    <a href="{% url 'polities' %}" class="btn btn-outline-success mx-3 my-4 float-end"><i class="fa-solid fa-list-ul"></i> &nbsp; See All Polities</a>
+                    <a href="{% url 'polities' %}" class="btn btn-outline-success mx-3 my-2 float-end"><i class="fa-solid fa-list-ul"></i> &nbsp; See All Polities</a>
                 </div>
             </div>
-            <h5> <span class="text-secondary">Duration:</span> 
-                {% block years_short_for_top_pol %}
-                {% if  object.start_year == object.end_year %}
-                {% if  object.start_year < 0 %}
-               {{ object.start_year|abs }} <span class="text-secondary">BCE</span> 
-                {% else %}
-               {{ object.start_year }} <span class="text-secondary">CE</span>
-                {% endif %}
-            {% elif object.end_year == None %}
-                {% if  object.start_year < 0 %}
-               {{ object.start_year|abs }} <span class="text-secondary">BCE</span>
-                {% else %}
-               {{ object.start_year }} <span class="text-secondary">CE</span>
-                {% endif %}
-            {% elif object.end_year == None and  object.start_year == None %}
-                <i class="fa-solid fa-minus"></i> 
-            {% else %}
-                {% if  object.start_year < 0 and object.end_year < 0 %}
-               {{ object.start_year|abs }} <span class="text-secondary">BCE</span> <i class="fas fa-long-arrow-alt-right"></i> {{ object.end_year|abs }} <span class="text-secondary">BCE</span>
-                {% elif  object.start_year < 0 and object.end_year >= 0 %}
-               {{ object.start_year|abs }} <span class="text-secondary">BCE</span> <i class="fas fa-long-arrow-alt-right"></i> {{ object.end_year }} <span class="text-secondary">CE</span>
-                {% else %}
-               {{ object.start_year }} <span class="text-secondary">CE</span> <i class="fas fa-long-arrow-alt-right"></i> {{ object.end_year }} <span class="text-secondary">CE</span>
-                {% endif %}
-            {% endif %}
-                {% endblock years_short_for_top_pol %}
-
-
-            </h5>
             <h6 class="text-secondary">* A polity is defined as an independent political unit. Kinds of polities range from villages (local
                 communities) through simple and complex chiefdoms to states and empires.</h6>
             <h6 class="text-secondary">* A polity can be either centralized or not (e.g., organized as a confederation). For those periods when a region is divided up among a multitude of small-scale polities (e.g., independent villages or even many small chiefdoms) or when it is controlled in quick succession by a number of different regimes, we use the concept of 'quasi-polity'.</h6>
+            <hr>
+            <div class="col-md-9">
+                <h3 class="fw-bold pb-2"> <i class="fa-solid fa-circle-right"></i> General Variables: &nbsp; <a href="#general_var"><i class="fa-solid fa-magnifying-glass"></i></a></h3>
+            </div>
+            <div class="row">
+                <div class="col-md-1">
+                </div>
+                <div class="table-responsive mb-4 col-md-8">
+                    <table id="table_id" class="table align-middle table-striped table-bordered">
+                        <tbody>
+                        {% for key, values in all_general_data.items %}
+                        {% if values %}
+                        <tr class="row col-md-12">
+                            <td class="col-md-4 fw-bold" style="text-align: right;">{{values.0.clean_name_spaced|slice:"7:"}} &nbsp;</td>
+                            <td class="col-md-8" style="text-align: left;">
+                            {% for vv in values %}
+                                    {% if forloop.counter0 > 0 %}
+                                   <span class="text-secondary">&</span>
+                                    {% endif %}
+                                    <span class="h6 text-teal">{{ vv.show_value }}</span> 
+                            {% endfor %}
+                            <a class="h6" href="#{{key}}"> &nbsp;<i class="fa-solid fa-magnifying-glass"></i></a>
+                        </td>
+                        </tr>
+                        {% endif %}
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
 
+            <div class="col-md-9">
+                <h3 class="fw-bold pb-2 pt-3"> <i class="fa-solid fa-circle-right"></i> Social Complexity Variables: &nbsp; <a href="#sc_var"><i class="fa-solid fa-magnifying-glass"></i></a></h3>
+            </div>
+            <div class="row">
+                <div class="col-md-1">
+                </div>
+                <div class="table-responsive mb-4 col-md-8">
+                    <table id="table_id" class="table align-middle table-striped table-bordered">
+                        <tbody>
+                        {% for key, values in all_sc_data.items %}
+                        {% if values %}
+                        <tr class="row col-md-12">
+                            <td class="col-md-4 fw-bold" style="text-align: right;">{{values.0.clean_name_spaced}} &nbsp;</td>
+                            <td class="col-md-8" style="text-align: left;">
+                            {% for vv in values %}
+                                    {% if forloop.counter0 > 0 %}
+                                   <span class="text-secondary">&</span>
+                                    {% endif %}
+                                    <span class="h6 text-teal">{{ vv.show_value }}</span> 
+                            {% endfor %}
+                            <a class="h6" href="#{{key}}"> &nbsp;<i class="fa-solid fa-magnifying-glass"></i></a>
+                        </td>
+                        </tr>
+                        {% endif %}
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
+
+          
         </div>
         <div class="table-responsive mb-4">
             <h4 class="mt-4">
@@ -70,37 +104,13 @@
                 <tr>
                     <td class="text-secondary" style="text-align: center" scope="row">{{ forloop.counter }}</td>
 
-                    {% block years_short_for_nga_pol_rels %}
-                    {% if concise_rel.0.0 == concise_rel.0.1 %}
-                    {% if concise_rel.0.0 < 0 %}
-                    <td style="text-align: center;">{{concise_rel.0.0|abs }} <span class="text-secondary">BCE</span> </td>
-                    {% else %}
-                    <td style="text-align: center;">{{concise_rel.0.0 }} <span class="text-secondary">CE</span></td>
-                    {% endif %}
-                {% elif concise_rel.0.1 == None %}
-                    {% if concise_rel.0.0 < 0 %}
-                    <td style="text-align: center;">{{concise_rel.0.0|abs }} <span class="text-secondary">BCE</span></td>
-                    {% else %}
-                    <td style="text-align: center;">{{concise_rel.0.0 }} <span class="text-secondary">CE</span></td>
-                    {% endif %}
-                {% elif concise_rel.0.1 == None and concise_rel.0.0 == None %}
-                    <td style="text-align: center;"> <i class="fa-solid fa-minus"></i> </td>
-                {% else %}
-                    {% if concise_rel.0.0 < 0 and concise_rel.0.1 < 0 %}
-                    <td style="text-align: center;">{{concise_rel.0.0|abs }} <span class="text-secondary">BCE</span> <i class="fas fa-long-arrow-alt-right"></i> {{ concise_rel.0.1|abs }} <span class="text-secondary">BCE</span></td>
-                    {% elif concise_rel.0.0 < 0 and concise_rel.0.1 >= 0 %}
-                    <td style="text-align: center;">{{concise_rel.0.0|abs }} <span class="text-secondary">BCE</span> <i class="fas fa-long-arrow-alt-right"></i> {{ concise_rel.0.1 }} <span class="text-secondary">CE</span></td>
-                    {% else %}
-                    <td style="text-align: center;">{{concise_rel.0.0 }} <span class="text-secondary">CE</span> <i class="fas fa-long-arrow-alt-right"></i> {{ concise_rel.0.1 }} <span class="text-secondary">CE</span></td>
-                    {% endif %}
-                {% endif %}
-                    {% endblock years_short_for_nga_pol_rels %}
+                    {% include "core/partials/_year_block_nga.html" %}
+
                     <td class="text-success fw-bold">
                         | &nbsp; &nbsp;
                         {% for nga in concise_rel.1 %}
                         {{ nga.name }}  &nbsp; &nbsp; | &nbsp; &nbsp; 
                         {% endfor %}
-
                     </td>
                 </tr>
                 {% endfor %}
@@ -108,41 +118,132 @@
             </table>
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-6">
-            {% for key, values in vars.items %}
-                <h6>{{ key }}: </h6> 
-                    {% for kk, vv in values.items %}
-                      <p>In year {{ vv.0 }}, the value of {{ key }} was: {{ vv.1 }}.</p> 
-                    {% endfor %}
-            {% endfor %}
+
+    <div>
+        <hr class="bg-colorful-vertical">
+        <h1 class="fw-light pt-2 display-4" style="text-align: left;" id="general_var"> General Variables</h1>
+        <hr class="bg-colorful-vertical-bottom">
+        {% for key, values in all_general_data.items %}
+        {% if values %}
+        <h4 class="pt-4 pb-2 text-teal" id="{{key}}"> <i class="fa-solid fa-circle-chevron-right"></i> {{ values.0.clean_name_spaced|slice:"7:" }}:</h4>
+
+        <div class="table-responsive mb-4">
+            <table id="table_id" class="table align-middle table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th scope="col" style="text-align: center" class="fw-bold"> Year(s)</th>
+                        <!-- headings for extra vars -->
+                        <th class = "fw-bold" style="text-align: center;" scope="col">{{values.0.clean_name_spaced|slice:"7:"}} 
+                            </th>
+                        {% include "core/partials/_confidence_disputed_expert.html" %}
+                        <th scope="col" style="text-align: center" class="fw-light"><i class="fa-regular fa-comment-dots"></i></th>
+                        <th scope="col" style="text-align: center" class="fw-light">Edit</th>
+                      </tr>
+                </thead>
+                <tbody>
+                {% for value in values %}
+                <tr>
+                    {% include "core/partials/_year_block_value.html" %}
+                    <td class="col-md-3 fw-bold text-teal" style="text-align: center;"> {{value.show_value}}  </td>
+                    {% include "core/partials/_tag_value.html" %}
+                    {% include "core/partials/_disputed_value.html" %}
+                    {% include "core/partials/_expert_checked_value.html" %}
+                    <td class="col-md-3" style="text-align: center;">
+                        {% if value.comment %}
+                        {{value.comment}}
+                        {% else %}
+                        <span class="text-secondary">Coming Soon ...</span>
+                        {% endif %}
+                    </td>
+                    <td  style="text-align: center;"> <a href="{% url key|lower|add:'-update' value.id %}"><i class="fa-solid fa-pen-to-square text-danger"></i></a> </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
         </div>
+        {% endif %}
+        {% endfor %}
+
     </div>
+
+
+    <div>
+        <hr class="bg-colorful-vertical">
+        <h1 class="fw-light pt-2 display-4" style="text-align: left;" id="sc_var"> Social Complexity Variables</h1>
+        <hr class="bg-colorful-vertical-bottom">
+        {% for key, values in all_sc_data.items %}
+        {% if values %}
+        <h4 class="pt-4 pb-2 text-teal" id="{{key}}"> <i class="fa-solid fa-circle-chevron-right"></i> {{ values.0.clean_name_spaced }}:</h4>
+
+        <div class="table-responsive mb-4">
+            <table id="table_id" class="table align-middle table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th scope="col" style="text-align: center" class="fw-bold"> Year(s)</th>
+                        <!-- headings for extra vars -->
+                        <th class = "fw-bold" style="text-align: center;" scope="col">{{values.0.clean_name_spaced}} 
+                            </th>
+                        {% include "core/partials/_confidence_disputed_expert.html" %}
+                        <th scope="col" style="text-align: center" class="fw-light"><i class="fa-regular fa-comment-dots"></i></th>
+                        <th scope="col" style="text-align: center" class="fw-light">Edit</th>
+                      </tr>
+                </thead>
+                <tbody>
+                {% for value in values %}
+                <tr>
+                    {% include "core/partials/_year_block_value.html" %}
+                    <td class="col-md-3 fw-bold text-teal" style="text-align: center;"> {{value.show_value}}  </td>
+                    {% include "core/partials/_tag_value.html" %}
+                    {% include "core/partials/_disputed_value.html" %}
+                    {% include "core/partials/_expert_checked_value.html" %}
+                    <td class="col-md-3" style="text-align: center;">
+                        {% if value.comment %}
+                        {{value.comment}}
+                        {% else %}
+                        <span class="text-secondary">Coming Soon ...</span>
+                        {% endif %}
+                    </td>
+                    <td  style="text-align: center;"> <a href="{% url key|lower|add:'-update' value.id %}"><i class="fa-solid fa-pen-to-square text-danger"></i></a> </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
+        {% endfor %}
+
+    </div>
+
+
     {% for key, values in all_data.items %}
     {% if "Human_sacrifice_for_polity" == key %}
     <h4 class="mt-4">Human Sacrifice Data</h4>
-
-    <h6 class="text-secondary"> <span><u>What is Human Sacrifice?</u></span>  </h6>
-    <h6><span> <i class="fa-solid fa-caret-right"></i> Human Sacrifice is the deliberate and ritualized killing of a person to please or placate supernatural entities (including gods, spirits, and ancestors) or gain other supernatural benefits.  </span></h6>
-
+    <h6><span> <i class="fa-solid fa-caret-right"></i> Human Sacrifice is the deliberate and ritualized killing of a person to please or placate supernatural entities (including gods, spirits, and ancestors) or gain other supernatural benefits. </span></h6>
             <div class="table-responsive mb-4">
                 <table id="table_id" class="table align-middle table-striped table-bordered">
                     {% if values %}
                     <thead>
                         <tr>
-                            <th scope="col" class="text-secondary">#</th>
-                            <th scope="col" style="text-align: center" class="fw-light"> Polity</th>
                             <th scope="col" style="text-align: center" class="fw-light"> Year(s)</th>
                             <!-- headings for extra vars -->
-                            {% if "Human_sacrifice_for_polity" == key %}
-                                {% include "crisisdb/human_sacrifice/human_sacrifice_for_polity_header.html" %}
-                            {% endif %}
-                            <th scope="col" style="text-align: center" class="fw-light">Tag
+                            <th class = "fw-normal" style="text-align: center;" scope="col">Human Sacrifice</th>
+                            <th scope="col" style="text-align: center" class="fw-light">Confidence
+                            </th>
+                            <th class = "fw-bold" style="text-align: center;" scope="col"> Disputed?
                                 <sup>
-                                    <span type="button" data-bs-toggle="popover" data-bs-html="true" data-bs-content="The tag shows whether the input data is Trusted, Disputed, Suspected, Inferred, or Unknown.">&nbsp;<i class="far fa-question-circle" style="color:dimgrey"></i></span>
+                                    <span type="button"  tabindex="0" data-bs-toggle="popover" title="Disputed?" data-bs-html="true" data-bs-trigger="focus" data-bs-content='<b class="text-success">No</b>: No disagreement among scholars. <br> <b class="text-danger">Yes</b> : There is disagreement among scholars.'>&nbsp;<i class="fa-regular fa-circle-question"></i></span>
                                 </sup>
                             </th>
-                            <th scope="col" style="text-align: center" class="fw-light">Expert-Checked</th>
+                            <th class = "fw-bold" style="text-align: center;" scope="col"> Expert?
+                                <sup>
+                                    <span type="button"  tabindex="0" data-bs-toggle="popover" title="Expert? (Expert Checked)" data-bs-html="true" data-bs-trigger="focus" data-bs-content='<i class="fa-solid fa-xmark text-danger"></i> : Not yet Checked by a Seshat Expert. <br> <i class="fa-solid fa-check text-success"></i> : Checked and accepted by a Seshat Expert (or RA).'>&nbsp;<i class="fa-regular fa-circle-question"></i></span>
+                                </sup>
+                            </th>
+                            <th class = "fw-bold" style="text-align: center;" scope="col"> DRB?
+                                <sup>
+                                    <span type="button"  tabindex="0" data-bs-toggle="popover" title="DRB? (Data Review Board)" data-bs-html="true" data-bs-trigger="focus" data-bs-content='<i class="fa-regular fa-circle-xmark text-danger"></i> : Not yet Reviewed by Seshat Data Review Board. <br> <i class="fa-solid fa-circle-check text-success"></i> : Data Review Board has reviewed and accepted this value.'>&nbsp;<i class="fa-regular fa-circle-question"></i></span>
+                                </sup>
+                            </th>
                             <th scope="col" style="text-align: center" class="fw-light">Description</th>
                             <th scope="col" style="text-align: center" class="fw-light">Edit</th>
 
@@ -153,82 +254,21 @@
                     <tbody>
                     {% for value in values %}
                     <tr>
-                        <td class="text-secondary" scope="row">{{ forloop.counter }}</td>
-                        {% if value.polity %}
-                        <td style="text-align: center;" class="text-success fw-bold">{{ value.polity.name }}</td>
-                        {% else %}
-                        <td style="text-align: center;">-</td>
-                        {% endif%}
-                        {% block years %}
-                        {% if value.year_from == value.year_to %}
-                            {% if value.year_from < 0 %}
-                            <td style="text-align: center;">{{ value.year_from|abs }} <span class="text-secondary">BCE</span> </td>
-                            {% else %}
-                            <td style="text-align: center;">{{ value.year_from }} <span class="text-secondary">CE</span></td>
-                            {% endif %}
-                        {% elif value.year_to == None %}
-                            {% if value.year_from < 0 %}
-                            <td style="text-align: center;">{{ value.year_from|abs }} <span class="text-secondary">BCE</span></td>
-                            {% else %}
-                            <td style="text-align: center;">{{ value.year_from }} <span class="text-secondary">CE</span></td>
-                            {% endif %}
-                        {% elif value.year_to == None and value.year_from == None %}
-                            <td style="text-align: center;"> <i class="fa-solid fa-minus"></i> </td>
-                        {% else %}
-                            {% if value.year_from < 0 and value.year_to < 0 %}
-                            <td style="text-align: center;">{{ value.year_from|abs }} <span class="text-secondary">BCE</span> <i class="fas fa-long-arrow-alt-right"></i> {{ value.year_to|abs }} <span class="text-secondary">BCE</span></td>
-                            {% elif value.year_from < 0 and value.year_to >= 0 %}
-                            <td style="text-align: center;">{{ value.year_from|abs }} <span class="text-secondary">BCE</span> <i class="fas fa-long-arrow-alt-right"></i> {{ value.year_to }} <span class="text-secondary">CE</span></td>
-                            {% else %}
-                            <td style="text-align: center;">{{ value.year_from }} <span class="text-secondary">CE</span> <i class="fas fa-long-arrow-alt-right"></i> {{ value.year_to }} <span class="text-secondary">CE</span></td>
-                            {% endif %}
-                        {% endif %}
-                        {% endblock years %}
-                        {% if "Human_sacrifice_for_polity" == key %}
-                            {% include "crisisdb/human_sacrifice/human_sacrifice_for_polity.html" %}
-                        {% endif %}
-                    <!-- Tag tag (Disputed/Suspected etc.) -->
-                    {% if value.tag == "DSP" %}
-                        <td style="text-align: center;"><span class="badge rounded-pill bg-danger">{{ value.get_tag_display }}</span>
-                    {% elif  value.tag == "SSP" %}
-                        <td style="text-align: center;"> <span class="badge rounded-pill bg-warning text-dark">{{ value.get_tag_display }}</span>
-                    {% elif  value.tag == "UNK" %}
-                        <td style="text-align: center;"><span class="badge rounded-pill bg-secondary">{{ value.get_tag_display }}</span>
-                    {% elif  value.tag == "IFR" %}
-                        <td style="text-align: center;"><span class="badge rounded-pill bg-primary">{{ value.get_tag_display }}</span>
-                    {% else  %}
-                        <td style="text-align: center;"><span class="badge rounded-pill bg-success">{{ value.get_tag_display }}</span>
-                    {% endif %}
-                    {% if value.display_citations %}
-                    <sup>
-                        <span type="button"  tabindex="0" data-bs-toggle="popover" title="Refs:" data-bs-html="true" data-bs-trigger="focus" data-bs-content="{{ value.display_citations }}">&nbsp;<i class="fa-solid fa-bookmark"></i></span>
-                    </sup>
-                    {% endif %}
-                    </td>
-                    <!-- Verified Tag -->
-                    {% if value.finalized %}
-                        <td class="text-success" style="text-align: center;">
-                            <a type="button" class="btn p-0 m-0" data-bs-toggle="tooltip" data-bs-html="true"  title="By: {{ value.curators_list }}">
-                                        &nbsp; <i class="fas text-success fa-check-circle"></i>
-                            </a>
-                        </td>
-                    {% else %}
-                        <td class="text-danger" style="text-align: center;"><i class="fas fa-times"></i></td>
-                    {% endif %}
-                    <!-- Note -->
-                    <!-- {% if value.note %}
-                        <td class="text-success col-md-4" style="text-align: left;">
-                            <i class="fa-regular fa-comment-dots"></i> {{value.note}}
-                        </td>
-                    {% else %}
-                        <td class="text-danger" style="text-align: center;"><i class="fa-solid fa-battery-empty"></i> </td>
-                    {% endif %} -->
+                        {% include "core/partials/_year_block_value.html" %}
+
+                        {% with "value.get_human_sacrifice_display" as xyz %}
+                        {% include "core/partials/_for_polity.html" with meat=xyz %}
+                        {% endwith %}
+                    {% include "core/partials/_tag_value.html" %}
+                    {% include "core/partials/_disputed_value.html" %}
+                    {% include "core/partials/_expert_drb_checked_value.html" %}
+
                     {% autoescape off %}
-                    <td class="col-md-6" style="text-align: left;"> {{value.comment}}  </td>
+                    <td class="col-md-5" style="text-align: left;"> {{value.comment}}  </td>
                     {% endautoescape %}
-                        {% if "Human_sacrifice_for_polity" == key %}
-                            {% include "crisisdb/human_sacrifice/human_sacrifice_for_polity_edit.html" %}
-                        {% endif %}
+                    {% with "human_sacrifice-update" as updatemeaty %}
+                        {% include "core/partials/_for_polity_edit.html" with meat=updatemeaty %}
+                    {% endwith %}
                         </tr>
                         {% endfor %}
 
@@ -243,5 +283,11 @@
         <div id="chart1"></div>
     </div>
 </div>
+<script>
+    var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+    var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+      return new bootstrap.Popover(popoverTriggerEl)
+    })
+</script>
 
 {% endblock content%}

@@ -1,0 +1,10 @@
+<!-- Expert Checked Tag -->
+{% if value.expert_reviewed %}
+    <td class="text-success" style="text-align: center;">
+        <a type="button" class="btn p-0 m-0" data-bs-toggle="tooltip" data-bs-html="true"  title="By: {{ value.curators_list }}">
+                    &nbsp; <i class="fas text-success fa-check-circle"></i>
+        </a>
+    </td>
+{% else %}
+    <td class="text-danger" style="text-align: center;"><i class="fas fa-times"></i></td>
+{% endif %}

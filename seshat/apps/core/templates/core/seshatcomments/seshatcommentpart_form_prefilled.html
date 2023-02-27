@@ -32,9 +32,20 @@
                         </div>
                         <div class="col-md-6">
                             {{ form.comment_citations|as_crispy_field }}
+                            <div class="pt-5">
+                                <label for="comment_curator"><b>
+                                    Curator:
+                                </b> </label>
+                                <select name="comment_curator" class="form-control form-select mb-3" id="id_comment_curator">
+                                    <option value="{{ comment_curator_id }}" selected>{{ comment_curator }}</option>
+                                  </select>
+                            </div>
+                            <div class="pt-5" style="text-align: right;">
+                                <a href=""><button class="btn btn-block btn-lg my-auto btn-outline-danger">Submit for Creation</button></a>
+                            </div>     
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row" style="display: none;">
                         <div class="col-md-6">
                             <div id="div_id_comment" class="control-group">   
                                 <label for="id_comment" class="control-label ">
@@ -54,11 +65,6 @@
                                     <input type="number" name="comment_order" value="{{ subcom_order }}" class="form-control  mb-3 fw-bold numberinput" id="id_comment_order">
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6" style="text-align: left">
-                            <a href=""><button class="btn btn-block btn-lg btn-danger">Create</button></a>
                         </div>
                     </div>
                 </tr>

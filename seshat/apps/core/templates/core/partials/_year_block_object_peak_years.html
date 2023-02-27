@@ -1,0 +1,27 @@
+{% load humanize %}
+{% load mathfilters %}
+
+{% if  object.peak_year_from == object.peak_year_to %}
+    {% if  object.peak_year_from < 0 %}
+    {{ object.peak_year_from|abs }} <span class="text-secondary">BCE</span> 
+    {% else %}
+    {{ object.peak_year_from }} <span class="text-secondary">CE</span>
+    {% endif %}
+{% elif object.peak_year_to == None %}
+    {% if  object.peak_year_from < 0 %}
+    {{ object.peak_year_from|abs }} <span class="text-secondary">BCE</span>
+    {% else %}
+    {{ object.peak_year_from }} <span class="text-secondary">CE</span>
+    {% endif %}
+{% elif object.peak_year_to == None and  object.peak_year_from == None %}
+    <i class="fa-solid fa-minus"></i> 
+{% else %}
+    {% if  object.peak_year_from < 0 and object.peak_year_to < 0 %}
+    {{ object.peak_year_from|abs }} <span class="text-secondary">BCE</span> <i class="fas fa-long-arrow-alt-right"></i> {{ object.peak_year_to|abs }} <span class="text-secondary">BCE</span>
+    {% elif  object.peak_year_from < 0 and object.peak_year_to >= 0 %}
+    {{ object.peak_year_from|abs }} <span class="text-secondary">BCE</span> <i class="fas fa-long-arrow-alt-right"></i> {{ object.peak_year_to }} <span class="text-secondary">CE</span>
+    {% else %}
+    {{ object.peak_year_from }} <span class="text-secondary">CE</span> <i class="fas fa-long-arrow-alt-right"></i> {{ object.peak_year_to }} <span class="text-secondary">CE</span>
+    {% endif %}
+{% endif %}
+    
