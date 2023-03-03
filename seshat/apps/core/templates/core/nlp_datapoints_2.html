@@ -1,0 +1,1562 @@
+
+{% extends "core/seshat-base.html" %}
+{% load static %}
+{% load humanize %}
+
+
+
+{% block content %}
+<div class="container">
+<h1 class="pt-3 text-teal"><i class="fa-solid fa-people-group"></i> NLP Project Discussion Room</h1>
+<h4 class="pt-3 text-success"><i class="fa-solid fa-chevron-right"></i> &nbsp; NLP DataPoints:</h4>
+<h5><i class="fa-solid fa-circle-chevron-right"></i> Here are some examples of DataPoints (as per my understanding).</h5>
+<h6>* There are lots of other options for metadata and how we can clean up and organize each unit of information in our project, but that should be a good starting point to start the discussion and fill up the gaps in future.</h6>
+
+<div class="col-md-12">
+    <div class="accordion accordion-flush" id="accordionExample">
+        <div class="accordion-item" style="background-color:#fefae6;">
+          <h2 class="accordion-header" id="headingOne">
+            <button class="accordion-button collapsed px-0" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne" style="background-color:#fefae6;">
+              <span class="text-success fw-bold"><i class="fa-solid fa-chevron-right"></i>  &nbsp; NLP DataPoint Examples: (click to see)
+              </span> 
+            </button>
+          </h2>
+          <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne">
+            <div class="accordion-body table-responsive p-0">
+                <table id="table_id" class="table align-middle table-hover table-striped table-bordered" style="padding: 0.25 rem !important;">
+                    <thead >
+                        <tr class="sticky-md-top">
+                            <th class="fw-bold" scope="col" style="text-align: left"> 
+                                Variable </th>
+                            <th scope="col" style="text-align: center" class="fw-bold">
+                                Value (confidence)
+                            </th>
+                            <th scope="col" style="text-align: center" class="fw-bold">
+                                Polity
+                            </th>
+                            <th scope="col" style="text-align: left" class="fw-bold col-md-3">Description</th>
+                            <th scope="col" style="text-align: left" class="fw-bold">Extra Desc 
+                                <sup>
+                                    <span type="button"  tabindex="0" data-bs-toggle="popover" title="Some extra information added by RA to the main description." data-bs-html="true" data-bs-trigger="focus" data-bs-content='Some extra information added by RA to he main description.'>&nbsp;<i class="fa-regular fa-circle-question"></i></span>
+                                </sup>
+                            </th>
+                            <th scope="col" style="text-align: center" class="fw-bold">Exact Quote?</th>
+                            <th scope="col" style="text-align: center" class="fw-bold">Citation</th>
+                            <th scope="col" style="text-align: center" class="fw-bold">Zotero?</th>
+                            <th scope="col" style="text-align: center" class="fw-bold">pages?</th>
+                            <th scope="col" style="text-align: center" class="fw-bold">PDF?</th>
+                            <th scope="col" style="text-align: center" class="fw-bold">TXT?</th>
+                        </tr>
+                        </thead>
+               
+                <tbody style="text-align: center">
+                        <tr>
+                            <td style="text-align: left"> 
+                                Enslavement </td>
+                            <td style="text-align: center">
+                                present (Inferred)
+                            </td>
+                            <td style="text-align: center">
+                                AfGhurd
+                            </td>
+                            <td style="text-align: left" class="col-md-3">"As many as 60,000 inhabitants of Ghazna were massacred, and according to the Ghurid chronicler, al-Juzjani, the prisoners were forced to carry building materials from Ghazna to Firuzkuh, where the mud was mixed with their blood to build the towers of Ghur."</td>
+                            <td style="text-align: center">"At least temporarily."</td>
+                            <td style="text-align: center"><i class="fa-solid fa-circle-check text-success"></i></td>
+                            <td style="text-align: left"><i>
+                                David Thomas. Firuzkuh. The summer capital of the Ghurids. Amira K Bennison. Alison L Gascoigne. eds. 2007. Cities in the Pre-Modern Islamic World: The Urban Impact of Religion, State and Society. Routledge. London.
+                            </i> </td>
+                            <td style="text-align: center"><i class="fa-solid fa-circle-check text-success"></i></td>
+                            <td style="text-align: center"><i class="fa-solid fa-circle-xmark text-danger"></i></td>
+                            <td style="text-align: center"><i class="fa-solid fa-circle-xmark text-danger"></i></td>
+                            <td style="text-align: center"><i class="fa-solid fa-circle-xmark text-danger"></i></td>
+                        </tr>
+    
+                        <tr>
+                            <td style="text-align: left"> 
+                                Destruction </td>
+                            <td style="text-align: center">
+                                present (Evidenced)
+                            </td>
+                            <td style="text-align: center">
+                                AfGhurd
+                            </td>
+                            <td style="text-align: left" class="col-md-3">"Ala al-Din Husayn attacked Ghazna, capital of the eponymous Ghaznavid dynasty. The city reputedly burned for seven days, earning Ala al-Din the sobriquet 'Jahan-Suz' (World Incendiary)."</td>
+                            <td style="text-align: center"><i class="fa-solid fa-circle-xmark text-danger"></i></td>
+                            <td style="text-align: center"><i class="fa-solid fa-circle-check text-success"></i></td>
+                            <td style="text-align: left"><i>
+                                David Thomas. Firuzkuh. The summer capital of the Ghurids. Amira K Bennison. Alison L Gascoigne. eds. 2007. Cities in the Pre-Modern Islamic World: The Urban Impact of Religion, State and Society. Routledge. London.
+                            </i> </td>
+                            <td style="text-align: center"><i class="fa-solid fa-circle-check text-success"></i></td>
+                            <td style="text-align: center"><i class="fa-solid fa-circle-xmark text-danger"></i></td>
+                            <td style="text-align: center"><i class="fa-solid fa-circle-xmark text-danger"></i></td>
+                            <td style="text-align: center"><i class="fa-solid fa-circle-xmark text-danger"></i></td>
+                        </tr>
+    
+    
+                        <tr>
+                            <td style="text-align: left"> 
+                                Destruction </td>
+                            <td style="text-align: center">
+                                present (Evidenced)
+                            </td>
+                            <td style="text-align: center">
+                                AfGhurd
+                            </td>
+                            <td style="text-align: left" class="col-md-3">"In the 1170s the Ghurid ruler appointed his brother, Muhammad, governor of Ghaznah and encouraged him to raid in India. ... in alliance with a Hindu ruler, he reduced Lahore and replaced the last of the Ghaznavid dynasty."</td>
+                            <td style="text-align: center"><i class="fa-solid fa-circle-xmark text-danger"></i></td>
+                            <td style="text-align: center"><i class="fa-solid fa-circle-check text-success"></i></td>
+                            <td style="text-align: left"><i>
+                                (Hodgson 1977, 276) Marshall G S Hodgson. 1977. The Venture of Islam, Volume 2: The Expansion of Islam in the Middle Periods. Volume 2. University of Chicago Press. Chicago.
+                            </i> </td>
+                            <td style="text-align: center"><i class="fa-solid fa-circle-check text-success"></i></td>
+                            <td style="text-align: center"><i class="fa-solid fa-circle-check text-success"></i></td>
+                            <td style="text-align: center"><i class="fa-solid fa-circle-xmark text-danger"></i></td>
+                            <td style="text-align: center"><i class="fa-solid fa-circle-xmark text-danger"></i></td>
+                        </tr>
+                        
+                </tbody>
+            </table>
+            </div>
+          </div>
+        </div>
+
+      </div>
+  </div>
+
+
+<h4 class="pt-3 text-success"> <i class="fa-solid fa-chevron-right"></i> &nbsp; Statistics of all the Variables on Seshat Websites</h4>
+
+<h6 class="pt-3">* Note that Seshat has two old websites. One is <a href="https://seshat.info">Seshat.info</a> (aka Wiki) which serves as the place where all the facts go before being reviewed by Seshat Experts. The public Seshat Website is <a href="https://seshatdabank.info/databrowser">Seshatdatabank.info</a> (aka Browser) is where only the expert-reviewed data shows up. From my experince, most of the data on Wiki is also of great quality and can be used (with minimun extra effort) in our research projects, among which the current NLP project. For example, all the examples in the above table are taken from Wiki.</h6>
+<h6 class="pt-1">* What you see below is the first draft of my analysis of all Seshat variables. As you can see there are so many gaps to be filled in order to take advantage of the full Seshat potential. Some gaps can (and will) be filled by me and Jakob, and for some other gaps, we need some expert and RA help. By filling the gaps, I mean, the process through which we reduce the difference between the current state of the data and the ideal super-clean database where every citation has a Zotero ID and page number and PDF files and correponding text.</h6>
+<ul class="nav nav-pills nav-fill py-4">
+    <li class="nav-item">
+     </li>
+     <li class="nav-item text-success">
+        <a class="nav-link " href="{% url 'nlp_datapoints'%}"><h5>Wiki</h5>  (seshat.info)</a>
+      </li>
+      <li class="nav-item">
+            <a class="nav-link active"  href="{% url 'nlp_datapoints_2'%}"> <h5>Browser</h5>     (seshatdatabank.info)</a>
+      </li>
+    <li class="nav-item">
+    </li>
+  </ul>
+<div class="row">
+    <div class="table-responsive col-md-12">
+        <table id="table_id" class="table align-middle table-hover table-striped table-bordered" style="padding: 0.25 rem !important;">
+            <thead>
+            <tr>
+                <th scope="col" class="text-secondary" style="text-align: center">#</th>
+                <th class="col-md-3 fw-bold" scope="col" style="text-align: left"> 
+                    Variable </th>
+                <th scope="col" style="text-align: center" class="fw-bold">
+                        Citations
+                    </th>
+                <th scope="col" style="text-align: center" class="fw-bold text-success">
+                DataPoints
+                <sup>
+                    <span type="button"  tabindex="0" data-bs-toggle="popover" title="DataPoints are smaller than Citations, because some of our citations are for example Personal Comments, and therefore not really useful for NLP project" data-bs-html="true" data-bs-trigger="focus" data-bs-content='DataPoints are smaller than Citations, because some of our citations are for example Personal Comments, and therefore not really useful for NLP project'>&nbsp;<i class="fa-regular fa-circle-question"></i></span>
+                </sup>
+                </th>
+                <th scope="col" style="text-align: center" class="fw-bold text-success">has Zotero? (visible)</th>
+                <th scope="col" style="text-align: center" class="fw-bold">has pages?</th>
+                <th scope="col" style="text-align: center" class="fw-bold">1-page / (2-5) / 6+ </th>
+                <th scope="col" style="text-align: center" class="fw-bold text-success">has PDF</th>
+                <th scope="col" style="text-align: center" class="fw-bold text-success">PDF <i class="fa-solid fa-arrow-right-long"></i> TXT</th>
+            </tr>
+            </thead>
+            <tbody style="text-align: center">
+    
+                    <tr>
+                        <td class="text-secondary" scope="row">1</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Administrative levels</h5></td>
+                        <td>3373</td>
+                        <td class="fw-bold text-success">3332</td>
+                        <td class="fw-bold text-success">1113 (22)</td>
+                        <td>2883</td>
+                        <td>2390 / 323 / 170</td>
+                        <td class="fw-bold text-success">98</td>
+                        <td class="fw-bold text-success">98</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">2</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Religious levels</h5></td>
+                        <td>1295</td>
+                        <td class="fw-bold text-success">1261</td>
+                        <td class="fw-bold text-success">515 (10)</td>
+                        <td>1105</td>
+                        <td>887 / 110 / 108</td>
+                        <td class="fw-bold text-success">16</td>
+                        <td class="fw-bold text-success">16</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">3</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Military levels</h5></td>
+                        <td>1126</td>
+                        <td class="fw-bold text-success">1108</td>
+                        <td class="fw-bold text-success">400 (39)</td>
+                        <td>973</td>
+                        <td>823 / 108 / 42</td>
+                        <td class="fw-bold text-success">41</td>
+                        <td class="fw-bold text-success">41</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">4</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Moralizing enforcement is agentic</h5></td>
+                        <td>1010</td>
+                        <td class="fw-bold text-success">1010</td>
+                        <td class="fw-bold text-success">0 (0)</td>
+                        <td>0</td>
+                        <td>0 / 0 / 0</td>
+                        <td class="fw-bold text-success">0</td>
+                        <td class="fw-bold text-success">0</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">5</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Duration</h5></td>
+                        <td>946</td>
+                        <td class="fw-bold text-success">926</td>
+                        <td class="fw-bold text-success">374 (0)</td>
+                        <td>737</td>
+                        <td>556 / 66 / 114</td>
+                        <td class="fw-bold text-success">31</td>
+                        <td class="fw-bold text-success">31</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">6</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Settlement hierarchy</h5></td>
+                        <td>914</td>
+                        <td class="fw-bold text-success">896</td>
+                        <td class="fw-bold text-success">369 (34)</td>
+                        <td>759</td>
+                        <td>587 / 99 / 73</td>
+                        <td class="fw-bold text-success">14</td>
+                        <td class="fw-bold text-success">14</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">7</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Population of the largest settlement</h5></td>
+                        <td>897</td>
+                        <td class="fw-bold text-success">853</td>
+                        <td class="fw-bold text-success">343 (38)</td>
+                        <td>654</td>
+                        <td>564 / 50 / 39</td>
+                        <td class="fw-bold text-success">8</td>
+                        <td class="fw-bold text-success">8</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">8</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Polity Population</h5></td>
+                        <td>713</td>
+                        <td class="fw-bold text-success">683</td>
+                        <td class="fw-bold text-success">303 (10)</td>
+                        <td>552</td>
+                        <td>460 / 58 / 33</td>
+                        <td class="fw-bold text-success">8</td>
+                        <td class="fw-bold text-success">8</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">9</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Polity territory</h5></td>
+                        <td>611</td>
+                        <td class="fw-bold text-success">581</td>
+                        <td class="fw-bold text-success">208 (16)</td>
+                        <td>447</td>
+                        <td>372 / 47 / 27</td>
+                        <td class="fw-bold text-success">4</td>
+                        <td class="fw-bold text-success">4</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">10</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Formal legal code</h5></td>
+                        <td>583</td>
+                        <td class="fw-bold text-success">563</td>
+                        <td class="fw-bold text-success">199 (2)</td>
+                        <td>458</td>
+                        <td>378 / 46 / 34</td>
+                        <td class="fw-bold text-success">10</td>
+                        <td class="fw-bold text-success">10</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">11</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Full-time bureaucrats</h5></td>
+                        <td>561</td>
+                        <td class="fw-bold text-success">522</td>
+                        <td class="fw-bold text-success">244 (22)</td>
+                        <td>448</td>
+                        <td>386 / 34 / 28</td>
+                        <td class="fw-bold text-success">9</td>
+                        <td class="fw-bold text-success">9</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">12</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Degree of centralization</h5></td>
+                        <td>544</td>
+                        <td class="fw-bold text-success">534</td>
+                        <td class="fw-bold text-success">220 (7)</td>
+                        <td>465</td>
+                        <td>335 / 63 / 66</td>
+                        <td class="fw-bold text-success">21</td>
+                        <td class="fw-bold text-success">21</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">13</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Swords</h5></td>
+                        <td>538</td>
+                        <td class="fw-bold text-success">533</td>
+                        <td class="fw-bold text-success">269 (46)</td>
+                        <td>415</td>
+                        <td>317 / 80 / 18</td>
+                        <td class="fw-bold text-success">11</td>
+                        <td class="fw-bold text-success">11</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">14</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Ideological reinforcement of equality</h5></td>
+                        <td>531</td>
+                        <td class="fw-bold text-success">492</td>
+                        <td class="fw-bold text-success">243 (2)</td>
+                        <td>393</td>
+                        <td>239 / 59 / 95</td>
+                        <td class="fw-bold text-success">3</td>
+                        <td class="fw-bold text-success">3</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">15</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Capital</h5></td>
+                        <td>528</td>
+                        <td class="fw-bold text-success">526</td>
+                        <td class="fw-bold text-success">171 (6)</td>
+                        <td>411</td>
+                        <td>339 / 36 / 36</td>
+                        <td class="fw-bold text-success">12</td>
+                        <td class="fw-bold text-success">12</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">16</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Spears</h5></td>
+                        <td>510</td>
+                        <td class="fw-bold text-success">500</td>
+                        <td class="fw-bold text-success">249 (42)</td>
+                        <td>421</td>
+                        <td>371 / 33 / 17</td>
+                        <td class="fw-bold text-success">18</td>
+                        <td class="fw-bold text-success">18</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">17</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Self bow</h5></td>
+                        <td>508</td>
+                        <td class="fw-bold text-success">477</td>
+                        <td class="fw-bold text-success">240 (49)</td>
+                        <td>410</td>
+                        <td>308 / 67 / 35</td>
+                        <td class="fw-bold text-success">9</td>
+                        <td class="fw-bold text-success">9</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">18</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Helmets</h5></td>
+                        <td>503</td>
+                        <td class="fw-bold text-success">499</td>
+                        <td class="fw-bold text-success">234 (41)</td>
+                        <td>369</td>
+                        <td>297 / 44 / 28</td>
+                        <td class="fw-bold text-success">7</td>
+                        <td class="fw-bold text-success">7</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">19</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Composite bow</h5></td>
+                        <td>500</td>
+                        <td class="fw-bold text-success">440</td>
+                        <td class="fw-bold text-success">170 (31)</td>
+                        <td>379</td>
+                        <td>325 / 41 / 13</td>
+                        <td class="fw-bold text-success">9</td>
+                        <td class="fw-bold text-success">9</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">20</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Professional soldiers</h5></td>
+                        <td>498</td>
+                        <td class="fw-bold text-success">484</td>
+                        <td class="fw-bold text-success">167 (5)</td>
+                        <td>408</td>
+                        <td>350 / 42 / 16</td>
+                        <td class="fw-bold text-success">14</td>
+                        <td class="fw-bold text-success">14</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">21</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Professional priesthood</h5></td>
+                        <td>484</td>
+                        <td class="fw-bold text-success">467</td>
+                        <td class="fw-bold text-success">146 (8)</td>
+                        <td>378</td>
+                        <td>324 / 25 / 29</td>
+                        <td class="fw-bold text-success">5</td>
+                        <td class="fw-bold text-success">5</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">22</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Rulers are legitimated by gods</h5></td>
+                        <td>480</td>
+                        <td class="fw-bold text-success">472</td>
+                        <td class="fw-bold text-success">152 (0)</td>
+                        <td>348</td>
+                        <td>225 / 60 / 63</td>
+                        <td class="fw-bold text-success">1</td>
+                        <td class="fw-bold text-success">1</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">23</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">irrigation systems</h5></td>
+                        <td>475</td>
+                        <td class="fw-bold text-success">463</td>
+                        <td class="fw-bold text-success">186 (6)</td>
+                        <td>398</td>
+                        <td>323 / 42 / 33</td>
+                        <td class="fw-bold text-success">7</td>
+                        <td class="fw-bold text-success">7</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">24</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Indigenous coins</h5></td>
+                        <td>453</td>
+                        <td class="fw-bold text-success">429</td>
+                        <td class="fw-bold text-success">137 (5)</td>
+                        <td>355</td>
+                        <td>270 / 40 / 45</td>
+                        <td class="fw-bold text-success">10</td>
+                        <td class="fw-bold text-success">10</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">25</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Ideological thought equates rulers and commoners</h5></td>
+                        <td>449</td>
+                        <td class="fw-bold text-success">440</td>
+                        <td class="fw-bold text-success">232 (1)</td>
+                        <td>369</td>
+                        <td>251 / 53 / 65</td>
+                        <td class="fw-bold text-success">1</td>
+                        <td class="fw-bold text-success">1</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">26</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Professional military officers</h5></td>
+                        <td>448</td>
+                        <td class="fw-bold text-success">434</td>
+                        <td class="fw-bold text-success">152 (5)</td>
+                        <td>381</td>
+                        <td>328 / 24 / 29</td>
+                        <td class="fw-bold text-success">5</td>
+                        <td class="fw-bold text-success">5</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">27</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Ideological thought equates elites and commoners</h5></td>
+                        <td>443</td>
+                        <td class="fw-bold text-success">407</td>
+                        <td class="fw-bold text-success">207 (1)</td>
+                        <td>320</td>
+                        <td>205 / 59 / 56</td>
+                        <td class="fw-bold text-success">1</td>
+                        <td class="fw-bold text-success">1</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">28</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">markets</h5></td>
+                        <td>427</td>
+                        <td class="fw-bold text-success">409</td>
+                        <td class="fw-bold text-success">147 (12)</td>
+                        <td>329</td>
+                        <td>264 / 28 / 37</td>
+                        <td class="fw-bold text-success">6</td>
+                        <td class="fw-bold text-success">6</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">29</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Shields</h5></td>
+                        <td>427</td>
+                        <td class="fw-bold text-success">422</td>
+                        <td class="fw-bold text-success">179 (40)</td>
+                        <td>315</td>
+                        <td>242 / 40 / 33</td>
+                        <td class="fw-bold text-success">3</td>
+                        <td class="fw-bold text-success">3</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">30</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Written records</h5></td>
+                        <td>420</td>
+                        <td class="fw-bold text-success">408</td>
+                        <td class="fw-bold text-success">158 (8)</td>
+                        <td>345</td>
+                        <td>286 / 30 / 29</td>
+                        <td class="fw-bold text-success">11</td>
+                        <td class="fw-bold text-success">11</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">31</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Daggers</h5></td>
+                        <td>420</td>
+                        <td class="fw-bold text-success">410</td>
+                        <td class="fw-bold text-success">199 (42)</td>
+                        <td>325</td>
+                        <td>267 / 31 / 27</td>
+                        <td class="fw-bold text-success">5</td>
+                        <td class="fw-bold text-success">5</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">32</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">elite status is hereditary</h5></td>
+                        <td>419</td>
+                        <td class="fw-bold text-success">416</td>
+                        <td class="fw-bold text-success">166 (6)</td>
+                        <td>355</td>
+                        <td>259 / 57 / 39</td>
+                        <td class="fw-bold text-success">5</td>
+                        <td class="fw-bold text-success">5</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">33</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Iron</h5></td>
+                        <td>410</td>
+                        <td class="fw-bold text-success">404</td>
+                        <td class="fw-bold text-success">150 (21)</td>
+                        <td>311</td>
+                        <td>274 / 15 / 22</td>
+                        <td class="fw-bold text-success">4</td>
+                        <td class="fw-bold text-success">4</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">34</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Judges</h5></td>
+                        <td>409</td>
+                        <td class="fw-bold text-success">394</td>
+                        <td class="fw-bold text-success">146 (4)</td>
+                        <td>339</td>
+                        <td>288 / 24 / 27</td>
+                        <td class="fw-bold text-success">6</td>
+                        <td class="fw-bold text-success">6</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">35</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Peak Date</h5></td>
+                        <td>407</td>
+                        <td class="fw-bold text-success">403</td>
+                        <td class="fw-bold text-success">126 (3)</td>
+                        <td>322</td>
+                        <td>247 / 28 / 46</td>
+                        <td class="fw-bold text-success">10</td>
+                        <td class="fw-bold text-success">10</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">36</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Steel</h5></td>
+                        <td>407</td>
+                        <td class="fw-bold text-success">403</td>
+                        <td class="fw-bold text-success">162 (22)</td>
+                        <td>315</td>
+                        <td>250 / 43 / 22</td>
+                        <td class="fw-bold text-success">0</td>
+                        <td class="fw-bold text-success">0</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">37</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Limb protection</h5></td>
+                        <td>407</td>
+                        <td class="fw-bold text-success">400</td>
+                        <td class="fw-bold text-success">144 (47)</td>
+                        <td>306</td>
+                        <td>231 / 55 / 20</td>
+                        <td class="fw-bold text-success">4</td>
+                        <td class="fw-bold text-success">4</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">38</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Leather, cloth</h5></td>
+                        <td>404</td>
+                        <td class="fw-bold text-success">396</td>
+                        <td class="fw-bold text-success">183 (27)</td>
+                        <td>319</td>
+                        <td>255 / 44 / 20</td>
+                        <td class="fw-bold text-success">6</td>
+                        <td class="fw-bold text-success">6</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">39</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Horses</h5></td>
+                        <td>400</td>
+                        <td class="fw-bold text-success">399</td>
+                        <td class="fw-bold text-success">189 (22)</td>
+                        <td>315</td>
+                        <td>268 / 31 / 16</td>
+                        <td class="fw-bold text-success">2</td>
+                        <td class="fw-bold text-success">2</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">40</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Breastplates</h5></td>
+                        <td>393</td>
+                        <td class="fw-bold text-success">376</td>
+                        <td class="fw-bold text-success">133 (47)</td>
+                        <td>285</td>
+                        <td>219 / 41 / 25</td>
+                        <td class="fw-bold text-success">6</td>
+                        <td class="fw-bold text-success">6</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">41</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Roads</h5></td>
+                        <td>392</td>
+                        <td class="fw-bold text-success">378</td>
+                        <td class="fw-bold text-success">136 (5)</td>
+                        <td>290</td>
+                        <td>259 / 14 / 17</td>
+                        <td class="fw-bold text-success">3</td>
+                        <td class="fw-bold text-success">3</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">42</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Specialized government buildings</h5></td>
+                        <td>390</td>
+                        <td class="fw-bold text-success">362</td>
+                        <td class="fw-bold text-success">162 (52)</td>
+                        <td>304</td>
+                        <td>256 / 20 / 28</td>
+                        <td class="fw-bold text-success">5</td>
+                        <td class="fw-bold text-success">5</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">43</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Language</h5></td>
+                        <td>389</td>
+                        <td class="fw-bold text-success">382</td>
+                        <td class="fw-bold text-success">108 (3)</td>
+                        <td>280</td>
+                        <td>231 / 23 / 26</td>
+                        <td class="fw-bold text-success">4</td>
+                        <td class="fw-bold text-success">4</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">44</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Battle axes</h5></td>
+                        <td>382</td>
+                        <td class="fw-bold text-success">373</td>
+                        <td class="fw-bold text-success">171 (45)</td>
+                        <td>297</td>
+                        <td>241 / 38 / 18</td>
+                        <td class="fw-bold text-success">2</td>
+                        <td class="fw-bold text-success">2</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">45</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Tension siege engines</h5></td>
+                        <td>380</td>
+                        <td class="fw-bold text-success">373</td>
+                        <td class="fw-bold text-success">169 (0)</td>
+                        <td>302</td>
+                        <td>240 / 26 / 36</td>
+                        <td class="fw-bold text-success">0</td>
+                        <td class="fw-bold text-success">0</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">46</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Script</h5></td>
+                        <td>378</td>
+                        <td class="fw-bold text-success">365</td>
+                        <td class="fw-bold text-success">140 (4)</td>
+                        <td>308</td>
+                        <td>256 / 29 / 23</td>
+                        <td class="fw-bold text-success">18</td>
+                        <td class="fw-bold text-success">18</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">47</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Courts</h5></td>
+                        <td>375</td>
+                        <td class="fw-bold text-success">351</td>
+                        <td class="fw-bold text-success">124 (5)</td>
+                        <td>284</td>
+                        <td>235 / 26 / 23</td>
+                        <td class="fw-bold text-success">1</td>
+                        <td class="fw-bold text-success">1</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">48</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Earth ramparts</h5></td>
+                        <td>370</td>
+                        <td class="fw-bold text-success">359</td>
+                        <td class="fw-bold text-success">122 (18)</td>
+                        <td>288</td>
+                        <td>242 / 38 / 8</td>
+                        <td class="fw-bold text-success">5</td>
+                        <td class="fw-bold text-success">5</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">49</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Chainmail</h5></td>
+                        <td>370</td>
+                        <td class="fw-bold text-success">368</td>
+                        <td class="fw-bold text-success">141 (23)</td>
+                        <td>269</td>
+                        <td>211 / 44 / 14</td>
+                        <td class="fw-bold text-success">7</td>
+                        <td class="fw-bold text-success">7</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">50</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Javelins</h5></td>
+                        <td>365</td>
+                        <td class="fw-bold text-success">356</td>
+                        <td class="fw-bold text-success">176 (39)</td>
+                        <td>283</td>
+                        <td>240 / 30 / 13</td>
+                        <td class="fw-bold text-success">3</td>
+                        <td class="fw-bold text-success">3</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">51</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Supra-polity relations</h5></td>
+                        <td>364</td>
+                        <td class="fw-bold text-success">359</td>
+                        <td class="fw-bold text-success">140 (4)</td>
+                        <td>282</td>
+                        <td>200 / 29 / 52</td>
+                        <td class="fw-bold text-success">3</td>
+                        <td class="fw-bold text-success">3</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">52</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">War clubs</h5></td>
+                        <td>359</td>
+                        <td class="fw-bold text-success">345</td>
+                        <td class="fw-bold text-success">183 (43)</td>
+                        <td>260</td>
+                        <td>217 / 32 / 11</td>
+                        <td class="fw-bold text-success">1</td>
+                        <td class="fw-bold text-success">1</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">53</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Rulers are gods</h5></td>
+                        <td>352</td>
+                        <td class="fw-bold text-success">349</td>
+                        <td class="fw-bold text-success">194 (8)</td>
+                        <td>301</td>
+                        <td>155 / 29 / 117</td>
+                        <td class="fw-bold text-success">3</td>
+                        <td class="fw-bold text-success">3</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">54</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Plate armor</h5></td>
+                        <td>345</td>
+                        <td class="fw-bold text-success">341</td>
+                        <td class="fw-bold text-success">127 (23)</td>
+                        <td>249</td>
+                        <td>193 / 48 / 8</td>
+                        <td class="fw-bold text-success">7</td>
+                        <td class="fw-bold text-success">7</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">55</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Religious literature</h5></td>
+                        <td>343</td>
+                        <td class="fw-bold text-success">330</td>
+                        <td class="fw-bold text-success">125 (7)</td>
+                        <td>270</td>
+                        <td>236 / 21 / 13</td>
+                        <td class="fw-bold text-success">10</td>
+                        <td class="fw-bold text-success">10</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">56</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">food storage sites</h5></td>
+                        <td>337</td>
+                        <td class="fw-bold text-success">325</td>
+                        <td class="fw-bold text-success">130 (11)</td>
+                        <td>265</td>
+                        <td>214 / 21 / 30</td>
+                        <td class="fw-bold text-success">2</td>
+                        <td class="fw-bold text-success">2</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">57</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Fiction</h5></td>
+                        <td>336</td>
+                        <td class="fw-bold text-success">324</td>
+                        <td class="fw-bold text-success">129 (6)</td>
+                        <td>243</td>
+                        <td>200 / 19 / 24</td>
+                        <td class="fw-bold text-success">6</td>
+                        <td class="fw-bold text-success">6</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">58</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Stone walls (mortared)</h5></td>
+                        <td>328</td>
+                        <td class="fw-bold text-success">319</td>
+                        <td class="fw-bold text-success">102 (19)</td>
+                        <td>235</td>
+                        <td>196 / 22 / 17</td>
+                        <td class="fw-bold text-success">5</td>
+                        <td class="fw-bold text-success">5</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">59</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Ideology reinforces prosociality</h5></td>
+                        <td>328</td>
+                        <td class="fw-bold text-success">317</td>
+                        <td class="fw-bold text-success">220 (1)</td>
+                        <td>275</td>
+                        <td>157 / 76 / 42</td>
+                        <td class="fw-bold text-success">6</td>
+                        <td class="fw-bold text-success">6</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">60</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">History</h5></td>
+                        <td>324</td>
+                        <td class="fw-bold text-success">311</td>
+                        <td class="fw-bold text-success">103 (7)</td>
+                        <td>253</td>
+                        <td>214 / 27 / 12</td>
+                        <td class="fw-bold text-success">7</td>
+                        <td class="fw-bold text-success">7</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">61</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Settlements in a defensive position</h5></td>
+                        <td>320</td>
+                        <td class="fw-bold text-success">302</td>
+                        <td class="fw-bold text-success">112 (8)</td>
+                        <td>255</td>
+                        <td>204 / 33 / 18</td>
+                        <td class="fw-bold text-success">4</td>
+                        <td class="fw-bold text-success">4</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">62</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Scientific literature</h5></td>
+                        <td>318</td>
+                        <td class="fw-bold text-success">305</td>
+                        <td class="fw-bold text-success">106 (6)</td>
+                        <td>244</td>
+                        <td>195 / 22 / 27</td>
+                        <td class="fw-bold text-success">4</td>
+                        <td class="fw-bold text-success">4</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">63</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Slings</h5></td>
+                        <td>316</td>
+                        <td class="fw-bold text-success">308</td>
+                        <td class="fw-bold text-success">146 (33)</td>
+                        <td>222</td>
+                        <td>164 / 41 / 17</td>
+                        <td class="fw-bold text-success">1</td>
+                        <td class="fw-bold text-success">1</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">64</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Alternative names</h5></td>
+                        <td>312</td>
+                        <td class="fw-bold text-success">308</td>
+                        <td class="fw-bold text-success">114 (7)</td>
+                        <td>236</td>
+                        <td>209 / 14 / 13</td>
+                        <td class="fw-bold text-success">8</td>
+                        <td class="fw-bold text-success">8</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">65</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Practical literature</h5></td>
+                        <td>306</td>
+                        <td class="fw-bold text-success">293</td>
+                        <td class="fw-bold text-success">116 (15)</td>
+                        <td>239</td>
+                        <td>202 / 21 / 16</td>
+                        <td class="fw-bold text-success">4</td>
+                        <td class="fw-bold text-success">4</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">66</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Merit promotion</h5></td>
+                        <td>305</td>
+                        <td class="fw-bold text-success">283</td>
+                        <td class="fw-bold text-success">108 (10)</td>
+                        <td>222</td>
+                        <td>194 / 24 / 4</td>
+                        <td class="fw-bold text-success">3</td>
+                        <td class="fw-bold text-success">3</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">67</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Scaled armor</h5></td>
+                        <td>305</td>
+                        <td class="fw-bold text-success">303</td>
+                        <td class="fw-bold text-success">120 (23)</td>
+                        <td>220</td>
+                        <td>156 / 42 / 22</td>
+                        <td class="fw-bold text-success">10</td>
+                        <td class="fw-bold text-success">10</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">68</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Calendar</h5></td>
+                        <td>301</td>
+                        <td class="fw-bold text-success">287</td>
+                        <td class="fw-bold text-success">115 (19)</td>
+                        <td>243</td>
+                        <td>212 / 18 / 13</td>
+                        <td class="fw-bold text-success">5</td>
+                        <td class="fw-bold text-success">5</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">69</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">drinking water supply systems</h5></td>
+                        <td>299</td>
+                        <td class="fw-bold text-success">291</td>
+                        <td class="fw-bold text-success">113 (2)</td>
+                        <td>245</td>
+                        <td>199 / 28 / 18</td>
+                        <td class="fw-bold text-success">5</td>
+                        <td class="fw-bold text-success">5</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">70</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Bronze</h5></td>
+                        <td>296</td>
+                        <td class="fw-bold text-success">287</td>
+                        <td class="fw-bold text-success">114 (31)</td>
+                        <td>207</td>
+                        <td>185 / 19 / 3</td>
+                        <td class="fw-bold text-success">6</td>
+                        <td class="fw-bold text-success">6</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">71</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Articles</h5></td>
+                        <td>288</td>
+                        <td class="fw-bold text-success">276</td>
+                        <td class="fw-bold text-success">133 (5)</td>
+                        <td>234</td>
+                        <td>175 / 24 / 35</td>
+                        <td class="fw-bold text-success">5</td>
+                        <td class="fw-bold text-success">5</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">72</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Donkeys</h5></td>
+                        <td>285</td>
+                        <td class="fw-bold text-success">278</td>
+                        <td class="fw-bold text-success">141 (15)</td>
+                        <td>200</td>
+                        <td>179 / 20 / 1</td>
+                        <td class="fw-bold text-success">1</td>
+                        <td class="fw-bold text-success">1</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">73</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Crossbow</h5></td>
+                        <td>280</td>
+                        <td class="fw-bold text-success">278</td>
+                        <td class="fw-bold text-success">63 (12)</td>
+                        <td>189</td>
+                        <td>165 / 13 / 11</td>
+                        <td class="fw-bold text-success">1</td>
+                        <td class="fw-bold text-success">1</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">74</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Complex fortifications</h5></td>
+                        <td>276</td>
+                        <td class="fw-bold text-success">266</td>
+                        <td class="fw-bold text-success">111 (38)</td>
+                        <td>223</td>
+                        <td>187 / 9 / 27</td>
+                        <td class="fw-bold text-success">2</td>
+                        <td class="fw-bold text-success">2</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">75</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Specialized military vessels</h5></td>
+                        <td>275</td>
+                        <td class="fw-bold text-success">267</td>
+                        <td class="fw-bold text-success">77 (0)</td>
+                        <td>226</td>
+                        <td>191 / 21 / 14</td>
+                        <td class="fw-bold text-success">6</td>
+                        <td class="fw-bold text-success">6</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">76</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Lists, tables, and classifications</h5></td>
+                        <td>274</td>
+                        <td class="fw-bold text-success">262</td>
+                        <td class="fw-bold text-success">105 (5)</td>
+                        <td>223</td>
+                        <td>189 / 24 / 10</td>
+                        <td class="fw-bold text-success">2</td>
+                        <td class="fw-bold text-success">2</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">77</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Philosophy</h5></td>
+                        <td>268</td>
+                        <td class="fw-bold text-success">255</td>
+                        <td class="fw-bold text-success">91 (4)</td>
+                        <td>196</td>
+                        <td>158 / 20 / 18</td>
+                        <td class="fw-bold text-success">3</td>
+                        <td class="fw-bold text-success">3</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">78</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Professional Lawyers</h5></td>
+                        <td>267</td>
+                        <td class="fw-bold text-success">254</td>
+                        <td class="fw-bold text-success">82 (3)</td>
+                        <td>214</td>
+                        <td>170 / 18 / 26</td>
+                        <td class="fw-bold text-success">1</td>
+                        <td class="fw-bold text-success">1</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">79</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Ports</h5></td>
+                        <td>267</td>
+                        <td class="fw-bold text-success">257</td>
+                        <td class="fw-bold text-success">75 (5)</td>
+                        <td>222</td>
+                        <td>182 / 28 / 12</td>
+                        <td class="fw-bold text-success">1</td>
+                        <td class="fw-bold text-success">1</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">80</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Wooden palisades</h5></td>
+                        <td>263</td>
+                        <td class="fw-bold text-success">253</td>
+                        <td class="fw-bold text-success">94 (17)</td>
+                        <td>195</td>
+                        <td>166 / 21 / 8</td>
+                        <td class="fw-bold text-success">0</td>
+                        <td class="fw-bold text-success">0</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">81</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Constraint on executive by government</h5></td>
+                        <td>261</td>
+                        <td class="fw-bold text-success">260</td>
+                        <td class="fw-bold text-success">124 (0)</td>
+                        <td>211</td>
+                        <td>161 / 33 / 17</td>
+                        <td class="fw-bold text-success">4</td>
+                        <td class="fw-bold text-success">4</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">82</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Laminar armor</h5></td>
+                        <td>259</td>
+                        <td class="fw-bold text-success">257</td>
+                        <td class="fw-bold text-success">83 (23)</td>
+                        <td>166</td>
+                        <td>125 / 28 / 13</td>
+                        <td class="fw-bold text-success">4</td>
+                        <td class="fw-bold text-success">4</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">83</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Stone walls (non-mortared)</h5></td>
+                        <td>259</td>
+                        <td class="fw-bold text-success">252</td>
+                        <td class="fw-bold text-success">106 (16)</td>
+                        <td>184</td>
+                        <td>168 / 13 / 3</td>
+                        <td class="fw-bold text-success">1</td>
+                        <td class="fw-bold text-success">1</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">84</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Handheld firearms</h5></td>
+                        <td>253</td>
+                        <td class="fw-bold text-success">251</td>
+                        <td class="fw-bold text-success">74 (0)</td>
+                        <td>181</td>
+                        <td>153 / 22 / 6</td>
+                        <td class="fw-bold text-success">2</td>
+                        <td class="fw-bold text-success">2</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">85</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Ditch</h5></td>
+                        <td>253</td>
+                        <td class="fw-bold text-success">241</td>
+                        <td class="fw-bold text-success">112 (17)</td>
+                        <td>190</td>
+                        <td>154 / 32 / 4</td>
+                        <td class="fw-bold text-success">4</td>
+                        <td class="fw-bold text-success">4</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">86</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Moat</h5></td>
+                        <td>248</td>
+                        <td class="fw-bold text-success">235</td>
+                        <td class="fw-bold text-success">108 (26)</td>
+                        <td>195</td>
+                        <td>180 / 14 / 1</td>
+                        <td class="fw-bold text-success">2</td>
+                        <td class="fw-bold text-success">2</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">87</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Phonetic alphabetic writing</h5></td>
+                        <td>243</td>
+                        <td class="fw-bold text-success">232</td>
+                        <td class="fw-bold text-success">76 (2)</td>
+                        <td>196</td>
+                        <td>158 / 23 / 15</td>
+                        <td class="fw-bold text-success">4</td>
+                        <td class="fw-bold text-success">4</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">88</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Foreign coins</h5></td>
+                        <td>243</td>
+                        <td class="fw-bold text-success">222</td>
+                        <td class="fw-bold text-success">86 (5)</td>
+                        <td>192</td>
+                        <td>137 / 32 / 23</td>
+                        <td class="fw-bold text-success">4</td>
+                        <td class="fw-bold text-success">4</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">89</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Polearms</h5></td>
+                        <td>236</td>
+                        <td class="fw-bold text-success">224</td>
+                        <td class="fw-bold text-success">98 (36)</td>
+                        <td>180</td>
+                        <td>151 / 19 / 10</td>
+                        <td class="fw-bold text-success">6</td>
+                        <td class="fw-bold text-success">6</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">90</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Copper</h5></td>
+                        <td>235</td>
+                        <td class="fw-bold text-success">225</td>
+                        <td class="fw-bold text-success">99 (33)</td>
+                        <td>168</td>
+                        <td>157 / 8 / 3</td>
+                        <td class="fw-bold text-success">1</td>
+                        <td class="fw-bold text-success">1</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">91</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Wood, bark, etc</h5></td>
+                        <td>218</td>
+                        <td class="fw-bold text-success">209</td>
+                        <td class="fw-bold text-success">91 (28)</td>
+                        <td>144</td>
+                        <td>119 / 13 / 12</td>
+                        <td class="fw-bold text-success">0</td>
+                        <td class="fw-bold text-success">0</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">92</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Couriers</h5></td>
+                        <td>217</td>
+                        <td class="fw-bold text-success">211</td>
+                        <td class="fw-bold text-success">99 (1)</td>
+                        <td>162</td>
+                        <td>147 / 9 / 6</td>
+                        <td class="fw-bold text-success">2</td>
+                        <td class="fw-bold text-success">2</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">93</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">relationship to preceding (quasi)polity</h5></td>
+                        <td>214</td>
+                        <td class="fw-bold text-success">213</td>
+                        <td class="fw-bold text-success">79 (3)</td>
+                        <td>154</td>
+                        <td>115 / 15 / 24</td>
+                        <td class="fw-bold text-success">6</td>
+                        <td class="fw-bold text-success">6</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">94</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Constraint on executive by non-government</h5></td>
+                        <td>213</td>
+                        <td class="fw-bold text-success">213</td>
+                        <td class="fw-bold text-success">83 (0)</td>
+                        <td>165</td>
+                        <td>124 / 24 / 17</td>
+                        <td class="fw-bold text-success">9</td>
+                        <td class="fw-bold text-success">9</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">95</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Small vessels (canoes, etc)</h5></td>
+                        <td>212</td>
+                        <td class="fw-bold text-success">200</td>
+                        <td class="fw-bold text-success">62 (5)</td>
+                        <td>158</td>
+                        <td>123 / 18 / 17</td>
+                        <td class="fw-bold text-success">3</td>
+                        <td class="fw-bold text-success">3</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">96</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Bridges</h5></td>
+                        <td>206</td>
+                        <td class="fw-bold text-success">203</td>
+                        <td class="fw-bold text-success">88 (0)</td>
+                        <td>155</td>
+                        <td>139 / 1 / 15</td>
+                        <td class="fw-bold text-success">1</td>
+                        <td class="fw-bold text-success">1</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">97</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Supracultural entity</h5></td>
+                        <td>206</td>
+                        <td class="fw-bold text-success">202</td>
+                        <td class="fw-bold text-success">64 (3)</td>
+                        <td>120</td>
+                        <td>101 / 16 / 3</td>
+                        <td class="fw-bold text-success">6</td>
+                        <td class="fw-bold text-success">6</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">98</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Sacred Texts</h5></td>
+                        <td>204</td>
+                        <td class="fw-bold text-success">193</td>
+                        <td class="fw-bold text-success">78 (8)</td>
+                        <td>159</td>
+                        <td>143 / 8 / 8</td>
+                        <td class="fw-bold text-success">1</td>
+                        <td class="fw-bold text-success">1</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">99</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Mines or quarries</h5></td>
+                        <td>202</td>
+                        <td class="fw-bold text-success">194</td>
+                        <td class="fw-bold text-success">66 (0)</td>
+                        <td>155</td>
+                        <td>121 / 10 / 24</td>
+                        <td class="fw-bold text-success">0</td>
+                        <td class="fw-bold text-success">0</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">100</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Examination system</h5></td>
+                        <td>195</td>
+                        <td class="fw-bold text-success">169</td>
+                        <td class="fw-bold text-success">90 (10)</td>
+                        <td>135</td>
+                        <td>122 / 11 / 2</td>
+                        <td class="fw-bold text-success">1</td>
+                        <td class="fw-bold text-success">1</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">101</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Camels</h5></td>
+                        <td>193</td>
+                        <td class="fw-bold text-success">182</td>
+                        <td class="fw-bold text-success">95 (7)</td>
+                        <td>123</td>
+                        <td>100 / 21 / 2</td>
+                        <td class="fw-bold text-success">0</td>
+                        <td class="fw-bold text-success">0</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">102</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">production of public goods</h5></td>
+                        <td>190</td>
+                        <td class="fw-bold text-success">173</td>
+                        <td class="fw-bold text-success">78 (0)</td>
+                        <td>114</td>
+                        <td>61 / 23 / 27</td>
+                        <td class="fw-bold text-success">1</td>
+                        <td class="fw-bold text-success">1</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">103</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Precious metals</h5></td>
+                        <td>189</td>
+                        <td class="fw-bold text-success">172</td>
+                        <td class="fw-bold text-success">65 (5)</td>
+                        <td>131</td>
+                        <td>114 / 9 / 8</td>
+                        <td class="fw-bold text-success">2</td>
+                        <td class="fw-bold text-success">2</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">104</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Fortified camps</h5></td>
+                        <td>186</td>
+                        <td class="fw-bold text-success">176</td>
+                        <td class="fw-bold text-success">71 (14)</td>
+                        <td>150</td>
+                        <td>130 / 13 / 7</td>
+                        <td class="fw-bold text-success">2</td>
+                        <td class="fw-bold text-success">2</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">105</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Canals</h5></td>
+                        <td>177</td>
+                        <td class="fw-bold text-success">175</td>
+                        <td class="fw-bold text-success">61 (5)</td>
+                        <td>132</td>
+                        <td>121 / 6 / 5</td>
+                        <td class="fw-bold text-success">7</td>
+                        <td class="fw-bold text-success">7</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">106</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Nonwritten records</h5></td>
+                        <td>170</td>
+                        <td class="fw-bold text-success">153</td>
+                        <td class="fw-bold text-success">54 (8)</td>
+                        <td>130</td>
+                        <td>110 / 8 / 12</td>
+                        <td class="fw-bold text-success">1</td>
+                        <td class="fw-bold text-success">1</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">107</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Dogs</h5></td>
+                        <td>169</td>
+                        <td class="fw-bold text-success">166</td>
+                        <td class="fw-bold text-success">98 (25)</td>
+                        <td>89</td>
+                        <td>61 / 20 / 8</td>
+                        <td class="fw-bold text-success">0</td>
+                        <td class="fw-bold text-success">0</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">108</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Elephants</h5></td>
+                        <td>167</td>
+                        <td class="fw-bold text-success">161</td>
+                        <td class="fw-bold text-success">60 (5)</td>
+                        <td>131</td>
+                        <td>108 / 21 / 2</td>
+                        <td class="fw-bold text-success">3</td>
+                        <td class="fw-bold text-success">3</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">109</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Gunpowder siege artillery</h5></td>
+                        <td>165</td>
+                        <td class="fw-bold text-success">163</td>
+                        <td class="fw-bold text-success">29 (0)</td>
+                        <td>109</td>
+                        <td>97 / 4 / 8</td>
+                        <td class="fw-bold text-success">2</td>
+                        <td class="fw-bold text-success">2</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">110</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Sling siege engines</h5></td>
+                        <td>162</td>
+                        <td class="fw-bold text-success">157</td>
+                        <td class="fw-bold text-success">14 (2)</td>
+                        <td>77</td>
+                        <td>65 / 2 / 10</td>
+                        <td class="fw-bold text-success">2</td>
+                        <td class="fw-bold text-success">2</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">111</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Postal stations</h5></td>
+                        <td>155</td>
+                        <td class="fw-bold text-success">150</td>
+                        <td class="fw-bold text-success">45 (1)</td>
+                        <td>97</td>
+                        <td>80 / 10 / 7</td>
+                        <td class="fw-bold text-success">1</td>
+                        <td class="fw-bold text-success">1</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">112</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Impeachment</h5></td>
+                        <td>147</td>
+                        <td class="fw-bold text-success">144</td>
+                        <td class="fw-bold text-success">49 (0)</td>
+                        <td>113</td>
+                        <td>87 / 16 / 10</td>
+                        <td class="fw-bold text-success">4</td>
+                        <td class="fw-bold text-success">4</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">113</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Tokens</h5></td>
+                        <td>141</td>
+                        <td class="fw-bold text-success">127</td>
+                        <td class="fw-bold text-success">54 (6)</td>
+                        <td>110</td>
+                        <td>90 / 10 / 10</td>
+                        <td class="fw-bold text-success">2</td>
+                        <td class="fw-bold text-success">2</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">114</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Paper currency</h5></td>
+                        <td>141</td>
+                        <td class="fw-bold text-success">121</td>
+                        <td class="fw-bold text-success">50 (5)</td>
+                        <td>103</td>
+                        <td>85 / 5 / 13</td>
+                        <td class="fw-bold text-success">1</td>
+                        <td class="fw-bold text-success">1</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">115</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Long walls</h5></td>
+                        <td>136</td>
+                        <td class="fw-bold text-success">125</td>
+                        <td class="fw-bold text-success">64 (35)</td>
+                        <td>103</td>
+                        <td>93 / 6 / 4</td>
+                        <td class="fw-bold text-success">2</td>
+                        <td class="fw-bold text-success">2</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">116</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">scale of supra-cultural interaction</h5></td>
+                        <td>134</td>
+                        <td class="fw-bold text-success">127</td>
+                        <td class="fw-bold text-success">29 (2)</td>
+                        <td>51</td>
+                        <td>43 / 6 / 2</td>
+                        <td class="fw-bold text-success">2</td>
+                        <td class="fw-bold text-success">2</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">117</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">preceding (quasi)polity</h5></td>
+                        <td>129</td>
+                        <td class="fw-bold text-success">128</td>
+                        <td class="fw-bold text-success">34 (2)</td>
+                        <td>79</td>
+                        <td>65 / 7 / 7</td>
+                        <td class="fw-bold text-success">3</td>
+                        <td class="fw-bold text-success">3</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">118</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Non-phonetic writing</h5></td>
+                        <td>125</td>
+                        <td class="fw-bold text-success">124</td>
+                        <td class="fw-bold text-success">46 (2)</td>
+                        <td>107</td>
+                        <td>95 / 6 / 6</td>
+                        <td class="fw-bold text-success">2</td>
+                        <td class="fw-bold text-success">2</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">119</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Mnemonic devices</h5></td>
+                        <td>114</td>
+                        <td class="fw-bold text-success">99</td>
+                        <td class="fw-bold text-success">39 (0)</td>
+                        <td>55</td>
+                        <td>49 / 1 / 5</td>
+                        <td class="fw-bold text-success">4</td>
+                        <td class="fw-bold text-success">4</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">120</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Original name</h5></td>
+                        <td>113</td>
+                        <td class="fw-bold text-success">113</td>
+                        <td class="fw-bold text-success">21 (2)</td>
+                        <td>67</td>
+                        <td>55 / 8 / 4</td>
+                        <td class="fw-bold text-success">3</td>
+                        <td class="fw-bold text-success">3</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">121</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">General postal service</h5></td>
+                        <td>110</td>
+                        <td class="fw-bold text-success">105</td>
+                        <td class="fw-bold text-success">34 (1)</td>
+                        <td>67</td>
+                        <td>55 / 6 / 6</td>
+                        <td class="fw-bold text-success">0</td>
+                        <td class="fw-bold text-success">0</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">122</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">succeeding (quasi)polity</h5></td>
+                        <td>91</td>
+                        <td class="fw-bold text-success">88</td>
+                        <td class="fw-bold text-success">23 (1)</td>
+                        <td>57</td>
+                        <td>53 / 1 / 3</td>
+                        <td class="fw-bold text-success">0</td>
+                        <td class="fw-bold text-success">0</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">123</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Merchant ships pressed into service</h5></td>
+                        <td>88</td>
+                        <td class="fw-bold text-success">80</td>
+                        <td class="fw-bold text-success">15 (3)</td>
+                        <td>59</td>
+                        <td>35 / 17 / 7</td>
+                        <td class="fw-bold text-success">1</td>
+                        <td class="fw-bold text-success">1</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">124</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Atlatl</h5></td>
+                        <td>74</td>
+                        <td class="fw-bold text-success">72</td>
+                        <td class="fw-bold text-success">50 (16)</td>
+                        <td>59</td>
+                        <td>39 / 11 / 9</td>
+                        <td class="fw-bold text-success">2</td>
+                        <td class="fw-bold text-success">2</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">125</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">Modern fortifications</h5></td>
+                        <td>53</td>
+                        <td class="fw-bold text-success">45</td>
+                        <td class="fw-bold text-success">11 (1)</td>
+                        <td>36</td>
+                        <td>34 / 1 / 1</td>
+                        <td class="fw-bold text-success">1</td>
+                        <td class="fw-bold text-success">1</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary" scope="row">126</td>
+                        <td class="fw-bold"><h5 class="mt-1 text-teal" style="text-align: left">communal dining</h5></td>
+                        <td>1</td>
+                        <td class="fw-bold text-success">1</td>
+                        <td class="fw-bold text-success">1 (0)</td>
+                        <td>1</td>
+                        <td>0 / 0 / 1</td>
+                        <td class="fw-bold text-success">0</td>
+                        <td class="fw-bold text-success">0</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    
+    </div>
+
+    {% endblock %}
+    

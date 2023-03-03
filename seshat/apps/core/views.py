@@ -753,6 +753,13 @@ def activate(request, uidb64, token):
 def discussion_room(request):
     return render(request, 'core/discussion_room.html')
 
+# NLP Room 1
+def nlp_datapoints(request):
+    return render(request, 'core/nlp_datapoints.html')
+
+# NLP Room 2
+def nlp_datapoints_2(request):
+    return render(request, 'core/nlp_datapoints_2.html')
 
 def account_activation_sent(request):
     return render(request, 'core/account_activation_sent.html')
