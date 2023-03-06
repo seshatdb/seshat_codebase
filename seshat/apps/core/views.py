@@ -77,6 +77,14 @@ def seshatindex(request):
     #print('STATICFILES_DIRS:', settings.STATICFILES_DIRS)
     return render(request, 'core/seshat-index.html', context=context)
 
+def seshatmethods(request):
+    context = {
+        'insta': "Instabilities All Over the Place..",
+        'trans': "Transitions All Over the Place",
+    }
+    #print('static_root:', settings.STATIC_ROOT)
+    #print('STATICFILES_DIRS:', settings.STATICFILES_DIRS)
+    return render(request, 'core/seshat-methods.html', context=context)
 
 class ReferenceListView(generic.ListView):
     model = Reference

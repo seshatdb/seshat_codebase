@@ -27,20 +27,45 @@
                     <thead >
                         <tr class="sticky-md-top">
                             <th class="fw-bold" scope="col" style="text-align: left"> 
-                                Variable </th>
+                                Variable 
+                            <sup>
+                    <span type="button"  tabindex="0" data-bs-toggle="popover" title="Variable" data-bs-html="true" data-bs-trigger="focus" data-bs-content='In Seshat, we have collected information on different aspects of past human societies. As the value of the gathered data varies from polity to polity and from time period to time period (even in one polity), we call these Variables.'>&nbsp;<i class="fa-regular fa-circle-question"></i></span>
+                            </sup>
+                        </th>
                             <th scope="col" style="text-align: center" class="fw-bold">
-                                Value (confidence)
+                                Value 
+                                <sup>
+                                    <span type="button"  tabindex="0" data-bs-toggle="popover" title="Value (confidence)" data-bs-html="true" data-bs-trigger="focus" data-bs-content='Depending on the type of variable, the collected data can be a numerical range or simply information on the absence or presence of that variable. We also keep the information on whether the concluded value is "Evidenced", "Inferred", or "suspected".'>&nbsp;<i class="fa-regular fa-circle-question"></i></span>
+                                            </sup>
+                                (confidence)
+                            
                             </th>
-                            <th scope="col" style="text-align: center" class="fw-bold">
-                                Polity
+                            <th scope="col" style="text-align: left" class="fw-bold">
+                                <span style="white-space: nowrap;">
+                                Polity<sup>
+                    <span type="button"  tabindex="0" data-bs-toggle="popover" title="Polity" data-bs-html="true" data-bs-trigger="focus" data-bs-content='A polity is defined as an independent political unit. Kinds of polities range from villages (local communities) through simple and complex chiefdoms to states and empires. It is important to note that a polity has a duration and in many cases (if a specific time period is NOT associated with a variable, the full duration of its corresponding polity is assumed in our analyses.)'>&nbsp;<i class="fa-regular fa-circle-question"></i></span>
+                            </sup>
+                        </span>
+
                             </th>
-                            <th scope="col" style="text-align: left" class="fw-bold col-md-3">Description</th>
+                            <th scope="col" style="text-align: left" class="fw-bold col-md-3">Description
+                                                                      <sup>
+                    <span type="button"  tabindex="0" data-bs-toggle="popover" title="Description" data-bs-html="true" data-bs-trigger="focus" data-bs-content='Description is a the text added by the RA who inserted this particular datapoint into Seshat Website. It can be an exact quote from the reference he/she was referring to, or his/her understandig of the concept based on the text in the reference.'>&nbsp;<i class="fa-regular fa-circle-question"></i></span>
+                            </sup>
+                            </th>
                             <th scope="col" style="text-align: left" class="fw-bold">Extra Desc 
                                 <sup>
-                                    <span type="button"  tabindex="0" data-bs-toggle="popover" title="Some extra information added by RA to the main description." data-bs-html="true" data-bs-trigger="focus" data-bs-content='Some extra information added by RA to he main description.'>&nbsp;<i class="fa-regular fa-circle-question"></i></span>
+                                    <span type="button"  tabindex="0" data-bs-toggle="popover" title="Extra Description" data-bs-html="true" data-bs-trigger="focus" data-bs-content='Some extra information added to the main description by the RA. This is also as per the RA's understanding and can add sentiment to the description. Extra description could have been taken from another part of the refernce that was not included in the main description'>&nbsp;<i class="fa-regular fa-circle-question"></i></span>
                                 </sup>
                             </th>
-                            <th scope="col" style="text-align: center" class="fw-bold">Exact Quote?</th>
+                            <th scope="col" style="text-align: center" class="fw-bold">Exact Quote?
+                                <sup>
+                                    <span type="button"  tabindex="0" data-bs-toggle="popover" title="Exact Quote?" data-bs-html="true" data-bs-trigger="focus" data-bs-content='
+                                    <i class="fa-solid fa-circle-check text-success"></i>: The text in the Description is and exact quote from the Citation it is referring to.
+                                    <br>
+                                    <i class="fa-solid fa-circle-xmark text-danger"></i>: The text in the Description is <b>NOT</b> an exact quote from the Citation it is referring to.'>&nbsp;<i class="fa-regular fa-circle-question"></i></span>
+                                </sup>
+                            </th>
                             <th scope="col" style="text-align: center" class="fw-bold">Citation</th>
                             <th scope="col" style="text-align: center" class="fw-bold">Zotero?</th>
                             <th scope="col" style="text-align: center" class="fw-bold">pages?</th>
@@ -1557,6 +1582,12 @@
         </div>
     
     </div>
+    <script>
+        var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+        var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+          return new bootstrap.Popover(popoverTriggerEl)
+        })
+    </script>
 
     {% endblock %}
     
