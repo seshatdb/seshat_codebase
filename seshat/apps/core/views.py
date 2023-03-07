@@ -86,6 +86,18 @@ def seshatmethods(request):
     #print('STATICFILES_DIRS:', settings.STATICFILES_DIRS)
     return render(request, 'core/seshat-methods.html', context=context)
 
+def seshatwhoweare(request):
+    context = {
+        'insta': "Instabilities All Over the Place..",
+    }
+    return render(request, 'core/seshat-whoweare.html', context=context)
+
+def seshatacknowledgements(request):
+    context = {
+        'insta': "Instabilities All Over the Place..",
+    }
+    return render(request, 'core/seshat-acknowledgements.html', context=context)
+
 class ReferenceListView(generic.ListView):
     model = Reference
     template_name = "core/references/reference_list.html"

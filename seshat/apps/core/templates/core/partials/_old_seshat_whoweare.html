@@ -1,0 +1,373 @@
+{% load static %}
+
+<style>
+    .accordion-button::after {
+            margin-left: 10px !important;
+    }
+</style>
+<div class="container pt-4">
+    <div class="row pe-4">
+        <div class="col-md-6">    <h1 class="article-title oswald-font">
+            Who Are We?						</h1></div>
+        <div class="col-md-6">
+            <a href="{% url 'seshat-index' %}" class="btn btn-teal ms-auto py-2 my-2 float-end"><i class="fa-solid fa-house"></i> &nbsp; Home</a>
+        </div>
+    </div>
+
+<div class="article-content" style="overflow:hidden;">
+<img class="alignright wp-image-120002299 block-inline p-4" style="float: right; margin-left: 20px; max-width: 50%;" src="https://upload.wikimedia.org/wikipedia/commons/7/71/Seshat.svg" alt="Seshat Methods Edit 2" width="270" height="600">
+<div class="article-content">
+    <p  class="h5 fw-light" style="line-height:2"><b>
+        Seshat: Global History Databank
+    </b>  is governed by the Board of Directors, who are advised by a number of subject matter consultants. Data collection for a specific NGA is coordinated by a Regional Editor, and data entered for a specific polity has been gathered in consultation with <a href="#">expert historians and archaeologists</a>&nbsp;but is&nbsp;continually updated via ongoing&nbsp;expert review (<a href="{% url 'seshat-methods' %}">here’s how</a>). The hands-on work of populating the databank is accomplished by the project’s Research Assistants and Postdoctoral Research Associates. We thank all of the hardworking Seshat contributors for their tireless efforts populating our Databank with high-quality historical data.</p>
+<h3 class="pt-3">Working with Collaborators</h3>
+<p  class="h5 fw-light" style="line-height:2">Since its inception in 2011, the Seshat project has developed and matured, and a growing number of <a href="#">distinguished scholars</a> have agreed to help us with the data collection in their respective fields of expertise with the support of our regional and temporal editors. Our interactions with these domain experts take different forms, including answering a few questions over email to discussions over zoom, participation at workshops, project planning and analysis. We are very open to collaborators being involved in the publications resulting from the analysis of Seshat data. All publications that make use of Seshat data follow conventional social sciences rules regarding authorship and thus use a format that distinguishes between first (or lead), second, third, etc. authors. This structure reflects the collaborative nature of the Seshat project and allows for recognition of major intellectual and time commitments by contributing experts. Generally speaking, members of the core team are responsible for taking a lead on publications that analyze the database as a whole, but experts who contributed heavily to the analyzed data can be invited as co-authors. Furthermore there is considerable scope for papers comparing a particular polity or society to a set of other polities/societies (however defined), or analyses focusing on a particular region and period (e.g., Ancient Mediterranean, Early-Modern Southeast Asia, etc.). Experts are very welcome to head an authorial team of other experts and Seshat core team members and to become lead authors of the resulting papers.</p>
+<p  class="h5 fw-light" style="line-height:2">Scholarly contributions are recognized both on the database website and as a formal publication. Because our database is essentially an electronic encyclopedia, we are planning to use the following form of citation that acknowledges the input of the experts (using one of our early contributors at Yale University as an example):</p>
+<p style="padding-left: 40px;"><span style="color: #808080;">Manning, J.G. 2013. Egypt, Ptolemaic Kingdom (305 CE – 30 BCE): Social Complexity, Warfare and Military Technology, and Ritual Variables. <em>Seshat: Global History Databank (http://seshat.info/)</em>. Evolution Institute, Tampa, FL.</span></p>
+
+<div>
+    <section id="text-3" class="widget widget_text"><h2 class="widget-title">What is Seshat?</h2>			<div class="textwidget"><iframe width="720" height="400" src="https://www.youtube.com/embed/dLD2kBLII0Y" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+    </div>
+        </section>	
+</div>
+
+
+<h2 class="pt-3">Board of Directors</h2>
+<p><i class="fa-solid fa-caret-right"></i> &nbsp; <a href="http://peterturchin.com/" class="fw-bold">Prof.&nbsp;Peter Turchin</a><b>*</b>, Chair (evolutionary anthropologist at the University of Connecticut and Complexity Science Hub Vienna)<br><i class="fa-solid fa-caret-right"></i> &nbsp; 
+<a href="http://www.icea.ox.ac.uk/people/professor-harvey-whitehouse" class="fw-bold">Prof.&nbsp;Harvey Whitehouse</a><b>*</b> (anthropologist at the University of Oxford)<br><i class="fa-solid fa-caret-right"></i> &nbsp; 
+<a href="http://www.st-benets.ox.ac.uk/people/pieter-francois" class="fw-bold">Prof. Pieter François</a><b>*</b> (historian and evolutionary anthropologist at the University of Oxford)<br><i class="fa-solid fa-caret-right"></i> &nbsp; 
+<a href="https://www.kent.edu/mcls/profile/jennifer-larson" class="fw-bold">Prof. Jennifer Larson</a> (classicist at Kent State University)<br><i class="fa-solid fa-caret-right"></i> &nbsp; 
+<a href="https://liberalarts.utexas.edu/anthropology/faculty/rc39628" class="fw-bold">Prof. R. Alan Covey</a> (archaeologist &amp; anthropologist, University of Texas at Austin)</p>
+<h6>* Founding Director</h6>
+<h2 class="pt-3">Staff</h2>
+<p><i class="fa-solid fa-caret-right"></i> &nbsp; <a class="fw-bold" href="https://evolution-institute.academia.edu/DanielHoyer">Dr. Daniel Hoyer,</a> Project Manager &amp; Senior Researcher<br><i class="fa-solid fa-caret-right"></i> &nbsp; 
+<a class="fw-bold" href="https://www.csh.ac.at/researcher/jenny-reddish/">Jenny Reddish</a>, Lead Editor<br><i class="fa-solid fa-caret-right"></i> &nbsp; 
+<a class="fw-bold" href="https://www.researchgate.net/profile/Enrico-Cioni">Enrico Cioni</a>, Lead Research Assistant</p>
+<h4 class="pt-3">Project Researchers</h4>
+<p><i class="fa-solid fa-caret-right"></i> &nbsp;<a class="fw-bold" href="http://www.ocean.washington.edu/home/Jim+Bennett"> James Bennett</a>, Senior Data Scientist<br><i class="fa-solid fa-caret-right"></i> &nbsp; 
+Dr. <a class="fw-bold" href="https://www.csh.ac.at/researcher/majid-benam/">Majid Benam</a>, Data Scientist<br><i class="fa-solid fa-caret-right"></i> &nbsp; 
+Dr. <a class="fw-bold" href="https://www.csh.ac.at/researcher/daniel-kondor/">Daniel Kondor</a>, Data Scientist<br><i class="fa-solid fa-caret-right"></i> &nbsp; 
+Dr. <a class="fw-bold" href="https://oxford.academia.edu/RachelAinsworth">Rachel Ainsworth</a>,&nbsp;Research&nbsp;Officer<br><i class="fa-solid fa-caret-right"></i> &nbsp; 
+Dr. <a class="fw-bold" href="https://oxford.academia.edu/giulianazzaro">Giulia Nazzaro</a>, Research&nbsp;Officer</p>
+<h4 class="pt-3">Research Assistants</h4>
+<p><i class="fa-solid fa-caret-right"></i> &nbsp; Samantha Holder<br><i class="fa-solid fa-caret-right"></i> &nbsp; 
+Rania Jaber</p>
+<h3 class="pt-3">Consultants and Contributors</h3>
+<p><i class="fa-solid fa-caret-right"></i> &nbsp; Prof. <a href="http://www.rug.nl/staff/j.bolt/">Jutta Bolt</a> (Rijksuniversiteit Groningen): economic development<br><i class="fa-solid fa-caret-right"></i> &nbsp;
+Prof. <a href="http://irows.ucr.edu/research/citemp/citemp.html">Christopher Chase-Dunn</a> (UC Riverside): settlement and polity sizes and locations<br><i class="fa-solid fa-caret-right"></i> &nbsp;
+Prof. <a href="http://biosciences.exeter.ac.uk/staff/index.php?web_id=Thomas_Currie">Thomas E. Currie</a> (University of Exeter):&nbsp;coordinator for resources, agriculture, and population variables<br><i class="fa-solid fa-caret-right"></i> &nbsp;
+Dr. <a href="https://www.researchgate.net/profile/Donagh_Davis">Donagh Davis</a> (Sciences Po, DataChemist): information technology<br><i class="fa-solid fa-caret-right"></i> &nbsp;
+Dr. <a href="https://www.cs.tcd.ie/Kevin.Feeney">Kevin C. Feeney</a> (DataChemist): information technology coordinator<br><i class="fa-solid fa-caret-right"></i> &nbsp;
+Dr. <a href="http://researchprofiles.herts.ac.uk/portal/en/persons/pieter-francois%283b3b5f29-394c-4bde-9199-b582e8a5a07b%29.html">Pieter François</a> (Hertfordshire, Oxford): historical coordinator<br><i class="fa-solid fa-caret-right"></i> &nbsp;
+Prof. <a href="http://www.tiem.utk.edu/~gavrila/">Sergey Gavrilets</a>&nbsp;(NIMBioS, University of Tennessee): social and biological evolution, mathematical models<br><i class="fa-solid fa-caret-right"></i> &nbsp;
+Prof. <a href="http://jackgoldstone.gmu.edu/'">Jack A. Goldstone</a> (George Mason): institutions, economic and political development<br><i class="fa-solid fa-caret-right"></i> &nbsp;
+<a href="https://www.researchgate.net/profile/Jill_Levine">Jill Levine</a>, digital history<br><i class="fa-solid fa-caret-right"></i> &nbsp;
+Prof. <a href="http://www.yale.edu/classics/faculty_manning.html">J. G. Manning</a> (Yale): social science history<br><i class="fa-solid fa-caret-right"></i> &nbsp;
+Prof. <a href="http://www.manning.pitt.edu/">Patrick Manning</a> (Pittsburgh, <a href="http://www.worldhistory.pitt.edu/">World History Center</a>, <a href="http://www.chia.pitt.edu/">CHIA</a>, <a href="http://www.pitt.edu/~css/">CSSG</a>): global historical social science<br><i class="fa-solid fa-caret-right"></i> &nbsp;
+Dr. <a href="https://www.researchgate.net/profile/Gavin_Mendel-Gleason">Gavin Mendel-Gleason</a> (DataChemist): information technology<br><i class="fa-solid fa-caret-right"></i> &nbsp;
+Prof. <a href="https://lynx.let.hokudai.ac.jp/~myuki/masaki/">Masaki Yuki </a>(Hokkaido University): relational mobility<br><i class="fa-solid fa-caret-right"></i> &nbsp;
+Prof. <a href="http://www2.lawrence.edu/fast/PEREGRIP/peregrine.html">Peter N. Peregrine</a> (Lawrence): archaeology<br><i class="fa-solid fa-caret-right"></i> &nbsp;
+Dr. <a href="http://www.orinst.ox.ac.uk/staff/eanes/freynolds.html">Frances Reynolds</a> (University of Oxford): rituals<br><i class="fa-solid fa-caret-right"></i> &nbsp;
+Prof. <a href="http://www.des.ucdavis.edu/faculty/richerson/richerson.htm">Peter J. Richerson</a> (UC Davis): cultural evolution, institutions<br><i class="fa-solid fa-caret-right"></i> &nbsp;
+Prof. <a href="http://sites.tufts.edu/enricospolaore/">Enrico Spolaore</a> (Tufts): institutions, economic development<br><i class="fa-solid fa-caret-right"></i> &nbsp;
+Dr.&nbsp;<a href="https://lynx.let.hokudai.ac.jp/~myuki/masaki/">Robert Thomson</a> (Hokusei Gakuen University): relational mobility<br><i class="fa-solid fa-caret-right"></i> &nbsp;
+Prof. <a href="http://peterturchin.com/">Peter Turchin</a> (UConn, EI): social complexity and warfare coordinator<br><i class="fa-solid fa-caret-right"></i> &nbsp;
+Prof. <a href="https://socialhistory.org/en/staff/jan-luiten-van-zanden">Jan Luiten&nbsp;van Zanden</a>&nbsp;(Universiteit Utrecht): economic development<br><i class="fa-solid fa-caret-right"></i> &nbsp;
+Prof. <a href="http://www.anderson.ucla.edu/faculty/global-economics-and-management/faculty/wacziarg">Romain Wacziarg</a> (UCLA): institutions, economic development<br><i class="fa-solid fa-caret-right"></i> &nbsp;
+Prof. <a href="http://intersci.ss.uci.edu/wiki/index.php/DW_home">Douglas R. White</a> (UC Irvine): database development, statistical analysis<br><i class="fa-solid fa-caret-right"></i> &nbsp;
+Prof. <a href="http://www.icea.ox.ac.uk/about-us/people/prof-harvey-whitehouse/">Harvey Whitehouse</a> (Oxford): ritual and religion coordinator<br><i class="fa-solid fa-caret-right"></i> &nbsp;
+Prof. <a href="http://evolution.binghamton.edu/dswilson/">David S. Wilson</a> (Binghamton): evolutionary science<br><i class="fa-solid fa-caret-right"></i> &nbsp;
+Prof.&nbsp;<a href="http://www.pitt.edu/~viz/">Vladimir I. Zadorozhny</a> (Pittsburgh, <a href="http://www.chia.pitt.edu/">CHIA</a>; <a href="http://www.pitt.edu/~css/">CSSG</a>): computational social science</p>
+<h3 class="pt-3">Regional Editors</h3>
+<p><b><i class="fa-solid fa-caret-right"></i> &nbsp; Egypt: </b>Prof. J. G. Manning (Ancient); Prof. Andrey Korotayev (Islamic)<br>
+<b><i class="fa-solid fa-caret-right"></i> &nbsp; Mesopotamia: </b>Prof. Arkadiusz Marciniak (Neolithic)<br>
+<b><i class="fa-solid fa-caret-right"></i> &nbsp; Eastern Mediterranean:</b> Dr. Johannes Preiser-Kapeller (Late Antiquity)<br>
+<b><i class="fa-solid fa-caret-right"></i> &nbsp; Mongolia: </b>Prof. Nikolay Kradin<br>
+<b><i class="fa-solid fa-caret-right"></i> &nbsp; Northern China</b>: Dr. Daniel Hoyer<br>
+<b><i class="fa-solid fa-caret-right"></i> &nbsp; Latium:</b> Dr. Daniel Hoyer (Ancient)<br>
+<b><i class="fa-solid fa-caret-right"></i> &nbsp; Lower Mekong Basin:</b> Dr. Miriam Stark<br>
+<b><i class="fa-solid fa-caret-right"></i> &nbsp; Susiana:</b> Dr. Alessio Palmisano<br>
+<b><i class="fa-solid fa-caret-right"></i> &nbsp; Oaxaca:</b> Prof. Charles Spencer<br>
+<b><i class="fa-solid fa-caret-right"></i> &nbsp; Low-Complexity NGAs:</b> Dr. Daniel Mullins<br>
+<b><i class="fa-solid fa-caret-right"></i> &nbsp; Galilee:</b> Dr. Oren Litwin<br>
+<b><i class="fa-solid fa-caret-right"></i> &nbsp; Crete:</b> Dr. Kostis Christakis</p>
+<h4 class="pt-3">Graduate Students Associated with the Project</h4>
+<p><i class="fa-solid fa-caret-right"></i> &nbsp; Kiran Basava<br><i class="fa-solid fa-caret-right"></i> &nbsp; 
+Rudolf Cesaretti<br><i class="fa-solid fa-caret-right"></i> &nbsp; 
+Alice Williams</p>
+<h5 class="pt-3">Volunteers</h5>
+<p><i class="fa-solid fa-caret-right"></i> &nbsp; Eli Levine<br><i class="fa-solid fa-caret-right"></i> &nbsp; 
+Robert Miller<br><i class="fa-solid fa-caret-right"></i> &nbsp; 
+Olga Turchin (social media)</p>
+
+
+<h5>Past Project Members</h5>
+<div class="col-md-12">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="accordion accordion-flush" id="accordionExample">
+                <div class="accordion-item" style="background-color:#fefae6;">
+                  <h2 class="accordion-header" id="headingOne">
+                    <button class="accordion-button collapsed px-0" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne" style="background-color:#fefae6; margin-left:0px;">
+                      <span class="text-success"> Previous Staff
+                      </span> 
+                    </button>
+                  </h2>
+                  <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne">
+                    <div class="accordion-body table-responsive p-0">
+                        <table id="table_id" class="table align-middle table-hover" style="padding: 0.25 rem !important;">         
+                        <tbody style="text-align: center">
+                                <tr>
+                                    <td style="text-align: left"> 
+                                        Brittany Sears (Project Coordinator) </td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: left"> 
+                                        Edward Turner (Data Coordinator) </td>
+                                </tr>
+                                
+                        </tbody>
+                    </table>
+                    </div>
+                  </div>
+                </div>
+        
+              </div>
+        </div>
+    
+        <div class="col-md-3">
+            <div class="accordion accordion-flush" id="accordionExample">
+                <div class="accordion-item" style="background-color:#fefae6;">
+                  <h2 class="accordion-header" id="headingtwo">
+                    <button class="accordion-button collapsed px-0" type="button" data-bs-toggle="collapse" data-bs-target="#collapsetwo" aria-expanded="false" aria-controls="collapsetwo" style="background-color:#fefae6;">
+                      <span class="text-success">Past Postdoctoral Research Fellows
+                      </span> 
+                    </button>
+                  </h2>
+                  <div id="collapsetwo" class="accordion-collapse collapse" aria-labelledby="headingtwo">
+                    <div class="accordion-body table-responsive p-0">
+                        <table id="table_id" class="table align-middle table-hover" style="padding: 0.25 rem !important;">
+                       
+                        <tbody>
+   
+                            <tr><td style="text-align: left"> 
+                                Dr. Pieter François
+                                </td></tr>
+                                <tr><td style="text-align: left"> 
+                                Dr. Daniel Hoyer
+                                </td></tr>
+                                <tr><td style="text-align: left"> 
+                                Dr. Bojan Božić
+                                </td></tr>
+                                <tr><td style="text-align: left"> 
+                                Dr. Chris Kavanagh
+                                </td></tr>
+                                <tr><td style="text-align: left"> 
+                                Dr. Christina Collins
+                                </td></tr>
+                                <tr><td style="text-align: left"> 
+                                Dr. Stephanie Grohmann
+                                </td></tr>
+                                <tr><td style="text-align: left"> 
+                                Dr. Marta Krueger
+                                </td></tr>
+                                <tr><td style="text-align: left"> 
+                                Dr. Gavin Mendel-Gleason
+                                </td></tr>
+                                <tr><td style="text-align: left"> 
+                                Dr. Daniel Mullins
+                                </td></tr>
+                                <tr><td style="text-align: left"> 
+                                Dr. Selin Nugent
+                                </td></tr>
+                                <tr><td style="text-align: left"> 
+                                Dr. Robert Ross
+                                </td></tr>
+                                <tr><td style="text-align: left"> 
+                                Dr. Patrick Savage</td></tr>
+                                
+                        </tbody>
+                    </table>
+                    </div>
+                  </div>
+                </div>
+        
+              </div>
+        </div>
+    
+        <div class="col-md-3">
+            <div class="accordion accordion-flush" id="accordionExample">
+                <div class="accordion-item" style="background-color:#fefae6;">
+                  <h2 class="accordion-header" id="headingthree">
+                    <button class="accordion-button collapsed px-0" type="button" data-bs-toggle="collapse" data-bs-target="#collapsethree" aria-expanded="false" aria-controls="collapsethree" style="background-color:#fefae6;">
+                      <span class="text-success">Past Research Assistants
+                      </span> 
+                    </button>
+                  </h2>
+                  <div id="collapsethree" class="accordion-collapse collapse" aria-labelledby="headingthree">
+                    <div class="accordion-body table-responsive p-0">
+                        <table id="table_id" class="table align-middle table-hover" style="padding: 0.25 rem !important;">
+                       
+                        <tbody>
+                            <tr><td style="text-align: left">
+                                Robert Howard
+                                </td></tr>
+                                <tr><td style="text-align: left">
+                                Afra Tayfur
+                                </td></tr>
+                                <tr><td style="text-align: left">
+                                Alice Williams
+                                </td></tr>
+                                <tr><td style="text-align: left">
+                                Anke Marshe
+                                </td></tr>
+                                <tr><td style="text-align: left">
+                                Caroline Ivimey-Parr Charlotte Field
+                                </td></tr>
+                                <tr><td style="text-align: left">
+                                Erin Petrella
+                                </td></tr>
+                                <tr><td style="text-align: left">
+                                Hiroko Inoue
+                                </td></tr>
+                                <tr><td style="text-align: left">
+                                Heba Hesham Abdelgawad Jade Whitlam
+                                </td></tr>
+                                <tr><td style="text-align: left">
+                                Jennifer Bates
+                                </td></tr>
+                                <tr><td style="text-align: left">
+                                Joe Figliuolo
+                                </td></tr>
+                                <tr><td style="text-align: left">
+                                Lulu (Po-Ju) Tuan
+                                </td></tr>
+                                <tr><td style="text-align: left">
+                                Marta Bartkowiak
+                                </td></tr>
+                                <tr><td style="text-align: left">
+                                Michael Gantley
+                                </td></tr>
+                                <tr><td style="text-align: left">
+                                Peter Rudiak-Gould
+                                </td></tr>
+                                <tr><td style="text-align: left">
+                                Robert Harding
+                                </td></tr>
+                                <tr><td style="text-align: left">
+                                Rosalind Purcell
+                                </td></tr>
+                                <tr><td style="text-align: left">
+                                Rudolf Cesaretti
+                                </td></tr>
+                                <tr><td style="text-align: left">
+                                Stephen Duane Dean Junior Tess Bennett
+                                </td></tr>
+                                <tr><td style="text-align: left">
+                                Thomas Cressy
+                                </td></tr>
+                                <tr><td style="text-align: left">
+                                Veronica Walker
+                                </td></tr>
+                                <tr><td style="text-align: left">
+                                Will Farrell
+                                </td></tr>
+                                <tr><td style="text-align: left">
+                                Eva Brandl
+                                </td></tr>
+                                <tr><td style="text-align: left">
+                                Alessandro Ceccarelli Greine Jordan
+                                </td></tr>
+                                <tr><td style="text-align: left">
+                                Ana Marin Morales
+                                </td></tr>
+                                <tr><td style="text-align: left">
+                                Hanzi Zhang
+                                </td></tr>
+                                <tr><td style="text-align: left">
+                                Agathe Dupeyron
+                                </td></tr>
+                                <tr><td style="text-align: left">
+                                Chandler Freeman-Orr Odhran Gavin
+                                </td></tr>
+                                <tr><td style="text-align: left">
+                                Chelsea Thorpe
+                                </td></tr>
+                                <tr><td style="text-align: left">
+                                Samantha Holder
+                                </td></tr>
+                                <tr><td style="text-align: left">
+                                Kiran Basava
+                                </td></tr>
+                                <tr><td style="text-align: left">
+                                Kalin Bullman
+                                </td></tr>
+                                <tr><td style="text-align: left">
+                                Sal Wiltshire
+                                </td></tr>
+                        </tbody>
+                    </table>
+                    </div>
+                  </div>
+                </div>
+        
+              </div>
+        </div>
+        <div class="col-md-3">
+            <div class="accordion accordion-flush" id="accordionExample">
+                <div class="accordion-item" style="background-color:#fefae6;">
+                  <h2 class="accordion-header" id="headingfour">
+                    <button class="accordion-button collapsed px-0" type="button" data-bs-toggle="collapse" data-bs-target="#collapsefour" aria-expanded="false" aria-controls="collapsefour" style="background-color:#fefae6;">
+                      <span class="text-success"> Past Volunteers
+                      </span> 
+                    </button>
+                  </h2>
+                  <div id="collapsefour" class="accordion-collapse collapse" aria-labelledby="headingfour">
+                    <div class="accordion-body table-responsive p-0">
+                        <table id="table_id" class="table align-middle table-hover" style="padding: 0.25 rem !important;">         
+                        <tbody style="text-align: center">
+                            <tr><td style="text-align: left">
+                                Rudolf Cesaretti
+                                </td></tr>
+                                <tr><td style="text-align: left">
+                                Lindsay Grandison
+                                </td></tr>
+                                <tr><td style="text-align: left">
+                                Alec Vulfson
+                                </td></tr>
+                                <tr><td style="text-align: left">
+                                Ekaterina Derbilova
+                                </td></tr>
+                                <tr><td style="text-align: left">
+                                Hugh Bennett
+                                </td></tr>
+                                <tr><td style="text-align: left">
+                                Jacqueline Parziale
+                                </td></tr>
+                                <tr><td style="text-align: left">
+                                Laura Courchesne
+                                </td></tr>
+                                <tr><td style="text-align: left">
+                                Danilo Vaz</td></tr>
+                        </tbody>
+                    </table>
+                    </div>
+                  </div>
+                </div>
+        
+              </div>
+        </div>
+
+    </div>
+   
+  
+  </div>
+
+
+
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+</div>
+</div>
+</div>

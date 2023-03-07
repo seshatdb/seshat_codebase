@@ -4,7 +4,8 @@ from . import views
 
 urlpatterns = [path('', views.seshatindex, name='seshat-index'),]
 urlpatterns += [path('methods', views.seshatmethods, name='seshat-methods'),]
-
+urlpatterns += [path('whoweare', views.seshatwhoweare, name='seshat-whoweare'),]
+urlpatterns += [path('acknowledgements', views.seshatacknowledgements, name='seshat-acknowledgements'),]
 
 urlpatterns += [
      path('core/references/', views.ReferenceListView.as_view(), name='references'),
