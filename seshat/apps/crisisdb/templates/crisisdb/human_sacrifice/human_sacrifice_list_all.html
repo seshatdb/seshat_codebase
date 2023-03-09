@@ -25,6 +25,30 @@
 <a href="{% url 'human_sacrifices_all' %}?orderby=-year_from&orderby2=year_to"><i class="fa-solid fa-caret-up"></i></a>
 {% endblock years_sorting_from_des %}
 
+{% block Confidence_sorting %}
+<span>
+    <a href="{% url 'human_sacrifices_all' %}?orderby=tag&orderby2=-year_from"><i class="fa-solid fa-caret-up"></i></a>
+</span>
+Confidence
+<sup>
+    <span type="button"  tabindex="0" data-bs-toggle="popover" title="Confidence Level" data-bs-html="true" data-bs-trigger="focus" data-bs-content='<span class="badge rounded-pill bg-primary">Inferred</span> : The value is inferred.<br> 
+    <span class="badge rounded-pill bg-warning text-dark">Suspected</span> : The value is suspected (Expert Check Needed).<br> 
+    <span class="badge rounded-pill bg-success">Evidenced</span> : The value is backed up by sufficient evidence.'>&nbsp;<i class="fa-regular fa-circle-question"></i></span>
+</sup>
+{% endblock Confidence_sorting %}
+
+
+
+{% block Disputed_sorting %}
+<span>
+    <a href="{% url 'human_sacrifices_all' %}?orderby=is_disputed&orderby2=-year_from"><i class="fa-solid fa-caret-up"></i></a>
+</span> Disputed?
+    <sup>
+        <span type="button"  tabindex="0" data-bs-toggle="popover" title="Disputed?" data-bs-html="true" data-bs-trigger="focus" data-bs-content='<b class="text-success">No</b>: No disagreement among scholars. <br> <b class="text-danger">Yes</b> : There is disagreement among scholars.'>&nbsp;<i class="fa-regular fa-circle-question"></i></span>
+    </sup>
+{% endblock Disputed_sorting %}
+
+
 {% block Expert_sorting %}
 <span>
     <a href="{% url 'human_sacrifices_all' %}?orderby=expert_reviewed&orderby2=-year_from"><i class="fa-solid fa-caret-up"></i></a>
