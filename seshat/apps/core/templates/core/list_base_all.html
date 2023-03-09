@@ -177,55 +177,53 @@
     </div>
     </div>
     <div class="table-responsive">
-        <table id="table_id" class="table align-middle table-hover table-striped table-bordered" style="padding: 0.25 rem !important;">
-            <thead>
-              <tr  class="sticky-top">
-                <th scope="col" class="text-secondary"  style="text-align: center">#</th>
-                <th scope="col" style="text-align: left" class="fw-bold"> 
-                    Polity </th>
-                <th scope="col" style="text-align: center" class="fw-bold">
-                    {% block years_sorting_from_asc %}
-                    {% endblock years_sorting_from_asc %}
-                     &nbsp; Year(s) &nbsp; 
-                     {% block years_sorting_from_des %}
-                     {% endblock years_sorting_from_des %}
-                </th>
-                <!-- headings for extra vars -->
-                {% block myheadings_list %}
-                {% endblock myheadings_list %}
-                <th class = "fw-bold" style="text-align: center;" scope="col"> Confidence
-                    <sup>
-                        <span type="button"  tabindex="0" data-bs-toggle="popover" title="Confidence Level" data-bs-html="true" data-bs-trigger="focus" data-bs-content='<span class="badge rounded-pill bg-primary">Inferred</span> : The value is inferred.<br> 
-                        <span class="badge rounded-pill bg-warning text-dark">Suspected</span> : The value is suspected (Expert Check Needed).<br> 
-                        <span class="badge rounded-pill bg-success">Evidenced</span> : The value is backed up by sufficient evidence.'>&nbsp;<i class="fa-regular fa-circle-question"></i></span>
-                    </sup>
-                </th>
-                <th class = "fw-bold" style="text-align: center;" scope="col"> <span>
-                </span> &nbsp; Disputed?
-                    <sup>
-                        <span type="button"  tabindex="0" data-bs-toggle="popover" title="Disputed?" data-bs-html="true" data-bs-trigger="focus" data-bs-content='<b class="text-success">No</b>: No disagreement among scholars. <br> <b class="text-danger">Yes</b> : There is disagreement among scholars.'>&nbsp;<i class="fa-regular fa-circle-question"></i></span>
-                    </sup>
-                </th>
-                <th class = "fw-bold" style="text-align: center;" scope="col"> <span>
-                </span> &nbsp; Expert?
-                    <sup>
-                        <span type="button"  tabindex="0" data-bs-toggle="popover" title="Expert? (Expert Checked)" data-bs-html="true" data-bs-trigger="focus" data-bs-content='<i class="fa-solid fa-xmark text-danger"></i> : Not yet Checked by a Seshat Expert. <br> <i class="fa-solid fa-check text-success"></i> : Checked and accepted by a Seshat Expert (or RA).'>&nbsp;<i class="fa-regular fa-circle-question"></i></span>
-                    </sup>
-                </th>
-                <th class = "fw-bold" style="text-align: center;" scope="col"> <span>
-                </span> &nbsp; DRB?
-                    <sup>
-                        <span type="button"  tabindex="0" data-bs-toggle="popover" title="DRB? (Data Review Board)" data-bs-html="true" data-bs-trigger="focus" data-bs-content='<i class="fa-regular fa-circle-xmark text-danger"></i> : Not yet Reviewed by Seshat Data Review Board. <br> <i class="fa-solid fa-circle-check text-success"></i> : Data Review Board has reviewed and accepted this value.'>&nbsp;<i class="fa-regular fa-circle-question"></i></span>
-                    </sup>
-                </th>
-                <th scope="col" style="text-align: center" class="fw-light">Edit</th>
+        <div class="sticky-top" style="position: sticky !important;">
 
-              </tr>
+        <table id="table_id" class="table align-middle table-hover table-striped table-bordered" style="padding: 0.25 rem !important;">
+            <thead class="sticky-top">
+                <tr>
+                    <th scope="col" class="text-secondary"  style="text-align: center">#</th>
+                    <th scope="col" style="text-align: left" class="fw-bold"> 
+                        Polity </th>
+                    <th scope="col" style="text-align: center" class="fw-bold">
+                        {% block years_sorting_from_asc %}
+                        {% endblock years_sorting_from_asc %}
+                         &nbsp; Year(s) &nbsp; 
+                         {% block years_sorting_from_des %}
+                         {% endblock years_sorting_from_des %}
+                    </th>
+                    <!-- headings for extra vars -->
+                    {% block myheadings_list %}
+                    {% endblock myheadings_list %}
+                    <th class = "fw-bold" style="text-align: center;" scope="col"> Confidence
+                        <sup>
+                            <span type="button"  tabindex="0" data-bs-toggle="popover" title="Confidence Level" data-bs-html="true" data-bs-trigger="focus" data-bs-content='<span class="badge rounded-pill bg-primary">Inferred</span> : The value is inferred.<br> 
+                            <span class="badge rounded-pill bg-warning text-dark">Suspected</span> : The value is suspected (Expert Check Needed).<br> 
+                            <span class="badge rounded-pill bg-success">Evidenced</span> : The value is backed up by sufficient evidence.'>&nbsp;<i class="fa-regular fa-circle-question"></i></span>
+                        </sup>
+                    </th>
+                    <th class = "fw-bold" style="text-align: center;" scope="col"> <span>
+                    </span> &nbsp; Disputed?
+                        <sup>
+                            <span type="button"  tabindex="0" data-bs-toggle="popover" title="Disputed?" data-bs-html="true" data-bs-trigger="focus" data-bs-content='<b class="text-success">No</b>: No disagreement among scholars. <br> <b class="text-danger">Yes</b> : There is disagreement among scholars.'>&nbsp;<i class="fa-regular fa-circle-question"></i></span>
+                        </sup>
+                    </th>
+                    <th class = "fw-bold" style="text-align: center;" scope="col">
+                        {% block Expert_sorting %}
+                        {% endblock Expert_sorting %}
+                    </th>
+                    <th class = "fw-bold" style="text-align: center;" scope="col">
+                        {% block DRB_sorting %}
+                        {% endblock DRB_sorting %}
+
+                    </th>
+                    <th scope="col" style="text-align: center" class="fw-light">Edit</th>
+                  </tr>
+
             </thead>
             <tbody>
                 {% for obj in object_list %}
                     <tr>
-                    <div>
                     <td class="text-secondary" scope="row"  style="text-align: center">{{ forloop.counter }}</td>
                     {% if obj.polity %}
                     <td style="text-align: left;">
@@ -320,12 +318,14 @@
 
                     {% block update_button %}
                     {% endblock update_button %}
-                </div>
                 </tr>
                 {% endfor %}
             </tbody>
           </table>
+        </div>
+
     {% else %}
+
     <div class="row">
         <div class="col-md-12 mt-4">
             <h3> <i class="fa-solid fa-triangle-exclamation"></i> There are no Facts for this variable in the Database.</h3>
