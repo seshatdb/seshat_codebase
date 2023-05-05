@@ -1,0 +1,299 @@
+{% extends "core/seshat-base.html" %}
+{% load static %}
+{% load humanize %}
+{% load mathfilters %}
+
+{% block content %}
+<div class="container">
+    {% if object_list %}
+    <div class="row d-flex mt-3">
+        <div class="col-md-5">
+            <!-- <h5 class="lead-2">List of all the data for: {{object_list.0.section}}</h5> -->
+            <div class="col-md-12 justify-content-end my-3">
+                <h6><span class="text-secondary text-end">Section</span>: <mark>{{var_section}}</mark></h6>
+                <h6><span class="text-secondary text-end">Subsection</span>: Military Technologies <i class="fas fa-long-arrow-alt-right"></i> <mark>{{var_subsection}} </mark> </h6>       
+            <!-- <h5 class="lead-2">List of all the data for: {{object_list.0.section}}</h5> -->
+          </div>
+          <div>
+            <h1 class="mb-3"><span class="display-6">{{myvar}}</span></h1>
+          </div>
+            <div>
+                <h6 class="fw-bold"><span class="fw-normal"><i class="fa-solid fa-caret-right"></i> {{var_main_desc}} &nbsp;</span>
+                </h6>
+            </div>
+            <div class="accordion accordion-flush" id="accordionContributors">
+                <div class="accordion-item" style="background-color:#fefae6;">
+                  <h2 class="accordion-header" id="headingOneCont">
+                    <button class="accordion-button collapsed px-0" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOneCont" aria-expanded="false" aria-controls="collapseOneCont" style="background-color:#fefae6;">
+                      <span class="text-success"><i class="fa-solid fa-chevron-right"></i> &nbsp; <i class="fa-solid fa-people-group"></i> &nbsp; Contributors: </span> 
+                    </button>
+                  </h2>
+                  <div id="collapseOneCont" class="accordion-collapse collapse" aria-labelledby="headingOneCont">
+                    <div class="accordion-body table-responsive p-0">
+                        <div class="contributors">
+                            <p class="fw-bold text-secondary pt-2"> Kostis Christakis, Veronica Walker, Samantha Holder, Alicja Piślewska, Daniel Mullins, Artur Butkiewicz, Malwina Brachmanska, William Farrell, Edward A L Turner, PT, Kiran Basava, Marika Michalak, Jill Levine, Cesaretti, Aleksandra Neumannn, Alice Williams, Stephen Dean, Robert Harding, Marika Wałęga, Dan Hoyer, Marta Bartkowiak, Sal Witshire, Agathe Dupeyron, Katheriin Liibert, Giulia Nazzaro, Jedrzej Hordecki, PF, Robert Ross, Thomas Cressy, Rosalind Purcell, Agathe Dupreyon, RC, Agnieszka Marta Duda, Emilia Tomicka, Po-Ju Tuan, Katarzyna Harabasz, Eva Brandl, AP, Jenny Reddish, Natalia Szych, Enrico Cioni, Peter-Rudiak Gould, Alec Vulfson, Lottie Field, Hugh Bennett, Kalin Bullman, Gréine Jordan, Katarzyna Mich.
+                            </p>   
+                        </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+        </div>
+          <div class="col-md-7">
+            {% if inner_vars %}
+            <div class="row">
+                <div class="col-md-6">
+                    <h5 class="py-2 my-2 fw-bold">Metadata:</h5>
+                </div>
+                <div class="col-md-6">
+                    {% block metadownload_button %}
+                    {% endblock metadownload_button %}
+                </div>
+            </div>
+            <div class="accordion accordion-flush" id="accordionExample">
+                <div class="accordion-item" style="background-color:#fefae6;">
+                    <h2 class="accordion-header" id="headingOne">
+                      <button class="accordion-button collapsed px-0" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne" style="background-color:#fefae6;">
+                        <span class="text-success"><i class="fa-solid fa-chevron-right"></i>  &nbsp; General</span> 
+                      </button>
+                    </h2>
+                    <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne">
+                      <div class="accordion-body table-responsive p-0">
+                              <table class="table align-middle table-striped table-bordered">
+                                  <thead>
+                                      <tr>
+                                          <th scope="col" class="col-md-2">Variable</th>
+                                          <th scope="col" class="col-md-10">Definition</th> 
+                                          <!-- <th scope="col" class="col-md-2">Scale</th>
+                                          <th scope="col" class="col-md-2">Units</th>  -->
+                                      </tr>
+                                  </thead>
+                                  <tbody>
+                                      <tr>
+                                          <td scope="row" class="col-md-2 text-secondary">Polity</td>
+                                          <td scope="row" class="col-md-10 text-secondary">The Seshat Polity Name</td>
+                                      </tr>
+                                      <tr>
+                                          <td scope="row" class="col-md-2 text-secondary">Year(s)</td>
+                                          <td scope="row" class="col-md-10 text-secondary">The years for which we have the data. [negative = BCE]</td>
+                                      </tr>
+                                      <tr>
+                                          <td scope="row"  class="col-md-2 text-secondary">Confidence</td>
+                                          <td scope="row"  class="col-md-10 text-secondary"><span class="badge rounded-pill bg-primary">Inferred</span> : The value is inferred.<br> 
+                                              <span class="badge rounded-pill bg-warning text-dark">Suspected</span> : The value is suspected (Expert Check Needed).<br> 
+                                              <span class="badge rounded-pill bg-success">Evidenced</span> : The value is backed up by sufficient evidence.</td>
+                                      </tr>
+                                      <tr>
+                                          <td scope="row"  class="col-md-2 text-secondary">Disputed?</td>
+                                          <td scope="row"  class="col-md-10 text-secondary">
+                                              <b class="text-success">No</b> : No disagreement among scholars.<br> <b class="text-danger">Yes</b> : There is disagreement among scholars.
+                                          </td>
+                                      </tr>
+                                      <tr>
+                                          <td scope="row"  class="col-md-2 text-secondary">Expert?</td>
+                                          <td scope="row"  class="col-md-10 text-secondary"><i class="fa-solid fa-xmark text-danger"></i> : Not yet Checked by a Seshat Expert. <br> <i class="fa-solid fa-check text-success"></i> : Checked and accepted by a Seshat Expert (or RA).</td>
+                                      </tr>
+                                  </tbody>
+                              </table>
+                      </div>
+                    </div>
+                  </div>
+                <div class="accordion-item" style="background-color:#fefae6;">
+                  <h2 class="accordion-header" id="headingTwo">
+                    <button class="accordion-button px-0" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo" style="background-color:#fefae6;">
+                    <span class="text-success"><i class="fa-solid fa-chevron-right"></i> &nbsp; Specific to <strong>{{myvar}}</strong></span> 
+                    </button>
+                  </h2>
+                  <div id="collapseTwo" class="accordion-collapse collapse show" aria-labelledby="headingTwo">
+                    <div class="accordion-body table-responsive p-0 m-0">
+                        <table class="table align-middle table-striped table-bordered">
+                            <thead>   
+                                <tr>
+                                    <th scope="col" class="col-md-2">Variable</th>
+                                        <th scope="col">Definition</th> 
+                                    {% for pot_col in potential_cols %}
+                                    <th scope="col">{{pot_col}}</th> 
+                                    {% endfor %}
+
+                                </tr>
+
+                            </thead>
+                            <tbody>
+                                {% for ktop, vtop in inner_vars.items %}
+                                <tr>
+                                    <td scope="row">{{ktop}}</td>
+                                    {% if vtop.var_exp %}
+                                        <td scope="col">{{vtop.var_exp}}</td> 
+                                        {% elif "Definition" in potential_cols %}
+                                        <td scope="col"></td> 
+                                    {% endif %}
+                                    {% if vtop.scale %}
+                                        <td scope="col">{{vtop.scale}}</td>
+                                        {% elif "Scale" in potential_cols %}
+                                        <td scope="col"></td> 
+                                    {% endif %}
+                                    {% if vtop.units %}
+                                        <td scope="col">{{vtop.units}}</td> 
+                                        {% elif "Units" in potential_cols %}
+                                        <td scope="col"></td> 
+                                    {% endif %}
+                                    {% if vtop.min %}
+                                        <td scope="col">{{vtop.min}}</td> 
+                                        {% elif "Min" in potential_cols %}
+                                        <td scope="col"></td> 
+                                    {% endif %}
+                                    {% if vtop.max %}
+                                        <td scope="col">{{vtop.max}}</td> 
+                                    {% elif "Max" in potential_cols %}
+                                    <td scope="col"></td> 
+                                    {% endif %}
+                                    {% if vtop.choices %}
+                                        <td scope="col">
+                                            {% for mychoice in vtop.choices %}
+                                            {{ mychoice }} <br>
+                                            {% endfor %}
+
+                                        </td> 
+                                    {% elif "choices" in potential_cols %}
+                                        <td scope="col"></td> 
+                                    {% endif %}
+                                <tr>
+                                {% endfor %}
+
+                            </tbody>
+                        </table>
+                    </div>
+                  </div>
+                </div>
+                {% endif %}
+              </div>
+          </div>
+      </div>
+    {% block main_description %}
+    {% endblock main_description %}
+    {% block secondary_description %}
+    {% endblock secondary_description %}
+    <hr>
+    <div class="row d-flex align-items-center mb-3">
+        <div class="col-md-6">
+            <h5 class="fw-bold">Actual Data:</h5>
+        </div>
+        <div class="col-md-6">      
+        <!-- Download and Create Buttons -->
+    {% block download_button %}
+    {% endblock download_button %}
+    </div>
+    </div>
+    <div class="table-responsive">
+        <table id="table_id" class="table align-middle table-hover table-striped table-bordered" style="padding: 0.25 rem !important;">
+            <thead>
+              <tr>
+                <th scope="col" class="text-secondary">#</th>
+                <th scope="col" style="text-align: center" class="fw-light"> 
+                    Polity </th>
+                <th scope="col" style="text-align: center" class="fw-light"> Year(s)</th>
+                <!-- headings for extra vars -->
+                {% block myheadings_list %}
+                {% endblock myheadings_list %}
+                <th scope="col" style="text-align: center" class="fw-light">Edit</th>
+
+              </tr>
+            </thead>
+            <tbody>
+                {% for obj in object_list %}
+                    <tr>
+                    <div>
+                    <td class="text-secondary" scope="row">{{ forloop.counter0|add:page_obj.start_index }}</td>
+                    {% if obj.polity %}
+                    <td style="text-align: center;">
+                        {% if obj.polity.long_name %}
+                        <h6>
+                            (<a href="{% url 'polity-detail-main' obj.polity.id %}">{{ obj.polity.long_name }}</a>)
+                        </h6>
+                        {% else %}
+                        <h6>
+                            (<a href="{% url 'polity-detail-main' obj.polity.id %}">{{ obj.polity.name }}</a>)
+                        </h6>
+                        {% endif %}
+                    </td>
+                    {% else %}
+                    <td style="text-align: center;">-</td>
+                    {% endif%}
+                    <!-- Years -->
+                    {% block years %}
+                    {% if obj.year_from == None %}
+                        <td style="text-align: center;"> Full Year Range of <i class="text-secondary">{{ obj.polity.long_name }}</i> is assumed. <br>
+                            <span class="fw-bold text-secondary">[{{ obj.polity.start_year}}, {{ obj.polity.end_year}}]</span></td>
+                    {% elif obj.year_from == obj.year_to %}
+                        {% if obj.year_from < 0 %}
+                        <td style="text-align: center;">{{ obj.year_from|abs }} <span class="text-secondary">BCE</span> </td>
+                        {% else %}
+                        <td style="text-align: center;">{{ obj.year_from }} <span class="text-secondary">CE</span></td>
+                        {% endif %}
+                    {% elif obj.year_to == None %}
+                        {% if obj.year_from < 0 %}
+                        <td style="text-align: center;">{{ obj.year_from|abs }} <span class="text-secondary">BCE</span></td>
+                        {% else %}
+                        <td style="text-align: center;">{{ obj.year_from }} <span class="text-secondary">CE</span></td>
+                        {% endif %}
+                    {% elif obj.year_to == None and obj.year_from == None %}
+                        <td style="text-align: center;"> <i class="fa-solid fa-minus"></i> </td>
+                    {% else %}
+                        {% if obj.year_from < 0 and obj.year_to < 0 %}
+                        <td style="text-align: center;">{{ obj.year_from|abs }} <span class="text-secondary">BCE</span> <i class="fas fa-long-arrow-alt-right"></i> {{ obj.year_to|abs }} <span class="text-secondary">BCE</span></td>
+                        {% elif obj.year_from < 0 and obj.year_to >= 0 %}
+                        <td style="text-align: center;">{{ obj.year_from|abs }} <span class="text-secondary">BCE</span> <i class="fas fa-long-arrow-alt-right"></i> {{ obj.year_to }} <span class="text-secondary">CE</span></td>
+                        {% else %}
+                        <td style="text-align: center;">{{ obj.year_from }} <span class="text-secondary">CE</span> <i class="fas fa-long-arrow-alt-right"></i> {{ obj.year_to }} <span class="text-secondary">CE</span></td>
+                        {% endif %}
+                    {% endif %}
+                    {% endblock years %}
+                    <!-- extra vars come here -->
+                    {% block extra_vars_list %}
+                    {% endblock extra_vars_list %}
+
+
+
+                    {% block update_button %}
+                    {% endblock update_button %}
+                </div>
+                </tr>
+                {% endfor %}
+            </tbody>
+          </table>
+          {% if is_paginated %}
+          <div class="pagination my-4 pe-4 float-end">
+            <span class="page-links">
+                {% if page_obj.has_previous %}
+                    <a href="?page={{ page_obj.previous_page_number }}"><button class="btn btn-primary btn-md"> <i class="fas fa-step-backward"></i> Prev </button></a>
+                {% else %}
+                <button class="btn btn-outline-primary btn-md" disabled> <i class="fas fa-step-backward"></i>  Prev</button>
+                {% endif %}
+                <span class="page-current">
+                    &nbsp; Page <b>{{ page_obj.number }}</b> <span class="text-secondary">(of <b>{{ page_obj.paginator.num_pages }}</b>) </span> &nbsp; 
+                </span>
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}"><button class="btn btn-primary btn-md"> Next <i class="fas fa-step-forward"></i></button></a>
+                    {% else %}
+                    <button class="btn btn-outline-primary btn-md" disabled> Next <i class="fas fa-step-forward"></i></button>
+                {% endif %}
+            </span>
+            </div>
+            
+          {% endif %}
+    {% else %}
+    <div class="row">
+        <div class="col-md-12 mt-4">
+            <h3> <i class="fa-solid fa-triangle-exclamation"></i> There are no Facts for this variable in the Database.</h3>
+        </div>
+    </div>
+    {% endif %}
+    </div>
+    <script>
+        var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+        var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+          return new bootstrap.Popover(popoverTriggerEl)
+        })
+    </script>
+  {% endblock %}

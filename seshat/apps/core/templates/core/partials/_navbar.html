@@ -23,8 +23,11 @@
                     <li>
                         <a class="dropdown-item" href="{% url 'generalvars' %}" class="nav-link">General Variables</a>
                     </li>
-  	<li>
+  	                <li>
                         <a class="dropdown-item" href="{% url 'scvars' %}" class="nav-link">Social Complexity Variables</a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="{% url 'wfvars' %}" class="nav-link">Warfare Variables (MilTech)</a>
                     </li>
                 </ul>
                 </li>
@@ -56,9 +59,7 @@
                     <li>
                         <a class="dropdown-item" href="{% url 'references' %}" class="nav-link">References</a>
                     </li>
-                    <li>
-                        <a class="dropdown-item" href="{% url 'human_sacrifices_all' %}" class="nav-link">Human Sacrifice</a>
-                    </li>
+
                     <li>
                         <a class="dropdown-item" href="{% url 'ngas' %}" class="nav-link">NGAs</a>
                     </li>
@@ -69,6 +70,9 @@
                     <a class="nav-link active" aria-current="page" href="{% url 'user-profile' %}">Profile</a>
                 {% endif %}
 
+                </li>
+                <li>
+                    <a class="nav-link active" href="{% url 'human_sacrifices_all' %}" aria-current="page">Human Sacrifice</a>
                 </li>
                 <li>
                     <a class="nav-link active" aria-current="page" href="{% url 'discussion_room' %}">Discussion</a>

@@ -1,0 +1,115 @@
+{% extends "core/list_base_all_wf.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% load humanize %}
+
+{% block download_button %}
+    <a href="{% url 'sling-create' %}" class="btn btn-outline-success mx-3 my-4 float-end"><i class="fas fa-plus"></i> &nbsp; Add More Facts</a>
+    <a href="{% url 'sling-download' %}" class="btn btn-outline-primary mx-3 my-4 float-end"><i class="fas fa-download"></i> &nbsp; Download All</a>
+    <a href="{% url 'slings' %}" class="btn btn-warning mx-3 my-4 float-end"><i class="fa-solid fa-file-lines"></i> &nbsp; See Pagination Mode</a>
+{% endblock download_button %}
+
+{% block metadownload_button %}
+    <a href="{% url 'sling-metadownload' %}" class="btn btn-primary ms-auto py-2 my-2 float-end"><i class="fas fa-download"></i> &nbsp; Download MetaData</a>
+{% endblock metadownload_button %}
+
+{% block main_description %}
+
+{% endblock main_description %}
+
+
+{% block years_sorting_from_asc %}
+<a href="{% url 'slings_all' %}?orderby=year&orderby2=year_to"><i class="fa-solid fa-caret-down"></i></a>
+{% endblock years_sorting_from_asc %}
+
+{% block years_sorting_from_des %}
+<a href="{% url 'slings_all' %}?orderby=-year&orderby2=year_to"><i class="fa-solid fa-caret-up"></i></a>
+{% endblock years_sorting_from_des %}
+
+
+{% block NGA_sorting_from_asc %}
+<a href="{% url 'slings_all' %}?orderby=home_nga&orderby2=year"><i class="fa-solid fa-caret-down"></i></a>
+{% endblock NGA_sorting_from_asc %}
+
+ {% block NGA_sorting_from_des %}
+ <a href="{% url 'slings_all' %}?orderby=-home_nga&orderby2=-year"><i class="fa-solid fa-caret-up"></i></a>
+ {% endblock NGA_sorting_from_des %}
+
+
+{% block Confidence_sorting %}
+<span style="white-space: nowrap;">
+
+<span>
+    <a href="{% url 'slings_all' %}?orderby=tag&orderby2=year"><i class="fa-solid fa-caret-down"></i></a>
+</span>
+Confidence
+<sup>
+    <span type="button"  tabindex="0" data-bs-toggle="popover" title="Confidence Level" data-bs-html="true" data-bs-trigger="focus" data-bs-content='<span class="badge rounded-pill bg-primary">Inferred</span> : The value is inferred.<br> 
+    <span class="badge rounded-pill bg-warning text-dark">Suspected</span> : The value is suspected (Expert Check Needed).<br> 
+    <span class="badge rounded-pill bg-success">Evidenced</span> : The value is backed up by sufficient evidence.'>&nbsp;<i class="fa-regular fa-circle-question"></i></span>
+</sup>
+</span>
+
+{% endblock Confidence_sorting %}
+
+
+
+{% block Disputed_sorting %}
+<span style="white-space: nowrap;">
+    <span>
+        <a href="{% url 'slings_all' %}?orderby=is_disputed&orderby2=year"><i class="fa-solid fa-caret-down"></i></a>
+    </span> Disputed
+    <sup>
+        <span type="button"  tabindex="0" data-bs-toggle="popover" title="Disputed?" data-bs-html="true" data-bs-trigger="focus" data-bs-content='<b class="text-success">No</b>: No disagreement among scholars. <br> <b class="text-danger">Yes</b> : There is disagreement among scholars.'>&nbsp;<i class="fa-regular fa-circle-question"></i></span>
+    </sup>
+</span>
+{% endblock Disputed_sorting %}
+
+
+{% block Expert_sorting %}
+<span style="white-space: nowrap;">
+
+<span>
+    <a href="{% url 'slings_all' %}?orderby=expert_reviewed&orderby2=year"><i class="fa-solid fa-caret-down"></i></a>
+</span> Expert
+    <sup>
+        <span type="button"  tabindex="0" data-bs-toggle="popover" title="Expert? (Expert Checked)" data-bs-html="true" data-bs-trigger="focus" data-bs-content='<i class="fa-solid fa-xmark text-danger"></i> : Not yet Checked by a Seshat Expert. <br> <i class="fa-solid fa-check text-success"></i> : Checked and accepted by a Seshat Expert (or RA).'>&nbsp;<i class="fa-regular fa-circle-question"></i></span>
+    </sup>
+</span>
+
+{% endblock Expert_sorting %}
+
+
+{% block myheadings_list %}
+<th class = "fw-bold" style="text-align: center;" scope="col"><span>
+    <a href="{% url 'slings_all' %}?orderby=sling&orderby2=tag"><i class="fa-solid fa-caret-down"></i></a>
+</span>Sling
+</th>
+{% endblock myheadings_list %}
+
+{% block extra_vars_list %}
+
+<td class = "{% if obj.tag == 'DSP' %}
+text-danger
+{% elif obj.tag == 'SSP' %}
+text-warning
+{% elif obj.tag == 'UNK' %}
+text-secondary
+{% elif obj.tag == 'IFR' %}
+text-primary
+{% else %}
+text-success
+{% endif %} fw-normal" style="text-align: center;">
+<h6 class="pt-3">{{ obj.sling }}</h6>
+</td>
+{% endblock extra_vars_list %}
+
+<!-- Update Button -->
+{% block update_button %}
+    <td style="text-align: center;">
+        <small>
+            <a href="{% url 'sling-update' obj.id %}">Edit</a>
+        </small>
+    </td>
+{% endblock update_button %}
+        

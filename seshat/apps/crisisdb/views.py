@@ -12,6 +12,9 @@ from django.contrib.contenttypes.models import ContentType
 
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
+from django.db.models import F, CharField, ExpressionWrapper
+
+
 from django.http import HttpResponseRedirect, response, JsonResponse
 from ..core.models import Citation, Reference, Polity, Section, Subsection, Country, Variablehierarchy, SeshatComment, SeshatCommentPart
 from seshat.apps.accounts.models import Seshat_Expert
@@ -138,10 +141,19 @@ class Human_sacrificeListViewAll(generic.ListView):
         return reverse('human_sacrifices_all')
 
     def get_queryset(self):
-        order = self.request.GET.get('orderby', 'year_from')
-        order2 = self.request.GET.get('orderby2', 'year_to')
+        #order = self.request.GET.get('orderby', 'year_from')
+        order = self.request.GET.get('orderby', 'home_nga')
+        order2 = self.request.GET.get('orderby2', 'year_from')
+        #polity.home_nga.id
         #orders = [order, order2]
-        new_context = Human_sacrifice.objects.all().order_by(order, order2)
+        new_context = Human_sacrifice.objects.all().annotate(
+                home_nga=ExpressionWrapper(
+                F('polity__home_nga__name'),
+                output_field=CharField()
+            )
+        ).order_by(order, order2)
+        #.polity.home_nga.id
+        #new_context = Human_sacrifice.objects.all().order_by(order, order2)
         return new_context
     
     def get_context_data(self, **kwargs):

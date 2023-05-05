@@ -129,6 +129,7 @@ class Polity(models.Model):
     end_year = models.IntegerField(blank=True, null=True)
     long_name = models.CharField(max_length=200, blank=True, null=True)
     new_name = models.CharField(max_length=100, blank=True, null=True)
+    home_nga = models.ForeignKey(Nga, on_delete=models.SET_NULL, null=True, blank=True, related_name="home_nga")
 
     created_date = models.DateTimeField(
         auto_now_add=True, blank=True, null=True)
@@ -483,7 +484,7 @@ class SeshatComment(models.Model):
                     separation_point = comment_part.citation_index
                     comment_full_text = comment_part.comment_part_text[0:separation_point] + str(comment_part.display_citations) + " " + comment_part.comment_part_text[separation_point:]
                 else:
-                    if comment_part.comment_part_text.startswith("<br>"):
+                    if comment_part.comment_part_text and comment_part.comment_part_text.startswith("<br>"):
                         if comment_part.display_citations:
                             comment_full_text = comment_part.comment_part_text[4:] + str(comment_part.display_citations)
                         else:
@@ -497,7 +498,11 @@ class SeshatComment(models.Model):
                 comment_parts.append(comment_full_text)
             #comment_parts = ["<b>" + str(comment_part.comment_curator)+ "</b>: " + str(comment_part.comment_part_text) + str(comment_part.display_citations) for comment_part in all_comment_parts]
             #ref_parts = ['<a href="#">' + str(comment_part.comment_order) + ' </a>' for comment_part in all_comment_parts]
-            to_be_shown = " ".join(comment_parts)
+            if not comment_parts or comment_parts == [None]:
+                to_be_shown = " Nothing "
+            else:
+                to_be_shown = " ".join(comment_parts)
+                
         elif self.text and not all_comment_parts:
             to_be_shown = "No descriptions."
         else:

@@ -186,6 +186,13 @@
                     <th scope="col" style="text-align: left" class="fw-bold"> 
                         Polity </th>
                     <th scope="col" style="text-align: center" class="fw-bold">
+                        {% block NGA_sorting_from_asc %}
+                        {% endblock NGA_sorting_from_asc %}
+                         &nbsp; Home NGA &nbsp; 
+                         {% block NGA_sorting_from_des %}
+                         {% endblock NGA_sorting_from_des %}
+                        </th>
+                    <th scope="col" style="text-align: center" class="fw-bold">
                         {% block years_sorting_from_asc %}
                         {% endblock years_sorting_from_asc %}
                          &nbsp; Year(s) &nbsp; 
@@ -221,7 +228,7 @@
                     <tr>
                     <td class="text-secondary" scope="row"  style="text-align: center">{{ forloop.counter }}</td>
                     {% if obj.polity %}
-                    <td style="text-align: left;">
+                    <td class="col-md-2" style="text-align: left;">
                         {% if obj.polity.long_name %}
                         <h6 class="fw-bold">
                             <a href="{% url 'polity-detail-main' obj.polity.id %}">{{ obj.polity.long_name }}</a>
@@ -236,32 +243,35 @@
                     {% else %}
                     <td style="text-align: center;">-</td>
                     {% endif%}
-                    <!-- Years -->
+                    <!-- NGA -->
+                    <td class="text-secondary" style="text-align: center;">
+                        {{ obj.polity.home_nga }}
+                                            <!-- Years -->
                     {% block years %}
                     {% if obj.year_from == None %}
-                        <td style="text-align: center;"> Full Year Range of <i class="text-secondary">{{ obj.polity.long_name }}</i> is assumed. <br>
+                        <td class="col-md-2" style="text-align: center;"> Full Year Range of <i class="text-secondary">{{ obj.polity.long_name }}</i> is assumed. <br>
                             <span class="fw-bold text-secondary">[{{ obj.polity.start_year}}, {{ obj.polity.end_year}}]</span></td>
                     {% elif obj.year_from == obj.year_to %}
                         {% if obj.year_from < 0 %}
-                        <td style="text-align: center;">{{ obj.year_from|abs|intcomma }} <span class="text-secondary">BCE</span> </td>
+                        <td class="col-md-2" style="text-align: center;">{{ obj.year_from|abs|intcomma }} <span class="text-secondary">BCE</span> </td>
                         {% else %}
-                        <td style="text-align: center;">{{ obj.year_from }} <span class="text-secondary">CE</span></td>
+                        <td class="col-md-2" style="text-align: center;">{{ obj.year_from }} <span class="text-secondary">CE</span></td>
                         {% endif %}
                     {% elif obj.year_to == None %}
                         {% if obj.year_from < 0 %}
-                        <td style="text-align: center;">{{ obj.year_from|abs }} <span class="text-secondary">BCE</span></td>
+                        <td class="col-md-2" style="text-align: center;">{{ obj.year_from|abs }} <span class="text-secondary">BCE</span></td>
                         {% else %}
-                        <td style="text-align: center;">{{ obj.year_from }} <span class="text-secondary">CE</span></td>
+                        <td class="col-md-2" style="text-align: center;">{{ obj.year_from }} <span class="text-secondary">CE</span></td>
                         {% endif %}
                     {% elif obj.year_to == None and obj.year_from == None %}
-                        <td style="text-align: center;"> <i class="fa-solid fa-minus"></i> </td>
+                        <td class="col-md-2" style="text-align: center;"> <i class="fa-solid fa-minus"></i> </td>
                     {% else %}
                         {% if obj.year_from < 0 and obj.year_to < 0 %}
-                        <td style="text-align: center;">{{ obj.year_from|abs }} <span class="text-secondary">BCE</span> <i class="fas fa-long-arrow-alt-right"></i> {{ obj.year_to|abs }} <span class="text-secondary">BCE</span></td>
+                        <td class="col-md-2" style="text-align: center;">{{ obj.year_from|abs }} <span class="text-secondary">BCE</span> <i class="fas fa-long-arrow-alt-right"></i> {{ obj.year_to|abs }} <span class="text-secondary">BCE</span></td>
                         {% elif obj.year_from < 0 and obj.year_to >= 0 %}
-                        <td style="text-align: center;">{{ obj.year_from|abs }} <span class="text-secondary">BCE</span> <i class="fas fa-long-arrow-alt-right"></i> {{ obj.year_to }} <span class="text-secondary">CE</span></td>
+                        <td class="col-md-2" style="text-align: center;">{{ obj.year_from|abs }} <span class="text-secondary">BCE</span> <i class="fas fa-long-arrow-alt-right"></i> {{ obj.year_to }} <span class="text-secondary">CE</span></td>
                         {% else %}
-                        <td style="text-align: center;">{{ obj.year_from }} <span class="text-secondary">CE</span> <i class="fas fa-long-arrow-alt-right"></i> {{ obj.year_to }} <span class="text-secondary">CE</span></td>
+                        <td class="col-md-2" style="text-align: center;">{{ obj.year_from }} <span class="text-secondary">CE</span> <i class="fas fa-long-arrow-alt-right"></i> {{ obj.year_to }} <span class="text-secondary">CE</span></td>
                         {% endif %}
                     {% endif %}
                     {% endblock years %}

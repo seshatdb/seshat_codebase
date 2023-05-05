@@ -32,7 +32,17 @@
                         </div>
                         <div class="col-md-6">
                             {{ form.comment_citations|as_crispy_field }}
-                            <div class="pt-5">
+                            <div class="pt-4">
+                                <b class="text-secondary">
+                                    You do not see your Citation listed above? Add it here:
+                                </b>
+                                 &nbsp; <a href="{% url 'citation-create' %}" > <i class="fa-solid fa-plus"></i> Add a NEW Citation</a>
+                            </div>
+                            <div class="pt-4">
+                                <label for="comment_curator">
+                                <b>
+                                    Curator:
+                                </b> </label>
                                 <select name="comment_curator" class="form-control form-select mb-3" id="id_comment_curator">      
                                     <option value="{{ comment_curator_id }}" selected>{{ comment_curator }}</option>
                                   </select>

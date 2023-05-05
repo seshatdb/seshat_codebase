@@ -131,6 +131,13 @@ class Human_sacrifice(SeshatCommon):
     
     def show_value(self):
         return self.get_human_sacrifice_display()
+    
+    def show_nga(self):
+        nga_rel =  self.polity.polity_sides.first()
+        if not nga_rel:
+            return "NO_NGA_ASSOCIATED"
+        else:
+            return nga_rel.nga_party.name
 
     def get_absolute_url(self):
         return reverse('human_sacrifice-detail', args=[str(self.id)])

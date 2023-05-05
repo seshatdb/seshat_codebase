@@ -42,7 +42,7 @@ from .models import Citation, Polity, Section, Subsection, Variablehierarchy, Re
 import pprint
 import requests
 from requests.structures import CaseInsensitiveDict
-from seshat.utils.utils import adder, dic_of_all_vars, list_of_all_Polities, dic_of_all_vars_in_sections, dic_of_all_vars_with_varhier, get_all_data_for_a_polity, polity_detail_data_collector, get_all_general_data_for_a_polity, get_all_sc_data_for_a_polity
+from seshat.utils.utils import adder, dic_of_all_vars, list_of_all_Polities, dic_of_all_vars_in_sections, dic_of_all_vars_with_varhier, get_all_data_for_a_polity, polity_detail_data_collector, get_all_general_data_for_a_polity, get_all_sc_data_for_a_polity, get_all_wf_data_for_a_polity
 
 from django.shortcuts import HttpResponse
 
@@ -511,7 +511,10 @@ class PolityUpdate(PermissionRequiredMixin, SuccessMessageMixin, UpdateView):
     template_name = "core/polity/polity_form.html"
     permission_required = 'catalog.can_mark_returned'
     success_message = "You successfully updated the Polity."
-    success_url = reverse_lazy('polities')
+    
+    def get_success_url(self):
+        return reverse_lazy('polity-detail-main', kwargs={'pk': self.object.pk})
+    #success_url = reverse_lazy('polity-detail-main')
 
 
 class PolityListView(PermissionRequiredMixin, SuccessMessageMixin, generic.ListView):
@@ -582,12 +585,15 @@ class PolityDetailView(PermissionRequiredMixin, SuccessMessageMixin, generic.Det
             context["all_data"] = get_all_data_for_a_polity(self.object.pk, "crisisdb") 
             context["all_general_data"] = get_all_general_data_for_a_polity(self.object.pk)
             context["all_sc_data"] = get_all_sc_data_for_a_polity(self.object.pk)
+            context["all_wf_data"] = get_all_wf_data_for_a_polity(self.object.pk)
 
             context["majid"] = {"utm_zone": "benam"}
         except:
             context["all_data"] = None
             context["all_general_data"] = None
             context["all_sc_data"] = None
+            context["all_wf_data"] = None
+
 
         #x = polity_detail_data_collector(self.object.pk)
         #context["all_data"] = dict(x)

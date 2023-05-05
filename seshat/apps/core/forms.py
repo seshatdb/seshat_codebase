@@ -73,11 +73,12 @@ class CitationForm(forms.ModelForm):
 class PolityForm(forms.ModelForm):
     class Meta:
         model = Polity
-        fields = ('name', 'new_name', 'long_name', 'start_year', 'end_year')
+        fields = ('name', 'new_name', 'long_name', 'home_nga','start_year', 'end_year')
         labels = {
         'name': '<b>Polity Id (Old)</b>',
         'new_name': '<b>Polity Id (New)</b>',
         'long_name': '<b>Long Name</b>',
+        'home_nga': '<b>Home NGA</b>',
         'start_year': '<b>Start Year</b>',
         'end_year': '<b>End Year</b>',
         }
@@ -88,6 +89,8 @@ class PolityForm(forms.ModelForm):
                 attrs={'class': 'form-control mb-3', }),
             'long_name': forms.TextInput(
                 attrs={'class': 'form-control mb-3', }),
+            'home_nga': forms.Select(
+                attrs={'class': 'form-control form-select mb-3',}),
             'start_year': forms.NumberInput(
                 attrs={'class': 'form-control  mb-3 fw-bold', }),
             'end_year': forms.NumberInput(

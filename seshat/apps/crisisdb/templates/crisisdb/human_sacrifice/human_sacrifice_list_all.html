@@ -25,9 +25,21 @@
 <a href="{% url 'human_sacrifices_all' %}?orderby=-year_from&orderby2=year_to"><i class="fa-solid fa-caret-up"></i></a>
 {% endblock years_sorting_from_des %}
 
+
+{% block NGA_sorting_from_asc %}
+<a href="{% url 'human_sacrifices_all' %}?orderby=home_nga&orderby2=year_from"><i class="fa-solid fa-caret-down"></i></a>
+{% endblock NGA_sorting_from_asc %}
+
+ {% block NGA_sorting_from_des %}
+ <a href="{% url 'human_sacrifices_all' %}?orderby=-home_nga&orderby2=-year_from"><i class="fa-solid fa-caret-up"></i></a>
+ {% endblock NGA_sorting_from_des %}
+
+
 {% block Confidence_sorting %}
+<span style="white-space: nowrap;">
+
 <span>
-    <a href="{% url 'human_sacrifices_all' %}?orderby=tag&orderby2=-year_from"><i class="fa-solid fa-caret-up"></i></a>
+    <a href="{% url 'human_sacrifices_all' %}?orderby=tag&orderby2=year_from"><i class="fa-solid fa-caret-down"></i></a>
 </span>
 Confidence
 <sup>
@@ -35,36 +47,47 @@ Confidence
     <span class="badge rounded-pill bg-warning text-dark">Suspected</span> : The value is suspected (Expert Check Needed).<br> 
     <span class="badge rounded-pill bg-success">Evidenced</span> : The value is backed up by sufficient evidence.'>&nbsp;<i class="fa-regular fa-circle-question"></i></span>
 </sup>
+</span>
+
 {% endblock Confidence_sorting %}
 
 
 
 {% block Disputed_sorting %}
-<span>
-    <a href="{% url 'human_sacrifices_all' %}?orderby=is_disputed&orderby2=-year_from"><i class="fa-solid fa-caret-up"></i></a>
-</span> Disputed?
+<span style="white-space: nowrap;">
+    <span>
+        <a href="{% url 'human_sacrifices_all' %}?orderby=is_disputed&orderby2=year_from"><i class="fa-solid fa-caret-down"></i></a>
+    </span> Disputed
     <sup>
         <span type="button"  tabindex="0" data-bs-toggle="popover" title="Disputed?" data-bs-html="true" data-bs-trigger="focus" data-bs-content='<b class="text-success">No</b>: No disagreement among scholars. <br> <b class="text-danger">Yes</b> : There is disagreement among scholars.'>&nbsp;<i class="fa-regular fa-circle-question"></i></span>
     </sup>
+</span>
 {% endblock Disputed_sorting %}
 
 
 {% block Expert_sorting %}
+<span style="white-space: nowrap;">
+
 <span>
-    <a href="{% url 'human_sacrifices_all' %}?orderby=expert_reviewed&orderby2=-year_from"><i class="fa-solid fa-caret-up"></i></a>
-</span> Expert?
+    <a href="{% url 'human_sacrifices_all' %}?orderby=expert_reviewed&orderby2=year_from"><i class="fa-solid fa-caret-down"></i></a>
+</span> Expert
     <sup>
         <span type="button"  tabindex="0" data-bs-toggle="popover" title="Expert? (Expert Checked)" data-bs-html="true" data-bs-trigger="focus" data-bs-content='<i class="fa-solid fa-xmark text-danger"></i> : Not yet Checked by a Seshat Expert. <br> <i class="fa-solid fa-check text-success"></i> : Checked and accepted by a Seshat Expert (or RA).'>&nbsp;<i class="fa-regular fa-circle-question"></i></span>
     </sup>
+</span>
 
 {% endblock Expert_sorting %}
 
 {% block DRB_sorting %}
-<span><a href="{% url 'human_sacrifices_all' %}?orderby=drb_reviewed&orderby2=-year_from"><i class="fa-solid fa-caret-up"></i></a>
-</span> DRB?
+<span style="white-space: nowrap;">
+
+<span><a href="{% url 'human_sacrifices_all' %}?orderby=drb_reviewed&orderby2=year_from"><i class="fa-solid fa-caret-down"></i></a>
+</span> DRB
     <sup>
         <span type="button"  tabindex="0" data-bs-toggle="popover" title="DRB? (Data Review Board)" data-bs-html="true" data-bs-trigger="focus" data-bs-content='<i class="fa-regular fa-circle-xmark text-danger"></i> : Not yet Reviewed by Seshat Data Review Board. <br> <i class="fa-solid fa-circle-check text-success"></i> : Data Review Board has reviewed and accepted this value.'>&nbsp;<i class="fa-regular fa-circle-question"></i></span>
     </sup>
+</span>
+
 {% endblock DRB_sorting %}
 
 {% block myheadings_list %}

@@ -1,0 +1,28 @@
+{% extends "core/form_base.html" %}
+{% load crispy_forms_tags %}
+{% load humanize %}
+
+{% block extra_vars %}
+    
+<div class="col-md-3 mb-2">
+    <fieldset>
+        <legend class="h6">{{form.javelin.label}}</legend>
+        {% for radio in form.javelin %}
+        <div class="form-check">
+            <label for="{{ radio.id_for_label }}">
+                <span class="radio">{{ radio.tag }}</span>
+                {{ radio.choice_label }}
+            </label>
+        </div>
+        {% endfor %}
+    </fieldset>
+</div>
+{{ form.comment.as_hidden }}
+                    
+    
+{% endblock extra_vars %}
+
+{% block delete_button %}
+    <a href="{% url 'javelin-delete' object.id %}" type="cancel" class="btn btn-outline-danger my-auto btn-block btn-lg">Delete </a>
+{% endblock delete_button %}
+        

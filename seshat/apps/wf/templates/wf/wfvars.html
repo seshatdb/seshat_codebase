@@ -1,0 +1,42 @@
+{% extends "core/seshat-base.html" %}
+
+{% block content %}
+
+<div class="container mt-4">
+    <div class="row">
+        <h1 class="display-6">Warfare variables:</h1>
+        <p>
+            Warfare variables are a part of Classical Seshat Database.
+        </p>
+        <hr>
+        <h2 class="display-6">Military Technologies</h2>
+        <p>
+            A military technology should be coded 'present' if there is concrete evidence that it was used in warfare (e.g. metal in armor or weapons, spears used in warfare and not only in hunting, etc) and 'inferred present' if there is evidence that the polity used the technology (e.g. for hunting, as an ornamental or ceremonial item, in jewelry), but no concrete evidence that the metal was specifically used in warfare (explain in comment).
+        </p>
+    </div>
+    <div class="row">
+        {% for section, subsect_dic in my_dict.items %}
+        <h2  class="py-3 ps-0"><span class="badge rounded-pill bg-teal text-dark">{{ section }}</span></h2>
+        {% for subsection, var_list in subsect_dic.items %}
+            <h5 class="py-3 ps-0"> <i class="fas fa-chevron-circle-down"></i> {{ subsection }}</h5>
+                <table class="table align-middle table-striped">
+                {% for list_item in var_list %}
+                <tr>
+                    <td scope="row" class="col-md-6 fw-bold">
+                        <a  href="{% url list_item.5 %}"><i class="fa-regular fa-circle-right"></i> &nbsp; {{list_item.0}}</a></td>
+                    <td  scope="row" class="col-md-6">
+                        <a class="btn btn-sm btn-success ms-auto float-end me-2" href="{% url list_item.2 %}" class="card-link"> <i class="fa fa-plus"></i>&nbsp; Add &nbsp; </a>
+                        <a class="btn btn-sm btn-primary ms-auto float-end me-2" href="{% url list_item.5 %}" class="card-link"> <i class="fa fa-eye"></i> &nbsp; View </a>
+                        <a class="btn btn-sm btn-dark ms-auto float-end me-2" href="{% url list_item.4 %}" class="card-link"> <i class="fa-solid fa-download"></i> &nbsp; Metadata </a>
+                        <a class="btn btn-sm btn-info ms-auto float-end me-2" href="{% url list_item.3 %}" class="card-link"><i class="fa-solid fa-file-arrow-down"></i> &nbsp; Download All </a>
+                    </td>
+                </tr>
+                {% endfor %}
+                </table>
+            {% endfor %}
+        <hr>           
+        {% endfor %} 
+    </div>
+</div>
+
+{% endblock %}

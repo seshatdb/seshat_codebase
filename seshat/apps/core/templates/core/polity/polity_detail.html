@@ -9,10 +9,15 @@
     <div class="row mt-3">
         <div class="col-md-12">
             <div class="row d-flex align-items-center mb-2">
-                <div class="col-md-9">
+                <div class="col-md-8">
                     <h2 class="fw-bold">{{ object.long_name }}: <span class="text-primary h3">({{ object.new_name }})</span></h2>
+                    <h5 class="fw-bold pt-2">Home NGA: <span class="text-secondary">({{ object.home_nga }})</span></h5>
+
                 </div>
-                <div class="col-md-3">      
+                <div class="col-md-2">    
+                    <a href="{% url 'polity-update' object.pk  %}" class="btn btn-outline-danger mx-3 my-2 float-end"><i class="fa-regular fa-pen-to-square"></i> &nbsp; Edit This Polity</a>
+                </div>
+                <div class="col-md-2">    
                     <a href="{% url 'polities' %}" class="btn btn-outline-success mx-3 my-2 float-end"><i class="fa-solid fa-list-ul"></i> &nbsp; See All Polities</a>
                 </div>
             </div>
@@ -23,10 +28,8 @@
             <div class="col-md-9">
                 <h3 class="fw-bold pb-2"> <i class="fa-solid fa-circle-right"></i> General Variables: &nbsp; <a href="#general_var"><i class="fa-solid fa-magnifying-glass"></i></a></h3>
             </div>
-            <div class="row">
-                <div class="col-md-1">
-                </div>
-                <div class="table-responsive mb-4 col-md-8">
+            <div class="row px-3">
+                <div class="table-responsive mb-4 col-md-9">
                     <table id="table_id" class="table align-middle table-striped table-bordered">
                         <tbody>
                         {% for key, values in all_general_data.items %}
@@ -53,10 +56,8 @@
             <div class="col-md-9">
                 <h3 class="fw-bold pb-2 pt-3"> <i class="fa-solid fa-circle-right"></i> Social Complexity Variables: &nbsp; <a href="#sc_var"><i class="fa-solid fa-magnifying-glass"></i></a></h3>
             </div>
-            <div class="row">
-                <div class="col-md-1">
-                </div>
-                <div class="table-responsive mb-4 col-md-8">
+            <div class="row px-3">
+                <div class="table-responsive mb-4 col-md-9">
                     <table id="table_id" class="table align-middle table-striped table-bordered">
                         <tbody>
                         {% for key, values in all_sc_data.items %}
@@ -80,6 +81,33 @@
                 </div>
             </div>
 
+            <div class="col-md-9">
+                <h3 class="fw-bold pb-2 pt-3"> <i class="fa-solid fa-circle-right"></i> Warfare Variables (Military Technologies): &nbsp; <a href="#wf_var"><i class="fa-solid fa-magnifying-glass"></i></a></h3>
+            </div>
+            <div class="row px-3">
+                <div class="table-responsive mb-4 col-md-9">
+                    <table id="table_id" class="table align-middle table-striped table-bordered">
+                        <tbody>
+                        {% for key, values in all_wf_data.items %}
+                        {% if values %}
+                        <tr class="row col-md-12">
+                            <td class="col-md-4 fw-bold" style="text-align: right;">{{values.0.clean_name_spaced}} &nbsp;</td>
+                            <td class="col-md-8" style="text-align: left;">
+                            {% for vv in values %}
+                                    {% if forloop.counter0 > 0 %}
+                                   <span class="text-secondary">&</span>
+                                    {% endif %}
+                                    <span class="h6 text-teal">{{ vv.show_value }}</span> 
+                            {% endfor %}
+                            <a class="h6" href="#{{key}}"> &nbsp;<i class="fa-solid fa-magnifying-glass"></i></a>
+                        </td>
+                        </tr>
+                        {% endif %}
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
 
 
           
@@ -120,8 +148,8 @@
     </div>
 
     <div>
-        <hr class="bg-colorful-vertical">
-        <h1 class="fw-light pt-2 display-4" style="text-align: left;" id="general_var"> General Variables</h1>
+        <hr class="bg-colorful-vertical  mt-5">
+        <h1 class="fw-light pt-2 display-4" style="text-align: left;" id="general_var"> General Variables:</h1>
         <hr class="bg-colorful-vertical-bottom">
         {% for key, values in all_general_data.items %}
         {% if values %}
@@ -168,10 +196,57 @@
 
 
     <div>
-        <hr class="bg-colorful-vertical">
-        <h1 class="fw-light pt-2 display-4" style="text-align: left;" id="sc_var"> Social Complexity Variables</h1>
+        <hr class="bg-colorful-vertical mt-5">
+        <h1 class="fw-light pt-2 display-4" style="text-align: left;" id="sc_var"> Social Complexity Variables:</h1>
         <hr class="bg-colorful-vertical-bottom">
         {% for key, values in all_sc_data.items %}
+        {% if values %}
+        <h4 class="pt-4 pb-2 text-teal" id="{{key}}"> <i class="fa-solid fa-circle-chevron-right"></i> {{ values.0.clean_name_spaced }}:</h4>
+
+        <div class="table-responsive mb-4">
+            <table id="table_id" class="table align-middle table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th scope="col" style="text-align: center" class="fw-bold"> Year(s)</th>
+                        <!-- headings for extra vars -->
+                        <th class = "fw-bold" style="text-align: center;" scope="col">{{values.0.clean_name_spaced}} 
+                            </th>
+                        {% include "core/partials/_confidence_disputed_expert.html" %}
+                        <th scope="col" style="text-align: center" class="fw-light"><i class="fa-regular fa-comment-dots"></i></th>
+                        <th scope="col" style="text-align: center" class="fw-light">Edit</th>
+                      </tr>
+                </thead>
+                <tbody>
+                {% for value in values %}
+                <tr>
+                    {% include "core/partials/_year_block_value.html" %}
+                    <td class="col-md-3 fw-bold text-teal" style="text-align: center;"> {{value.show_value}}  </td>
+                    {% include "core/partials/_tag_value.html" %}
+                    {% include "core/partials/_disputed_value.html" %}
+                    {% include "core/partials/_expert_checked_value.html" %}
+                    <td class="col-md-3" style="text-align: center;">
+                        {% if value.comment %}
+                        {{value.comment}}
+                        {% else %}
+                        <span class="text-secondary">Coming Soon ...</span>
+                        {% endif %}
+                    </td>
+                    <td  style="text-align: center;"> <a href="{% url key|lower|add:'-update' value.id %}"><i class="fa-solid fa-pen-to-square text-danger"></i></a> </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
+        {% endfor %}
+
+    </div>
+
+    <div>
+        <hr class="bg-colorful-vertical mt-5">
+        <h1 class="fw-light pt-2 display-4" style="text-align: left;" id="wf_var"> Warfare Variables (Military Technologies):</h1>
+        <hr class="bg-colorful-vertical-bottom">
+        {% for key, values in all_wf_data.items %}
         {% if values %}
         <h4 class="pt-4 pb-2 text-teal" id="{{key}}"> <i class="fa-solid fa-circle-chevron-right"></i> {{ values.0.clean_name_spaced }}:</h4>
 

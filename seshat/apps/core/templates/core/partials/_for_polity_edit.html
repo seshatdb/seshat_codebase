@@ -4,7 +4,13 @@
     <div class="py-1">
         <a href="{% url updatemeaty value.id %}"><button class="btn btn-warning btn-sm btn-block">Fact</button></a>
     </div>
+    {% if value.comment.id == 1 %}
     <div class="py-1">
-        <a href="{% url 'seshatcomment-update' value.comment.id %}"><button class="btn btn-danger btn-sm">Desc</button></a>
+        <a href="{% url 'create_subcomment' value.id %}"><button class="btn btn-danger btn-sm">Create Desc</button></a>
     </div>
+    {% else  %}
+    <div class="py-1">
+        <a href="{% url 'seshatcomment-update' value.comment.id %}"><button class="btn btn-success btn-sm">View Desc</button></a>
+    </div>
+    {% endif %}
 </td>
