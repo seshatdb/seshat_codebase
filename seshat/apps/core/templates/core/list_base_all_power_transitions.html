@@ -1,0 +1,95 @@
+{% extends "core/seshat-base.html" %}
+{% load static %}
+{% load humanize %}
+{% load mathfilters %}
+
+{% block content %}
+<div class="container">
+    {% if object_list %}
+    <div class="row d-flex mt-3">
+        <div class="col-md-12">
+            <!-- <h5 class="lead-2">List of all the data for: {{object_list.0.section}}</h5> -->
+            <div class="col-md-12 justify-content-end my-3">
+                <h6><span class="text-secondary text-end">Section</span>: <mark>Power Transitions </mark></h6>
+            <!-- <h5 class="lead-2">List of all the data for: {{object_list.0.section}}</h5> -->
+          </div>
+          <div>
+            <h1 class="mb-3"><span class="display-6">Transitions of Power</span></h1>
+          </div>
+            <div>
+                <h6 class="fw-bold"><span class="fw-normal"><i class="fa-solid fa-caret-right"></i> We define Power transition as a transition of power.</span>
+                </h6>
+            </div>
+            <div class="contributors mt-4">
+                <h6><span class="text-secondary text-end">
+                    <i class="fa-solid fa-people-group"></i> Contributors</span>: Dan Hoyer, Peter Turchin, Sam, etc.
+                </h6>   
+            </div>
+        </div>
+      </div>
+    {% block main_description %}
+    {% endblock main_description %}
+    {% block secondary_description %}
+    {% endblock secondary_description %}
+    <hr>
+    <div class="row d-flex align-items-center mb-3">
+        <div class="col-md-3">
+            <h5 class="fw-bold">Actual Data:</h5>
+        </div>
+        <div class="col-md-9">      
+        <!-- Download and Create Buttons -->
+    {% block download_button %}
+    {% endblock download_button %}
+    </div>
+    </div>
+    <div class="table-responsive">
+        <div>
+
+        <table id="table_id" class="table align-middle table-hover table-striped table-bordered" style="padding: 0.25 rem !important;">
+            <thead>
+                <tr>
+                    <th scope="col" class="text-secondary sticky-start"  style="text-align: center">
+                        <h5><span class="badge rounded-pill bg-light text-dark">#</h5></span> 
+                        </th>
+                    <!-- headings for extra vars -->
+                    {% block myheadings_list %}
+                    {% endblock myheadings_list %}
+                  </tr>
+
+            </thead>
+            <tbody>
+                {% for obj in object_list %}
+                    <tr>
+                    <td class="text-secondary sticky-start" scope="row"  style="text-align: center">{{ forloop.counter }}</td>
+                    <!-- NGA -->
+                    
+                    <!-- extra vars come here -->
+
+                    {% block extra_vars_list %}
+                    {% endblock extra_vars_list %}
+                    <!-- Tag tag (Disputed/Suspected etc.) -->
+
+                    {% block update_button %}
+                    {% endblock update_button %}
+                </tr>
+                {% endfor %}
+            </tbody>
+          </table>
+        </div>
+
+    {% else %}
+
+    <div class="row">
+        <div class="col-md-12 mt-4">
+            <h3> <i class="fa-solid fa-triangle-exclamation"></i> There are no Facts for this variable in the Database.</h3>
+        </div>
+    </div>
+    {% endif %}
+    </div>
+    <script>
+        var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+        var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+          return new bootstrap.Popover(popoverTriggerEl)
+        })
+    </script>
+  {% endblock %}

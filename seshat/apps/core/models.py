@@ -405,10 +405,51 @@ class Citation(models.Model):
 
             
             return "BADBADREFERENCE"
+        
+    def full_citation_display(self) -> str:
+        """String for representing the Model Object"""
+        if self.ref and self.ref.title:
+            original_title = self.ref.title
+        else:
+            original_title = "REFERENCE_WITH_NO_TITLE"
+        if original_title:
+            shorter_title = original_title
+        else:
+            shorter_title = "BlaBlaBla"
+
+        if self.ref and self.ref.long_name:
+            original_long_name = self.ref.long_name
+        else:
+            original_long_name = "REFERENCE_WITH_NO_LONG_NAME"
+        if original_long_name:
+           shorter_name = original_long_name
+        else:
+            shorter_name = "BlaBla"
+        
+        if self.ref and self.ref.zotero_link and "NOZOTERO_LINK" in self.ref.zotero_link:
+            return f'(NOZOTERO: {shorter_name})'
+        if self.ref and self.ref.creator:
+            if self.page_from == None and self.page_to == None:
+                return '<b class="fw-bold">({0}_{1})</b>: {2}'.format(self.ref.creator, self.ref.year, shorter_title)
+            elif self.page_from == self.page_to or ((not self.page_to) and self.page_from):
+                return '<b class="fw-bold">({0}_{1}, p. {2})</b>: {3}'.format(self.ref.creator, self.ref.year, self.page_from, shorter_title)
+            elif self.page_from == self.page_to or ((not self.page_from) and self.page_to):
+                return '<b class="fw-bold">({0}_{1}, p. {2})</b>: {3}'.format(self.ref.creator, self.ref.year, self.page_to, shorter_title)
+            elif self.page_from and self.page_to:
+                return '<b class="fw-bold">({0}_{1}, pp. {2}-{3})</b>: {4}'.format(self.ref.creator, self.ref.year, self.page_from, self.page_to, shorter_title)
+            else:
+                return '<b class="fw-bold">({0}_{1})</b>: {2}'.format(self.ref.creator, self.ref.year, shorter_title)
+        else:
+            print("BADREF::::")
+            print(self.id)
+            print(self.modified_date)
+
+            
+            return "BADBADREFERENCE"
     
     class Meta:
        #ordering = ['-year']
-       ordering = ['-created_date']
+       ordering = ['-modified_date']
        constraints = [
         models.UniqueConstraint(
             name="No_PAGE_TO_AND_FROM",

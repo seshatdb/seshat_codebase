@@ -38,6 +38,12 @@
                 CrisisDB
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li>
+                    <a class="dropdown-item" href="{% url 'crisis_consequences_all' %}" class="nav-link">Crisis Consequences <span class="badge rounded-pill bg-warning text-dark">NEW</span></a>
+                </li>
+                <li>
+                    <a class="dropdown-item" href="{% url 'power_transitions_all' %}" class="nav-link">Power Transitions <span class="badge rounded-pill bg-warning text-dark">NEW</span></a>
+                </li>
                 <li><a class="dropdown-item" href="{% url 'qing_vars' %}">Qing Crisis</a></li>
                 <li><a class="dropdown-item" href="#">100 Cases</a></li>
                 <li><hr class="dropdown-divider"></li>

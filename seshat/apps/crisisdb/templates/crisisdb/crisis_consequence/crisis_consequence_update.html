@@ -1,0 +1,15 @@
+{% extends "core/form_base.html" %}
+{% load crispy_forms_tags %}
+{% load humanize %}
+
+{% block extra_vars %}
+<div class="col-md-3 mb-2">
+    {{ form.decline|as_crispy_field }}
+</div>
+{{ form.comment.as_hidden }}
+{% endblock extra_vars %}
+
+{% block delete_button %}
+    <a href="{% url 'crisis_consequence-delete' object.id %}" type="cancel" class="btn btn-outline-danger my-auto btn-block btn-lg">Delete </a>
+{% endblock delete_button %}
+        

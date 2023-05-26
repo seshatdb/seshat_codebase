@@ -1,4 +1,4 @@
-from .models import Human_sacrifice, External_conflict, Internal_conflict, External_conflict_side, Agricultural_population, Arable_land, Arable_land_per_farmer, Gross_grain_shared_per_agricultural_population, Net_grain_shared_per_agricultural_population, Surplus, Military_expense, Silver_inflow, Silver_stock, Total_population, Gdp_per_capita, Drought_event, Locust_event, Socioeconomic_turmoil_event, Crop_failure_event, Famine_event, Disease_outbreak
+from .models import Power_transition, Crisis_consequence, Human_sacrifice, External_conflict, Internal_conflict, External_conflict_side, Agricultural_population, Arable_land, Arable_land_per_farmer, Gross_grain_shared_per_agricultural_population, Net_grain_shared_per_agricultural_population, Surplus, Military_expense, Silver_inflow, Silver_stock, Total_population, Gdp_per_capita, Drought_event, Locust_event, Socioeconomic_turmoil_event, Crop_failure_event, Famine_event, Disease_outbreak
 import datetime
 
 from django import forms
@@ -27,17 +27,171 @@ commonfields = ['polity', 'year_from', 'year_to',
                 'description', 'tag', 'is_disputed', 'expert_reviewed', 'drb_reviewed', 'finalized', 'citations']
 
 commonwidgets = {
-    'polity': forms.Select(attrs={'class': 'form-control  mb-3', }),
-    'year_from': forms.NumberInput(attrs={'class': 'form-control  mb-3',}),
-    'year_to': forms.NumberInput(attrs={'class': 'form-control  mb-3', }),
-    'description': Textarea(attrs={'class': 'form-control  mb-3', 'style': 'height: 140px', 'placeholder':'Add a meaningful description (optional)'}),
-    'citations': forms.SelectMultiple(attrs={'class': 'form-control mb-3 js-states js-example-basic-multiple', 'text':'citations[]' , 'style': 'height: 340px', 'multiple': 'multiple'}),
+    'polity': forms.Select(attrs={'class': 'form-control  mb-1', }),
+    'year_from': forms.NumberInput(attrs={'class': 'form-control  mb-1',}),
+    'year_to': forms.NumberInput(attrs={'class': 'form-control  mb-1', }),
+    'description': Textarea(attrs={'class': 'form-control  mb-1', 'style': 'height: 220px', 'placeholder':'Add a Note (optional)'}),
+    'citations': forms.SelectMultiple(attrs={'class': 'form-control mb-1 js-states js-example-basic-multiple', 'text':'citations[]' , 'style': 'height: 340px', 'multiple': 'multiple'}),
     'tag': forms.RadioSelect(),
-    "is_disputed" : forms.CheckboxInput(attrs={'class': 'mb-3', }),
-    "expert_reviewed" : forms.CheckboxInput(attrs={'class': 'mb-3', }),
-    "drb_reviewed" : forms.CheckboxInput(attrs={'class': 'mb-3', }),
-    'finalized': forms.CheckboxInput(attrs={'class': 'mb-3', 'checked': True, }),
+    "is_disputed" : forms.CheckboxInput(attrs={'class': 'mb-1', }),
+    "expert_reviewed" : forms.CheckboxInput(attrs={'class': 'mb-1', }),
+    "drb_reviewed" : forms.CheckboxInput(attrs={'class': 'mb-1', }),
+    'finalized': forms.CheckboxInput(attrs={'class': 'mb-1', 'checked': True, }),
 }
+
+class Crisis_consequenceForm(forms.ModelForm):
+    class Meta:
+        model = Crisis_consequence
+        fields = commonfields.copy()
+        fields.append('crisis_case_id')
+        fields.append('name')
+        fields.append('other_polity')
+        fields.append('is_first_100')
+        fields.append('decline')
+        fields.append('collapse')
+        fields.append('epidemic')
+        fields.append('downward_mobility')
+        fields.append('extermination')
+        fields.append('uprising')
+        fields.append('revolution')
+        fields.append('successful_revolution')
+        fields.append('civil_war')
+        fields.append('century_plus')
+        fields.append('fragmentation')
+        fields.append('fragmentation')
+        fields.append('capital')
+        fields.append('conquest')
+        fields.append('assassination')
+        fields.append('depose')
+        fields.append('constitution')
+        fields.append('labor')
+        fields.append('unfree_labor')
+        fields.append('suffrage')
+        fields.append('public_goods')
+        fields.append('religion')
+
+
+        labels = commonlabels
+        labels["is_first_100"] = "<span class='h5'> Is it a <span class='text-primary text-decoration-underline'> first 100 </span> case? </span>"
+        labels['polity'] = "<span class='h5 text-teal'> Polity: </span>"
+        labels['name'] = "<span class='h5 text-teal'> Crisis Period Name: </span>"
+        labels['other_polity'] = "<span class='h5 text-teal'> Other Polity: </span>"
+        labels['crisis_case_id'] = "<span class='h5 text-teal'> Crisis Case Name (ID): </span>"
+        labels['year_from'] = "<span class='h5 text-teal'> Crisis Start Year: </span>"
+        labels['year_to'] = "<span class='h5 text-teal'> Crisis End Year: </span>"
+        labels["decline"] = "<span class='h5 text-teal'> Decline: </span>"
+        labels["collapse"] = "<span class='h5 text-teal'> Collapse: </span>"
+        labels["epidemic"] = "<span class='h5 text-teal'> Epidemic: </span>"
+        labels["downward_mobility"] = "<span class='h5 text-teal'> Downward mobility: </span>"
+        labels["extermination"] = "<span class='h5 text-teal'> Extermination: </span>"
+        labels["uprising"] = "<span class='h5 text-teal'> Uprising: </span>"
+        labels["revolution"] = "<span class='h5 text-teal'> Revolution: </span>"
+        labels["successful_revolution"] = "<span class='h5 text-teal'> Successful revolution: </span>"
+        labels["civil_war"] = "<span class='h5 text-teal'> Civil war: </span>"
+        labels["century_plus"] = "<span class='h5 text-teal'> Century plus: </span>"
+        labels["fragmentation"] = "<span class='h5 text-teal'> Fragmentation: </span>"
+        labels["capital"] = "<span class='h5 text-teal'> Capital: </span>"
+        labels["conquest"] = "<span class='h5 text-teal'> Conquest: </span>"
+        labels["assassination"] = "<span class='h5 text-teal'> Assassination: </span>"
+        labels["depose"] = "<span class='h5 text-teal'> Depose: </span>"
+        labels["constitution"] = "<span class='h5 text-teal'> Constitution: </span>"
+        labels["labor"] = "<span class='h5 text-teal'> Labor: </span>"
+        labels["unfree_labor"] = "<span class='h5 text-teal'> Unfree labor: </span>"
+        labels["suffrage"] = "<span class='h5 text-teal'> Suffrage: </span>"
+        labels["public_goods"] = "<span class='h5 text-teal'> Public goods: </span>"
+        labels["religion"] = "<span class='h5 text-teal'> Religion: </span>"
+        labels["description"] = "<span class='h5 text-teal'> Note: </span>"
+        #labels["expert_reviewed"] = "&nbsp; Expert Checked?"
+        #labels["drb_reviewed"] = "&nbsp; Data Review Board Reviewed?"
+
+        
+        widgets = dict(commonwidgets)
+        widgets['crisis_case_id'] = forms.TextInput(attrs={'class': 'form-control  mb-1', })
+        widgets['name'] = forms.TextInput(attrs={'class': 'form-control  mb-1', })
+        widgets['other_polity'] = forms.Select(attrs={'class': 'form-control  mb-1', })
+        widgets['is_first_100'] = forms.CheckboxInput(attrs={'class': 'mb-3', })
+        widgets['decline'] = forms.Select(attrs={'class': 'form-control  mb-1', })
+        widgets['collapse'] = forms.Select(attrs={'class': 'form-control  mb-1', })
+        widgets['epidemic'] = forms.Select(attrs={'class': 'form-control  mb-1', })
+        widgets['downward_mobility'] = forms.Select(attrs={'class': 'form-control  mb-1', })
+        widgets['extermination'] = forms.Select(attrs={'class': 'form-control  mb-1', })
+        widgets['uprising'] = forms.Select(attrs={'class': 'form-control  mb-1', })
+        widgets['revolution'] = forms.Select(attrs={'class': 'form-control  mb-1', })
+        widgets['successful_revolution'] = forms.Select(attrs={'class': 'form-control  mb-1', })
+        widgets['civil_war'] = forms.Select(attrs={'class': 'form-control  mb-1', })
+        widgets['century_plus'] = forms.Select(attrs={'class': 'form-control  mb-1', })
+        widgets['fragmentation'] = forms.Select(attrs={'class': 'form-control  mb-1', })
+        widgets['capital'] = forms.Select(attrs={'class': 'form-control  mb-1', })
+        widgets['conquest'] = forms.Select(attrs={'class': 'form-control  mb-1', })
+        widgets['assassination'] = forms.Select(attrs={'class': 'form-control  mb-1', })
+        widgets['depose'] = forms.Select(attrs={'class': 'form-control  mb-1', })
+        widgets['constitution'] = forms.Select(attrs={'class': 'form-control  mb-1', })
+        widgets['labor'] = forms.Select(attrs={'class': 'form-control  mb-1', })
+        widgets['unfree_labor'] = forms.Select(attrs={'class': 'form-control  mb-1', })
+        widgets['suffrage'] = forms.Select(attrs={'class': 'form-control  mb-1', })
+        widgets['public_goods'] = forms.Select(attrs={'class': 'form-control  mb-1', })
+        widgets['religion'] = forms.Select(attrs={'class': 'form-control  mb-1', })
+###########################
+####################################
+
+class Power_transitionForm(forms.ModelForm):
+    class Meta:
+        model = Power_transition
+        fields = commonfields.copy()
+        fields.append('predecessor')
+        fields.append('successor') 
+        fields.append('name')
+        fields.append('reign_number_predecessor')
+        fields.append('contested')
+        fields.append('overturn')
+        fields.append('predecessor_assassination')
+        fields.append('intra_elite')
+        fields.append('military_revolt')
+        fields.append('popular_uprising')
+        fields.append('separatist_rebellion')
+        fields.append('external_invasion')
+        fields.append('external_interference')
+
+
+        labels = commonlabels
+        labels['polity'] = "<span class='h6 text-teal'> Polity: </span>"
+        labels['name'] = "<span class='h6 text-teal'> Conflict Name: </span>"
+        labels['predecessor'] = "<span class='h6 text-teal'> Predecessor: </span>"
+        labels['successor'] = "<span class='h6 text-teal'> Successor: </span>"
+        labels['reign_number_predecessor'] = "<span class='h6 text-teal'> Reign Number (predecessor): </span>"
+
+        labels['year_from'] = "<span class='h6 text-teal'> Start Year (of Predecessor): </span>"
+        labels['year_to'] = "<span class='h6 text-teal'> End Year (Transition): </span>"
+        labels["contested"] = "<span class='h6 text-teal'> Contested: </span>"
+        labels["overturn"] = "<span class='h6 text-teal'> Overturn: </span>"
+        labels["predecessor_assassination"] = "<span class='h6 text-teal'> Predecessor_Assassination: </span>"
+        labels["intra_elite"] = "<span class='h6 text-teal'> Intra_Elite: </span>"
+        labels["military_revolt"] = "<span class='h6 text-teal'> Military_Revolt: </span>"
+        labels["popular_uprising"] = "<span class='h6 text-teal'> Popular_Uprising: </span>"
+        labels["separatist_rebellion"] = "<span class='h6 text-teal'> Separatist_Rebellion: </span>"
+        labels["external_invasion"] = "<span class='h6 text-teal'> External_Invasion: </span>"
+        labels["external_interference"] = "<span class='h6 text-teal'> External_Interference: </span>"
+        labels["description"] = "<span class='h6 text-teal'> Note: </span>"
+        #labels["expert_reviewed"] = "&nbsp; Expert Checked?"
+        #labels["drb_reviewed"] = "&nbsp; Data Review Board Reviewed?"
+
+        
+        widgets = dict(commonwidgets)
+        widgets['predecessor'] = forms.TextInput(attrs={'class': 'form-control  mb-1', })
+        widgets['successor'] = forms.TextInput(attrs={'class': 'form-control  mb-1', })
+        widgets['reign_number_predecessor'] = forms.NumberInput(attrs={'class': 'form-control  mb-3', })
+        widgets['name'] = forms.TextInput(attrs={'class': 'form-control  mb-1', })
+        widgets['contested'] = forms.Select(attrs={'class': 'form-control  mb-1', })
+        widgets['overturn'] = forms.Select(attrs={'class': 'form-control  mb-1', })
+        widgets['predecessor_assassination'] = forms.Select(attrs={'class': 'form-control  mb-1', })
+        widgets['intra_elite'] = forms.Select(attrs={'class': 'form-control  mb-1', })
+        widgets['military_revolt'] = forms.Select(attrs={'class': 'form-control  mb-1', })
+        widgets['popular_uprising'] = forms.Select(attrs={'class': 'form-control  mb-1', })
+        widgets['separatist_rebellion'] = forms.Select(attrs={'class': 'form-control  mb-1', })
+        widgets['external_invasion'] = forms.Select(attrs={'class': 'form-control  mb-1', })
+        widgets['external_interference'] = forms.Select(attrs={'class': 'form-control  mb-1', })
+
+
 
 class Human_sacrificeForm(forms.ModelForm):
     class Meta:
@@ -56,7 +210,7 @@ class Human_sacrificeForm(forms.ModelForm):
 
         
         widgets = dict(commonwidgets)
-        widgets['human_sacrifice'] = forms.RadioSelect()
+        widgets['sub_category'] = forms.Select(attrs={'class': 'form-control  mb-3', })
         #widgets['comment'] = forms.HiddenInput()
 
         #widgets["is_disputed"] = forms.CheckboxInput(attrs={'class': 'mb-3', })

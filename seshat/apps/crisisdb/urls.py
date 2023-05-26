@@ -13,6 +13,49 @@ urlpatterns = [
 ]
 
 
+
+urlpatterns += [
+    path('crisis_consequence/create/', views.Crisis_consequenceCreate.as_view(),
+         name="crisis_consequence-create"),
+
+    path('crisis_consequences/', views.Crisis_consequenceListView.as_view(), name='crisis_consequences'),
+    path('crisis_consequences_all/', views.Crisis_consequenceListViewAll.as_view(), name='crisis_consequences_all'),
+    path('crisis_consequence/<int:pk>', views.Crisis_consequenceDetailView.as_view(),
+         name='crisis_consequence-detail'),
+    path('crisis_consequence/<int:pk>/update/',
+         views.Crisis_consequenceUpdate.as_view(), name="crisis_consequence-update"),
+    path('crisis_consequence/<int:pk>/delete/',
+         views.Crisis_consequenceDelete.as_view(), name="crisis_consequence-delete"),
+    # Download
+    path('crisis_consequencedownload/', views.crisis_consequence_download,
+         name="crisis_consequence-download"),
+    path('crisis_consequencemetadownload/', views.crisis_consequence_meta_download,
+         name="crisis_consequence-metadownload"),
+         path('get-citations-dropdown/', views.get_citations_dropdown, name='get_citations_dropdown'),
+
+]
+
+urlpatterns += [
+    path('power_transition/create/', views.Power_transitionCreate.as_view(),
+         name="power_transition-create"),
+
+    path('power_transitions/', views.Power_transitionListView.as_view(), name='power_transitions'),
+    path('power_transitions_all/', views.Power_transitionListViewAll.as_view(), name='power_transitions_all'),
+    path('power_transition/<int:pk>', views.Power_transitionDetailView.as_view(),
+         name='power_transition-detail'),
+    path('power_transition/<int:pk>/update/',
+         views.Power_transitionUpdate.as_view(), name="power_transition-update"),
+    path('power_transition/<int:pk>/delete/',
+         views.Power_transitionDelete.as_view(), name="power_transition-delete"),
+    # Download
+    path('power_transitiondownload/', views.power_transition_download,
+         name="power_transition-download"),
+    path('power_transitionmetadownload/', views.power_transition_meta_download,
+         name="power_transition-metadownload"),
+         # path('get-citations-dropdown/', views.get_citations_dropdown, name='get_citations_dropdown'),
+
+]
+
 urlpatterns += [
     path('human_sacrifice/create/', views.Human_sacrificeCreate.as_view(),
          name="human_sacrifice-create"),

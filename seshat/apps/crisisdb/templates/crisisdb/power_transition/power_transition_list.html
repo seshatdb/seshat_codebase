@@ -1,0 +1,48 @@
+{% extends "core/list_base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% load humanize %}
+
+{% block download_button %}
+    <a href="{% url 'power_transition-create' %}" class="btn btn-outline-success mx-3 my-4 float-end"><i class="fas fa-plus"></i> &nbsp; Add More Facts</a>
+    <a href="{% url 'power_transition-download' %}" class="btn btn-outline-primary mx-3 my-4 float-end"><i class="fas fa-download"></i> &nbsp; Download All</a>
+    <a href="{% url 'power_transitions_all' %}" class="btn btn-warning mx-3 my-4 float-end"><i class="fa-solid fa-table-list"></i> &nbsp; See One-Page Mode</a>
+{% endblock download_button %}
+
+{% block metadownload_button %}
+    <a href="{% url 'power_transition-metadownload' %}" class="btn btn-primary ms-auto py-2 my-2 float-end"><i class="fas fa-download"></i> &nbsp; Download MetaData</a>
+{% endblock metadownload_button %}
+
+{% block main_description %}
+
+{% endblock main_description %}
+
+{% block myheadings_list %}
+<th class = "fw-normal" style="text-align: center;" scope="col">Conflict Name
+
+</th>
+<th class = "fw-normal" style="text-align: center;">Contested</th>
+{% endblock myheadings_list %}
+
+{% block extra_vars_list %}
+<td>
+<h6>{{ obj.name }}</h6>
+
+</td>
+<td>
+    <h6>{{ obj.contested }}</h6>
+    
+</td>
+
+{% autoescape off %}
+{% if obj.comment %}
+<td class="col-md-4"><small> {{ obj.comment }} </small></td>
+{% else  %}
+<td class="col-md-4"><small> Empty Comment. </small></td>
+{% endif %}
+
+{% endautoescape %}
+
+{% endblock extra_vars_list %}
+
+        

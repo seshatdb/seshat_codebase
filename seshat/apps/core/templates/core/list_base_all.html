@@ -182,7 +182,7 @@
         <table id="table_id" class="table align-middle table-hover table-striped table-bordered" style="padding: 0.25 rem !important;">
             <thead class="sticky-top">
                 <tr>
-                    <th scope="col" class="text-secondary"  style="text-align: center">#</th>
+                    <th scope="col" class="text-secondary sticky-start"  style="text-align: center">#</th>
                     <th scope="col" style="text-align: left" class="fw-bold"> 
                         Polity </th>
                     <th scope="col" style="text-align: center" class="fw-bold">
@@ -226,7 +226,7 @@
             <tbody>
                 {% for obj in object_list %}
                     <tr>
-                    <td class="text-secondary" scope="row"  style="text-align: center">{{ forloop.counter }}</td>
+                    <td class="text-secondary sticky-start" scope="row"  style="text-align: center">{{ forloop.counter }}</td>
                     {% if obj.polity %}
                     <td class="col-md-2" style="text-align: left;">
                         {% if obj.polity.long_name %}

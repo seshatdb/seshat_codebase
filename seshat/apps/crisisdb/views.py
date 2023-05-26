@@ -31,16 +31,328 @@ import datetime
 from django.core.paginator import Paginator
 
 from django.http import HttpResponse
+from django.template.loader import render_to_string
 
 import requests
 from requests.structures import CaseInsensitiveDict
 
 
 
-from .models import Human_sacrifice, External_conflict, Internal_conflict, External_conflict_side, Agricultural_population, Arable_land, Arable_land_per_farmer, Gross_grain_shared_per_agricultural_population, Net_grain_shared_per_agricultural_population, Surplus, Military_expense, Silver_inflow, Silver_stock, Total_population, Gdp_per_capita, Drought_event, Locust_event, Socioeconomic_turmoil_event, Crop_failure_event, Famine_event, Disease_outbreak
+from .models import Power_transition, Crisis_consequence, Human_sacrifice, External_conflict, Internal_conflict, External_conflict_side, Agricultural_population, Arable_land, Arable_land_per_farmer, Gross_grain_shared_per_agricultural_population, Net_grain_shared_per_agricultural_population, Surplus, Military_expense, Silver_inflow, Silver_stock, Total_population, Gdp_per_capita, Drought_event, Locust_event, Socioeconomic_turmoil_event, Crop_failure_event, Famine_event, Disease_outbreak
 
 
-from .forms import Human_sacrificeForm, External_conflictForm, Internal_conflictForm, External_conflict_sideForm, Agricultural_populationForm, Arable_landForm, Arable_land_per_farmerForm, Gross_grain_shared_per_agricultural_populationForm, Net_grain_shared_per_agricultural_populationForm, SurplusForm, Military_expenseForm, Silver_inflowForm, Silver_stockForm, Total_populationForm, Gdp_per_capitaForm, Drought_eventForm, Locust_eventForm, Socioeconomic_turmoil_eventForm, Crop_failure_eventForm, Famine_eventForm, Disease_outbreakForm
+from .forms import Power_transitionForm, Crisis_consequenceForm, Human_sacrificeForm, External_conflictForm, Internal_conflictForm, External_conflict_sideForm, Agricultural_populationForm, Arable_landForm, Arable_land_per_farmerForm, Gross_grain_shared_per_agricultural_populationForm, Net_grain_shared_per_agricultural_populationForm, SurplusForm, Military_expenseForm, Silver_inflowForm, Silver_stockForm, Total_populationForm, Gdp_per_capitaForm, Drought_eventForm, Locust_eventForm, Socioeconomic_turmoil_eventForm, Crop_failure_eventForm, Famine_eventForm, Disease_outbreakForm
+
+
+
+
+# Consequences of Crisis:
+
+
+def get_citations_dropdown(request):
+    # get dropdown data here
+    all_data = Citation.objects.all()
+    data = all_data #{'citations': all_data}
+    citations_list = []
+    counter = 0
+    for item in data:
+        if counter <5000:
+            citations_list.append({
+                'id': item.id,
+                'name': item.__str__(),
+            }
+            )
+            counter = counter + 1
+
+    # render dropdown template as string
+    #html = render_to_string('crisisdb/crisis_consequence/crisis_citation_dropdown.html', data)
+
+    # return dropdown template as JSON response
+    return JsonResponse({'data': citations_list})
+
+class Crisis_consequenceCreate(PermissionRequiredMixin, CreateView):
+    model = Crisis_consequence
+    form_class = Crisis_consequenceForm
+    #success_url = reverse_lazy("crisis_consequences")
+    template_name = "crisisdb/crisis_consequence/crisis_consequence_form.html"
+    permission_required = 'catalog.can_mark_returned'
+
+    def get_absolute_url(self):
+        return reverse('crisis_consequence-create')
+    def get_context_data(self, **kwargs):
+        # get the explanattion:
+        context = super().get_context_data(**kwargs)
+        context["mysection"] = "X"
+        context["mysubsection"] = "Y"
+        context["myvar"] = "Z"
+        context["my_exp"] = "Conequences of Crisis Explanataion"
+        return context
+
+class Crisis_consequenceUpdate(PermissionRequiredMixin, UpdateView):
+    model = Crisis_consequence
+    form_class = Crisis_consequenceForm
+    template_name = "crisisdb/crisis_consequence/crisis_consequence_form.html"
+    permission_required = 'catalog.can_mark_returned'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["myvar"] = "Z"
+
+        return context
+
+class Crisis_consequenceDelete(PermissionRequiredMixin, DeleteView):
+    model = Crisis_consequence
+    success_url = reverse_lazy('crisis_consequences')
+    template_name = "core/delete_general.html"
+    permission_required = 'catalog.can_mark_returned'
+
+
+class Crisis_consequenceListView(generic.ListView):
+    model = Crisis_consequence
+    template_name = "crisisdb/crisis_consequence/crisis_consequence_list.html"
+    paginate_by = 10
+
+    def get_absolute_url(self):
+        return reverse('crisis_consequences')
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["fields"] = ['decline', 'collapse', 'epidemic', 'downward_mobility', 'extermination', 'uprising', 'revolution', 'successful_revolution', 'civil_war', 'century_plus', 'fragmentation', 'capital', 'conquest', 'assassination', 'depose', 'constitution', 'labor', 'unfree_labor', 'suffrage', 'public_goods', 'religion']
+
+        context["myvar"] = "XX"
+        context["var_main_desc"] = "YY"
+        context["var_main_desc_source"] = ""
+        context["var_section"] = "frffrr"
+        context["var_subsection"] = "frtgtz"
+        context["var_null_meaning"] = "The value is not available."
+        context["inner_vars"] = {'crisis_consequence': {'min': None, 'max': None, 'scale': 1000, 'var_exp_source': None, 'var_exp': 'No Explanations.', 'units': 'mu?', 'choices': None}}
+        context["potential_cols"] = ['Scale', 'Units']
+
+        return context
+    
+class Crisis_consequenceListViewAll(generic.ListView):
+    model = Crisis_consequence
+    template_name = "crisisdb/crisis_consequence/crisis_consequence_list_all.html"
+    #paginate_by = 10
+
+    def get_absolute_url(self):
+        return reverse('crisis_consequences_all')
+
+    def get_queryset(self):
+        #order = self.request.GET.get('orderby', 'year_from')
+        order = self.request.GET.get('orderby', 'home_nga')
+        order2 = self.request.GET.get('orderby2', 'year_from')
+        #polity.home_nga.id
+        #orders = [order, order2]
+        new_context = Crisis_consequence.objects.all().annotate(
+            home_nga=ExpressionWrapper(
+                F('polity__home_nga__name'),
+                output_field=CharField()
+            )
+        ).order_by(order, order2)
+        #.polity.home_nga.id
+        #new_context = Crisis_consequence.objects.all().order_by(order, order2)
+        return new_context
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["myvar"] = "uu"
+        context["var_main_desc"] = "xx"
+        context["var_main_desc_source"] = ""
+        context["var_section"] = "Religion and Normative Ideology"
+        context["var_subsection"] = "uu"
+        context["var_null_meaning"] = "The value is not available."
+        context["inner_vars"] = {'Crisis_consequence': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The absence or presence of Human Sacrifce.', 'units': None, 'choices': ['- Unknown', '- Present', '- Transitional (Present -> Absent)', '- Absent', '- Transitional (Absent -> Present)']}}
+        context["potential_cols"] = ["choices"]
+        context['orderby'] = self.request.GET.get('orderby', 'year_from')
+
+        return context
+        
+class Crisis_consequenceDetailView(generic.DetailView):
+    model = Crisis_consequence
+    template_name = "crisisdb/crisis_consequence/crisis_consequence_detail.html"
+
+
+@permission_required('admin.can_add_log_entry')
+def crisis_consequence_download(request):
+    items = Crisis_consequence.objects.all()
+
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="crisis_consequences.csv"'
+
+    writer = csv.writer(response, delimiter='|')
+    writer.writerow(['year_from', 'year_to',
+                     'polity', 'crisis_consequence_id', 'decline', 'collapse', 'epidemic', 'downward_mobility', 'extermination', 'uprising', 'revolution', 'successful_revolution', 'civil_war', 'century_plus', 'fragmentation', 'capital', 'conquest', 'assassination', 'depose', 'constitution', 'labor', 'unfree_labor', 'suffrage', 'public_goods', 'religion'])
+
+    for obj in items:
+        writer.writerow([obj.year_from, obj.year_to,
+                         obj.polity, obj.crisis_case_id, obj.decline, obj.collapse, obj.epidemic, obj.downward_mobility, obj.extermination, obj.uprising, obj.revolution, obj.successful_revolution, obj.civil_war, obj.century_plus, obj.fragmentation, obj.capital, obj.conquest, obj.assassination, obj.depose, obj.constitution, obj.labor, obj.unfree_labor, obj.suffrage, obj.public_goods, obj.religion, ])
+
+    return response
+
+@permission_required('admin.can_add_log_entry')
+def crisis_consequence_meta_download(request):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="crisis_consequences_metadata.csv"'
+    
+    my_meta_data_dic = {'notes': 'Notes for the Variable crisis_consequence are missing!', 'main_desc': 'No Explanations.', 'main_desc_source': 'No Explanations.', 'section': 'Economy Variables', 'subsection': 'Productivity', 'null_meaning': 'The value is not available.'}
+    my_meta_data_dic_inner_vars = {'crisis_consequence': {'min': None, 'max': None, 'scale': 1000, 'var_exp_source': None, 'var_exp': 'No Explanations.', 'units': 'mu?', 'choices': None}}
+    writer = csv.writer(response, delimiter='|')
+    # bring in the meta data nedded
+    for k, v in my_meta_data_dic.items():
+        writer.writerow([k, v])
+
+    for k_in, v_in in my_meta_data_dic_inner_vars.items():
+        writer.writerow([k_in,])
+        for inner_key, inner_value in v_in.items():
+            if inner_value:
+                writer.writerow([inner_key, inner_value])
+
+    return response
+################################################
+
+class Power_transitionCreate(PermissionRequiredMixin, CreateView):
+    model = Power_transition
+    form_class = Power_transitionForm
+    #success_url = reverse_lazy("power_transitions")
+    template_name = "crisisdb/power_transition/power_transition_form.html"
+    permission_required = 'catalog.can_mark_returned'
+
+    def get_absolute_url(self):
+        return reverse('power_transition-create')
+    def get_context_data(self, **kwargs):
+        # get the explanattion:
+        context = super().get_context_data(**kwargs)
+        context["mysection"] = "X"
+        context["mysubsection"] = "Y"
+        context["myvar"] = "Z"
+        context["my_exp"] = "Conequences of Crisis Explanataion"
+        return context
+
+class Power_transitionUpdate(PermissionRequiredMixin, UpdateView):
+    model = Power_transition
+    form_class = Power_transitionForm
+    template_name = "crisisdb/power_transition/power_transition_form.html"
+    permission_required = 'catalog.can_mark_returned'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["myvar"] = "Z"
+
+        return context
+
+class Power_transitionDelete(PermissionRequiredMixin, DeleteView):
+    model = Power_transition
+    success_url = reverse_lazy('power_transitions')
+    template_name = "core/delete_general.html"
+    permission_required = 'catalog.can_mark_returned'
+
+
+class Power_transitionListView(generic.ListView):
+    model = Power_transition
+    template_name = "crisisdb/power_transition/power_transition_list.html"
+    paginate_by = 10
+
+    def get_absolute_url(self):
+        return reverse('power_transitions')
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["fields"] = ['contested', 'overturn', 'predecessor_assassination', 'intra_elite', 'military_revolt', 'popular_uprising', 'separatist_rebellion', 'external_invasion', 'external_interference', ]
+
+
+        context["myvar"] = "XX"
+        context["var_main_desc"] = "YY"
+        context["var_main_desc_source"] = ""
+        context["var_section"] = "frffrr"
+        context["var_subsection"] = "frtgtz"
+        context["var_null_meaning"] = "The value is not available."
+        context["inner_vars"] = {'power_transition': {'min': None, 'max': None, 'scale': 1000, 'var_exp_source': None, 'var_exp': 'No Explanations.', 'units': 'mu?', 'choices': None}}
+        context["potential_cols"] = ['Scale', 'Units']
+
+        return context
+    
+class Power_transitionListViewAll(generic.ListView):
+    model = Power_transition
+    template_name = "crisisdb/power_transition/power_transition_list_all.html"
+    #paginate_by = 10
+
+    def get_absolute_url(self):
+        return reverse('power_transitions_all')
+
+    def get_queryset(self):
+        #order = self.request.GET.get('orderby', 'year_from')
+        order = self.request.GET.get('orderby', 'home_nga')
+        order2 = self.request.GET.get('orderby2', 'year_from')
+        #polity.home_nga.id
+        #orders = [order, order2]
+        new_context = Power_transition.objects.all().annotate(
+            home_nga=ExpressionWrapper(
+                F('polity__home_nga__name'),
+                output_field=CharField()
+            )
+        ).order_by(order, order2)
+        #.polity.home_nga.id
+        #new_context = Power_transition.objects.all().order_by(order, order2)
+        return new_context
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["myvar"] = "uu"
+        context["var_main_desc"] = "xx"
+        context["var_main_desc_source"] = ""
+        context["var_section"] = "Religion and Normative Ideology"
+        context["var_subsection"] = "uu"
+        context["var_null_meaning"] = "The value is not available."
+        context["inner_vars"] = {'Power_transition': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The absence or presence of Human Sacrifce.', 'units': None, 'choices': ['- Unknown', '- Present', '- Transitional (Present -> Absent)', '- Absent', '- Transitional (Absent -> Present)']}}
+        context["potential_cols"] = ["choices"]
+        context['orderby'] = self.request.GET.get('orderby', 'year_from')
+
+        return context
+        
+class Power_transitionDetailView(generic.DetailView):
+    model = Power_transition
+    template_name = "crisisdb/power_transition/power_transition_detail.html"
+
+
+@permission_required('admin.can_add_log_entry')
+def power_transition_download(request):
+    items = Power_transition.objects.all()
+
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="power_transitions.csv"'
+
+    writer = csv.writer(response, delimiter='|')
+    writer.writerow(['year_from', 'year_to',
+                     'polity', 'conflict_name', 'contested', 'overturn', 'predecessor_assassination', 'intra_elite', 'military_revolt', 'popular_uprising', 'separatist_rebellion', 'external_invasion', 'external_interference',])
+
+    for obj in items:
+        writer.writerow([obj.year_from, obj.year_to,
+                         obj.polity, obj.name, obj.contested, obj.overturn, obj.predecessor_assassination, obj.intra_elite, obj.military_revolt, obj.popular_uprising, obj.separatist_rebellion, obj.external_invasion, obj.external_interference])
+
+    return response
+
+@permission_required('admin.can_add_log_entry')
+def power_transition_meta_download(request):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="power_transitions_metadata.csv"'
+    
+    my_meta_data_dic = {'notes': 'Notes for the Variable power_transition are missing!', 'main_desc': 'No Explanations.', 'main_desc_source': 'No Explanations.', 'section': 'Economy Variables', 'subsection': 'Productivity', 'null_meaning': 'The value is not available.'}
+    my_meta_data_dic_inner_vars = {'power_transition': {'min': None, 'max': None, 'scale': 1000, 'var_exp_source': None, 'var_exp': 'No Explanations.', 'units': 'mu?', 'choices': None}}
+    writer = csv.writer(response, delimiter='|')
+    # bring in the meta data nedded
+    for k, v in my_meta_data_dic.items():
+        writer.writerow([k, v])
+
+    for k_in, v_in in my_meta_data_dic_inner_vars.items():
+        writer.writerow([k_in,])
+        for inner_key, inner_value in v_in.items():
+            if inner_value:
+                writer.writerow([inner_key, inner_value])
+
+    return response
+
+##################################
 
 class Human_sacrificeCreate(PermissionRequiredMixin, CreateView):
     model = Human_sacrifice
@@ -147,7 +459,7 @@ class Human_sacrificeListViewAll(generic.ListView):
         #polity.home_nga.id
         #orders = [order, order2]
         new_context = Human_sacrifice.objects.all().annotate(
-                home_nga=ExpressionWrapper(
+            home_nga=ExpressionWrapper(
                 F('polity__home_nga__name'),
                 output_field=CharField()
             )

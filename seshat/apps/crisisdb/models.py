@@ -14,7 +14,7 @@ import uuid
 
 from django.utils import translation
 
-from ..core.models import SeshatCommon, Certainty, Tags, Section, Subsection
+from ..core.models import SeshatCommon, Certainty, Tags, Section, Subsection, Polity
 from seshat.apps.accounts.models import Seshat_Expert
 
 ########## End of Model Imports
@@ -26,6 +26,16 @@ HUMAN_SACRIFICE_HUMAN_SACRIFICE_CHOICES = (
 ('A~P', 'Transitional (Absent -> Present)'),
 ('A', 'Absent'),
 ('P~A', 'Transitional (Present -> Absent)'),
+)
+
+CRISIS_CONSEQUENCE_CHOICES = (
+('U', 'Unknown'),
+('SU', 'Suspected Unknown'),
+('P', 'Present'),
+('A', 'Absent'),
+('IP', 'Inferred Present'),
+('IA', 'Inferred Absent'),
+('DIS', 'Disputed'),
 )
 
 SUB_CATEGORY_DISEASE_OUTBREAK_CHOICES = (
@@ -64,6 +74,15 @@ DURATION_DISEASE_OUTBREAK_CHOICES = (
 
 ########## END of  tuple choices for CrisisDB Models
 
+def return_beautiful_abs_pres(item):
+    if item == "P":
+        return '<i class="fa-solid fa-check text-success"></i>'
+    elif item == "A":
+        return '<i class="fa-sharp fa-solid fa-xmark text-danger"></i>'
+    else:
+        return "-"
+
+
 ########## Beginning of Function Definitions for CrisisDB Models
 
 def call_my_name(self):
@@ -74,7 +93,7 @@ def call_my_name(self):
 
 
 def return_citations(self):
-    return ', '.join(['<a href="' + citation.zoteroer() + '">' + citation.__str__() + ' </a>' for citation in self.citations.all()[:2]])
+    return '<br>'.join(['<a href="' + citation.zoteroer() + '">' + '<i class="fa-solid fa-book"></i> ' + citation.full_citation_display() + ' </a>' for citation in self.citations.all()])
 
 
 def clean_times(self):
@@ -104,6 +123,187 @@ def clean_times(self):
         })
 
 ########## End of Function Definitions for CrisisDB Models
+
+# Beginning of Crisis Consequences Model
+class Crisis_consequence(SeshatCommon):
+    crisis_case_id = models.CharField(max_length=100)
+    other_polity = models.ForeignKey(Polity, on_delete=models.SET_NULL, related_name="%(app_label)s_%(class)s_related_other",
+                               related_query_name="%(app_label)s_%(class)s_other", null=True, blank=True)
+    is_first_100 = models.BooleanField(default=False, blank=True, null=True)
+    name = models.CharField(max_length=300, null=True, blank=True)
+    decline = models.CharField(max_length=5, choices=CRISIS_CONSEQUENCE_CHOICES, null=True, blank=True)
+    collapse = models.CharField(max_length=5, choices=CRISIS_CONSEQUENCE_CHOICES, null=True, blank=True)
+    epidemic = models.CharField(max_length=5, choices=CRISIS_CONSEQUENCE_CHOICES, null=True, blank=True)
+    downward_mobility = models.CharField(max_length=5, choices=CRISIS_CONSEQUENCE_CHOICES, null=True, blank=True)
+    extermination = models.CharField(max_length=5, choices=CRISIS_CONSEQUENCE_CHOICES, null=True, blank=True)
+    uprising = models.CharField(max_length=5, choices=CRISIS_CONSEQUENCE_CHOICES, null=True, blank=True)
+    revolution = models.CharField(max_length=5, choices=CRISIS_CONSEQUENCE_CHOICES, null=True, blank=True)
+    successful_revolution = models.CharField(max_length=5, choices=CRISIS_CONSEQUENCE_CHOICES, null=True, blank=True)
+    civil_war = models.CharField(max_length=5, choices=CRISIS_CONSEQUENCE_CHOICES, null=True, blank=True)
+    century_plus = models.CharField(max_length=5, choices=CRISIS_CONSEQUENCE_CHOICES, null=True, blank=True)
+    fragmentation = models.CharField(max_length=5, choices=CRISIS_CONSEQUENCE_CHOICES, null=True, blank=True)
+    capital = models.CharField(max_length=5, choices=CRISIS_CONSEQUENCE_CHOICES, null=True, blank=True)
+    conquest = models.CharField(max_length=5, choices=CRISIS_CONSEQUENCE_CHOICES, null=True, blank=True)
+    assassination = models.CharField(max_length=5, choices=CRISIS_CONSEQUENCE_CHOICES, null=True, blank=True)
+    depose = models.CharField(max_length=5, choices=CRISIS_CONSEQUENCE_CHOICES, null=True, blank=True)
+    constitution = models.CharField(max_length=5, choices=CRISIS_CONSEQUENCE_CHOICES, null=True, blank=True)
+    labor = models.CharField(max_length=5, choices=CRISIS_CONSEQUENCE_CHOICES, null=True, blank=True)
+    unfree_labor = models.CharField(max_length=5, choices=CRISIS_CONSEQUENCE_CHOICES, null=True, blank=True)
+    suffrage = models.CharField(max_length=5, choices=CRISIS_CONSEQUENCE_CHOICES, null=True, blank=True)
+    public_goods = models.CharField(max_length=5, choices=CRISIS_CONSEQUENCE_CHOICES, null=True, blank=True)
+    religion = models.CharField(max_length=5, choices=CRISIS_CONSEQUENCE_CHOICES, null=True, blank=True)
+
+
+    class Meta:
+        verbose_name = 'Crisis consequence'
+        verbose_name_plural = 'Crisis consequences'
+        ordering = ['year_from', 'year_to']
+
+
+    @property
+    def display_citations(self):
+        return return_citations(self)
+
+    def clean(self):
+        clean_times(self)
+
+    def clean_name(self):
+        return "crisis_consequence"
+    
+    def get_columns_with_value(self, value):
+        columns = []
+        fields = ['decline', 'collapse', 'epidemic', 'downward_mobility', 'extermination', 'uprising', 'revolution', 'successful_revolution', 'civil_war', 'century_plus', 'fragmentation', 'capital', 'conquest', 'assassination', 'depose', 'constitution', 'labor', 'unfree_labor', 'suffrage', 'public_goods', 'religion']
+
+
+        for field_name in fields:
+            field_value = getattr(self, field_name)
+            if field_value and field_value == value:
+                columns.append(field_name)
+        if columns != []:
+            return columns
+        else:
+            return None
+
+    def get_columns_with_value_dic(self, value):
+        columns = {}
+        fields = ['decline', 'collapse', 'epidemic', 'downward_mobility', 'extermination', 'uprising', 'revolution', 'successful_revolution', 'civil_war', 'century_plus', 'fragmentation', 'capital', 'conquest', 'assassination', 'depose', 'constitution', 'labor', 'unfree_labor', 'suffrage', 'public_goods', 'religion']
+        from .custom_vars import crisis_defs_examples
+
+        for field_name in fields:
+            field_value = getattr(self, field_name)
+            if field_value and field_value == value:
+                columns[field_name] = crisis_defs_examples[field_name]
+                
+        if columns:
+            return columns
+        else:
+            return None
+
+    
+    # def show_value(self):
+    #     return self.get_human_sacrifice_display()
+    
+    def show_nga(self):
+        nga_rel =  self.polity.polity_sides.first()
+        if not nga_rel:
+            return "NO_NGA_ASSOCIATED"
+        else:
+            return nga_rel.nga_party.name
+        
+    def clean_decline(self):
+        return return_beautiful_abs_pres(self.decline)
+
+    def clean_collapse(self):
+        return return_beautiful_abs_pres(self.collapse)
+
+    def get_absolute_url(self):
+        return reverse('crisis_consequence-detail', args=[str(self.id)])
+
+    def __str__(self) -> str:
+        return call_my_name(self)
+
+########################################
+
+
+class Power_transition(SeshatCommon):
+    predecessor = models.CharField(max_length=100, blank=True, null=True)
+    successor = models.CharField(max_length=100, blank=True,  null=True)
+    reign_number_predecessor = models.IntegerField(blank=True, null=True)
+    name = models.CharField(max_length=100, blank=True,  null=True)
+
+    contested = models.CharField(max_length=5, choices=CRISIS_CONSEQUENCE_CHOICES, blank=True,null=True)
+    overturn = models.CharField(max_length=5, choices=CRISIS_CONSEQUENCE_CHOICES,  blank=True,null=True)
+    predecessor_assassination = models.CharField(max_length=5, choices=CRISIS_CONSEQUENCE_CHOICES, blank=True,null=True)
+    intra_elite = models.CharField(max_length=5, choices=CRISIS_CONSEQUENCE_CHOICES,  blank=True,null=True)
+    military_revolt = models.CharField(max_length=5, choices=CRISIS_CONSEQUENCE_CHOICES,  blank=True,null=True)
+    popular_uprising = models.CharField(max_length=5, choices=CRISIS_CONSEQUENCE_CHOICES,  blank=True,null=True)
+    separatist_rebellion = models.CharField(max_length=5, choices=CRISIS_CONSEQUENCE_CHOICES,  blank=True,null=True)
+    external_invasion = models.CharField(max_length=5, choices=CRISIS_CONSEQUENCE_CHOICES, blank=True,null=True)
+    external_interference = models.CharField(max_length=5, choices=CRISIS_CONSEQUENCE_CHOICES, blank=True,null=True)
+
+    class Meta:
+        verbose_name = 'Power Transition'
+        verbose_name_plural = 'Power Transitions'
+        ordering = ['year_from', 'year_to']
+
+
+    @property
+    def display_citations(self):
+        return return_citations(self)
+
+    def clean(self):
+        clean_times(self)
+
+    def clean_name(self):
+        return "power_transition"
+    
+    def get_columns_with_value(self, value):
+        columns = []
+        fields = ['contested', 'overturn', 'predecessor_assassination', 'intra_elite', 'military_revolt', 'popular_uprising', 'separatist_rebellion', 'external_invasion', 'external_interference', ]
+
+
+        for field_name in fields:
+            field_value = getattr(self, field_name)
+            if field_value and field_value == value:
+                columns.append(field_name)
+        if columns != []:
+            return columns
+        else:
+            return None
+
+    def get_columns_with_value_dic(self, value):
+        columns = {}
+        fields = ['contested', 'overturn', 'predecessor_assassination', 'intra_elite', 'military_revolt', 'popular_uprising', 'separatist_rebellion', 'external_invasion', 'external_interference', ]
+
+        from .custom_vars import power_transitions_defs_examples
+
+        for field_name in fields:
+            field_value = getattr(self, field_name)
+            if field_value and field_value == value:
+                columns[field_name] = power_transitions_defs_examples[field_name]
+                
+        if columns:
+            return columns
+        else:
+            return None
+    
+    def show_nga(self):
+        nga_rel =  self.polity.polity_sides.first()
+        if not nga_rel:
+            return "NO_NGA_ASSOCIATED"
+        else:
+            return nga_rel.nga_party.name
+
+    def get_absolute_url(self):
+        return reverse('power_transition-detail', args=[str(self.id)])
+
+    def __str__(self):
+        if self.polity and self.predecessor and self.successor:
+            return f"Power Transition in {self.polity}: {self.predecessor} was replaced by {self.successor}."
+        else:
+            return "Power Transition in x: Y was replaced by Z" 
+
+
 
 ########## Beginning of class Definitions for CrisisDB Models
 

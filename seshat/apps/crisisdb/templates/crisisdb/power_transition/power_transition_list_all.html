@@ -1,0 +1,348 @@
+{% extends "core/list_base_all_power_transitions.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% load humanize %}
+{% load mathfilters %}
+{% load custom_filters %}
+
+{% block download_button %}
+    <a href="{% url 'power_transition-create' %}" class="btn btn-outline-success mx-3 my-4 float-end"><i class="fas fa-plus"></i> &nbsp; Add More Facts</a>
+    <a href="{% url 'power_transition-download' %}" class="btn btn-outline-primary mx-3 my-4 float-end"><i class="fas fa-download"></i> &nbsp; Download All</a>
+    <a href="{% url 'power_transitions' %}" class="btn btn-outline-danger mx-3 my-4 float-end"><i class="fa-solid fa-file-lines"></i> &nbsp; See Pagination Mode</a>
+    <a href="{% url 'power_transition-metadownload' %}" class="btn btn-outline-info mx-3 my-4 float-end"><i class="fas fa-download"></i> &nbsp; Download MetaData</a>
+{% endblock download_button %}
+
+
+{% block main_description %}
+<style>
+
+    .table-container {
+        overflow-x: auto; /* Enable horizontal scrolling */
+      }
+      
+      
+      th, td {
+        padding: 10px;
+        border: 3px solid #ccc;
+      }
+
+    .fixed-column-data {
+        position: sticky;
+        left: 0;
+        z-index: 1;
+        color: teal !important;
+        background-color: #fefae6 !important;
+      }
+
+      .bg-light {
+        --bs-bg-opacity: 1;
+        background-color: #fefae6 !important;
+    }
+    .card {
+        width: 100%;
+        height: 50%;
+        perspective: 1000px;
+        background-color: transparent;
+        border: none;
+
+      }
+      
+      .card__content {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        transition: transform 0.2s;
+        transform-style: preserve-3d;
+      }
+      
+      .card__content:hover {
+        transform: rotateY(180deg);
+      }
+      
+      .card__front,
+      .card__back {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        backface-visibility: hidden;
+      }
+      
+      .card__front {
+        z-index: 2;
+      }
+      
+      .card__back {
+        transform: rotateY(180deg);
+        background-color: transparent;
+        padding: 2px;
+      }
+      
+      .card__back h2 {
+        margin: 0;
+      }
+
+      .popover {
+        max-width: 350px; /* Set the desired maximum width for the popover */
+    }
+      
+      
+</style>
+
+{% endblock main_description %}
+
+
+{% block myheadings_list %}
+<th class="fw-bold  px-2 col-sm-6"  style="text-align: left;" scope="col"><h6>Power Transition Name <br>Duration <br>Predecessor and Successor  <br>Polity(s) <span class="fw-light"> (Home NGA)</span> </h6> </th>
+
+<th class = "fw-bold col-sm-6 px-2" style="text-align: left;" scope="col">
+    <h5>
+        <span>
+            <span style="white-space: nowrap;">
+                Variables
+            </span>
+        </span>
+    </h5>
+</th>
+
+
+{% endblock myheadings_list %}
+
+{% block extra_vars_list %}
+<td class="col-sm-6" scope="row">
+    <br>
+    <span class="h4">Power Transition in 
+            {% if obj.name %}
+            <span class = "fw-bold text-teal">{{ obj.polity }} ({{ obj.name }}):</span>
+               
+            {% else %}
+            <span class = "fw-bold text-teal">{{ obj.polity }}</span>:
+            {% endif %}
+        
+    </span>
+    <br>
+    <span>
+        <span class = "fw-bold text-danger">{{ obj.predecessor }}</span> was replaced by 
+        <span class = "fw-bold text-teal">{{ obj.successor }}</span>.
+    </span>
+    <h6 class="text-danger fw-light pt-3">
+    {% block years %}
+    {% if obj.year_from == None %}
+         Full Year Range of <i class="text-secondary">{{ obj.polity.long_name }}</i> is assumed. <br>
+            <span class="fw-bold text-secondary">[{{ obj.polity.start_year}}, {{ obj.polity.end_year}}]</span>
+    {% elif obj.year_from == obj.year_to %}
+        {% if obj.year_from < 0 %}
+        {{ obj.year_from|abs|intcomma }} <span class="text-secondary">BCE</span> 
+        {% else %}
+        {{ obj.year_from }} <span class="text-secondary">CE</span>
+        {% endif %}
+    {% elif obj.year_to == None %}
+        {% if obj.year_from < 0 %}
+        {{ obj.year_from|abs }} <span class="text-secondary">BCE</span>
+        {% else %}
+        {{ obj.year_from }} <span class="text-secondary">CE</span>
+        {% endif %}
+    {% elif obj.year_to == None and obj.year_from == None %}
+         <i class="fa-solid fa-minus"></i> 
+    {% else %}
+        {% if obj.year_from < 0 and obj.year_to < 0 %}
+        {{ obj.year_from|abs }} <span class="text-secondary">BCE</span> <i class="fas fa-long-arrow-alt-right"></i> {{ obj.year_to|abs }} <span class="text-secondary">BCE</span>
+        {% elif obj.year_from < 0 and obj.year_to >= 0 %}
+        {{ obj.year_from|abs }} <span class="text-secondary">BCE</span> <i class="fas fa-long-arrow-alt-right"></i> {{ obj.year_to }} <span class="text-secondary">CE</span>
+        {% else %}
+        {{ obj.year_from }} <span class="text-secondary">CE</span> <i class="fas fa-long-arrow-alt-right"></i> {{ obj.year_to }} <span class="text-secondary">CE</span>
+        {% endif %}
+    {% endif %}
+    {% endblock years %}
+        
+    </h6>
+    <span class="fw-light text-secondary">
+    {% if obj.polity %}
+        {% if obj.polity.long_name %}
+        <span>
+            <a href="{% url 'polity-detail-main' obj.polity.id %}">{{ obj.polity.long_name }}</a> ({{ obj.polity.home_nga }})
+        </span>
+        {% else %}
+        <span class="fw-light text-secondary">
+            <a href="{% url 'polity-detail-main' obj.polity.id %}">{{ obj.polity.name }}</a>  <span class="fw-light text-secondary">({{ obj.other_polity.home_nga }})</span>
+        </span>
+        {% endif %}
+        {% if obj.other_polity.long_name %}
+        <span>
+            <br>& <a href="{% url 'polity-detail-main' obj.other_polity.id %}">{{ obj.other_polity.long_name }}</a> ({{ obj.other_polity.home_nga }})
+        </span>
+        {% elif obj.other_polity.name %}
+        <span class="fw-light text-secondary">
+            &: <a href="{% url 'polity-detail-main' obj.other_polity.id %}">{{ obj.other_polity.name }}</a>  <span class="fw-light text-secondary">({{ obj.other_polity.home_nga }})</span>
+        </span>
+        {% else %}
+        <span class="fw-light">
+        </span>
+        {% endif %}
+
+    {% else %}
+    <span>-</span>
+    {% endif%}
+</span>
+<br>
+<p class="fw-light text-secondary pt-3">Description: {{ obj.description }}</p>
+{% autoescape off %}
+<td class="col-sm-6  align-text-top" style="text-align: center;">
+    {% with obj|get_columns_with_value_dic:"P" as columns_dic %}
+        {% if columns_dic %}
+        <div class="row gx-1">
+            <div class="col-sm-3 border border-success text-light bg-success d-flex align-items-center py-2" style="border-width: 2px !important;">
+                <h6 class="m-auto">PRESENT</h6>
+            </div>
+            <div class="col-sm-9 py-2 border border-success" style="border-width: 2px !important; text-align: left;">
+                {% for column, value in columns_dic.items %}
+                <span type="button"  tabindex="0" data-bs-toggle="popover" title="{{ column|replace_underscore_and_capitalize }}" data-bs-html="true" data-bs-trigger="focus" data-bs-content='{{ value }}'>
+                    <span class="fs-6 my-1 badge rounded-pill bg-success">{{ column|replace_underscore_and_capitalize }}</span>
+                </span>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+    {% endwith %}
+
+
+    <!-- {% with obj|get_columns_with_value:"P" as columns %}
+    {% if columns %}
+    <div class="row gx-1">
+        <div class="col-sm-3 border border-success text-light bg-success d-flex align-items-center py-2" style="border-width: 2px !important;">
+            <h6 class="m-auto">PRESENT
+            </h6>
+        </div>
+        <div class="col-sm-9 py-2 border border-success" style="border-width: 2px !important; text-align: left;">
+            {% with obj|get_columns_with_value:"P" as columns %}
+                {% for column in columns %}
+                <span class="fs-6 my-1 badge rounded-pill bg-success">{{column|replace_underscore_and_capitalize}}</span>
+                {% endfor %}
+            {% endwith %}
+        </div>
+    </div>
+    {% endif %}
+    {% endwith %} -->
+
+    {% with obj|get_columns_with_value_dic:"IP" as columns_dic %}
+        {% if columns_dic %}
+        <div class="row gx-1">
+            <div class="col-sm-3  border border-info bg-info text-dark d-flex align-items-center py-2" style="border-width: 2px !important;">
+                <h6 class="m-auto">INFERRED PRESENT
+                </h6>
+            </div>
+            <div class="col-sm-9 py-2  border border-info"  style="border-width: 2px !important; text-align: left;">
+                {% for column, value in columns_dic.items %}
+                <span type="button"  tabindex="0" data-bs-toggle="popover" title="{{ column|replace_underscore_and_capitalize }}" data-bs-html="true" data-bs-trigger="focus" data-bs-content='{{ value }}'>
+                    <span class="fs-6 my-1 badge rounded-pill bg-info text-dark">{{ column|replace_underscore_and_capitalize }}</span>
+                </span>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+    {% endwith %}
+
+    {% with obj|get_columns_with_value_dic:"IA" as columns_dic %}
+    {% if columns_dic %}
+    <div class="row gx-1">
+        <div class="col-sm-3 border border-secondary bg-secondary text-light d-flex align-items-center py-2"  style="border-width: 2px !important;">
+            <h6 class="m-auto">INFERRED ABSENT</h6>
+        </div>
+        <div class="col-sm-9 py-2 border border-secondary"  style="border-width: 2px !important; text-align: left;">
+            {% for column, value in columns_dic.items %}
+            <span type="button"  tabindex="0" data-bs-toggle="popover" title="{{ column|replace_underscore_and_capitalize }}" data-bs-html="true" data-bs-trigger="focus" data-bs-content='{{ value }}'>
+                <span class="fs-6 my-1 badge rounded-pill bg-secondary text-light">{{ column|replace_underscore_and_capitalize }}</span>
+            </span>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+    {% endwith %}
+
+    {% with obj|get_columns_with_value_dic:"A" as columns_dic %}
+    {% if columns_dic %}
+    <div class="row gx-1">
+        <div class="col-sm-3 border text-light d-flex align-items-center py-2"  style="border-width: 2px !important; text-align: left; background-color:#495057;  border-color:#495057 !important;">
+            <h6 class="m-auto">ABSENT</h6>
+        </div>
+        <div class="col-sm-9 py-2 border"  style="border-width: 2px !important; text-align: left; border-color:#495057 !important;">
+            {% for column, value in columns_dic.items %}
+            <span type="button"  tabindex="0" data-bs-toggle="popover" title="{{ column|replace_underscore_and_capitalize }}" data-bs-html="true" data-bs-trigger="focus" data-bs-content='{{ value }}'>
+                <span class="fs-6 my-1 badge rounded-pill" style="background-color:#495057;">{{ column|replace_underscore_and_capitalize }}</span>
+            </span>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+    {% endwith %}
+
+    {% with obj|get_columns_with_value_dic:"SU" as columns_dic %}
+    {% if columns_dic %}
+    <div class="row gx-1">
+        <div class="col-sm-3 border border-warning bg-warning  d-flex align-items-center py-2"  style="border-width: 2px !important;">
+            <h6 class="m-auto">SUSPECTED UNKNOWN</h6>
+        </div>
+        <div class="col-sm-9 py-2 border border-warning"  style="border-width: 2px !important; text-align: left;">
+            {% for column, value in columns_dic.items %}
+            <span type="button"  tabindex="0" data-bs-toggle="popover" title="{{ column|replace_underscore_and_capitalize }}" data-bs-html="true" data-bs-trigger="focus" data-bs-content='{{ value }}'>
+                <span class="fs-6 my-1 badge rounded-pill bg-warning text-dark">{{ column|replace_underscore_and_capitalize }}</span>
+            </span>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+    {% endwith %}
+
+    {% with obj|get_columns_with_value_dic:"U" as columns_dic %}
+    {% if columns_dic %}
+    <div class="row gx-1">
+        <div class="col-sm-3 border border-danger bg-danger d-flex align-items-center py-2"  style="border-width: 2px !important;">
+            <h6 class="m-auto">UNKNOWN</h6>
+        </div>
+        <div class="col-sm-9 py-2 border border-danger"  style="border-width: 2px !important; text-align: left;">
+            {% for column, value in columns_dic.items %}
+            <span type="button"  tabindex="0" data-bs-toggle="popover" title="{{ column|replace_underscore_and_capitalize }}" data-bs-html="true" data-bs-trigger="focus" data-bs-content='{{ value }}'>
+                <span class="fs-6 my-1 badge rounded-pill bg-danger">{{ column|replace_underscore_and_capitalize }}</span>
+            </span>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+    {% endwith %}
+
+    {% with obj|get_columns_with_value_dic:"DIS" as columns_dic %}
+    {% if columns_dic %}
+    <div class="row gx-1">
+        <div class="col-sm-3 border border-secondary bg-secondary d-flex align-items-center py-2"   style="border-width: 2px !important;">
+            <h6 class="m-auto">DISPUTED</h6>
+        </div>
+        <div class="col-sm-9 py-2 border border-secondary"  style="border-width: 2px !important; text-align: left;">
+            {% for column, value in columns_dic.items %}
+            <span type="button"  tabindex="0" data-bs-toggle="popover" title="{{ column|replace_underscore_and_capitalize }}" data-bs-html="true" data-bs-trigger="focus" data-bs-content='{{ value }}'>
+                <span class="fs-6 my-1 badge rounded-pill bg-secondary">{{ column|replace_underscore_and_capitalize }}</span>
+            </span>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+    {% endwith %}
+    <div class="row" style="text-align: right;">
+        <div class="col-md-12 pb-4">
+            <span class="text-secondary">
+                <a href="{% url 'power_transition-update' obj.id %}">Edit <i class="fa-solid fa-pen-to-square"></i></a>
+            </span>
+        </div>
+    </div>
+
+</td>
+
+{% endautoescape %}
+
+
+
+{% endblock extra_vars_list %}
+
+<!-- Update Button -->
+{% block update_button %}
+{% endblock update_button %}
