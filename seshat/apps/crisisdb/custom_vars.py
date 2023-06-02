@@ -107,7 +107,7 @@ crisis_defs_examples= {
 }
 
 power_transitions_defs_examples = {
-    "contested": """NO Definition Yet.""",
+    "contested": """Was it contested for at least 1 year?""",
     "overturn": """NO Definition Yet.""",
     "predecessor_assassination": """NO Definition Yet.""",
     "intra_elite": """NO Definition Yet.""",

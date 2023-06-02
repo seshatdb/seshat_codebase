@@ -1,12 +1,13 @@
-{% extends "core/list_base.html" %}
+{% extends "core/list_base_all_crisis_cases.html" %}
 {% load crispy_forms_tags %}
 {% load static %}
 {% load humanize %}
+{% load mathfilters %}
 
 {% block download_button %}
     <a href="{% url 'crisis_consequence-create' %}" class="btn btn-outline-success mx-3 my-4 float-end"><i class="fas fa-plus"></i> &nbsp; Add More Facts</a>
     <a href="{% url 'crisis_consequence-download' %}" class="btn btn-outline-primary mx-3 my-4 float-end"><i class="fas fa-download"></i> &nbsp; Download All</a>
-    <a href="{% url 'crisis_consequences_all' %}" class="btn btn-warning mx-3 my-4 float-end"><i class="fa-solid fa-table-list"></i> &nbsp; See One-Page Mode</a>
+    <a href="{% url 'crisis_consequences_all' %}" class="btn btn-outline-danger mx-3 my-4 float-end"><i class="fa-solid fa-file-lines"></i> &nbsp; See Detailed Mode</a>
 {% endblock download_button %}
 
 {% block metadownload_button %}
@@ -14,35 +15,170 @@
 {% endblock metadownload_button %}
 
 {% block main_description %}
+<style>
+
+    .table-container {
+        overflow-x: auto; /* Enable horizontal scrolling */
+      }
+      
+      
+      th, td {
+        padding: 10px;
+        border: 3px solid #ccc;
+      }
+
+    .fixed-column-data {
+        position: sticky;
+        left: 0;
+        z-index: 1;
+        color: teal !important;
+        background-color: #fefae6 !important;
+      }
+
+      .bg-light {
+        --bs-bg-opacity: 1;
+        background-color: #fefae6 !important;
+    }
+      
+</style>
 
 {% endblock main_description %}
 
-{% block myheadings_list %}
-<th class = "fw-normal" style="text-align: center;" scope="col">Crisis Name
 
-</th>
-<th class = "fw-normal" style="text-align: center;">Decline</th>
+{% block myheadings_list %}
+<th class="fw-bold  px-2 col-md-2 sticky-start fixed-column-data" style="text-align: left;" scope="col"><h6>Crisis Name <br>Duration <br>Polity(s) <span class="fw-light"> (Home NGA)</span> </h6> </th>
+
+<th class = "fw-bold  px-2 text-danger" style="text-align: center;" scope="col"><h5><span class="badge rounded-pill bg-danger">decline</h5></span></th>
+<th class = "fw-bold  px-2 text-warning" style="text-align: center;" scope="col"><h5><span class="badge rounded-pill bg-danger">collapse</h5></span></th>
+<th class = "fw-bold  px-2 text-danger" style="text-align: center;" scope="col"><h5><span class="badge rounded-pill bg-danger">epidemic</h5></span></th>
+
+<th class = "fw-bold  px-2 text-warning" style="text-align: center;" scope="col"><h5><span class="badge rounded-pill bg-warning text-dark">downward mobility</h5></span></th>
+<th class = "fw-bold  px-2 text-danger" style="text-align: center;" scope="col"><h5><span class="badge rounded-pill bg-warning text-dark">extermination</h5></span></th>
+
+<th class = "fw-bold  px-2 text-danger" style="text-align: center;" scope="col"><h5><span class="badge rounded-pill bg-info text-dark">uprising</h5></span> </th>
+<th class = "fw-bold  px-2 text-danger" style="text-align: center;" scope="col"><h5><span class="badge rounded-pill bg-info text-dark">revolution</h5></span> </th>
+<th class = "fw-bold  px-2 text-danger" style="text-align: center;" scope="col"><h5><span class="badge rounded-pill bg-info text-dark">successful revolution</h5></span> </th>
+<th class = "fw-bold  px-2 text-danger" style="text-align: center;" scope="col"><h5><span class="badge rounded-pill bg-info text-dark">civil war</h5></span> </th>
+<th class = "fw-bold  px-2 text-danger" style="text-align: center;" scope="col"><h5><span class="badge rounded-pill bg-info text-dark">century plus</h5></span> </th>
+<th class = "fw-bold  px-2 text-danger" style="text-align: center;" scope="col"><h5><span class="badge rounded-pill bg-info text-dark">fragmentation</h5></span> </th>
+<th class = "fw-bold  px-2 text-danger" style="text-align: center;" scope="col"><h5><span class="badge rounded-pill bg-info text-dark">capital</h5></span> </th>
+
+
+<th class = "fw-bold  px-2 text-danger" style="text-align: center;" scope="col"><h5><span class="badge rounded-pill bg-dark">conquest</h5></span> </th>
+<th class = "fw-bold  px-2 text-danger" style="text-align: center;" scope="col"><h5><span class="badge rounded-pill bg-secondary">assassination</h5></span> </th>
+<th class = "fw-bold  px-2 text-danger" style="text-align: center;" scope="col"><h5><span class="badge rounded-pill bg-secondary">depose</h5></span> </th>
+
+<th class = "fw-bold  px-2 text-danger" style="text-align: center;" scope="col"><h5><span class="badge rounded-pill bg-success">constitution</h5></span> </th>
+<th class = "fw-bold  px-2 text-danger" style="text-align: center;" scope="col"><h5><span class="badge rounded-pill bg-success">labor</h5></span> </th>
+<th class = "fw-bold  px-2 text-danger" style="text-align: center;" scope="col"><h5><span class="badge rounded-pill bg-success">unfree labor</h5></span> </th>
+<th class = "fw-bold  px-2 text-danger" style="text-align: center;" scope="col"><h5><span class="badge rounded-pill bg-success">suffrage</h5></span> </th>
+<th class = "fw-bold  px-2 text-danger" style="text-align: center;" scope="col"><h5><span class="badge rounded-pill bg-success">public goods</h5></span> </th>
+<th class = "fw-bold  px-2 text-danger" style="text-align: center;" scope="col"><h5><span class="badge rounded-pill bg-success">religion</h5></span> </th>
+
 {% endblock myheadings_list %}
 
 {% block extra_vars_list %}
-<td>
-<h6>{{ obj.crisis_case_id }}</h6>
+<td class="sticky-start fixed-column-data col-md-2" scope="row">{% if obj.is_first_100 == True %}
+    <span class="badge bg-warning text-dark fw-light" style="padding:2px;">First 100</span>
+    {% endif %}
+    <span class = "fw-bold col-md-3">{{ obj.crisis_case_id }}
 
-</td>
-<td>
-    <h6>{{ obj.decline }}</h6>
-    
-</td>
 
+</span>
+    <h6 class="text-danger fw-light">
+    {% block years %}
+    {% if obj.year_from == None %}
+         Full Year Range of <i class="text-secondary">{{ obj.polity.long_name }}</i> is assumed. <br>
+            <span class="fw-bold text-secondary">[{{ obj.polity.start_year}}, {{ obj.polity.end_year}}]</span>
+    {% elif obj.year_from == obj.year_to %}
+        {% if obj.year_from < 0 %}
+        {{ obj.year_from|abs|intcomma }} <span class="text-secondary">BCE</span> 
+        {% else %}
+        {{ obj.year_from }} <span class="text-secondary">CE</span>
+        {% endif %}
+    {% elif obj.year_to == None %}
+        {% if obj.year_from < 0 %}
+        {{ obj.year_from|abs }} <span class="text-secondary">BCE</span>
+        {% else %}
+        {{ obj.year_from }} <span class="text-secondary">CE</span>
+        {% endif %}
+    {% elif obj.year_to == None and obj.year_from == None %}
+         <i class="fa-solid fa-minus"></i> 
+    {% else %}
+        {% if obj.year_from < 0 and obj.year_to < 0 %}
+        {{ obj.year_from|abs }} <span class="text-secondary">BCE</span> <i class="fas fa-long-arrow-alt-right"></i> {{ obj.year_to|abs }} <span class="text-secondary">BCE</span>
+        {% elif obj.year_from < 0 and obj.year_to >= 0 %}
+        {{ obj.year_from|abs }} <span class="text-secondary">BCE</span> <i class="fas fa-long-arrow-alt-right"></i> {{ obj.year_to }} <span class="text-secondary">CE</span>
+        {% else %}
+        {{ obj.year_from }} <span class="text-secondary">CE</span> <i class="fas fa-long-arrow-alt-right"></i> {{ obj.year_to }} <span class="text-secondary">CE</span>
+        {% endif %}
+    {% endif %}
+    {% endblock years %}
+        
+    </h6>
+    <span class="fw-light text-secondary">
+    {% if obj.polity %}
+        {% if obj.polity.long_name %}
+        <span>
+            <a href="{% url 'polity-detail-main' obj.polity.id %}">{{ obj.polity.long_name }}</a> ({{ obj.polity.home_nga }})
+        </span>
+        {% else %}
+        <span class="fw-light text-secondary">
+            <a href="{% url 'polity-detail-main' obj.polity.id %}">{{ obj.polity.name }}</a>  <span class="fw-light text-secondary">({{ obj.other_polity.home_nga }})</span>
+        </span>
+        {% endif %}
+        {% if obj.other_polity.long_name %}
+        <span>
+            <br>& <a href="{% url 'polity-detail-main' obj.other_polity.id %}">{{ obj.other_polity.long_name }}</a> ({{ obj.other_polity.home_nga }})
+        </span>
+        {% elif obj.other_polity.name %}
+        <span class="fw-light text-secondary">
+            &: <a href="{% url 'polity-detail-main' obj.other_polity.id %}">{{ obj.other_polity.name }}</a>  <span class="fw-light text-secondary">({{ obj.other_polity.home_nga }})</span>
+        </span>
+        {% else %}
+        <span class="fw-light">
+        </span>
+        {% endif %}
+
+    {% else %}
+    <span>-</span>
+    {% endif%}
+</span>
+<br>
 {% autoescape off %}
-{% if obj.comment %}
-<td class="col-md-4"><small> {{ obj.comment }} </small></td>
-{% else  %}
-<td class="col-md-4"><small> Empty Comment. </small></td>
-{% endif %}
+<td style="text-align: center;"><h4>{{ obj.decline }}</h4></td>
+<td style="text-align: center;"><h4>{{ obj.collapse }}</h4></td>
+<td style="text-align: center;"><h4>{{ obj.epidemic }}</h4></td>
+<td style="text-align: center;"><h4>{{ obj.downward_mobility }}</h4></td>
+<td style="text-align: center;"><h4>{{ obj.extermination }}</h4></td>
+<td style="text-align: center;"><h4>{{ obj.uprising }}</h4></td>
+<td style="text-align: center;"><h4>{{ obj.revolution }}</h4></td>
+<td style="text-align: center;"><h4>{{ obj.successful_revolution }}</h4></td>
+<td style="text-align: center;"><h4>{{ obj.civil_war }}</h4></td>
+<td style="text-align: center;"><h4>{{ obj.century_plus }}</h4></td>
+<td style="text-align: center;"><h4>{{ obj.fragmentation }}</h4></td>
+<td style="text-align: center;"><h4>{{ obj.capital }}</h4></td>
+<td style="text-align: center;"><h4>{{ obj.conquest }}</h4></td>
+<td style="text-align: center;"><h4>{{ obj.assassination }}</h4></td>
+<td style="text-align: center;"><h4>{{ obj.depose }}</h4></td>
+<td style="text-align: center;"><h4>{{ obj.constitution }}</h4></td>
+<td style="text-align: center;"><h4>{{ obj.labor }}</h4></td>
+<td style="text-align: center;"><h4>{{ obj.unfree_labor }}</h4></td>
+<td style="text-align: center;"><h4>{{ obj.suffrage }}</h4></td>
+<td style="text-align: center;"><h4>{{ obj.public_goods }}</h4></td>
+<td style="text-align: center;"><h4>{{ obj.religion }}</h4></td>
 
 {% endautoescape %}
 
+
+
 {% endblock extra_vars_list %}
 
-        
+<!-- Update Button -->
+{% block update_button %}
+    <td style="text-align: center;">
+        <span class="fw-bold text-danger">
+            <a href="{% url 'crisis_consequence-update' obj.id %}">Edit</a>
+        </span>
+    </td>
+{% endblock update_button %}

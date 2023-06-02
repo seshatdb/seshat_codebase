@@ -1,0 +1,15 @@
+{% if value.drb_reviewed %}
+<sup style="top: -0.75em;">
+    <a type="button" class="btn p-0 m-0" data-bs-toggle="tooltip" data-bs-html="true"  title="By: {{ value.curators_list }}">
+        <span class="badge rounded-pill bg-primary"><i class="fas fa-check-circle"></i> DRB</span>
+    </a>
+</sup>
+{% else %}
+<sup style="top: -0.75em;">
+    <a type="button" class="btn p-0 m-0" data-bs-toggle="tooltip" data-bs-html="true"  title="By: {{ value.curators_list }}">
+        <span class="badge rounded-pill bg-warning text-dark"><i class="fa-solid fa-circle-pause text-dark"></i> DRB</span>
+    </a>
+</sup>
+{% endif %}
+
+     

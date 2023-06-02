@@ -73,9 +73,9 @@ def get_citations_dropdown(request):
 class Crisis_consequenceCreate(PermissionRequiredMixin, CreateView):
     model = Crisis_consequence
     form_class = Crisis_consequenceForm
-    #success_url = reverse_lazy("crisis_consequences")
+    success_url = reverse_lazy("crisis_consequences_all")
     template_name = "crisisdb/crisis_consequence/crisis_consequence_form.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_absolute_url(self):
         return reverse('crisis_consequence-create')
@@ -90,9 +90,10 @@ class Crisis_consequenceCreate(PermissionRequiredMixin, CreateView):
 
 class Crisis_consequenceUpdate(PermissionRequiredMixin, UpdateView):
     model = Crisis_consequence
+    success_url = reverse_lazy('crisis_consequences_all')
     form_class = Crisis_consequenceForm
     template_name = "crisisdb/crisis_consequence/crisis_consequence_form.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -104,16 +105,29 @@ class Crisis_consequenceDelete(PermissionRequiredMixin, DeleteView):
     model = Crisis_consequence
     success_url = reverse_lazy('crisis_consequences')
     template_name = "core/delete_general.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
 
 class Crisis_consequenceListView(generic.ListView):
     model = Crisis_consequence
     template_name = "crisisdb/crisis_consequence/crisis_consequence_list.html"
-    paginate_by = 10
+    #paginate_by = 10
 
     def get_absolute_url(self):
         return reverse('crisis_consequences')
+    
+    def get_queryset(self):
+        order = self.request.GET.get('orderby', 'home_nga')
+        order2 = self.request.GET.get('orderby2', 'year_from')
+
+        new_context = Crisis_consequence.objects.all().annotate(
+            home_nga=ExpressionWrapper(
+                F('polity__home_nga__name'),
+                output_field=CharField()
+            )
+        ).order_by(order, order2)
+
+        return new_context
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -173,7 +187,7 @@ class Crisis_consequenceDetailView(generic.DetailView):
     template_name = "crisisdb/crisis_consequence/crisis_consequence_detail.html"
 
 
-@permission_required('admin.can_add_log_entry')
+@permission_required('core.view_capital')
 def crisis_consequence_download(request):
     items = Crisis_consequence.objects.all()
 
@@ -190,7 +204,7 @@ def crisis_consequence_download(request):
 
     return response
 
-@permission_required('admin.can_add_log_entry')
+@permission_required('core.view_capital')
 def crisis_consequence_meta_download(request):
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="crisis_consequences_metadata.csv"'
@@ -214,9 +228,9 @@ def crisis_consequence_meta_download(request):
 class Power_transitionCreate(PermissionRequiredMixin, CreateView):
     model = Power_transition
     form_class = Power_transitionForm
-    #success_url = reverse_lazy("power_transitions")
+    success_url = reverse_lazy("power_transitions_all")
     template_name = "crisisdb/power_transition/power_transition_form.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_absolute_url(self):
         return reverse('power_transition-create')
@@ -231,9 +245,10 @@ class Power_transitionCreate(PermissionRequiredMixin, CreateView):
 
 class Power_transitionUpdate(PermissionRequiredMixin, UpdateView):
     model = Power_transition
+    success_url = reverse_lazy('power_transitions_all')
     form_class = Power_transitionForm
     template_name = "crisisdb/power_transition/power_transition_form.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -245,16 +260,29 @@ class Power_transitionDelete(PermissionRequiredMixin, DeleteView):
     model = Power_transition
     success_url = reverse_lazy('power_transitions')
     template_name = "core/delete_general.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
 
 class Power_transitionListView(generic.ListView):
     model = Power_transition
     template_name = "crisisdb/power_transition/power_transition_list.html"
-    paginate_by = 10
+    #paginate_by = 10
 
     def get_absolute_url(self):
         return reverse('power_transitions')
+    
+    def get_queryset(self):
+        order = self.request.GET.get('orderby', 'home_nga')
+        order2 = self.request.GET.get('orderby2', 'year_from')
+
+        new_context = Power_transition.objects.all().annotate(
+            home_nga=ExpressionWrapper(
+                F('polity__home_nga__name'),
+                output_field=CharField()
+            )
+        ).order_by(order, order2)
+        return new_context
+    
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -315,7 +343,7 @@ class Power_transitionDetailView(generic.DetailView):
     template_name = "crisisdb/power_transition/power_transition_detail.html"
 
 
-@permission_required('admin.can_add_log_entry')
+@permission_required('core.view_capital')
 def power_transition_download(request):
     items = Power_transition.objects.all()
 
@@ -323,16 +351,16 @@ def power_transition_download(request):
     response['Content-Disposition'] = 'attachment; filename="power_transitions.csv"'
 
     writer = csv.writer(response, delimiter='|')
-    writer.writerow(['year_from', 'year_to',
+    writer.writerow(['year_from', 'year_to', 'predecessor', 'successor',
                      'polity', 'conflict_name', 'contested', 'overturn', 'predecessor_assassination', 'intra_elite', 'military_revolt', 'popular_uprising', 'separatist_rebellion', 'external_invasion', 'external_interference',])
 
     for obj in items:
-        writer.writerow([obj.year_from, obj.year_to,
+        writer.writerow([obj.year_from, obj.year_to, obj.predecessor, obj.successor,
                          obj.polity, obj.name, obj.contested, obj.overturn, obj.predecessor_assassination, obj.intra_elite, obj.military_revolt, obj.popular_uprising, obj.separatist_rebellion, obj.external_invasion, obj.external_interference])
 
     return response
 
-@permission_required('admin.can_add_log_entry')
+@permission_required('core.view_capital')
 def power_transition_meta_download(request):
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="power_transitions_metadata.csv"'
@@ -358,7 +386,7 @@ class Human_sacrificeCreate(PermissionRequiredMixin, CreateView):
     model = Human_sacrifice
     form_class = Human_sacrificeForm
     template_name = "crisisdb/human_sacrifice/human_sacrifice_form.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_absolute_url(self):
         return reverse('human_sacrifice-create')
@@ -407,7 +435,7 @@ class Human_sacrificeUpdate(PermissionRequiredMixin, UpdateView):
     model = Human_sacrifice
     form_class = Human_sacrificeForm
     template_name = "crisisdb/human_sacrifice/human_sacrifice_update.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -419,7 +447,7 @@ class Human_sacrificeDelete(PermissionRequiredMixin, DeleteView):
     model = Human_sacrifice
     success_url = reverse_lazy('human_sacrifices')
     template_name = "core/delete_general.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
 
 class Human_sacrificeListView(generic.ListView):
@@ -487,7 +515,7 @@ class Human_sacrificeDetailView(generic.DetailView):
     template_name = "crisisdb/human_sacrifice/human_sacrifice_detail.html"
 
 
-@permission_required('admin.can_add_log_entry')
+@permission_required('core.view_capital')
 def human_sacrifice_download(request):
     items = Human_sacrifice.objects.all()
 
@@ -536,7 +564,7 @@ def create_a_comment_with_a_subcomment(request, hs_instance_id):
     return redirect('seshatcomment-update', pk=comment_instance.id)
 
 
-@permission_required('admin.can_add_log_entry')
+@permission_required('core.view_capital')
 def human_sacrifice_meta_download(request):
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="human_sacrifices.csv"'
@@ -562,7 +590,7 @@ class External_conflictCreate(PermissionRequiredMixin, CreateView):
     model = External_conflict
     form_class = External_conflictForm
     template_name = "crisisdb/external_conflict/external_conflict_form.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_absolute_url(self):
         return reverse('external_conflict-create')
@@ -606,7 +634,7 @@ class External_conflictUpdate(PermissionRequiredMixin, UpdateView):
     model = External_conflict
     form_class = External_conflictForm
     template_name = "crisisdb/external_conflict/external_conflict_update.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -618,7 +646,7 @@ class External_conflictDelete(PermissionRequiredMixin, DeleteView):
     model = External_conflict
     success_url = reverse_lazy('external_conflicts')
     template_name = "core/delete_general.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
 
 class External_conflictListView(generic.ListView):
@@ -647,7 +675,7 @@ class External_conflictDetailView(generic.DetailView):
     template_name = "crisisdb/external_conflict/external_conflict_detail.html"
 
 
-@permission_required('admin.can_add_log_entry')
+@permission_required('core.view_capital')
 def external_conflict_download(request):
     items = External_conflict.objects.all()
 
@@ -664,7 +692,7 @@ def external_conflict_download(request):
 
     return response
 
-@permission_required('admin.can_add_log_entry')
+@permission_required('core.view_capital')
 def external_conflict_meta_download(request):
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="external_conflicts.csv"'
@@ -690,7 +718,7 @@ class Internal_conflictCreate(PermissionRequiredMixin, CreateView):
     model = Internal_conflict
     form_class = Internal_conflictForm
     template_name = "crisisdb/internal_conflict/internal_conflict_form.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_absolute_url(self):
         return reverse('internal_conflict-create')
@@ -734,7 +762,7 @@ class Internal_conflictUpdate(PermissionRequiredMixin, UpdateView):
     model = Internal_conflict
     form_class = Internal_conflictForm
     template_name = "crisisdb/internal_conflict/internal_conflict_update.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -746,7 +774,7 @@ class Internal_conflictDelete(PermissionRequiredMixin, DeleteView):
     model = Internal_conflict
     success_url = reverse_lazy('internal_conflicts')
     template_name = "core/delete_general.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
 
 class Internal_conflictListView(generic.ListView):
@@ -775,7 +803,7 @@ class Internal_conflictDetailView(generic.DetailView):
     template_name = "crisisdb/internal_conflict/internal_conflict_detail.html"
 
 
-@permission_required('admin.can_add_log_entry')
+@permission_required('core.view_capital')
 def internal_conflict_download(request):
     items = Internal_conflict.objects.all()
 
@@ -792,7 +820,7 @@ def internal_conflict_download(request):
 
     return response
 
-@permission_required('admin.can_add_log_entry')
+@permission_required('core.view_capital')
 def internal_conflict_meta_download(request):
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="internal_conflicts.csv"'
@@ -818,7 +846,7 @@ class External_conflict_sideCreate(PermissionRequiredMixin, CreateView):
     model = External_conflict_side
     form_class = External_conflict_sideForm
     template_name = "crisisdb/external_conflict_side/external_conflict_side_form.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_absolute_url(self):
         return reverse('external_conflict_side-create')
@@ -862,7 +890,7 @@ class External_conflict_sideUpdate(PermissionRequiredMixin, UpdateView):
     model = External_conflict_side
     form_class = External_conflict_sideForm
     template_name = "crisisdb/external_conflict_side/external_conflict_side_update.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -874,7 +902,7 @@ class External_conflict_sideDelete(PermissionRequiredMixin, DeleteView):
     model = External_conflict_side
     success_url = reverse_lazy('external_conflict_sides')
     template_name = "core/delete_general.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
 
 class External_conflict_sideListView(generic.ListView):
@@ -903,7 +931,7 @@ class External_conflict_sideDetailView(generic.DetailView):
     template_name = "crisisdb/external_conflict_side/external_conflict_side_detail.html"
 
 
-@permission_required('admin.can_add_log_entry')
+@permission_required('core.view_capital')
 def external_conflict_side_download(request):
     items = External_conflict_side.objects.all()
 
@@ -920,7 +948,7 @@ def external_conflict_side_download(request):
 
     return response
 
-@permission_required('admin.can_add_log_entry')
+@permission_required('core.view_capital')
 def external_conflict_side_meta_download(request):
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="external_conflict_sides.csv"'
@@ -946,7 +974,7 @@ class Agricultural_populationCreate(PermissionRequiredMixin, CreateView):
     model = Agricultural_population
     form_class = Agricultural_populationForm
     template_name = "crisisdb/agricultural_population/agricultural_population_form.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_absolute_url(self):
         return reverse('agricultural_population-create')
@@ -990,7 +1018,7 @@ class Agricultural_populationUpdate(PermissionRequiredMixin, UpdateView):
     model = Agricultural_population
     form_class = Agricultural_populationForm
     template_name = "crisisdb/agricultural_population/agricultural_population_update.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -1002,7 +1030,7 @@ class Agricultural_populationDelete(PermissionRequiredMixin, DeleteView):
     model = Agricultural_population
     success_url = reverse_lazy('agricultural_populations')
     template_name = "core/delete_general.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
 
 class Agricultural_populationListView(generic.ListView):
@@ -1031,7 +1059,7 @@ class Agricultural_populationDetailView(generic.DetailView):
     template_name = "crisisdb/agricultural_population/agricultural_population_detail.html"
 
 
-@permission_required('admin.can_add_log_entry')
+@permission_required('core.view_capital')
 def agricultural_population_download(request):
     items = Agricultural_population.objects.all()
 
@@ -1048,7 +1076,7 @@ def agricultural_population_download(request):
 
     return response
 
-@permission_required('admin.can_add_log_entry')
+@permission_required('core.view_capital')
 def agricultural_population_meta_download(request):
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="agricultural_populations.csv"'
@@ -1074,7 +1102,7 @@ class Arable_landCreate(PermissionRequiredMixin, CreateView):
     model = Arable_land
     form_class = Arable_landForm
     template_name = "crisisdb/arable_land/arable_land_form.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_absolute_url(self):
         return reverse('arable_land-create')
@@ -1118,7 +1146,7 @@ class Arable_landUpdate(PermissionRequiredMixin, UpdateView):
     model = Arable_land
     form_class = Arable_landForm
     template_name = "crisisdb/arable_land/arable_land_update.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -1130,7 +1158,7 @@ class Arable_landDelete(PermissionRequiredMixin, DeleteView):
     model = Arable_land
     success_url = reverse_lazy('arable_lands')
     template_name = "core/delete_general.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
 
 class Arable_landListView(generic.ListView):
@@ -1159,7 +1187,7 @@ class Arable_landDetailView(generic.DetailView):
     template_name = "crisisdb/arable_land/arable_land_detail.html"
 
 
-@permission_required('admin.can_add_log_entry')
+@permission_required('core.view_capital')
 def arable_land_download(request):
     items = Arable_land.objects.all()
 
@@ -1176,7 +1204,7 @@ def arable_land_download(request):
 
     return response
 
-@permission_required('admin.can_add_log_entry')
+@permission_required('core.view_capital')
 def arable_land_meta_download(request):
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="arable_lands.csv"'
@@ -1202,7 +1230,7 @@ class Arable_land_per_farmerCreate(PermissionRequiredMixin, CreateView):
     model = Arable_land_per_farmer
     form_class = Arable_land_per_farmerForm
     template_name = "crisisdb/arable_land_per_farmer/arable_land_per_farmer_form.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_absolute_url(self):
         return reverse('arable_land_per_farmer-create')
@@ -1246,7 +1274,7 @@ class Arable_land_per_farmerUpdate(PermissionRequiredMixin, UpdateView):
     model = Arable_land_per_farmer
     form_class = Arable_land_per_farmerForm
     template_name = "crisisdb/arable_land_per_farmer/arable_land_per_farmer_update.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -1258,7 +1286,7 @@ class Arable_land_per_farmerDelete(PermissionRequiredMixin, DeleteView):
     model = Arable_land_per_farmer
     success_url = reverse_lazy('arable_land_per_farmers')
     template_name = "core/delete_general.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
 
 class Arable_land_per_farmerListView(generic.ListView):
@@ -1287,7 +1315,7 @@ class Arable_land_per_farmerDetailView(generic.DetailView):
     template_name = "crisisdb/arable_land_per_farmer/arable_land_per_farmer_detail.html"
 
 
-@permission_required('admin.can_add_log_entry')
+@permission_required('core.view_capital')
 def arable_land_per_farmer_download(request):
     items = Arable_land_per_farmer.objects.all()
 
@@ -1304,7 +1332,7 @@ def arable_land_per_farmer_download(request):
 
     return response
 
-@permission_required('admin.can_add_log_entry')
+@permission_required('core.view_capital')
 def arable_land_per_farmer_meta_download(request):
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="arable_land_per_farmers.csv"'
@@ -1330,7 +1358,7 @@ class Gross_grain_shared_per_agricultural_populationCreate(PermissionRequiredMix
     model = Gross_grain_shared_per_agricultural_population
     form_class = Gross_grain_shared_per_agricultural_populationForm
     template_name = "crisisdb/gross_grain_shared_per_agricultural_population/gross_grain_shared_per_agricultural_population_form.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_absolute_url(self):
         return reverse('gross_grain_shared_per_agricultural_population-create')
@@ -1374,7 +1402,7 @@ class Gross_grain_shared_per_agricultural_populationUpdate(PermissionRequiredMix
     model = Gross_grain_shared_per_agricultural_population
     form_class = Gross_grain_shared_per_agricultural_populationForm
     template_name = "crisisdb/gross_grain_shared_per_agricultural_population/gross_grain_shared_per_agricultural_population_update.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -1386,7 +1414,7 @@ class Gross_grain_shared_per_agricultural_populationDelete(PermissionRequiredMix
     model = Gross_grain_shared_per_agricultural_population
     success_url = reverse_lazy('gross_grain_shared_per_agricultural_populations')
     template_name = "core/delete_general.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
 
 class Gross_grain_shared_per_agricultural_populationListView(generic.ListView):
@@ -1415,7 +1443,7 @@ class Gross_grain_shared_per_agricultural_populationDetailView(generic.DetailVie
     template_name = "crisisdb/gross_grain_shared_per_agricultural_population/gross_grain_shared_per_agricultural_population_detail.html"
 
 
-@permission_required('admin.can_add_log_entry')
+@permission_required('core.view_capital')
 def gross_grain_shared_per_agricultural_population_download(request):
     items = Gross_grain_shared_per_agricultural_population.objects.all()
 
@@ -1432,7 +1460,7 @@ def gross_grain_shared_per_agricultural_population_download(request):
 
     return response
 
-@permission_required('admin.can_add_log_entry')
+@permission_required('core.view_capital')
 def gross_grain_shared_per_agricultural_population_meta_download(request):
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="gross_grain_shared_per_agricultural_populations.csv"'
@@ -1458,7 +1486,7 @@ class Net_grain_shared_per_agricultural_populationCreate(PermissionRequiredMixin
     model = Net_grain_shared_per_agricultural_population
     form_class = Net_grain_shared_per_agricultural_populationForm
     template_name = "crisisdb/net_grain_shared_per_agricultural_population/net_grain_shared_per_agricultural_population_form.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_absolute_url(self):
         return reverse('net_grain_shared_per_agricultural_population-create')
@@ -1502,7 +1530,7 @@ class Net_grain_shared_per_agricultural_populationUpdate(PermissionRequiredMixin
     model = Net_grain_shared_per_agricultural_population
     form_class = Net_grain_shared_per_agricultural_populationForm
     template_name = "crisisdb/net_grain_shared_per_agricultural_population/net_grain_shared_per_agricultural_population_update.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -1514,7 +1542,7 @@ class Net_grain_shared_per_agricultural_populationDelete(PermissionRequiredMixin
     model = Net_grain_shared_per_agricultural_population
     success_url = reverse_lazy('net_grain_shared_per_agricultural_populations')
     template_name = "core/delete_general.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
 
 class Net_grain_shared_per_agricultural_populationListView(generic.ListView):
@@ -1543,7 +1571,7 @@ class Net_grain_shared_per_agricultural_populationDetailView(generic.DetailView)
     template_name = "crisisdb/net_grain_shared_per_agricultural_population/net_grain_shared_per_agricultural_population_detail.html"
 
 
-@permission_required('admin.can_add_log_entry')
+@permission_required('core.view_capital')
 def net_grain_shared_per_agricultural_population_download(request):
     items = Net_grain_shared_per_agricultural_population.objects.all()
 
@@ -1560,7 +1588,7 @@ def net_grain_shared_per_agricultural_population_download(request):
 
     return response
 
-@permission_required('admin.can_add_log_entry')
+@permission_required('core.view_capital')
 def net_grain_shared_per_agricultural_population_meta_download(request):
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="net_grain_shared_per_agricultural_populations.csv"'
@@ -1586,7 +1614,7 @@ class SurplusCreate(PermissionRequiredMixin, CreateView):
     model = Surplus
     form_class = SurplusForm
     template_name = "crisisdb/surplus/surplus_form.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_absolute_url(self):
         return reverse('surplus-create')
@@ -1630,7 +1658,7 @@ class SurplusUpdate(PermissionRequiredMixin, UpdateView):
     model = Surplus
     form_class = SurplusForm
     template_name = "crisisdb/surplus/surplus_update.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -1642,7 +1670,7 @@ class SurplusDelete(PermissionRequiredMixin, DeleteView):
     model = Surplus
     success_url = reverse_lazy('surplus')
     template_name = "core/delete_general.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
 
 class SurplusListView(generic.ListView):
@@ -1671,7 +1699,7 @@ class SurplusDetailView(generic.DetailView):
     template_name = "crisisdb/surplus/surplus_detail.html"
 
 
-@permission_required('admin.can_add_log_entry')
+@permission_required('core.view_capital')
 def surplus_download(request):
     items = Surplus.objects.all()
 
@@ -1688,7 +1716,7 @@ def surplus_download(request):
 
     return response
 
-@permission_required('admin.can_add_log_entry')
+@permission_required('core.view_capital')
 def surplus_meta_download(request):
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="surplus.csv"'
@@ -1714,7 +1742,7 @@ class Military_expenseCreate(PermissionRequiredMixin, CreateView):
     model = Military_expense
     form_class = Military_expenseForm
     template_name = "crisisdb/military_expense/military_expense_form.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_absolute_url(self):
         return reverse('military_expense-create')
@@ -1758,7 +1786,7 @@ class Military_expenseUpdate(PermissionRequiredMixin, UpdateView):
     model = Military_expense
     form_class = Military_expenseForm
     template_name = "crisisdb/military_expense/military_expense_update.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -1770,7 +1798,7 @@ class Military_expenseDelete(PermissionRequiredMixin, DeleteView):
     model = Military_expense
     success_url = reverse_lazy('military_expenses')
     template_name = "core/delete_general.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
 
 class Military_expenseListView(generic.ListView):
@@ -1799,7 +1827,7 @@ class Military_expenseDetailView(generic.DetailView):
     template_name = "crisisdb/military_expense/military_expense_detail.html"
 
 
-@permission_required('admin.can_add_log_entry')
+@permission_required('core.view_capital')
 def military_expense_download(request):
     items = Military_expense.objects.all()
 
@@ -1816,7 +1844,7 @@ def military_expense_download(request):
 
     return response
 
-@permission_required('admin.can_add_log_entry')
+@permission_required('core.view_capital')
 def military_expense_meta_download(request):
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="military_expenses.csv"'
@@ -1842,7 +1870,7 @@ class Silver_inflowCreate(PermissionRequiredMixin, CreateView):
     model = Silver_inflow
     form_class = Silver_inflowForm
     template_name = "crisisdb/silver_inflow/silver_inflow_form.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_absolute_url(self):
         return reverse('silver_inflow-create')
@@ -1886,7 +1914,7 @@ class Silver_inflowUpdate(PermissionRequiredMixin, UpdateView):
     model = Silver_inflow
     form_class = Silver_inflowForm
     template_name = "crisisdb/silver_inflow/silver_inflow_update.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -1898,7 +1926,7 @@ class Silver_inflowDelete(PermissionRequiredMixin, DeleteView):
     model = Silver_inflow
     success_url = reverse_lazy('silver_inflows')
     template_name = "core/delete_general.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
 
 class Silver_inflowListView(generic.ListView):
@@ -1927,7 +1955,7 @@ class Silver_inflowDetailView(generic.DetailView):
     template_name = "crisisdb/silver_inflow/silver_inflow_detail.html"
 
 
-@permission_required('admin.can_add_log_entry')
+@permission_required('core.view_capital')
 def silver_inflow_download(request):
     items = Silver_inflow.objects.all()
 
@@ -1944,7 +1972,7 @@ def silver_inflow_download(request):
 
     return response
 
-@permission_required('admin.can_add_log_entry')
+@permission_required('core.view_capital')
 def silver_inflow_meta_download(request):
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="silver_inflows.csv"'
@@ -1970,7 +1998,7 @@ class Silver_stockCreate(PermissionRequiredMixin, CreateView):
     model = Silver_stock
     form_class = Silver_stockForm
     template_name = "crisisdb/silver_stock/silver_stock_form.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_absolute_url(self):
         return reverse('silver_stock-create')
@@ -2014,7 +2042,7 @@ class Silver_stockUpdate(PermissionRequiredMixin, UpdateView):
     model = Silver_stock
     form_class = Silver_stockForm
     template_name = "crisisdb/silver_stock/silver_stock_update.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -2026,7 +2054,7 @@ class Silver_stockDelete(PermissionRequiredMixin, DeleteView):
     model = Silver_stock
     success_url = reverse_lazy('silver_stocks')
     template_name = "core/delete_general.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
 
 class Silver_stockListView(generic.ListView):
@@ -2055,7 +2083,7 @@ class Silver_stockDetailView(generic.DetailView):
     template_name = "crisisdb/silver_stock/silver_stock_detail.html"
 
 
-@permission_required('admin.can_add_log_entry')
+@permission_required('core.view_capital')
 def silver_stock_download(request):
     items = Silver_stock.objects.all()
 
@@ -2072,7 +2100,7 @@ def silver_stock_download(request):
 
     return response
 
-@permission_required('admin.can_add_log_entry')
+@permission_required('core.view_capital')
 def silver_stock_meta_download(request):
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="silver_stocks.csv"'
@@ -2098,7 +2126,7 @@ class Total_populationCreate(PermissionRequiredMixin, CreateView):
     model = Total_population
     form_class = Total_populationForm
     template_name = "crisisdb/total_population/total_population_form.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_absolute_url(self):
         return reverse('total_population-create')
@@ -2142,7 +2170,7 @@ class Total_populationUpdate(PermissionRequiredMixin, UpdateView):
     model = Total_population
     form_class = Total_populationForm
     template_name = "crisisdb/total_population/total_population_update.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -2154,7 +2182,7 @@ class Total_populationDelete(PermissionRequiredMixin, DeleteView):
     model = Total_population
     success_url = reverse_lazy('total_populations')
     template_name = "core/delete_general.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
 
 class Total_populationListView(generic.ListView):
@@ -2183,7 +2211,7 @@ class Total_populationDetailView(generic.DetailView):
     template_name = "crisisdb/total_population/total_population_detail.html"
 
 
-@permission_required('admin.can_add_log_entry')
+@permission_required('core.view_capital')
 def total_population_download(request):
     items = Total_population.objects.all()
 
@@ -2200,7 +2228,7 @@ def total_population_download(request):
 
     return response
 
-@permission_required('admin.can_add_log_entry')
+@permission_required('core.view_capital')
 def total_population_meta_download(request):
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="total_populations.csv"'
@@ -2226,7 +2254,7 @@ class Gdp_per_capitaCreate(PermissionRequiredMixin, CreateView):
     model = Gdp_per_capita
     form_class = Gdp_per_capitaForm
     template_name = "crisisdb/gdp_per_capita/gdp_per_capita_form.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_absolute_url(self):
         return reverse('gdp_per_capita-create')
@@ -2270,7 +2298,7 @@ class Gdp_per_capitaUpdate(PermissionRequiredMixin, UpdateView):
     model = Gdp_per_capita
     form_class = Gdp_per_capitaForm
     template_name = "crisisdb/gdp_per_capita/gdp_per_capita_update.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -2282,7 +2310,7 @@ class Gdp_per_capitaDelete(PermissionRequiredMixin, DeleteView):
     model = Gdp_per_capita
     success_url = reverse_lazy('gdp_per_capitas')
     template_name = "core/delete_general.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
 
 class Gdp_per_capitaListView(generic.ListView):
@@ -2311,7 +2339,7 @@ class Gdp_per_capitaDetailView(generic.DetailView):
     template_name = "crisisdb/gdp_per_capita/gdp_per_capita_detail.html"
 
 
-@permission_required('admin.can_add_log_entry')
+@permission_required('core.view_capital')
 def gdp_per_capita_download(request):
     items = Gdp_per_capita.objects.all()
 
@@ -2328,7 +2356,7 @@ def gdp_per_capita_download(request):
 
     return response
 
-@permission_required('admin.can_add_log_entry')
+@permission_required('core.view_capital')
 def gdp_per_capita_meta_download(request):
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="gdp_per_capitas.csv"'
@@ -2354,7 +2382,7 @@ class Drought_eventCreate(PermissionRequiredMixin, CreateView):
     model = Drought_event
     form_class = Drought_eventForm
     template_name = "crisisdb/drought_event/drought_event_form.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_absolute_url(self):
         return reverse('drought_event-create')
@@ -2398,7 +2426,7 @@ class Drought_eventUpdate(PermissionRequiredMixin, UpdateView):
     model = Drought_event
     form_class = Drought_eventForm
     template_name = "crisisdb/drought_event/drought_event_update.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -2410,7 +2438,7 @@ class Drought_eventDelete(PermissionRequiredMixin, DeleteView):
     model = Drought_event
     success_url = reverse_lazy('drought_events')
     template_name = "core/delete_general.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
 
 class Drought_eventListView(generic.ListView):
@@ -2439,7 +2467,7 @@ class Drought_eventDetailView(generic.DetailView):
     template_name = "crisisdb/drought_event/drought_event_detail.html"
 
 
-@permission_required('admin.can_add_log_entry')
+@permission_required('core.view_capital')
 def drought_event_download(request):
     items = Drought_event.objects.all()
 
@@ -2456,7 +2484,7 @@ def drought_event_download(request):
 
     return response
 
-@permission_required('admin.can_add_log_entry')
+@permission_required('core.view_capital')
 def drought_event_meta_download(request):
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="drought_events.csv"'
@@ -2482,7 +2510,7 @@ class Locust_eventCreate(PermissionRequiredMixin, CreateView):
     model = Locust_event
     form_class = Locust_eventForm
     template_name = "crisisdb/locust_event/locust_event_form.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_absolute_url(self):
         return reverse('locust_event-create')
@@ -2526,7 +2554,7 @@ class Locust_eventUpdate(PermissionRequiredMixin, UpdateView):
     model = Locust_event
     form_class = Locust_eventForm
     template_name = "crisisdb/locust_event/locust_event_update.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -2538,7 +2566,7 @@ class Locust_eventDelete(PermissionRequiredMixin, DeleteView):
     model = Locust_event
     success_url = reverse_lazy('locust_events')
     template_name = "core/delete_general.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
 
 class Locust_eventListView(generic.ListView):
@@ -2567,7 +2595,7 @@ class Locust_eventDetailView(generic.DetailView):
     template_name = "crisisdb/locust_event/locust_event_detail.html"
 
 
-@permission_required('admin.can_add_log_entry')
+@permission_required('core.view_capital')
 def locust_event_download(request):
     items = Locust_event.objects.all()
 
@@ -2584,7 +2612,7 @@ def locust_event_download(request):
 
     return response
 
-@permission_required('admin.can_add_log_entry')
+@permission_required('core.view_capital')
 def locust_event_meta_download(request):
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="locust_events.csv"'
@@ -2610,7 +2638,7 @@ class Socioeconomic_turmoil_eventCreate(PermissionRequiredMixin, CreateView):
     model = Socioeconomic_turmoil_event
     form_class = Socioeconomic_turmoil_eventForm
     template_name = "crisisdb/socioeconomic_turmoil_event/socioeconomic_turmoil_event_form.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_absolute_url(self):
         return reverse('socioeconomic_turmoil_event-create')
@@ -2654,7 +2682,7 @@ class Socioeconomic_turmoil_eventUpdate(PermissionRequiredMixin, UpdateView):
     model = Socioeconomic_turmoil_event
     form_class = Socioeconomic_turmoil_eventForm
     template_name = "crisisdb/socioeconomic_turmoil_event/socioeconomic_turmoil_event_update.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -2666,7 +2694,7 @@ class Socioeconomic_turmoil_eventDelete(PermissionRequiredMixin, DeleteView):
     model = Socioeconomic_turmoil_event
     success_url = reverse_lazy('socioeconomic_turmoil_events')
     template_name = "core/delete_general.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
 
 class Socioeconomic_turmoil_eventListView(generic.ListView):
@@ -2695,7 +2723,7 @@ class Socioeconomic_turmoil_eventDetailView(generic.DetailView):
     template_name = "crisisdb/socioeconomic_turmoil_event/socioeconomic_turmoil_event_detail.html"
 
 
-@permission_required('admin.can_add_log_entry')
+@permission_required('core.view_capital')
 def socioeconomic_turmoil_event_download(request):
     items = Socioeconomic_turmoil_event.objects.all()
 
@@ -2712,7 +2740,7 @@ def socioeconomic_turmoil_event_download(request):
 
     return response
 
-@permission_required('admin.can_add_log_entry')
+@permission_required('core.view_capital')
 def socioeconomic_turmoil_event_meta_download(request):
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="socioeconomic_turmoil_events.csv"'
@@ -2738,7 +2766,7 @@ class Crop_failure_eventCreate(PermissionRequiredMixin, CreateView):
     model = Crop_failure_event
     form_class = Crop_failure_eventForm
     template_name = "crisisdb/crop_failure_event/crop_failure_event_form.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_absolute_url(self):
         return reverse('crop_failure_event-create')
@@ -2782,7 +2810,7 @@ class Crop_failure_eventUpdate(PermissionRequiredMixin, UpdateView):
     model = Crop_failure_event
     form_class = Crop_failure_eventForm
     template_name = "crisisdb/crop_failure_event/crop_failure_event_update.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -2794,7 +2822,7 @@ class Crop_failure_eventDelete(PermissionRequiredMixin, DeleteView):
     model = Crop_failure_event
     success_url = reverse_lazy('crop_failure_events')
     template_name = "core/delete_general.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
 
 class Crop_failure_eventListView(generic.ListView):
@@ -2823,7 +2851,7 @@ class Crop_failure_eventDetailView(generic.DetailView):
     template_name = "crisisdb/crop_failure_event/crop_failure_event_detail.html"
 
 
-@permission_required('admin.can_add_log_entry')
+@permission_required('core.view_capital')
 def crop_failure_event_download(request):
     items = Crop_failure_event.objects.all()
 
@@ -2840,7 +2868,7 @@ def crop_failure_event_download(request):
 
     return response
 
-@permission_required('admin.can_add_log_entry')
+@permission_required('core.view_capital')
 def crop_failure_event_meta_download(request):
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="crop_failure_events.csv"'
@@ -2866,7 +2894,7 @@ class Famine_eventCreate(PermissionRequiredMixin, CreateView):
     model = Famine_event
     form_class = Famine_eventForm
     template_name = "crisisdb/famine_event/famine_event_form.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_absolute_url(self):
         return reverse('famine_event-create')
@@ -2910,7 +2938,7 @@ class Famine_eventUpdate(PermissionRequiredMixin, UpdateView):
     model = Famine_event
     form_class = Famine_eventForm
     template_name = "crisisdb/famine_event/famine_event_update.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -2922,7 +2950,7 @@ class Famine_eventDelete(PermissionRequiredMixin, DeleteView):
     model = Famine_event
     success_url = reverse_lazy('famine_events')
     template_name = "core/delete_general.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
 
 class Famine_eventListView(generic.ListView):
@@ -2951,7 +2979,7 @@ class Famine_eventDetailView(generic.DetailView):
     template_name = "crisisdb/famine_event/famine_event_detail.html"
 
 
-@permission_required('admin.can_add_log_entry')
+@permission_required('core.view_capital')
 def famine_event_download(request):
     items = Famine_event.objects.all()
 
@@ -2968,7 +2996,7 @@ def famine_event_download(request):
 
     return response
 
-@permission_required('admin.can_add_log_entry')
+@permission_required('core.view_capital')
 def famine_event_meta_download(request):
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="famine_events.csv"'
@@ -2994,7 +3022,7 @@ class Disease_outbreakCreate(PermissionRequiredMixin, CreateView):
     model = Disease_outbreak
     form_class = Disease_outbreakForm
     template_name = "crisisdb/disease_outbreak/disease_outbreak_form.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_absolute_url(self):
         return reverse('disease_outbreak-create')
@@ -3038,7 +3066,7 @@ class Disease_outbreakUpdate(PermissionRequiredMixin, UpdateView):
     model = Disease_outbreak
     form_class = Disease_outbreakForm
     template_name = "crisisdb/disease_outbreak/disease_outbreak_update.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -3050,7 +3078,7 @@ class Disease_outbreakDelete(PermissionRequiredMixin, DeleteView):
     model = Disease_outbreak
     success_url = reverse_lazy('disease_outbreaks')
     template_name = "core/delete_general.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
 
 class Disease_outbreakListView(generic.ListView):
@@ -3079,7 +3107,7 @@ class Disease_outbreakDetailView(generic.DetailView):
     template_name = "crisisdb/disease_outbreak/disease_outbreak_detail.html"
 
 
-@permission_required('admin.can_add_log_entry')
+@permission_required('core.view_capital')
 def disease_outbreak_download(request):
     items = Disease_outbreak.objects.all()
 
@@ -3096,7 +3124,7 @@ def disease_outbreak_download(request):
 
     return response
 
-@permission_required('admin.can_add_log_entry')
+@permission_required('core.view_capital')
 def disease_outbreak_meta_download(request):
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="disease_outbreaks.csv"'

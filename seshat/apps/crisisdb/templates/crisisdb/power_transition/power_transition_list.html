@@ -1,12 +1,13 @@
-{% extends "core/list_base.html" %}
+{% extends "core/list_base_all_power_transitions.html" %}
 {% load crispy_forms_tags %}
 {% load static %}
 {% load humanize %}
+{% load mathfilters %}
 
 {% block download_button %}
     <a href="{% url 'power_transition-create' %}" class="btn btn-outline-success mx-3 my-4 float-end"><i class="fas fa-plus"></i> &nbsp; Add More Facts</a>
     <a href="{% url 'power_transition-download' %}" class="btn btn-outline-primary mx-3 my-4 float-end"><i class="fas fa-download"></i> &nbsp; Download All</a>
-    <a href="{% url 'power_transitions_all' %}" class="btn btn-warning mx-3 my-4 float-end"><i class="fa-solid fa-table-list"></i> &nbsp; See One-Page Mode</a>
+    <a href="{% url 'power_transitions_all' %}" class="btn btn-outline-danger mx-3 my-4 float-end"><i class="fa-solid fa-file-lines"></i> &nbsp; See Detailed Mode</a>
 {% endblock download_button %}
 
 {% block metadownload_button %}
@@ -14,35 +15,138 @@
 {% endblock metadownload_button %}
 
 {% block main_description %}
+<style>
+
+    .table-container {
+        overflow-x: auto; /* Enable horizontal scrolling */
+      }
+      
+      
+      th, td {
+        padding: 10px;
+        border: 3px solid #ccc;
+      }
+
+    .fixed-column-data {
+        position: sticky;
+        left: 0;
+        z-index: 1;
+        color: teal !important;
+        background-color: #fefae6 !important;
+      }
+
+      .bg-light {
+        --bs-bg-opacity: 1;
+        background-color: #fefae6 !important;
+    }
+      
+</style>
 
 {% endblock main_description %}
 
-{% block myheadings_list %}
-<th class = "fw-normal" style="text-align: center;" scope="col">Conflict Name
 
-</th>
-<th class = "fw-normal" style="text-align: center;">Contested</th>
+{% block myheadings_list %}
+<th class="fw-bold fixed-column-data px-2 col-sm-6"  style="text-align: left;" scope="col"><h6>Power Transition Name <br>Duration <br>Predecessor and Successor  <br>Polity(s) <span class="fw-light"> (Home NGA)</span> </h6> </th>
+
+<th class = "fw-bold  px-2 text-danger" style="text-align: center;" scope="col"><h5><span class="badge rounded-pill bg-danger">contested</h5></span></th>
+<th class = "fw-bold  px-2 text-danger" style="text-align: center;" scope="col"><h5><span class="badge rounded-pill bg-danger">overturn</h5></span></th>
+<th class = "fw-bold  px-2 text-danger" style="text-align: center;" scope="col"><h5><span class="badge rounded-pill bg-danger">predecessor_assassination</h5></span></th>
+<th class = "fw-bold  px-2 text-danger" style="text-align: center;" scope="col"><h5><span class="badge rounded-pill bg-danger">intra_elite</h5></span></th>
+<th class = "fw-bold  px-2 text-danger" style="text-align: center;" scope="col"><h5><span class="badge rounded-pill bg-danger">military_revolt</h5></span></th>
+<th class = "fw-bold  px-2 text-danger" style="text-align: center;" scope="col"><h5><span class="badge rounded-pill bg-danger">popular_uprising</h5></span></th>
+<th class = "fw-bold  px-2 text-danger" style="text-align: center;" scope="col"><h5><span class="badge rounded-pill bg-danger">separatist_rebellion</h5></span></th>
+<th class = "fw-bold  px-2 text-danger" style="text-align: center;" scope="col"><h5><span class="badge rounded-pill bg-danger">external_invasion</h5></span></th>
+<th class = "fw-bold  px-2 text-danger" style="text-align: center;" scope="col"><h5><span class="badge rounded-pill bg-danger">external_interference</h5></span></th>
+
 {% endblock myheadings_list %}
 
 {% block extra_vars_list %}
-<td>
-<h6>{{ obj.name }}</h6>
-
-</td>
-<td>
-    <h6>{{ obj.contested }}</h6>
+<td class="sticky-start fixed-column-data col-md-4" scope="row">
+    <span class="h4">Power Transition in 
+        {% if obj.name %}
+        <span class = "fw-bold text-teal">{{ obj.polity }} ({{ obj.name }}):</span>
+           
+        {% else %}
+        <span class = "fw-bold text-teal">{{ obj.polity }}</span>:
+        {% endif %}
     
-</td>
-
-{% autoescape off %}
-{% if obj.comment %}
-<td class="col-md-4"><small> {{ obj.comment }} </small></td>
-{% else  %}
-<td class="col-md-4"><small> Empty Comment. </small></td>
+</span>
+<br>
+<span class="h5">Culture Group: <b>{{ obj.culture_group }}</b> </span>
+<br>
+<span>
+    <span class = "fw-bold text-danger">{{ obj.predecessor }}</span> was replaced by 
+    <span class = "fw-bold text-teal">{{ obj.successor }}</span>.
+</span>
+<h6 class="text-danger fw-light pt-3">
+{% block years %}
+{% if obj.year_from == None %}
+     Full Year Range of <i class="text-secondary">{{ obj.polity.long_name }}</i> is assumed. <br>
+        <span class="fw-bold text-secondary">[{{ obj.polity.start_year}}, {{ obj.polity.end_year}}]</span>
+{% elif obj.year_from == obj.year_to %}
+    {% if obj.year_from < 0 %}
+    {{ obj.year_from|abs|intcomma }} <span class="text-secondary">BCE</span> 
+    {% else %}
+    {{ obj.year_from }} <span class="text-secondary">CE</span>
+    {% endif %}
+{% elif obj.year_to == None %}
+    {% if obj.year_from < 0 %}
+    {{ obj.year_from|abs }} <span class="text-secondary">BCE</span>
+    {% else %}
+    {{ obj.year_from }} <span class="text-secondary">CE</span>
+    {% endif %}
+{% elif obj.year_to == None and obj.year_from == None %}
+     <i class="fa-solid fa-minus"></i> 
+{% else %}
+    {% if obj.year_from < 0 and obj.year_to < 0 %}
+    {{ obj.year_from|abs }} <span class="text-secondary">BCE</span> <i class="fas fa-long-arrow-alt-right"></i> {{ obj.year_to|abs }} <span class="text-secondary">BCE</span>
+    {% elif obj.year_from < 0 and obj.year_to >= 0 %}
+    {{ obj.year_from|abs }} <span class="text-secondary">BCE</span> <i class="fas fa-long-arrow-alt-right"></i> {{ obj.year_to }} <span class="text-secondary">CE</span>
+    {% else %}
+    {{ obj.year_from }} <span class="text-secondary">CE</span> <i class="fas fa-long-arrow-alt-right"></i> {{ obj.year_to }} <span class="text-secondary">CE</span>
+    {% endif %}
 {% endif %}
+{% endblock years %}
+    
+</h6>
+<span class="fw-light text-secondary">
+{% if obj.polity %}
+    {% if obj.polity.long_name %}
+    <span>
+        <a href="{% url 'polity-detail-main' obj.polity.id %}">{{ obj.polity.long_name }}</a> ({{ obj.polity.home_nga }})
+    </span>
+    {% else %}
+    <span class="fw-light text-secondary">
+        <a href="{% url 'polity-detail-main' obj.polity.id %}">{{ obj.polity.name }}</a> 
+    </span>
+    {% endif %}
+{% else %}
+<span>-</span>
+{% endif%}
+</span>
+</td>
+{% autoescape off %}
+<td style="text-align: center;"><h4>{{ obj.contested }}</h4></td>
+<td style="text-align: center;"><h4>{{ obj.overturn }}</h4></td>
+<td style="text-align: center;"><h4>{{ obj.predecessor_assassination }}</h4></td>
+<td style="text-align: center;"><h4>{{ obj.intra_elite }}</h4></td>
+<td style="text-align: center;"><h4>{{ obj.military_revolt }}</h4></td>
+<td style="text-align: center;"><h4>{{ obj.popular_uprising }}</h4></td>
+<td style="text-align: center;"><h4>{{ obj.separatist_rebellion }}</h4></td>
+<td style="text-align: center;"><h4>{{ obj.external_invasion }}</h4></td>
+<td style="text-align: center;"><h4>{{ obj.external_interference }}</h4></td>
 
 {% endautoescape %}
 
+
+
 {% endblock extra_vars_list %}
 
-        
+<!-- Update Button -->
+{% block update_button %}
+    <td style="text-align: center;">
+        <span class="fw-bold text-danger">
+            <a href="{% url 'crisis_consequence-update' obj.id %}">Edit</a>
+        </span>
+    </td>
+{% endblock update_button %}

@@ -71,7 +71,7 @@ class Crisis_consequenceForm(forms.ModelForm):
         fields.append('religion')
 
 
-        labels = commonlabels
+        labels = commonlabels.copy()
         labels["is_first_100"] = "<span class='h5'> Is it a <span class='text-primary text-decoration-underline'> first 100 </span> case? </span>"
         labels['polity'] = "<span class='h5 text-teal'> Polity: </span>"
         labels['name'] = "<span class='h5 text-teal'> Crisis Period Name: </span>"
@@ -141,6 +141,7 @@ class Power_transitionForm(forms.ModelForm):
         fields.append('predecessor')
         fields.append('successor') 
         fields.append('name')
+        fields.append('culture_group')
         fields.append('reign_number_predecessor')
         fields.append('contested')
         fields.append('overturn')
@@ -153,12 +154,13 @@ class Power_transitionForm(forms.ModelForm):
         fields.append('external_interference')
 
 
-        labels = commonlabels
+        labels = commonlabels.copy()
         labels['polity'] = "<span class='h6 text-teal'> Polity: </span>"
         labels['name'] = "<span class='h6 text-teal'> Conflict Name: </span>"
         labels['predecessor'] = "<span class='h6 text-teal'> Predecessor: </span>"
         labels['successor'] = "<span class='h6 text-teal'> Successor: </span>"
         labels['reign_number_predecessor'] = "<span class='h6 text-teal'> Reign Number (predecessor): </span>"
+        labels['culture_group'] = "<span class='h6 text-teal'> Predecessor: </span>"
 
         labels['year_from'] = "<span class='h6 text-teal'> Start Year (of Predecessor): </span>"
         labels['year_to'] = "<span class='h6 text-teal'> End Year (Transition): </span>"
@@ -180,6 +182,8 @@ class Power_transitionForm(forms.ModelForm):
         widgets['predecessor'] = forms.TextInput(attrs={'class': 'form-control  mb-1', })
         widgets['successor'] = forms.TextInput(attrs={'class': 'form-control  mb-1', })
         widgets['reign_number_predecessor'] = forms.NumberInput(attrs={'class': 'form-control  mb-3', })
+        widgets['culture_group'] = forms.TextInput(attrs={'class': 'form-control  mb-1', })
+
         widgets['name'] = forms.TextInput(attrs={'class': 'form-control  mb-1', })
         widgets['contested'] = forms.Select(attrs={'class': 'form-control  mb-1', })
         widgets['overturn'] = forms.Select(attrs={'class': 'form-control  mb-1', })
@@ -203,7 +207,7 @@ class Human_sacrificeForm(forms.ModelForm):
         #fields.append('expert_reviewed')
         #fields.append('drb_reviewed')
 
-        labels = commonlabels
+        labels = commonlabels.copy()
         #labels["comment"] = "&nbsp; <b> com id </b>"
         #labels["expert_reviewed"] = "&nbsp; Expert Checked?"
         #labels["drb_reviewed"] = "&nbsp; Data Review Board Reviewed?"
@@ -211,6 +215,7 @@ class Human_sacrificeForm(forms.ModelForm):
         
         widgets = dict(commonwidgets)
         widgets['sub_category'] = forms.Select(attrs={'class': 'form-control  mb-3', })
+        widgets['human_sacrifice'] = forms.Select(attrs={'class': 'form-control  mb-1', })
         #widgets['comment'] = forms.HiddenInput()
 
         #widgets["is_disputed"] = forms.CheckboxInput(attrs={'class': 'mb-3', })

@@ -30,7 +30,7 @@ commonwidgets = {
     'polity': forms.Select(attrs={'class': 'form-control  mb-3', }),
     'year_from': forms.NumberInput(attrs={'class': 'form-control  mb-3',}),
     'year_to': forms.NumberInput(attrs={'class': 'form-control  mb-3', }),
-    'description': Textarea(attrs={'class': 'form-control  mb-3', 'style': 'height: 140px', 'placeholder':'Add a meaningful description (optional)'}),
+    'description': Textarea(attrs={'class': 'form-control  mb-3', 'style': 'height: 440px; line-height: 1.2;', 'placeholder':'Add a meaningful description (optional)'}),
     'citations': forms.SelectMultiple(attrs={'class': 'form-control mb-3 js-states js-example-basic-multiple', 'text':'citations[]' , 'style': 'height: 340px', 'multiple': 'multiple'}),
     'tag': forms.RadioSelect(),
     "is_disputed" : forms.CheckboxInput(attrs={'class': 'mb-3', }),

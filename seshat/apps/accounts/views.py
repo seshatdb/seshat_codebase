@@ -49,7 +49,7 @@ class ProfileUpdate(PermissionRequiredMixin, UpdateView):
     form_class = ProfileForm
     template_name = "registration/profile_update.html"
     queryset = Profile.objects.all()
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_context_data(self, **kwargs):
         context = super(ProfileUpdate, self).get_context_data(**kwargs)
@@ -72,7 +72,7 @@ class ProfileUpdate(PermissionRequiredMixin, UpdateView):
 #     model = Profile
 #     form_class = EditProfileForm
 #     template_name = "registration/profile_update.html"
-#     permission_required = 'catalog.can_mark_returned'
+#     permission_required = 'core.add_capital'
 
 @login_required
 def profile(request):
@@ -135,14 +135,14 @@ class Seshat_taskCreate(PermissionRequiredMixin, CreateView):
     model = Seshat_Task
     form_class = Seshat_TaskForm
     template_name = "registration/seshat_task/seshat_task_form.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
 
 # class Seshat_taskDelete(PermissionRequiredMixin, DeleteView):
 #     model = Seshat_Task
 #     success_url = reverse_lazy('seshat_tasks')
 #     template_name = "core/delete_general.html"
-#     permission_required = 'catalog.can_mark_returned'
+#     permission_required = 'core.add_capital'
 
 
 # class Seshat_taskListView(generic.ListView):

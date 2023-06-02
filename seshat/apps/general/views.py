@@ -42,7 +42,7 @@ class Polity_research_assistantCreate(PermissionRequiredMixin, CreateView):
     model = Polity_research_assistant
     form_class = Polity_research_assistantForm
     template_name = "general/polity_research_assistant/polity_research_assistant_form.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_absolute_url(self):
         return reverse('polity_research_assistant-create')
@@ -63,7 +63,7 @@ class Polity_research_assistantUpdate(PermissionRequiredMixin, UpdateView):
     model = Polity_research_assistant
     form_class = Polity_research_assistantForm
     template_name = "general/polity_research_assistant/polity_research_assistant_update.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -75,7 +75,7 @@ class Polity_research_assistantDelete(PermissionRequiredMixin, DeleteView):
     model = Polity_research_assistant
     success_url = reverse_lazy('polity_research_assistants')
     template_name = "core/delete_general.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
 
 class Polity_research_assistantListView(generic.ListView):
@@ -131,7 +131,7 @@ class Polity_research_assistantDetailView(generic.DetailView):
     template_name = "general/polity_research_assistant/polity_research_assistant_detail.html"
 
 
-@permission_required('admin.can_add_log_entry')
+@permission_required('core.view_capital')
 def polity_research_assistant_download(request):
     items = Polity_research_assistant.objects.all()
 
@@ -149,7 +149,7 @@ def polity_research_assistant_download(request):
 
     return response
 
-@permission_required('admin.can_add_log_entry')
+@permission_required('core.view_capital')
 def polity_research_assistant_meta_download(request):
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="polity_research_assistants.csv"'
@@ -175,7 +175,7 @@ class Polity_utm_zoneCreate(PermissionRequiredMixin, CreateView):
     model = Polity_utm_zone
     form_class = Polity_utm_zoneForm
     template_name = "general/polity_utm_zone/polity_utm_zone_form.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_absolute_url(self):
         return reverse('polity_utm_zone-create')
@@ -196,7 +196,7 @@ class Polity_utm_zoneUpdate(PermissionRequiredMixin, UpdateView):
     model = Polity_utm_zone
     form_class = Polity_utm_zoneForm
     template_name = "general/polity_utm_zone/polity_utm_zone_update.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -208,7 +208,7 @@ class Polity_utm_zoneDelete(PermissionRequiredMixin, DeleteView):
     model = Polity_utm_zone
     success_url = reverse_lazy('polity_utm_zones')
     template_name = "core/delete_general.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
 
 class Polity_utm_zoneListView(generic.ListView):
@@ -264,7 +264,7 @@ class Polity_utm_zoneDetailView(generic.DetailView):
     template_name = "general/polity_utm_zone/polity_utm_zone_detail.html"
 
 
-@permission_required('admin.can_add_log_entry')
+@permission_required('core.view_capital')
 def polity_utm_zone_download(request):
     items = Polity_utm_zone.objects.all()
 
@@ -282,7 +282,7 @@ def polity_utm_zone_download(request):
 
     return response
 
-@permission_required('admin.can_add_log_entry')
+@permission_required('core.view_capital')
 def polity_utm_zone_meta_download(request):
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="polity_utm_zones.csv"'
@@ -308,7 +308,7 @@ class Polity_original_nameCreate(PermissionRequiredMixin, CreateView):
     model = Polity_original_name
     form_class = Polity_original_nameForm
     template_name = "general/polity_original_name/polity_original_name_form.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_absolute_url(self):
         return reverse('polity_original_name-create')
@@ -329,7 +329,7 @@ class Polity_original_nameUpdate(PermissionRequiredMixin, UpdateView):
     model = Polity_original_name
     form_class = Polity_original_nameForm
     template_name = "general/polity_original_name/polity_original_name_update.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -341,7 +341,7 @@ class Polity_original_nameDelete(PermissionRequiredMixin, DeleteView):
     model = Polity_original_name
     success_url = reverse_lazy('polity_original_names')
     template_name = "core/delete_general.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
 
 class Polity_original_nameListView(generic.ListView):
@@ -397,7 +397,7 @@ class Polity_original_nameDetailView(generic.DetailView):
     template_name = "general/polity_original_name/polity_original_name_detail.html"
 
 
-@permission_required('admin.can_add_log_entry')
+@permission_required('core.view_capital')
 def polity_original_name_download(request):
     items = Polity_original_name.objects.all()
 
@@ -415,7 +415,7 @@ def polity_original_name_download(request):
 
     return response
 
-@permission_required('admin.can_add_log_entry')
+@permission_required('core.view_capital')
 def polity_original_name_meta_download(request):
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="polity_original_names.csv"'
@@ -441,7 +441,7 @@ class Polity_alternative_nameCreate(PermissionRequiredMixin, CreateView):
     model = Polity_alternative_name
     form_class = Polity_alternative_nameForm
     template_name = "general/polity_alternative_name/polity_alternative_name_form.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_absolute_url(self):
         return reverse('polity_alternative_name-create')
@@ -462,7 +462,7 @@ class Polity_alternative_nameUpdate(PermissionRequiredMixin, UpdateView):
     model = Polity_alternative_name
     form_class = Polity_alternative_nameForm
     template_name = "general/polity_alternative_name/polity_alternative_name_update.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -474,7 +474,7 @@ class Polity_alternative_nameDelete(PermissionRequiredMixin, DeleteView):
     model = Polity_alternative_name
     success_url = reverse_lazy('polity_alternative_names')
     template_name = "core/delete_general.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
 
 class Polity_alternative_nameListView(generic.ListView):
@@ -530,7 +530,7 @@ class Polity_alternative_nameDetailView(generic.DetailView):
     template_name = "general/polity_alternative_name/polity_alternative_name_detail.html"
 
 
-@permission_required('admin.can_add_log_entry')
+@permission_required('core.view_capital')
 def polity_alternative_name_download(request):
     items = Polity_alternative_name.objects.all()
 
@@ -548,7 +548,7 @@ def polity_alternative_name_download(request):
 
     return response
 
-@permission_required('admin.can_add_log_entry')
+@permission_required('core.view_capital')
 def polity_alternative_name_meta_download(request):
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="polity_alternative_names.csv"'
@@ -574,7 +574,7 @@ class Polity_peak_yearsCreate(PermissionRequiredMixin, CreateView):
     model = Polity_peak_years
     form_class = Polity_peak_yearsForm
     template_name = "general/polity_peak_years/polity_peak_years_form.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_absolute_url(self):
         return reverse('polity_peak_years-create')
@@ -595,7 +595,7 @@ class Polity_peak_yearsUpdate(PermissionRequiredMixin, UpdateView):
     model = Polity_peak_years
     form_class = Polity_peak_yearsForm
     template_name = "general/polity_peak_years/polity_peak_years_update.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -607,7 +607,7 @@ class Polity_peak_yearsDelete(PermissionRequiredMixin, DeleteView):
     model = Polity_peak_years
     success_url = reverse_lazy('polity_peak_yearss')
     template_name = "core/delete_general.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
 
 class Polity_peak_yearsListView(generic.ListView):
@@ -663,7 +663,7 @@ class Polity_peak_yearsDetailView(generic.DetailView):
     template_name = "general/polity_peak_years/polity_peak_years_detail.html"
 
 
-@permission_required('admin.can_add_log_entry')
+@permission_required('core.view_capital')
 def polity_peak_years_download(request):
     items = Polity_peak_years.objects.all()
 
@@ -681,7 +681,7 @@ def polity_peak_years_download(request):
 
     return response
 
-@permission_required('admin.can_add_log_entry')
+@permission_required('core.view_capital')
 def polity_peak_years_meta_download(request):
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="polity_peak_yearss.csv"'
@@ -707,7 +707,7 @@ class Polity_durationCreate(PermissionRequiredMixin, CreateView):
     model = Polity_duration
     form_class = Polity_durationForm
     template_name = "general/polity_duration/polity_duration_form.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_absolute_url(self):
         return reverse('polity_duration-create')
@@ -728,7 +728,7 @@ class Polity_durationUpdate(PermissionRequiredMixin, UpdateView):
     model = Polity_duration
     form_class = Polity_durationForm
     template_name = "general/polity_duration/polity_duration_update.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -740,7 +740,7 @@ class Polity_durationDelete(PermissionRequiredMixin, DeleteView):
     model = Polity_duration
     success_url = reverse_lazy('polity_durations')
     template_name = "core/delete_general.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
 
 class Polity_durationListView(generic.ListView):
@@ -796,7 +796,7 @@ class Polity_durationDetailView(generic.DetailView):
     template_name = "general/polity_duration/polity_duration_detail.html"
 
 
-@permission_required('admin.can_add_log_entry')
+@permission_required('core.view_capital')
 def polity_duration_download(request):
     items = Polity_duration.objects.all()
 
@@ -814,7 +814,7 @@ def polity_duration_download(request):
 
     return response
 
-@permission_required('admin.can_add_log_entry')
+@permission_required('core.view_capital')
 def polity_duration_meta_download(request):
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="polity_durations.csv"'
@@ -840,7 +840,7 @@ class Polity_degree_of_centralizationCreate(PermissionRequiredMixin, CreateView)
     model = Polity_degree_of_centralization
     form_class = Polity_degree_of_centralizationForm
     template_name = "general/polity_degree_of_centralization/polity_degree_of_centralization_form.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_absolute_url(self):
         return reverse('polity_degree_of_centralization-create')
@@ -861,7 +861,7 @@ class Polity_degree_of_centralizationUpdate(PermissionRequiredMixin, UpdateView)
     model = Polity_degree_of_centralization
     form_class = Polity_degree_of_centralizationForm
     template_name = "general/polity_degree_of_centralization/polity_degree_of_centralization_update.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -873,7 +873,7 @@ class Polity_degree_of_centralizationDelete(PermissionRequiredMixin, DeleteView)
     model = Polity_degree_of_centralization
     success_url = reverse_lazy('polity_degree_of_centralizations')
     template_name = "core/delete_general.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
 
 class Polity_degree_of_centralizationListView(generic.ListView):
@@ -929,7 +929,7 @@ class Polity_degree_of_centralizationDetailView(generic.DetailView):
     template_name = "general/polity_degree_of_centralization/polity_degree_of_centralization_detail.html"
 
 
-@permission_required('admin.can_add_log_entry')
+@permission_required('core.view_capital')
 def polity_degree_of_centralization_download(request):
     items = Polity_degree_of_centralization.objects.all()
 
@@ -947,7 +947,7 @@ def polity_degree_of_centralization_download(request):
 
     return response
 
-@permission_required('admin.can_add_log_entry')
+@permission_required('core.view_capital')
 def polity_degree_of_centralization_meta_download(request):
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="polity_degree_of_centralizations.csv"'
@@ -973,7 +973,7 @@ class Polity_suprapolity_relationsCreate(PermissionRequiredMixin, CreateView):
     model = Polity_suprapolity_relations
     form_class = Polity_suprapolity_relationsForm
     template_name = "general/polity_suprapolity_relations/polity_suprapolity_relations_form.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_absolute_url(self):
         return reverse('polity_suprapolity_relations-create')
@@ -994,7 +994,7 @@ class Polity_suprapolity_relationsUpdate(PermissionRequiredMixin, UpdateView):
     model = Polity_suprapolity_relations
     form_class = Polity_suprapolity_relationsForm
     template_name = "general/polity_suprapolity_relations/polity_suprapolity_relations_update.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -1006,7 +1006,7 @@ class Polity_suprapolity_relationsDelete(PermissionRequiredMixin, DeleteView):
     model = Polity_suprapolity_relations
     success_url = reverse_lazy('polity_suprapolity_relationss')
     template_name = "core/delete_general.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
 
 class Polity_suprapolity_relationsListView(generic.ListView):
@@ -1062,7 +1062,7 @@ class Polity_suprapolity_relationsDetailView(generic.DetailView):
     template_name = "general/polity_suprapolity_relations/polity_suprapolity_relations_detail.html"
 
 
-@permission_required('admin.can_add_log_entry')
+@permission_required('core.view_capital')
 def polity_suprapolity_relations_download(request):
     items = Polity_suprapolity_relations.objects.all()
 
@@ -1080,7 +1080,7 @@ def polity_suprapolity_relations_download(request):
 
     return response
 
-@permission_required('admin.can_add_log_entry')
+@permission_required('core.view_capital')
 def polity_suprapolity_relations_meta_download(request):
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="polity_suprapolity_relationss.csv"'
@@ -1106,7 +1106,7 @@ class Polity_capitalCreate(PermissionRequiredMixin, CreateView):
     model = Polity_capital
     form_class = Polity_capitalForm
     template_name = "general/polity_capital/polity_capital_form.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_absolute_url(self):
         return reverse('polity_capital-create')
@@ -1127,7 +1127,7 @@ class Polity_capitalUpdate(PermissionRequiredMixin, UpdateView):
     model = Polity_capital
     form_class = Polity_capitalForm
     template_name = "general/polity_capital/polity_capital_update.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -1139,7 +1139,7 @@ class Polity_capitalDelete(PermissionRequiredMixin, DeleteView):
     model = Polity_capital
     success_url = reverse_lazy('polity_capitals')
     template_name = "core/delete_general.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
 
 class Polity_capitalListView(generic.ListView):
@@ -1195,7 +1195,7 @@ class Polity_capitalDetailView(generic.DetailView):
     template_name = "general/polity_capital/polity_capital_detail.html"
 
 
-@permission_required('admin.can_add_log_entry')
+@permission_required('core.view_capital')
 def polity_capital_download(request):
     items = Polity_capital.objects.all()
 
@@ -1213,7 +1213,7 @@ def polity_capital_download(request):
 
     return response
 
-@permission_required('admin.can_add_log_entry')
+@permission_required('core.view_capital')
 def polity_capital_meta_download(request):
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="polity_capitals.csv"'
@@ -1239,7 +1239,7 @@ class Polity_languageCreate(PermissionRequiredMixin, CreateView):
     model = Polity_language
     form_class = Polity_languageForm
     template_name = "general/polity_language/polity_language_form.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_absolute_url(self):
         return reverse('polity_language-create')
@@ -1260,7 +1260,7 @@ class Polity_languageUpdate(PermissionRequiredMixin, UpdateView):
     model = Polity_language
     form_class = Polity_languageForm
     template_name = "general/polity_language/polity_language_update.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -1272,7 +1272,7 @@ class Polity_languageDelete(PermissionRequiredMixin, DeleteView):
     model = Polity_language
     success_url = reverse_lazy('polity_languages')
     template_name = "core/delete_general.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
 
 class Polity_languageListView(generic.ListView):
@@ -1328,7 +1328,7 @@ class Polity_languageDetailView(generic.DetailView):
     template_name = "general/polity_language/polity_language_detail.html"
 
 
-@permission_required('admin.can_add_log_entry')
+@permission_required('core.view_capital')
 def polity_language_download(request):
     items = Polity_language.objects.all()
 
@@ -1346,7 +1346,7 @@ def polity_language_download(request):
 
     return response
 
-@permission_required('admin.can_add_log_entry')
+@permission_required('core.view_capital')
 def polity_language_meta_download(request):
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="polity_languages.csv"'
@@ -1372,7 +1372,7 @@ class Polity_linguistic_familyCreate(PermissionRequiredMixin, CreateView):
     model = Polity_linguistic_family
     form_class = Polity_linguistic_familyForm
     template_name = "general/polity_linguistic_family/polity_linguistic_family_form.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_absolute_url(self):
         return reverse('polity_linguistic_family-create')
@@ -1393,7 +1393,7 @@ class Polity_linguistic_familyUpdate(PermissionRequiredMixin, UpdateView):
     model = Polity_linguistic_family
     form_class = Polity_linguistic_familyForm
     template_name = "general/polity_linguistic_family/polity_linguistic_family_update.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -1405,7 +1405,7 @@ class Polity_linguistic_familyDelete(PermissionRequiredMixin, DeleteView):
     model = Polity_linguistic_family
     success_url = reverse_lazy('polity_linguistic_familys')
     template_name = "core/delete_general.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
 
 class Polity_linguistic_familyListView(generic.ListView):
@@ -1461,7 +1461,7 @@ class Polity_linguistic_familyDetailView(generic.DetailView):
     template_name = "general/polity_linguistic_family/polity_linguistic_family_detail.html"
 
 
-@permission_required('admin.can_add_log_entry')
+@permission_required('core.view_capital')
 def polity_linguistic_family_download(request):
     items = Polity_linguistic_family.objects.all()
 
@@ -1479,7 +1479,7 @@ def polity_linguistic_family_download(request):
 
     return response
 
-@permission_required('admin.can_add_log_entry')
+@permission_required('core.view_capital')
 def polity_linguistic_family_meta_download(request):
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="polity_linguistic_familys.csv"'
@@ -1505,7 +1505,7 @@ class Polity_language_genusCreate(PermissionRequiredMixin, CreateView):
     model = Polity_language_genus
     form_class = Polity_language_genusForm
     template_name = "general/polity_language_genus/polity_language_genus_form.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_absolute_url(self):
         return reverse('polity_language_genus-create')
@@ -1526,7 +1526,7 @@ class Polity_language_genusUpdate(PermissionRequiredMixin, UpdateView):
     model = Polity_language_genus
     form_class = Polity_language_genusForm
     template_name = "general/polity_language_genus/polity_language_genus_update.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -1538,7 +1538,7 @@ class Polity_language_genusDelete(PermissionRequiredMixin, DeleteView):
     model = Polity_language_genus
     success_url = reverse_lazy('polity_language_genuss')
     template_name = "core/delete_general.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
 
 class Polity_language_genusListView(generic.ListView):
@@ -1594,7 +1594,7 @@ class Polity_language_genusDetailView(generic.DetailView):
     template_name = "general/polity_language_genus/polity_language_genus_detail.html"
 
 
-@permission_required('admin.can_add_log_entry')
+@permission_required('core.view_capital')
 def polity_language_genus_download(request):
     items = Polity_language_genus.objects.all()
 
@@ -1612,7 +1612,7 @@ def polity_language_genus_download(request):
 
     return response
 
-@permission_required('admin.can_add_log_entry')
+@permission_required('core.view_capital')
 def polity_language_genus_meta_download(request):
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="polity_language_genuss.csv"'
@@ -1638,7 +1638,7 @@ class Polity_religion_genusCreate(PermissionRequiredMixin, CreateView):
     model = Polity_religion_genus
     form_class = Polity_religion_genusForm
     template_name = "general/polity_religion_genus/polity_religion_genus_form.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_absolute_url(self):
         return reverse('polity_religion_genus-create')
@@ -1659,7 +1659,7 @@ class Polity_religion_genusUpdate(PermissionRequiredMixin, UpdateView):
     model = Polity_religion_genus
     form_class = Polity_religion_genusForm
     template_name = "general/polity_religion_genus/polity_religion_genus_update.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -1671,7 +1671,7 @@ class Polity_religion_genusDelete(PermissionRequiredMixin, DeleteView):
     model = Polity_religion_genus
     success_url = reverse_lazy('polity_religion_genuss')
     template_name = "core/delete_general.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
 
 class Polity_religion_genusListView(generic.ListView):
@@ -1727,7 +1727,7 @@ class Polity_religion_genusDetailView(generic.DetailView):
     template_name = "general/polity_religion_genus/polity_religion_genus_detail.html"
 
 
-@permission_required('admin.can_add_log_entry')
+@permission_required('core.view_capital')
 def polity_religion_genus_download(request):
     items = Polity_religion_genus.objects.all()
 
@@ -1745,7 +1745,7 @@ def polity_religion_genus_download(request):
 
     return response
 
-@permission_required('admin.can_add_log_entry')
+@permission_required('core.view_capital')
 def polity_religion_genus_meta_download(request):
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="polity_religion_genuss.csv"'
@@ -1771,7 +1771,7 @@ class Polity_religion_familyCreate(PermissionRequiredMixin, CreateView):
     model = Polity_religion_family
     form_class = Polity_religion_familyForm
     template_name = "general/polity_religion_family/polity_religion_family_form.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_absolute_url(self):
         return reverse('polity_religion_family-create')
@@ -1792,7 +1792,7 @@ class Polity_religion_familyUpdate(PermissionRequiredMixin, UpdateView):
     model = Polity_religion_family
     form_class = Polity_religion_familyForm
     template_name = "general/polity_religion_family/polity_religion_family_update.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -1804,7 +1804,7 @@ class Polity_religion_familyDelete(PermissionRequiredMixin, DeleteView):
     model = Polity_religion_family
     success_url = reverse_lazy('polity_religion_familys')
     template_name = "core/delete_general.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
 
 class Polity_religion_familyListView(generic.ListView):
@@ -1860,7 +1860,7 @@ class Polity_religion_familyDetailView(generic.DetailView):
     template_name = "general/polity_religion_family/polity_religion_family_detail.html"
 
 
-@permission_required('admin.can_add_log_entry')
+@permission_required('core.view_capital')
 def polity_religion_family_download(request):
     items = Polity_religion_family.objects.all()
 
@@ -1878,7 +1878,7 @@ def polity_religion_family_download(request):
 
     return response
 
-@permission_required('admin.can_add_log_entry')
+@permission_required('core.view_capital')
 def polity_religion_family_meta_download(request):
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="polity_religion_familys.csv"'
@@ -1904,7 +1904,7 @@ class Polity_religionCreate(PermissionRequiredMixin, CreateView):
     model = Polity_religion
     form_class = Polity_religionForm
     template_name = "general/polity_religion/polity_religion_form.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_absolute_url(self):
         return reverse('polity_religion-create')
@@ -1925,7 +1925,7 @@ class Polity_religionUpdate(PermissionRequiredMixin, UpdateView):
     model = Polity_religion
     form_class = Polity_religionForm
     template_name = "general/polity_religion/polity_religion_update.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -1937,7 +1937,7 @@ class Polity_religionDelete(PermissionRequiredMixin, DeleteView):
     model = Polity_religion
     success_url = reverse_lazy('polity_religions')
     template_name = "core/delete_general.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
 
 class Polity_religionListView(generic.ListView):
@@ -1993,7 +1993,7 @@ class Polity_religionDetailView(generic.DetailView):
     template_name = "general/polity_religion/polity_religion_detail.html"
 
 
-@permission_required('admin.can_add_log_entry')
+@permission_required('core.view_capital')
 def polity_religion_download(request):
     items = Polity_religion.objects.all()
 
@@ -2011,7 +2011,7 @@ def polity_religion_download(request):
 
     return response
 
-@permission_required('admin.can_add_log_entry')
+@permission_required('core.view_capital')
 def polity_religion_meta_download(request):
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="polity_religions.csv"'
@@ -2037,7 +2037,7 @@ class Polity_relationship_to_preceding_entityCreate(PermissionRequiredMixin, Cre
     model = Polity_relationship_to_preceding_entity
     form_class = Polity_relationship_to_preceding_entityForm
     template_name = "general/polity_relationship_to_preceding_entity/polity_relationship_to_preceding_entity_form.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_absolute_url(self):
         return reverse('polity_relationship_to_preceding_entity-create')
@@ -2058,7 +2058,7 @@ class Polity_relationship_to_preceding_entityUpdate(PermissionRequiredMixin, Upd
     model = Polity_relationship_to_preceding_entity
     form_class = Polity_relationship_to_preceding_entityForm
     template_name = "general/polity_relationship_to_preceding_entity/polity_relationship_to_preceding_entity_update.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -2070,7 +2070,7 @@ class Polity_relationship_to_preceding_entityDelete(PermissionRequiredMixin, Del
     model = Polity_relationship_to_preceding_entity
     success_url = reverse_lazy('polity_relationship_to_preceding_entitys')
     template_name = "core/delete_general.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
 
 class Polity_relationship_to_preceding_entityListView(generic.ListView):
@@ -2126,7 +2126,7 @@ class Polity_relationship_to_preceding_entityDetailView(generic.DetailView):
     template_name = "general/polity_relationship_to_preceding_entity/polity_relationship_to_preceding_entity_detail.html"
 
 
-@permission_required('admin.can_add_log_entry')
+@permission_required('core.view_capital')
 def polity_relationship_to_preceding_entity_download(request):
     items = Polity_relationship_to_preceding_entity.objects.all()
 
@@ -2144,7 +2144,7 @@ def polity_relationship_to_preceding_entity_download(request):
 
     return response
 
-@permission_required('admin.can_add_log_entry')
+@permission_required('core.view_capital')
 def polity_relationship_to_preceding_entity_meta_download(request):
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="polity_relationship_to_preceding_entitys.csv"'
@@ -2170,7 +2170,7 @@ class Polity_preceding_entityCreate(PermissionRequiredMixin, CreateView):
     model = Polity_preceding_entity
     form_class = Polity_preceding_entityForm
     template_name = "general/polity_preceding_entity/polity_preceding_entity_form.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_absolute_url(self):
         return reverse('polity_preceding_entity-create')
@@ -2191,7 +2191,7 @@ class Polity_preceding_entityUpdate(PermissionRequiredMixin, UpdateView):
     model = Polity_preceding_entity
     form_class = Polity_preceding_entityForm
     template_name = "general/polity_preceding_entity/polity_preceding_entity_update.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -2203,7 +2203,7 @@ class Polity_preceding_entityDelete(PermissionRequiredMixin, DeleteView):
     model = Polity_preceding_entity
     success_url = reverse_lazy('polity_preceding_entitys')
     template_name = "core/delete_general.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
 
 class Polity_preceding_entityListView(generic.ListView):
@@ -2259,7 +2259,7 @@ class Polity_preceding_entityDetailView(generic.DetailView):
     template_name = "general/polity_preceding_entity/polity_preceding_entity_detail.html"
 
 
-@permission_required('admin.can_add_log_entry')
+@permission_required('core.view_capital')
 def polity_preceding_entity_download(request):
     items = Polity_preceding_entity.objects.all()
 
@@ -2277,7 +2277,7 @@ def polity_preceding_entity_download(request):
 
     return response
 
-@permission_required('admin.can_add_log_entry')
+@permission_required('core.view_capital')
 def polity_preceding_entity_meta_download(request):
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="polity_preceding_entitys.csv"'
@@ -2303,7 +2303,7 @@ class Polity_succeeding_entityCreate(PermissionRequiredMixin, CreateView):
     model = Polity_succeeding_entity
     form_class = Polity_succeeding_entityForm
     template_name = "general/polity_succeeding_entity/polity_succeeding_entity_form.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_absolute_url(self):
         return reverse('polity_succeeding_entity-create')
@@ -2324,7 +2324,7 @@ class Polity_succeeding_entityUpdate(PermissionRequiredMixin, UpdateView):
     model = Polity_succeeding_entity
     form_class = Polity_succeeding_entityForm
     template_name = "general/polity_succeeding_entity/polity_succeeding_entity_update.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -2336,7 +2336,7 @@ class Polity_succeeding_entityDelete(PermissionRequiredMixin, DeleteView):
     model = Polity_succeeding_entity
     success_url = reverse_lazy('polity_succeeding_entitys')
     template_name = "core/delete_general.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
 
 class Polity_succeeding_entityListView(generic.ListView):
@@ -2392,7 +2392,7 @@ class Polity_succeeding_entityDetailView(generic.DetailView):
     template_name = "general/polity_succeeding_entity/polity_succeeding_entity_detail.html"
 
 
-@permission_required('admin.can_add_log_entry')
+@permission_required('core.view_capital')
 def polity_succeeding_entity_download(request):
     items = Polity_succeeding_entity.objects.all()
 
@@ -2410,7 +2410,7 @@ def polity_succeeding_entity_download(request):
 
     return response
 
-@permission_required('admin.can_add_log_entry')
+@permission_required('core.view_capital')
 def polity_succeeding_entity_meta_download(request):
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="polity_succeeding_entitys.csv"'
@@ -2436,7 +2436,7 @@ class Polity_supracultural_entityCreate(PermissionRequiredMixin, CreateView):
     model = Polity_supracultural_entity
     form_class = Polity_supracultural_entityForm
     template_name = "general/polity_supracultural_entity/polity_supracultural_entity_form.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_absolute_url(self):
         return reverse('polity_supracultural_entity-create')
@@ -2457,7 +2457,7 @@ class Polity_supracultural_entityUpdate(PermissionRequiredMixin, UpdateView):
     model = Polity_supracultural_entity
     form_class = Polity_supracultural_entityForm
     template_name = "general/polity_supracultural_entity/polity_supracultural_entity_update.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -2469,7 +2469,7 @@ class Polity_supracultural_entityDelete(PermissionRequiredMixin, DeleteView):
     model = Polity_supracultural_entity
     success_url = reverse_lazy('polity_supracultural_entitys')
     template_name = "core/delete_general.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
 
 class Polity_supracultural_entityListView(generic.ListView):
@@ -2525,7 +2525,7 @@ class Polity_supracultural_entityDetailView(generic.DetailView):
     template_name = "general/polity_supracultural_entity/polity_supracultural_entity_detail.html"
 
 
-@permission_required('admin.can_add_log_entry')
+@permission_required('core.view_capital')
 def polity_supracultural_entity_download(request):
     items = Polity_supracultural_entity.objects.all()
 
@@ -2543,7 +2543,7 @@ def polity_supracultural_entity_download(request):
 
     return response
 
-@permission_required('admin.can_add_log_entry')
+@permission_required('core.view_capital')
 def polity_supracultural_entity_meta_download(request):
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="polity_supracultural_entitys.csv"'
@@ -2569,7 +2569,7 @@ class Polity_scale_of_supracultural_interactionCreate(PermissionRequiredMixin, C
     model = Polity_scale_of_supracultural_interaction
     form_class = Polity_scale_of_supracultural_interactionForm
     template_name = "general/polity_scale_of_supracultural_interaction/polity_scale_of_supracultural_interaction_form.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_absolute_url(self):
         return reverse('polity_scale_of_supracultural_interaction-create')
@@ -2590,7 +2590,7 @@ class Polity_scale_of_supracultural_interactionUpdate(PermissionRequiredMixin, U
     model = Polity_scale_of_supracultural_interaction
     form_class = Polity_scale_of_supracultural_interactionForm
     template_name = "general/polity_scale_of_supracultural_interaction/polity_scale_of_supracultural_interaction_update.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -2602,7 +2602,7 @@ class Polity_scale_of_supracultural_interactionDelete(PermissionRequiredMixin, D
     model = Polity_scale_of_supracultural_interaction
     success_url = reverse_lazy('polity_scale_of_supracultural_interactions')
     template_name = "core/delete_general.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
 
 class Polity_scale_of_supracultural_interactionListView(generic.ListView):
@@ -2658,7 +2658,7 @@ class Polity_scale_of_supracultural_interactionDetailView(generic.DetailView):
     template_name = "general/polity_scale_of_supracultural_interaction/polity_scale_of_supracultural_interaction_detail.html"
 
 
-@permission_required('admin.can_add_log_entry')
+@permission_required('core.view_capital')
 def polity_scale_of_supracultural_interaction_download(request):
     items = Polity_scale_of_supracultural_interaction.objects.all()
 
@@ -2676,7 +2676,7 @@ def polity_scale_of_supracultural_interaction_download(request):
 
     return response
 
-@permission_required('admin.can_add_log_entry')
+@permission_required('core.view_capital')
 def polity_scale_of_supracultural_interaction_meta_download(request):
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="polity_scale_of_supracultural_interactions.csv"'
@@ -2702,7 +2702,7 @@ class Polity_alternate_religion_genusCreate(PermissionRequiredMixin, CreateView)
     model = Polity_alternate_religion_genus
     form_class = Polity_alternate_religion_genusForm
     template_name = "general/polity_alternate_religion_genus/polity_alternate_religion_genus_form.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_absolute_url(self):
         return reverse('polity_alternate_religion_genus-create')
@@ -2723,7 +2723,7 @@ class Polity_alternate_religion_genusUpdate(PermissionRequiredMixin, UpdateView)
     model = Polity_alternate_religion_genus
     form_class = Polity_alternate_religion_genusForm
     template_name = "general/polity_alternate_religion_genus/polity_alternate_religion_genus_update.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -2735,7 +2735,7 @@ class Polity_alternate_religion_genusDelete(PermissionRequiredMixin, DeleteView)
     model = Polity_alternate_religion_genus
     success_url = reverse_lazy('polity_alternate_religion_genuss')
     template_name = "core/delete_general.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
 
 class Polity_alternate_religion_genusListView(generic.ListView):
@@ -2791,7 +2791,7 @@ class Polity_alternate_religion_genusDetailView(generic.DetailView):
     template_name = "general/polity_alternate_religion_genus/polity_alternate_religion_genus_detail.html"
 
 
-@permission_required('admin.can_add_log_entry')
+@permission_required('core.view_capital')
 def polity_alternate_religion_genus_download(request):
     items = Polity_alternate_religion_genus.objects.all()
 
@@ -2809,7 +2809,7 @@ def polity_alternate_religion_genus_download(request):
 
     return response
 
-@permission_required('admin.can_add_log_entry')
+@permission_required('core.view_capital')
 def polity_alternate_religion_genus_meta_download(request):
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="polity_alternate_religion_genuss.csv"'
@@ -2835,7 +2835,7 @@ class Polity_alternate_religion_familyCreate(PermissionRequiredMixin, CreateView
     model = Polity_alternate_religion_family
     form_class = Polity_alternate_religion_familyForm
     template_name = "general/polity_alternate_religion_family/polity_alternate_religion_family_form.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_absolute_url(self):
         return reverse('polity_alternate_religion_family-create')
@@ -2856,7 +2856,7 @@ class Polity_alternate_religion_familyUpdate(PermissionRequiredMixin, UpdateView
     model = Polity_alternate_religion_family
     form_class = Polity_alternate_religion_familyForm
     template_name = "general/polity_alternate_religion_family/polity_alternate_religion_family_update.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -2868,7 +2868,7 @@ class Polity_alternate_religion_familyDelete(PermissionRequiredMixin, DeleteView
     model = Polity_alternate_religion_family
     success_url = reverse_lazy('polity_alternate_religion_familys')
     template_name = "core/delete_general.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
 
 class Polity_alternate_religion_familyListView(generic.ListView):
@@ -2924,7 +2924,7 @@ class Polity_alternate_religion_familyDetailView(generic.DetailView):
     template_name = "general/polity_alternate_religion_family/polity_alternate_religion_family_detail.html"
 
 
-@permission_required('admin.can_add_log_entry')
+@permission_required('core.view_capital')
 def polity_alternate_religion_family_download(request):
     items = Polity_alternate_religion_family.objects.all()
 
@@ -2942,7 +2942,7 @@ def polity_alternate_religion_family_download(request):
 
     return response
 
-@permission_required('admin.can_add_log_entry')
+@permission_required('core.view_capital')
 def polity_alternate_religion_family_meta_download(request):
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="polity_alternate_religion_familys.csv"'
@@ -2968,7 +2968,7 @@ class Polity_alternate_religionCreate(PermissionRequiredMixin, CreateView):
     model = Polity_alternate_religion
     form_class = Polity_alternate_religionForm
     template_name = "general/polity_alternate_religion/polity_alternate_religion_form.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_absolute_url(self):
         return reverse('polity_alternate_religion-create')
@@ -2989,7 +2989,7 @@ class Polity_alternate_religionUpdate(PermissionRequiredMixin, UpdateView):
     model = Polity_alternate_religion
     form_class = Polity_alternate_religionForm
     template_name = "general/polity_alternate_religion/polity_alternate_religion_update.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -3001,7 +3001,7 @@ class Polity_alternate_religionDelete(PermissionRequiredMixin, DeleteView):
     model = Polity_alternate_religion
     success_url = reverse_lazy('polity_alternate_religions')
     template_name = "core/delete_general.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
 
 class Polity_alternate_religionListView(generic.ListView):
@@ -3057,7 +3057,7 @@ class Polity_alternate_religionDetailView(generic.DetailView):
     template_name = "general/polity_alternate_religion/polity_alternate_religion_detail.html"
 
 
-@permission_required('admin.can_add_log_entry')
+@permission_required('core.view_capital')
 def polity_alternate_religion_download(request):
     items = Polity_alternate_religion.objects.all()
 
@@ -3075,7 +3075,7 @@ def polity_alternate_religion_download(request):
 
     return response
 
-@permission_required('admin.can_add_log_entry')
+@permission_required('core.view_capital')
 def polity_alternate_religion_meta_download(request):
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="polity_alternate_religions.csv"'
@@ -3101,7 +3101,7 @@ class Polity_expertCreate(PermissionRequiredMixin, CreateView):
     model = Polity_expert
     form_class = Polity_expertForm
     template_name = "general/polity_expert/polity_expert_form.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_absolute_url(self):
         return reverse('polity_expert-create')
@@ -3122,7 +3122,7 @@ class Polity_expertUpdate(PermissionRequiredMixin, UpdateView):
     model = Polity_expert
     form_class = Polity_expertForm
     template_name = "general/polity_expert/polity_expert_update.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -3134,7 +3134,7 @@ class Polity_expertDelete(PermissionRequiredMixin, DeleteView):
     model = Polity_expert
     success_url = reverse_lazy('polity_experts')
     template_name = "core/delete_general.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
 
 class Polity_expertListView(generic.ListView):
@@ -3190,7 +3190,7 @@ class Polity_expertDetailView(generic.DetailView):
     template_name = "general/polity_expert/polity_expert_detail.html"
 
 
-@permission_required('admin.can_add_log_entry')
+@permission_required('core.view_capital')
 def polity_expert_download(request):
     items = Polity_expert.objects.all()
 
@@ -3208,7 +3208,7 @@ def polity_expert_download(request):
 
     return response
 
-@permission_required('admin.can_add_log_entry')
+@permission_required('core.view_capital')
 def polity_expert_meta_download(request):
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="polity_experts.csv"'
@@ -3234,7 +3234,7 @@ class Polity_editorCreate(PermissionRequiredMixin, CreateView):
     model = Polity_editor
     form_class = Polity_editorForm
     template_name = "general/polity_editor/polity_editor_form.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_absolute_url(self):
         return reverse('polity_editor-create')
@@ -3255,7 +3255,7 @@ class Polity_editorUpdate(PermissionRequiredMixin, UpdateView):
     model = Polity_editor
     form_class = Polity_editorForm
     template_name = "general/polity_editor/polity_editor_update.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -3267,7 +3267,7 @@ class Polity_editorDelete(PermissionRequiredMixin, DeleteView):
     model = Polity_editor
     success_url = reverse_lazy('polity_editors')
     template_name = "core/delete_general.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
 
 class Polity_editorListView(generic.ListView):
@@ -3323,7 +3323,7 @@ class Polity_editorDetailView(generic.DetailView):
     template_name = "general/polity_editor/polity_editor_detail.html"
 
 
-@permission_required('admin.can_add_log_entry')
+@permission_required('core.view_capital')
 def polity_editor_download(request):
     items = Polity_editor.objects.all()
 
@@ -3341,7 +3341,7 @@ def polity_editor_download(request):
 
     return response
 
-@permission_required('admin.can_add_log_entry')
+@permission_required('core.view_capital')
 def polity_editor_meta_download(request):
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="polity_editors.csv"'
@@ -3367,7 +3367,7 @@ class Polity_religious_traditionCreate(PermissionRequiredMixin, CreateView):
     model = Polity_religious_tradition
     form_class = Polity_religious_traditionForm
     template_name = "general/polity_religious_tradition/polity_religious_tradition_form.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_absolute_url(self):
         return reverse('polity_religious_tradition-create')
@@ -3388,7 +3388,7 @@ class Polity_religious_traditionUpdate(PermissionRequiredMixin, UpdateView):
     model = Polity_religious_tradition
     form_class = Polity_religious_traditionForm
     template_name = "general/polity_religious_tradition/polity_religious_tradition_update.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -3400,7 +3400,7 @@ class Polity_religious_traditionDelete(PermissionRequiredMixin, DeleteView):
     model = Polity_religious_tradition
     success_url = reverse_lazy('polity_religious_traditions')
     template_name = "core/delete_general.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
 
 class Polity_religious_traditionListView(generic.ListView):
@@ -3456,7 +3456,7 @@ class Polity_religious_traditionDetailView(generic.DetailView):
     template_name = "general/polity_religious_tradition/polity_religious_tradition_detail.html"
 
 
-@permission_required('admin.can_add_log_entry')
+@permission_required('core.view_capital')
 def polity_religious_tradition_download(request):
     items = Polity_religious_tradition.objects.all()
 
@@ -3474,7 +3474,7 @@ def polity_religious_tradition_download(request):
 
     return response
 
-@permission_required('admin.can_add_log_entry')
+@permission_required('core.view_capital')
 def polity_religious_tradition_meta_download(request):
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="polity_religious_traditions.csv"'

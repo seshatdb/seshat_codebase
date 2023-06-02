@@ -156,7 +156,27 @@
             </div>
             </div>
 
-          <div class="col-md-6 mb-2 mt-4">
+            <div class="col-md-4 mb-2 mt-4">
+              {{ form.culture_group|as_crispy_field }}
+              <div class="accordion accordion-flush" id="accordionculture_group">
+                  <div class="accordion-item" style="background-color:#fefae6;">
+                    <h2 class="accordion-header" id="headingOneCont">
+                      <button class="accordion-button collapsed px-0" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOneculture_group" aria-expanded="false" aria-controls="collapseOneculture_group" style="background-color:#fefae6; padding-top: 0.25rem !important; padding-bottom: 0.25rem !important;">
+                        <span><i class="fa-solid fa-arrow-down-short-wide"></i> &nbsp; Explanation / Example:</span> 
+                      </button>
+                    </h2>
+                    <div id="collapseOneculture_group" class="accordion-collapse collapse" aria-labelledby="headingOneCont">
+                      <div class="accordion-body table-responsive p-0">
+                          <div class="culture_group">
+                            <span> No culture_group explanation yet.</span>
+                          </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+
+          <div class="col-md-4 mb-2 mt-4">
             {{ form.predecessor|as_crispy_field }}
             <div class="accordion accordion-flush" id="accordionpredecessor">
                 <div class="accordion-item" style="background-color:#fefae6;">
@@ -176,7 +196,7 @@
               </div>
           </div>
 
-          <div class="col-md-6 mb-2 mt-4">
+          <div class="col-md-4 mb-2 mt-4">
             {{ form.successor|as_crispy_field }}
             <div class="accordion accordion-flush" id="accordionsuccessor">
                 <div class="accordion-item" style="background-color:#fefae6;">
@@ -365,7 +385,7 @@
                   <div class="col-md-6 mb-2">{{ form.description|as_crispy_field }}
 
                   </div>
-                  <div class="col-md-6 mb-2">
+                  <div class="col-md-6 mb-2">{{ form.citations|as_crispy_field }}
 
                     <div id="citations-dropdown"></div>
 

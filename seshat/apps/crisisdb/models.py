@@ -226,10 +226,12 @@ class Crisis_consequence(SeshatCommon):
 
 
 class Power_transition(SeshatCommon):
-    predecessor = models.CharField(max_length=100, blank=True, null=True)
-    successor = models.CharField(max_length=100, blank=True,  null=True)
+    predecessor = models.CharField(max_length=200, blank=True, null=True)
+    successor = models.CharField(max_length=200, blank=True,  null=True)
     reign_number_predecessor = models.IntegerField(blank=True, null=True)
-    name = models.CharField(max_length=100, blank=True,  null=True)
+    name = models.CharField(max_length=400, blank=True,  null=True)
+    culture_group = models.CharField(max_length=200, blank=True, null=True)
+
 
     contested = models.CharField(max_length=5, choices=CRISIS_CONSEQUENCE_CHOICES, blank=True,null=True)
     overturn = models.CharField(max_length=5, choices=CRISIS_CONSEQUENCE_CHOICES,  blank=True,null=True)

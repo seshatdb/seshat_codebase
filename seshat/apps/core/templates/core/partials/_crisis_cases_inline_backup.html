@@ -1,0 +1,248 @@
+{% load humanize %}
+{% load mathfilters %}
+{% load custom_filters %}
+
+<div class="table-responsive">
+
+    <table id="table_id" class="table align-middle table-hover table-striped table-bordered" style="padding: 0.25 rem !important;">
+        <thead>
+            <tr>
+                <th scope="col" class="text-secondary sticky-start"  style="text-align: center">
+                    <h5><span class="badge rounded-pill bg-light text-dark">#</h5></span> 
+                    </th>
+                <!-- headings for extra vars -->
+                <th class="fw-bold  px-2 col-sm-6"  style="text-align: left;" scope="col"><h6>Crisis Name <br>Duration <br>Polity(s) <span class="fw-light"> (Home NGA)</span> </h6> 
+                </th>
+                
+                <th class = "fw-bold col-sm-8 px-2" style="text-align: left;" scope="col">
+                    <h5>
+                        <span>
+                            <span style="white-space: nowrap;">
+                                Variables
+                            </span>
+                        </span>
+                    </h5>
+                </th>
+                
+              </tr>
+
+        </thead>
+        <tbody>
+                <tr>
+                <td class="text-secondary sticky-start" scope="row"  style="text-align: center">{{ forloop.counter }}</td>
+                <!-- NGA -->
+                
+                <!-- extra vars come here -->
+
+                <td class="col-sm-6" scope="row">{% if value.is_first_100 == True %}
+                    <span class="badge bg-warning text-dark fw-light" style="padding:2px;">First 100</span>
+                    {% endif %}
+                    <span class = "fw-bold">{{ value.crisis_case_id }}
+                </span>
+                    <h6 class="text-danger fw-light">
+                    {% block years %}
+                    {% if value.year_from == None %}
+                         Full Year Range of <i class="text-secondary">{{ value.polity.long_name }}</i> is assumed. <br>
+                            <span class="fw-bold text-secondary">[{{ value.polity.start_year}}, {{ value.polity.end_year}}]</span>
+                    {% elif value.year_from == value.year_to %}
+                        {% if value.year_from < 0 %}
+                        {{ value.year_from|abs|intcomma }} <span class="text-secondary">BCE</span> 
+                        {% else %}
+                        {{ value.year_from }} <span class="text-secondary">CE</span>
+                        {% endif %}
+                    {% elif value.year_to == None %}
+                        {% if value.year_from < 0 %}
+                        {{ value.year_from|abs }} <span class="text-secondary">BCE</span>
+                        {% else %}
+                        {{ value.year_from }} <span class="text-secondary">CE</span>
+                        {% endif %}
+                    {% elif value.year_to == None and value.year_from == None %}
+                         <i class="fa-solid fa-minus"></i> 
+                    {% else %}
+                        {% if value.year_from < 0 and value.year_to < 0 %}
+                        {{ value.year_from|abs }} <span class="text-secondary">BCE</span> <i class="fas fa-long-arrow-alt-right"></i> {{ value.year_to|abs }} <span class="text-secondary">BCE</span>
+                        {% elif value.year_from < 0 and value.year_to >= 0 %}
+                        {{ value.year_from|abs }} <span class="text-secondary">BCE</span> <i class="fas fa-long-arrow-alt-right"></i> {{ value.year_to }} <span class="text-secondary">CE</span>
+                        {% else %}
+                        {{ value.year_from }} <span class="text-secondary">CE</span> <i class="fas fa-long-arrow-alt-right"></i> {{ value.year_to }} <span class="text-secondary">CE</span>
+                        {% endif %}
+                    {% endif %}
+                    {% endblock years %}
+                        
+                    </h6>
+                    <span class="fw-light text-secondary">
+                    {% if value.polity %}
+                        {% if value.polity.long_name %}
+                        <span>
+                            <a href="{% url 'polity-detail-main' value.polity.id %}">{{ value.polity.long_name }}</a> ({{ value.polity.home_nga }})
+                        </span>
+                        {% else %}
+                        <span class="fw-light text-secondary">
+                            <a href="{% url 'polity-detail-main' value.polity.id %}">{{ value.polity.name }}</a>  <span class="fw-light text-secondary">({{ value.other_polity.home_nga }})</span>
+                        </span>
+                        {% endif %}
+                        {% if value.other_polity.long_name %}
+                        <span>
+                            <br>& <a href="{% url 'polity-detail-main' value.other_polity.id %}">{{ value.other_polity.long_name }}</a> ({{ value.other_polity.home_nga }})
+                        </span>
+                        {% elif value.other_polity.name %}
+                        <span class="fw-light text-secondary">
+                            &: <a href="{% url 'polity-detail-main' value.other_polity.id %}">{{ value.other_polity.name }}</a>  <span class="fw-light text-secondary">({{ value.other_polity.home_nga }})</span>
+                        </span>
+                        {% else %}
+                        <span class="fw-light">
+                        </span>
+                        {% endif %}
+                
+                    {% else %}
+                    <span>-</span>
+                    {% endif%}
+                </span>
+                <br>
+                {% autoescape off %}
+                
+                <p class="fw-light text-secondary pt-3">{{ value.description|make_references_look_nicer }}</p>
+                
+                <p class="fw-bold mb-1 text-secondary">References:</p>
+                <p class="fw-light text-secondary">
+                    {{value.display_citations}}
+                </p>
+                </td>
+                <td class="col-sm-6  align-text-top" style="text-align: center;">
+                    {% with value|get_columns_with_value_dic:"P" as columns_dic %}
+                        {% if columns_dic %}
+                        <div class="row gx-1">
+                            <div class="col-sm-3 border border-success text-light bg-success d-flex align-items-center py-2" style="border-width: 2px !important;">
+                                <h6 class="m-auto">PRESENT</h6>
+                            </div>
+                            <div class="col-sm-9 py-2 border border-success" style="border-width: 2px !important; text-align: left;">
+                                {% for column, value in columns_dic.items %}
+                                <span type="button"  tabindex="0" data-bs-toggle="popover" title="{{ column|replace_underscore_and_capitalize }}" data-bs-html="true" data-bs-trigger="focus" data-bs-content='{{ value }}'>
+                                    <span class="fs-6 my-1 badge rounded-pill bg-success">{{ column|replace_underscore_and_capitalize }}</span>
+                                </span>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        {% endif %}
+                    {% endwith %}
+                
+                    {% with value|get_columns_with_value_dic:"IP" as columns_dic %}
+                        {% if columns_dic %}
+                        <div class="row gx-1">
+                            <div class="col-sm-3  border border-info bg-info text-dark d-flex align-items-center py-2" style="border-width: 2px !important;">
+                                <h6 class="m-auto">INFERRED PRESENT
+                                </h6>
+                            </div>
+                            <div class="col-sm-9 py-2  border border-info"  style="border-width: 2px !important; text-align: left;">
+                                {% for column, value in columns_dic.items %}
+                                <span type="button"  tabindex="0" data-bs-toggle="popover" title="{{ column|replace_underscore_and_capitalize }}" data-bs-html="true" data-bs-trigger="focus" data-bs-content='{{ value }}'>
+                                    <span class="fs-6 my-1 badge rounded-pill bg-info text-dark">{{ column|replace_underscore_and_capitalize }}</span>
+                                </span>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        {% endif %}
+                    {% endwith %}
+                
+                    {% with value|get_columns_with_value_dic:"IA" as columns_dic %}
+                    {% if columns_dic %}
+                    <div class="row gx-1">
+                        <div class="col-sm-3 border border-secondary bg-secondary text-light d-flex align-items-center py-2"  style="border-width: 2px !important;">
+                            <h6 class="m-auto">INFERRED ABSENT</h6>
+                        </div>
+                        <div class="col-sm-9 py-2 border border-secondary"  style="border-width: 2px !important; text-align: left;">
+                            {% for column, value in columns_dic.items %}
+                            <span type="button"  tabindex="0" data-bs-toggle="popover" title="{{ column|replace_underscore_and_capitalize }}" data-bs-html="true" data-bs-trigger="focus" data-bs-content='{{ value }}'>
+                                <span class="fs-6 my-1 badge rounded-pill bg-secondary text-light">{{ column|replace_underscore_and_capitalize }}</span>
+                            </span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% endwith %}
+                
+                    {% with value|get_columns_with_value_dic:"A" as columns_dic %}
+                    {% if columns_dic %}
+                    <div class="row gx-1">
+                        <div class="col-sm-3 border text-light d-flex align-items-center py-2"  style="border-width: 2px !important; text-align: left; background-color:#495057;  border-color:#495057 !important;">
+                            <h6 class="m-auto">ABSENT</h6>
+                        </div>
+                        <div class="col-sm-9 py-2 border"  style="border-width: 2px !important; text-align: left; border-color:#495057 !important;">
+                            {% for column, value in columns_dic.items %}
+                            <span type="button"  tabindex="0" data-bs-toggle="popover" title="{{ column|replace_underscore_and_capitalize }}" data-bs-html="true" data-bs-trigger="focus" data-bs-content='{{ value }}'>
+                                <span class="fs-6 my-1 badge rounded-pill" style="background-color:#495057;">{{ column|replace_underscore_and_capitalize }}</span>
+                            </span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% endwith %}
+                
+                    {% with value|get_columns_with_value_dic:"SU" as columns_dic %}
+                    {% if columns_dic %}
+                    <div class="row gx-1">
+                        <div class="col-sm-3 border border-warning bg-warning  d-flex align-items-center py-2"  style="border-width: 2px !important;">
+                            <h6 class="m-auto">SUSPECTED UNKNOWN</h6>
+                        </div>
+                        <div class="col-sm-9 py-2 border border-warning"  style="border-width: 2px !important; text-align: left;">
+                            {% for column, value in columns_dic.items %}
+                            <span type="button"  tabindex="0" data-bs-toggle="popover" title="{{ column|replace_underscore_and_capitalize }}" data-bs-html="true" data-bs-trigger="focus" data-bs-content='{{ value }}'>
+                                <span class="fs-6 my-1 badge rounded-pill bg-warning text-dark">{{ column|replace_underscore_and_capitalize }}</span>
+                            </span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% endwith %}
+                
+                    {% with value|get_columns_with_value_dic:"U" as columns_dic %}
+                    {% if columns_dic %}
+                    <div class="row gx-1">
+                        <div class="col-sm-3 border border-danger bg-danger d-flex align-items-center py-2"  style="border-width: 2px !important;">
+                            <h6 class="m-auto">UNKNOWN</h6>
+                        </div>
+                        <div class="col-sm-9 py-2 border border-danger"  style="border-width: 2px !important; text-align: left;">
+                            {% for column, value in columns_dic.items %}
+                            <span type="button"  tabindex="0" data-bs-toggle="popover" title="{{ column|replace_underscore_and_capitalize }}" data-bs-html="true" data-bs-trigger="focus" data-bs-content='{{ value }}'>
+                                <span class="fs-6 my-1 badge rounded-pill bg-danger">{{ column|replace_underscore_and_capitalize }}</span>
+                            </span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% endwith %}
+                
+                    {% with value|get_columns_with_value_dic:"DIS" as columns_dic %}
+                    {% if columns_dic %}
+                    <div class="row gx-1">
+                        <div class="col-sm-3 border border-secondary bg-secondary d-flex align-items-center py-2"   style="border-width: 2px !important;">
+                            <h6 class="m-auto">DISPUTED</h6>
+                        </div>
+                        <div class="col-sm-9 py-2 border border-secondary"  style="border-width: 2px !important; text-align: left;">
+                            {% for column, value in columns_dic.items %}
+                            <span type="button"  tabindex="0" data-bs-toggle="popover" title="{{ column|replace_underscore_and_capitalize }}" data-bs-html="true" data-bs-trigger="focus" data-bs-content='{{ value }}'>
+                                <span class="fs-6 my-1 badge rounded-pill bg-secondary">{{ column|replace_underscore_and_capitalize }}</span>
+                            </span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% endwith %}
+                    <div class="row" style="text-align: right;">
+                        <div class="col-md-12 pb-4">
+                            <span class="text-secondary">
+                                <a href="{% url 'crisis_consequence-update' value.id %}">Edit <i class="fa-solid fa-pen-to-square"></i></a>
+                            </span>
+                        </div>
+                    </div>
+                
+                </td>
+                
+                {% endautoescape %}
+                
+                <!-- Tag tag (Disputed/Suspected etc.) -->
+            </tr>
+        </tbody>
+      </table>
+    </div>
+

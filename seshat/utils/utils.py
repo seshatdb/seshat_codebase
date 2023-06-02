@@ -2,8 +2,8 @@ from seshat.apps.core.models import Polity, Variablehierarchy
 from seshat.apps.crisisdb.models import *
 import django.apps
 import pprint
+from seshat.apps.crisisdb.models import Crisis_consequence, Power_transition
 from django.contrib.contenttypes.models import ContentType
-
 
 import requests
 from requests.structures import CaseInsensitiveDict
@@ -208,12 +208,12 @@ def get_all_data_for_a_polity(polity_id, db_name):
         m = ct.model_class()
         if m and m.__module__ == f"seshat.apps.{db_name}.models" and (m.__name__ == "Arable_land" or m.__name__ == "Agricultural_population" or m.__name__ == "Human_sacrifice"):
             all_vars.append(m.__name__)
-            print(polity_id, ": ", m.__name__)
+            #print(polity_id, ": ", m.__name__)
             my_data = m.objects.filter(polity = polity_id)
             a_huge_context_data_dic[m.__name__ + "_for_polity"] = my_data
             # coooooooooooool
             # this gets all the potential keys
-            print("___")
+            #print("___")
             #print("Data: ", dir(my_data[0]))
         # else:
         #     print(polity_id, ": ", m)
@@ -247,6 +247,21 @@ def get_all_wf_data_for_a_polity(polity_id):
             a_huge_context_data_dic[m.__name__] = my_data
     return a_huge_context_data_dic
 
+# get crsisi cocases data
+def get_all_crisis_cases_data_for_a_polity(polity_id):
+    a_data_dic = {}
+    my_data = Crisis_consequence.objects.filter(polity = polity_id)
+    a_data_dic["crisis_cases"] = my_data
+    #print(a_data_dic)
+    return a_data_dic
+
+def get_all_power_transitions_data_for_a_polity(polity_id):
+    a_data_dic = {}
+    my_data = Power_transition.objects.filter(polity = polity_id)
+    a_data_dic["crisis_cases"] = my_data
+    #print(a_data_dic)
+    return a_data_dic
+
 
 def polity_detail_data_collector(polity_id):
     url = "http://127.0.0.1:8000/api/politys-api/"
@@ -261,8 +276,8 @@ def polity_detail_data_collector(polity_id):
     # I want to go through the data and create the proper data to give the function
     for polity_with_everything in all_my_data:
         if polity_with_everything['id'] == polity_id:
-            print("Hffffffffffallo")
-            print(type(polity_with_everything), polity_with_everything.keys())
+            #print("Hffffffffffallo")
+            #print(type(polity_with_everything), polity_with_everything.keys())
             final_response = dict(polity_with_everything)
             break
         else:

@@ -19,6 +19,8 @@ from django.http import HttpResponseRedirect
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.db import IntegrityError
+from django.db.models import Prefetch, F
+
 from django.contrib.auth.decorators import login_required, permission_required
 from seshat.apps.accounts.models import Seshat_Expert
 
@@ -42,7 +44,7 @@ from .models import Citation, Polity, Section, Subsection, Variablehierarchy, Re
 import pprint
 import requests
 from requests.structures import CaseInsensitiveDict
-from seshat.utils.utils import adder, dic_of_all_vars, list_of_all_Polities, dic_of_all_vars_in_sections, dic_of_all_vars_with_varhier, get_all_data_for_a_polity, polity_detail_data_collector, get_all_general_data_for_a_polity, get_all_sc_data_for_a_polity, get_all_wf_data_for_a_polity
+from seshat.utils.utils import adder, dic_of_all_vars, list_of_all_Polities, dic_of_all_vars_in_sections, dic_of_all_vars_with_varhier, get_all_data_for_a_polity, polity_detail_data_collector, get_all_general_data_for_a_polity, get_all_sc_data_for_a_polity, get_all_wf_data_for_a_polity, get_all_crisis_cases_data_for_a_polity, get_all_power_transitions_data_for_a_polity
 
 from django.shortcuts import HttpResponse
 
@@ -172,7 +174,7 @@ class ReferenceCreate(PermissionRequiredMixin, CreateView):
     model = Reference
     form_class = ReferenceForm
     template_name = "core/references/reference_form.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_absolute_url(self):
         return reverse('reference-create')
@@ -198,7 +200,7 @@ class ReferenceUpdate(PermissionRequiredMixin, UpdateView):
     model = Reference
     form_class = ReferenceForm
     template_name = "core/references/reference_update.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -212,7 +214,7 @@ class ReferenceDelete(PermissionRequiredMixin, DeleteView):
     model = Reference
     success_url = reverse_lazy('references')
     template_name = "core/delete_general.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
 
 class ReferenceDetailView(generic.DetailView):
@@ -221,7 +223,7 @@ class ReferenceDetailView(generic.DetailView):
 
 
 
-@permission_required('admin.can_add_log_entry')
+@permission_required('core.view_capital')
 def references_download(request):
     items = Reference.objects.all()
 
@@ -250,7 +252,7 @@ class CitationCreate(PermissionRequiredMixin, SuccessMessageMixin, CreateView):
     model = Citation
     form_class = CitationForm
     template_name = "core/references/citation_form.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
     success_message = "Yoohoooo..."
 
     def form_invalid(self, form):
@@ -282,7 +284,7 @@ class CitationUpdate(PermissionRequiredMixin, SuccessMessageMixin, UpdateView):
     model = Citation
     form_class = CitationForm
     template_name = "core/references/citation_update.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
     success_message = "Yoohoooo..."
 
     def form_invalid(self, form):
@@ -302,7 +304,7 @@ class CitationDelete(PermissionRequiredMixin, DeleteView):
     model = Citation
     success_url = reverse_lazy('citations')
     template_name = "core/delete_general.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
 
 class CitationDetailView(generic.DetailView):
@@ -322,7 +324,7 @@ class SeshatCommentCreate(PermissionRequiredMixin, CreateView):
     model = SeshatComment
     form_class = SeshatCommentForm
     template_name = "core/seshatcomments/seshatcomment_form.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_absolute_url(self):
         return reverse('seshatcomment-create')
@@ -339,7 +341,7 @@ class SeshatCommentUpdate(PermissionRequiredMixin, UpdateView):
     model = SeshatComment
     form_class = SeshatCommentForm
     template_name = "core/seshatcomments/seshatcomment_update.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     # def get_context_data(self, **kwargs):
     #     context = super().get_context_data(**kwargs)
@@ -377,7 +379,7 @@ class SeshatCommentDelete(PermissionRequiredMixin, DeleteView):
     model = SeshatComment
     success_url = reverse_lazy('seshatcomments')
     template_name = "core/delete_general.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
 
 class SeshatCommentDetailView(generic.DetailView):
@@ -398,7 +400,7 @@ class SeshatCommentPartCreate(PermissionRequiredMixin, CreateView):
     model = SeshatCommentPart
     form_class = SeshatCommentPartForm
     template_name = "core/seshatcomments/seshatcommentpart_form.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_absolute_url(self):
         return reverse('seshatcommentpart-create')
@@ -414,7 +416,7 @@ class SeshatCommentPartCreate2(PermissionRequiredMixin, CreateView):
     model = SeshatCommentPart
     form_class = SeshatCommentPartForm
     template_name = "core/seshatcomments/seshatcommentpart_form_prefilled.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_absolute_url(self):
         return reverse('seshatcommentpart-create2')
@@ -448,7 +450,7 @@ class SeshatCommentPartUpdate(PermissionRequiredMixin, SuccessMessageMixin, Upda
     model = SeshatCommentPart
     form_class = SeshatCommentPartForm
     template_name = "core/seshatcomments/seshatcommentpart_update.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
     success_message = "You successfully updated the subdescription."
 
 
@@ -476,7 +478,7 @@ class SeshatCommentPartDelete(PermissionRequiredMixin, DeleteView):
 
     #('seshatcomment-update', self.pk)
     template_name = "core/delete_general.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
 
 class SeshatCommentPartDetailView(generic.DetailView):
@@ -495,7 +497,7 @@ class PolityCreate(PermissionRequiredMixin, CreateView):
     model = Polity
     form_class = PolityForm
     template_name = "core/polity/polity_form.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
     success_url = reverse_lazy('polities')
 
     def form_valid(self, form):
@@ -509,7 +511,7 @@ class PolityUpdate(PermissionRequiredMixin, SuccessMessageMixin, UpdateView):
     model = Polity
     form_class = PolityForm
     template_name = "core/polity/polity_form.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
     success_message = "You successfully updated the Polity."
     
     def get_success_url(self):
@@ -517,10 +519,50 @@ class PolityUpdate(PermissionRequiredMixin, SuccessMessageMixin, UpdateView):
     #success_url = reverse_lazy('polity-detail-main')
 
 
-class PolityListView(PermissionRequiredMixin, SuccessMessageMixin, generic.ListView):
+
+# class PolityListView(PermissionRequiredMixin, SuccessMessageMixin, generic.ListView):
+#     model = Polity
+#     template_name = "core/polity/polity_list.html"
+#     permission_required = 'core.add_capital'
+
+#     def get_absolute_url(self):
+#         return reverse('polities')
+
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+
+#         all_ngas = Nga.objects.all()
+#         all_pols = Polity.objects.select_related('ngapolityrel__polity_party', 'ngapolityrel__nga_party').order_by('start_year').all()
+#         all_nga_pol_rels = Ngapolityrel.objects.all()
+
+#         all_world_regions = {a_nga.world_region: [a_nga.subregion] for a_nga in all_ngas}
+
+#         ultimate_wregion_dic = {}
+
+#         for a_world_region, all_its_sub_regions in all_world_regions.items():
+#             ultimate_wregion_dic[a_world_region] = {}
+
+#             for a_subregion in all_its_sub_regions:
+#                 all_politys_on_the_polity_list_page = Polity.objects.filter(
+#                     ngapolityrel__polity_party__name=F('name'),
+#                     ngapolityrel__nga_party__world_region=a_world_region,
+#                     ngapolityrel__nga_party__subregion=a_subregion
+#                 ).distinct()
+
+#                 ultimate_wregion_dic[a_world_region][a_subregion] = list(all_politys_on_the_polity_list_page)
+
+#         context["all_ngas"] = all_ngas
+#         context["all_nga_pol_rels"] = all_nga_pol_rels
+#         context["all_world_regions"] = all_world_regions
+#         context["ultimate_wregion_dic"] = ultimate_wregion_dic
+
+#         return context
+
+
+class PolityListView_old(PermissionRequiredMixin, SuccessMessageMixin, generic.ListView):
     model = Polity
     template_name = "core/polity/polity_list.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     #paginate_by = 10
 
@@ -567,9 +609,75 @@ class PolityListView(PermissionRequiredMixin, SuccessMessageMixin, generic.ListV
         context["all_nga_pol_rels"] = all_nga_pol_rels
         context["all_world_regions"] = all_world_regions
         context["ultimate_wregion_dic"] = ultimate_wregion_dic
-        print(ultimate_wregion_dic)
+        #print(ultimate_wregion_dic)
 
-        print(f"out of {len(all_pols)}: {len(all_politys_on_the_polity_list_page)} were taken care of.")
+        #print(f"out of {len(all_pols)}: {len(all_politys_on_the_polity_list_page)} were taken care of.")
+        
+
+        return context
+
+class PolityListView(PermissionRequiredMixin, SuccessMessageMixin, generic.ListView):
+    model = Polity
+    template_name = "core/polity/polity_list.html"
+    permission_required = 'core.add_capital'
+
+    #paginate_by = 10
+
+    def get_absolute_url(self):
+        return reverse('polities')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        all_ngas = Nga.objects.all()
+        all_pols = Polity.objects.all().order_by('start_year')
+        all_nga_pol_rels  = Ngapolityrel.objects.all()
+        all_world_regions = {}
+        for a_nga in all_ngas:
+            if a_nga.world_region not in all_world_regions.keys():
+                all_world_regions[a_nga.world_region] = [a_nga.subregion]
+            else:
+                if a_nga.subregion not in all_world_regions[a_nga.world_region]:
+                    all_world_regions[a_nga.world_region].append(a_nga.subregion)
+        
+        ultimate_wregion_dic = {'Europe': {},
+        'Southwest Asia': {},
+        'Africa':  {},
+        'Central Eurasia': {},
+        'South Asia':  {},
+        'Southeast Asia': {},
+        'East Asia':  {},
+        'Oceania-Australia':  {},
+        'North America':  {},
+        'South America':  {},
+        'Nomad Polities': {
+            "Nomad Land": []
+        },
+        }
+        all_politys_on_the_polity_list_page = []
+        nomad_polities = []
+        for a_world_region, all_its_sub_regions in all_world_regions.items():
+            for a_subregion in all_its_sub_regions:
+                list_for_a_subregion = []
+                for a_polity in all_pols:
+                    for a_rel in all_nga_pol_rels:
+                        if a_rel.polity_party.name == a_polity.name and a_world_region == a_rel.nga_party.world_region and a_subregion == a_rel.nga_party.subregion and a_polity not in list_for_a_subregion:
+                            list_for_a_subregion.append(a_polity)
+                            if a_polity not in all_politys_on_the_polity_list_page:
+                                all_politys_on_the_polity_list_page.append(a_polity)
+                        
+                ultimate_wregion_dic[a_world_region][a_subregion] = list_for_a_subregion
+        # nomads
+        for a_polity in all_pols:
+            if a_polity not in nomad_polities and a_polity not in all_politys_on_the_polity_list_page:
+                nomad_polities.append(a_polity)
+        ultimate_wregion_dic['Nomad Polities'][ "Nomad Land"] = nomad_polities
+        context["all_ngas"] = all_ngas
+        context["all_nga_pol_rels"] = all_nga_pol_rels
+        context["all_world_regions"] = all_world_regions
+        context["ultimate_wregion_dic"] = ultimate_wregion_dic
+        #print(ultimate_wregion_dic)
+
+        #print(f"out of {len(all_pols)}: {len(all_politys_on_the_polity_list_page)} were taken care of.")
         
 
         return context
@@ -577,7 +685,7 @@ class PolityListView(PermissionRequiredMixin, SuccessMessageMixin, generic.ListV
 class PolityDetailView(PermissionRequiredMixin, SuccessMessageMixin, generic.DetailView):
     model = Polity
     template_name = "core/polity/polity_detail.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -586,8 +694,10 @@ class PolityDetailView(PermissionRequiredMixin, SuccessMessageMixin, generic.Det
             context["all_general_data"] = get_all_general_data_for_a_polity(self.object.pk)
             context["all_sc_data"] = get_all_sc_data_for_a_polity(self.object.pk)
             context["all_wf_data"] = get_all_wf_data_for_a_polity(self.object.pk)
-
+            context["all_crisis_cases_data"] = get_all_crisis_cases_data_for_a_polity(self.object.pk)
+            context["all_power_transitions_data"] = get_all_power_transitions_data_for_a_polity(self.object.pk)
             context["majid"] = {"utm_zone": "benam"}
+
         except:
             context["all_data"] = None
             context["all_general_data"] = None
@@ -597,7 +707,7 @@ class PolityDetailView(PermissionRequiredMixin, SuccessMessageMixin, generic.Det
 
         #x = polity_detail_data_collector(self.object.pk)
         #context["all_data"] = dict(x)
-        print(self.object.pk)
+        #print(self.object.pk)
         context["all_vars"] = {
             "arable_land": "arable_land",
             "agricultural_population": "agricultural_population",
@@ -619,10 +729,10 @@ class PolityDetailView(PermissionRequiredMixin, SuccessMessageMixin, generic.Det
                 
                 concise_rels[time_delta] = nga_list # "  ~~~   ".join(nga_list)
             context["nga_pol_rel"] = concise_rels
-            print("__________________________")
+            #print("__________________________")
         except:
             context["nga_pol_rel"] = None
-            print("*************")
+            #print("*************")
 
         return context
 
@@ -634,7 +744,7 @@ class NgaCreate(PermissionRequiredMixin, CreateView):
     model = Nga
     form_class = NgaForm
     template_name = "core/nga/nga_form.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
     success_url = reverse_lazy('ngas')
 
     def form_valid(self, form):
@@ -648,7 +758,7 @@ class NgaUpdate(PermissionRequiredMixin, SuccessMessageMixin, UpdateView):
     model = Nga
     form_class = NgaForm
     template_name = "core/nga/nga_update.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
     success_message = "You successfully updated the Nga."
     success_url = reverse_lazy('ngas')
 
@@ -669,7 +779,7 @@ class CapitalCreate(PermissionRequiredMixin, SuccessMessageMixin, CreateView):
     model = Capital
     form_class = CapitalForm
     template_name = "core/capital/capital_form_create.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
     success_message = "You successfully created a new Capital."
     success_url = reverse_lazy('capitals')
 
@@ -684,7 +794,7 @@ class CapitalUpdate(PermissionRequiredMixin, SuccessMessageMixin, UpdateView):
     model = Capital
     form_class = CapitalForm
     template_name = "core/capital/capital_form.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
     success_message = "You successfully updated the Capital."
     success_url = reverse_lazy('capitals')
 
@@ -702,12 +812,12 @@ class CapitalDelete(PermissionRequiredMixin, DeleteView):
     model = Capital
     success_url = reverse_lazy('capitals')
     template_name = "core/delete_general.html"
-    permission_required = 'catalog.can_mark_returned'
+    permission_required = 'core.add_capital'
     success_message = "You successfully deleted one Capital."
 
     
 
-@permission_required('admin.can_add_log_entry')
+@permission_required('core.view_capital')
 def capital_download(request):
     items = Capital.objects.all()
 
@@ -815,7 +925,7 @@ def variablehierarchysetting(request):
 
             all_var_hiers_to_be_hidden_names.append(var_name)
     print('I am here...\n\n')
-    print(all_var_hiers_to_be_hidden_names)
+    #print(all_var_hiers_to_be_hidden_names)
     my_vars_tuple = [('', ' -- Select a CrisisDB Variable -- ')]
     for var in my_vars_good_keys:
         if var not in all_var_hiers_to_be_hidden_names:
@@ -863,7 +973,7 @@ def variablehierarchysetting(request):
             sel_subsect = Subsection.objects.get(name=subsec)
             my_selected_vars_objects = Variablehierarchy.objects.filter( section=sel_sect, subsection=sel_subsect,)
             for var_obj in my_selected_vars_objects:
-                print(var_obj)
+                #print(var_obj)
                 list_to_be.append(var_obj.name)
             subsect_dic[subsec] = list_to_be
         sections_tree[list_item['name']] = subsect_dic
@@ -872,8 +982,8 @@ def variablehierarchysetting(request):
         'sectionOptions': sections_options_for_JS, 
         'section_tree_data': sections_tree,
     }
-    print(context['sectionOptions'])
-    print(context['section_tree_data'])
+    #print(context['sectionOptions'])
+    #print(context['section_tree_data'])
 
 
     if request.method == 'POST':
@@ -897,7 +1007,7 @@ def variablehierarchysetting(request):
                 new_var_hierarchy = Variablehierarchy(
                     name=variable_name, section=section_name, subsection=subsection_name,  is_verified=is_verified)
                 new_var_hierarchy.save()
-                print('Valid Foooooooooooorm: \n\n',)
+                #print('Valid Foooooooooooorm: \n\n',)
                 # print(data)
                 my_message = f'''You have successfully submitted {variable_name} to: {section_name} >  {subsection_name}'''
                 messages.success(request, my_message)
@@ -908,7 +1018,7 @@ def variablehierarchysetting(request):
 
         else:
             data = request.POST
-            print('halllooooooooo:', data["variable_name"])
+            #print('halllooooooooo:', data["variable_name"])
             messages.error(request, 'Invalid form submission.')
             messages.error(request, form.errors)
 
@@ -1047,8 +1157,8 @@ def do_zotero(results):
             pot_title = my_dic.get('title')
             if not pot_title:
                 pot_title = "NO_TITLE_PROVIDED_IN_ZOTERO"
-            print("Years: ", my_dic.get('year'))
-            print("****************")
+            #print("Years: ", my_dic.get('year'))
+            #print("****************")
             newref = Reference(title=pot_title, year=my_dic.get('year'), creator=my_dic.get('mainCreator'), zotero_link=my_dic.get('key'))
             #newref = Reference(title=my_dic['title'], year=my_dic['year'], creator=my_dic['mainCreator'], zotero_link=my_dic['key'])
 
@@ -1056,7 +1166,7 @@ def do_zotero(results):
                 newref.save()
                 mother_ref_dic.append(my_dic)
 
-    print(len(mother_ref_dic))
+    #print(len(mother_ref_dic))
     #print(counter_bookTitle)
     print("Bye Zotero")
     return mother_ref_dic

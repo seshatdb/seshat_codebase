@@ -8,7 +8,7 @@
 {% block download_button %}
     <a href="{% url 'power_transition-create' %}" class="btn btn-outline-success mx-3 my-4 float-end"><i class="fas fa-plus"></i> &nbsp; Add More Facts</a>
     <a href="{% url 'power_transition-download' %}" class="btn btn-outline-primary mx-3 my-4 float-end"><i class="fas fa-download"></i> &nbsp; Download All</a>
-    <a href="{% url 'power_transitions' %}" class="btn btn-outline-danger mx-3 my-4 float-end"><i class="fa-solid fa-file-lines"></i> &nbsp; See Pagination Mode</a>
+    <a href="{% url 'power_transitions' %}" class="btn btn-outline-danger mx-3 my-4 float-end"><i class="fa-solid fa-file-lines"></i> &nbsp; See Spreadsheet Mode</a>
     <a href="{% url 'power_transition-metadownload' %}" class="btn btn-outline-info mx-3 my-4 float-end"><i class="fas fa-download"></i> &nbsp; Download MetaData</a>
 {% endblock download_button %}
 
@@ -112,15 +112,12 @@
 {% block extra_vars_list %}
 <td class="col-sm-6" scope="row">
     <br>
-    <span class="h4">Power Transition in 
-            {% if obj.name %}
-            <span class = "fw-bold text-teal">{{ obj.polity }} ({{ obj.name }}):</span>
-               
-            {% else %}
-            <span class = "fw-bold text-teal">{{ obj.polity }}</span>:
-            {% endif %}
-        
+    <span class="h5">Power Transition in 
+        <span class = "fw-bold text-teal">{{ obj.polity }}</span>:
+    
     </span>
+    <br>
+    <span class="h6">Culture Group: <b>{{ obj.culture_group }}</b> </span>
     <br>
     <span>
         <span class = "fw-bold text-danger">{{ obj.predecessor }}</span> was replaced by 
@@ -186,8 +183,14 @@
     {% endif%}
 </span>
 <br>
-<p class="fw-light text-secondary pt-3">Description: {{ obj.description }}</p>
 {% autoescape off %}
+
+<p class="fw-light text-secondary pt-3">{{ obj.description|make_references_look_nicer }}</p>
+
+<p class="fw-bold mb-1 text-secondary">References:</p>
+<p class="fw-light text-secondary">
+    {{obj.display_citations}}
+</p>
 <td class="col-sm-6  align-text-top" style="text-align: center;">
     {% with obj|get_columns_with_value_dic:"P" as columns_dic %}
         {% if columns_dic %}

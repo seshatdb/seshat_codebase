@@ -23,9 +23,9 @@ def replace_underscore_and_capitalize(value):
 @register.filter
 def make_references_look_nicer(value):
     value = value.replace("'", "&rsquo;")
-    pattern = r'§REF_MJD_BEN§(.*?)§REF_MJD_BEN§'
+    pattern = r'§REF§(.*?)§REF§'
     replacement = r"""<sup>
-        <span type="button"  tabindex="0" data-bs-toggle="popover" data-bs-html="true" data-bs-trigger="focus" data-bs-content='<b>Citation: </b>\1'>&#x1F4D4;
+        <span type="button"  tabindex="0" data-bs-toggle="popover" data-bs-html="true" data-bs-trigger="focus" data-bs-content='<b>Citation: </b>\1'><i class="fa-solid fa-message fa-lg text-teal"></i>
         </span>
     </sup>
     """
