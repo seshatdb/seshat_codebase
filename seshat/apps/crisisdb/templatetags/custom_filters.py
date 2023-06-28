@@ -1,5 +1,6 @@
 from django import template
 import re
+
 register = template.Library()
 
 
@@ -32,3 +33,4 @@ def make_references_look_nicer(value):
     #replacement = r'XYZ_\1_XYZ'
     new_string = re.sub(pattern, replacement, value)
     return new_string
+

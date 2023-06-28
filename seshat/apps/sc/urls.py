@@ -5,6 +5,16 @@ from . import views
 
 urlpatterns = [
     path('scvars/', views.scvars, name='scvars'),
+    path('download-csv-sc-all/', views.download_csv_all,name='download_csv_all'),
+    path('download_csv_social_scale/', views.download_csv_social_scale,name='download_csv_social_scale'),
+     path('download_csv_professions/', views.download_csv_professions,name='download_csv_professions'),
+     path('download_csv_bureaucracy_characteristics/', views.download_csv_bureaucracy_characteristics,name='download_csv_bureaucracy_characteristics'),
+     path('download_csv_hierarchical_complexity/', views.download_csv_hierarchical_complexity,name='download_csv_hierarchical_complexity'),
+     path('download_csv_law/', views.download_csv_law,name='download_csv_law'),
+     path('download_csv_specialized_buildings_polity_owned/', views.download_csv_specialized_buildings_polity_owned,name='download_csv_specialized_buildings_polity_owned'),
+     path('download_csv_transport_infrastructure/', views.download_csv_transport_infrastructure,name='download_csv_transport_infrastructure'),
+     path('download_csv_special_purpose_sites/', views.download_csv_special_purpose_sites,name='download_csv_special_purpose_sites'),
+     path('download_csv_information/', views.download_csv_information,name='download_csv_information'),
 ]
 
 

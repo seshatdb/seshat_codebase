@@ -389,15 +389,15 @@ class Citation(models.Model):
             return f'(NOZOTERO: {shorter_name})'
         if self.ref and self.ref.creator:
             if self.page_from == None and self.page_to == None:
-                return '({0}_{1}): {2}'.format(self.ref.creator, self.ref.year, shorter_title)
+                return '({0} {1}): {2}'.format(self.ref.creator, self.ref.year, shorter_title)
             elif self.page_from == self.page_to or ((not self.page_to) and self.page_from):
-                return '({0}_{1}, p. {2}): {3}'.format(self.ref.creator, self.ref.year, self.page_from, shorter_title)
+                return '({0} {1}, p. {2}): {3}'.format(self.ref.creator, self.ref.year, self.page_from, shorter_title)
             elif self.page_from == self.page_to or ((not self.page_from) and self.page_to):
-                return '({0}_{1}, p. {2}): {3}'.format(self.ref.creator, self.ref.year, self.page_to, shorter_title)
+                return '({0} {1}, p. {2}): {3}'.format(self.ref.creator, self.ref.year, self.page_to, shorter_title)
             elif self.page_from and self.page_to:
-                return '({0}_{1}, pp. {2}-{3}): {4}'.format(self.ref.creator, self.ref.year, self.page_from, self.page_to, shorter_title)
+                return '({0} {1}, pp. {2}-{3}): {4}'.format(self.ref.creator, self.ref.year, self.page_from, self.page_to, shorter_title)
             else:
-                return '({0}_{1}): {2}'.format(self.ref.creator, self.ref.year, shorter_title)
+                return '({0} {1}): {2}'.format(self.ref.creator, self.ref.year, shorter_title)
         else:
             print("BADREF::::")
             print(self.id)
@@ -430,15 +430,15 @@ class Citation(models.Model):
             return f'(NOZOTERO: {shorter_name})'
         if self.ref and self.ref.creator:
             if self.page_from == None and self.page_to == None:
-                return '<b class="fw-bold">({0}_{1})</b>: {2}'.format(self.ref.creator, self.ref.year, shorter_title)
+                return '<b class="fw-bold">({0} {1})</b>: {2}'.format(self.ref.creator, self.ref.year, shorter_title)
             elif self.page_from == self.page_to or ((not self.page_to) and self.page_from):
-                return '<b class="fw-bold">({0}_{1}, p. {2})</b>: {3}'.format(self.ref.creator, self.ref.year, self.page_from, shorter_title)
+                return '<b class="fw-bold">({0} {1}, p. {2})</b>: {3}'.format(self.ref.creator, self.ref.year, self.page_from, shorter_title)
             elif self.page_from == self.page_to or ((not self.page_from) and self.page_to):
-                return '<b class="fw-bold">({0}_{1}, p. {2})</b>: {3}'.format(self.ref.creator, self.ref.year, self.page_to, shorter_title)
+                return '<b class="fw-bold">({0} {1}, p. {2})</b>: {3}'.format(self.ref.creator, self.ref.year, self.page_to, shorter_title)
             elif self.page_from and self.page_to:
-                return '<b class="fw-bold">({0}_{1}, pp. {2}-{3})</b>: {4}'.format(self.ref.creator, self.ref.year, self.page_from, self.page_to, shorter_title)
+                return '<b class="fw-bold">({0} {1}, pp. {2}-{3})</b>: {4}'.format(self.ref.creator, self.ref.year, self.page_from, self.page_to, shorter_title)
             else:
-                return '<b class="fw-bold">({0}_{1})</b>: {2}'.format(self.ref.creator, self.ref.year, shorter_title)
+                return '<b class="fw-bold">({0} {1})</b>: {2}'.format(self.ref.creator, self.ref.year, shorter_title)
         else:
             print("BADREF::::")
             print(self.id)
@@ -485,15 +485,15 @@ class Citation(models.Model):
             return f'(NOZOTERO: {shorter_name})'
 
         if self.page_from == None and self.page_to == None:
-            return '({0}_{1})'.format(self.ref.creator, self.ref.year)
+            return '[{0} {1}]'.format(self.ref.creator, self.ref.year)
         elif self.page_from == self.page_to or ((not self.page_to) and self.page_from):
-            return '({0}_{1}, p. {2})'.format(self.ref.creator, self.ref.year, self.page_from)
+            return '[{0} {1}, p. {2}]'.format(self.ref.creator, self.ref.year, self.page_from)
         elif self.page_from == self.page_to or ((not self.page_from) and self.page_to):
-            return '({0}_{1}, p. {2})'.format(self.ref.creator, self.ref.year, self.page_to)
+            return '[{0} {1}, p. {2}]'.format(self.ref.creator, self.ref.year, self.page_to)
         elif self.page_from and self.page_to:
-            return '({0}_{1}, pp. {2}-{3})'.format(self.ref.creator, self.ref.year, self.page_from, self.page_to)
+            return '[{0} {1}, pp. {2}-{3}]'.format(self.ref.creator, self.ref.year, self.page_from, self.page_to)
         else:
-            return '({0}_{1})'.format(self.ref.creator, self.ref.year)
+            return '[{0} {1}]'.format(self.ref.creator, self.ref.year)
     
     def get_absolute_url(self):
         return reverse('citations')

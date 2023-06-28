@@ -31,7 +31,7 @@ commonwidgets = {
     'year_from': forms.NumberInput(attrs={'class': 'form-control  mb-1',}),
     'year_to': forms.NumberInput(attrs={'class': 'form-control  mb-1', }),
     'description': Textarea(attrs={'class': 'form-control  mb-1', 'style': 'height: 220px', 'placeholder':'Add a Note (optional)'}),
-    'citations': forms.SelectMultiple(attrs={'class': 'form-control mb-1 js-states js-example-basic-multiple', 'text':'citations[]' , 'style': 'height: 340px', 'multiple': 'multiple'}),
+    'citations': forms.SelectMultiple(attrs={'class': 'form-control mb-1 js-states js-example-basic-multiple', 'text':'citations[]' , 'style': 'height: 340px', 'multiple': 'multiple', 'disabled': 'disabled'}),
     'tag': forms.RadioSelect(),
     "is_disputed" : forms.CheckboxInput(attrs={'class': 'mb-1', }),
     "expert_reviewed" : forms.CheckboxInput(attrs={'class': 'mb-1', }),

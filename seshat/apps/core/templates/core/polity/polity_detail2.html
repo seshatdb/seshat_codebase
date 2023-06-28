@@ -12,37 +12,17 @@
         margin: 10px 0; /* Adjust the value as per your requirement */
         content: "";
     }
-    .custom-left-border-shadowed {
-        border-left: none; /* Adjust the border color and thickness as desired */
-        box-shadow: 0 0 5px rgba(25, 135, 84, 0.5); 
-        padding-right: 10px;
-        padding-top: 10px;
-        padding-bottom: 10px;
-        border-radius: 5px;
+    .custom-left-border {
+        border-left: 15px solid #BBF1F1; /* Adjust the border color and thickness as desired */
         padding-left: 10px; /* Adjust the padding to create spacing between the border and content */
-        text-align: justify;
     }
 
-    .custom-top-border {
-        border-top: 2px solid teal; /* Adjust the border color and thickness as desired */
-        padding-top: 2px; /* Adjust the padding to create spacing between the border and content */
-    }
-
-
-    .custom-border-tight {
-        border-left: 10px solid teal; /* Adjust the border color and thickness as desired */
+    .custom-left-border-tight {
+        border-left: 15px solid teal; /* Adjust the border color and thickness as desired */
         padding-left: 5px; /* Adjust the padding to create spacing between the border and content */
     }
 
-    .highlighted-value {
-        display: inline-block; 
-        border: none; /* 1px solid #198754;*/ 
-        padding: 5px; 
-        border-radius: 5px;
-        box-shadow: 0 0 5px rgba(25, 135, 84, 0.5); 
-        background-color:#fefae6;
-        
-    }
+
 </style>
 
 <div class="container">
@@ -71,7 +51,6 @@
                 </div>
 
             </div>
-
             <h6 class="text-secondary">* A polity is defined as an independent political unit. Kinds of polities range from villages (local
                 communities) through simple and complex chiefdoms to states and empires.</h6>
             <h6 class="text-secondary">* A polity can be either centralized or not (e.g., organized as a confederation). For those periods when a region is divided up among a multitude of small-scale polities (e.g., independent villages or even many small chiefdoms) or when it is controlled in quick succession by a number of different regimes, we use the concept of 'quasi-polity'.</h6>
@@ -205,17 +184,12 @@
         {% for key, values in all_general_data.items %}
         {% if values %}
         <div class="py-2">
-            <div class="row d-flex">
-                <div class="col-md-6">
-                    <span class="pt-4 fs-4 pb-2 text-teal" id="{{key}}"> <i class="fa-solid fa-circle-chevron-right fa-sm"></i> {{ values.0.clean_name_spaced|slice:"7:" }}:            </span> 
+            
+        <span class="pt-4 fs-4 pb-2 text-teal" id="{{key}}"> <i class="fa-solid fa-circle-chevron-right fa-sm"></i> {{ values.0.clean_name_spaced|slice:"7:" }}:<br>
 
-                </div>
-                <div class="col-md-6">
-                    <a href="{% url key|lower|add:'s' %}" class="btn float-end fw-lighter">View all {{ values.0.clean_name_spaced|slice:"7:"|add:'s' }} <i class="fa-solid fa-list"></i></a>
-                </div>
-            </div>
+
                 {% for value in values %}
-                <span class="fs-3 fw-bold text-teal pt-2 pb-0 pe-2 me-3 ms-4 mb-3 mt-3 highlighted-value">
+                <span class="fs-3 fw-bold text-teal pt-3 pb-0 pe-5 me-3 ms-4 mb-2" style="display: inline-block; border: 1px solid #198754; padding: 5px; border-radius: 5px;box-shadow: 0 0 5px rgba(25, 135, 84, 0.5);">
                     {{value.show_value}} 
                     {% include "core/partials/_year_block_value_inline.html" %}
                     {% include "core/partials/_tag_value_inline.html" %}
@@ -232,23 +206,22 @@
 
                 
 
+            </span> 
             <br>
                     {% autoescape off %}   
                     
                         {% if values.0.description %}
-                        <div class="pb-3 mt-0">
-                            <p class="ps-2 fs-5 ms-4 custom-left-border-shadowed">
+                        <p class="ps-2 fs-5 ms-4 custom-left-border" style="text-align: justify;">
                                   
-                                {{values.0.description|make_references_look_nicer}}
-                            </p> 
-                        </div>
-                            
+                            {{values.0.description|make_references_look_nicer}}
+                        </p>     
                         {% endif %}
 
                     {% endautoescape %}
         </div>
         {% endif %}
         {% endfor %}
+<hr>
     </div>
 
 
@@ -261,7 +234,7 @@
         <span class="pt-4 fs-4 pb-2 text-teal" id="{{key}}"> <i class="fa-solid fa-circle-chevron-right fa-sm"></i> {{ values.0.clean_name_spaced }}:<br>
 
                 {% for value in values %}
-                <span class="fs-3 fw-bold text-teal pt-2 pb-0 pe-2 me-3 ms-4 mb-3 mt-3 highlighted-value">{{value.show_value}} 
+                <span class="fs-3 fw-bold text-teal pt-3 pb-0 pe-5 me-3 ms-4 mb-2" style="display: inline-block; border: 1px solid #198754; padding: 5px; border-radius: 5px;box-shadow: 0 0 5px rgba(25, 135, 84, 0.5);">{{value.show_value}} 
                     {% include "core/partials/_year_block_value_inline.html" %}
                     {% include "core/partials/_tag_value_inline.html" %}
                     {% include "core/partials/_disputed_value_inline.html" %}
@@ -279,7 +252,7 @@
             {% autoescape off %}   
                     
                 {% if values.0.description %}
-                <p class="ps-2 fs-5 custom-left-border-shadowed ms-4">
+                <p class="ps-2 fs-5 custom-left-border ms-4" style="text-align: justify;">
                     {{values.0.description|make_references_look_nicer}}
                 </p>     
                 {% endif %}
@@ -287,6 +260,7 @@
         </div>
         {% endif %}
         {% endfor %}
+<hr>
     </div>
 
     <div>
@@ -299,7 +273,7 @@
             <span class="pt-4 fs-4 pb-2 text-teal" id="{{key}}"> <i class="fa-solid fa-circle-chevron-right fa-sm"></i> {{ values.0.clean_name_spaced }}:<br>
 
                     {% for value in values %}
-                    <span class="fs-3 fw-bold text-teal pt-2 pb-0 pe-2 me-3 ms-4 mb-3 mt-3 highlighted-value">{{value.show_value}} 
+                    <span class="fs-3 fw-bold text-teal pt-3 pb-0 pe-5 ms-4 me-3 mb-2" style="display: inline-block; border: 1px solid #198754; padding: 5px; border-radius: 5px;box-shadow: 0 0 5px rgba(25, 135, 84, 0.5);">{{value.show_value}} 
                         {% include "core/partials/_year_block_value_inline.html" %}
                         {% include "core/partials/_tag_value_inline.html" %}
                         {% include "core/partials/_disputed_value_inline.html" %}
@@ -318,7 +292,7 @@
                 {% autoescape off %}   
                     
                     {% if values.0.description %}
-                    <p class="ps-2 fs-5 custom-left-border-shadowed ms-4">
+                    <p class="ps-2 fs-5 custom-left-border ms-4" style="text-align: justify;">
                              
                         {{values.0.description|make_references_look_nicer}}
                     </p>     
@@ -343,7 +317,7 @@
                 {% for value in values %}
                 <span class="pt-4 fs-4 pb-2 text-teal " id="{{key}}"> <i class="fa-solid fa-circle-chevron-right fa-sm"></i> Human Sacrifice: <br>
 
-                <span class="fs-3 fw-bold text-teal pt-2 pb-0 pe-2 me-3 ms-4 mb-3 mt-3 highlighted-value">{{value.show_value}} 
+                <span class="fs-4 fw-bold text-teal pt-3 pb-0 pe-5 me-3 mb-2 ms-4" style="display: inline-block; border: 1px solid #198754; padding: 5px; border-radius: 5px;box-shadow: 0 0 5px rgba(25, 135, 84, 0.5);">{{value.show_value}} 
                     {% include "core/partials/_year_block_value_inline.html" %}
                     {% include "core/partials/_tag_value_inline.html" %}
                     {% include "core/partials/_disputed_value_inline.html" %}
@@ -356,7 +330,7 @@
                         </span>
                     </sup>
                 </span>
-                <p class="ps-2 fs-5 custom-left-border-shadowed ms-4 text-dark">
+                <p class="ps-2 fs-5 custom-left-border ms-4 text-dark" style="text-align: justify;">
                     {% autoescape off %}
                     {{value.comment}} 
                     {% endautoescape %}
@@ -387,7 +361,7 @@
                         {% if value.is_first_100 == True %}
                         <span class="badge bg-warning text-dark fw-light" style="padding:3px;">First 100</span>
                         {% endif %}</sup> <br>
-                    <span class="fs-3 fw-bold text-teal pt-2 pb-0 pe-2 me-3 ms-4 mb-3 mt-3 highlighted-value">{{value.name}} 
+                    <span class="fs-4 fw-bold text-teal pt-4 pb-0 pe-5 me-3 mb-2" style="display: inline-block; border: 1px solid #198754; padding: 5px; border-radius: 5px;box-shadow: 0 0 5px rgba(25, 135, 84, 0.5);">{{value.name}} 
                         {% include "core/partials/_year_block_value_inline.html" %}
                         {% include "core/partials/_tag_value_inline.html" %}
                         {% include "core/partials/_disputed_value_inline.html" %}
@@ -419,7 +393,7 @@
             <div class="py-2"  id="{{key}}">
                     {% for value in values %}
                     <span class="pt-4 fs-4 pb-2 text-teal"> <i class="fa-solid fa-circle-chevron-right fa-sm"></i>
-                    <span class="fs-3 fw-bold text-teal pt-2 pb-0 pe-2 me-3 ms-4 mb-3 mt-3 highlighted-value">
+                    <span class="fs-4 fw-bold text-teal pt-4 pb-0 pe-5 me-3 mb-2" style="display: inline-block; border: 1px solid #198754; padding: 5px; border-radius: 5px;box-shadow: 0 0 5px rgba(25, 135, 84, 0.5);">
                         <span>
                             <span class = "fw-bold text-danger">{{ value.predecessor }}</span> <span class="text-dark"> was replaced by </span> 
                             <span class = "fw-bold text-teal">{{ value.successor }}</span>.

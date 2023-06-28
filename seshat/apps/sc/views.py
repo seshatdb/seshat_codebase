@@ -30,6 +30,7 @@ from django.http import HttpResponse
 
 import requests
 from requests.structures import CaseInsensitiveDict
+from django.apps import apps
 
 
 
@@ -5787,6 +5788,8 @@ class ArticleUpdate(PermissionRequiredMixin, UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["myvar"] = "Article"
+        context["testvar"] = ["a", "bb", "ccc"]
+        context["citations_list"] = Reference.objects.all()
 
         return context
 
@@ -6955,9 +6958,391 @@ def general_postal_service_meta_download(request):
         
 
 def scvars(request):
-    my_sections_dic = {'Social Complexity Variables': {'staff': [['ra', 'ras', 'ra-create', 'ra-download', 'ra-metadownload', 'ras_all']], 'Social Scale': [['Polity Territory', 'polity_territorys', 'polity_territory-create', 'polity_territory-download', 'polity_territory-metadownload', 'polity_territorys_all'], ['Polity Population', 'polity_populations', 'polity_population-create', 'polity_population-download', 'polity_population-metadownload', 'polity_populations_all'], ['Population of the Largest Settlement', 'population_of_the_largest_settlements', 'population_of_the_largest_settlement-create', 'population_of_the_largest_settlement-download', 'population_of_the_largest_settlement-metadownload', 'population_of_the_largest_settlements_all']], 'Hierarchical Complexity': [['Settlement Hierarchy', 'settlement_hierarchys', 'settlement_hierarchy-create', 'settlement_hierarchy-download', 'settlement_hierarchy-metadownload', 'settlement_hierarchys_all'], ['Administrative Level', 'administrative_levels', 'administrative_level-create', 'administrative_level-download', 'administrative_level-metadownload', 'administrative_levels_all'], ['Religious Level', 'religious_levels', 'religious_level-create', 'religious_level-download', 'religious_level-metadownload', 'religious_levels_all'], ['Military Level', 'military_levels', 'military_level-create', 'military_level-download', 'military_level-metadownload', 'military_levels_all']], 'Professions': [['Professional Military Officer', 'professional_military_officers', 'professional_military_officer-create', 'professional_military_officer-download', 'professional_military_officer-metadownload', 'professional_military_officers_all'], ['Professional Soldier', 'professional_soldiers', 'professional_soldier-create', 'professional_soldier-download', 'professional_soldier-metadownload', 'professional_soldiers_all'], ['Professional Priesthood', 'professional_priesthoods', 'professional_priesthood-create', 'professional_priesthood-download', 'professional_priesthood-metadownload', 'professional_priesthoods_all']], 'Bureaucracy characteristics': [['Full Time Bureaucrat', 'full_time_bureaucrats', 'full_time_bureaucrat-create', 'full_time_bureaucrat-download', 'full_time_bureaucrat-metadownload', 'full_time_bureaucrats_all'], ['Examination System', 'examination_systems', 'examination_system-create', 'examination_system-download', 'examination_system-metadownload', 'examination_systems_all'], ['Merit Promotion', 'merit_promotions', 'merit_promotion-create', 'merit_promotion-download', 'merit_promotion-metadownload', 'merit_promotions_all'], ['Specialized Government Building', 'specialized_government_buildings', 'specialized_government_building-create', 'specialized_government_building-download', 'specialized_government_building-metadownload', 'specialized_government_buildings_all']], 'Law': [['Formal Legal Code', 'formal_legal_codes', 'formal_legal_code-create', 'formal_legal_code-download', 'formal_legal_code-metadownload', 'formal_legal_codes_all'], ['Judge', 'judges', 'judge-create', 'judge-download', 'judge-metadownload', 'judges_all'], ['Court', 'courts', 'court-create', 'court-download', 'court-metadownload', 'courts_all'], ['Professional Lawyer', 'professional_lawyers', 'professional_lawyer-create', 'professional_lawyer-download', 'professional_lawyer-metadownload', 'professional_lawyers_all']], 'Specialized Buildings': [['Irrigation System', 'irrigation_systems', 'irrigation_system-create', 'irrigation_system-download', 'irrigation_system-metadownload', 'irrigation_systems_all'], ['Drinking Water Supply System', 'drinking_water_supply_systems', 'drinking_water_supply_system-create', 'drinking_water_supply_system-download', 'drinking_water_supply_system-metadownload', 'drinking_water_supply_systems_all'], ['Market', 'markets', 'market-create', 'market-download', 'market-metadownload', 'markets_all'], ['Food Storage Site', 'food_storage_sites', 'food_storage_site-create', 'food_storage_site-download', 'food_storage_site-metadownload', 'food_storage_sites_all']], 'Transport infrastructure': [['Road', 'roads', 'road-create', 'road-download', 'road-metadownload', 'roads_all'], ['Bridge', 'bridges', 'bridge-create', 'bridge-download', 'bridge-metadownload', 'bridges_all'], ['Canal', 'canals', 'canal-create', 'canal-download', 'canal-metadownload', 'canals_all'], ['Port', 'ports', 'port-create', 'port-download', 'port-metadownload', 'ports_all']], 'Special purpose sites': [['Mines or Quarry', 'mines_or_quarrys', 'mines_or_quarry-create', 'mines_or_quarry-download', 'mines_or_quarry-metadownload', 'mines_or_quarrys_all']], 'Writing Systems': [['Mnemonic Device', 'mnemonic_devices', 'mnemonic_device-create', 'mnemonic_device-download', 'mnemonic_device-metadownload', 'mnemonic_devices_all'], ['Nonwritten Record', 'nonwritten_records', 'nonwritten_record-create', 'nonwritten_record-download', 'nonwritten_record-metadownload', 'nonwritten_records_all'], ['Written Record', 'written_records', 'written_record-create', 'written_record-download', 'written_record-metadownload', 'written_records_all'], ['Script', 'scripts', 'script-create', 'script-download', 'script-metadownload', 'scripts_all'], ['Non Phonetic Writing', 'non_phonetic_writings', 'non_phonetic_writing-create', 'non_phonetic_writing-download', 'non_phonetic_writing-metadownload', 'non_phonetic_writings_all'], ['Phonetic Alphabetic Writing', 'phonetic_alphabetic_writings', 'phonetic_alphabetic_writing-create', 'phonetic_alphabetic_writing-download', 'phonetic_alphabetic_writing-metadownload', 'phonetic_alphabetic_writings_all']], 'Kinds of Written Documents': [['Lists Tables and Classification', 'lists_tables_and_classifications', 'lists_tables_and_classification-create', 'lists_tables_and_classification-download', 'lists_tables_and_classification-metadownload', 'lists_tables_and_classifications_all'], ['Calendar', 'calendars', 'calendar-create', 'calendar-download', 'calendar-metadownload', 'calendars_all'], ['Sacred Text', 'sacred_texts', 'sacred_text-create', 'sacred_text-download', 'sacred_text-metadownload', 'sacred_texts_all'], ['Religious Literature', 'religious_literatures', 'religious_literature-create', 'religious_literature-download', 'religious_literature-metadownload', 'religious_literatures_all'], ['Practical Literature', 'practical_literatures', 'practical_literature-create', 'practical_literature-download', 'practical_literature-metadownload', 'practical_literatures_all'], ['History', 'historys', 'history-create', 'history-download', 'history-metadownload', 'historys_all'], ['Philosophy', 'philosophys', 'philosophy-create', 'philosophy-download', 'philosophy-metadownload', 'philosophys_all'], ['Scientific Literature', 'scientific_literatures', 'scientific_literature-create', 'scientific_literature-download', 'scientific_literature-metadownload', 'scientific_literatures_all'], ['Fiction', 'fictions', 'fiction-create', 'fiction-download', 'fiction-metadownload', 'fictions_all']], 'Forms of money': [['Article', 'articles', 'article-create', 'article-download', 'article-metadownload', 'articles_all'], ['Token', 'tokens', 'token-create', 'token-download', 'token-metadownload', 'tokens_all'], ['Precious Metal', 'precious_metals', 'precious_metal-create', 'precious_metal-download', 'precious_metal-metadownload', 'precious_metals_all'], ['Foreign Coin', 'foreign_coins', 'foreign_coin-create', 'foreign_coin-download', 'foreign_coin-metadownload', 'foreign_coins_all'], ['Indigenous Coin', 'indigenous_coins', 'indigenous_coin-create', 'indigenous_coin-download', 'indigenous_coin-metadownload', 'indigenous_coins_all'], ['Paper Currency', 'paper_currencys', 'paper_currency-create', 'paper_currency-download', 'paper_currency-metadownload', 'paper_currencys_all']], 'Postal sytems': [['Courier', 'couriers', 'courier-create', 'courier-download', 'courier-metadownload', 'couriers_all'], ['Postal Station', 'postal_stations', 'postal_station-create', 'postal_station-download', 'postal_station-metadownload', 'postal_stations_all'], ['General Postal Service', 'general_postal_services', 'general_postal_service-create', 'general_postal_service-download', 'general_postal_service-metadownload', 'general_postal_services_all']]}}
+
+    app_name = 'sc'  # Replace with your app name
+    models_1 = apps.get_app_config(app_name).get_models()
+
+    unique_politys = set()
+    number_of_all_rows = 0
+    number_of_variables = 0
+    all_vars_grouped = {}
+
+    all_sect_download_links = {}
+
+    for model in models_1:
+        model_name = model.__name__
+        if model_name == "Ra":
+            continue
+        s_value = str(model().subsection())
+        ss_value = str(model().sub_subsection())
+
+        better_name = "download_csv_" + s_value.replace("-", "_").replace(" ", "_").replace(":", "").lower()
+        all_sect_download_links[s_value] = better_name
+        if s_value not in all_vars_grouped:
+            all_vars_grouped[s_value] = {}
+            if ss_value:
+                all_vars_grouped[s_value][ss_value] = []
+            else:
+                all_vars_grouped[s_value]["None"] = []
+        else:
+            if ss_value:
+                all_vars_grouped[s_value][ss_value] = []
+            else:
+                all_vars_grouped[s_value]["None"] = []
+
+    models = apps.get_app_config(app_name).get_models()
+
+    for model in models:
+        model_name = model.__name__
+        if model_name == "Ra":
+            continue
+        subsection_value = str(model().subsection())
+        sub_subsection_value = str(model().sub_subsection())
+        count = model.objects.count()
+        number_of_all_rows += count
+        model_title = model_name.replace("_", " ").title()
+        model_create = model_name.lower() + "-create"
+        model_download = model_name.lower() + "-download"
+        model_metadownload = model_name.lower() + "-metadownload"
+        model_all = model_name.lower() + "s_all"
+        model_s = model_name.lower() + "s"
+
+        queryset = model.objects.all()
+        politys = queryset.values_list('polity', flat=True).distinct()
+        unique_politys.update(politys)
+        number_of_variables += 1
+
+        to_be_appended = [model_title, model_s, model_create, model_download, model_metadownload, model_all, count]
+
+        if sub_subsection_value:
+            all_vars_grouped[subsection_value][sub_subsection_value].append(to_be_appended)
+        else:
+            all_vars_grouped[subsection_value]["None"].append(to_be_appended)
+
+
     context = {}
-    context["my_dict"] = my_sections_dic
+    context["all_vars_grouped"] = all_vars_grouped
+    context["all_sect_download_links"] = all_sect_download_links
+    context["all_polities"] = len(unique_politys)
+    context["number_of_all_rows"] = number_of_all_rows
+
+    context["number_of_variables"] = number_of_variables
+
     return render(request, 'sc/scvars.html', context=context)
 
-    
+@permission_required('core.view_capital')
+def download_csv_all(request):
+    # Fetch all models in the "socomp" app
+    app_name = 'sc'  # Replace with your app name
+    app_models = apps.get_app_config(app_name).get_models()
+
+    # Create a response object with CSV content type
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="social_complexity_data_all_in_1.csv"'
+
+    # Create a CSV writer
+    writer = csv.writer(response, delimiter='|')
+
+    # type the headers
+    writer.writerow(['subsection', 'variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
+                    'value_from', 'value_to', 'confidence', 'is_disputed', 'expert_checked', 'DRB_reviewed'])
+    # Iterate over each model
+    for model in app_models:
+        # Get all rows of data from the model
+        items = model.objects.all()
+
+
+        for obj in items:
+            writer.writerow([obj.subsection(), obj.name, obj.year_from, obj.year_to,
+                         obj.polity, obj.polity.new_name, obj.polity.name, obj.show_value_from(), obj.show_value_to(), obj.get_tag_display(), obj.is_disputed,
+                         obj.expert_reviewed, obj.drb_reviewed,])
+
+    return response
+
+@permission_required('core.view_capital')
+def download_csv_social_scale(request):
+    # Fetch all models in the "socomp" app
+    app_name = 'sc'  # Replace with your app name
+    app_models = apps.get_app_config(app_name).get_models()
+
+    # Create a response object with CSV content type
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="social_complexity_data_social_scale.csv"'
+
+    # Create a CSV writer
+    writer = csv.writer(response, delimiter='|')
+
+    # type the headers
+    writer.writerow(['subsection', 'variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
+                    'value_from', 'value_to', 'confidence', 'is_disputed', 'expert_checked', 'DRB_reviewed'])
+    # Iterate over each model
+    for model in app_models:
+        # Get all rows of data from the model
+        model_name = model.__name__
+        if model_name == "Ra":
+            continue
+        s_value = str(model().subsection())
+        if s_value == "Social Scale":
+            items = model.objects.all()
+            for obj in items:
+                writer.writerow([obj.subsection(), obj.name, obj.year_from, obj.year_to,
+                            obj.polity, obj.polity.new_name, obj.polity.name, obj.show_value_from(), obj.show_value_to(), obj.get_tag_display(), obj.is_disputed,
+                            obj.expert_reviewed, obj.drb_reviewed,])
+
+    return response
+
+@permission_required('core.view_capital')
+def download_csv_professions(request):
+    # Fetch all models in the "socomp" app
+    app_name = 'sc'  # Replace with your app name
+    app_models = apps.get_app_config(app_name).get_models()
+
+    # Create a response object with CSV content type
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="social_complexity_data_professions.csv"'
+
+    # Create a CSV writer
+    writer = csv.writer(response, delimiter='|')
+
+    # type the headers
+    writer.writerow(['subsection', 'variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
+                    'value_from', 'value_to', 'confidence', 'is_disputed', 'expert_checked', 'DRB_reviewed'])
+    # Iterate over each model
+    for model in app_models:
+        # Get all rows of data from the model
+        model_name = model.__name__
+        if model_name == "Ra":
+            continue
+        s_value = str(model().subsection())
+        if s_value == "Professions":
+            items = model.objects.all()
+            for obj in items:
+                writer.writerow([obj.subsection(), obj.name, obj.year_from, obj.year_to,
+                            obj.polity, obj.polity.new_name, obj.polity.name, obj.show_value_from(), obj.show_value_to(), obj.get_tag_display(), obj.is_disputed,
+                            obj.expert_reviewed, obj.drb_reviewed,])
+
+    return response
+
+@permission_required('core.view_capital')
+def download_csv_bureaucracy_characteristics(request):
+    # Fetch all models in the "socomp" app
+    app_name = 'sc'  # Replace with your app name
+    app_models = apps.get_app_config(app_name).get_models()
+
+    # Create a response object with CSV content type
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="social_complexity_data_bureaucracy_characteristics.csv"'
+
+    # Create a CSV writer
+    writer = csv.writer(response, delimiter='|')
+
+    # type the headers
+    writer.writerow(['subsection', 'variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
+                    'value_from', 'value_to', 'confidence', 'is_disputed', 'expert_checked', 'DRB_reviewed'])
+    # Iterate over each model
+    for model in app_models:
+        # Get all rows of data from the model
+        model_name = model.__name__
+        if model_name == "Ra":
+            continue
+        s_value = str(model().subsection())
+        if s_value == "Bureaucracy Characteristics":
+            items = model.objects.all()
+            for obj in items:
+                writer.writerow([obj.subsection(), obj.name, obj.year_from, obj.year_to,
+                            obj.polity, obj.polity.new_name, obj.polity.name, obj.show_value_from(), obj.show_value_to(), obj.get_tag_display(), obj.is_disputed,
+                            obj.expert_reviewed, obj.drb_reviewed,])
+
+    return response
+
+@permission_required('core.view_capital')
+def download_csv_hierarchical_complexity(request):
+    # Fetch all models in the "socomp" app
+    app_name = 'sc'  # Replace with your app name
+    app_models = apps.get_app_config(app_name).get_models()
+
+    # Create a response object with CSV content type
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="social_complexity_data_hierarchical_complexity.csv"'
+
+    # Create a CSV writer
+    writer = csv.writer(response, delimiter='|')
+
+    # type the headers
+    writer.writerow(['subsection', 'variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
+                    'value_from', 'value_to', 'confidence', 'is_disputed', 'expert_checked', 'DRB_reviewed'])
+    # Iterate over each model
+    for model in app_models:
+        # Get all rows of data from the model
+        model_name = model.__name__
+        if model_name == "Ra":
+            continue
+        s_value = str(model().subsection())
+        if s_value == "Hierarchical Complexity":
+            items = model.objects.all()
+            for obj in items:
+                writer.writerow([obj.subsection(), obj.name, obj.year_from, obj.year_to,
+                            obj.polity, obj.polity.new_name, obj.polity.name, obj.show_value_from(), obj.show_value_to(), obj.get_tag_display(), obj.is_disputed,
+                            obj.expert_reviewed, obj.drb_reviewed,])
+
+    return response
+
+@permission_required('core.view_capital')
+def download_csv_law(request):
+    # Fetch all models in the "socomp" app
+    app_name = 'sc'  # Replace with your app name
+    app_models = apps.get_app_config(app_name).get_models()
+
+    # Create a response object with CSV content type
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="social_complexity_data_law.csv"'
+
+    # Create a CSV writer
+    writer = csv.writer(response, delimiter='|')
+
+    # type the headers
+    writer.writerow(['subsection', 'variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
+                    'value_from', 'value_to', 'confidence', 'is_disputed', 'expert_checked', 'DRB_reviewed'])
+    # Iterate over each model
+    for model in app_models:
+        # Get all rows of data from the model
+        model_name = model.__name__
+        if model_name == "Ra":
+            continue
+        s_value = str(model().subsection())
+        if s_value == "Law":
+            items = model.objects.all()
+            for obj in items:
+                writer.writerow([obj.subsection(), obj.name, obj.year_from, obj.year_to,
+                            obj.polity, obj.polity.new_name, obj.polity.name, obj.show_value_from(), obj.show_value_to(), obj.get_tag_display(), obj.is_disputed,
+                            obj.expert_reviewed, obj.drb_reviewed,])
+
+    return response
+
+@permission_required('core.view_capital')
+def download_csv_specialized_buildings_polity_owned(request):
+    # Fetch all models in the "socomp" app
+    app_name = 'sc'  # Replace with your app name
+    app_models = apps.get_app_config(app_name).get_models()
+
+    # Create a response object with CSV content type
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="social_complexity_data_specialized_buildings_polity_owned.csv"'
+
+    # Create a CSV writer
+    writer = csv.writer(response, delimiter='|')
+
+    # type the headers
+    writer.writerow(['subsection', 'variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
+                    'value_from', 'value_to', 'confidence', 'is_disputed', 'expert_checked', 'DRB_reviewed'])
+    # Iterate over each model
+    for model in app_models:
+        # Get all rows of data from the model
+        model_name = model.__name__
+        if model_name == "Ra":
+            continue
+        s_value = str(model().subsection())
+        if s_value == "Specialized Buildings: polity owned":
+            items = model.objects.all()
+            for obj in items:
+                writer.writerow([obj.subsection(), obj.name, obj.year_from, obj.year_to,
+                            obj.polity, obj.polity.new_name, obj.polity.name, obj.show_value_from(), obj.show_value_to(), obj.get_tag_display(), obj.is_disputed,
+                            obj.expert_reviewed, obj.drb_reviewed,])
+
+    return response
+
+@permission_required('core.view_capital')
+def download_csv_transport_infrastructure(request):
+    # Fetch all models in the "socomp" app
+    app_name = 'sc'  # Replace with your app name
+    app_models = apps.get_app_config(app_name).get_models()
+
+    # Create a response object with CSV content type
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="social_complexity_data_transport_infrastructure.csv"'
+
+    # Create a CSV writer
+    writer = csv.writer(response, delimiter='|')
+
+    # type the headers
+    writer.writerow(['subsection', 'variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
+                    'value_from', 'value_to', 'confidence', 'is_disputed', 'expert_checked', 'DRB_reviewed'])
+    # Iterate over each model
+    for model in app_models:
+        # Get all rows of data from the model
+        model_name = model.__name__
+        if model_name == "Ra":
+            continue
+        s_value = str(model().subsection())
+        if s_value == "Transport Infrastructure":
+            items = model.objects.all()
+            for obj in items:
+                writer.writerow([obj.subsection(), obj.name, obj.year_from, obj.year_to,
+                            obj.polity, obj.polity.new_name, obj.polity.name, obj.show_value_from(), obj.show_value_to(), obj.get_tag_display(), obj.is_disputed,
+                            obj.expert_reviewed, obj.drb_reviewed,])
+
+    return response
+
+@permission_required('core.view_capital')
+def download_csv_special_purpose_sites(request):
+    # Fetch all models in the "socomp" app
+    app_name = 'sc'  # Replace with your app name
+    app_models = apps.get_app_config(app_name).get_models()
+
+    # Create a response object with CSV content type
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="social_complexity_data_special_purpose_sites.csv"'
+
+    # Create a CSV writer
+    writer = csv.writer(response, delimiter='|')
+
+    # type the headers
+    writer.writerow(['subsection', 'variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
+                    'value_from', 'value_to', 'confidence', 'is_disputed', 'expert_checked', 'DRB_reviewed'])
+    # Iterate over each model
+    for model in app_models:
+        # Get all rows of data from the model
+        model_name = model.__name__
+        if model_name == "Ra":
+            continue
+        s_value = str(model().subsection())
+        if s_value == "Special-purpose Sites":
+            items = model.objects.all()
+            for obj in items:
+                writer.writerow([obj.subsection(), obj.name, obj.year_from, obj.year_to,
+                            obj.polity, obj.polity.new_name, obj.polity.name, obj.show_value_from(), obj.show_value_to(), obj.get_tag_display(), obj.is_disputed,
+                            obj.expert_reviewed, obj.drb_reviewed,])
+
+    return response
+
+@permission_required('core.view_capital')
+def download_csv_information(request):
+    # Fetch all models in the "socomp" app
+    app_name = 'sc'  # Replace with your app name
+    app_models = apps.get_app_config(app_name).get_models()
+
+    # Create a response object with CSV content type
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="social_complexity_data_information.csv"'
+
+    # Create a CSV writer
+    writer = csv.writer(response, delimiter='|')
+
+    # type the headers
+    writer.writerow(['subsection', 'variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
+                    'value_from', 'value_to', 'confidence', 'is_disputed', 'expert_checked', 'DRB_reviewed'])
+    # Iterate over each model
+    for model in app_models:
+        # Get all rows of data from the model
+        model_name = model.__name__
+        if model_name == "Ra":
+            continue
+        s_value = str(model().subsection())
+        if s_value == "Information":
+            items = model.objects.all()
+            for obj in items:
+                writer.writerow([obj.subsection(), obj.name, obj.year_from, obj.year_to,
+                            obj.polity, obj.polity.new_name, obj.polity.name, obj.show_value_from(), obj.show_value_to(), obj.get_tag_display(), obj.is_disputed,
+                            obj.expert_reviewed, obj.drb_reviewed,])
+
+    return response

@@ -31,6 +31,9 @@ from django.http import HttpResponse
 import requests
 from requests.structures import CaseInsensitiveDict
 
+from django.apps import apps
+
+
 
 
 from .models import Polity_research_assistant, Polity_utm_zone, Polity_original_name, Polity_alternative_name, Polity_peak_years, Polity_duration, Polity_degree_of_centralization, Polity_suprapolity_relations, Polity_capital, Polity_language, Polity_linguistic_family, Polity_language_genus, Polity_religion_genus, Polity_religion_family, Polity_religion, Polity_relationship_to_preceding_entity, Polity_preceding_entity, Polity_succeeding_entity, Polity_supracultural_entity, Polity_scale_of_supracultural_interaction, Polity_alternate_religion_genus, Polity_alternate_religion_family, Polity_alternate_religion, Polity_expert, Polity_editor, Polity_religious_tradition
@@ -3497,9 +3500,42 @@ def polity_religious_tradition_meta_download(request):
         
 
 def generalvars(request):
+
+    app_name = 'general'  # Replace with your app name
+    models = apps.get_app_config(app_name).get_models()
+
+    unique_politys = set()
+    number_of_all_rows = 0
+    number_of_variables = 0
+    counts = {}
+    for model in models:
+        model_name = model.__name__
+        count = model.objects.count()
+        number_of_all_rows += count
+        model_title = model_name.replace("_", " ").title()
+        model_create = model_name.lower() + "-create"
+        model_download = model_name.lower() + "-download"
+        model_metadownload = model_name.lower() + "-metadownload"
+        model_all = model_name.lower() + "s_all"
+        model_s = model_name.lower() + "s"
+
+        queryset = model.objects.all()
+        politys = queryset.values_list('polity', flat=True).distinct()
+        unique_politys.update(politys)
+        number_of_variables += 1
+
+        counts[model_name] = [model_title, model_s, model_create, model_download, model_metadownload, model_all, count]
+
+
     my_sections_dic = {'General Variables': {'General Variables': [['Polity Research Assistant', 'polity_research_assistants', 'polity_research_assistant-create', 'polity_research_assistant-download', 'polity_research_assistant-metadownload', 'polity_research_assistants_all'], ['Polity Utm Zone', 'polity_utm_zones', 'polity_utm_zone-create', 'polity_utm_zone-download', 'polity_utm_zone-metadownload', 'polity_utm_zones_all'], ['Polity Original Name', 'polity_original_names', 'polity_original_name-create', 'polity_original_name-download', 'polity_original_name-metadownload', 'polity_original_names_all'], ['Polity Alternative Name', 'polity_alternative_names', 'polity_alternative_name-create', 'polity_alternative_name-download', 'polity_alternative_name-metadownload', 'polity_alternative_names_all'], ['Polity Peak Years', 'polity_peak_yearss', 'polity_peak_years-create', 'polity_peak_years-download', 'polity_peak_years-metadownload', 'polity_peak_yearss_all'], ['Polity Duration', 'polity_durations', 'polity_duration-create', 'polity_duration-download', 'polity_duration-metadownload', 'polity_durations_all'], ['Polity Degree of Centralization', 'polity_degree_of_centralizations', 'polity_degree_of_centralization-create', 'polity_degree_of_centralization-download', 'polity_degree_of_centralization-metadownload', 'polity_degree_of_centralizations_all'], ['Polity Suprapolity Relations', 'polity_suprapolity_relationss', 'polity_suprapolity_relations-create', 'polity_suprapolity_relations-download', 'polity_suprapolity_relations-metadownload', 'polity_suprapolity_relationss_all'], ['Polity Capital', 'polity_capitals', 'polity_capital-create', 'polity_capital-download', 'polity_capital-metadownload', 'polity_capitals_all'], ['Polity Language', 'polity_languages', 'polity_language-create', 'polity_language-download', 'polity_language-metadownload', 'polity_languages_all'], ['Polity Linguistic Family', 'polity_linguistic_familys', 'polity_linguistic_family-create', 'polity_linguistic_family-download', 'polity_linguistic_family-metadownload', 'polity_linguistic_familys_all'], ['Polity Language Genus', 'polity_language_genuss', 'polity_language_genus-create', 'polity_language_genus-download', 'polity_language_genus-metadownload', 'polity_language_genuss_all'], ['Polity Religion Genus', 'polity_religion_genuss', 'polity_religion_genus-create', 'polity_religion_genus-download', 'polity_religion_genus-metadownload', 'polity_religion_genuss_all'], ['Polity Religion Family', 'polity_religion_familys', 'polity_religion_family-create', 'polity_religion_family-download', 'polity_religion_family-metadownload', 'polity_religion_familys_all'], ['Polity Religion', 'polity_religions', 'polity_religion-create', 'polity_religion-download', 'polity_religion-metadownload', 'polity_religions_all'], ['Polity Relationship to Preceding Entity', 'polity_relationship_to_preceding_entitys', 'polity_relationship_to_preceding_entity-create', 'polity_relationship_to_preceding_entity-download', 'polity_relationship_to_preceding_entity-metadownload', 'polity_relationship_to_preceding_entitys_all'], ['Polity Preceding Entity', 'polity_preceding_entitys', 'polity_preceding_entity-create', 'polity_preceding_entity-download', 'polity_preceding_entity-metadownload', 'polity_preceding_entitys_all'], ['Polity Succeeding Entity', 'polity_succeeding_entitys', 'polity_succeeding_entity-create', 'polity_succeeding_entity-download', 'polity_succeeding_entity-metadownload', 'polity_succeeding_entitys_all'], ['Polity Supracultural Entity', 'polity_supracultural_entitys', 'polity_supracultural_entity-create', 'polity_supracultural_entity-download', 'polity_supracultural_entity-metadownload', 'polity_supracultural_entitys_all'], ['Polity Scale of Supracultural Interaction', 'polity_scale_of_supracultural_interactions', 'polity_scale_of_supracultural_interaction-create', 'polity_scale_of_supracultural_interaction-download', 'polity_scale_of_supracultural_interaction-metadownload', 'polity_scale_of_supracultural_interactions_all'], ['Polity Alternate Religion Genus', 'polity_alternate_religion_genuss', 'polity_alternate_religion_genus-create', 'polity_alternate_religion_genus-download', 'polity_alternate_religion_genus-metadownload', 'polity_alternate_religion_genuss_all'], ['Polity Alternate Religion Family', 'polity_alternate_religion_familys', 'polity_alternate_religion_family-create', 'polity_alternate_religion_family-download', 'polity_alternate_religion_family-metadownload', 'polity_alternate_religion_familys_all'], ['Polity Alternate Religion', 'polity_alternate_religions', 'polity_alternate_religion-create', 'polity_alternate_religion-download', 'polity_alternate_religion-metadownload', 'polity_alternate_religions_all'], ['Polity Expert', 'polity_experts', 'polity_expert-create', 'polity_expert-download', 'polity_expert-metadownload', 'polity_experts_all'], ['Polity Editor', 'polity_editors', 'polity_editor-create', 'polity_editor-download', 'polity_editor-metadownload', 'polity_editors_all'], ['Polity Religious Tradition', 'polity_religious_traditions', 'polity_religious_tradition-create', 'polity_religious_tradition-download', 'polity_religious_tradition-metadownload', 'polity_religious_traditions_all']]}}
     context = {}
     context["my_dict"] = my_sections_dic
+    context["my_counts"] = counts
+    context["all_polities"] = len(unique_politys)
+    context["number_of_all_rows"] = number_of_all_rows
+
+    context["number_of_variables"] = number_of_variables
+
     return render(request, 'general/generalvars.html', context=context)
 
     

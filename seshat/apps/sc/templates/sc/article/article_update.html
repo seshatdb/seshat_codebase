@@ -7,11 +7,12 @@
     <div class="col-md-3 mb-2">
         {{ form.article|as_crispy_field }}
     </div>
-                
+
     
 {% endblock extra_vars %}
 
 {% block delete_button %}
     <a href="{% url 'article-delete' object.id %}" type="cancel" class="btn btn-outline-danger my-auto btn-block btn-lg">Delete </a>
 {% endblock delete_button %}
+
         

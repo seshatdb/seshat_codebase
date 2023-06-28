@@ -33,7 +33,7 @@ from django.http import HttpResponse
 import requests
 from requests.structures import CaseInsensitiveDict
 
-
+from django.apps import apps
 
 from .models import Copper, Bronze, Iron, Steel, Javelin, Atlatl, Sling, Self_bow, Composite_bow, Crossbow, Tension_siege_engine, Sling_siege_engine, Gunpowder_siege_artillery, Handheld_firearm, War_club, Battle_axe, Dagger, Sword, Spear, Polearm, Dog, Donkey, Horse, Camel, Elephant, Wood_bark_etc, Leather_cloth, Shield, Helmet, Breastplate, Limb_protection, Scaled_armor, Laminar_armor, Plate_armor, Small_vessels_canoes_etc, Merchant_ships_pressed_into_service, Specialized_military_vessel, Settlements_in_a_defensive_position, Wooden_palisade, Earth_rampart, Ditch, Moat, Stone_walls_non_mortared, Stone_walls_mortared, Fortified_camp, Complex_fortification, Modern_fortification, Chainmail
 
@@ -7049,9 +7049,38 @@ def chainmail_meta_download(request):
         
 
 def wfvars(request):
-    my_sections_dic = {'Military Technologies': {'Military use of Metals': [['Copper', 'coppers', 'copper-create', 'copper-download', 'copper-metadownload', 'coppers_all'], ['Bronze', 'bronzes', 'bronze-create', 'bronze-download', 'bronze-metadownload', 'bronzes_all'], ['Iron', 'irons', 'iron-create', 'iron-download', 'iron-metadownload', 'irons_all'], ['Steel', 'steels', 'steel-create', 'steel-download', 'steel-metadownload', 'steels_all']], 'Projectiles': [['Javelin', 'javelins', 'javelin-create', 'javelin-download', 'javelin-metadownload', 'javelins_all'], ['Atlatl', 'atlatls', 'atlatl-create', 'atlatl-download', 'atlatl-metadownload', 'atlatls_all'], ['Sling', 'slings', 'sling-create', 'sling-download', 'sling-metadownload', 'slings_all'], ['Self Bow', 'self_bows', 'self_bow-create', 'self_bow-download', 'self_bow-metadownload', 'self_bows_all'], ['Composite Bow', 'composite_bows', 'composite_bow-create', 'composite_bow-download', 'composite_bow-metadownload', 'composite_bows_all'], ['Crossbow', 'crossbows', 'crossbow-create', 'crossbow-download', 'crossbow-metadownload', 'crossbows_all'], ['Tension Siege Engine', 'tension_siege_engines', 'tension_siege_engine-create', 'tension_siege_engine-download', 'tension_siege_engine-metadownload', 'tension_siege_engines_all'], ['Sling Siege Engine', 'sling_siege_engines', 'sling_siege_engine-create', 'sling_siege_engine-download', 'sling_siege_engine-metadownload', 'sling_siege_engines_all'], ['Gunpowder Siege Artillery', 'gunpowder_siege_artillerys', 'gunpowder_siege_artillery-create', 'gunpowder_siege_artillery-download', 'gunpowder_siege_artillery-metadownload', 'gunpowder_siege_artillerys_all'], ['Handheld Firearm', 'handheld_firearms', 'handheld_firearm-create', 'handheld_firearm-download', 'handheld_firearm-metadownload', 'handheld_firearms_all']], 'Handheld weapons': [['War Club', 'war_clubs', 'war_club-create', 'war_club-download', 'war_club-metadownload', 'war_clubs_all'], ['Battle Axe', 'battle_axes', 'battle_axe-create', 'battle_axe-download', 'battle_axe-metadownload', 'battle_axes_all'], ['Dagger', 'daggers', 'dagger-create', 'dagger-download', 'dagger-metadownload', 'daggers_all'], ['Sword', 'swords', 'sword-create', 'sword-download', 'sword-metadownload', 'swords_all'], ['Spear', 'spears', 'spear-create', 'spear-download', 'spear-metadownload', 'spears_all'], ['Polearm', 'polearms', 'polearm-create', 'polearm-download', 'polearm-metadownload', 'polearms_all']], 'Animals used in warfare': [['Dog', 'dogs', 'dog-create', 'dog-download', 'dog-metadownload', 'dogs_all'], ['Donkey', 'donkeys', 'donkey-create', 'donkey-download', 'donkey-metadownload', 'donkeys_all'], ['Horse', 'horses', 'horse-create', 'horse-download', 'horse-metadownload', 'horses_all'], ['Camel', 'camels', 'camel-create', 'camel-download', 'camel-metadownload', 'camels_all'], ['Elephant', 'elephants', 'elephant-create', 'elephant-download', 'elephant-metadownload', 'elephants_all']], 'Armor': [['Wood Bark Etc', 'wood_bark_etcs', 'wood_bark_etc-create', 'wood_bark_etc-download', 'wood_bark_etc-metadownload', 'wood_bark_etcs_all'], ['Leather Cloth', 'leather_cloths', 'leather_cloth-create', 'leather_cloth-download', 'leather_cloth-metadownload', 'leather_cloths_all'], ['Shield', 'shields', 'shield-create', 'shield-download', 'shield-metadownload', 'shields_all'], ['Helmet', 'helmets', 'helmet-create', 'helmet-download', 'helmet-metadownload', 'helmets_all'], ['Breastplate', 'breastplates', 'breastplate-create', 'breastplate-download', 'breastplate-metadownload', 'breastplates_all'], ['Limb Protection', 'limb_protections', 'limb_protection-create', 'limb_protection-download', 'limb_protection-metadownload', 'limb_protections_all'], ['Scaled Armor', 'scaled_armors', 'scaled_armor-create', 'scaled_armor-download', 'scaled_armor-metadownload', 'scaled_armors_all'], ['Laminar Armor', 'laminar_armors', 'laminar_armor-create', 'laminar_armor-download', 'laminar_armor-metadownload', 'laminar_armors_all'], ['Plate Armor', 'plate_armors', 'plate_armor-create', 'plate_armor-download', 'plate_armor-metadownload', 'plate_armors_all'], ['Chainmail', 'chainmails', 'chainmail-create', 'chainmail-download', 'chainmail-metadownload', 'chainmails_all']], 'Naval technology': [['Small Vessels Canoes Etc', 'small_vessels_canoes_etcs', 'small_vessels_canoes_etc-create', 'small_vessels_canoes_etc-download', 'small_vessels_canoes_etc-metadownload', 'small_vessels_canoes_etcs_all'], ['Merchant Ships Pressed Into Service', 'merchant_ships_pressed_into_services', 'merchant_ships_pressed_into_service-create', 'merchant_ships_pressed_into_service-download', 'merchant_ships_pressed_into_service-metadownload', 'merchant_ships_pressed_into_services_all'], ['Specialized Military Vessel', 'specialized_military_vessels', 'specialized_military_vessel-create', 'specialized_military_vessel-download', 'specialized_military_vessel-metadownload', 'specialized_military_vessels_all']], 'Fortifications': [['Settlements in a Defensive Position', 'settlements_in_a_defensive_positions', 'settlements_in_a_defensive_position-create', 'settlements_in_a_defensive_position-download', 'settlements_in_a_defensive_position-metadownload', 'settlements_in_a_defensive_positions_all'], ['Wooden Palisade', 'wooden_palisades', 'wooden_palisade-create', 'wooden_palisade-download', 'wooden_palisade-metadownload', 'wooden_palisades_all'], ['Earth Rampart', 'earth_ramparts', 'earth_rampart-create', 'earth_rampart-download', 'earth_rampart-metadownload', 'earth_ramparts_all'], ['Ditch', 'ditchs', 'ditch-create', 'ditch-download', 'ditch-metadownload', 'ditchs_all'], ['Moat', 'moats', 'moat-create', 'moat-download', 'moat-metadownload', 'moats_all'], ['Stone Walls Non Mortared', 'stone_walls_non_mortareds', 'stone_walls_non_mortared-create', 'stone_walls_non_mortared-download', 'stone_walls_non_mortared-metadownload', 'stone_walls_non_mortareds_all'], ['Stone Walls Mortared', 'stone_walls_mortareds', 'stone_walls_mortared-create', 'stone_walls_mortared-download', 'stone_walls_mortared-metadownload', 'stone_walls_mortareds_all'], ['Fortified Camp', 'fortified_camps', 'fortified_camp-create', 'fortified_camp-download', 'fortified_camp-metadownload', 'fortified_camps_all'], ['Complex Fortification', 'complex_fortifications', 'complex_fortification-create', 'complex_fortification-download', 'complex_fortification-metadownload', 'complex_fortifications_all'], ['Modern Fortification', 'modern_fortifications', 'modern_fortification-create', 'modern_fortification-download', 'modern_fortification-metadownload', 'modern_fortifications_all']]}}
+    app_name = 'wf'  # Replace with your app name
+    models = apps.get_app_config(app_name).get_models()
+
+    unique_politys = set()
+    number_of_all_rows = 0
+    number_of_variables = 0
+    counts = {}
+    for model in models:
+        model_name = model.__name__
+        count = model.objects.count()
+        number_of_all_rows += count
+        model_title = model_name.replace("_", " ").title()
+        model_create = model_name.lower() + "-create"
+        model_download = model_name.lower() + "-download"
+        model_metadownload = model_name.lower() + "-metadownload"
+        model_all = model_name.lower() + "s_all"
+        model_s = model_name.lower() + "s"
+
+        queryset = model.objects.all()
+        politys = queryset.values_list('polity', flat=True).distinct()
+        unique_politys.update(politys)
+        number_of_variables += 1
+
+        counts[model_name] = [model_title, model_s, model_create, model_download, model_metadownload, model_all, count]
+
+
     context = {}
-    context["my_dict"] = my_sections_dic
+    context["my_counts"] = counts
+    context["all_polities"] = len(unique_politys)
+    context["number_of_all_rows"] = number_of_all_rows
+
+    context["number_of_variables"] = number_of_variables
     return render(request, 'wf/wfvars.html', context=context)
 
     

@@ -102,6 +102,15 @@ class Ra(SeshatCommon):
             return self.sc_ra
         else:
             return " - "
+
+    def show_value_from(self):
+        if self.sc_ra:
+            return self.sc_ra
+        else:
+            return None
+        
+    def show_value_to(self):
+        return None
         
     def get_absolute_url(self):
         return reverse('ra-detail', args=[str(self.id)])
@@ -144,6 +153,24 @@ class Polity_territory(SeshatCommon):
             return f"[{self.polity_territory_to:,}"
         else:
             return " - "
+  
+    def show_value_from(self):
+        if self.polity_territory_from:
+            return self.polity_territory_from
+        else:
+            return None
+
+    def show_value_to(self):
+        if self.polity_territory_to:
+            return self.polity_territory_to
+        else:
+            return None
+
+    def subsection(self):
+        return "Social Scale"
+
+    def sub_subsection(self):
+        return None
         
     def get_absolute_url(self):
         return reverse('polity_territory-detail', args=[str(self.id)])
@@ -187,6 +214,24 @@ class Polity_population(SeshatCommon):
         else:
             return " - "
         
+    def show_value_from(self):
+        if self.polity_population_from:
+            return self.polity_population_from
+        else:
+            return None
+
+    def show_value_to(self):
+        if self.polity_population_to:
+            return self.polity_population_to
+        else:
+            return None   
+        
+    def subsection(self):
+        return "Social Scale"
+
+    def sub_subsection(self):
+        return None
+        
     def get_absolute_url(self):
         return reverse('polity_population-detail', args=[str(self.id)])
 
@@ -228,6 +273,25 @@ class Population_of_the_largest_settlement(SeshatCommon):
             return f"[{self.population_of_the_largest_settlement_to:,}"
         else:
             return " - "
+
+        
+    def show_value_from(self):
+        if self.population_of_the_largest_settlement_from:
+            return self.population_of_the_largest_settlement_from
+        else:
+            return None
+
+    def show_value_to(self):
+        if self.population_of_the_largest_settlement_to:
+            return self.population_of_the_largest_settlement_to
+        else:
+            return None   
+
+    def subsection(self):
+        return "Social Scale"
+
+    def sub_subsection(self):
+        return None
         
     def get_absolute_url(self):
         return reverse('population_of_the_largest_settlement-detail', args=[str(self.id)])
@@ -271,6 +335,25 @@ class Settlement_hierarchy(SeshatCommon):
         else:
             return " - "
         
+        
+    def show_value_from(self):
+        if self.settlement_hierarchy_from:
+            return self.settlement_hierarchy_from
+        else:
+            return None
+
+    def show_value_to(self):
+        if self.settlement_hierarchy_to:
+            return self.settlement_hierarchy_to
+        else:
+            return None  
+
+    def subsection(self):
+        return "Hierarchical Complexity"
+
+    def sub_subsection(self):
+        return None
+        
     def get_absolute_url(self):
         return reverse('settlement_hierarchy-detail', args=[str(self.id)])
 
@@ -312,6 +395,25 @@ class Administrative_level(SeshatCommon):
             return f"[{self.administrative_level_to:,}"
         else:
             return " - "
+        
+        
+    def show_value_from(self):
+        if self.administrative_level_from:
+            return self.administrative_level_from
+        else:
+            return None
+
+    def show_value_to(self):
+        if self.administrative_level_to:
+            return self.administrative_level_to
+        else:
+            return None  
+        
+    def subsection(self):
+        return "Hierarchical Complexity"
+
+    def sub_subsection(self):
+        return None
         
     def get_absolute_url(self):
         return reverse('administrative_level-detail', args=[str(self.id)])
@@ -355,6 +457,24 @@ class Religious_level(SeshatCommon):
         else:
             return " - "
         
+    def show_value_from(self):
+        if self.religious_level_from:
+            return self.religious_level_from
+        else:
+            return None
+
+    def show_value_to(self):
+        if self.religious_level_to:
+            return self.religious_level_to
+        else:
+            return None  
+
+    def subsection(self):
+        return "Hierarchical Complexity"
+
+    def sub_subsection(self):
+        return None
+        
     def get_absolute_url(self):
         return reverse('religious_level-detail', args=[str(self.id)])
 
@@ -397,6 +517,24 @@ class Military_level(SeshatCommon):
         else:
             return " - "
         
+    def show_value_from(self):
+        if self.military_level_from:
+            return self.military_level_from
+        else:
+            return None
+
+    def show_value_to(self):
+        if self.military_level_to:
+            return self.military_level_to
+        else:
+            return None  
+        
+    def subsection(self):
+        return "Hierarchical Complexity"
+
+    def sub_subsection(self):
+        return None
+        
     def get_absolute_url(self):
         return reverse('military_level-detail', args=[str(self.id)])
 
@@ -431,6 +569,21 @@ class Professional_military_officer(SeshatCommon):
             return self.get_professional_military_officer_display()
         else:
             return " - "
+        
+    def show_value_from(self):
+        if self.professional_military_officer:
+            return self.professional_military_officer
+        else:
+            return None
+
+    def show_value_to(self):
+        return None  
+    
+    def subsection(self):
+        return "Professions"
+
+    def sub_subsection(self):
+        return None
         
     def get_absolute_url(self):
         return reverse('professional_military_officer-detail', args=[str(self.id)])
@@ -467,6 +620,21 @@ class Professional_soldier(SeshatCommon):
         else:
             return " - "
         
+    def show_value_from(self):
+        if self.professional_soldier:
+            return self.professional_soldier
+        else:
+            return None
+
+    def show_value_to(self):
+        return None  
+    
+    def subsection(self):
+        return "Professions"
+
+    def sub_subsection(self):
+        return None
+        
     def get_absolute_url(self):
         return reverse('professional_soldier-detail', args=[str(self.id)])
 
@@ -502,6 +670,21 @@ class Professional_priesthood(SeshatCommon):
         else:
             return " - "
         
+    def show_value_from(self):
+        if self.professional_priesthood:
+            return self.professional_priesthood
+        else:
+            return None
+
+    def show_value_to(self):
+        return None  
+    
+    def subsection(self):
+        return "Professions"
+
+    def sub_subsection(self):
+        return None
+
     def get_absolute_url(self):
         return reverse('professional_priesthood-detail', args=[str(self.id)])
 
@@ -537,6 +720,22 @@ class Full_time_bureaucrat(SeshatCommon):
         else:
             return " - "
         
+    def show_value_from(self):
+        if self.full_time_bureaucrat:
+            return self.full_time_bureaucrat
+        else:
+            return None
+
+    def show_value_to(self):
+        return None  
+    
+    def subsection(self):
+        return "Bureaucracy Characteristics"
+
+    def sub_subsection(self):
+        return None
+        
+        
     def get_absolute_url(self):
         return reverse('full_time_bureaucrat-detail', args=[str(self.id)])
 
@@ -571,6 +770,21 @@ class Examination_system(SeshatCommon):
             return self.get_examination_system_display()
         else:
             return " - "
+
+    def show_value_from(self):
+        if self.examination_system:
+            return self.examination_system
+        else:
+            return None
+
+    def show_value_to(self):
+        return None  
+    
+    def subsection(self):
+        return "Bureaucracy Characteristics"
+
+    def sub_subsection(self):
+        return None
         
     def get_absolute_url(self):
         return reverse('examination_system-detail', args=[str(self.id)])
@@ -607,6 +821,21 @@ class Merit_promotion(SeshatCommon):
         else:
             return " - "
         
+    def show_value_from(self):
+        if self.merit_promotion:
+            return self.merit_promotion
+        else:
+            return None
+
+    def show_value_to(self):
+        return None  
+    
+    def subsection(self):
+        return "Bureaucracy Characteristics"
+
+    def sub_subsection(self):
+        return None
+        
     def get_absolute_url(self):
         return reverse('merit_promotion-detail', args=[str(self.id)])
 
@@ -642,6 +871,22 @@ class Specialized_government_building(SeshatCommon):
         else:
             return " - "
         
+    def show_value_from(self):
+        if self.specialized_government_building:
+            return self.specialized_government_building
+        else:
+            return None
+
+    def show_value_to(self):
+        return None  
+    
+    def subsection(self):
+        return "Bureaucracy Characteristics"
+
+    def sub_subsection(self):
+        return None
+        
+        
     def get_absolute_url(self):
         return reverse('specialized_government_building-detail', args=[str(self.id)])
 
@@ -676,6 +921,22 @@ class Formal_legal_code(SeshatCommon):
             return self.get_formal_legal_code_display()
         else:
             return " - "
+
+    def show_value_from(self):
+        if self.formal_legal_code:
+            return self.formal_legal_code
+        else:
+            return None
+
+    def show_value_to(self):
+        return None  
+    
+    def subsection(self):
+        return "Law"
+
+    def sub_subsection(self):
+        return None
+        
         
     def get_absolute_url(self):
         return reverse('formal_legal_code-detail', args=[str(self.id)])
@@ -712,6 +973,21 @@ class Judge(SeshatCommon):
         else:
             return " - "
         
+    def show_value_from(self):
+        if self.judge:
+            return self.judge
+        else:
+            return None
+
+    def show_value_to(self):
+        return None  
+    
+    def subsection(self):
+        return "Law"
+
+    def sub_subsection(self):
+        return None
+        
     def get_absolute_url(self):
         return reverse('judge-detail', args=[str(self.id)])
 
@@ -747,6 +1023,21 @@ class Court(SeshatCommon):
         else:
             return " - "
         
+    def show_value_from(self):
+        if self.court:
+            return self.court
+        else:
+            return None
+
+    def show_value_to(self):
+        return None  
+    
+    def subsection(self):
+        return "Law"
+
+    def sub_subsection(self):
+        return None
+        
     def get_absolute_url(self):
         return reverse('court-detail', args=[str(self.id)])
 
@@ -781,6 +1072,21 @@ class Professional_lawyer(SeshatCommon):
             return self.get_professional_lawyer_display()
         else:
             return " - "
+
+    def show_value_from(self):
+        if self.professional_lawyer:
+            return self.professional_lawyer
+        else:
+            return None
+
+    def show_value_to(self):
+        return None  
+    
+    def subsection(self):
+        return "Law"
+
+    def sub_subsection(self):
+        return None
         
     def get_absolute_url(self):
         return reverse('professional_lawyer-detail', args=[str(self.id)])
@@ -816,7 +1122,22 @@ class Irrigation_system(SeshatCommon):
             return self.get_irrigation_system_display()
         else:
             return " - "
+
+    def show_value_from(self):
+        if self.irrigation_system:
+            return self.irrigation_system
+        else:
+            return None
+
+    def show_value_to(self):
+        return None  
         
+    def subsection(self):
+        return "Specialized Buildings: polity owned"
+
+    def sub_subsection(self):
+        return None
+    
     def get_absolute_url(self):
         return reverse('irrigation_system-detail', args=[str(self.id)])
 
@@ -851,6 +1172,21 @@ class Drinking_water_supply_system(SeshatCommon):
             return self.get_drinking_water_supply_system_display()
         else:
             return " - "
+
+    def show_value_from(self):
+        if self.drinking_water_supply_system:
+            return self.drinking_water_supply_system
+        else:
+            return None
+
+    def show_value_to(self):
+        return None  
+    
+    def subsection(self):
+        return "Specialized Buildings: polity owned"
+
+    def sub_subsection(self):
+        return None
         
     def get_absolute_url(self):
         return reverse('drinking_water_supply_system-detail', args=[str(self.id)])
@@ -886,6 +1222,21 @@ class Market(SeshatCommon):
             return self.get_market_display()
         else:
             return " - "
+
+    def show_value_from(self):
+        if self.market:
+            return self.market
+        else:
+            return None
+
+    def show_value_to(self):
+        return None  
+    
+    def subsection(self):
+        return "Specialized Buildings: polity owned"
+
+    def sub_subsection(self):
+        return None
         
     def get_absolute_url(self):
         return reverse('market-detail', args=[str(self.id)])
@@ -921,6 +1272,21 @@ class Food_storage_site(SeshatCommon):
             return self.get_food_storage_site_display()
         else:
             return " - "
+
+    def show_value_from(self):
+        if self.food_storage_site:
+            return self.food_storage_site
+        else:
+            return None
+
+    def show_value_to(self):
+        return None  
+    
+    def subsection(self):
+        return "Specialized Buildings: polity owned"
+
+    def sub_subsection(self):
+        return None
         
     def get_absolute_url(self):
         return reverse('food_storage_site-detail', args=[str(self.id)])
@@ -956,6 +1322,21 @@ class Road(SeshatCommon):
             return self.get_road_display()
         else:
             return " - "
+
+    def show_value_from(self):
+        if self.road:
+            return self.road
+        else:
+            return None
+
+    def show_value_to(self):
+        return None  
+    
+    def subsection(self):
+        return "Transport Infrastructure"
+
+    def sub_subsection(self):
+        return None
         
     def get_absolute_url(self):
         return reverse('road-detail', args=[str(self.id)])
@@ -991,6 +1372,21 @@ class Bridge(SeshatCommon):
             return self.get_bridge_display()
         else:
             return " - "
+
+    def show_value_from(self):
+        if self.bridge:
+            return self.bridge
+        else:
+            return None
+
+    def show_value_to(self):
+        return None  
+    
+    def subsection(self):
+        return "Transport Infrastructure"
+
+    def sub_subsection(self):
+        return None
         
     def get_absolute_url(self):
         return reverse('bridge-detail', args=[str(self.id)])
@@ -1026,6 +1422,21 @@ class Canal(SeshatCommon):
             return self.get_canal_display()
         else:
             return " - "
+
+    def show_value_from(self):
+        if self.canal:
+            return self.canal
+        else:
+            return None
+
+    def show_value_to(self):
+        return None  
+    
+    def subsection(self):
+        return "Transport Infrastructure"
+
+    def sub_subsection(self):
+        return None
         
     def get_absolute_url(self):
         return reverse('canal-detail', args=[str(self.id)])
@@ -1061,6 +1472,21 @@ class Port(SeshatCommon):
             return self.get_port_display()
         else:
             return " - "
+
+    def show_value_from(self):
+        if self.port:
+            return self.port
+        else:
+            return None
+
+    def show_value_to(self):
+        return None  
+    
+    def subsection(self):
+        return "Transport Infrastructure"
+
+    def sub_subsection(self):
+        return None
         
     def get_absolute_url(self):
         return reverse('port-detail', args=[str(self.id)])
@@ -1096,6 +1522,21 @@ class Mines_or_quarry(SeshatCommon):
             return self.get_mines_or_quarry_display()
         else:
             return " - "
+
+    def show_value_from(self):
+        if self.mines_or_quarry:
+            return self.mines_or_quarry
+        else:
+            return None
+
+    def show_value_to(self):
+        return None  
+    
+    def subsection(self):
+        return "Special-purpose Sites"
+
+    def sub_subsection(self):
+        return None
         
     def get_absolute_url(self):
         return reverse('mines_or_quarry-detail', args=[str(self.id)])
@@ -1131,6 +1572,21 @@ class Mnemonic_device(SeshatCommon):
             return self.get_mnemonic_device_display()
         else:
             return " - "
+
+    def show_value_from(self):
+        if self.mnemonic_device:
+            return self.mnemonic_device
+        else:
+            return None
+
+    def show_value_to(self):
+        return None  
+    
+    def subsection(self):
+        return "Information"
+
+    def sub_subsection(self):
+        return "Writing System"
         
     def get_absolute_url(self):
         return reverse('mnemonic_device-detail', args=[str(self.id)])
@@ -1166,6 +1622,21 @@ class Nonwritten_record(SeshatCommon):
             return self.get_nonwritten_record_display()
         else:
             return " - "
+
+    def show_value_from(self):
+        if self.nonwritten_record:
+            return self.nonwritten_record
+        else:
+            return None
+
+    def show_value_to(self):
+        return None  
+    
+    def subsection(self):
+        return "Information"
+
+    def sub_subsection(self):
+        return "Writing System"
         
     def get_absolute_url(self):
         return reverse('nonwritten_record-detail', args=[str(self.id)])
@@ -1201,6 +1672,21 @@ class Written_record(SeshatCommon):
             return self.get_written_record_display()
         else:
             return " - "
+
+    def show_value_from(self):
+        if self.written_record:
+            return self.written_record
+        else:
+            return None
+
+    def show_value_to(self):
+        return None  
+    
+    def subsection(self):
+        return "Information"
+
+    def sub_subsection(self):
+        return "Writing System"
         
     def get_absolute_url(self):
         return reverse('written_record-detail', args=[str(self.id)])
@@ -1236,6 +1722,21 @@ class Script(SeshatCommon):
             return self.get_script_display()
         else:
             return " - "
+
+    def show_value_from(self):
+        if self.script:
+            return self.script
+        else:
+            return None
+
+    def show_value_to(self):
+        return None  
+    
+    def subsection(self):
+        return "Information"
+
+    def sub_subsection(self):
+        return "Writing System"
         
     def get_absolute_url(self):
         return reverse('script-detail', args=[str(self.id)])
@@ -1271,6 +1772,21 @@ class Non_phonetic_writing(SeshatCommon):
             return self.get_non_phonetic_writing_display()
         else:
             return " - "
+
+    def show_value_from(self):
+        if self.non_phonetic_writing:
+            return self.non_phonetic_writing
+        else:
+            return None
+
+    def show_value_to(self):
+        return None  
+    
+    def subsection(self):
+        return "Information"
+
+    def sub_subsection(self):
+        return "Writing System"
         
     def get_absolute_url(self):
         return reverse('non_phonetic_writing-detail', args=[str(self.id)])
@@ -1306,6 +1822,21 @@ class Phonetic_alphabetic_writing(SeshatCommon):
             return self.get_phonetic_alphabetic_writing_display()
         else:
             return " - "
+
+    def show_value_from(self):
+        if self.phonetic_alphabetic_writing:
+            return self.phonetic_alphabetic_writing
+        else:
+            return None
+
+    def show_value_to(self):
+        return None  
+    
+    def subsection(self):
+        return "Information"
+
+    def sub_subsection(self):
+        return "Writing System"
         
     def get_absolute_url(self):
         return reverse('phonetic_alphabetic_writing-detail', args=[str(self.id)])
@@ -1341,6 +1872,21 @@ class Lists_tables_and_classification(SeshatCommon):
             return self.get_lists_tables_and_classification_display()
         else:
             return " - "
+
+    def show_value_from(self):
+        if self.lists_tables_and_classification:
+            return self.lists_tables_and_classification
+        else:
+            return None
+
+    def show_value_to(self):
+        return None  
+    
+    def subsection(self):
+        return "Information"
+
+    def sub_subsection(self):
+        return "Kinds of Written Documents"
         
     def get_absolute_url(self):
         return reverse('lists_tables_and_classification-detail', args=[str(self.id)])
@@ -1376,6 +1922,21 @@ class Calendar(SeshatCommon):
             return self.get_calendar_display()
         else:
             return " - "
+
+    def show_value_from(self):
+        if self.calendar:
+            return self.calendar
+        else:
+            return None
+        
+    def subsection(self):
+        return "Information"
+
+    def sub_subsection(self):
+        return "Kinds of Written Documents"
+
+    def show_value_to(self):
+        return None  
         
     def get_absolute_url(self):
         return reverse('calendar-detail', args=[str(self.id)])
@@ -1411,6 +1972,21 @@ class Sacred_text(SeshatCommon):
             return self.get_sacred_text_display()
         else:
             return " - "
+
+    def show_value_from(self):
+        if self.sacred_text:
+            return self.sacred_text
+        else:
+            return None
+
+    def show_value_to(self):
+        return None  
+    
+    def subsection(self):
+        return "Information"
+
+    def sub_subsection(self):
+        return "Kinds of Written Documents"
         
     def get_absolute_url(self):
         return reverse('sacred_text-detail', args=[str(self.id)])
@@ -1446,6 +2022,21 @@ class Religious_literature(SeshatCommon):
             return self.get_religious_literature_display()
         else:
             return " - "
+
+    def show_value_from(self):
+        if self.religious_literature:
+            return self.religious_literature
+        else:
+            return None
+
+    def show_value_to(self):
+        return None  
+    
+    def subsection(self):
+        return "Information"
+
+    def sub_subsection(self):
+        return "Kinds of Written Documents"
         
     def get_absolute_url(self):
         return reverse('religious_literature-detail', args=[str(self.id)])
@@ -1481,6 +2072,21 @@ class Practical_literature(SeshatCommon):
             return self.get_practical_literature_display()
         else:
             return " - "
+
+    def show_value_from(self):
+        if self.practical_literature:
+            return self.practical_literature
+        else:
+            return None
+
+    def show_value_to(self):
+        return None  
+    
+    def subsection(self):
+        return "Information"
+
+    def sub_subsection(self):
+        return "Kinds of Written Documents"
         
     def get_absolute_url(self):
         return reverse('practical_literature-detail', args=[str(self.id)])
@@ -1516,6 +2122,21 @@ class History(SeshatCommon):
             return self.get_history_display()
         else:
             return " - "
+
+    def show_value_from(self):
+        if self.history:
+            return self.history
+        else:
+            return None
+
+    def show_value_to(self):
+        return None  
+    
+    def subsection(self):
+        return "Information"
+
+    def sub_subsection(self):
+        return "Kinds of Written Documents"
         
     def get_absolute_url(self):
         return reverse('history-detail', args=[str(self.id)])
@@ -1551,7 +2172,22 @@ class Philosophy(SeshatCommon):
             return self.get_philosophy_display()
         else:
             return " - "
+
+    def show_value_from(self):
+        if self.philosophy:
+            return self.philosophy
+        else:
+            return None
+
+    def show_value_to(self):
+        return None  
         
+    def subsection(self):
+        return "Information"
+
+    def sub_subsection(self):
+        return "Kinds of Written Documents"
+    
     def get_absolute_url(self):
         return reverse('philosophy-detail', args=[str(self.id)])
 
@@ -1586,6 +2222,21 @@ class Scientific_literature(SeshatCommon):
             return self.get_scientific_literature_display()
         else:
             return " - "
+
+    def show_value_from(self):
+        if self.scientific_literature:
+            return self.scientific_literature
+        else:
+            return None
+
+    def show_value_to(self):
+        return None  
+    
+    def subsection(self):
+        return "Information"
+
+    def sub_subsection(self):
+        return "Kinds of Written Documents"
         
     def get_absolute_url(self):
         return reverse('scientific_literature-detail', args=[str(self.id)])
@@ -1621,7 +2272,22 @@ class Fiction(SeshatCommon):
             return self.get_fiction_display()
         else:
             return " - "
+
+    def show_value_from(self):
+        if self.fiction:
+            return self.fiction
+        else:
+            return None
+
+    def show_value_to(self):
+        return None  
         
+    def subsection(self):
+        return "Information"
+
+    def sub_subsection(self):
+        return "Kinds of Written Documents"
+
     def get_absolute_url(self):
         return reverse('fiction-detail', args=[str(self.id)])
 
@@ -1656,6 +2322,21 @@ class Article(SeshatCommon):
             return self.get_article_display()
         else:
             return " - "
+
+    def show_value_from(self):
+        if self.article:
+            return self.article
+        else:
+            return None
+
+    def show_value_to(self):
+        return None  
+    
+    def subsection(self):
+        return "Information"
+
+    def sub_subsection(self):
+        return "Money"
         
     def get_absolute_url(self):
         return reverse('article-detail', args=[str(self.id)])
@@ -1691,6 +2372,21 @@ class Token(SeshatCommon):
             return self.get_token_display()
         else:
             return " - "
+
+    def show_value_from(self):
+        if self.token:
+            return self.token
+        else:
+            return None
+
+    def show_value_to(self):
+        return None  
+    
+    def subsection(self):
+        return "Information"
+
+    def sub_subsection(self):
+        return "Money"
         
     def get_absolute_url(self):
         return reverse('token-detail', args=[str(self.id)])
@@ -1726,6 +2422,21 @@ class Precious_metal(SeshatCommon):
             return self.get_precious_metal_display()
         else:
             return " - "
+
+    def show_value_from(self):
+        if self.precious_metal:
+            return self.precious_metal
+        else:
+            return None
+
+    def show_value_to(self):
+        return None  
+    
+    def subsection(self):
+        return "Information"
+
+    def sub_subsection(self):
+        return "Money"
         
     def get_absolute_url(self):
         return reverse('precious_metal-detail', args=[str(self.id)])
@@ -1761,6 +2472,21 @@ class Foreign_coin(SeshatCommon):
             return self.get_foreign_coin_display()
         else:
             return " - "
+
+    def show_value_from(self):
+        if self.foreign_coin:
+            return self.foreign_coin
+        else:
+            return None
+
+    def show_value_to(self):
+        return None  
+    
+    def subsection(self):
+        return "Information"
+
+    def sub_subsection(self):
+        return "Money"
         
     def get_absolute_url(self):
         return reverse('foreign_coin-detail', args=[str(self.id)])
@@ -1796,7 +2522,22 @@ class Indigenous_coin(SeshatCommon):
             return self.get_indigenous_coin_display()
         else:
             return " - "
+
+    def show_value_from(self):
+        if self.indigenous_coin:
+            return self.indigenous_coin
+        else:
+            return None
+
+    def show_value_to(self):
+        return None  
         
+    def subsection(self):
+        return "Information"
+
+    def sub_subsection(self):
+        return "Money"
+
     def get_absolute_url(self):
         return reverse('indigenous_coin-detail', args=[str(self.id)])
 
@@ -1831,6 +2572,21 @@ class Paper_currency(SeshatCommon):
             return self.get_paper_currency_display()
         else:
             return " - "
+
+    def show_value_from(self):
+        if self.paper_currency:
+            return self.paper_currency
+        else:
+            return None
+
+    def show_value_to(self):
+        return None  
+    
+    def subsection(self):
+        return "Information"
+
+    def sub_subsection(self):
+        return "Money"
         
     def get_absolute_url(self):
         return reverse('paper_currency-detail', args=[str(self.id)])
@@ -1866,6 +2622,21 @@ class Courier(SeshatCommon):
             return self.get_courier_display()
         else:
             return " - "
+
+    def show_value_from(self):
+        if self.courier:
+            return self.courier
+        else:
+            return None
+
+    def show_value_to(self):
+        return None  
+    
+    def subsection(self):
+        return "Information"
+
+    def sub_subsection(self):
+        return "Postal System"
         
     def get_absolute_url(self):
         return reverse('courier-detail', args=[str(self.id)])
@@ -1901,7 +2672,22 @@ class Postal_station(SeshatCommon):
             return self.get_postal_station_display()
         else:
             return " - "
+
+    def show_value_from(self):
+        if self.postal_station:
+            return self.postal_station
+        else:
+            return None
+
+    def show_value_to(self):
+        return None  
         
+    def subsection(self):
+        return "Information"
+
+    def sub_subsection(self):
+        return "Postal System"
+
     def get_absolute_url(self):
         return reverse('postal_station-detail', args=[str(self.id)])
 
@@ -1936,6 +2722,21 @@ class General_postal_service(SeshatCommon):
             return self.get_general_postal_service_display()
         else:
             return " - "
+
+    def show_value_from(self):
+        if self.general_postal_service:
+            return self.general_postal_service
+        else:
+            return None
+
+    def show_value_to(self):
+        return None  
+    
+    def subsection(self):
+        return "Information"
+
+    def sub_subsection(self):
+        return "Postal System"
         
     def get_absolute_url(self):
         return reverse('general_postal_service-detail', args=[str(self.id)])

@@ -737,7 +737,7 @@
         $('.js-example-basic-multiple').select2({
             placeholder: "Select one or more Citations for this Crisis case",
             allowClear: true,
-        });
+        }).prop('disabled', false);
     });
     var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
     var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {

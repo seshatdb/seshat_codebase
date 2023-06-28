@@ -167,7 +167,9 @@
                 <br>
                 {% autoescape off %}
 
-                <p class="ps-2 fs-5 custom-left-border-tight" style="text-align: justify;">{{ value.description|make_references_look_nicer }}</p>
+                <p class="ps-2 fs-5 custom-left-border-shadowed ms-4">
+                    {{ value.description|make_references_look_nicer }}
+                </p>
                 
                 {% endautoescape %}
 
