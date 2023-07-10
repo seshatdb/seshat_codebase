@@ -27,11 +27,11 @@ commonfields = ['polity', 'year_from', 'year_to',
                 'description', 'tag', 'is_disputed', 'expert_reviewed', 'drb_reviewed', 'finalized', 'citations']
 
 commonwidgets = {
-    'polity': forms.Select(attrs={'class': 'form-control  mb-1', }),
+    'polity': forms.Select(attrs={'class': 'form-control  mb-1 js-example-basic-single', 'id': 'id_polity', 'name': 'polity'}),
     'year_from': forms.NumberInput(attrs={'class': 'form-control  mb-1',}),
     'year_to': forms.NumberInput(attrs={'class': 'form-control  mb-1', }),
     'description': Textarea(attrs={'class': 'form-control  mb-1', 'style': 'height: 220px', 'placeholder':'Add a Note (optional)'}),
-    'citations': forms.SelectMultiple(attrs={'class': 'form-control mb-1 js-states js-example-basic-multiple', 'text':'citations[]' , 'style': 'height: 340px', 'multiple': 'multiple', 'disabled': 'disabled'}),
+    'citations': forms.SelectMultiple(attrs={'class': 'form-control mb-1 js-states js-example-basic-multiple', 'text':'citations[]' , 'style': 'height: 340px', 'multiple': 'multiple', }),
     'tag': forms.RadioSelect(),
     "is_disputed" : forms.CheckboxInput(attrs={'class': 'mb-1', }),
     "expert_reviewed" : forms.CheckboxInput(attrs={'class': 'mb-1', }),
@@ -108,7 +108,7 @@ class Crisis_consequenceForm(forms.ModelForm):
         widgets = dict(commonwidgets)
         widgets['crisis_case_id'] = forms.TextInput(attrs={'class': 'form-control  mb-1', })
         widgets['name'] = forms.TextInput(attrs={'class': 'form-control  mb-1', })
-        widgets['other_polity'] = forms.Select(attrs={'class': 'form-control  mb-1', })
+        widgets['other_polity'] = forms.Select(attrs={'class': 'form-control  mb-1 js-example-basic-single2', 'id': 'id_polity_other',})
         widgets['is_first_100'] = forms.CheckboxInput(attrs={'class': 'mb-3', })
         widgets['decline'] = forms.Select(attrs={'class': 'form-control  mb-1', })
         widgets['collapse'] = forms.Select(attrs={'class': 'form-control  mb-1', })
@@ -160,7 +160,7 @@ class Power_transitionForm(forms.ModelForm):
         labels['predecessor'] = "<span class='h6 text-teal'> Predecessor: </span>"
         labels['successor'] = "<span class='h6 text-teal'> Successor: </span>"
         labels['reign_number_predecessor'] = "<span class='h6 text-teal'> Reign Number (predecessor): </span>"
-        labels['culture_group'] = "<span class='h6 text-teal'> Predecessor: </span>"
+        labels['culture_group'] = "<span class='h6 text-teal'> Culture Group: </span>"
 
         labels['year_from'] = "<span class='h6 text-teal'> Start Year (of Predecessor): </span>"
         labels['year_to'] = "<span class='h6 text-teal'> End Year (Transition): </span>"

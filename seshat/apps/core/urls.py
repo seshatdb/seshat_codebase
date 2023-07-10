@@ -7,6 +7,9 @@ urlpatterns += [path('methods', views.seshatmethods, name='seshat-methods'),]
 urlpatterns += [path('whoweare', views.seshatwhoweare, name='seshat-whoweare'),]
 urlpatterns += [path('acknowledgements', views.seshatacknowledgements, name='seshat-acknowledgements'),]
 
+urlpatterns += [path('polity_filter_options/', views.polity_filter_options_view, name='polity_filter_options'),]
+
+
 urlpatterns += [
      path('core/references/', views.ReferenceListView.as_view(), name='references'),
      path('core/references/create/', views.ReferenceCreate.as_view(),

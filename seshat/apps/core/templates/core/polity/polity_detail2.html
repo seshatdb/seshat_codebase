@@ -1,438 +1,64 @@
-{% extends "core/seshat-base.html" %}
-{% load static %}
-{% load humanize %}
-{% load mathfilters %}
-{% load custom_filters %}
+{% for key, values in all_data.items %}
+{% if "Human_sacrifice_for_polity" == key %}
 
-
-{% block content %}
-<style>
-    br {
-        display: block;
-        margin: 10px 0; /* Adjust the value as per your requirement */
-        content: "";
-    }
-    .custom-left-border {
-        border-left: 15px solid #BBF1F1; /* Adjust the border color and thickness as desired */
-        padding-left: 10px; /* Adjust the padding to create spacing between the border and content */
-    }
-
-    .custom-left-border-tight {
-        border-left: 15px solid teal; /* Adjust the border color and thickness as desired */
-        padding-left: 5px; /* Adjust the padding to create spacing between the border and content */
-    }
-
-
-</style>
-
-<div class="container">
-    <div class="row mt-3">
-        <div class="col-md-12">
-            <div class="row d-flex align-items-center mb-2">
-                <div class="col-md-6">
-                    <h1 class="fw-bold">{{ object.long_name }}</h1>
-                </div>
-                <div class="col-md-2">    
-                    <a href="{% url 'polity-update' object.pk  %}" class="btn btn-outline-danger mx-1 my-2 float-end"><i class="fa-regular fa-pen-to-square"></i> &nbsp; Edit This Polity</a>
-                </div>
-                <div class="col-md-2">    
-                    <a href="{% url 'polities' %}" class="btn btn-outline-success mx-1 my-2 float-end"><i class="fa-solid fa-list-ul"></i> &nbsp; See All Polities</a>
-                </div>
-                <div class="col-md-2">    
-                    <a href='http://seshatdatabank.info/browser/{{ object.name }}' class="btn btn-outline-secondary mx-1 my-2 float-end" target="_blank"> <i class="fa-solid fa-arrow-up-right-from-square"></i> Wiki: {{ object.name }}</a>
-                </div>
-
-            </div>
-            <div>
-                <div class="col-md-12">
-                    <h5 class="fw-bold pt-2 text-teal">New ID: <span class="text-secondary">({{ object.new_name }})</span></h5>
-                    <h5 class="fw-bold pt-2 text-secondary">Old ID: <span class="text-secondary">({{ object.name }})</span></h5>
-                    <h5 class="fw-bold pt-2">Home NGA: <span class="text-secondary">({{ object.home_nga }})</span></h5>
-                </div>
-
-            </div>
-            <h6 class="text-secondary">* A polity is defined as an independent political unit. Kinds of polities range from villages (local
-                communities) through simple and complex chiefdoms to states and empires.</h6>
-            <h6 class="text-secondary">* A polity can be either centralized or not (e.g., organized as a confederation). For those periods when a region is divided up among a multitude of small-scale polities (e.g., independent villages or even many small chiefdoms) or when it is controlled in quick succession by a number of different regimes, we use the concept of 'quasi-polity'.</h6>
-            <hr>
-            <div class="col-md-9">
-                <h3 class="fw-bold pb-2"> <i class="fa-solid fa-circle-right"></i> General Variables: &nbsp; <a href="#general_var"><i class="fa-solid fa-magnifying-glass"></i></a></h3>
-            </div>
-            <div class="row px-3">
-                <div class="table-responsive mb-4 col-md-9">
-                    <table id="table_id" class="table align-middle table-striped table-bordered">
-                        <tbody>
-                        {% for key, values in all_general_data.items %}
-                        {% if values %}
-                        <tr class="row col-md-12">
-                            <td class="col-md-4 fw-bold" style="text-align: right;">{{values.0.clean_name_spaced|slice:"7:"}} &nbsp;</td>
-                            <td class="col-md-8" style="text-align: left;">
-                            {% for vv in values %}
-                                    {% if forloop.counter0 > 0 %}
-                                   <span class="text-secondary">&</span>
-                                    {% endif %}
-                                    <span class="h6 text-teal">{{ vv.show_value }}</span> 
-                            {% endfor %}
-                            <a class="h6" href="#{{key}}"> &nbsp;<i class="fa-solid fa-magnifying-glass"></i></a>
-                        </td>
-                        </tr>
-                        {% endif %}
-                        {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <div class="col-md-9">
-                <h3 class="fw-bold pb-2 pt-3"> <i class="fa-solid fa-circle-right"></i> Social Complexity Variables: &nbsp; <a href="#sc_var"><i class="fa-solid fa-magnifying-glass"></i></a></h3>
-            </div>
-            <div class="row px-3">
-                <div class="table-responsive mb-4 col-md-9">
-                    <table id="table_id" class="table align-middle table-striped table-bordered">
-                        <tbody>
-                        {% for key, values in all_sc_data.items %}
-                        {% if values %}
-                        <tr class="row col-md-12">
-                            <td class="col-md-4 fw-bold" style="text-align: right;">{{values.0.clean_name_spaced}} &nbsp;</td>
-                            <td class="col-md-8" style="text-align: left;">
-                            {% for vv in values %}
-                                    {% if forloop.counter0 > 0 %}
-                                   <span class="text-secondary">&</span>
-                                    {% endif %}
-                                    <span class="h6 text-teal">{{ vv.show_value }}</span> 
-                            {% endfor %}
-                            <a class="h6" href="#{{key}}"> &nbsp;<i class="fa-solid fa-magnifying-glass"></i></a>
-                        </td>
-                        </tr>
-                        {% endif %}
-                        {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <div class="col-md-9">
-                <h3 class="fw-bold pb-2 pt-3"> <i class="fa-solid fa-circle-right"></i> Warfare Variables (Military Technologies): &nbsp; <a href="#wf_var"><i class="fa-solid fa-magnifying-glass"></i></a></h3>
-            </div>
-            <div class="row px-3">
-                <div class="table-responsive mb-4 col-md-9">
-                    <table id="table_id" class="table align-middle table-striped table-bordered">
-                        <tbody>
-                        {% for key, values in all_wf_data.items %}
-                        {% if values %}
-                        <tr class="row col-md-12">
-                            <td class="col-md-4 fw-bold" style="text-align: right;">{{values.0.clean_name_spaced}} &nbsp;</td>
-                            <td class="col-md-8" style="text-align: left;">
-                            {% for vv in values %}
-                                    {% if forloop.counter0 > 0 %}
-                                   <span class="text-secondary">&</span>
-                                    {% endif %}
-                                    <span class="h6 text-teal">{{ vv.show_value }}</span> 
-                            {% endfor %}
-                            <a class="h6" href="#{{key}}"> &nbsp;<i class="fa-solid fa-magnifying-glass"></i></a>
-                        </td>
-                        </tr>
-                        {% endif %}
-                        {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-
-          
-        </div>
-        <div class="table-responsive mb-4">
-            <h4 class="mt-4">
-                NGA Settlements:
-            </h4>
-            <h6 class="text-secondary">* NGA (Natural Geographic Area) is defined spatially by the area enclosed within a boundary drawn on the world map.</h6>
-            <h6 class="text-secondary">* It does not change with time.</h6>
-            <h6 class="text-secondary">* Its rough spatial scale is 100 km × 100 km (+/- 50%). Examples: Latium, Upper Egypt, Middle Yellow River Valley.</h6>
-            <table class="table align-middle table-striped table-bordered">
-            <thead>
-                <tr>
-                    <th scope="col" class="text-secondary" style="text-align: center">#</th>
-                    <th scope="col" class="text-secondary" style="text-align: center">Years</th>
-                    <th scope="col">NGA(s)</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for concise_rel in nga_pol_rel.items %}
-                <tr>
-                    <td class="text-secondary" style="text-align: center" scope="row">{{ forloop.counter }}</td>
-
-                    {% include "core/partials/_year_block_nga.html" %}
-
-                    <td class="text-success fw-bold">
-                        | &nbsp; &nbsp;
-                        {% for nga in concise_rel.1 %}
-                        {{ nga.name }}  &nbsp; &nbsp; | &nbsp; &nbsp; 
-                        {% endfor %}
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-            </table>
-        </div>
-    </div>
-    <hr>
-
-    <div>
-        <h1 class="pt-2 display-4" style="text-align: left; color:#893101;" id="general_var"><span class="h1"><i class="fa-solid fa-circle-arrow-down fa-sm"></i> General Variables</span></h1>
-        
-        {% for key, values in all_general_data.items %}
-        {% if values %}
-        <div class="py-2">
-            
-        <span class="pt-4 fs-4 pb-2 text-teal" id="{{key}}"> <i class="fa-solid fa-circle-chevron-right fa-sm"></i> {{ values.0.clean_name_spaced|slice:"7:" }}:<br>
-
-
-                {% for value in values %}
-                <span class="fs-3 fw-bold text-teal pt-3 pb-0 pe-5 me-3 ms-4 mb-2" style="display: inline-block; border: 1px solid #198754; padding: 5px; border-radius: 5px;box-shadow: 0 0 5px rgba(25, 135, 84, 0.5);">
-                    {{value.show_value}} 
-                    {% include "core/partials/_year_block_value_inline.html" %}
-                    {% include "core/partials/_tag_value_inline.html" %}
-                    {% include "core/partials/_disputed_value_inline.html" %}
-                    {% include "core/partials/_expert_checked_value_inline.html" %}
-
-                    <sup style="top: -0.75em;">
-                        <span class="fs-6 text-danger">
-                            <a href="{% url key|lower|add:'-update' value.id %}"><i class="fa-solid fa-pen-to-square text-danger"></i></a>
-                        </span>
-                    </sup>
-                </span>
-                {% endfor %}
-
-                
-
+<h1 class="pt-2 display-4" style="text-align: left;  color:#893101;" id="hs_var">
+    <span class="h1">
+        <i class="fa-solid fa-circle-arrow-down fa-sm"></i> Human Sacrifice Data
+    </span>
+</h1>
+<h6>
+    <span> 
+        <i class="fa-solid fa-caret-right"></i> Human Sacrifice is the deliberate and ritualized killing of a person to please or placate supernatural entities (including gods, spirits, and ancestors) or gain other supernatural benefits. 
+    </span>
+</h6>
+<div class="py-2 custom-left-border-shadowed">
+    <div class="row d-flex">
+        <div class="col-md-6">
+            <span class="pt-1 fs-5 pb-1 fw-bold" id="{{key}}"> 
+                <i class="fa-solid fa-star fa-2xs"></i>
+                Human Sacrifice:            
             </span> 
-            <br>
-                    {% autoescape off %}   
-                    
-                        {% if values.0.description %}
-                        <p class="ps-2 fs-5 ms-4 custom-left-border" style="text-align: justify;">
-                                  
-                            {{values.0.description|make_references_look_nicer}}
-                        </p>     
-                        {% endif %}
-
-                    {% endautoescape %}
         </div>
-        {% endif %}
-        {% endfor %}
-<hr>
-    </div>
-
-
-    <div>
-        <h1 class="pt-2 display-4" style="text-align: left; color:#893101;" id="sc_var"><span class="h1"><i class="fa-solid fa-circle-arrow-down fa-sm"></i> Social Complexity Variables</span></h1>
-        {% for key, values in all_sc_data.items %}
-        {% if values %}
-        <div class="py-2">
-
-        <span class="pt-4 fs-4 pb-2 text-teal" id="{{key}}"> <i class="fa-solid fa-circle-chevron-right fa-sm"></i> {{ values.0.clean_name_spaced }}:<br>
-
-                {% for value in values %}
-                <span class="fs-3 fw-bold text-teal pt-3 pb-0 pe-5 me-3 ms-4 mb-2" style="display: inline-block; border: 1px solid #198754; padding: 5px; border-radius: 5px;box-shadow: 0 0 5px rgba(25, 135, 84, 0.5);">{{value.show_value}} 
-                    {% include "core/partials/_year_block_value_inline.html" %}
-                    {% include "core/partials/_tag_value_inline.html" %}
-                    {% include "core/partials/_disputed_value_inline.html" %}
-                    {% include "core/partials/_expert_checked_value_inline.html" %}
-                    <sup style="top: -0.75em;">
-                        <span class="fs-6 text-danger">
-                            <a href="{% url key|lower|add:'-update' value.id %}"><i class="fa-solid fa-pen-to-square text-danger"></i></a>
-                        </span>
-                    </sup>
-                </span>
-
-                {% endfor %}
-            </span>
-            <br>
-            {% autoescape off %}   
-                    
-                {% if values.0.description %}
-                <p class="ps-2 fs-5 custom-left-border ms-4" style="text-align: justify;">
-                    {{values.0.description|make_references_look_nicer}}
-                </p>     
-                {% endif %}
-            {% endautoescape %}    
+        <div class="col-md-6">
+            <a href="{% url 'human_sacrifices_all' %}" class="btn float-end fw-light">View <b>all</b> Human Sacrifices <i class="fa-solid fa-list"></i></a>
         </div>
-        {% endif %}
-        {% endfor %}
-<hr>
     </div>
-
-    <div>
-        <h1 class="pt-2 display-4" style="text-align: left; color:#893101;" id="wf_var"><span class="h1"><i class="fa-solid fa-circle-arrow-down fa-sm"></i> Warfare Variables (Military Technologies)</span></h1>
-
-        {% for key, values in all_wf_data.items %}
-        {% if values %}
-            <div class="py-2">
-
-            <span class="pt-4 fs-4 pb-2 text-teal" id="{{key}}"> <i class="fa-solid fa-circle-chevron-right fa-sm"></i> {{ values.0.clean_name_spaced }}:<br>
-
-                    {% for value in values %}
-                    <span class="fs-3 fw-bold text-teal pt-3 pb-0 pe-5 ms-4 me-3 mb-2" style="display: inline-block; border: 1px solid #198754; padding: 5px; border-radius: 5px;box-shadow: 0 0 5px rgba(25, 135, 84, 0.5);">{{value.show_value}} 
-                        {% include "core/partials/_year_block_value_inline.html" %}
+            {% for value in values %}
+            <span class="fs-4 fw-bold text-teal pt-2 pb-1 pe-2 ps-2 ms-2 me-2 mb-1 mt-1 highlighted-value">{{value.show_value}} 
+                {% include "core/partials/_year_block_value_inline.html" %}
+                <div style="display: block; padding: 0;">
+                    <div style="display: inline-flex; flex-direction: row;">
                         {% include "core/partials/_tag_value_inline.html" %}
                         {% include "core/partials/_disputed_value_inline.html" %}
                         {% include "core/partials/_expert_checked_value_inline.html" %}
+                        {% include "core/partials/_drb_checked_value_inline.html" %}
 
-                        <sup style="top: -0.75em;">
-                            <span class="fs-6 text-danger">
-                                <a href="{% url key|lower|add:'-update' value.id %}"><i class="fa-solid fa-pen-to-square text-danger"></i></a>
+                        <a class="p-0 m-0 fs-6" type="button" href="{% url 'human_sacrifice-update' value.id %}">
+                            <span class="badge rounded-pill bg-danger"> 
+                                <i class=" fa-solid fa-pen-to-square text-white"></i>
                             </span>
-                        </sup>
-                    </span>
-                    {% endfor %}
-
-                </span>
-                <br>
-                {% autoescape off %}   
-                    
-                    {% if values.0.description %}
-                    <p class="ps-2 fs-5 custom-left-border ms-4" style="text-align: justify;">
-                             
-                        {{values.0.description|make_references_look_nicer}}
-                    </p>     
-                    {% endif %}
-
-                {% endautoescape %}
-                            
+                        </a>     
+                        <a class="p-0 m-0 fs-6" href="{% url 'seshatcomment-update' value.comment.id %}">
+                            <span class="badge rounded-pill bg-secondary"> 
+                                <i class=" fa-solid fa-pen-to-square text-white"></i> Description
+                            </span>
+                        </a>             
+                    </div>
                 </div>
-            {% endif %}
-            {% endfor %}
-
-    </div>
-
-    <hr>
-
-    {% for key, values in all_data.items %}
-    {% if "Human_sacrifice_for_polity" == key %}
-
-    <h1 class="pt-2 display-4" style="text-align: left;  color:#893101;" id="hs_var"><span class="h1"><i class="fa-solid fa-circle-arrow-down fa-sm"></i> Human Sacrifice Data</span></h1>
-    <h5><span> <i class="fa-solid fa-caret-right"></i> Human Sacrifice is the deliberate and ritualized killing of a person to please or placate supernatural entities (including gods, spirits, and ancestors) or gain other supernatural benefits. </span></h5>
-    <div class="py-2">
-                {% for value in values %}
-                <span class="pt-4 fs-4 pb-2 text-teal " id="{{key}}"> <i class="fa-solid fa-circle-chevron-right fa-sm"></i> Human Sacrifice: <br>
-
-                <span class="fs-4 fw-bold text-teal pt-3 pb-0 pe-5 me-3 mb-2 ms-4" style="display: inline-block; border: 1px solid #198754; padding: 5px; border-radius: 5px;box-shadow: 0 0 5px rgba(25, 135, 84, 0.5);">{{value.show_value}} 
-                    {% include "core/partials/_year_block_value_inline.html" %}
-                    {% include "core/partials/_tag_value_inline.html" %}
-                    {% include "core/partials/_disputed_value_inline.html" %}
-                    {% include "core/partials/_expert_checked_value_inline.html" %}
-                    {% include "core/partials/_drb_checked_value_inline.html" %}
-
-                    <sup style="top: -0.75em;">
-                        <span class="fs-6 text-danger">
-                            <a href="{% url 'human_sacrifice-update' value.id %}"><i class="fa-solid fa-pen-to-square text-danger"></i></a>
-                        </span>
-                    </sup>
-                </span>
-                <p class="ps-2 fs-5 custom-left-border ms-4 text-dark" style="text-align: justify;">
-                    {% autoescape off %}
+            <br>
+                {% autoescape off %}
+                <p class="fs-6">
+                    <i class="fa-solid fa-layer-group fa-xs text-teal"></i>   
                     {{value.comment}} 
-                    {% endautoescape %}
-                </p>
+                </p>  
+                {% endautoescape %}
+        </span>
+        {% if not forloop.last %}
+        <hr class="light-narrow-hr">
+        {% endif %}
 
-                <div class="py-1 ms-4">
-                    <a href="{% url 'seshatcomment-update' value.comment.id %}"><button class="btn btn-danger fw-bold btn-sm"> <i class="fa-solid fa-pen-to-square"></i> Edit Description</button></a>
-                </div>
-            </span>
-                {% endfor %}     
-            </div>
-            {% endif %}
+        {% endfor %}     
+        </div>
+        {% endif %}
 
-    {% endfor %}
-
-
-    <hr>
-
-    <div>
-        <h1 class="pt-2 display-4" style="text-align: left; color:#893101;" id="crisis_case_var"><span class="h1"><i class="fa-solid fa-circle-arrow-down fa-sm"></i> Crisis Cases</span></h1>
-
-        {% for key, values in all_crisis_cases_data.items %}
-        {% if values %}
-            <div class="py-2"  id="{{key}}">
-                    {% for value in values %}
-                    <span class="pt-4 fs-4 pb-2 text-teal"> <i class="fa-solid fa-circle-chevron-right fa-sm"></i>
-                    {{ value.crisis_case_id }} <sup> 
-                        {% if value.is_first_100 == True %}
-                        <span class="badge bg-warning text-dark fw-light" style="padding:3px;">First 100</span>
-                        {% endif %}</sup> <br>
-                    <span class="fs-4 fw-bold text-teal pt-4 pb-0 pe-5 me-3 mb-2" style="display: inline-block; border: 1px solid #198754; padding: 5px; border-radius: 5px;box-shadow: 0 0 5px rgba(25, 135, 84, 0.5);">{{value.name}} 
-                        {% include "core/partials/_year_block_value_inline.html" %}
-                        {% include "core/partials/_tag_value_inline.html" %}
-                        {% include "core/partials/_disputed_value_inline.html" %}
-                        {% include "core/partials/_expert_checked_value_inline.html" %}
-    
-                        <sup style="top: -0.75em;">
-                            <span class="fs-6 text-danger">
-                                <a href="{% url 'crisis_consequence-update' value.id %}"><i class="fa-solid fa-pen-to-square text-danger"></i></a>
-                            </span>
-                        </sup>
-                    </span>
-                    {% include "core/partials/_crisis_cases_inline.html" %}
-
-                    {% endfor %}
-    
-                </span>
-                            
-                </div>
-            {% endif %}
-            {% endfor %}
-    
-    </div>
-<hr class="text-color:#893101;">
-    <div>
-        <h1 class="pt-2 display-4" style="text-align: left; color:#893101" id="power_trans_var"><span class="h1"><i class="fa-solid fa-circle-arrow-down fa-sm"></i> Power Transitions</span></h1>
-    
-        {% for key, values in all_power_transitions_data.items %}
-        {% if values %}
-            <div class="py-2"  id="{{key}}">
-                    {% for value in values %}
-                    <span class="pt-4 fs-4 pb-2 text-teal"> <i class="fa-solid fa-circle-chevron-right fa-sm"></i>
-                    <span class="fs-4 fw-bold text-teal pt-4 pb-0 pe-5 me-3 mb-2" style="display: inline-block; border: 1px solid #198754; padding: 5px; border-radius: 5px;box-shadow: 0 0 5px rgba(25, 135, 84, 0.5);">
-                        <span>
-                            <span class = "fw-bold text-danger">{{ value.predecessor }}</span> <span class="text-dark"> was replaced by </span> 
-                            <span class = "fw-bold text-teal">{{ value.successor }}</span>.
-                        </span>
-                        {% include "core/partials/_year_block_value_inline.html" %}
-                        {% include "core/partials/_tag_value_inline.html" %}
-                        {% include "core/partials/_disputed_value_inline.html" %}
-                        {% include "core/partials/_expert_checked_value_inline.html" %}
-    
-                        <sup style="top: -0.75em;">
-                            <span class="fs-6 text-danger">
-                                <a href="{% url 'power_transition-update' value.id %}"><i class="fa-solid fa-pen-to-square text-danger"></i></a>
-                            </span>
-                        </sup>
-                    </span>
-                    {% include "core/partials/_power_transitions_inline.html" %}
-
-                    {% endfor %}
-    
-                </span>
-                            
-                </div>
-            {% endif %}
-            {% endfor %}
-    
-    </div>
-
-
-</div>
-
-
-
-
-
-<script>
-    var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
-    var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
-      return new bootstrap.Popover(popoverTriggerEl)
-    })
-</script>
-
-{% endblock content%}
+{% endfor %}

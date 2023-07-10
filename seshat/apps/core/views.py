@@ -20,6 +20,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.db import IntegrityError
 from django.db.models import Prefetch, F
+from django.views.decorators.http import require_GET
 
 from django.contrib.auth.decorators import login_required, permission_required
 from seshat.apps.accounts.models import Seshat_Expert
@@ -1242,4 +1243,17 @@ def update_citations(request):
         a_citation[0].save()
     # Citation.objects.bulk_create(all_citations)
     return render (request, 'core/references/reference_list.html')
+
+
+@require_GET
+def polity_filter_options_view(request):
+    search_text = request.GET.get('search_text', '')
+
+    # Filter the options based on the search text
+    options = Polity.objects.filter(name__icontains=search_text).values('id', 'name')
+
+    response = {
+        'options': list(options)
+    }
+    return JsonResponse(response)
 

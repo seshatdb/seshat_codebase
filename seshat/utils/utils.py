@@ -226,7 +226,8 @@ def get_all_general_data_for_a_polity(polity_id):
         m = ct.model_class()
         if m and m.__module__ == "seshat.apps.general.models":
             my_data = m.objects.filter(polity = polity_id)
-            a_huge_context_data_dic[m.__name__] = my_data
+            if my_data:
+                a_huge_context_data_dic[m.__name__] = my_data
     return a_huge_context_data_dic
 
 def get_all_sc_data_for_a_polity(polity_id):
@@ -235,7 +236,8 @@ def get_all_sc_data_for_a_polity(polity_id):
         m = ct.model_class()
         if m and m.__module__ == "seshat.apps.sc.models":
             my_data = m.objects.filter(polity = polity_id)
-            a_huge_context_data_dic[m.__name__] = my_data
+            if my_data:
+                a_huge_context_data_dic[m.__name__] = my_data
     return a_huge_context_data_dic
 
 def get_all_wf_data_for_a_polity(polity_id):
@@ -244,7 +246,8 @@ def get_all_wf_data_for_a_polity(polity_id):
         m = ct.model_class()
         if m and m.__module__ == "seshat.apps.wf.models":
             my_data = m.objects.filter(polity = polity_id)
-            a_huge_context_data_dic[m.__name__] = my_data
+            if my_data:
+                a_huge_context_data_dic[m.__name__] = my_data
     return a_huge_context_data_dic
 
 # get crsisi cocases data

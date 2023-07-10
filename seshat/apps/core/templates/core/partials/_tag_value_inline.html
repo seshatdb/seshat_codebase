@@ -1,6 +1,5 @@
 <!-- Tag tag (Disputed/Suspected etc.) -->
-<sup style="top: -0.95rem;">
-    <a type="button" class="btn p-0 m-0" data-bs-toggle="tooltip" data-bs-html="true"  title="References: {{ value.display_citations }}">
+    <a type="button" class="fs-6" data-bs-toggle="tooltip" data-bs-html="true"  title="References: {{ value.display_citations }}">
 {% if value.tag == "DSP" %}
 <span class="badge rounded-pill bg-danger"> {{ value.get_tag_display }}</span>
 {% elif  value.tag == "SSP" %}
@@ -13,5 +12,3 @@
     <span class="badge rounded-pill bg-success"> {{ value.get_tag_display }}</span>
 {% endif %}
 </a>
-
-</sup>

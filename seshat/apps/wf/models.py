@@ -68,10 +68,7 @@ def clean_times(self):
         raise ValidationError({
             'year_to': 'The end year is out of range!',
         })
-    if not self.year_to and not self.year_from:
-        raise ValidationError({
-            'year_from': 'You need to enter at least one year (From or To)',
-        })
+
 
 ########## End of Function Definitions for General (Vars) Models
 

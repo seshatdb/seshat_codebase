@@ -86,6 +86,9 @@ class Crisis_consequenceCreate(PermissionRequiredMixin, CreateView):
         context["mysubsection"] = "Y"
         context["myvar"] = "Z"
         context["my_exp"] = "Conequences of Crisis Explanataion"
+        context["mytitle"] = "Add a NEW crisis case below:"
+        context["mysubtitle"] = "Please complete the form below to submit a new Crisis Case to the database:"
+
         return context
 
 class Crisis_consequenceUpdate(PermissionRequiredMixin, UpdateView):
@@ -98,6 +101,44 @@ class Crisis_consequenceUpdate(PermissionRequiredMixin, UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["myvar"] = "Z"
+        context["mytitle"] = "Update the crisis case below:"
+        context["mysubtitle"] = "Please complete the form below to update the Crisis Case:"
+
+
+        return context
+    
+class Crisis_consequenceCreateHeavy(PermissionRequiredMixin, CreateView):
+    model = Crisis_consequence
+    form_class = Crisis_consequenceForm
+    success_url = reverse_lazy("crisis_consequences_all")
+    template_name = "crisisdb/crisis_consequence/crisis_consequence_form_heavy.html"
+    permission_required = 'core.add_capital'
+
+    def get_absolute_url(self):
+        return reverse('crisis_consequence-create')
+    def get_context_data(self, **kwargs):
+        # get the explanattion:
+        context = super().get_context_data(**kwargs)
+        context["mysection"] = "X"
+        context["mysubsection"] = "Y"
+        context["myvar"] = "Z"
+        context["my_exp"] = "Conequences of Crisis Explanataion"
+        context["mytitle"] = "Add a NEW crisis case below:"
+        context["mysubtitle"] = "Please complete the form below to create a new Crisis Case:"
+        return context
+
+class Crisis_consequenceUpdateHeavy(PermissionRequiredMixin, UpdateView):
+    model = Crisis_consequence
+    success_url = reverse_lazy('crisis_consequences_all')
+    form_class = Crisis_consequenceForm
+    template_name = "crisisdb/crisis_consequence/crisis_consequence_form_heavy.html"
+    permission_required = 'core.add_capital'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["myvar"] = "Z"
+        context["mytitle"] = "Update the crisis case below:"
+        context["mysubtitle"] = "Please complete the form below to update the Crisis Case:"
 
         return context
 
@@ -198,11 +239,19 @@ def crisis_consequence_download(request):
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['year_from', 'year_to',
-                     'polity', 'crisis_consequence_id', 'decline', 'collapse', 'epidemic', 'downward_mobility', 'extermination', 'uprising', 'revolution', 'successful_revolution', 'civil_war', 'century_plus', 'fragmentation', 'capital', 'conquest', 'assassination', 'depose', 'constitution', 'labor', 'unfree_labor', 'suffrage', 'public_goods', 'religion'])
+                   'polity_new_ID', 'polity_old_ID', 'polity_long_name',
+                    'other_polity_new_ID', 'other_polity_old_ID', 'other_polity_long_name', 'crisis_consequence_id', 'decline', 'collapse', 'epidemic', 'downward_mobility', 'extermination', 'uprising', 'revolution', 'successful_revolution', 'civil_war', 'century_plus', 'fragmentation', 'capital', 'conquest', 'assassination', 'depose', 'constitution', 'labor', 'unfree_labor', 'suffrage', 'public_goods', 'religion'])
 
     for obj in items:
-        writer.writerow([obj.year_from, obj.year_to,
-                         obj.polity, obj.crisis_case_id, obj.decline, obj.collapse, obj.epidemic, obj.downward_mobility, obj.extermination, obj.uprising, obj.revolution, obj.successful_revolution, obj.civil_war, obj.century_plus, obj.fragmentation, obj.capital, obj.conquest, obj.assassination, obj.depose, obj.constitution, obj.labor, obj.unfree_labor, obj.suffrage, obj.public_goods, obj.religion, ])
+        if obj.other_polity:
+            writer.writerow([obj.year_from, obj.year_to,
+                            obj.polity.new_name, obj.polity.name, obj.polity.long_name, 
+                            obj.other_polity.new_name, obj.other_polity.name, obj.other_polity.long_name, obj.crisis_case_id, obj.decline, obj.collapse, obj.epidemic, obj.downward_mobility, obj.extermination, obj.uprising, obj.revolution, obj.successful_revolution, obj.civil_war, obj.century_plus, obj.fragmentation, obj.capital, obj.conquest, obj.assassination, obj.depose, obj.constitution, obj.labor, obj.unfree_labor, obj.suffrage, obj.public_goods, obj.religion, ])
+        else:
+            writer.writerow([obj.year_from, obj.year_to,
+                            obj.polity.new_name, obj.polity.name, obj.polity.long_name, 
+                            "", "", "", obj.crisis_case_id, obj.decline, obj.collapse, obj.epidemic, obj.downward_mobility, obj.extermination, obj.uprising, obj.revolution, obj.successful_revolution, obj.civil_war, obj.century_plus, obj.fragmentation, obj.capital, obj.conquest, obj.assassination, obj.depose, obj.constitution, obj.labor, obj.unfree_labor, obj.suffrage, obj.public_goods, obj.religion, ])
+
 
     return response
 
@@ -243,6 +292,8 @@ class Power_transitionCreate(PermissionRequiredMixin, CreateView):
         context["mysubsection"] = "Y"
         context["myvar"] = "Z"
         context["my_exp"] = "Conequences of Crisis Explanataion"
+        context["mytitle"] = "Add a NEW power transition below:"
+        context["mysubtitle"] = "Please complete the form below to create a new power transition:"
         return context
 
 class Power_transitionUpdate(PermissionRequiredMixin, UpdateView):
@@ -255,6 +306,43 @@ class Power_transitionUpdate(PermissionRequiredMixin, UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["myvar"] = "Z"
+        context["mytitle"] = "Update the power transition below:"
+        context["mysubtitle"] = "Please complete the form below to update the power transition:"
+
+        return context
+    
+class Power_transitionCreateHeavy(PermissionRequiredMixin, CreateView):
+    model = Power_transition
+    form_class = Power_transitionForm
+    success_url = reverse_lazy("power_transitions_all")
+    template_name = "crisisdb/power_transition/power_transition_form_heavy.html"
+    permission_required = 'core.add_capital'
+
+    def get_absolute_url(self):
+        return reverse('power_transition-create')
+    def get_context_data(self, **kwargs):
+        # get the explanattion:
+        context = super().get_context_data(**kwargs)
+        context["mysection"] = "X"
+        context["mysubsection"] = "Y"
+        context["myvar"] = "Z"
+        context["my_exp"] = "Conequences of Crisis Explanataion"
+        context["mytitle"] = "Add a NEW power transition below:"
+        context["mysubtitle"] = "Please complete the form below to create a new power transition:"
+        return context
+
+class Power_transitionUpdateHeavy(PermissionRequiredMixin, UpdateView):
+    model = Power_transition
+    success_url = reverse_lazy('power_transitions_all')
+    form_class = Power_transitionForm
+    template_name = "crisisdb/power_transition/power_transition_form_heavy.html"
+    permission_required = 'core.add_capital'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["myvar"] = "Z"
+        context["mytitle"] = "Update the power transition below:"
+        context["mysubtitle"] = "Please complete the form below to update the power transition:"
 
         return context
 
@@ -357,11 +445,11 @@ def power_transition_download(request):
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['year_from', 'year_to', 'predecessor', 'successor',
-                     'polity', 'conflict_name', 'contested', 'overturn', 'predecessor_assassination', 'intra_elite', 'military_revolt', 'popular_uprising', 'separatist_rebellion', 'external_invasion', 'external_interference',])
+                     'polity_new_ID', 'polity_old_ID', 'polity_long_form_name', 'conflict_name', 'contested', 'overturn', 'predecessor_assassination', 'intra_elite', 'military_revolt', 'popular_uprising', 'separatist_rebellion', 'external_invasion', 'external_interference',])
 
     for obj in items:
         writer.writerow([obj.year_from, obj.year_to, obj.predecessor, obj.successor,
-                         obj.polity, obj.name, obj.contested, obj.overturn, obj.predecessor_assassination, obj.intra_elite, obj.military_revolt, obj.popular_uprising, obj.separatist_rebellion, obj.external_invasion, obj.external_interference])
+                         obj.polity.new_name, obj.polity.name, obj.polity.long_name, obj.name, obj.contested, obj.overturn, obj.predecessor_assassination, obj.intra_elite, obj.military_revolt, obj.popular_uprising, obj.separatist_rebellion, obj.external_invasion, obj.external_interference])
 
     return response
 
@@ -536,7 +624,7 @@ def human_sacrifice_download(request):
 
     for obj in items:
         writer.writerow([obj.name, obj.year_from, obj.year_to,
-                         obj.polity, obj.polity.new_name, obj.polity.name, obj.human_sacrifice, obj.get_human_sacrifice_display(), obj.get_tag_display(), obj.is_disputed,
+                         obj.polity.long_name, obj.polity.new_name, obj.polity.name, obj.human_sacrifice, obj.get_human_sacrifice_display(), obj.get_tag_display(), obj.is_disputed,
                          obj.expert_reviewed, obj.drb_reviewed,])
 
     return response
@@ -696,7 +784,7 @@ def external_conflict_download(request):
 
     for obj in items:
         writer.writerow([obj.year_from, obj.year_to,
-                         obj.polity, obj.conflict_name, ])
+                         obj.polity.long_name, obj.conflict_name, ])
 
     return response
 
@@ -824,7 +912,7 @@ def internal_conflict_download(request):
 
     for obj in items:
         writer.writerow([obj.year_from, obj.year_to,
-                         obj.polity, obj.conflict, obj.expenditure, obj.leader, obj.casualty, ])
+                         obj.polity.long_name, obj.conflict, obj.expenditure, obj.leader, obj.casualty, ])
 
     return response
 
@@ -952,7 +1040,7 @@ def external_conflict_side_download(request):
 
     for obj in items:
         writer.writerow([obj.year_from, obj.year_to,
-                         obj.polity, obj.conflict_id, obj.expenditure, obj.leader, obj.casualty, ])
+                         obj.polity.long_name, obj.conflict_id, obj.expenditure, obj.leader, obj.casualty, ])
 
     return response
 
@@ -1080,7 +1168,7 @@ def agricultural_population_download(request):
 
     for obj in items:
         writer.writerow([obj.year_from, obj.year_to,
-                         obj.polity, obj.agricultural_population, ])
+                         obj.polity.long_name, obj.agricultural_population, ])
 
     return response
 
@@ -1208,7 +1296,7 @@ def arable_land_download(request):
 
     for obj in items:
         writer.writerow([obj.year_from, obj.year_to,
-                         obj.polity, obj.arable_land, ])
+                         obj.polity.long_name, obj.arable_land, ])
 
     return response
 
@@ -1336,7 +1424,7 @@ def arable_land_per_farmer_download(request):
 
     for obj in items:
         writer.writerow([obj.year_from, obj.year_to,
-                         obj.polity, obj.arable_land_per_farmer, ])
+                         obj.polity.long_name, obj.arable_land_per_farmer, ])
 
     return response
 
@@ -1464,7 +1552,7 @@ def gross_grain_shared_per_agricultural_population_download(request):
 
     for obj in items:
         writer.writerow([obj.year_from, obj.year_to,
-                         obj.polity, obj.gross_grain_shared_per_agricultural_population, ])
+                         obj.polity.long_name, obj.gross_grain_shared_per_agricultural_population, ])
 
     return response
 
@@ -1592,7 +1680,7 @@ def net_grain_shared_per_agricultural_population_download(request):
 
     for obj in items:
         writer.writerow([obj.year_from, obj.year_to,
-                         obj.polity, obj.net_grain_shared_per_agricultural_population, ])
+                         obj.polity.long_name, obj.net_grain_shared_per_agricultural_population, ])
 
     return response
 
@@ -1720,7 +1808,7 @@ def surplus_download(request):
 
     for obj in items:
         writer.writerow([obj.year_from, obj.year_to,
-                         obj.polity, obj.surplus, ])
+                         obj.polity.long_name, obj.surplus, ])
 
     return response
 
@@ -1848,7 +1936,7 @@ def military_expense_download(request):
 
     for obj in items:
         writer.writerow([obj.year_from, obj.year_to,
-                         obj.polity, obj.conflict, obj.expenditure, ])
+                         obj.polity.long_name, obj.conflict, obj.expenditure, ])
 
     return response
 
@@ -1976,7 +2064,7 @@ def silver_inflow_download(request):
 
     for obj in items:
         writer.writerow([obj.year_from, obj.year_to,
-                         obj.polity, obj.silver_inflow, ])
+                         obj.polity.long_name, obj.silver_inflow, ])
 
     return response
 
@@ -2104,7 +2192,7 @@ def silver_stock_download(request):
 
     for obj in items:
         writer.writerow([obj.year_from, obj.year_to,
-                         obj.polity, obj.silver_stock, ])
+                         obj.polity.long_name, obj.silver_stock, ])
 
     return response
 
@@ -2232,7 +2320,7 @@ def total_population_download(request):
 
     for obj in items:
         writer.writerow([obj.year_from, obj.year_to,
-                         obj.polity, obj.total_population, ])
+                         obj.polity.long_name, obj.total_population, ])
 
     return response
 
@@ -2360,7 +2448,7 @@ def gdp_per_capita_download(request):
 
     for obj in items:
         writer.writerow([obj.year_from, obj.year_to,
-                         obj.polity, obj.gdp_per_capita, ])
+                         obj.polity.long_name, obj.gdp_per_capita, ])
 
     return response
 
@@ -2488,7 +2576,7 @@ def drought_event_download(request):
 
     for obj in items:
         writer.writerow([obj.year_from, obj.year_to,
-                         obj.polity, obj.drought_event, ])
+                         obj.polity.long_name, obj.drought_event, ])
 
     return response
 
@@ -2616,7 +2704,7 @@ def locust_event_download(request):
 
     for obj in items:
         writer.writerow([obj.year_from, obj.year_to,
-                         obj.polity, obj.locust_event, ])
+                         obj.polity.long_name, obj.locust_event, ])
 
     return response
 
@@ -2744,7 +2832,7 @@ def socioeconomic_turmoil_event_download(request):
 
     for obj in items:
         writer.writerow([obj.year_from, obj.year_to,
-                         obj.polity, obj.socioeconomic_turmoil_event, ])
+                         obj.polity.long_name, obj.socioeconomic_turmoil_event, ])
 
     return response
 
@@ -2872,7 +2960,7 @@ def crop_failure_event_download(request):
 
     for obj in items:
         writer.writerow([obj.year_from, obj.year_to,
-                         obj.polity, obj.crop_failure_event, ])
+                         obj.polity.long_name, obj.crop_failure_event, ])
 
     return response
 
@@ -3000,7 +3088,7 @@ def famine_event_download(request):
 
     for obj in items:
         writer.writerow([obj.year_from, obj.year_to,
-                         obj.polity, obj.famine_event, ])
+                         obj.polity.long_name, obj.famine_event, ])
 
     return response
 
@@ -3128,7 +3216,7 @@ def disease_outbreak_download(request):
 
     for obj in items:
         writer.writerow([obj.year_from, obj.year_to,
-                         obj.polity, obj.longitude, obj.latitude, obj.elevation, obj.sub_category, obj.magnitude, obj.duration, ])
+                         obj.polity.long_name, obj.longitude, obj.latitude, obj.elevation, obj.sub_category, obj.magnitude, obj.duration, ])
 
     return response
 

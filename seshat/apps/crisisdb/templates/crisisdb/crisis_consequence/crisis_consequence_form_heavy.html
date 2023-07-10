@@ -95,21 +95,20 @@
                     <hr>
                     {% endif %}
                     <div class="row d-flex align-items-center mb-2">
-                      <div class="col-md-9">
-                        <h6><span class="display-6">Crisis Consequences</span></h6>
-                      </div>
-                      <div class="col-md-3">  
-                        {% if object.pk %}  
-                          <a href="{% url 'crisis_consequence-update_heavy' object.pk  %}"  class="btn btn-outline-secondary mx-1 my-2 float-end"> <i class="fa-solid fa-arrow-up-right-from-square"></i> Edit Refs as well (Heavy)</a>
-
-                          <a href="{% url 'crisis_consequences_all' %}"  class="btn btn-outline-success mx-1 my-2 float-end"> <i class="fa-solid fa-arrow-up-right-from-square"></i> &nbsp; See All Crisis Cases</a>
-                          {% else %}
-                          <a href="{% url 'crisis_consequence-create_heavy'  %}"  class="btn btn-outline-secondary mx-1 my-2 float-end"> <i class="fa-solid fa-arrow-up-right-from-square"></i> Add Refs as well (Heavy)</a>
-                          <a href="{% url 'crisis_consequences_all' %}"  class="btn btn-outline-success mx-1 my-2 float-end"> <i class="fa-solid fa-arrow-up-right-from-square"></i> &nbsp; See All Crisis Cases</a>
-                          {% endif %}
-                      </div>
-      
-                  </div>
+                        <div class="col-md-9">
+                          <h6><span class="display-6">Crisis Consequences</span></h6>
+                        </div>
+                        <div class="col-md-3">  
+                            {% if object.pk %}  
+                              <a href="{% url 'crisis_consequence-update' object.pk  %}"  class="btn btn-outline-secondary mx-1 my-2 float-end"> <i class="fa-solid fa-arrow-up-right-from-square"></i> Edit only Facts (Light)</a>
+                              <a href="{% url 'crisis_consequences_all' %}"  class="btn btn-outline-success mx-1 my-2 float-end"> <i class="fa-solid fa-arrow-up-right-from-square"></i> &nbsp; See All Crisis Cases</a>
+                              {% else %}
+                              <a href="{% url 'crisis_consequence-create' %}"  class="btn btn-outline-secondary mx-1 my-2 float-end"> <i class="fa-solid fa-arrow-up-right-from-square"></i> Add only Facts (Light)</a>
+                              <a href="{% url 'crisis_consequences_all' %}"  class="btn btn-outline-success mx-1 my-2 float-end"> <i class="fa-solid fa-arrow-up-right-from-square"></i> &nbsp; See All Crisis Cases</a>
+                              {% endif %}
+                          </div>
+        
+                    </div>
                 </div>
             </div> 
             <div class="row d-flex align-items-center">
@@ -172,7 +171,7 @@
         <hr>
         {% endif %}
         <h3 class="pb-2"> <span class="badge rounded-pill bg-warning text-dark"><i class="fa-solid fa-circle-plus"></i> {{mytitle}}</span></h3>
-        <h6 class="lead-2 pb-2 text-secondary"> {{mysubtitle}}</h6>
+        <h6 class="lead-2 pb-2 text-secondary">{{mysubtitle}}</h6>
         <div class="row">
           <div class="row custom-left-border-shadowed">
 
@@ -704,9 +703,27 @@
 
                     <h4 class="mb-3"><span class="badge bg-info text-dark">Notes and Citations</span></h4>
 
-                    <div class="col-md-12 mb-2">{{ form.description|as_crispy_field }}
+                    <div class="col-md-6 mb-2">{{ form.description|as_crispy_field }}
 
                     </div>
+                    <div class="col-md-6 mb-2"> {{ form.citations|as_crispy_field }}
+
+                      <div id="citations-dropdown"></div>
+
+                      <p class="pt-3">
+                          * You can <b>search</b> for a Citation based on its: 
+                          <ul class="pt-0">
+                              <li>title</li>
+                              <li>author</li>
+                              <li>year</li>
+                          </ul>
+                          <p class="text-danger fw-bold">
+                              * You do not find your Citation in the dropdown menu above? 
+                          <a href="{% url 'citation-create' %}" > <span class="text-decoration-underline">Click Here to Add a NEW Citation</span></a>
+                          </p>
+                      </p>
+                    </div>
+
                 </div>
               </div>
         <div class="row">

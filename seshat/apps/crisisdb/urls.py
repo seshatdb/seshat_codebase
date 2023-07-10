@@ -17,13 +17,16 @@ urlpatterns = [
 urlpatterns += [
     path('crisis_consequence/create/', views.Crisis_consequenceCreate.as_view(),
          name="crisis_consequence-create"),
-
+     path('crisis_consequence/createheavy/', views.Crisis_consequenceCreateHeavy.as_view(),
+         name="crisis_consequence-create_heavy"),
     path('crisis_consequences/', views.Crisis_consequenceListView.as_view(), name='crisis_consequences'),
     path('crisis_consequences_all/', views.Crisis_consequenceListViewAll.as_view(), name='crisis_consequences_all'),
     path('crisis_consequence/<int:pk>', views.Crisis_consequenceDetailView.as_view(),
          name='crisis_consequence-detail'),
     path('crisis_consequence/<int:pk>/update/',
          views.Crisis_consequenceUpdate.as_view(), name="crisis_consequence-update"),
+    path('crisis_consequence/<int:pk>/updateheavy/',
+         views.Crisis_consequenceUpdateHeavy.as_view(), name="crisis_consequence-update_heavy"),
     path('crisis_consequence/<int:pk>/delete/',
          views.Crisis_consequenceDelete.as_view(), name="crisis_consequence-delete"),
     # Download
@@ -38,13 +41,16 @@ urlpatterns += [
 urlpatterns += [
     path('power_transition/create/', views.Power_transitionCreate.as_view(),
          name="power_transition-create"),
-
+     path('power_transition/createheavy/', views.Power_transitionCreateHeavy.as_view(),
+         name="power_transition-create_heavy"),
     path('power_transitions/', views.Power_transitionListView.as_view(), name='power_transitions'),
     path('power_transitions_all/', views.Power_transitionListViewAll.as_view(), name='power_transitions_all'),
     path('power_transition/<int:pk>', views.Power_transitionDetailView.as_view(),
          name='power_transition-detail'),
     path('power_transition/<int:pk>/update/',
          views.Power_transitionUpdate.as_view(), name="power_transition-update"),
+    path('power_transition/<int:pk>/updateheavy/',
+         views.Power_transitionUpdateHeavy.as_view(), name="power_transition-update_heavy"),
     path('power_transition/<int:pk>/delete/',
          views.Power_transitionDelete.as_view(), name="power_transition-delete"),
     # Download
