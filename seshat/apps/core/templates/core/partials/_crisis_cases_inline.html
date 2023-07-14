@@ -4,7 +4,7 @@
 
 <div class="table-responsive">
 
-    <table id="table_id" class="table align-middle table-hover table-borderless  mb-3" style="padding: 0.25 rem !important;">
+    <table id="table_id" class="table align-middle table-borderless" style="padding: 0.25 rem !important;">
         <tbody>
                 <tr class="pt-4">
                 <td class="col-sm-12 mb-3 align-text-top" style="text-align: center;">
@@ -134,7 +134,7 @@
                 <!-- Tag tag (Disputed/Suspected etc.) -->
             </tr>
             <tr class="pt-4 mb-4">
-                <td class="col-sm-12 pt-3 mb-5" scope="row">
+                <td class="col-sm-12 pt-3 mb-3" scope="row">
                     <span class="fw-light fs-5 text-secondary">
                     {% if value.polity %}
                     Polities:
@@ -166,11 +166,10 @@
                 </span>
                 <br>
                 {% autoescape off %}
-
-                <p class="ps-2 fs-5 custom-left-border-shadowed ms-4">
+                <p class="fs-6">
+                    <i class="fa-solid fa-layer-group fa-xs text-teal"></i>  
                     {{ value.description|make_references_look_nicer }}
                 </p>
-                
                 {% endautoescape %}
 
                 </td>

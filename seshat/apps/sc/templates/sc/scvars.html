@@ -21,6 +21,16 @@
         margin-bottom: 10px;
       }
 
+      .custom-left-border-shadowed {
+        border-left: none; /* Adjust the border color and thickness as desired */
+        box-shadow: 0 0 2px teal; 
+        padding-right: 1px;
+        padding-top: 1px;
+        padding-bottom: 1px;
+        border-radius: 5px;
+        padding-left: 10px; /* Adjust the padding to create spacing between the border and content */
+        text-align: justify;
+    }
       
       .card-text {
         margin-bottom: 20px;
@@ -58,6 +68,14 @@
         background-color: teal;
         border-radius: 4px;
       }
+
+      .light-narrow-hr {
+        border: none;
+        border-top: 1px solid #f0ecec;
+        height: 0.25px;
+        margin: 20px 0;
+        width: 100%;
+      }
 </style>
 <div class="container mt-2">
     <div class="row">
@@ -68,19 +86,15 @@
                   <h1 class="py-3 ps-0"><span class="badge rounded-pill bg-teal text-dark">Social Complexity Variables</span> 
                   </h1>                </div>
                 <div class="col-md-6">    
-                    <a href='{% url "download_csv_all" %}' class="btn btn-outline-success mx-1 my-2 float-end"> <i class="fa-solid fa-file-csv"></i> &nbsp; Download <b>All</b> (.CSV) </a>
+                    <a href='{% url "download_csv_all_sc" %}' class="btn btn-outline-success mx-1 my-2 float-end"> <i class="fa-solid fa-file-csv"></i> &nbsp; Download <b>All</b> (.CSV) </a>
                 </div>
             </div>
 
           </div>
         </div>
 
-
-
-
-        
         <h4>
-          <span class="h5 text-secondary">We have coded a total of  
+          <span class="h5 text-secondary">* We have coded a total of  
             <b class="h4 text-dark">
             {{number_of_all_rows|intcomma}}</b>
             different values for 
@@ -92,20 +106,17 @@
             polities.</span>
         </h4>
         {% for sect, subsect in all_vars_grouped.items %}
-        <div class="row mt-3">
+        <div class="row">
           <div class="col-md-12">
               <div class="row d-flex align-items-center mb-2">
+                <hr class="light-narrow-hr">
                   <div class="col-md-6">
-                    <h3 class="py-3 ps-0 mt-4"><span class="badge rounded-pill bg-info text-dark">
+                    <h3 class="py-1 ps-0 mt-2"><span class="badge rounded-pill bg-info text-dark">
                       {{sect}}
-            
-            
                     </span> 
                   </h3> 
                 </div>
                   <div class="col-md-6">   
-                    
-                    
 
                     {% for kkk, vvv in all_sect_download_links.items %}
                     {% if kkk == sect %}
@@ -113,7 +124,7 @@
                     <span><a href="{% url vvv %}" class="btn btn-outline-primary mx-1 my-2 float-end"> <i class="fa-solid fa-file-csv"></i> &nbsp; Download <b>{{sect}}</b> (.CSV) </a> </span>
                     {% endif%}
             
-                    {% endfor%}
+                    {% endfor %}
                   </div>
               </div>
   
@@ -160,12 +171,11 @@
                   </div>
                   {% endfor %}
 
-
-                  {% endfor %}
+              {% endfor %}
 
             {% endfor %}
-        <hr>           
-    </div>
+            <hr class="light-narrow-hr">
+          </div>
 </div>
 
 {% endblock %}

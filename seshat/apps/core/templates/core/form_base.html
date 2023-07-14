@@ -79,6 +79,12 @@
                 {{ form.drb_reviewed|as_crispy_field }}
             </div>
         </div>
+
+        <div class="row">
+            <div class="col-md-12 py-3 ps-4">
+                    {{ form.description|as_crispy_field }}
+            </div>
+        </div>
         <div class="row">
             {% if request.user.is_staff %}
             <div class="col-md-4 py-3 ps-4">

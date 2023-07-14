@@ -254,14 +254,16 @@ def get_all_wf_data_for_a_polity(polity_id):
 def get_all_crisis_cases_data_for_a_polity(polity_id):
     a_data_dic = {}
     my_data = Crisis_consequence.objects.filter(polity = polity_id)
-    a_data_dic["crisis_cases"] = my_data
+    if my_data:
+        a_data_dic["crisis_cases"] = my_data
     #print(a_data_dic)
     return a_data_dic
 
 def get_all_power_transitions_data_for_a_polity(polity_id):
     a_data_dic = {}
     my_data = Power_transition.objects.filter(polity = polity_id)
-    a_data_dic["crisis_cases"] = my_data
+    if my_data:
+        a_data_dic["crisis_cases"] = my_data
     #print(a_data_dic)
     return a_data_dic
 

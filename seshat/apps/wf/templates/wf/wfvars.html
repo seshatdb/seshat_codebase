@@ -58,21 +58,32 @@
         background-color: teal;
         border-radius: 4px;
       }
+
+      .light-narrow-hr {
+        border: none;
+        border-top: 1px solid #f0ecec;
+        height: 0.25px;
+        margin: 20px 0;
+        width: 100%;
+      }
 </style>
-<div class="container mt-4">
+<div class="container mt-2">
     <div class="row">
-        <h1 class="display-6">Warfare variables:</h1>
-        <p>
-            Warfare variables are a part of Classical Seshat Database.
-        </p>
-        <hr>
-        <h2 class="display-6">Military Technologies</h2>
-        <p>
-            A military technology should be coded 'present' if there is concrete evidence that it was used in warfare (e.g. metal in armor or weapons, spears used in warfare and not only in hunting, etc) and 'inferred present' if there is evidence that the polity used the technology (e.g. for hunting, as an ornamental or ceremonial item, in jewelry), but no concrete evidence that the metal was specifically used in warfare (explain in comment).
-        </p>
-    </div>
-    <div class="row">
-        <h2 class="py-3 ps-0"><span class="badge rounded-pill bg-teal text-dark">Warfare variables</span> <span class="h5 text-secondary">We have coded a total of  
+      <div class="row mt-3">
+        <div class="col-md-12">
+            <div class="row d-flex align-items-center mb-2">
+                <div class="col-md-6">
+                  <h1 class="py-3 ps-0"><span class="badge rounded-pill bg-teal text-dark">Warfare variables (MilTech):</span> 
+                  </h1>                </div>
+                <div class="col-md-6">    
+                    <a href='{% url "download_csv_all_wf" %}' class="btn btn-outline-success mx-1 my-2 float-end"> <i class="fa-solid fa-file-csv"></i> &nbsp; Download <b>All</b> (.CSV) </a>
+                </div>
+            </div>
+
+          </div>
+        </div>
+        <h4>
+          <span class="h5 text-secondary">* We have coded a total of  
             <b class="h4 text-dark">
             {{number_of_all_rows|intcomma}}</b>
             different values for 
@@ -82,7 +93,16 @@
             <b class="h4 text-dark">
             {{all_polities}}</b>
             polities.</span>
-        </h2>
+        </h4>
+        <hr class="light-narrow-hr">
+
+        <h2 class="display-6"> <span class="fs-2">&#x2694; </span> Military Technologies</h2>
+        <p class="fs-5">
+            A military technology should be coded 'present' if there is concrete evidence that it was used in warfare (e.g. metal in armor or weapons, spears used in warfare and not only in hunting, etc) and 'inferred present' if there is evidence that the polity used the technology (e.g. for hunting, as an ornamental or ceremonial item, in jewelry), but no concrete evidence that the metal was specifically used in warfare (explain in comment).
+        </p>
+    </div>
+    <div class="row">
+
         {% for k, v in my_counts.items %}
                 <div class="card col-md-2">
                     <div class="card-body d-flex flex-column align-items-center">

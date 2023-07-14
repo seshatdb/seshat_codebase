@@ -5,6 +5,8 @@ from . import views
 
 urlpatterns = [
     path('wfvars/', views.wfvars, name='wfvars'),
+        path('download-csv-wf-all/', views.download_csv_all_wf,name='download_csv_all_wf'),
+
 ]
 
 

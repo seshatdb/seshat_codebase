@@ -7083,4 +7083,36 @@ def wfvars(request):
     context["number_of_variables"] = number_of_variables
     return render(request, 'wf/wfvars.html', context=context)
 
+
+
+@permission_required('core.view_capital')
+def download_csv_all_wf(request):
+    # Fetch all models in the "socomp" app
+    app_name = 'wf'  # Replace with your app name
+    app_models = apps.get_app_config(app_name).get_models()
+
+    # Create a response object with CSV content type
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="miltech_data_all_in_1.csv"'
+
+    # Create a CSV writer
+    writer = csv.writer(response, delimiter='|')
+
+    # type the headers
+    writer.writerow(['subsection', 'variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
+                    'value_from', 'value_to', 'confidence', 'is_disputed', 'expert_checked',])
+    # Iterate over each model
+    for model in app_models:
+        # Get all rows of data from the model
+        items = model.objects.all()
+
+
+        for obj in items:
+            writer.writerow(["Military Technologies", obj.clean_name_spaced(), obj.year_from, obj.year_to,
+                         obj.polity.long_name, obj.polity.new_name, obj.polity.name, obj.show_value(), None, obj.get_tag_display(), obj.is_disputed,
+                         obj.expert_reviewed, ])
+
+    return response
+
+
     

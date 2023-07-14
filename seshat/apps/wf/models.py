@@ -50,25 +50,35 @@ def return_citations(self):
 def clean_times(self):
     if (self.year_from and self.year_to) and self.year_from > self.year_to:
         raise ValidationError({
-            'year_from': 'The start year is bigger than the end year!',
+            'year_from':  mark_safe('<span class="text-danger"> <i class="fa-solid fa-triangle-exclamation"></i> The start year is bigger than the end year!</span>'),
         })
-    if self.year_from and (self.year_from < -10000 or self.year_from > date.today().year):
+    if self.year_from and (self.year_from > date.today().year):
         raise ValidationError({
-            'year_from': 'The start year is out of range!',
+            'year_from':  mark_safe('<span class="text-danger"> <i class="fa-solid fa-triangle-exclamation"></i> The start year is out of range!</span>'),
         })
     if self.year_from and (self.year_from < self.polity.start_year):
         raise ValidationError({
-            'year_from': 'The start year is earlier than the start year of the corresponding polity!',
+            'year_from': mark_safe('<span class="text-danger"> <i class="fa-solid fa-triangle-exclamation"></i> The start year is earlier than the start year of the corresponding polity!</span>'),
         })
     if self.year_to and (self.year_to > self.polity.end_year):
         raise ValidationError({
-            'year_to': 'The end year is later than the end year of the corresponding polity!',
+            'year_to':  mark_safe('<span class="text-danger"> <i class="fa-solid fa-triangle-exclamation"></i>The end year is later than the end year of the corresponding polity!</span>'),
         })
-    if self.year_to and (self.year_to < -10000 or self.year_to > date.today().year):
+    if self.year_to and (self.year_to > date.today().year):
         raise ValidationError({
-            'year_to': 'The end year is out of range!',
+            'year_to': mark_safe('<span class="text-danger"> <i class="fa-solid fa-triangle-exclamation"></i>The end year is out of range!</span>'),
         })
 
+
+
+    # def show_value_from(self):
+    #     if self.professional_military_officer:
+    #         return self.professional_military_officer
+    #     else:
+    #         return None
+
+    # def show_value_to(self):
+    #     return None  
 
 ########## End of Function Definitions for General (Vars) Models
 

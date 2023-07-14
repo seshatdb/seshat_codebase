@@ -5,7 +5,7 @@ from . import views
 
 urlpatterns = [
     path('scvars/', views.scvars, name='scvars'),
-    path('download-csv-sc-all/', views.download_csv_all,name='download_csv_all'),
+    path('download-csv-sc-all/', views.download_csv_all_sc,name='download_csv_all_sc'),
     path('download_csv_social_scale/', views.download_csv_social_scale,name='download_csv_social_scale'),
      path('download_csv_professions/', views.download_csv_professions,name='download_csv_professions'),
      path('download_csv_bureaucracy_characteristics/', views.download_csv_bureaucracy_characteristics,name='download_csv_bureaucracy_characteristics'),

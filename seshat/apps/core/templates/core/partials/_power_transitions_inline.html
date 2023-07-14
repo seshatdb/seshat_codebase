@@ -4,10 +4,10 @@
 
 <div class="table-responsive">
 
-    <table id="table_id" class="table align-middle table-borderless table-hover mb-3" style="padding: 0.25 rem !important;">
+    <table id="table_id" class="table align-middle table-borderless mb-2" style="padding: 0.25 rem !important;">
         <tbody>
                 <tr class="pt-4">
-                <td class="col-sm-12 mb-3 align-text-top  ps-4" style="text-align: center;">
+                <td class="col-sm-12 mb-2 align-text-top" style="text-align: center;">
                     {% with value|get_columns_with_value_dic:"P" as columns_dic %}
                         {% if columns_dic %}
                         <div class="row gx-1">
@@ -133,17 +133,16 @@
                 
                 <!-- Tag tag (Disputed/Suspected etc.) -->
             </tr>
-            <tr class="pt-4 mb-4">
-                <td class="col-sm-12 pt-1 ps-4" scope="row">
-                    <span class="h5">Power Transition in 
-                        <span class = "fw-bold text-teal">{{ value.polity }}</span>
-                    </span>
-                    <h6 class="h6">Culture Group: <b>{{ value.culture_group|replace_underscore_and_capitalize }}</b> </h6>
-
+            <tr class="pt-4 mb-2">
+                <td class="col-sm-12 pt-3 mb-2" scope="row">
+                    <span class="fw-light fs-5 text-secondary">
+                Culture Group: <b>{{ value.culture_group|replace_underscore_and_capitalize }}</b> </span>
                 <br>
                 {% autoescape off %}
 
-                <p class="ps-2 fs-5 custom-left-border-shadowed ms-4">{{ value.description|make_references_look_nicer }}</p>
+                <p class="fs-6">
+                    <i class="fa-solid fa-layer-group fa-xs text-teal"></i>  
+                    {{ value.description|make_references_look_nicer }}</p>
                 {% endautoescape %}
 
                 </td>

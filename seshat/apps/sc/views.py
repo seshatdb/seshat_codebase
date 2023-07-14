@@ -7031,7 +7031,7 @@ def scvars(request):
     return render(request, 'sc/scvars.html', context=context)
 
 @permission_required('core.view_capital')
-def download_csv_all(request):
+def download_csv_all_sc(request):
     # Fetch all models in the "socomp" app
     app_name = 'sc'  # Replace with your app name
     app_models = apps.get_app_config(app_name).get_models()
