@@ -155,11 +155,11 @@ def copper_download(request):
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
-                    'copper', 'confidence', 'is_disputed', 'expert_checked'])
+                    'copper', 'confidence', 'is_disputed', 'is_uncertain', 'expert_checked'])
 
     for obj in items:
         writer.writerow([obj.name, obj.year_from, obj.year_to,
-                         obj.polity, obj.polity.new_name, obj.polity.name, obj.copper, obj.get_tag_display(), obj.is_disputed,
+                         obj.polity, obj.polity.new_name, obj.polity.name, obj.copper, obj.get_tag_display(), obj.is_disputed, obj.is_uncertain,
                          obj.expert_reviewed, ])
 
     return response
@@ -301,11 +301,11 @@ def bronze_download(request):
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
-                    'bronze', 'confidence', 'is_disputed', 'expert_checked'])
+                    'bronze', 'confidence', 'is_disputed', 'is_uncertain', 'expert_checked'])
 
     for obj in items:
         writer.writerow([obj.name, obj.year_from, obj.year_to,
-                         obj.polity, obj.polity.new_name, obj.polity.name, obj.bronze, obj.get_tag_display(), obj.is_disputed,
+                         obj.polity, obj.polity.new_name, obj.polity.name, obj.bronze, obj.get_tag_display(), obj.is_disputed, obj.is_uncertain,
                          obj.expert_reviewed, ])
 
     return response
@@ -447,11 +447,11 @@ def iron_download(request):
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
-                    'iron', 'confidence', 'is_disputed', 'expert_checked'])
+                    'iron', 'confidence', 'is_disputed', 'is_uncertain', 'expert_checked'])
 
     for obj in items:
         writer.writerow([obj.name, obj.year_from, obj.year_to,
-                         obj.polity, obj.polity.new_name, obj.polity.name, obj.iron, obj.get_tag_display(), obj.is_disputed,
+                         obj.polity, obj.polity.new_name, obj.polity.name, obj.iron, obj.get_tag_display(), obj.is_disputed, obj.is_uncertain,
                          obj.expert_reviewed, ])
 
     return response
@@ -593,11 +593,11 @@ def steel_download(request):
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
-                    'steel', 'confidence', 'is_disputed', 'expert_checked'])
+                    'steel', 'confidence', 'is_disputed', 'is_uncertain', 'expert_checked'])
 
     for obj in items:
         writer.writerow([obj.name, obj.year_from, obj.year_to,
-                         obj.polity, obj.polity.new_name, obj.polity.name, obj.steel, obj.get_tag_display(), obj.is_disputed,
+                         obj.polity, obj.polity.new_name, obj.polity.name, obj.steel, obj.get_tag_display(), obj.is_disputed, obj.is_uncertain,
                          obj.expert_reviewed, ])
 
     return response
@@ -739,11 +739,11 @@ def javelin_download(request):
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
-                    'javelin', 'confidence', 'is_disputed', 'expert_checked'])
+                    'javelin', 'confidence', 'is_disputed', 'is_uncertain', 'expert_checked'])
 
     for obj in items:
         writer.writerow([obj.name, obj.year_from, obj.year_to,
-                         obj.polity, obj.polity.new_name, obj.polity.name, obj.javelin, obj.get_tag_display(), obj.is_disputed,
+                         obj.polity, obj.polity.new_name, obj.polity.name, obj.javelin, obj.get_tag_display(), obj.is_disputed, obj.is_uncertain,
                          obj.expert_reviewed, ])
 
     return response
@@ -885,11 +885,11 @@ def atlatl_download(request):
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
-                    'atlatl', 'confidence', 'is_disputed', 'expert_checked'])
+                    'atlatl', 'confidence', 'is_disputed', 'is_uncertain', 'expert_checked'])
 
     for obj in items:
         writer.writerow([obj.name, obj.year_from, obj.year_to,
-                         obj.polity, obj.polity.new_name, obj.polity.name, obj.atlatl, obj.get_tag_display(), obj.is_disputed,
+                         obj.polity, obj.polity.new_name, obj.polity.name, obj.atlatl, obj.get_tag_display(), obj.is_disputed, obj.is_uncertain,
                          obj.expert_reviewed, ])
 
     return response
@@ -1031,11 +1031,11 @@ def sling_download(request):
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
-                    'sling', 'confidence', 'is_disputed', 'expert_checked'])
+                    'sling', 'confidence', 'is_disputed', 'is_uncertain', 'expert_checked'])
 
     for obj in items:
         writer.writerow([obj.name, obj.year_from, obj.year_to,
-                         obj.polity, obj.polity.new_name, obj.polity.name, obj.sling, obj.get_tag_display(), obj.is_disputed,
+                         obj.polity, obj.polity.new_name, obj.polity.name, obj.sling, obj.get_tag_display(), obj.is_disputed, obj.is_uncertain,
                          obj.expert_reviewed, ])
 
     return response
@@ -1177,11 +1177,11 @@ def self_bow_download(request):
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
-                    'self_bow', 'confidence', 'is_disputed', 'expert_checked'])
+                    'self_bow', 'confidence', 'is_disputed', 'is_uncertain', 'expert_checked'])
 
     for obj in items:
         writer.writerow([obj.name, obj.year_from, obj.year_to,
-                         obj.polity, obj.polity.new_name, obj.polity.name, obj.self_bow, obj.get_tag_display(), obj.is_disputed,
+                         obj.polity, obj.polity.new_name, obj.polity.name, obj.self_bow, obj.get_tag_display(), obj.is_disputed, obj.is_uncertain,
                          obj.expert_reviewed, ])
 
     return response
@@ -1323,11 +1323,11 @@ def composite_bow_download(request):
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
-                    'composite_bow', 'confidence', 'is_disputed', 'expert_checked'])
+                    'composite_bow', 'confidence', 'is_disputed', 'is_uncertain', 'expert_checked'])
 
     for obj in items:
         writer.writerow([obj.name, obj.year_from, obj.year_to,
-                         obj.polity, obj.polity.new_name, obj.polity.name, obj.composite_bow, obj.get_tag_display(), obj.is_disputed,
+                         obj.polity, obj.polity.new_name, obj.polity.name, obj.composite_bow, obj.get_tag_display(), obj.is_disputed, obj.is_uncertain,
                          obj.expert_reviewed, ])
 
     return response
@@ -1469,11 +1469,11 @@ def crossbow_download(request):
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
-                    'crossbow', 'confidence', 'is_disputed', 'expert_checked'])
+                    'crossbow', 'confidence', 'is_disputed', 'is_uncertain', 'expert_checked'])
 
     for obj in items:
         writer.writerow([obj.name, obj.year_from, obj.year_to,
-                         obj.polity, obj.polity.new_name, obj.polity.name, obj.crossbow, obj.get_tag_display(), obj.is_disputed,
+                         obj.polity, obj.polity.new_name, obj.polity.name, obj.crossbow, obj.get_tag_display(), obj.is_disputed, obj.is_uncertain,
                          obj.expert_reviewed, ])
 
     return response
@@ -1615,11 +1615,11 @@ def tension_siege_engine_download(request):
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
-                    'tension_siege_engine', 'confidence', 'is_disputed', 'expert_checked'])
+                    'tension_siege_engine', 'confidence', 'is_disputed', 'is_uncertain', 'expert_checked'])
 
     for obj in items:
         writer.writerow([obj.name, obj.year_from, obj.year_to,
-                         obj.polity, obj.polity.new_name, obj.polity.name, obj.tension_siege_engine, obj.get_tag_display(), obj.is_disputed,
+                         obj.polity, obj.polity.new_name, obj.polity.name, obj.tension_siege_engine, obj.get_tag_display(), obj.is_disputed, obj.is_uncertain,
                          obj.expert_reviewed, ])
 
     return response
@@ -1761,11 +1761,11 @@ def sling_siege_engine_download(request):
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
-                    'sling_siege_engine', 'confidence', 'is_disputed', 'expert_checked'])
+                    'sling_siege_engine', 'confidence', 'is_disputed', 'is_uncertain', 'expert_checked'])
 
     for obj in items:
         writer.writerow([obj.name, obj.year_from, obj.year_to,
-                         obj.polity, obj.polity.new_name, obj.polity.name, obj.sling_siege_engine, obj.get_tag_display(), obj.is_disputed,
+                         obj.polity, obj.polity.new_name, obj.polity.name, obj.sling_siege_engine, obj.get_tag_display(), obj.is_disputed, obj.is_uncertain,
                          obj.expert_reviewed, ])
 
     return response
@@ -1907,11 +1907,11 @@ def gunpowder_siege_artillery_download(request):
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
-                    'gunpowder_siege_artillery', 'confidence', 'is_disputed', 'expert_checked'])
+                    'gunpowder_siege_artillery', 'confidence', 'is_disputed', 'is_uncertain', 'expert_checked'])
 
     for obj in items:
         writer.writerow([obj.name, obj.year_from, obj.year_to,
-                         obj.polity, obj.polity.new_name, obj.polity.name, obj.gunpowder_siege_artillery, obj.get_tag_display(), obj.is_disputed,
+                         obj.polity, obj.polity.new_name, obj.polity.name, obj.gunpowder_siege_artillery, obj.get_tag_display(), obj.is_disputed, obj.is_uncertain,
                          obj.expert_reviewed, ])
 
     return response
@@ -2053,11 +2053,11 @@ def handheld_firearm_download(request):
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
-                    'handheld_firearm', 'confidence', 'is_disputed', 'expert_checked'])
+                    'handheld_firearm', 'confidence', 'is_disputed', 'is_uncertain', 'expert_checked'])
 
     for obj in items:
         writer.writerow([obj.name, obj.year_from, obj.year_to,
-                         obj.polity, obj.polity.new_name, obj.polity.name, obj.handheld_firearm, obj.get_tag_display(), obj.is_disputed,
+                         obj.polity, obj.polity.new_name, obj.polity.name, obj.handheld_firearm, obj.get_tag_display(), obj.is_disputed, obj.is_uncertain,
                          obj.expert_reviewed, ])
 
     return response
@@ -2199,11 +2199,11 @@ def war_club_download(request):
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
-                    'war_club', 'confidence', 'is_disputed', 'expert_checked'])
+                    'war_club', 'confidence', 'is_disputed', 'is_uncertain', 'expert_checked'])
 
     for obj in items:
         writer.writerow([obj.name, obj.year_from, obj.year_to,
-                         obj.polity, obj.polity.new_name, obj.polity.name, obj.war_club, obj.get_tag_display(), obj.is_disputed,
+                         obj.polity, obj.polity.new_name, obj.polity.name, obj.war_club, obj.get_tag_display(), obj.is_disputed, obj.is_uncertain,
                          obj.expert_reviewed, ])
 
     return response
@@ -2345,11 +2345,11 @@ def battle_axe_download(request):
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
-                    'battle_axe', 'confidence', 'is_disputed', 'expert_checked'])
+                    'battle_axe', 'confidence', 'is_disputed', 'is_uncertain', 'expert_checked'])
 
     for obj in items:
         writer.writerow([obj.name, obj.year_from, obj.year_to,
-                         obj.polity, obj.polity.new_name, obj.polity.name, obj.battle_axe, obj.get_tag_display(), obj.is_disputed,
+                         obj.polity, obj.polity.new_name, obj.polity.name, obj.battle_axe, obj.get_tag_display(), obj.is_disputed, obj.is_uncertain,
                          obj.expert_reviewed, ])
 
     return response
@@ -2491,11 +2491,11 @@ def dagger_download(request):
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
-                    'dagger', 'confidence', 'is_disputed', 'expert_checked'])
+                    'dagger', 'confidence', 'is_disputed', 'is_uncertain', 'expert_checked'])
 
     for obj in items:
         writer.writerow([obj.name, obj.year_from, obj.year_to,
-                         obj.polity, obj.polity.new_name, obj.polity.name, obj.dagger, obj.get_tag_display(), obj.is_disputed,
+                         obj.polity, obj.polity.new_name, obj.polity.name, obj.dagger, obj.get_tag_display(), obj.is_disputed, obj.is_uncertain,
                          obj.expert_reviewed, ])
 
     return response
@@ -2637,11 +2637,11 @@ def sword_download(request):
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
-                    'sword', 'confidence', 'is_disputed', 'expert_checked'])
+                    'sword', 'confidence', 'is_disputed', 'is_uncertain', 'expert_checked'])
 
     for obj in items:
         writer.writerow([obj.name, obj.year_from, obj.year_to,
-                         obj.polity, obj.polity.new_name, obj.polity.name, obj.sword, obj.get_tag_display(), obj.is_disputed,
+                         obj.polity, obj.polity.new_name, obj.polity.name, obj.sword, obj.get_tag_display(), obj.is_disputed, obj.is_uncertain,
                          obj.expert_reviewed, ])
 
     return response
@@ -2783,11 +2783,11 @@ def spear_download(request):
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
-                    'spear', 'confidence', 'is_disputed', 'expert_checked'])
+                    'spear', 'confidence', 'is_disputed', 'is_uncertain', 'expert_checked'])
 
     for obj in items:
         writer.writerow([obj.name, obj.year_from, obj.year_to,
-                         obj.polity, obj.polity.new_name, obj.polity.name, obj.spear, obj.get_tag_display(), obj.is_disputed,
+                         obj.polity, obj.polity.new_name, obj.polity.name, obj.spear, obj.get_tag_display(), obj.is_disputed, obj.is_uncertain,
                          obj.expert_reviewed, ])
 
     return response
@@ -2929,11 +2929,11 @@ def polearm_download(request):
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
-                    'polearm', 'confidence', 'is_disputed', 'expert_checked'])
+                    'polearm', 'confidence', 'is_disputed', 'is_uncertain', 'expert_checked'])
 
     for obj in items:
         writer.writerow([obj.name, obj.year_from, obj.year_to,
-                         obj.polity, obj.polity.new_name, obj.polity.name, obj.polearm, obj.get_tag_display(), obj.is_disputed,
+                         obj.polity, obj.polity.new_name, obj.polity.name, obj.polearm, obj.get_tag_display(), obj.is_disputed, obj.is_uncertain,
                          obj.expert_reviewed, ])
 
     return response
@@ -3075,11 +3075,11 @@ def dog_download(request):
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
-                    'dog', 'confidence', 'is_disputed', 'expert_checked'])
+                    'dog', 'confidence', 'is_disputed', 'is_uncertain', 'expert_checked'])
 
     for obj in items:
         writer.writerow([obj.name, obj.year_from, obj.year_to,
-                         obj.polity, obj.polity.new_name, obj.polity.name, obj.dog, obj.get_tag_display(), obj.is_disputed,
+                         obj.polity, obj.polity.new_name, obj.polity.name, obj.dog, obj.get_tag_display(), obj.is_disputed, obj.is_uncertain,
                          obj.expert_reviewed, ])
 
     return response
@@ -3221,11 +3221,11 @@ def donkey_download(request):
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
-                    'donkey', 'confidence', 'is_disputed', 'expert_checked'])
+                    'donkey', 'confidence', 'is_disputed', 'is_uncertain', 'expert_checked'])
 
     for obj in items:
         writer.writerow([obj.name, obj.year_from, obj.year_to,
-                         obj.polity, obj.polity.new_name, obj.polity.name, obj.donkey, obj.get_tag_display(), obj.is_disputed,
+                         obj.polity, obj.polity.new_name, obj.polity.name, obj.donkey, obj.get_tag_display(), obj.is_disputed, obj.is_uncertain,
                          obj.expert_reviewed, ])
 
     return response
@@ -3367,11 +3367,11 @@ def horse_download(request):
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
-                    'horse', 'confidence', 'is_disputed', 'expert_checked'])
+                    'horse', 'confidence', 'is_disputed', 'is_uncertain', 'expert_checked'])
 
     for obj in items:
         writer.writerow([obj.name, obj.year_from, obj.year_to,
-                         obj.polity, obj.polity.new_name, obj.polity.name, obj.horse, obj.get_tag_display(), obj.is_disputed,
+                         obj.polity, obj.polity.new_name, obj.polity.name, obj.horse, obj.get_tag_display(), obj.is_disputed, obj.is_uncertain,
                          obj.expert_reviewed, ])
 
     return response
@@ -3513,11 +3513,11 @@ def camel_download(request):
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
-                    'camel', 'confidence', 'is_disputed', 'expert_checked'])
+                    'camel', 'confidence', 'is_disputed', 'is_uncertain', 'expert_checked'])
 
     for obj in items:
         writer.writerow([obj.name, obj.year_from, obj.year_to,
-                         obj.polity, obj.polity.new_name, obj.polity.name, obj.camel, obj.get_tag_display(), obj.is_disputed,
+                         obj.polity, obj.polity.new_name, obj.polity.name, obj.camel, obj.get_tag_display(), obj.is_disputed, obj.is_uncertain,
                          obj.expert_reviewed, ])
 
     return response
@@ -3659,11 +3659,11 @@ def elephant_download(request):
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
-                    'elephant', 'confidence', 'is_disputed', 'expert_checked'])
+                    'elephant', 'confidence', 'is_disputed', 'is_uncertain', 'expert_checked'])
 
     for obj in items:
         writer.writerow([obj.name, obj.year_from, obj.year_to,
-                         obj.polity, obj.polity.new_name, obj.polity.name, obj.elephant, obj.get_tag_display(), obj.is_disputed,
+                         obj.polity, obj.polity.new_name, obj.polity.name, obj.elephant, obj.get_tag_display(), obj.is_disputed, obj.is_uncertain,
                          obj.expert_reviewed, ])
 
     return response
@@ -3805,11 +3805,11 @@ def wood_bark_etc_download(request):
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
-                    'wood_bark_etc', 'confidence', 'is_disputed', 'expert_checked'])
+                    'wood_bark_etc', 'confidence', 'is_disputed', 'is_uncertain', 'expert_checked'])
 
     for obj in items:
         writer.writerow([obj.name, obj.year_from, obj.year_to,
-                         obj.polity, obj.polity.new_name, obj.polity.name, obj.wood_bark_etc, obj.get_tag_display(), obj.is_disputed,
+                         obj.polity, obj.polity.new_name, obj.polity.name, obj.wood_bark_etc, obj.get_tag_display(), obj.is_disputed, obj.is_uncertain,
                          obj.expert_reviewed, ])
 
     return response
@@ -3951,11 +3951,11 @@ def leather_cloth_download(request):
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
-                    'leather_cloth', 'confidence', 'is_disputed', 'expert_checked'])
+                    'leather_cloth', 'confidence', 'is_disputed', 'is_uncertain', 'expert_checked'])
 
     for obj in items:
         writer.writerow([obj.name, obj.year_from, obj.year_to,
-                         obj.polity, obj.polity.new_name, obj.polity.name, obj.leather_cloth, obj.get_tag_display(), obj.is_disputed,
+                         obj.polity, obj.polity.new_name, obj.polity.name, obj.leather_cloth, obj.get_tag_display(), obj.is_disputed, obj.is_uncertain,
                          obj.expert_reviewed, ])
 
     return response
@@ -4097,11 +4097,11 @@ def shield_download(request):
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
-                    'shield', 'confidence', 'is_disputed', 'expert_checked'])
+                    'shield', 'confidence', 'is_disputed', 'is_uncertain', 'expert_checked'])
 
     for obj in items:
         writer.writerow([obj.name, obj.year_from, obj.year_to,
-                         obj.polity, obj.polity.new_name, obj.polity.name, obj.shield, obj.get_tag_display(), obj.is_disputed,
+                         obj.polity, obj.polity.new_name, obj.polity.name, obj.shield, obj.get_tag_display(), obj.is_disputed, obj.is_uncertain,
                          obj.expert_reviewed, ])
 
     return response
@@ -4243,11 +4243,11 @@ def helmet_download(request):
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
-                    'helmet', 'confidence', 'is_disputed', 'expert_checked'])
+                    'helmet', 'confidence', 'is_disputed', 'is_uncertain', 'expert_checked'])
 
     for obj in items:
         writer.writerow([obj.name, obj.year_from, obj.year_to,
-                         obj.polity, obj.polity.new_name, obj.polity.name, obj.helmet, obj.get_tag_display(), obj.is_disputed,
+                         obj.polity, obj.polity.new_name, obj.polity.name, obj.helmet, obj.get_tag_display(), obj.is_disputed, obj.is_uncertain,
                          obj.expert_reviewed, ])
 
     return response
@@ -4389,11 +4389,11 @@ def breastplate_download(request):
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
-                    'breastplate', 'confidence', 'is_disputed', 'expert_checked'])
+                    'breastplate', 'confidence', 'is_disputed', 'is_uncertain', 'expert_checked'])
 
     for obj in items:
         writer.writerow([obj.name, obj.year_from, obj.year_to,
-                         obj.polity, obj.polity.new_name, obj.polity.name, obj.breastplate, obj.get_tag_display(), obj.is_disputed,
+                         obj.polity, obj.polity.new_name, obj.polity.name, obj.breastplate, obj.get_tag_display(), obj.is_disputed, obj.is_uncertain,
                          obj.expert_reviewed, ])
 
     return response
@@ -4535,11 +4535,11 @@ def limb_protection_download(request):
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
-                    'limb_protection', 'confidence', 'is_disputed', 'expert_checked'])
+                    'limb_protection', 'confidence', 'is_disputed', 'is_uncertain', 'expert_checked'])
 
     for obj in items:
         writer.writerow([obj.name, obj.year_from, obj.year_to,
-                         obj.polity, obj.polity.new_name, obj.polity.name, obj.limb_protection, obj.get_tag_display(), obj.is_disputed,
+                         obj.polity, obj.polity.new_name, obj.polity.name, obj.limb_protection, obj.get_tag_display(), obj.is_disputed, obj.is_uncertain,
                          obj.expert_reviewed, ])
 
     return response
@@ -4681,11 +4681,11 @@ def scaled_armor_download(request):
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
-                    'scaled_armor', 'confidence', 'is_disputed', 'expert_checked'])
+                    'scaled_armor', 'confidence', 'is_disputed', 'is_uncertain', 'expert_checked'])
 
     for obj in items:
         writer.writerow([obj.name, obj.year_from, obj.year_to,
-                         obj.polity, obj.polity.new_name, obj.polity.name, obj.scaled_armor, obj.get_tag_display(), obj.is_disputed,
+                         obj.polity, obj.polity.new_name, obj.polity.name, obj.scaled_armor, obj.get_tag_display(), obj.is_disputed, obj.is_uncertain,
                          obj.expert_reviewed, ])
 
     return response
@@ -4827,11 +4827,11 @@ def laminar_armor_download(request):
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
-                    'laminar_armor', 'confidence', 'is_disputed', 'expert_checked'])
+                    'laminar_armor', 'confidence', 'is_disputed', 'is_uncertain', 'expert_checked'])
 
     for obj in items:
         writer.writerow([obj.name, obj.year_from, obj.year_to,
-                         obj.polity, obj.polity.new_name, obj.polity.name, obj.laminar_armor, obj.get_tag_display(), obj.is_disputed,
+                         obj.polity, obj.polity.new_name, obj.polity.name, obj.laminar_armor, obj.get_tag_display(), obj.is_disputed, obj.is_uncertain,
                          obj.expert_reviewed, ])
 
     return response
@@ -4973,11 +4973,11 @@ def plate_armor_download(request):
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
-                    'plate_armor', 'confidence', 'is_disputed', 'expert_checked'])
+                    'plate_armor', 'confidence', 'is_disputed', 'is_uncertain', 'expert_checked'])
 
     for obj in items:
         writer.writerow([obj.name, obj.year_from, obj.year_to,
-                         obj.polity, obj.polity.new_name, obj.polity.name, obj.plate_armor, obj.get_tag_display(), obj.is_disputed,
+                         obj.polity, obj.polity.new_name, obj.polity.name, obj.plate_armor, obj.get_tag_display(), obj.is_disputed, obj.is_uncertain,
                          obj.expert_reviewed, ])
 
     return response
@@ -5119,11 +5119,11 @@ def small_vessels_canoes_etc_download(request):
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
-                    'small_vessels_canoes_etc', 'confidence', 'is_disputed', 'expert_checked'])
+                    'small_vessels_canoes_etc', 'confidence', 'is_disputed', 'is_uncertain', 'expert_checked'])
 
     for obj in items:
         writer.writerow([obj.name, obj.year_from, obj.year_to,
-                         obj.polity, obj.polity.new_name, obj.polity.name, obj.small_vessels_canoes_etc, obj.get_tag_display(), obj.is_disputed,
+                         obj.polity, obj.polity.new_name, obj.polity.name, obj.small_vessels_canoes_etc, obj.get_tag_display(), obj.is_disputed, obj.is_uncertain,
                          obj.expert_reviewed, ])
 
     return response
@@ -5265,11 +5265,11 @@ def merchant_ships_pressed_into_service_download(request):
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
-                    'merchant_ships_pressed_into_service', 'confidence', 'is_disputed', 'expert_checked'])
+                    'merchant_ships_pressed_into_service', 'confidence', 'is_disputed', 'is_uncertain', 'expert_checked'])
 
     for obj in items:
         writer.writerow([obj.name, obj.year_from, obj.year_to,
-                         obj.polity, obj.polity.new_name, obj.polity.name, obj.merchant_ships_pressed_into_service, obj.get_tag_display(), obj.is_disputed,
+                         obj.polity, obj.polity.new_name, obj.polity.name, obj.merchant_ships_pressed_into_service, obj.get_tag_display(), obj.is_disputed, obj.is_uncertain,
                          obj.expert_reviewed, ])
 
     return response
@@ -5411,11 +5411,11 @@ def specialized_military_vessel_download(request):
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
-                    'specialized_military_vessel', 'confidence', 'is_disputed', 'expert_checked'])
+                    'specialized_military_vessel', 'confidence', 'is_disputed', 'is_uncertain', 'expert_checked'])
 
     for obj in items:
         writer.writerow([obj.name, obj.year_from, obj.year_to,
-                         obj.polity, obj.polity.new_name, obj.polity.name, obj.specialized_military_vessel, obj.get_tag_display(), obj.is_disputed,
+                         obj.polity, obj.polity.new_name, obj.polity.name, obj.specialized_military_vessel, obj.get_tag_display(), obj.is_disputed, obj.is_uncertain,
                          obj.expert_reviewed, ])
 
     return response
@@ -5557,11 +5557,11 @@ def settlements_in_a_defensive_position_download(request):
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
-                    'settlements_in_a_defensive_position', 'confidence', 'is_disputed', 'expert_checked'])
+                    'settlements_in_a_defensive_position', 'confidence', 'is_disputed', 'is_uncertain', 'expert_checked'])
 
     for obj in items:
         writer.writerow([obj.name, obj.year_from, obj.year_to,
-                         obj.polity, obj.polity.new_name, obj.polity.name, obj.settlements_in_a_defensive_position, obj.get_tag_display(), obj.is_disputed,
+                         obj.polity, obj.polity.new_name, obj.polity.name, obj.settlements_in_a_defensive_position, obj.get_tag_display(), obj.is_disputed, obj.is_uncertain,
                          obj.expert_reviewed, ])
 
     return response
@@ -5703,11 +5703,11 @@ def wooden_palisade_download(request):
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
-                    'wooden_palisade', 'confidence', 'is_disputed', 'expert_checked'])
+                    'wooden_palisade', 'confidence', 'is_disputed', 'is_uncertain', 'expert_checked'])
 
     for obj in items:
         writer.writerow([obj.name, obj.year_from, obj.year_to,
-                         obj.polity, obj.polity.new_name, obj.polity.name, obj.wooden_palisade, obj.get_tag_display(), obj.is_disputed,
+                         obj.polity, obj.polity.new_name, obj.polity.name, obj.wooden_palisade, obj.get_tag_display(), obj.is_disputed, obj.is_uncertain,
                          obj.expert_reviewed, ])
 
     return response
@@ -5849,11 +5849,11 @@ def earth_rampart_download(request):
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
-                    'earth_rampart', 'confidence', 'is_disputed', 'expert_checked'])
+                    'earth_rampart', 'confidence', 'is_disputed', 'is_uncertain', 'expert_checked'])
 
     for obj in items:
         writer.writerow([obj.name, obj.year_from, obj.year_to,
-                         obj.polity, obj.polity.new_name, obj.polity.name, obj.earth_rampart, obj.get_tag_display(), obj.is_disputed,
+                         obj.polity, obj.polity.new_name, obj.polity.name, obj.earth_rampart, obj.get_tag_display(), obj.is_disputed, obj.is_uncertain,
                          obj.expert_reviewed, ])
 
     return response
@@ -5995,11 +5995,11 @@ def ditch_download(request):
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
-                    'ditch', 'confidence', 'is_disputed', 'expert_checked'])
+                    'ditch', 'confidence', 'is_disputed', 'is_uncertain', 'expert_checked'])
 
     for obj in items:
         writer.writerow([obj.name, obj.year_from, obj.year_to,
-                         obj.polity, obj.polity.new_name, obj.polity.name, obj.ditch, obj.get_tag_display(), obj.is_disputed,
+                         obj.polity, obj.polity.new_name, obj.polity.name, obj.ditch, obj.get_tag_display(), obj.is_disputed, obj.is_uncertain,
                          obj.expert_reviewed, ])
 
     return response
@@ -6141,11 +6141,11 @@ def moat_download(request):
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
-                    'moat', 'confidence', 'is_disputed', 'expert_checked'])
+                    'moat', 'confidence', 'is_disputed', 'is_uncertain', 'expert_checked'])
 
     for obj in items:
         writer.writerow([obj.name, obj.year_from, obj.year_to,
-                         obj.polity, obj.polity.new_name, obj.polity.name, obj.moat, obj.get_tag_display(), obj.is_disputed,
+                         obj.polity, obj.polity.new_name, obj.polity.name, obj.moat, obj.get_tag_display(), obj.is_disputed, obj.is_uncertain,
                          obj.expert_reviewed, ])
 
     return response
@@ -6287,11 +6287,11 @@ def stone_walls_non_mortared_download(request):
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
-                    'stone_walls_non_mortared', 'confidence', 'is_disputed', 'expert_checked'])
+                    'stone_walls_non_mortared', 'confidence', 'is_disputed', 'is_uncertain', 'expert_checked'])
 
     for obj in items:
         writer.writerow([obj.name, obj.year_from, obj.year_to,
-                         obj.polity, obj.polity.new_name, obj.polity.name, obj.stone_walls_non_mortared, obj.get_tag_display(), obj.is_disputed,
+                         obj.polity, obj.polity.new_name, obj.polity.name, obj.stone_walls_non_mortared, obj.get_tag_display(), obj.is_disputed, obj.is_uncertain,
                          obj.expert_reviewed, ])
 
     return response
@@ -6433,11 +6433,11 @@ def stone_walls_mortared_download(request):
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
-                    'stone_walls_mortared', 'confidence', 'is_disputed', 'expert_checked'])
+                    'stone_walls_mortared', 'confidence', 'is_disputed', 'is_uncertain', 'expert_checked'])
 
     for obj in items:
         writer.writerow([obj.name, obj.year_from, obj.year_to,
-                         obj.polity, obj.polity.new_name, obj.polity.name, obj.stone_walls_mortared, obj.get_tag_display(), obj.is_disputed,
+                         obj.polity, obj.polity.new_name, obj.polity.name, obj.stone_walls_mortared, obj.get_tag_display(), obj.is_disputed, obj.is_uncertain,
                          obj.expert_reviewed, ])
 
     return response
@@ -6579,11 +6579,11 @@ def fortified_camp_download(request):
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
-                    'fortified_camp', 'confidence', 'is_disputed', 'expert_checked'])
+                    'fortified_camp', 'confidence', 'is_disputed', 'is_uncertain', 'expert_checked'])
 
     for obj in items:
         writer.writerow([obj.name, obj.year_from, obj.year_to,
-                         obj.polity, obj.polity.new_name, obj.polity.name, obj.fortified_camp, obj.get_tag_display(), obj.is_disputed,
+                         obj.polity, obj.polity.new_name, obj.polity.name, obj.fortified_camp, obj.get_tag_display(), obj.is_disputed, obj.is_uncertain,
                          obj.expert_reviewed, ])
 
     return response
@@ -6725,11 +6725,11 @@ def complex_fortification_download(request):
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
-                    'complex_fortification', 'confidence', 'is_disputed', 'expert_checked'])
+                    'complex_fortification', 'confidence', 'is_disputed', 'is_uncertain', 'expert_checked'])
 
     for obj in items:
         writer.writerow([obj.name, obj.year_from, obj.year_to,
-                         obj.polity, obj.polity.new_name, obj.polity.name, obj.complex_fortification, obj.get_tag_display(), obj.is_disputed,
+                         obj.polity, obj.polity.new_name, obj.polity.name, obj.complex_fortification, obj.get_tag_display(), obj.is_disputed, obj.is_uncertain,
                          obj.expert_reviewed, ])
 
     return response
@@ -6871,11 +6871,11 @@ def modern_fortification_download(request):
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
-                    'modern_fortification', 'confidence', 'is_disputed', 'expert_checked'])
+                    'modern_fortification', 'confidence', 'is_disputed', 'is_uncertain', 'expert_checked'])
 
     for obj in items:
         writer.writerow([obj.name, obj.year_from, obj.year_to,
-                         obj.polity, obj.polity.new_name, obj.polity.name, obj.modern_fortification, obj.get_tag_display(), obj.is_disputed,
+                         obj.polity, obj.polity.new_name, obj.polity.name, obj.modern_fortification, obj.get_tag_display(), obj.is_disputed, obj.is_uncertain,
                          obj.expert_reviewed, ])
 
     return response
@@ -7017,11 +7017,11 @@ def chainmail_download(request):
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
-                    'chainmail', 'confidence', 'is_disputed', 'expert_checked'])
+                    'chainmail', 'confidence', 'is_disputed', 'is_uncertain', 'expert_checked'])
 
     for obj in items:
         writer.writerow([obj.name, obj.year_from, obj.year_to,
-                         obj.polity, obj.polity.new_name, obj.polity.name, obj.chainmail, obj.get_tag_display(), obj.is_disputed,
+                         obj.polity, obj.polity.new_name, obj.polity.name, obj.chainmail, obj.get_tag_display(), obj.is_disputed, obj.is_uncertain,
                          obj.expert_reviewed, ])
 
     return response
@@ -7105,7 +7105,7 @@ def download_csv_all_wf(request):
 
     # type the headers
     writer.writerow(['subsection', 'variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
-                    'value_from', 'value_to', 'confidence', 'is_disputed', 'expert_checked',])
+                    'value_from', 'value_to', 'confidence', 'is_disputed', 'is_uncertain', 'expert_checked',])
     # Iterate over each model
     for model in app_models:
         # Get all rows of data from the model
@@ -7114,7 +7114,7 @@ def download_csv_all_wf(request):
 
         for obj in items:
             writer.writerow(["Military Technologies", obj.clean_name_spaced(), obj.year_from, obj.year_to,
-                         obj.polity.long_name, obj.polity.new_name, obj.polity.name, obj.show_value(), None, obj.get_tag_display(), obj.is_disputed,
+                         obj.polity.long_name, obj.polity.new_name, obj.polity.name, obj.show_value(), None, obj.get_tag_display(), obj.is_disputed, obj.is_uncertain,
                          obj.expert_reviewed, ])
 
     return response
