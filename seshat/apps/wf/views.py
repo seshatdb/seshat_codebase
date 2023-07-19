@@ -7093,7 +7093,12 @@ def download_csv_all_wf(request):
 
     # Create a response object with CSV content type
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="miltech_data_all_in_1.csv"'
+
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    file_name = f"warfare_data_{current_datetime}.csv"
+
+    response['Content-Disposition'] = f'attachment; filename="{file_name}"'
 
     # Create a CSV writer
     writer = csv.writer(response, delimiter='|')

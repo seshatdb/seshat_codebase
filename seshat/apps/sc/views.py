@@ -137,7 +137,11 @@ def ra_download(request):
     items = Ra.objects.all()
 
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="ras.csv"'
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    file_name = f"social_complexity_ra_{current_datetime}.csv"
+
+    response['Content-Disposition'] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
@@ -153,7 +157,7 @@ def ra_download(request):
 @permission_required('core.view_capital')
 def ra_meta_download(request):
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="ras.csv"'
+    response['Content-Disposition'] = 'attachment; filename="metadata_ras.csv"'
     
     my_meta_data_dic = {'notes': 'No_Actual_note', 'main_desc': 'The name of the research assistant or associate who coded the data. If more than one RA made a substantial contribution, list all via separate entries.', 'main_desc_source': 'NOTHING', 'section': 'Social Complexity', 'subsection': 'staff'}
     my_meta_data_dic_inner_vars = {'sc_ra': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The RA of Social Complexity Variables', 'units': None, 'choices': None, 'null_meaning': None}}
@@ -270,7 +274,11 @@ def polity_territory_download(request):
     items = Polity_territory.objects.all()
 
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="polity_territorys.csv"'
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    file_name = f"social_complexity_polity_territory_{current_datetime}.csv"
+
+    response['Content-Disposition'] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
@@ -286,7 +294,7 @@ def polity_territory_download(request):
 @permission_required('core.view_capital')
 def polity_territory_meta_download(request):
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="polity_territorys.csv"'
+    response['Content-Disposition'] = 'attachment; filename="metadata_polity_territorys.csv"'
     
     my_meta_data_dic = {'notes': 'No_Actual_note', 'main_desc': 'Talking about Social Scale, Polity territory is coded in squared kilometers.', 'main_desc_source': 'NOTHING', 'section': 'Social Complexity', 'subsection': 'Social Scale'}
     my_meta_data_dic_inner_vars = {'polity_territory_from': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The lower range of polity territory for a polity.', 'units': 'km squared', 'choices': None, 'null_meaning': None}, 'polity_territory_to': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The lower range of polity territory for a polity.', 'units': 'km squared', 'choices': None, 'null_meaning': None}}
@@ -403,7 +411,11 @@ def polity_population_download(request):
     items = Polity_population.objects.all()
 
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="polity_populations.csv"'
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    file_name = f"social_complexity_polity_population_{current_datetime}.csv"
+
+    response['Content-Disposition'] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
@@ -419,7 +431,7 @@ def polity_population_download(request):
 @permission_required('core.view_capital')
 def polity_population_meta_download(request):
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="polity_populations.csv"'
+    response['Content-Disposition'] = 'attachment; filename="metadata_polity_populations.csv"'
     
     my_meta_data_dic = {'notes': 'No_Actual_note', 'main_desc': 'Talking about Social Scale, Polity Population is the estimated population of the polity; can change as a result of both adding/losing new territories or by population growth/decline within a region', 'main_desc_source': 'NOTHING', 'section': 'Social Complexity', 'subsection': 'Social Scale'}
     my_meta_data_dic_inner_vars = {'polity_population_from': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The lower range of polity population for a polity.', 'units': None, 'choices': None, 'null_meaning': None}, 'polity_population_to': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The lower range of polity population for a polity.', 'units': None, 'choices': None, 'null_meaning': None}}
@@ -536,7 +548,11 @@ def population_of_the_largest_settlement_download(request):
     items = Population_of_the_largest_settlement.objects.all()
 
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="population_of_the_largest_settlements.csv"'
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    file_name = f"social_complexity_population_of_the_largest_settlement_{current_datetime}.csv"
+
+    response['Content-Disposition'] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
@@ -552,7 +568,7 @@ def population_of_the_largest_settlement_download(request):
 @permission_required('core.view_capital')
 def population_of_the_largest_settlement_meta_download(request):
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="population_of_the_largest_settlements.csv"'
+    response['Content-Disposition'] = 'attachment; filename="metadata_population_of_the_largest_settlements.csv"'
     
     my_meta_data_dic = {'notes': 'No_Actual_note', 'main_desc': 'Talking about Social Scale, Population of the largest settlement is the estimated population of the largest settlement of the polity. Note that the largest settlement could be different from the capital (coded under General Variables). If possible, indicate the dynamics (that is, how population changed during the temporal period of the polity). Note that we are also building a city database - you should consult it as it may already have the needed data.', 'main_desc_source': 'NOTHING', 'section': 'Social Complexity', 'subsection': 'Social Scale'}
     my_meta_data_dic_inner_vars = {'population_of_the_largest_settlement_from': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The lower range of population of the largest settlement for a polity.', 'units': None, 'choices': None, 'null_meaning': None}, 'population_of_the_largest_settlement_to': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The lower range of population of the largest settlement for a polity.', 'units': None, 'choices': None, 'null_meaning': None}}
@@ -669,7 +685,11 @@ def settlement_hierarchy_download(request):
     items = Settlement_hierarchy.objects.all()
 
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="settlement_hierarchys.csv"'
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    file_name = f"social_complexity_settlement_hierarchy_{current_datetime}.csv"
+
+    response['Content-Disposition'] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
@@ -685,7 +705,7 @@ def settlement_hierarchy_download(request):
 @permission_required('core.view_capital')
 def settlement_hierarchy_meta_download(request):
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="settlement_hierarchys.csv"'
+    response['Content-Disposition'] = 'attachment; filename="metadata_settlement_hierarchys.csv"'
     
     my_meta_data_dic = {'notes': 'No_Actual_note', 'main_desc': 'Talking about Hierarchical Complexity, Settlement hierarchy records (in levels) the hierarchy of not just settlement sizes, but also their complexity as reflected in different roles they play within the (quasi)polity. As settlements become more populous they acquire more complex functions: transportational (e.g. port); economic (e.g. market); administrative (e.g. storehouse, local government building); cultural (e.g. theatre); religious (e.g. temple), utilitarian (e.g. hospital), monumental (e.g. statues, plazas). Example: (1) Large City (monumental structures, theatre, market, hospital, central government buildings) (2) City (market, theatre, regional government buildings) (3) Large Town (market, administrative buildings) (4) Town (administrative buildings, storehouse)) (5) Village (shrine) (6) Hamlet (residential only). In the narrative paragraph explain the different levels and list their functions. Provide a (crude) estimate of population sizes. For example, Large Town (market, temple, administrative buildings): 2,000-5,000 inhabitants.', 'main_desc_source': 'NOTHING', 'section': 'Social Complexity', 'subsection': 'Hierarchical Complexity'}
     my_meta_data_dic_inner_vars = {'settlement_hierarchy_from': {'min': 0, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The lower range of settlement hierarchy for a polity.', 'units': None, 'choices': None, 'null_meaning': None}, 'settlement_hierarchy_to': {'min': 0, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The lower range of settlement hierarchy for a polity.', 'units': None, 'choices': None, 'null_meaning': None}}
@@ -802,7 +822,11 @@ def administrative_level_download(request):
     items = Administrative_level.objects.all()
 
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="administrative_levels.csv"'
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    file_name = f"social_complexity_administrative_level_{current_datetime}.csv"
+
+    response['Content-Disposition'] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
@@ -818,7 +842,7 @@ def administrative_level_download(request):
 @permission_required('core.view_capital')
 def administrative_level_meta_download(request):
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="administrative_levels.csv"'
+    response['Content-Disposition'] = 'attachment; filename="metadata_administrative_levels.csv"'
     
     my_meta_data_dic = {'notes': 'No_Actual_note', 'main_desc': "Talking about Hierarchical Complexity, Administrative levels records the administrative levels of a polity. An example of hierarchy for a state society could be (1) the overall ruler, (2) provincial/regional governors, (3) district heads, (4) town mayors, (5) village heads. Note that unlike in settlement hierarchy, here you code people hierarchy. Do not simply copy settlement hierarchy data here. For archaeological polities, you will usually code as 'unknown', unless experts identified ranks of chiefs or officials independently of the settlement hierarchy. Note: Often there are more than one concurrent administrative hierarchy. In the example above the hierarchy refers to the territorial government. In addition, the ruler may have a hierarchically organized central bureaucracy located in the capital. For example, (4)the overall ruler, (3) chiefs of various ministries, (2) midlevel bureaucrats, (1) scribes and clerks. In the narrative paragraph detail what is known about both hierarchies. The machine-readable code should reflect the largest number (the longer chain of command).", 'main_desc_source': 'NOTHING', 'section': 'Social Complexity', 'subsection': 'Hierarchical Complexity'}
     my_meta_data_dic_inner_vars = {'administrative_level_from': {'min': 0, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The lower range of administrative level for a polity.', 'units': None, 'choices': None, 'null_meaning': None}, 'administrative_level_to': {'min': 0, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The lower range of administrative level for a polity.', 'units': None, 'choices': None, 'null_meaning': None}}
@@ -935,7 +959,11 @@ def religious_level_download(request):
     items = Religious_level.objects.all()
 
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="religious_levels.csv"'
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    file_name = f"social_complexity_religious_level_{current_datetime}.csv"
+
+    response['Content-Disposition'] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
@@ -951,7 +979,7 @@ def religious_level_download(request):
 @permission_required('core.view_capital')
 def religious_level_meta_download(request):
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="religious_levels.csv"'
+    response['Content-Disposition'] = 'attachment; filename="metadata_religious_levels.csv"'
     
     my_meta_data_dic = {'notes': 'No_Actual_note', 'main_desc': 'Talking about Hierarchical Complexity, Religious levels records the Religious levels of a polity. Same principle as with Administrative levels. Start with the head of the official cult (if present) coded as: level 1, and work down to the local priest.', 'main_desc_source': 'NOTHING', 'section': 'Social Complexity', 'subsection': 'Hierarchical Complexity'}
     my_meta_data_dic_inner_vars = {'religious_level_from': {'min': 0, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The lower range of religious level for a polity.', 'units': None, 'choices': None, 'null_meaning': None}, 'religious_level_to': {'min': 0, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The lower range of religious level for a polity.', 'units': None, 'choices': None, 'null_meaning': None}}
@@ -1068,7 +1096,11 @@ def military_level_download(request):
     items = Military_level.objects.all()
 
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="military_levels.csv"'
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    file_name = f"social_complexity_military_level_{current_datetime}.csv"
+
+    response['Content-Disposition'] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
@@ -1084,7 +1116,7 @@ def military_level_download(request):
 @permission_required('core.view_capital')
 def military_level_meta_download(request):
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="military_levels.csv"'
+    response['Content-Disposition'] = 'attachment; filename="metadata_military_levels.csv"'
     
     my_meta_data_dic = {'notes': 'No_Actual_note', 'main_desc': 'Talking about Hierarchical Complexity, Military levels records the Military levels of a polity. Same principle as with Administrative levels. Start with the commander-in-chief coded as: level 1, and work down to the private. Even in primitive societies such as simple chiefdoms it is often possible to distinguish at least two levels – a commander and soldiers. A complex chiefdom would be coded three levels. The presence of warrior burials might be the basis for inferring the existence of a military organization. (The lowest military level is always the individual soldier).', 'main_desc_source': 'NOTHING', 'section': 'Social Complexity', 'subsection': 'Hierarchical Complexity'}
     my_meta_data_dic_inner_vars = {'military_level_from': {'min': 0, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The lower range of military level for a polity.', 'units': None, 'choices': None, 'null_meaning': None}, 'military_level_to': {'min': 0, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The lower range of military level for a polity.', 'units': None, 'choices': None, 'null_meaning': None}}
@@ -1201,7 +1233,11 @@ def professional_military_officer_download(request):
     items = Professional_military_officer.objects.all()
 
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="professional_military_officers.csv"'
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    file_name = f"social_complexity_professional_military_officer_{current_datetime}.csv"
+
+    response['Content-Disposition'] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
@@ -1217,7 +1253,7 @@ def professional_military_officer_download(request):
 @permission_required('core.view_capital')
 def professional_military_officer_meta_download(request):
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="professional_military_officers.csv"'
+    response['Content-Disposition'] = 'attachment; filename="metadata_professional_military_officers.csv"'
     
     my_meta_data_dic = {'notes': 'No_Actual_note', 'main_desc': 'Talking about Professions, Professional military officers refer to Full-time Professional military officers.', 'main_desc_source': 'NOTHING', 'section': 'Social Complexity', 'subsection': 'Professions'}
     my_meta_data_dic_inner_vars = {'professional_military_officer': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The absence or presence of professional military officer for a polity.', 'units': None, 'choices': 'ABSENT_PRESENT_CHOICES', 'null_meaning': None}}
@@ -1334,7 +1370,11 @@ def professional_soldier_download(request):
     items = Professional_soldier.objects.all()
 
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="professional_soldiers.csv"'
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    file_name = f"social_complexity_professional_soldier_{current_datetime}.csv"
+
+    response['Content-Disposition'] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
@@ -1350,7 +1390,7 @@ def professional_soldier_download(request):
 @permission_required('core.view_capital')
 def professional_soldier_meta_download(request):
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="professional_soldiers.csv"'
+    response['Content-Disposition'] = 'attachment; filename="metadata_professional_soldiers.csv"'
     
     my_meta_data_dic = {'notes': 'No_Actual_note', 'main_desc': 'Talking about Professions, Professional soldiers refer to Full-time Professional soldiers.', 'main_desc_source': 'NOTHING', 'section': 'Social Complexity', 'subsection': 'Professions'}
     my_meta_data_dic_inner_vars = {'professional_soldier': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The absence or presence of professional soldier for a polity.', 'units': None, 'choices': 'ABSENT_PRESENT_CHOICES', 'null_meaning': None}}
@@ -1467,7 +1507,11 @@ def professional_priesthood_download(request):
     items = Professional_priesthood.objects.all()
 
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="professional_priesthoods.csv"'
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    file_name = f"social_complexity_professional_priesthood_{current_datetime}.csv"
+
+    response['Content-Disposition'] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
@@ -1483,7 +1527,7 @@ def professional_priesthood_download(request):
 @permission_required('core.view_capital')
 def professional_priesthood_meta_download(request):
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="professional_priesthoods.csv"'
+    response['Content-Disposition'] = 'attachment; filename="metadata_professional_priesthoods.csv"'
     
     my_meta_data_dic = {'notes': 'No_Actual_note', 'main_desc': 'Talking about Professions, Professional priesthood refers to Full-time Professional priesthood.', 'main_desc_source': 'NOTHING', 'section': 'Social Complexity', 'subsection': 'Professions'}
     my_meta_data_dic_inner_vars = {'professional_priesthood': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The absence or presence of professional priesthood for a polity.', 'units': None, 'choices': 'ABSENT_PRESENT_CHOICES', 'null_meaning': None}}
@@ -1600,7 +1644,11 @@ def full_time_bureaucrat_download(request):
     items = Full_time_bureaucrat.objects.all()
 
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="full_time_bureaucrats.csv"'
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    file_name = f"social_complexity_full_time_bureaucrat_{current_datetime}.csv"
+
+    response['Content-Disposition'] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
@@ -1616,7 +1664,7 @@ def full_time_bureaucrat_download(request):
 @permission_required('core.view_capital')
 def full_time_bureaucrat_meta_download(request):
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="full_time_bureaucrats.csv"'
+    response['Content-Disposition'] = 'attachment; filename="metadata_full_time_bureaucrats.csv"'
     
     my_meta_data_dic = {'notes': 'No_Actual_note', 'main_desc': "Talking about Bureaucracy characteristics, Full-time bureaucrats refer to Full-time administrative specialists. Code this absent if administrative duties are performed by generalists such as chiefs and subchiefs. Also code it absent if state officials perform multiple functions, e.g. combining administrative tasks with military duties. Note that this variable shouldn't be coded 'present' only on the basis of the presence of specialized government buildings; there must be some additional evidence of functional specialization in government.", 'main_desc_source': 'NOTHING', 'section': 'Social Complexity', 'subsection': 'Bureaucracy characteristics'}
     my_meta_data_dic_inner_vars = {'full_time_bureaucrat': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The absence or presence of full time bureaucrat for a polity.', 'units': None, 'choices': 'ABSENT_PRESENT_CHOICES', 'null_meaning': None}}
@@ -1733,7 +1781,11 @@ def examination_system_download(request):
     items = Examination_system.objects.all()
 
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="examination_systems.csv"'
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    file_name = f"social_complexity_examination_system_{current_datetime}.csv"
+
+    response['Content-Disposition'] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
@@ -1749,7 +1801,7 @@ def examination_system_download(request):
 @permission_required('core.view_capital')
 def examination_system_meta_download(request):
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="examination_systems.csv"'
+    response['Content-Disposition'] = 'attachment; filename="metadata_examination_systems.csv"'
     
     my_meta_data_dic = {'notes': 'No_Actual_note', 'main_desc': 'Talking about Bureaucracy characteristics, The paradigmatic example of an Examination system is the Chinese imperial system.', 'main_desc_source': 'NOTHING', 'section': 'Social Complexity', 'subsection': 'Bureaucracy characteristics'}
     my_meta_data_dic_inner_vars = {'examination_system': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The absence or presence of examination system for a polity.', 'units': None, 'choices': 'ABSENT_PRESENT_CHOICES', 'null_meaning': None}}
@@ -1866,7 +1918,11 @@ def merit_promotion_download(request):
     items = Merit_promotion.objects.all()
 
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="merit_promotions.csv"'
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    file_name = f"social_complexity_merit_promotion_{current_datetime}.csv"
+
+    response['Content-Disposition'] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
@@ -1882,7 +1938,7 @@ def merit_promotion_download(request):
 @permission_required('core.view_capital')
 def merit_promotion_meta_download(request):
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="merit_promotions.csv"'
+    response['Content-Disposition'] = 'attachment; filename="metadata_merit_promotions.csv"'
     
     my_meta_data_dic = {'notes': 'No_Actual_note', 'main_desc': 'Talking about Bureaucracy characteristics, Merit promotion is coded present if there are regular, institutionalized procedures for promotion based on performance. When exceptional individuals are promoted to the top ranks, in the absence of institutionalized procedures, we code it under institution and equity variables', 'main_desc_source': 'NOTHING', 'section': 'Social Complexity', 'subsection': 'Bureaucracy characteristics'}
     my_meta_data_dic_inner_vars = {'merit_promotion': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The absence or presence of merit promotion for a polity.', 'units': None, 'choices': 'ABSENT_PRESENT_CHOICES', 'null_meaning': None}}
@@ -1999,7 +2055,11 @@ def specialized_government_building_download(request):
     items = Specialized_government_building.objects.all()
 
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="specialized_government_buildings.csv"'
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    file_name = f"social_complexity_specialized_government_building_{current_datetime}.csv"
+
+    response['Content-Disposition'] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
@@ -2015,7 +2075,7 @@ def specialized_government_building_download(request):
 @permission_required('core.view_capital')
 def specialized_government_building_meta_download(request):
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="specialized_government_buildings.csv"'
+    response['Content-Disposition'] = 'attachment; filename="metadata_specialized_government_buildings.csv"'
     
     my_meta_data_dic = {'notes': 'No_Actual_note', 'main_desc': "Talking about Bureaucracy characteristics, These buildings are where administrative officials are located, and must be distinct from the ruler's palace. They may be used for document storage, registration offices, minting money, etc. Defense structures also are not coded here (see Military). State-owned/operated workshop should also not be coded here.", 'main_desc_source': 'NOTHING', 'section': 'Social Complexity', 'subsection': 'Bureaucracy characteristics'}
     my_meta_data_dic_inner_vars = {'specialized_government_building': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The absence or presence of specialized government building for a polity.', 'units': None, 'choices': 'ABSENT_PRESENT_CHOICES', 'null_meaning': None}}
@@ -2132,7 +2192,11 @@ def formal_legal_code_download(request):
     items = Formal_legal_code.objects.all()
 
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="formal_legal_codes.csv"'
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    file_name = f"social_complexity_formal_legal_code_{current_datetime}.csv"
+
+    response['Content-Disposition'] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
@@ -2148,7 +2212,7 @@ def formal_legal_code_download(request):
 @permission_required('core.view_capital')
 def formal_legal_code_meta_download(request):
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="formal_legal_codes.csv"'
+    response['Content-Disposition'] = 'attachment; filename="metadata_formal_legal_codes.csv"'
     
     my_meta_data_dic = {'notes': 'No_Actual_note', 'main_desc': "Talking about Law, Formal legal code refers to legal code usually, but not always written down. If not written down, code it 'present' when a uniform legal system is established by oral transmission (e.g., officials are taught the rules, or the laws are announced in a public space). Provide a short description", 'main_desc_source': 'NOTHING', 'section': 'Social Complexity', 'subsection': 'Law'}
     my_meta_data_dic_inner_vars = {'formal_legal_code': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The absence or presence of formal legal code for a polity.', 'units': None, 'choices': 'ABSENT_PRESENT_CHOICES', 'null_meaning': None}}
@@ -2265,7 +2329,11 @@ def judge_download(request):
     items = Judge.objects.all()
 
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="judges.csv"'
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    file_name = f"social_complexity_judge_{current_datetime}.csv"
+
+    response['Content-Disposition'] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
@@ -2281,7 +2349,7 @@ def judge_download(request):
 @permission_required('core.view_capital')
 def judge_meta_download(request):
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="judges.csv"'
+    response['Content-Disposition'] = 'attachment; filename="metadata_judges.csv"'
     
     my_meta_data_dic = {'notes': 'No_Actual_note', 'main_desc': 'Talking about Law, judges refers only to full-time professional judges', 'main_desc_source': 'NOTHING', 'section': 'Social Complexity', 'subsection': 'Law'}
     my_meta_data_dic_inner_vars = {'judge': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The absence or presence of judge for a polity.', 'units': None, 'choices': 'ABSENT_PRESENT_CHOICES', 'null_meaning': None}}
@@ -2398,7 +2466,11 @@ def court_download(request):
     items = Court.objects.all()
 
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="courts.csv"'
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    file_name = f"social_complexity_court_{current_datetime}.csv"
+
+    response['Content-Disposition'] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
@@ -2414,7 +2486,7 @@ def court_download(request):
 @permission_required('core.view_capital')
 def court_meta_download(request):
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="courts.csv"'
+    response['Content-Disposition'] = 'attachment; filename="metadata_courts.csv"'
     
     my_meta_data_dic = {'notes': 'No_Actual_note', 'main_desc': 'Talking about Law, courts are buildings specialized for legal proceedings only.', 'main_desc_source': 'NOTHING', 'section': 'Social Complexity', 'subsection': 'Law'}
     my_meta_data_dic_inner_vars = {'court': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The absence or presence of court for a polity.', 'units': None, 'choices': 'ABSENT_PRESENT_CHOICES', 'null_meaning': None}}
@@ -2531,7 +2603,11 @@ def professional_lawyer_download(request):
     items = Professional_lawyer.objects.all()
 
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="professional_lawyers.csv"'
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    file_name = f"social_complexity_professional_lawyer_{current_datetime}.csv"
+
+    response['Content-Disposition'] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
@@ -2547,7 +2623,7 @@ def professional_lawyer_download(request):
 @permission_required('core.view_capital')
 def professional_lawyer_meta_download(request):
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="professional_lawyers.csv"'
+    response['Content-Disposition'] = 'attachment; filename="metadata_professional_lawyers.csv"'
     
     my_meta_data_dic = {'notes': 'No_Actual_note', 'main_desc': 'Talking about Law, NO_DESCRIPTIONS_IN_CODEBOOK.', 'main_desc_source': 'NOTHING', 'section': 'Social Complexity', 'subsection': 'Law'}
     my_meta_data_dic_inner_vars = {'professional_lawyer': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The absence or presence of professional lawyer for a polity.', 'units': None, 'choices': 'ABSENT_PRESENT_CHOICES', 'null_meaning': None}}
@@ -2664,7 +2740,11 @@ def irrigation_system_download(request):
     items = Irrigation_system.objects.all()
 
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="irrigation_systems.csv"'
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    file_name = f"social_complexity_irrigation_system_{current_datetime}.csv"
+
+    response['Content-Disposition'] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
@@ -2680,7 +2760,7 @@ def irrigation_system_download(request):
 @permission_required('core.view_capital')
 def irrigation_system_meta_download(request):
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="irrigation_systems.csv"'
+    response['Content-Disposition'] = 'attachment; filename="metadata_irrigation_systems.csv"'
     
     my_meta_data_dic = {'notes': 'No_Actual_note', 'main_desc': 'Talking about Specialized Buildings, irrigation systems are polity owned (which includes owned by the community, or the state), NO_DESCRIPTIONS_IN_CODEBOOK', 'main_desc_source': 'NOTHING', 'section': 'Social Complexity', 'subsection': 'Specialized Buildings'}
     my_meta_data_dic_inner_vars = {'irrigation_system': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The absence or presence of irrigation system for a polity.', 'units': None, 'choices': 'ABSENT_PRESENT_CHOICES', 'null_meaning': None}}
@@ -2797,7 +2877,11 @@ def drinking_water_supply_system_download(request):
     items = Drinking_water_supply_system.objects.all()
 
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="drinking_water_supply_systems.csv"'
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    file_name = f"social_complexity_drinking_water_supply_system_{current_datetime}.csv"
+
+    response['Content-Disposition'] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
@@ -2813,7 +2897,7 @@ def drinking_water_supply_system_download(request):
 @permission_required('core.view_capital')
 def drinking_water_supply_system_meta_download(request):
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="drinking_water_supply_systems.csv"'
+    response['Content-Disposition'] = 'attachment; filename="metadata_drinking_water_supply_systems.csv"'
     
     my_meta_data_dic = {'notes': 'No_Actual_note', 'main_desc': 'Talking about Specialized Buildings, drinking water supply systems are polity owned (which includes owned by the community, or the state), NO_DESCRIPTIONS_IN_CODEBOOK', 'main_desc_source': 'NOTHING', 'section': 'Social Complexity', 'subsection': 'Specialized Buildings'}
     my_meta_data_dic_inner_vars = {'drinking_water_supply_system': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The absence or presence of drinking water supply system for a polity.', 'units': None, 'choices': 'ABSENT_PRESENT_CHOICES', 'null_meaning': None}}
@@ -2930,7 +3014,11 @@ def market_download(request):
     items = Market.objects.all()
 
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="markets.csv"'
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    file_name = f"social_complexity_market_{current_datetime}.csv"
+
+    response['Content-Disposition'] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
@@ -2946,7 +3034,7 @@ def market_download(request):
 @permission_required('core.view_capital')
 def market_meta_download(request):
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="markets.csv"'
+    response['Content-Disposition'] = 'attachment; filename="metadata_markets.csv"'
     
     my_meta_data_dic = {'notes': 'No_Actual_note', 'main_desc': 'Talking about Specialized Buildings, markets are polity owned (which includes owned by the community, or the state), NO_DESCRIPTIONS_IN_CODEBOOK', 'main_desc_source': 'NOTHING', 'section': 'Social Complexity', 'subsection': 'Specialized Buildings'}
     my_meta_data_dic_inner_vars = {'market': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The absence or presence of market for a polity.', 'units': None, 'choices': 'ABSENT_PRESENT_CHOICES', 'null_meaning': None}}
@@ -3063,7 +3151,11 @@ def food_storage_site_download(request):
     items = Food_storage_site.objects.all()
 
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="food_storage_sites.csv"'
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    file_name = f"social_complexity_food_storage_site_{current_datetime}.csv"
+
+    response['Content-Disposition'] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
@@ -3079,7 +3171,7 @@ def food_storage_site_download(request):
 @permission_required('core.view_capital')
 def food_storage_site_meta_download(request):
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="food_storage_sites.csv"'
+    response['Content-Disposition'] = 'attachment; filename="metadata_food_storage_sites.csv"'
     
     my_meta_data_dic = {'notes': 'No_Actual_note', 'main_desc': 'Talking about Specialized Buildings, food storage sites are polity owned (which  includes owned by the community, or the state), NO_DESCRIPTIONS_IN_CODEBOOK', 'main_desc_source': 'NOTHING', 'section': 'Social Complexity', 'subsection': 'Specialized Buildings'}
     my_meta_data_dic_inner_vars = {'food_storage_site': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The absence or presence of food storage site for a polity.', 'units': None, 'choices': 'ABSENT_PRESENT_CHOICES', 'null_meaning': None}}
@@ -3196,7 +3288,11 @@ def road_download(request):
     items = Road.objects.all()
 
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="roads.csv"'
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    file_name = f"social_complexity_road_{current_datetime}.csv"
+
+    response['Content-Disposition'] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
@@ -3212,7 +3308,7 @@ def road_download(request):
 @permission_required('core.view_capital')
 def road_meta_download(request):
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="roads.csv"'
+    response['Content-Disposition'] = 'attachment; filename="metadata_roads.csv"'
     
     my_meta_data_dic = {'notes': 'No_Actual_note', 'main_desc': 'Talking about Transport infrastructure, roads refers to deliberately constructed roads that connect settlements or other sites. It excludes streets/accessways within settlements and paths between settlements that develop through repeated use.', 'main_desc_source': 'NOTHING', 'section': 'Social Complexity', 'subsection': 'Transport infrastructure'}
     my_meta_data_dic_inner_vars = {'road': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The absence or presence of road for a polity.', 'units': None, 'choices': 'ABSENT_PRESENT_CHOICES', 'null_meaning': None}}
@@ -3329,7 +3425,11 @@ def bridge_download(request):
     items = Bridge.objects.all()
 
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="bridges.csv"'
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    file_name = f"social_complexity_bridge_{current_datetime}.csv"
+
+    response['Content-Disposition'] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
@@ -3345,7 +3445,7 @@ def bridge_download(request):
 @permission_required('core.view_capital')
 def bridge_meta_download(request):
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="bridges.csv"'
+    response['Content-Disposition'] = 'attachment; filename="metadata_bridges.csv"'
     
     my_meta_data_dic = {'notes': 'No_Actual_note', 'main_desc': "Talking about Transport infrastructure, bridges refers to bridges built and/or maintained by the polity (that is, code 'present' even if the polity did not build a bridge, but devotes resources to maintaining it).", 'main_desc_source': 'NOTHING', 'section': 'Social Complexity', 'subsection': 'Transport infrastructure'}
     my_meta_data_dic_inner_vars = {'bridge': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The absence or presence of bridge for a polity.', 'units': None, 'choices': 'ABSENT_PRESENT_CHOICES', 'null_meaning': None}}
@@ -3462,7 +3562,11 @@ def canal_download(request):
     items = Canal.objects.all()
 
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="canals.csv"'
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    file_name = f"social_complexity_canal_{current_datetime}.csv"
+
+    response['Content-Disposition'] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
@@ -3478,7 +3582,7 @@ def canal_download(request):
 @permission_required('core.view_capital')
 def canal_meta_download(request):
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="canals.csv"'
+    response['Content-Disposition'] = 'attachment; filename="metadata_canals.csv"'
     
     my_meta_data_dic = {'notes': 'No_Actual_note', 'main_desc': "Talking about Transport infrastructure, canals refers to canals built and/or maintained by the polity (that is, code 'present' even if the polity did not build a canal, but devotes resources to maintaining it).", 'main_desc_source': 'NOTHING', 'section': 'Social Complexity', 'subsection': 'Transport infrastructure'}
     my_meta_data_dic_inner_vars = {'canal': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The absence or presence of canal for a polity.', 'units': None, 'choices': 'ABSENT_PRESENT_CHOICES', 'null_meaning': None}}
@@ -3595,7 +3699,11 @@ def port_download(request):
     items = Port.objects.all()
 
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="ports.csv"'
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    file_name = f"social_complexity_port_{current_datetime}.csv"
+
+    response['Content-Disposition'] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
@@ -3611,7 +3719,7 @@ def port_download(request):
 @permission_required('core.view_capital')
 def port_meta_download(request):
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="ports.csv"'
+    response['Content-Disposition'] = 'attachment; filename="metadata_ports.csv"'
     
     my_meta_data_dic = {'notes': 'No_Actual_note', 'main_desc': "Talking about Transport infrastructure, Ports include river ports. Direct historical or archaeological evidence of Ports is absent when no port has been excavated or all evidence of such has been obliterated. Indirect historical or archaeological data is absent when there is no evidence that suggests that the polity engaged in maritime or riverine trade, conflict, or transportation, such as evidence of merchant shipping, administrative records of customs duties, or evidence that at the same period of time a trading relation in the region had a port (for example, due to natural processes, there is little evidence of ancient ports in delta Egypt at a time we know there was a timber trade with the Levant). When evidence for the variable itself is available the code is 'present.' When other forms of evidence suggests the existence of the variable (or not) the code may be 'inferred present' (or 'inferred absent'). When indirect evidence is not available the code will be either absent, temporal uncertainty, suspected unknown, or unknown.", 'main_desc_source': 'NOTHING', 'section': 'Social Complexity', 'subsection': 'Transport infrastructure'}
     my_meta_data_dic_inner_vars = {'port': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The absence or presence of port for a polity.', 'units': None, 'choices': 'ABSENT_PRESENT_CHOICES', 'null_meaning': None}}
@@ -3728,7 +3836,11 @@ def mines_or_quarry_download(request):
     items = Mines_or_quarry.objects.all()
 
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="mines_or_quarrys.csv"'
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    file_name = f"social_complexity_mine_or_quarry_{current_datetime}.csv"
+
+    response['Content-Disposition'] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
@@ -3744,7 +3856,7 @@ def mines_or_quarry_download(request):
 @permission_required('core.view_capital')
 def mines_or_quarry_meta_download(request):
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="mines_or_quarrys.csv"'
+    response['Content-Disposition'] = 'attachment; filename="metadata_mines_or_quarrys.csv"'
     
     my_meta_data_dic = {'notes': 'No_Actual_note', 'main_desc': 'Talking about Special purpose sites, NO_DESCRIPTIONS_IN_CODEBOOK', 'main_desc_source': 'NOTHING', 'section': 'Social Complexity', 'subsection': 'Special purpose sites'}
     my_meta_data_dic_inner_vars = {'mines_or_quarry': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The absence or presence of mines or quarry for a polity.', 'units': None, 'choices': 'ABSENT_PRESENT_CHOICES', 'null_meaning': None}}
@@ -3861,7 +3973,11 @@ def mnemonic_device_download(request):
     items = Mnemonic_device.objects.all()
 
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="mnemonic_devices.csv"'
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    file_name = f"social_complexity_mnemonic_device_{current_datetime}.csv"
+
+    response['Content-Disposition'] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
@@ -3877,7 +3993,7 @@ def mnemonic_device_download(request):
 @permission_required('core.view_capital')
 def mnemonic_device_meta_download(request):
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="mnemonic_devices.csv"'
+    response['Content-Disposition'] = 'attachment; filename="metadata_mnemonic_devices.csv"'
     
     my_meta_data_dic = {'notes': 'No_Actual_note', 'main_desc': 'Talking about Writing Systems, Mnemonic devices are: For example, tallies', 'main_desc_source': 'NOTHING', 'section': 'Social Complexity', 'subsection': 'Writing Systems'}
     my_meta_data_dic_inner_vars = {'mnemonic_device': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The absence or presence of mnemonic device for a polity.', 'units': None, 'choices': 'ABSENT_PRESENT_CHOICES', 'null_meaning': None}}
@@ -3994,7 +4110,11 @@ def nonwritten_record_download(request):
     items = Nonwritten_record.objects.all()
 
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="nonwritten_records.csv"'
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    file_name = f"social_complexity_nonwritten_record_{current_datetime}.csv"
+
+    response['Content-Disposition'] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
@@ -4010,7 +4130,7 @@ def nonwritten_record_download(request):
 @permission_required('core.view_capital')
 def nonwritten_record_meta_download(request):
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="nonwritten_records.csv"'
+    response['Content-Disposition'] = 'attachment; filename="metadata_nonwritten_records.csv"'
     
     my_meta_data_dic = {'notes': 'No_Actual_note', 'main_desc': "Talking about Writing Systems, Nonwritten Records are more extensive than mnemonics, but don't utilize script. Example: quipu; seals and stamps", 'main_desc_source': 'NOTHING', 'section': 'Social Complexity', 'subsection': 'Writing Systems'}
     my_meta_data_dic_inner_vars = {'nonwritten_record': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The absence or presence of nonwritten record for a polity.', 'units': None, 'choices': 'ABSENT_PRESENT_CHOICES', 'null_meaning': None}}
@@ -4127,7 +4247,11 @@ def written_record_download(request):
     items = Written_record.objects.all()
 
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="written_records.csv"'
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    file_name = f"social_complexity_written_records_{current_datetime}.csv"
+
+    response['Content-Disposition'] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
@@ -4143,7 +4267,7 @@ def written_record_download(request):
 @permission_required('core.view_capital')
 def written_record_meta_download(request):
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="written_records.csv"'
+    response['Content-Disposition'] = 'attachment; filename="metadata_written_records.csv"'
     
     my_meta_data_dic = {'notes': 'No_Actual_note', 'main_desc': 'Talking about Writing Systems, Written records are more than short and fragmentary inscriptions, such as found on tombs or runic stones. There must be several sentences strung together, at the very minimum. For example, royal proclamations from Mesopotamia and Egypt qualify as written records', 'main_desc_source': 'NOTHING', 'section': 'Social Complexity', 'subsection': 'Writing Systems'}
     my_meta_data_dic_inner_vars = {'written_record': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The absence or presence of written record for a polity.', 'units': None, 'choices': 'ABSENT_PRESENT_CHOICES', 'null_meaning': None}}
@@ -4260,7 +4384,11 @@ def script_download(request):
     items = Script.objects.all()
 
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="scripts.csv"'
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    file_name = f"social_complexity_script_{current_datetime}.csv"
+
+    response['Content-Disposition'] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
@@ -4276,7 +4404,7 @@ def script_download(request):
 @permission_required('core.view_capital')
 def script_meta_download(request):
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="scripts.csv"'
+    response['Content-Disposition'] = 'attachment; filename="metadata_scripts.csv"'
     
     my_meta_data_dic = {'notes': 'No_Actual_note', 'main_desc': 'Talking about Writing Systems, script is as indicated at least by fragmentary inscriptions (note that if written records are present, then so is script)', 'main_desc_source': 'NOTHING', 'section': 'Social Complexity', 'subsection': 'Writing Systems'}
     my_meta_data_dic_inner_vars = {'script': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The absence or presence of script for a polity.', 'units': None, 'choices': 'ABSENT_PRESENT_CHOICES', 'null_meaning': None}}
@@ -4393,7 +4521,11 @@ def non_phonetic_writing_download(request):
     items = Non_phonetic_writing.objects.all()
 
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="non_phonetic_writings.csv"'
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    file_name = f"social_complexity_non_phonetic_writing_{current_datetime}.csv"
+
+    response['Content-Disposition'] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
@@ -4409,7 +4541,7 @@ def non_phonetic_writing_download(request):
 @permission_required('core.view_capital')
 def non_phonetic_writing_meta_download(request):
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="non_phonetic_writings.csv"'
+    response['Content-Disposition'] = 'attachment; filename="metadata_non_phonetic_writings.csv"'
     
     my_meta_data_dic = {'notes': 'No_Actual_note', 'main_desc': 'Talking about Writing Systems, this refers to the kind of script', 'main_desc_source': 'NOTHING', 'section': 'Social Complexity', 'subsection': 'Writing Systems'}
     my_meta_data_dic_inner_vars = {'non_phonetic_writing': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The absence or presence of non phonetic writing for a polity.', 'units': None, 'choices': 'ABSENT_PRESENT_CHOICES', 'null_meaning': None}}
@@ -4526,7 +4658,11 @@ def phonetic_alphabetic_writing_download(request):
     items = Phonetic_alphabetic_writing.objects.all()
 
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="phonetic_alphabetic_writings.csv"'
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    file_name = f"social_complexity_phonetic_alphabetic_writing_{current_datetime}.csv"
+
+    response['Content-Disposition'] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
@@ -4542,7 +4678,7 @@ def phonetic_alphabetic_writing_download(request):
 @permission_required('core.view_capital')
 def phonetic_alphabetic_writing_meta_download(request):
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="phonetic_alphabetic_writings.csv"'
+    response['Content-Disposition'] = 'attachment; filename="metadata_phonetic_alphabetic_writings.csv"'
     
     my_meta_data_dic = {'notes': 'No_Actual_note', 'main_desc': 'Talking about Writing Systems, this refers to the kind of script', 'main_desc_source': 'NOTHING', 'section': 'Social Complexity', 'subsection': 'Writing Systems'}
     my_meta_data_dic_inner_vars = {'phonetic_alphabetic_writing': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The absence or presence of phonetic alphabetic writing for a polity.', 'units': None, 'choices': 'ABSENT_PRESENT_CHOICES', 'null_meaning': None}}
@@ -4659,7 +4795,11 @@ def lists_tables_and_classification_download(request):
     items = Lists_tables_and_classification.objects.all()
 
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="lists_tables_and_classifications.csv"'
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    file_name = f"social_complexity_list_table_and_classification_{current_datetime}.csv"
+
+    response['Content-Disposition'] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
@@ -4675,7 +4815,7 @@ def lists_tables_and_classification_download(request):
 @permission_required('core.view_capital')
 def lists_tables_and_classification_meta_download(request):
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="lists_tables_and_classifications.csv"'
+    response['Content-Disposition'] = 'attachment; filename="metadata_lists_tables_and_classifications.csv"'
     
     my_meta_data_dic = {'notes': 'No_Actual_note', 'main_desc': 'Talking about Kinds of Written Documents, NO_DESCRIPTIONS_IN_CODEBOOK', 'main_desc_source': 'NOTHING', 'section': 'Social Complexity', 'subsection': 'Kinds of Written Documents'}
     my_meta_data_dic_inner_vars = {'lists_tables_and_classification': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The absence or presence of lists tables and classification for a polity.', 'units': None, 'choices': 'ABSENT_PRESENT_CHOICES', 'null_meaning': None}}
@@ -4792,7 +4932,11 @@ def calendar_download(request):
     items = Calendar.objects.all()
 
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="calendars.csv"'
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    file_name = f"social_complexity_calendar_{current_datetime}.csv"
+
+    response['Content-Disposition'] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
@@ -4808,7 +4952,7 @@ def calendar_download(request):
 @permission_required('core.view_capital')
 def calendar_meta_download(request):
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="calendars.csv"'
+    response['Content-Disposition'] = 'attachment; filename="metadata_calendars.csv"'
     
     my_meta_data_dic = {'notes': 'No_Actual_note', 'main_desc': 'Talking about Kinds of Written Documents, NO_DESCRIPTIONS_IN_CODEBOOK', 'main_desc_source': 'NOTHING', 'section': 'Social Complexity', 'subsection': 'Kinds of Written Documents'}
     my_meta_data_dic_inner_vars = {'calendar': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The absence or presence of calendar for a polity.', 'units': None, 'choices': 'ABSENT_PRESENT_CHOICES', 'null_meaning': None}}
@@ -4925,7 +5069,11 @@ def sacred_text_download(request):
     items = Sacred_text.objects.all()
 
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="sacred_texts.csv"'
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    file_name = f"social_complexity_sacred_text_{current_datetime}.csv"
+
+    response['Content-Disposition'] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
@@ -4941,7 +5089,7 @@ def sacred_text_download(request):
 @permission_required('core.view_capital')
 def sacred_text_meta_download(request):
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="sacred_texts.csv"'
+    response['Content-Disposition'] = 'attachment; filename="metadata_sacred_texts.csv"'
     
     my_meta_data_dic = {'notes': 'No_Actual_note', 'main_desc': 'Talking about Kinds of Written Documents, Sacred Texts originate from supernatural agents (deities), or are directly inspired by them.', 'main_desc_source': 'NOTHING', 'section': 'Social Complexity', 'subsection': 'Kinds of Written Documents'}
     my_meta_data_dic_inner_vars = {'sacred_text': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The absence or presence of sacred text for a polity.', 'units': None, 'choices': 'ABSENT_PRESENT_CHOICES', 'null_meaning': None}}
@@ -5058,7 +5206,11 @@ def religious_literature_download(request):
     items = Religious_literature.objects.all()
 
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="religious_literatures.csv"'
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    file_name = f"social_complexity_religious_literature_{current_datetime}.csv"
+
+    response['Content-Disposition'] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
@@ -5074,7 +5226,7 @@ def religious_literature_download(request):
 @permission_required('core.view_capital')
 def religious_literature_meta_download(request):
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="religious_literatures.csv"'
+    response['Content-Disposition'] = 'attachment; filename="metadata_religious_literatures.csv"'
     
     my_meta_data_dic = {'notes': 'No_Actual_note', 'main_desc': 'Talking about Kinds of Written Documents, Religious literature differs from the sacred texts. For example, it may provide commentary on the sacred texts, or advice on how to live a virtuous life.', 'main_desc_source': 'NOTHING', 'section': 'Social Complexity', 'subsection': 'Kinds of Written Documents'}
     my_meta_data_dic_inner_vars = {'religious_literature': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The absence or presence of religious literature for a polity.', 'units': None, 'choices': 'ABSENT_PRESENT_CHOICES', 'null_meaning': None}}
@@ -5191,7 +5343,11 @@ def practical_literature_download(request):
     items = Practical_literature.objects.all()
 
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="practical_literatures.csv"'
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    file_name = f"social_complexity_practical_literature_{current_datetime}.csv"
+
+    response['Content-Disposition'] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
@@ -5207,7 +5363,7 @@ def practical_literature_download(request):
 @permission_required('core.view_capital')
 def practical_literature_meta_download(request):
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="practical_literatures.csv"'
+    response['Content-Disposition'] = 'attachment; filename="metadata_practical_literatures.csv"'
     
     my_meta_data_dic = {'notes': 'No_Actual_note', 'main_desc': 'Talking about Kinds of Written Documents, Practical literature refers to texts written with the aim of providing guidance on a certain topic, for example manuals on agriculture, warfare, or cooking. Letters do not count as practical literature.', 'main_desc_source': 'NOTHING', 'section': 'Social Complexity', 'subsection': 'Kinds of Written Documents'}
     my_meta_data_dic_inner_vars = {'practical_literature': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The absence or presence of practical literature for a polity.', 'units': None, 'choices': 'ABSENT_PRESENT_CHOICES', 'null_meaning': None}}
@@ -5324,7 +5480,11 @@ def history_download(request):
     items = History.objects.all()
 
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="historys.csv"'
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    file_name = f"social_complexity_history_{current_datetime}.csv"
+
+    response['Content-Disposition'] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
@@ -5340,7 +5500,7 @@ def history_download(request):
 @permission_required('core.view_capital')
 def history_meta_download(request):
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="historys.csv"'
+    response['Content-Disposition'] = 'attachment; filename="metadata_historys.csv"'
     
     my_meta_data_dic = {'notes': 'No_Actual_note', 'main_desc': 'Talking about Kinds of Written Documents, NO_DESCRIPTIONS_IN_CODEBOOK', 'main_desc_source': 'NOTHING', 'section': 'Social Complexity', 'subsection': 'Kinds of Written Documents'}
     my_meta_data_dic_inner_vars = {'history': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The absence or presence of history for a polity.', 'units': None, 'choices': 'ABSENT_PRESENT_CHOICES', 'null_meaning': None}}
@@ -5457,7 +5617,11 @@ def philosophy_download(request):
     items = Philosophy.objects.all()
 
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="philosophys.csv"'
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    file_name = f"social_complexity_philosophy_{current_datetime}.csv"
+
+    response['Content-Disposition'] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
@@ -5473,7 +5637,7 @@ def philosophy_download(request):
 @permission_required('core.view_capital')
 def philosophy_meta_download(request):
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="philosophys.csv"'
+    response['Content-Disposition'] = 'attachment; filename="metadata_philosophys.csv"'
     
     my_meta_data_dic = {'notes': 'No_Actual_note', 'main_desc': 'Talking about Kinds of Written Documents, NO_DESCRIPTIONS_IN_CODEBOOK', 'main_desc_source': 'NOTHING', 'section': 'Social Complexity', 'subsection': 'Kinds of Written Documents'}
     my_meta_data_dic_inner_vars = {'philosophy': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The absence or presence of philosophy for a polity.', 'units': None, 'choices': 'ABSENT_PRESENT_CHOICES', 'null_meaning': None}}
@@ -5590,7 +5754,11 @@ def scientific_literature_download(request):
     items = Scientific_literature.objects.all()
 
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="scientific_literatures.csv"'
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    file_name = f"social_complexity_scientific_literature_{current_datetime}.csv"
+
+    response['Content-Disposition'] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
@@ -5606,7 +5774,7 @@ def scientific_literature_download(request):
 @permission_required('core.view_capital')
 def scientific_literature_meta_download(request):
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="scientific_literatures.csv"'
+    response['Content-Disposition'] = 'attachment; filename="metadata_scientific_literatures.csv"'
     
     my_meta_data_dic = {'notes': 'No_Actual_note', 'main_desc': 'Talking about Kinds of Written Documents, Scientific literature includes mathematics, natural sciences, social sciences', 'main_desc_source': 'NOTHING', 'section': 'Social Complexity', 'subsection': 'Kinds of Written Documents'}
     my_meta_data_dic_inner_vars = {'scientific_literature': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The absence or presence of scientific literature for a polity.', 'units': None, 'choices': 'ABSENT_PRESENT_CHOICES', 'null_meaning': None}}
@@ -5723,7 +5891,11 @@ def fiction_download(request):
     items = Fiction.objects.all()
 
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="fictions.csv"'
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    file_name = f"social_complexity_fiction_{current_datetime}.csv"
+
+    response['Content-Disposition'] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
@@ -5739,7 +5911,7 @@ def fiction_download(request):
 @permission_required('core.view_capital')
 def fiction_meta_download(request):
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="fictions.csv"'
+    response['Content-Disposition'] = 'attachment; filename="metadata_fictions.csv"'
     
     my_meta_data_dic = {'notes': 'No_Actual_note', 'main_desc': 'Talking about Kinds of Written Documents, fiction includes poetry.', 'main_desc_source': 'NOTHING', 'section': 'Social Complexity', 'subsection': 'Kinds of Written Documents'}
     my_meta_data_dic_inner_vars = {'fiction': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The absence or presence of fiction for a polity.', 'units': None, 'choices': 'ABSENT_PRESENT_CHOICES', 'null_meaning': None}}
@@ -5858,7 +6030,11 @@ def article_download(request):
     items = Article.objects.all()
 
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="articles.csv"'
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    file_name = f"social_complexity_article_{current_datetime}.csv"
+
+    response['Content-Disposition'] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
@@ -5874,7 +6050,7 @@ def article_download(request):
 @permission_required('core.view_capital')
 def article_meta_download(request):
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="articles.csv"'
+    response['Content-Disposition'] = 'attachment; filename="metadata_articles.csv"'
     
     my_meta_data_dic = {'notes': 'No_Actual_note', 'main_desc': 'Talking about forms of money, articles are items that have both a regular use and are used as money (example: axes, cattle, measures of grain, ingots of non-precious metals)', 'main_desc_source': 'NOTHING', 'section': 'Social Complexity', 'subsection': 'Forms of money'}
     my_meta_data_dic_inner_vars = {'article': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The absence or presence of article for a polity.', 'units': None, 'choices': 'ABSENT_PRESENT_CHOICES', 'null_meaning': None}}
@@ -5991,7 +6167,11 @@ def token_download(request):
     items = Token.objects.all()
 
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="tokens.csv"'
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    file_name = f"social_complexity_token_{current_datetime}.csv"
+
+    response['Content-Disposition'] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
@@ -6007,7 +6187,7 @@ def token_download(request):
 @permission_required('core.view_capital')
 def token_meta_download(request):
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="tokens.csv"'
+    response['Content-Disposition'] = 'attachment; filename="metadata_tokens.csv"'
     
     my_meta_data_dic = {'notes': 'No_Actual_note', 'main_desc': 'Talking about forms of money, tokens, unlike articles, are used only for exchange, and unlike coins, are not manufactured (example: cowries)', 'main_desc_source': 'NOTHING', 'section': 'Social Complexity', 'subsection': 'Forms of money'}
     my_meta_data_dic_inner_vars = {'token': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The absence or presence of token for a polity.', 'units': None, 'choices': 'ABSENT_PRESENT_CHOICES', 'null_meaning': None}}
@@ -6124,7 +6304,11 @@ def precious_metal_download(request):
     items = Precious_metal.objects.all()
 
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="precious_metals.csv"'
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    file_name = f"social_complexity_precious_metal_{current_datetime}.csv"
+
+    response['Content-Disposition'] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
@@ -6140,7 +6324,7 @@ def precious_metal_download(request):
 @permission_required('core.view_capital')
 def precious_metal_meta_download(request):
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="precious_metals.csv"'
+    response['Content-Disposition'] = 'attachment; filename="metadata_precious_metals.csv"'
     
     my_meta_data_dic = {'notes': 'No_Actual_note', 'main_desc': 'Talking about forms of money, Precious metals are non-coined silver, gold, platinum', 'main_desc_source': 'NOTHING', 'section': 'Social Complexity', 'subsection': 'Forms of money'}
     my_meta_data_dic_inner_vars = {'precious_metal': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The absence or presence of precious metal for a polity.', 'units': None, 'choices': 'ABSENT_PRESENT_CHOICES', 'null_meaning': None}}
@@ -6257,7 +6441,11 @@ def foreign_coin_download(request):
     items = Foreign_coin.objects.all()
 
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="foreign_coins.csv"'
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    file_name = f"social_complexity_foreign_coin_{current_datetime}.csv"
+
+    response['Content-Disposition'] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
@@ -6273,7 +6461,7 @@ def foreign_coin_download(request):
 @permission_required('core.view_capital')
 def foreign_coin_meta_download(request):
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="foreign_coins.csv"'
+    response['Content-Disposition'] = 'attachment; filename="metadata_foreign_coins.csv"'
     
     my_meta_data_dic = {'notes': 'No_Actual_note', 'main_desc': 'NO_DESCRIPTIONS_IN_CODEBOOK', 'main_desc_source': 'NOTHING', 'section': 'Social Complexity', 'subsection': 'Forms of money'}
     my_meta_data_dic_inner_vars = {'foreign_coin': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The absence or presence of foreign coin for a polity.', 'units': None, 'choices': 'ABSENT_PRESENT_CHOICES', 'null_meaning': None}}
@@ -6390,7 +6578,11 @@ def indigenous_coin_download(request):
     items = Indigenous_coin.objects.all()
 
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="indigenous_coins.csv"'
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    file_name = f"social_complexity_indigenous_coin_{current_datetime}.csv"
+
+    response['Content-Disposition'] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
@@ -6403,10 +6595,11 @@ def indigenous_coin_download(request):
 
     return response
 
+
 @permission_required('core.view_capital')
 def indigenous_coin_meta_download(request):
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="indigenous_coins.csv"'
+    response['Content-Disposition'] = 'attachment; filename="metadata_indigenous_coins.csv"'
     
     my_meta_data_dic = {'notes': 'No_Actual_note', 'main_desc': 'NO_DESCRIPTIONS_IN_CODEBOOK', 'main_desc_source': 'NOTHING', 'section': 'Social Complexity', 'subsection': 'Forms of money'}
     my_meta_data_dic_inner_vars = {'indigenous_coin': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The absence or presence of indigenous coin for a polity.', 'units': None, 'choices': 'ABSENT_PRESENT_CHOICES', 'null_meaning': None}}
@@ -6523,7 +6716,11 @@ def paper_currency_download(request):
     items = Paper_currency.objects.all()
 
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="paper_currencys.csv"'
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    file_name = f"social_complexity_paper_currency_{current_datetime}.csv"
+
+    response['Content-Disposition'] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
@@ -6539,7 +6736,7 @@ def paper_currency_download(request):
 @permission_required('core.view_capital')
 def paper_currency_meta_download(request):
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="paper_currencys.csv"'
+    response['Content-Disposition'] = 'attachment; filename="metadata_paper_currencys.csv"'
     
     my_meta_data_dic = {'notes': 'No_Actual_note', 'main_desc': 'Paper currency or another kind of fiat money. Note that this only refers to indigenously produced paper currency. Code absent if colonial money is used.', 'main_desc_source': 'NOTHING', 'section': 'Social Complexity', 'subsection': 'Forms of money'}
     my_meta_data_dic_inner_vars = {'paper_currency': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The absence or presence of paper currency for a polity.', 'units': None, 'choices': 'ABSENT_PRESENT_CHOICES', 'null_meaning': None}}
@@ -6656,7 +6853,11 @@ def courier_download(request):
     items = Courier.objects.all()
 
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="couriers.csv"'
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    file_name = f"social_complexity_courier_{current_datetime}.csv"
+
+    response['Content-Disposition'] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
@@ -6672,7 +6873,7 @@ def courier_download(request):
 @permission_required('core.view_capital')
 def courier_meta_download(request):
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="couriers.csv"'
+    response['Content-Disposition'] = 'attachment; filename="metadata_couriers.csv"'
     
     my_meta_data_dic = {'notes': 'No_Actual_note', 'main_desc': 'Full-time professional couriers.', 'main_desc_source': 'NOTHING', 'section': 'Social Complexity', 'subsection': 'Postal sytems'}
     my_meta_data_dic_inner_vars = {'courier': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The absence or presence of courier for a polity.', 'units': None, 'choices': 'ABSENT_PRESENT_CHOICES', 'null_meaning': None}}
@@ -6789,7 +6990,11 @@ def postal_station_download(request):
     items = Postal_station.objects.all()
 
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="postal_stations.csv"'
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    file_name = f"social_complexity_postal_station_{current_datetime}.csv"
+
+    response['Content-Disposition'] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
@@ -6805,7 +7010,7 @@ def postal_station_download(request):
 @permission_required('core.view_capital')
 def postal_station_meta_download(request):
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="postal_stations.csv"'
+    response['Content-Disposition'] = 'attachment; filename="metadata_postal_stations.csv"'
     
     my_meta_data_dic = {'notes': 'No_Actual_note', 'main_desc': 'Talking about postal sytems, Postal stations are specialized buildings exclusively devoted to the postal service. If there is a special building that has other functions than a postal station, we still code postal station as present. The intent is to capture additional infrastructure beyond having a corps of messengers.', 'main_desc_source': 'NOTHING', 'section': 'Social Complexity', 'subsection': 'Postal sytems'}
     my_meta_data_dic_inner_vars = {'postal_station': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The absence or presence of postal station for a polity.', 'units': None, 'choices': 'ABSENT_PRESENT_CHOICES', 'null_meaning': None}}
@@ -6922,7 +7127,11 @@ def general_postal_service_download(request):
     items = General_postal_service.objects.all()
 
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="general_postal_services.csv"'
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    file_name = f"social_complexity_general_postal_service_{current_datetime}.csv"
+
+    response['Content-Disposition'] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
@@ -6938,7 +7147,7 @@ def general_postal_service_download(request):
 @permission_required('core.view_capital')
 def general_postal_service_meta_download(request):
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="general_postal_services.csv"'
+    response['Content-Disposition'] = 'attachment; filename="metadata_general_postal_services.csv"'
     
     my_meta_data_dic = {'notes': 'No_Actual_note', 'main_desc': "Talking about postal sytems, 'General postal service' refers to a postal service that not only serves the ruler's needs, but carries mail for private citizens.", 'main_desc_source': 'NOTHING', 'section': 'Social Complexity', 'subsection': 'Postal sytems'}
     my_meta_data_dic_inner_vars = {'general_postal_service': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The absence or presence of general postal service for a polity.', 'units': None, 'choices': 'ABSENT_PRESENT_CHOICES', 'null_meaning': None}}
@@ -7038,7 +7247,11 @@ def download_csv_all_sc(request):
 
     # Create a response object with CSV content type
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="social_complexity_data_all_in_1.csv"'
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    file_name = f"social_complexity_data_{current_datetime}.csv"
+
+    response['Content-Disposition'] = f'attachment; filename="{file_name}"'
 
     # Create a CSV writer
     writer = csv.writer(response, delimiter='|')
@@ -7067,7 +7280,12 @@ def download_csv_social_scale(request):
 
     # Create a response object with CSV content type
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="social_complexity_data_social_scale.csv"'
+
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    file_name = f"social_complexity_social_scale_{current_datetime}.csv"
+
+    response['Content-Disposition'] = f'attachment; filename="{file_name}"'
 
     # Create a CSV writer
     writer = csv.writer(response, delimiter='|')
@@ -7099,7 +7317,11 @@ def download_csv_professions(request):
 
     # Create a response object with CSV content type
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="social_complexity_data_professions.csv"'
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    file_name = f"social_complexity_professions_{current_datetime}.csv"
+
+    response['Content-Disposition'] = f'attachment; filename="{file_name}"'
 
     # Create a CSV writer
     writer = csv.writer(response, delimiter='|')
@@ -7131,7 +7353,11 @@ def download_csv_bureaucracy_characteristics(request):
 
     # Create a response object with CSV content type
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="social_complexity_data_bureaucracy_characteristics.csv"'
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    file_name = f"social_complexity_bureaucracy_characteristics_{current_datetime}.csv"
+
+    response['Content-Disposition'] = f'attachment; filename="{file_name}"'
 
     # Create a CSV writer
     writer = csv.writer(response, delimiter='|')
@@ -7163,7 +7389,11 @@ def download_csv_hierarchical_complexity(request):
 
     # Create a response object with CSV content type
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="social_complexity_data_hierarchical_complexity.csv"'
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    file_name = f"social_complexity_hierarchical_complexity_{current_datetime}.csv"
+
+    response['Content-Disposition'] = f'attachment; filename="{file_name}"'
 
     # Create a CSV writer
     writer = csv.writer(response, delimiter='|')
@@ -7195,7 +7425,11 @@ def download_csv_law(request):
 
     # Create a response object with CSV content type
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="social_complexity_data_law.csv"'
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    file_name = f"social_complexity_law_{current_datetime}.csv"
+
+    response['Content-Disposition'] = f'attachment; filename="{file_name}"'
 
     # Create a CSV writer
     writer = csv.writer(response, delimiter='|')
@@ -7227,7 +7461,11 @@ def download_csv_specialized_buildings_polity_owned(request):
 
     # Create a response object with CSV content type
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="social_complexity_data_specialized_buildings_polity_owned.csv"'
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    file_name = f"social_complexity_specialized_buildings_polity_owned_{current_datetime}.csv"
+
+    response['Content-Disposition'] = f'attachment; filename="{file_name}"'
 
     # Create a CSV writer
     writer = csv.writer(response, delimiter='|')
@@ -7259,7 +7497,11 @@ def download_csv_transport_infrastructure(request):
 
     # Create a response object with CSV content type
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="social_complexity_data_transport_infrastructure.csv"'
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    file_name = f"social_complexity_transport_infrastructure_{current_datetime}.csv"
+
+    response['Content-Disposition'] = f'attachment; filename="{file_name}"'
 
     # Create a CSV writer
     writer = csv.writer(response, delimiter='|')
@@ -7291,7 +7533,11 @@ def download_csv_special_purpose_sites(request):
 
     # Create a response object with CSV content type
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="social_complexity_data_special_purpose_sites.csv"'
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    file_name = f"social_complexity_special_purpose_sites_{current_datetime}.csv"
+
+    response['Content-Disposition'] = f'attachment; filename="{file_name}"'
 
     # Create a CSV writer
     writer = csv.writer(response, delimiter='|')
@@ -7323,7 +7569,11 @@ def download_csv_information(request):
 
     # Create a response object with CSV content type
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="social_complexity_data_information.csv"'
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    file_name = f"social_complexity_information_{current_datetime}.csv"
+
+    response['Content-Disposition'] = f'attachment; filename="{file_name}"'
 
     # Create a CSV writer
     writer = csv.writer(response, delimiter='|')
@@ -7346,3 +7596,4 @@ def download_csv_information(request):
                             obj.expert_reviewed, obj.drb_reviewed,])
 
     return response
+

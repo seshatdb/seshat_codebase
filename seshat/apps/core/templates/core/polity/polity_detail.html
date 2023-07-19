@@ -62,7 +62,7 @@
       }
 
       .tag-border{
-        border: 1px solid teal; /* Adjust the border color and thickness as desired */
+        border: 1px solid #afe4ed; /* Adjust the border color and thickness as desired */
       }
 
       .tag-border2{
@@ -142,7 +142,7 @@
                                 {% for vv in values %}
                                         {% if forloop.counter0 > 0 %}
                                         <span class="text-secondary">
-                                            &
+                                            /
                                         </span>
                                         {% endif %}
                                         {% if  vv.show_value == 'present' %}
@@ -208,7 +208,7 @@
                                 <i class="fa-solid fa-circle fa-xs"></i>  &nbsp;{{values.0.clean_name_spaced}}: &nbsp;
                                 {% for vv in values %}
                                         {% if forloop.counter0 > 0 %}
-                                    <span class="text-secondary">&</span>
+                                    <span class="text-secondary">/</span>
                                         {% endif %}
                                         {% if  vv.show_value == 'present' %}
 
@@ -267,7 +267,7 @@
                                 <i class="fa-solid fa-circle fa-xs"></i>  &nbsp;{{values.0.clean_name_spaced}}: &nbsp;
                                 {% for vv in values %}
                                         {% if forloop.counter0 > 0 %}
-                                    <span class="text-secondary">&</span>
+                                    <span class="text-secondary">/</span>
                                         {% endif %}
                                         {% if  vv.show_value == 'present' %}
 
@@ -498,10 +498,11 @@
                         <div style="display: inline-flex; flex-direction: row;">
                             {% include "core/partials/_tag_value_inline.html" %}
                             {% include "core/partials/_disputed_value_inline.html" %}
+                            {% include "core/partials/_uncertain_value_inline.html" %}
                             {% include "core/partials/_expert_checked_value_inline.html" %}
 
                             <a class="p-0 m-0 fs-6" type="button" href="{% url key|lower|add:'-update' value.id %}">
-                                <span class="badge rounded-pill bg-danger"> <i class=" fa-solid fa-pen-to-square text-white"></i></span>
+                                <span class="badge rounded-pill bg-danger tag-border"> <i class=" fa-solid fa-pen-to-square text-white"></i></span>
                             </a>                  
                         </div>
                     </div>
@@ -544,10 +545,11 @@
                         <div style="display: inline-flex; flex-direction: row;">
                             {% include "core/partials/_tag_value_inline.html" %}
                             {% include "core/partials/_disputed_value_inline.html" %}
+                            {% include "core/partials/_uncertain_value_inline.html" %}
                             {% include "core/partials/_expert_checked_value_inline.html" %}
 
                             <a class="p-0 m-0 fs-6" type="button" href="{% url key|lower|add:'-update' value.id %}">
-                                <span class="badge rounded-pill bg-danger"> <i class=" fa-solid fa-pen-to-square text-white"></i></span>
+                                <span class="badge rounded-pill bg-danger tag-border"> <i class=" fa-solid fa-pen-to-square text-white"></i></span>
                             </a>                  
                         </div>
                     </div>
@@ -592,9 +594,10 @@
                             <div style="display: inline-flex; flex-direction: row;">
                                 {% include "core/partials/_tag_value_inline.html" %}
                                 {% include "core/partials/_disputed_value_inline.html" %}
+                                {% include "core/partials/_uncertain_value_inline.html" %}
                                 {% include "core/partials/_expert_checked_value_inline.html" %}
                                 <a class="p-0 m-0 fs-6" type="button" href="{% url key|lower|add:'-update' value.id %}">
-                                    <span class="badge rounded-pill bg-danger"> <i class=" fa-solid fa-pen-to-square text-white"></i></span>
+                                    <span class="badge rounded-pill bg-danger tag-border"> <i class=" fa-solid fa-pen-to-square text-white"></i></span>
                                 </a>                  
                             </div>
                         </div>
@@ -646,9 +649,9 @@
                                 {% include "core/partials/_drb_checked_value_inline.html" %}
 
                                 <a class="p-0 m-0 fs-6" type="button" href="{% url 'human_sacrifice-update' value.id %}">
-                                    <span class="badge rounded-pill bg-danger"> <i class=" fa-solid fa-pen-to-square text-white"></i></span>
+                                    <span class="badge rounded-pill bg-danger tag-border"> <i class=" fa-solid fa-pen-to-square text-white"></i></span>
                                 </a>     
-                                <a class="p-0 m-0 fs-6" href="{% url 'seshatcomment-update' value.comment.id %}"><span class="badge rounded-pill bg-secondary"> <i class=" fa-solid fa-pen-to-square text-white"></i> Description</span></a>             
+                                <a class="p-0 m-0 fs-6" href="{% url 'seshatcomment-update' value.comment.id %}"><span class="badge rounded-pill bg-secondary tag-border"> <i class=" fa-solid fa-pen-to-square text-white"></i> Description</span></a>             
                             </div>
                         </div>
                     </span>
@@ -716,7 +719,7 @@
                                 {% include "core/partials/_disputed_value_inline.html" %}
                                 {% include "core/partials/_expert_checked_value_inline.html" %}
                                 <a class="p-0 m-0 fs-6" href="{% url 'crisis_consequence-update' value.id %}">
-                                    <span class="badge rounded-pill bg-danger"> <i class=" fa-solid fa-pen-to-square text-white"></i></span>
+                                    <span class="badge rounded-pill bg-danger tag-border"> <i class=" fa-solid fa-pen-to-square text-white"></i></span>
                                 </a>                  
                             </div>
                         </div>

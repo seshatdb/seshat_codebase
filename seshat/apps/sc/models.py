@@ -139,25 +139,25 @@ class Polity_territory(SeshatCommon):
         return "Polity Territory"
     
     def show_value(self):
-        if self.polity_territory_from and self.polity_territory_to and self.polity_territory_to == self.polity_territory_from:
-            return self.polity_territory_from
-        elif self.polity_territory_from and self.polity_territory_to:
-            return f"[{self.polity_territory_from:,} to {self.polity_territory_to:,}]"
-        elif self.polity_territory_from:
-            return f"[{self.polity_territory_from:,}"
-        elif self.polity_territory_to:
-            return f"[{self.polity_territory_to:,}"
+        if self.polity_territory_from is not None and self.polity_territory_to is not None and self.polity_territory_to == self.polity_territory_from:
+            return mark_safe(f"{self.polity_territory_from:,} <span class='fw-light fs-6 text-secondary'> km<sup>2</sup> </span>")
+        elif self.polity_territory_from is not None and self.polity_territory_to is not None:
+            return mark_safe(f"<span class='fw-light text-secondary'> [</span>{self.polity_territory_from:,} <span class='fw-light text-secondary'> to </span> {self.polity_territory_to:,}<span class='fw-light text-secondary'>] </span> <span class='fw-light fs-6 text-secondary'> km<sup>2</sup> </span>")
+        elif self.polity_territory_from is not None:
+            return f"[{self.polity_territory_from:,}, ...]"
+        elif self.polity_territory_to is not None:
+            return f"[..., {self.polity_territory_to:,}]"
         else:
             return " - "
   
     def show_value_from(self):
-        if self.polity_territory_from:
+        if self.polity_territory_from is not None:
             return self.polity_territory_from
         else:
             return None
 
     def show_value_to(self):
-        if self.polity_territory_to:
+        if self.polity_territory_to is not None:
             return self.polity_territory_to
         else:
             return None
@@ -199,25 +199,25 @@ class Polity_population(SeshatCommon):
         return "Polity Population"
     
     def show_value(self):
-        if self.polity_population_from and self.polity_population_to and self.polity_population_to == self.polity_population_from:
-            return self.polity_population_from
-        elif self.polity_population_from and self.polity_population_to:
-            return f"[{self.polity_population_from:,} to {self.polity_population_to:,}]"
-        elif self.polity_population_from:
-            return f"[{self.polity_population_from:,}"
-        elif self.polity_population_to:
-            return f"[{self.polity_population_to:,}"
+        if self.polity_population_from is not None and self.polity_population_to is not None and self.polity_population_to == self.polity_population_from:
+            return mark_safe(f"{self.polity_population_from:,}<span class='fw-light fs-6 text-secondary'> people </span>")
+        elif self.polity_population_from is not None and self.polity_population_to is not None:
+            return  mark_safe(f"<span class='fw-light text-secondary'> [</span>{self.polity_population_from:,} <span class='fw-light text-secondary'> to </span> {self.polity_population_to:,}<span class='fw-light text-secondary'>] </span> <span class='fw-light fs-6 text-secondary'> people </span>")
+        elif self.polity_population_from is not None:
+            return f"[{self.polity_population_from:,}, ...]"
+        elif self.polity_population_to is not None:
+            return f"[..., {self.polity_population_to:,}]"
         else:
             return " - "
         
     def show_value_from(self):
-        if self.polity_population_from:
+        if self.polity_population_from is not None:
             return self.polity_population_from
         else:
             return None
 
     def show_value_to(self):
-        if self.polity_population_to:
+        if self.polity_population_to is not None:
             return self.polity_population_to
         else:
             return None   
@@ -259,26 +259,26 @@ class Population_of_the_largest_settlement(SeshatCommon):
         return "Population of the Largest Settlement"
     
     def show_value(self):
-        if self.population_of_the_largest_settlement_from and self.population_of_the_largest_settlement_to and self.population_of_the_largest_settlement_to == self.population_of_the_largest_settlement_from:
-            return self.population_of_the_largest_settlement_from
-        elif self.population_of_the_largest_settlement_from and self.population_of_the_largest_settlement_to:
-            return f"[{self.population_of_the_largest_settlement_from:,} to {self.population_of_the_largest_settlement_to:,}]"
-        elif self.population_of_the_largest_settlement_from:
-            return f"[{self.population_of_the_largest_settlement_from:,}"
-        elif self.population_of_the_largest_settlement_to:
-            return f"[{self.population_of_the_largest_settlement_to:,}"
+        if self.population_of_the_largest_settlement_from is not None and self.population_of_the_largest_settlement_to is not None and self.population_of_the_largest_settlement_to == self.population_of_the_largest_settlement_from:
+            return mark_safe(f"{self.population_of_the_largest_settlement_from:,} <span class='fw-light fs-6 text-secondary'> people </span>")
+        elif self.population_of_the_largest_settlement_from is not None and self.population_of_the_largest_settlement_to is not None:
+            return mark_safe(f"<span class='fw-light text-secondary'> [</span>{self.population_of_the_largest_settlement_from:,} <span class='fw-light text-secondary'> to </span> {self.population_of_the_largest_settlement_to:,}<span class='fw-light text-secondary'>] </span> <span class='fw-light fs-6 text-secondary'> people </span>")
+        elif self.population_of_the_largest_settlement_from is not None:
+            return f"[{self.population_of_the_largest_settlement_from:,}, ...]"
+        elif self.population_of_the_largest_settlement_to is not None:
+            return f"[..., {self.population_of_the_largest_settlement_to:,}]"
         else:
             return " - "
 
         
     def show_value_from(self):
-        if self.population_of_the_largest_settlement_from:
+        if self.population_of_the_largest_settlement_from is not None:
             return self.population_of_the_largest_settlement_from
         else:
             return None
 
     def show_value_to(self):
-        if self.population_of_the_largest_settlement_to:
+        if self.population_of_the_largest_settlement_to is not None:
             return self.population_of_the_largest_settlement_to
         else:
             return None   
@@ -320,26 +320,26 @@ class Settlement_hierarchy(SeshatCommon):
         return "Settlement Hierarchy"
     
     def show_value(self):
-        if self.settlement_hierarchy_from and self.settlement_hierarchy_to and self.settlement_hierarchy_to == self.settlement_hierarchy_from:
+        if self.settlement_hierarchy_from is not None and self.settlement_hierarchy_to is not None and self.settlement_hierarchy_to == self.settlement_hierarchy_from:
             return self.settlement_hierarchy_from
-        elif self.settlement_hierarchy_from and self.settlement_hierarchy_to:
+        elif self.settlement_hierarchy_from is not None and self.settlement_hierarchy_to is not None:
             return f"[{self.settlement_hierarchy_from:,} to {self.settlement_hierarchy_to:,}]"
-        elif self.settlement_hierarchy_from:
-            return f"[{self.settlement_hierarchy_from:,}"
-        elif self.settlement_hierarchy_to:
-            return f"[{self.settlement_hierarchy_to:,}"
+        elif self.settlement_hierarchy_from is not None:
+            return f"[{self.settlement_hierarchy_from:,}, ...]"
+        elif self.settlement_hierarchy_to is not None:
+            return f"[..., {self.settlement_hierarchy_to:,}]"
         else:
             return " - "
         
         
     def show_value_from(self):
-        if self.settlement_hierarchy_from:
+        if self.settlement_hierarchy_from is not None:
             return self.settlement_hierarchy_from
         else:
             return None
 
     def show_value_to(self):
-        if self.settlement_hierarchy_to:
+        if self.settlement_hierarchy_to is not None:
             return self.settlement_hierarchy_to
         else:
             return None  
@@ -381,26 +381,26 @@ class Administrative_level(SeshatCommon):
         return "Administrative Level"
     
     def show_value(self):
-        if self.administrative_level_from and self.administrative_level_to and self.administrative_level_to == self.administrative_level_from:
+        if self.administrative_level_from is not None and self.administrative_level_to is not None and self.administrative_level_to == self.administrative_level_from:
             return self.administrative_level_from
-        elif self.administrative_level_from and self.administrative_level_to:
+        elif self.administrative_level_from is not None and self.administrative_level_to is not None:
             return f"[{self.administrative_level_from:,} to {self.administrative_level_to:,}]"
-        elif self.administrative_level_from:
-            return f"[{self.administrative_level_from:,}"
-        elif self.administrative_level_to:
-            return f"[{self.administrative_level_to:,}"
+        elif self.administrative_level_from is not None:
+            return f"[{self.administrative_level_from:,}, ...]"
+        elif self.administrative_level_to is not None:
+            return f"[..., {self.administrative_level_to:,}]"
         else:
             return " - "
         
         
     def show_value_from(self):
-        if self.administrative_level_from:
+        if self.administrative_level_from is not None:
             return self.administrative_level_from
         else:
             return None
 
     def show_value_to(self):
-        if self.administrative_level_to:
+        if self.administrative_level_to is not None:
             return self.administrative_level_to
         else:
             return None  
@@ -442,25 +442,25 @@ class Religious_level(SeshatCommon):
         return "Religious Level"
     
     def show_value(self):
-        if self.religious_level_from and self.religious_level_to and self.religious_level_to == self.religious_level_from:
+        if self.religious_level_from is not None and self.religious_level_to is not None and self.religious_level_to == self.religious_level_from:
             return self.religious_level_from
-        elif self.religious_level_from and self.religious_level_to:
+        elif self.religious_level_from is not None and self.religious_level_to is not None:
             return f"[{self.religious_level_from:,} to {self.religious_level_to:,}]"
-        elif self.religious_level_from:
-            return f"[{self.religious_level_from:,}"
-        elif self.religious_level_to:
-            return f"[{self.religious_level_to:,}"
+        elif self.religious_level_from is not None:
+            return f"[{self.religious_level_from:,}, ...]"
+        elif self.religious_level_to is not None:
+            return f"[..., {self.religious_level_to:,}]"
         else:
             return " - "
         
     def show_value_from(self):
-        if self.religious_level_from:
+        if self.religious_level_from is not None:
             return self.religious_level_from
         else:
             return None
 
     def show_value_to(self):
-        if self.religious_level_to:
+        if self.religious_level_to is not None:
             return self.religious_level_to
         else:
             return None  
@@ -502,25 +502,25 @@ class Military_level(SeshatCommon):
         return "Military Level"
     
     def show_value(self):
-        if self.military_level_from and self.military_level_to and self.military_level_to == self.military_level_from:
+        if self.military_level_from is not None and self.military_level_to is not None and self.military_level_to == self.military_level_from:
             return self.military_level_from
-        elif self.military_level_from and self.military_level_to:
+        elif self.military_level_from is not None and self.military_level_to is not None:
             return f"[{self.military_level_from:,} to {self.military_level_to:,}]"
-        elif self.military_level_from:
-            return f"[{self.military_level_from:,}"
-        elif self.military_level_to:
-            return f"[{self.military_level_to:,}"
+        elif self.military_level_from is not None:
+            return f"[{self.military_level_from:,}, ...]"
+        elif self.military_level_to is not None:
+            return f"[..., {self.military_level_to:,}]"
         else:
             return " - "
         
     def show_value_from(self):
-        if self.military_level_from:
+        if self.military_level_from is not None:
             return self.military_level_from
         else:
             return None
 
     def show_value_to(self):
-        if self.military_level_to:
+        if self.military_level_to is not None:
             return self.military_level_to
         else:
             return None  

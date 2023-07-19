@@ -1,0 +1,6 @@
+<!-- Disputred tag (Disputed/or Not etc.) -->
+{% if value.is_uncertain %}
+<a type="button" class="btn p-0 m-0" data-bs-toggle="tooltip" data-bs-html="true"  title="Uncertainty has been coded.">
+    <span class="badge rounded-pill bg-warning text-dark tag-border"> <i class="fa-regular fa-circle-question fa-sm"></i> Uncertain</span>
+</a>
+{% endif %}

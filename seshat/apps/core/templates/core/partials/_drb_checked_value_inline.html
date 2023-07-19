@@ -1,10 +1,10 @@
 {% if value.drb_reviewed %}
     <a type="button" class="btn p-0 m-0" data-bs-toggle="tooltip" data-bs-html="true"  title="Approved By: {{ value.curators_list }}">
-        <span class="badge rounded-pill bg-primary"><i class="fas fa-check-circle"></i> DRB</span>
+        <span class="badge rounded-pill bg-primary tag-border"><i class="fas fa-check-circle"></i> DRB</span>
     </a>
 {% else %}
     <a type="button" class="btn p-0 m-0" data-bs-toggle="tooltip" data-bs-html="true"  title="DRB status: Pending.">
-        <span class="badge rounded-pill bg-warning text-dark"><i class="fa-solid fa-circle-pause text-dark"></i> DRB</span>
+        <span class="badge rounded-pill bg-warning text-dark tag-border"><i class="fa-solid fa-circle-pause text-dark"></i> DRB</span>
     </a>
 {% endif %}
 

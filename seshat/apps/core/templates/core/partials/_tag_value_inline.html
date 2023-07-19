@@ -1,14 +1,14 @@
 <!-- Tag tag (Disputed/Suspected etc.) -->
     <a type="button" class="fs-6" data-bs-toggle="tooltip" data-bs-html="true"  title="References: {{ value.display_citations }}">
 {% if value.tag == "DSP" %}
-<span class="badge rounded-pill bg-danger"> {{ value.get_tag_display }}</span>
+<span class="badge tag-border rounded-pill bg-danger"> {{ value.get_tag_display }}</span>
 {% elif  value.tag == "SSP" %}
-<span class="badge rounded-pill bg-warning text-dark"> {{ value.get_tag_display }}</span>
+<span class="badge tag-border rounded-pill bg-warning text-dark"> {{ value.get_tag_display }}</span>
 {% elif  value.tag == "UNK" %}
-<span class="badge rounded-pill bg-secondary"> {{ value.get_tag_display }}</span>
+<span class="badge tag-border rounded-pill bg-secondary"> {{ value.get_tag_display }}</span>
 {% elif  value.tag == "IFR" %}
-<span class="badge rounded-pill bg-primary"> {{ value.get_tag_display }}</span>
+<span class="badge tag-border rounded-pill bg-primary"> {{ value.get_tag_display }}</span>
 {% else  %}
-    <span class="badge rounded-pill bg-success"> {{ value.get_tag_display }}</span>
+    <span class="badge tag-border rounded-pill bg-success"> {{ value.get_tag_display }}</span>
 {% endif %}
 </a>
