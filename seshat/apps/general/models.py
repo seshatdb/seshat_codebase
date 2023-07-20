@@ -1128,9 +1128,9 @@ class Polity_scale_of_supracultural_interaction(SeshatCommon):
     
     def show_value(self):
         if self.scale_from and self.scale_to and self.scale_to == self.scale_from:
-            return self.scale_from
+            return mark_safe(f"{self.scale_from:,} <span class='fw-light fs-6 text-secondary'> km<sup>2</sup> </span>")
         elif self.scale_from and self.scale_to:
-            return f"[{self.scale_from:,} to {self.scale_to:,}]"
+            return mark_safe(f"<span class='fw-light text-secondary'> [</span>{self.scale_from:,} <span class='fw-light text-secondary'> to </span> {self.scale_to:,}<span class='fw-light text-secondary'>] </span> <span class='fw-light fs-6 text-secondary'> km<sup>2</sup> </span>")
         elif self.scale_from:
             return f"[{self.scale_from:,}"
         elif self.scale_to:
@@ -1138,6 +1138,7 @@ class Polity_scale_of_supracultural_interaction(SeshatCommon):
         else:
             return " - "
         
+
     def get_absolute_url(self):
         return reverse('polity_scale_of_supracultural_interaction-detail', args=[str(self.id)])
 

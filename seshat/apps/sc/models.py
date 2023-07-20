@@ -25,6 +25,9 @@ ABSENT_PRESENT_CHOICES = (
 ('present', 'present'),
 ('absent', 'absent'),
 ('unknown', 'unknown'),
+('A~P', 'Transitional (Absent -> Present)'),
+('P~A', 'Transitional (Present -> Absent)'),
+
 )
 
 

@@ -75,6 +75,7 @@
           </div>
             <div class="col-md-4 mb-2">
                 {{ form.is_disputed|as_crispy_field }}
+                {{ form.is_uncertain|as_crispy_field }}
                 {{ form.expert_reviewed|as_crispy_field }}
                 {{ form.drb_reviewed|as_crispy_field }}
             </div>

@@ -30,6 +30,8 @@ ABSENT_PRESENT_CHOICES = (
 )
 
 
+
+
 ########## TUPLE CHOICES THAT ARE THE SAME 
 
 ########## END of tuple choices for general Models
@@ -71,14 +73,14 @@ def clean_times(self):
 
 
 
-    # def show_value_from(self):
-    #     if self.professional_military_officer:
-    #         return self.professional_military_officer
-    #     else:
-    #         return None
+    def show_value_from(self):
+        if self.professional_military_officer:
+            return self.professional_military_officer
+        else:
+            return None
 
-    # def show_value_to(self):
-    #     return None  
+    def show_value_to(self):
+        return None  
 
 ########## End of Function Definitions for General (Vars) Models
 

@@ -17,6 +17,7 @@ commonlabels = {
     'year_to': 'End Year',
     'tag': 'Confidence Level',
     "is_disputed" : "&nbsp; <b> There is a Dispute? </b>",
+    "is_uncertain" : "&nbsp; <b> There is Uncertainty? </b>",
     "expert_reviewed" : "&nbsp; Expert Checked?",
     "drb_reviewed" : "&nbsp; Data Review Board Reviewed?",
     'citations': 'Add one or more Citations',
@@ -24,7 +25,7 @@ commonlabels = {
 }
 
 commonfields = ['polity', 'year_from', 'year_to',
-                'description', 'tag', 'is_disputed', 'expert_reviewed', 'drb_reviewed', 'finalized', 'citations']
+                'description', 'tag', 'is_disputed', 'is_uncertain', 'expert_reviewed', 'drb_reviewed', 'finalized', 'citations']
 
 commonwidgets = {
     'polity': forms.Select(attrs={'class': 'form-control  mb-3', }),
@@ -34,6 +35,7 @@ commonwidgets = {
     'citations': forms.SelectMultiple(attrs={'class': 'form-control mb-3 js-states js-example-basic-multiple', 'text':'citations[]' , 'style': 'height: 340px', 'multiple': 'multiple'}),
     'tag': forms.RadioSelect(),
     "is_disputed" : forms.CheckboxInput(attrs={'class': 'mb-3', }),
+    "is_uncertain" : forms.CheckboxInput(attrs={'class': 'mb-3', }),
     "expert_reviewed" : forms.CheckboxInput(attrs={'class': 'mb-3', }),
     "drb_reviewed" : forms.CheckboxInput(attrs={'class': 'mb-3', }),
     'finalized': forms.CheckboxInput(attrs={'class': 'mb-3', 'checked': True, }),
