@@ -148,11 +148,10 @@ class Crisis_consequenceDelete(PermissionRequiredMixin, DeleteView):
     template_name = "core/delete_general.html"
     permission_required = 'core.add_capital'
 
-class Crisis_consequenceListView(PermissionRequiredMixin, generic.ListView):
+class Crisis_consequenceListView(generic.ListView):
     model = Crisis_consequence
     template_name = "crisisdb/crisis_consequence/crisis_consequence_list.html"
     #paginate_by = 10
-    permission_required = 'core.add_capital'
 
     def get_absolute_url(self):
         return reverse('crisis_consequences')
@@ -185,11 +184,10 @@ class Crisis_consequenceListView(PermissionRequiredMixin, generic.ListView):
 
         return context
     
-class Crisis_consequenceListViewAll(PermissionRequiredMixin, generic.ListView):
+class Crisis_consequenceListViewAll(generic.ListView):
     model = Crisis_consequence
     template_name = "crisisdb/crisis_consequence/crisis_consequence_list_all.html"
     #paginate_by = 10
-    permission_required = 'core.add_capital'
 
     def get_absolute_url(self):
         return reverse('crisis_consequences_all')
@@ -353,11 +351,10 @@ class Power_transitionDelete(PermissionRequiredMixin, DeleteView):
     permission_required = 'core.add_capital'
 
 
-class Power_transitionListView(PermissionRequiredMixin, generic.ListView):
+class Power_transitionListView(generic.ListView):
     model = Power_transition
     template_name = "crisisdb/power_transition/power_transition_list.html"
     #paginate_by = 10
-    permission_required = 'core.add_capital'
 
     def get_absolute_url(self):
         return reverse('power_transitions')
@@ -391,10 +388,9 @@ class Power_transitionListView(PermissionRequiredMixin, generic.ListView):
 
         return context
     
-class Power_transitionListViewAll(PermissionRequiredMixin, generic.ListView):
+class Power_transitionListViewAll(generic.ListView):
     model = Power_transition
     template_name = "crisisdb/power_transition/power_transition_list_all.html"
-    permission_required = 'core.add_capital'
     #paginate_by = 10
 
     def get_absolute_url(self):
@@ -543,7 +539,7 @@ class Human_sacrificeDelete(PermissionRequiredMixin, DeleteView):
     permission_required = 'core.add_capital'
 
 
-class Human_sacrificeListView(PermissionRequiredMixin, generic.ListView):
+class Human_sacrificeListView(generic.ListView):
     model = Human_sacrifice
     template_name = "crisisdb/human_sacrifice/human_sacrifice_list.html"
     paginate_by = 10
@@ -566,11 +562,10 @@ class Human_sacrificeListView(PermissionRequiredMixin, generic.ListView):
         return context
 
 
-class Human_sacrificeListViewAll(PermissionRequiredMixin, generic.ListView):
+class Human_sacrificeListViewAll(generic.ListView):
     model = Human_sacrifice
     template_name = "crisisdb/human_sacrifice/human_sacrifice_list_all.html"
     #paginate_by = 10
-    permission_required = 'core.add_capital'
 
     def get_absolute_url(self):
         return reverse('human_sacrifices_all')

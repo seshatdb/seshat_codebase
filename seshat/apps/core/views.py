@@ -617,10 +617,9 @@ class PolityListView_old(PermissionRequiredMixin, SuccessMessageMixin, generic.L
 
         return context
 
-class PolityListView(PermissionRequiredMixin, SuccessMessageMixin, generic.ListView):
+class PolityListView(SuccessMessageMixin, generic.ListView):
     model = Polity
     template_name = "core/polity/polity_list.html"
-    permission_required = 'core.add_capital'
 
     #paginate_by = 10
 
@@ -683,10 +682,9 @@ class PolityListView(PermissionRequiredMixin, SuccessMessageMixin, generic.ListV
 
         return context
 
-class PolityDetailView(PermissionRequiredMixin, SuccessMessageMixin, generic.DetailView):
+class PolityDetailView(SuccessMessageMixin, generic.DetailView):
     model = Polity
     template_name = "core/polity/polity_detail.html"
-    permission_required = 'core.add_capital'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
