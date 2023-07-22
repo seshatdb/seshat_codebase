@@ -7397,9 +7397,15 @@ def download_csv_all_wf(request):
 
 
         for obj in items:
-            writer.writerow(["Military Technologies", obj.clean_name(), obj.year_from, obj.year_to,
-                         obj.polity.long_name, obj.polity.new_name, obj.polity.name, obj.show_value_from(), None, obj.get_tag_display(), obj.is_disputed, obj.is_uncertain,
+            if obj.clean_name() == "long_wall":
+                writer.writerow(["Military Technologies", obj.clean_name(), obj.year_from, obj.year_to,
+                         obj.polity.long_name, obj.polity.new_name, obj.polity.name, obj.show_value_from(), obj.show_value_to(), obj.get_tag_display(), obj.is_disputed, obj.is_uncertain,
                          obj.expert_reviewed, ])
+            else:
+                writer.writerow(["Military Technologies", obj.clean_name(), obj.year_from, obj.year_to,
+                         obj.polity.long_name, obj.polity.new_name, obj.polity.name, obj.show_value(), None, obj.get_tag_display(), obj.is_disputed, obj.is_uncertain,
+                         obj.expert_reviewed, ])
+
 
     return response
 
