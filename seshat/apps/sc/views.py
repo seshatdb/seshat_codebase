@@ -7287,7 +7287,7 @@ def download_csv_all_sc(request):
 
 
         for obj in items:
-            writer.writerow([obj.subsection(), obj.name, obj.year_from, obj.year_to,
+            writer.writerow([obj.subsection(), obj.name.lower(), obj.year_from, obj.year_to,
                          obj.polity.long_name, obj.polity.new_name, obj.polity.name, obj.show_value_from(), obj.show_value_to(), obj.get_tag_display(), obj.is_disputed, obj.is_uncertain,
                          obj.expert_reviewed, obj.drb_reviewed,])
 

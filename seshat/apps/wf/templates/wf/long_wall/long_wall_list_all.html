@@ -19,12 +19,7 @@
 
 {% block myheadings_list %}
 <th class = "fw-bold" style="text-align: center;" scope="col"><span>
-    <a href="{% url 'long_walls_all' %}?orderby=long_wall_from&orderby2=tag"><i class="fa-solid fa-caret-down"></i></a>
-</span>Long Wall from
-</th>
-<th class = "fw-bold" style="text-align: center;" scope="col"><span>
-    <a href="{% url 'long_walls_all' %}?orderby=long_wall_to&orderby2=tag"><i class="fa-solid fa-caret-down"></i></a>
-</span>Long Wall to
+</span>Long Walls
 </th>
 {% endblock myheadings_list %}
 
@@ -41,21 +36,7 @@ text-primary
 {% else %}
 text-success
 {% endif %} fw-normal" style="text-align: center;">
-<h6 class="pt-3">{{ obj.long_wall_from }}</h6>
-</td>
-
-<td class = "{% if obj.tag == 'DSP' %}
-text-danger
-{% elif obj.tag == 'SSP' %}
-text-warning
-{% elif obj.tag == 'UNK' %}
-text-secondary
-{% elif obj.tag == 'IFR' %}
-text-primary
-{% else %}
-text-success
-{% endif %} fw-normal" style="text-align: center;">
-<h6 class="pt-3">{{ obj.long_wall_to }}</h6>
+<h6 class="pt-3">{{ obj.show_value }}</h6>
 </td>
 {% endblock extra_vars_list %}
 
