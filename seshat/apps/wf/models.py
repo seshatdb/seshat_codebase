@@ -86,6 +86,63 @@ def clean_times(self):
 
 ########## Beginning of class Definitions for general Models
 
+class Long_wall(SeshatCommon):
+    name = models.CharField(max_length=100, default="long_wall")
+    long_wall_from = models.IntegerField(blank=True, null=True)
+    long_wall_to = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        verbose_name = 'long_wall'
+        verbose_name_plural = 'Long walls'
+        ordering = ['year_from', 'year_to']
+
+    @property
+    def display_citations(self):
+        return return_citations(self)
+
+    def clean(self):
+        clean_times(self)
+
+    def clean_name(self):
+        return "long_wall"
+
+    def clean_name_spaced(self):
+        return "Long Wall"
+    
+    def show_value(self):
+        if self.long_wall_from is not None and self.long_wall_to is not None and self.long_wall_to == self.long_wall_from:
+            return mark_safe(f"{self.long_wall_from:,} <span class='fw-light fs-6 text-secondary'> km </span>")
+        elif self.long_wall_from is not None and self.long_wall_to is not None:
+            return mark_safe(f"<span class='fw-light text-secondary'> [</span>{self.long_wall_from:,} <span class='fw-light text-secondary'> to </span> {self.long_wall_to:,}<span class='fw-light text-secondary'>] </span> <span class='fw-light fs-6 text-secondary'> km </span>")
+        elif self.long_wall_from == 0:
+            return "absent"
+        elif self.long_wall_from is not None:
+            return f"[{self.long_wall_from:,}, ...]"
+        elif self.long_wall_to is not None:
+            return f"[..., {self.long_wall_to:,}]"
+        else:
+            return "absent"
+  
+    def show_value_from(self):
+        if self.long_wall_from:
+            return self.long_wall_from
+        elif self.long_wall_from == 0:
+            return "absent"
+        else:
+            return "unknown"
+
+    def show_value_to(self):
+        if self.long_wall_to is not None:
+            return self.long_wall_to
+        else:
+            return None
+
+    def get_absolute_url(self):
+        return reverse('long_wall-detail', args=[str(self.id)])
+
+    def __str__(self) -> str:
+        return call_my_name(self)
+
 class Copper(SeshatCommon):
     name = models.CharField(max_length=100, default="Copper")
     copper = models.CharField(max_length=500, choices=ABSENT_PRESENT_CHOICES)

@@ -1,4 +1,4 @@
-from .models import Copper, Bronze, Iron, Steel, Javelin, Atlatl, Sling, Self_bow, Composite_bow, Crossbow, Tension_siege_engine, Sling_siege_engine, Gunpowder_siege_artillery, Handheld_firearm, War_club, Battle_axe, Dagger, Sword, Spear, Polearm, Dog, Donkey, Horse, Camel, Elephant, Wood_bark_etc, Leather_cloth, Shield, Helmet, Breastplate, Limb_protection, Scaled_armor, Laminar_armor, Plate_armor, Small_vessels_canoes_etc, Merchant_ships_pressed_into_service, Specialized_military_vessel, Settlements_in_a_defensive_position, Wooden_palisade, Earth_rampart, Ditch, Moat, Stone_walls_non_mortared, Stone_walls_mortared, Fortified_camp, Complex_fortification, Modern_fortification, Chainmail
+from .models import Long_wall, Copper, Bronze, Iron, Steel, Javelin, Atlatl, Sling, Self_bow, Composite_bow, Crossbow, Tension_siege_engine, Sling_siege_engine, Gunpowder_siege_artillery, Handheld_firearm, War_club, Battle_axe, Dagger, Sword, Spear, Polearm, Dog, Donkey, Horse, Camel, Elephant, Wood_bark_etc, Leather_cloth, Shield, Helmet, Breastplate, Limb_protection, Scaled_armor, Laminar_armor, Plate_armor, Small_vessels_canoes_etc, Merchant_ships_pressed_into_service, Specialized_military_vessel, Settlements_in_a_defensive_position, Wooden_palisade, Earth_rampart, Ditch, Moat, Stone_walls_non_mortared, Stone_walls_mortared, Fortified_camp, Complex_fortification, Modern_fortification, Chainmail
 from django.urls import path
 
 from . import views
@@ -6,8 +6,29 @@ from . import views
 urlpatterns = [
     path('wfvars/', views.wfvars, name='wfvars'),
         path('download-csv-wf-all/', views.download_csv_all_wf,name='download_csv_all_wf'),
+     path('problematic_wf_data_table/', views.show_problematic_wf_data_table, name='problematic_wf_data_table'),
 
 ]
+
+urlpatterns += [
+    path('long_wall/create/', views.Long_wallCreate.as_view(),
+         name="long_wall-create"),
+
+    path('long_walls/', views.Long_wallListView.as_view(), name='long_walls'),
+    path('long_walls_all/', views.Long_wallListViewAll.as_view(), name='long_walls_all'),
+    path('long_wall/<int:pk>', views.Long_wallDetailView.as_view(),
+         name='long_wall-detail'),
+    path('long_wall/<int:pk>/update/',
+         views.Long_wallUpdate.as_view(), name="long_wall-update"),
+    path('long_wall/<int:pk>/delete/',
+         views.Long_wallDelete.as_view(), name="long_wall-delete"),
+    # Download
+    path('long_walldownload/', views.long_wall_download,
+         name="long_wall-download"),
+    path('long_wallmetadownload/', views.long_wall_meta_download,
+         name="long_wall-metadownload"),
+]
+    
 
 
 urlpatterns += [

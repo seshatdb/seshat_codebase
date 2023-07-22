@@ -1,4 +1,4 @@
-from .models import Copper, Bronze, Iron, Steel, Javelin, Atlatl, Sling, Self_bow, Composite_bow, Crossbow, Tension_siege_engine, Sling_siege_engine, Gunpowder_siege_artillery, Handheld_firearm, War_club, Battle_axe, Dagger, Sword, Spear, Polearm, Dog, Donkey, Horse, Camel, Elephant, Wood_bark_etc, Leather_cloth, Shield, Helmet, Breastplate, Limb_protection, Scaled_armor, Laminar_armor, Plate_armor, Small_vessels_canoes_etc, Merchant_ships_pressed_into_service, Specialized_military_vessel, Settlements_in_a_defensive_position, Wooden_palisade, Earth_rampart, Ditch, Moat, Stone_walls_non_mortared, Stone_walls_mortared, Fortified_camp, Complex_fortification, Modern_fortification, Chainmail
+from .models import Long_wall, Copper, Bronze, Iron, Steel, Javelin, Atlatl, Sling, Self_bow, Composite_bow, Crossbow, Tension_siege_engine, Sling_siege_engine, Gunpowder_siege_artillery, Handheld_firearm, War_club, Battle_axe, Dagger, Sword, Spear, Polearm, Dog, Donkey, Horse, Camel, Elephant, Wood_bark_etc, Leather_cloth, Shield, Helmet, Breastplate, Limb_protection, Scaled_armor, Laminar_armor, Plate_armor, Small_vessels_canoes_etc, Merchant_ships_pressed_into_service, Specialized_military_vessel, Settlements_in_a_defensive_position, Wooden_palisade, Earth_rampart, Ditch, Moat, Stone_walls_non_mortared, Stone_walls_mortared, Fortified_camp, Complex_fortification, Modern_fortification, Chainmail
 import datetime
 
 from django import forms
@@ -29,8 +29,7 @@ commonfields = ['polity', 'year_from', 'year_to',
                 'description', 'tag', 'is_disputed', 'is_uncertain', 'expert_reviewed', 'drb_reviewed', 'finalized', 'citations']
 
 commonwidgets = {
-    'polity': forms.Select(attrs={'class': 'form-control  mb-3', }),
-    'year_from': forms.NumberInput(attrs={'class': 'form-control  mb-3',}),
+    'polity': forms.Select(attrs={'class': 'form-control  mb-1 js-example-basic-single', 'id': 'id_polity', 'name': 'polity'}),    'year_from': forms.NumberInput(attrs={'class': 'form-control  mb-3',}),
     'year_to': forms.NumberInput(attrs={'class': 'form-control  mb-3', }),
     'description': Textarea(attrs={'class': 'form-control  mb-3', 'style': 'height: 140px', 'placeholder':'Add a meaningful description (optional)'}),
     'citations': forms.SelectMultiple(attrs={'class': 'form-control mb-3 js-states js-example-basic-multiple', 'text':'citations[]' , 'style': 'height: 340px', 'multiple': 'multiple'}),
@@ -41,6 +40,19 @@ commonwidgets = {
     "drb_reviewed" : forms.CheckboxInput(attrs={'class': 'mb-3', }),
     'finalized': forms.CheckboxInput(attrs={'class': 'mb-3', 'checked': True, }),
 }
+
+class Long_wallForm(forms.ModelForm):
+    class Meta:
+        model = Long_wall
+        fields = commonfields.copy()
+        fields.append('long_wall_from')
+        fields.append('long_wall_to')
+        labels = commonlabels
+        
+        widgets = dict(commonwidgets)
+        widgets['long_wall_from'] = forms.NumberInput(attrs={'class': 'form-control  mb-3', })
+        widgets['long_wall_to'] = forms.NumberInput(attrs={'class': 'form-control  mb-3', })
+
 
 class CopperForm(forms.ModelForm):
     class Meta:

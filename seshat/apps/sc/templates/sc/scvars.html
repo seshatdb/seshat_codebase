@@ -84,10 +84,16 @@
             <div class="row d-flex align-items-center mb-2">
                 <div class="col-md-6 px-0">
                   <h1 class="py-3 ps-0"><span class="badge rounded-pill bg-teal text-dark">Social Complexity Variables</span> 
-                  </h1>                </div>
-                <div class="col-md-6 px-0">    
+                  </h1>               
+                 </div>
+                  <div class="col-md-3">    
+                    <a href='{% url "problematic_sc_data_table" %}' class="btn btn-outline-danger mx-1 my-2 float-end"> <i class="fa-solid fa-up-right-from-square fa-sm"></i>  &nbsp;Inconsistent Year Ranges</a>
+                </div>
+                <div class="col-md-3 px-0">    
                     <a href='{% url "download_csv_all_sc" %}' class="btn btn-outline-success mx-1 my-2 float-end"> <i class="fa-solid fa-file-csv"></i> &nbsp; Download <b>All</b> (.CSV) </a>
                 </div>
+
+
             </div>
 
           </div>

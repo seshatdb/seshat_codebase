@@ -75,7 +75,10 @@
                 <div class="col-md-6">
                   <h1 class="py-3 ps-0"><span class="badge rounded-pill bg-teal text-dark">Warfare variables (MilTech):</span> 
                   </h1>                </div>
-                <div class="col-md-6">    
+                  <div class="col-md-3">    
+                    <a href='{% url "problematic_wf_data_table" %}' class="btn btn-outline-danger mx-1 my-2 float-end"> <i class="fa-solid fa-up-right-from-square fa-sm"></i> &nbsp;Inconsistent Warfare Vars </a>
+                </div>
+                <div class="col-md-3">    
                     <a href='{% url "download_csv_all_wf" %}' class="btn btn-outline-success mx-1 my-2 float-end"> <i class="fa-solid fa-file-csv"></i> &nbsp; Download <b>All</b> (.CSV) </a>
                 </div>
             </div>

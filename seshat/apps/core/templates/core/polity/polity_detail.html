@@ -62,7 +62,11 @@
       }
 
       .tag-border{
-        border: 1px solid #afe4ed; /* Adjust the border color and thickness as desired */
+        border: 1px solid #82c5c5; /* Adjust the border color and thickness as desired */
+      }
+
+      .text-teal-light{
+        color: #82c5c5;
       }
 
       .tag-border2{
@@ -162,7 +166,7 @@
                                         {% endif %}
 
                                 {% endfor %}
-                                <a class="h6" href="#{{key}}"> &nbsp;<i class="fa-solid fa-circle-arrow-down fa-sm"></i>
+                                <a class="h6" href="#{{key}}"> &nbsp;<i class="fa-solid fa-circle-arrow-down fa-sm text-teal-light"></i>
                                     </a>
 
                             {% else %}
@@ -205,7 +209,7 @@
                         {% if values %}
 
                             <td class="fw-bold text-secondary" style="text-align: left;">
-                                <i class="fa-solid fa-circle fa-2xs text-teal"></i>&nbsp;{{values.0.clean_name_spaced}}: &nbsp;
+                                <i class="fa-solid fa-circle fa-2xs text-teal"></i>&nbsp;{{values.0.clean_name_spaced}}:&nbsp;
                                 {% for vv in values %}
                                         {% if forloop.counter0 > 0 %}
                                     <span class="text-secondary">/</span>
@@ -221,7 +225,7 @@
                                         {% endif %}
 
                                 {% endfor %}
-                                <a class="h6" href="#{{key}}"> &nbsp;<i class="fa-solid fa-circle-arrow-down fa-sm"></i>
+                                <a class="h6" href="#{{key}}"> &nbsp;<i class="fa-solid fa-circle-arrow-down fa-sm text-teal-light"></i>
                                     </a>
 
                             {% else %}
@@ -264,7 +268,7 @@
                         {% if values %}
 
                             <td class="fw-bold text-secondary" style="text-align: left;">
-                                <i class="fa-solid fa-circle fa-xs text-teal"></i> &nbsp;{{values.0.clean_name_spaced}}: &nbsp;
+                                <i class="fa-solid fa-circle fa-2xs text-teal"></i>&nbsp;{{values.0.clean_name_spaced}}:&nbsp;
                                 {% for vv in values %}
                                         {% if forloop.counter0 > 0 %}
                                     <span class="text-secondary">/</span>
@@ -280,7 +284,7 @@
                                         {% endif %}
 
                                 {% endfor %}
-                                <a class="h6" href="#{{key}}"> &nbsp;<i class="fa-solid fa-circle-arrow-down fa-sm"></i>
+                                <a class="h6" href="#{{key}}"> &nbsp;<i class="fa-solid fa-circle-arrow-down fa-sm text-teal-light"></i>
                                     </a>
 
                             {% else %}
@@ -327,7 +331,7 @@
                 {% if values %}
 
                 <div class="row px-1">
-                    <div class="mb-4 col-md-12">
+                    <div class="mb-2 col-md-12">
                                 {% for key, values in all_data.items %}
                                     {% if "Human_sacrifice_for_polity" == key %}
                                     {% for value in values %}
@@ -348,7 +352,10 @@
 
                     </div>
                 </div>
+
                 {% endif %}
+                <hr class="light-narrow-hr">
+
 
             {% endif %}
 
@@ -360,7 +367,7 @@
                 <h3 class="fw-bold pb-2 pt-3"> <i class="fa-solid fa-circle-right"></i> Crisis Consequences Data: &nbsp; <a href="#crisis_case_var"><i class="fa-solid fa-circle-arrow-down fa-sm"></i></a></h3>
             </div>
             <div class="row px-1">
-                <div class="mb-4 col-md-12">
+                <div class="mb-2 col-md-12">
 
                     {% for key, values in all_crisis_cases_data.items %}
                     {% if values %}
@@ -386,11 +393,14 @@
 
                 </div>
             </div>
+
             {% else %}
             <div class="col-md-9">
                 <h3 class="fw-bold pb-2"> <i class="fa-solid fa-circle-right"></i> Crisis Consequences Data: <span class="text-secondary fs-4">Nothing coded yet.</span> </h3>
             </div>
             {% endif %}
+            <hr class="light-narrow-hr">
+
 
 
             {% if all_power_transitions_data %}
@@ -399,7 +409,7 @@
                 <h3 class="fw-bold pb-2 pt-3"> <i class="fa-solid fa-circle-right"></i> Power Transitions Data: &nbsp; <a href="#power_trans_var"><i class="fa-solid fa-circle-arrow-down fa-sm"></i></a></h3>
             </div>
             <div class="row px-1">
-                <div class="mb-4 col-md-12">
+                <div class="mb-2 col-md-12">
                     {% for key, values in all_power_transitions_data.items %}
                     {% if values %}
                         <div class="py-2"  id="{{key}}">
@@ -421,15 +431,18 @@
 
                 </div>
             </div>
+
             {% else %}
             <div class="col-md-9">
                 <h3 class="fw-bold pb-2"> <i class="fa-solid fa-circle-right"></i> Power Transitions Data: <span class="text-secondary fs-4">Nothing coded yet.</span> </h3>
             </div>
             {% endif %}
+            <hr class="light-narrow-hr">
+
 
 
         </div>
-        <div class="table-responsive mb-4">
+        <div class="table-responsive mb-2">
             <h3 class="fw-bold pb-2 pt-3"> <i class="fa-solid fa-circle-right"></i> NGA Settlements:</h3>
 
             <table class="table table-bordered p-5">
@@ -444,8 +457,8 @@
                 <tr>
                     {% include "core/partials/_year_block_nga.html" %}
 
-                    <td class="text-success fw-bold fs-5 p-2">
-                        <i class="fa-solid fa-earth-americas fa-xs"></i> &nbsp;
+                    <td class="text-success fw-bold fs-6 p-2">
+                        <i class="fa-solid fa-earth-americas fa-xs"></i>&nbsp;
                         {% for nga in concise_rel.1 %}
                         {% if not forloop.last %}
                         {% if nga.name == object.home_nga.name %}
@@ -456,7 +469,7 @@
                         {% else %}
                         {{ nga.name }} 
                         {% endif %}
-                        &nbsp; &nbsp; <i class="fa-solid fa-earth-americas fa-xs"></i> &nbsp; &nbsp;                         
+                        &nbsp; <i class="fa-solid fa-earth-americas fa-xs"></i> &nbsp;                        
                         {% else %}
                     
                         {% if nga.name == object.home_nga.name %}

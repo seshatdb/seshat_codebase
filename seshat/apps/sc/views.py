@@ -7239,6 +7239,27 @@ def scvars(request):
 
     return render(request, 'sc/scvars.html', context=context)
 
+
+# new
+
+@permission_required('core.view_capital')
+def show_problematic_sc_data_table(request):
+    # Fetch all models in the "socomp" app
+    app_name = 'sc'  # Replace with your app name
+    app_models = apps.get_app_config(app_name).get_models()
+
+    # Collect data from all models
+    data = []
+    for model in app_models:
+        items = model.objects.all()
+        for obj in items:
+            if obj.polity.start_year is not None and obj.year_from is not None and obj.polity.start_year > obj.year_from:
+                data.append(obj)
+
+    # Render the template with the data
+    return render(request, 'sc/problematic_sc_data_table.html', {'data': data})
+
+
 @permission_required('core.view_capital')
 def download_csv_all_sc(request):
     # Fetch all models in the "socomp" app

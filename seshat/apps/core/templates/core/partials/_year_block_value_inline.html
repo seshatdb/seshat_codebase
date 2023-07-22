@@ -2,10 +2,12 @@
 {% load mathfilters %}
 <sup style="top: -0.6em;">
     <span class="text-dark fw-light">
+
     {% if value.year_from == None %}
     <a type="button" class="btn p-0 m-0" data-bs-toggle="tooltip" data-bs-html="true"  title='Year Range of Polity is assumed.'>
         <span><i class="fa-solid fa-clock fs-6 text-secondary"></i> </span>
     </a>
+
 
         
     {% elif  value.year_from == value.year_to %}
@@ -56,6 +58,10 @@
             <span class="text-secondary fw-light fs-6">CE</span> 
         </sup>
         {% endif %}
+
+    {% endif %}
+    {% if  value.polity.start_year > value.year_from or  value.polity.end_year < value.year_to %}
+    <span class="text-danger"> *Bad Years, polity duration: [{{value.polity.start_year}}, {{value.polity.end_year}}]</span>
     {% endif %}
 </span>
 

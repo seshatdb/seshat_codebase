@@ -35,10 +35,182 @@ from requests.structures import CaseInsensitiveDict
 
 from django.apps import apps
 
-from .models import Copper, Bronze, Iron, Steel, Javelin, Atlatl, Sling, Self_bow, Composite_bow, Crossbow, Tension_siege_engine, Sling_siege_engine, Gunpowder_siege_artillery, Handheld_firearm, War_club, Battle_axe, Dagger, Sword, Spear, Polearm, Dog, Donkey, Horse, Camel, Elephant, Wood_bark_etc, Leather_cloth, Shield, Helmet, Breastplate, Limb_protection, Scaled_armor, Laminar_armor, Plate_armor, Small_vessels_canoes_etc, Merchant_ships_pressed_into_service, Specialized_military_vessel, Settlements_in_a_defensive_position, Wooden_palisade, Earth_rampart, Ditch, Moat, Stone_walls_non_mortared, Stone_walls_mortared, Fortified_camp, Complex_fortification, Modern_fortification, Chainmail
+from .models import Long_wall, Copper, Bronze, Iron, Steel, Javelin, Atlatl, Sling, Self_bow, Composite_bow, Crossbow, Tension_siege_engine, Sling_siege_engine, Gunpowder_siege_artillery, Handheld_firearm, War_club, Battle_axe, Dagger, Sword, Spear, Polearm, Dog, Donkey, Horse, Camel, Elephant, Wood_bark_etc, Leather_cloth, Shield, Helmet, Breastplate, Limb_protection, Scaled_armor, Laminar_armor, Plate_armor, Small_vessels_canoes_etc, Merchant_ships_pressed_into_service, Specialized_military_vessel, Settlements_in_a_defensive_position, Wooden_palisade, Earth_rampart, Ditch, Moat, Stone_walls_non_mortared, Stone_walls_mortared, Fortified_camp, Complex_fortification, Modern_fortification, Chainmail
 
 
-from .forms import CopperForm, BronzeForm, IronForm, SteelForm, JavelinForm, AtlatlForm, SlingForm, Self_bowForm, Composite_bowForm, CrossbowForm, Tension_siege_engineForm, Sling_siege_engineForm, Gunpowder_siege_artilleryForm, Handheld_firearmForm, War_clubForm, Battle_axeForm, DaggerForm, SwordForm, SpearForm, PolearmForm, DogForm, DonkeyForm, HorseForm, CamelForm, ElephantForm, Wood_bark_etcForm, Leather_clothForm, ShieldForm, HelmetForm, BreastplateForm, Limb_protectionForm, Scaled_armorForm, Laminar_armorForm, Plate_armorForm, Small_vessels_canoes_etcForm, Merchant_ships_pressed_into_serviceForm, Specialized_military_vesselForm, Settlements_in_a_defensive_positionForm, Wooden_palisadeForm, Earth_rampartForm, DitchForm, MoatForm, Stone_walls_non_mortaredForm, Stone_walls_mortaredForm, Fortified_campForm, Complex_fortificationForm, Modern_fortificationForm, ChainmailForm
+from .forms import Long_wallForm, CopperForm, BronzeForm, IronForm, SteelForm, JavelinForm, AtlatlForm, SlingForm, Self_bowForm, Composite_bowForm, CrossbowForm, Tension_siege_engineForm, Sling_siege_engineForm, Gunpowder_siege_artilleryForm, Handheld_firearmForm, War_clubForm, Battle_axeForm, DaggerForm, SwordForm, SpearForm, PolearmForm, DogForm, DonkeyForm, HorseForm, CamelForm, ElephantForm, Wood_bark_etcForm, Leather_clothForm, ShieldForm, HelmetForm, BreastplateForm, Limb_protectionForm, Scaled_armorForm, Laminar_armorForm, Plate_armorForm, Small_vessels_canoes_etcForm, Merchant_ships_pressed_into_serviceForm, Specialized_military_vesselForm, Settlements_in_a_defensive_positionForm, Wooden_palisadeForm, Earth_rampartForm, DitchForm, MoatForm, Stone_walls_non_mortaredForm, Stone_walls_mortaredForm, Fortified_campForm, Complex_fortificationForm, Modern_fortificationForm, ChainmailForm
+
+
+
+##########################
+
+class Long_wallCreate(PermissionRequiredMixin, CreateView):
+    model = Long_wall
+    form_class = Long_wallForm
+    template_name = "wf/long_wall/long_wall_form.html"
+    permission_required = 'core.add_capital'
+
+    def get_absolute_url(self):
+        return reverse('long_wall-create')
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # get the explanattion:
+        context["mysection"] = "Warfare Variables"
+        context["mysubsection"] = "Military Technologies"
+        context["myvar"] = "Long Wall"
+        context["my_exp"] = "The absence or presence or height of long walls. (code absent as number zero on the long_wall_from / and for coding  'unknown', keep the long_wall_from and long_wall_to empty and only select the confidence etc.)"
+        context["var_null_meaning"] = "The value is not available."
+        context["inner_vars"] = {'long_wall': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The absence or presence or height of long walls for a polity.', 'units': 'km', 'choices': ['- present', '- absent', '- unknown', '- Transitional (Absent -> Present)', '- Transitional (Present -> Absent)'], 'null_meaning': None}}
+        context["potential_cols"] = ['Choices']
+        return context
+
+
+class Long_wallUpdate(PermissionRequiredMixin, UpdateView):
+    model = Long_wall
+    form_class = Long_wallForm
+    template_name = "wf/long_wall/long_wall_update.html"
+    permission_required = 'core.add_capital'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["myvar"] = "Long Wall"
+        context["my_exp"] = "The absence or presence or height of long walls. (code absent as number zero on the long_wall_from / and for coding  'unknown', keep the long_wall_from and long_wall_to empty and only select the confidence etc.)"
+
+
+
+        return context
+
+class Long_wallDelete(PermissionRequiredMixin, DeleteView):
+    model = Long_wall
+    success_url = reverse_lazy('long_walls')
+    template_name = "core/delete_general.html"
+    permission_required = 'core.add_capital'
+
+
+class Long_wallListView(generic.ListView):
+    model = Long_wall
+    template_name = "wf/long_wall/long_wall_list.html"
+    paginate_by = 10
+
+    def get_absolute_url(self):
+        return reverse('long_walls')
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["myvar"] = "Long Wall"
+        context["my_exp"] = "The absence or presence or height of long walls."
+        context["var_main_desc_source"] = "NOTHING"
+        context["var_section"] = "Warfare Variables"
+        context["var_subsection"] = 'Military Technologies'
+        context["inner_vars"] = {'long_wall': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The absence or presence or height of long walls for a polity.', 'units': 'km', 'null_meaning': None}}
+        context["potential_cols"] = ['Choices']
+
+        return context
+
+
+class Long_wallListViewAll(generic.ListView):
+    model = Long_wall
+    template_name = "wf/long_wall/long_wall_list_all.html"
+
+    def get_absolute_url(self):
+        return reverse('long_walls_all')
+
+    def get_queryset(self):
+        order = self.request.GET.get('orderby', 'home_nga')
+        order2 = self.request.GET.get('orderby2', 'year')
+
+        new_context = Long_wall.objects.all().annotate(
+            home_nga=ExpressionWrapper(
+                F('polity__home_nga__name'),
+                output_field=CharField()
+            ),
+            year=Case(
+                When(year_from__isnull=False, then=F('year_from')),
+                default=F('polity__start_year'),
+                output_field=IntegerField(),
+            ),
+        ).order_by(order, order2)
+
+        return new_context
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["myvar"] = "Long Wall"
+        context["var_main_desc"] = "The absence or presence or height of long walls."
+        context["var_main_desc_source"] = "NOTHING"
+        context["var_section"] = "Warfare Variables"
+        context["var_subsection"] = 'Military Technologies'
+        context["inner_vars"] = {'long_wall': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The absence or presence or height of long walls for a polity.', 'units': 'km', 'null_meaning': None}}
+        context["potential_cols"] = ['Choices']
+        context['orderby'] = self.request.GET.get('orderby', 'year_from')
+
+        return context
+        
+class Long_wallDetailView(generic.DetailView):
+    model = Long_wall
+    template_name = "wf/long_wall/long_wall_detail.html"
+
+
+@permission_required('core.view_capital')
+def long_wall_download(request):
+    items = Long_wall.objects.all()
+
+    response = HttpResponse(content_type="text/csv")
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+    file_name = f"warfare_long_walls_{current_datetime}.csv"
+    response["Content-Disposition"] = f'attachment; filename="{file_name}"'
+
+    writer = csv.writer(response, delimiter='|')
+    writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
+                    'long_wall_from', 'long_wall_to','confidence', 'is_disputed', 'is_uncertain', 'expert_checked'])
+
+    for obj in items:
+        writer.writerow([obj.name, obj.year_from, obj.year_to,
+                         obj.polity, obj.polity.new_name, obj.polity.name, obj.show_value_from(), obj.show_value_to(), obj.get_tag_display(), obj.is_disputed, obj.is_uncertain,
+                         obj.expert_reviewed, ])
+
+    return response
+
+@permission_required('core.view_capital')
+def long_wall_meta_download(request):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="long_walls.csv"'
+    
+    my_meta_data_dic = {'notes': 'No_Actual_note', 'main_desc': "The absence or presence or height of long walls. (code absent as number zero on the long_wall_from / and for coding  'unknown', keep the long_wall_from and long_wall_to empty and only select the confidence etc.)", 'main_desc_source': 'NOTHING', 'section': 'Warfare Variables', 'subsection': 'Military Technologies'}
+    my_meta_data_dic_inner_vars = {'long_wall': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The absence or presence or height of long walls for a polity.', 'units': 'km', 'null_meaning': None}}
+    writer = csv.writer(response, delimiter='|')
+    # bring in the meta data nedded
+    for k, v in my_meta_data_dic.items():
+        writer.writerow([k, v])
+
+    for k_in, v_in in my_meta_data_dic_inner_vars.items():
+        writer.writerow([k_in,])
+        for inner_key, inner_value in v_in.items():
+            if inner_value:
+                writer.writerow([inner_key, inner_value])
+
+    return response
+
+#########################
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 class CopperCreate(PermissionRequiredMixin, CreateView):
     model = Copper
@@ -150,8 +322,10 @@ class CopperDetailView(generic.DetailView):
 def copper_download(request):
     items = Copper.objects.all()
 
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="coppers.csv"'
+    response = HttpResponse(content_type="text/csv")
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+    file_name = f"warfare_coppers_{current_datetime}.csv"
+    response["Content-Disposition"] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
@@ -296,8 +470,10 @@ class BronzeDetailView(generic.DetailView):
 def bronze_download(request):
     items = Bronze.objects.all()
 
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="bronzes.csv"'
+    response = HttpResponse(content_type="text/csv")
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+    file_name = f"warfare_bronzes_{current_datetime}.csv"
+    response["Content-Disposition"] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
@@ -442,8 +618,10 @@ class IronDetailView(generic.DetailView):
 def iron_download(request):
     items = Iron.objects.all()
 
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="irons.csv"'
+    response = HttpResponse(content_type="text/csv")
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+    file_name = f"warfare_irons_{current_datetime}.csv"
+    response["Content-Disposition"] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
@@ -588,8 +766,10 @@ class SteelDetailView(generic.DetailView):
 def steel_download(request):
     items = Steel.objects.all()
 
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="steels.csv"'
+    response = HttpResponse(content_type="text/csv")
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+    file_name = f"warfare_steels_{current_datetime}.csv"
+    response["Content-Disposition"] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
@@ -734,8 +914,10 @@ class JavelinDetailView(generic.DetailView):
 def javelin_download(request):
     items = Javelin.objects.all()
 
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="javelins.csv"'
+    response = HttpResponse(content_type="text/csv")
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+    file_name = f"warfare_javelins_{current_datetime}.csv"
+    response["Content-Disposition"] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
@@ -880,8 +1062,10 @@ class AtlatlDetailView(generic.DetailView):
 def atlatl_download(request):
     items = Atlatl.objects.all()
 
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="atlatls.csv"'
+    response = HttpResponse(content_type="text/csv")
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+    file_name = f"warfare_atlatls_{current_datetime}.csv"
+    response["Content-Disposition"] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
@@ -1026,8 +1210,10 @@ class SlingDetailView(generic.DetailView):
 def sling_download(request):
     items = Sling.objects.all()
 
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="slings.csv"'
+    response = HttpResponse(content_type="text/csv")
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+    file_name = f"warfare_slings_{current_datetime}.csv"
+    response["Content-Disposition"] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
@@ -1172,8 +1358,10 @@ class Self_bowDetailView(generic.DetailView):
 def self_bow_download(request):
     items = Self_bow.objects.all()
 
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="self_bows.csv"'
+    response = HttpResponse(content_type="text/csv")
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+    file_name = f"warfare_self_bows_{current_datetime}.csv"
+    response["Content-Disposition"] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
@@ -1318,8 +1506,10 @@ class Composite_bowDetailView(generic.DetailView):
 def composite_bow_download(request):
     items = Composite_bow.objects.all()
 
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="composite_bows.csv"'
+    response = HttpResponse(content_type="text/csv")
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+    file_name = f"warfare_composite_bows_{current_datetime}.csv"
+    response["Content-Disposition"] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
@@ -1464,8 +1654,10 @@ class CrossbowDetailView(generic.DetailView):
 def crossbow_download(request):
     items = Crossbow.objects.all()
 
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="crossbows.csv"'
+    response = HttpResponse(content_type="text/csv")
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+    file_name = f"warfare_crossbows_{current_datetime}.csv"
+    response["Content-Disposition"] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
@@ -1610,8 +1802,10 @@ class Tension_siege_engineDetailView(generic.DetailView):
 def tension_siege_engine_download(request):
     items = Tension_siege_engine.objects.all()
 
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="tension_siege_engines.csv"'
+    response = HttpResponse(content_type="text/csv")
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+    file_name = f"warfare_tension_siege_engines_{current_datetime}.csv"
+    response["Content-Disposition"] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
@@ -1756,8 +1950,10 @@ class Sling_siege_engineDetailView(generic.DetailView):
 def sling_siege_engine_download(request):
     items = Sling_siege_engine.objects.all()
 
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="sling_siege_engines.csv"'
+    response = HttpResponse(content_type="text/csv")
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+    file_name = f"warfare_sling_siege_engines_{current_datetime}.csv"
+    response["Content-Disposition"] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
@@ -1902,8 +2098,10 @@ class Gunpowder_siege_artilleryDetailView(generic.DetailView):
 def gunpowder_siege_artillery_download(request):
     items = Gunpowder_siege_artillery.objects.all()
 
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="gunpowder_siege_artillerys.csv"'
+    response = HttpResponse(content_type="text/csv")
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+    file_name = f"warfare_gunpowder_siege_artillerys_{current_datetime}.csv"
+    response["Content-Disposition"] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
@@ -2048,8 +2246,10 @@ class Handheld_firearmDetailView(generic.DetailView):
 def handheld_firearm_download(request):
     items = Handheld_firearm.objects.all()
 
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="handheld_firearms.csv"'
+    response = HttpResponse(content_type="text/csv")
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+    file_name = f"warfare_handheld_firearms_{current_datetime}.csv"
+    response["Content-Disposition"] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
@@ -2194,8 +2394,10 @@ class War_clubDetailView(generic.DetailView):
 def war_club_download(request):
     items = War_club.objects.all()
 
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="war_clubs.csv"'
+    response = HttpResponse(content_type="text/csv")
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+    file_name = f"warfare_war_clubs_{current_datetime}.csv"
+    response["Content-Disposition"] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
@@ -2340,8 +2542,10 @@ class Battle_axeDetailView(generic.DetailView):
 def battle_axe_download(request):
     items = Battle_axe.objects.all()
 
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="battle_axes.csv"'
+    response = HttpResponse(content_type="text/csv")
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+    file_name = f"warfare_battle_axes_{current_datetime}.csv"
+    response["Content-Disposition"] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
@@ -2486,8 +2690,10 @@ class DaggerDetailView(generic.DetailView):
 def dagger_download(request):
     items = Dagger.objects.all()
 
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="daggers.csv"'
+    response = HttpResponse(content_type="text/csv")
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+    file_name = f"warfare_daggers_{current_datetime}.csv"
+    response["Content-Disposition"] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
@@ -2632,8 +2838,10 @@ class SwordDetailView(generic.DetailView):
 def sword_download(request):
     items = Sword.objects.all()
 
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="swords.csv"'
+    response = HttpResponse(content_type="text/csv")
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+    file_name = f"warfare_swords_{current_datetime}.csv"
+    response["Content-Disposition"] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
@@ -2778,8 +2986,10 @@ class SpearDetailView(generic.DetailView):
 def spear_download(request):
     items = Spear.objects.all()
 
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="spears.csv"'
+    response = HttpResponse(content_type="text/csv")
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+    file_name = f"warfare_spears_{current_datetime}.csv"
+    response["Content-Disposition"] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
@@ -2924,8 +3134,10 @@ class PolearmDetailView(generic.DetailView):
 def polearm_download(request):
     items = Polearm.objects.all()
 
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="polearms.csv"'
+    response = HttpResponse(content_type="text/csv")
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+    file_name = f"warfare_polearms_{current_datetime}.csv"
+    response["Content-Disposition"] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
@@ -3070,8 +3282,10 @@ class DogDetailView(generic.DetailView):
 def dog_download(request):
     items = Dog.objects.all()
 
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="dogs.csv"'
+    response = HttpResponse(content_type="text/csv")
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+    file_name = f"warfare_dogs_{current_datetime}.csv"
+    response["Content-Disposition"] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
@@ -3216,8 +3430,10 @@ class DonkeyDetailView(generic.DetailView):
 def donkey_download(request):
     items = Donkey.objects.all()
 
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="donkeys.csv"'
+    response = HttpResponse(content_type="text/csv")
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+    file_name = f"warfare_donkeys_{current_datetime}.csv"
+    response["Content-Disposition"] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
@@ -3362,8 +3578,10 @@ class HorseDetailView(generic.DetailView):
 def horse_download(request):
     items = Horse.objects.all()
 
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="horses.csv"'
+    response = HttpResponse(content_type="text/csv")
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+    file_name = f"warfare_horses_{current_datetime}.csv"
+    response["Content-Disposition"] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
@@ -3508,8 +3726,10 @@ class CamelDetailView(generic.DetailView):
 def camel_download(request):
     items = Camel.objects.all()
 
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="camels.csv"'
+    response = HttpResponse(content_type="text/csv")
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+    file_name = f"warfare_camels_{current_datetime}.csv"
+    response["Content-Disposition"] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
@@ -3654,8 +3874,10 @@ class ElephantDetailView(generic.DetailView):
 def elephant_download(request):
     items = Elephant.objects.all()
 
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="elephants.csv"'
+    response = HttpResponse(content_type="text/csv")
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+    file_name = f"warfare_elephants_{current_datetime}.csv"
+    response["Content-Disposition"] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
@@ -3800,8 +4022,10 @@ class Wood_bark_etcDetailView(generic.DetailView):
 def wood_bark_etc_download(request):
     items = Wood_bark_etc.objects.all()
 
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="wood_bark_etcs.csv"'
+    response = HttpResponse(content_type="text/csv")
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+    file_name = f"warfare_wood_bark_etcs_{current_datetime}.csv"
+    response["Content-Disposition"] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
@@ -3946,8 +4170,10 @@ class Leather_clothDetailView(generic.DetailView):
 def leather_cloth_download(request):
     items = Leather_cloth.objects.all()
 
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="leather_cloths.csv"'
+    response = HttpResponse(content_type="text/csv")
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+    file_name = f"warfare_leather_cloths_{current_datetime}.csv"
+    response["Content-Disposition"] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
@@ -4092,8 +4318,10 @@ class ShieldDetailView(generic.DetailView):
 def shield_download(request):
     items = Shield.objects.all()
 
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="shields.csv"'
+    response = HttpResponse(content_type="text/csv")
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+    file_name = f"warfare_shields_{current_datetime}.csv"
+    response["Content-Disposition"] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
@@ -4238,8 +4466,10 @@ class HelmetDetailView(generic.DetailView):
 def helmet_download(request):
     items = Helmet.objects.all()
 
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="helmets.csv"'
+    response = HttpResponse(content_type="text/csv")
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+    file_name = f"warfare_helmets_{current_datetime}.csv"
+    response["Content-Disposition"] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
@@ -4384,8 +4614,10 @@ class BreastplateDetailView(generic.DetailView):
 def breastplate_download(request):
     items = Breastplate.objects.all()
 
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="breastplates.csv"'
+    response = HttpResponse(content_type="text/csv")
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+    file_name = f"warfare_breastplates_{current_datetime}.csv"
+    response["Content-Disposition"] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
@@ -4530,8 +4762,10 @@ class Limb_protectionDetailView(generic.DetailView):
 def limb_protection_download(request):
     items = Limb_protection.objects.all()
 
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="limb_protections.csv"'
+    response = HttpResponse(content_type="text/csv")
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+    file_name = f"warfare_limb_protections_{current_datetime}.csv"
+    response["Content-Disposition"] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
@@ -4676,8 +4910,10 @@ class Scaled_armorDetailView(generic.DetailView):
 def scaled_armor_download(request):
     items = Scaled_armor.objects.all()
 
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="scaled_armors.csv"'
+    response = HttpResponse(content_type="text/csv")
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+    file_name = f"warfare_scaled_armors_{current_datetime}.csv"
+    response["Content-Disposition"] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
@@ -4822,8 +5058,10 @@ class Laminar_armorDetailView(generic.DetailView):
 def laminar_armor_download(request):
     items = Laminar_armor.objects.all()
 
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="laminar_armors.csv"'
+    response = HttpResponse(content_type="text/csv")
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+    file_name = f"warfare_laminar_armors_{current_datetime}.csv"
+    response["Content-Disposition"] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
@@ -4968,8 +5206,10 @@ class Plate_armorDetailView(generic.DetailView):
 def plate_armor_download(request):
     items = Plate_armor.objects.all()
 
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="plate_armors.csv"'
+    response = HttpResponse(content_type="text/csv")
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+    file_name = f"warfare_plate_armors_{current_datetime}.csv"
+    response["Content-Disposition"] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
@@ -5114,8 +5354,10 @@ class Small_vessels_canoes_etcDetailView(generic.DetailView):
 def small_vessels_canoes_etc_download(request):
     items = Small_vessels_canoes_etc.objects.all()
 
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="small_vessels_canoes_etcs.csv"'
+    response = HttpResponse(content_type="text/csv")
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+    file_name = f"warfare_small_vessels_canoes_etcs_{current_datetime}.csv"
+    response["Content-Disposition"] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
@@ -5260,8 +5502,10 @@ class Merchant_ships_pressed_into_serviceDetailView(generic.DetailView):
 def merchant_ships_pressed_into_service_download(request):
     items = Merchant_ships_pressed_into_service.objects.all()
 
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="merchant_ships_pressed_into_services.csv"'
+    response = HttpResponse(content_type="text/csv")
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+    file_name = f"warfare_merchant_ships_pressed_into_services_{current_datetime}.csv"
+    response["Content-Disposition"] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
@@ -5406,8 +5650,10 @@ class Specialized_military_vesselDetailView(generic.DetailView):
 def specialized_military_vessel_download(request):
     items = Specialized_military_vessel.objects.all()
 
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="specialized_military_vessels.csv"'
+    response = HttpResponse(content_type="text/csv")
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+    file_name = f"warfare_specialized_military_vessels_{current_datetime}.csv"
+    response["Content-Disposition"] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
@@ -5552,8 +5798,10 @@ class Settlements_in_a_defensive_positionDetailView(generic.DetailView):
 def settlements_in_a_defensive_position_download(request):
     items = Settlements_in_a_defensive_position.objects.all()
 
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="settlements_in_a_defensive_positions.csv"'
+    response = HttpResponse(content_type="text/csv")
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+    file_name = f"warfare_settlements_in_a_defensive_positions_{current_datetime}.csv"
+    response["Content-Disposition"] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
@@ -5698,8 +5946,10 @@ class Wooden_palisadeDetailView(generic.DetailView):
 def wooden_palisade_download(request):
     items = Wooden_palisade.objects.all()
 
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="wooden_palisades.csv"'
+    response = HttpResponse(content_type="text/csv")
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+    file_name = f"warfare_wooden_palisades_{current_datetime}.csv"
+    response["Content-Disposition"] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
@@ -5844,8 +6094,10 @@ class Earth_rampartDetailView(generic.DetailView):
 def earth_rampart_download(request):
     items = Earth_rampart.objects.all()
 
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="earth_ramparts.csv"'
+    response = HttpResponse(content_type="text/csv")
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+    file_name = f"warfare_earth_ramparts_{current_datetime}.csv"
+    response["Content-Disposition"] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
@@ -5990,8 +6242,10 @@ class DitchDetailView(generic.DetailView):
 def ditch_download(request):
     items = Ditch.objects.all()
 
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="ditchs.csv"'
+    response = HttpResponse(content_type="text/csv")
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+    file_name = f"warfare_ditchs_{current_datetime}.csv"
+    response["Content-Disposition"] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
@@ -6136,8 +6390,10 @@ class MoatDetailView(generic.DetailView):
 def moat_download(request):
     items = Moat.objects.all()
 
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="moats.csv"'
+    response = HttpResponse(content_type="text/csv")
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+    file_name = f"warfare_moats_{current_datetime}.csv"
+    response["Content-Disposition"] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
@@ -6282,8 +6538,10 @@ class Stone_walls_non_mortaredDetailView(generic.DetailView):
 def stone_walls_non_mortared_download(request):
     items = Stone_walls_non_mortared.objects.all()
 
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="stone_walls_non_mortareds.csv"'
+    response = HttpResponse(content_type="text/csv")
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+    file_name = f"warfare_stone_walls_non_mortareds_{current_datetime}.csv"
+    response["Content-Disposition"] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
@@ -6428,8 +6686,10 @@ class Stone_walls_mortaredDetailView(generic.DetailView):
 def stone_walls_mortared_download(request):
     items = Stone_walls_mortared.objects.all()
 
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="stone_walls_mortareds.csv"'
+    response = HttpResponse(content_type="text/csv")
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+    file_name = f"warfare_stone_walls_mortareds_{current_datetime}.csv"
+    response["Content-Disposition"] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
@@ -6574,8 +6834,10 @@ class Fortified_campDetailView(generic.DetailView):
 def fortified_camp_download(request):
     items = Fortified_camp.objects.all()
 
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="fortified_camps.csv"'
+    response = HttpResponse(content_type="text/csv")
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+    file_name = f"warfare_fortified_camps_{current_datetime}.csv"
+    response["Content-Disposition"] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
@@ -6720,8 +6982,10 @@ class Complex_fortificationDetailView(generic.DetailView):
 def complex_fortification_download(request):
     items = Complex_fortification.objects.all()
 
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="complex_fortifications.csv"'
+    response = HttpResponse(content_type="text/csv")
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+    file_name = f"warfare_complex_fortifications_{current_datetime}.csv"
+    response["Content-Disposition"] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
@@ -6866,8 +7130,10 @@ class Modern_fortificationDetailView(generic.DetailView):
 def modern_fortification_download(request):
     items = Modern_fortification.objects.all()
 
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="modern_fortifications.csv"'
+    response = HttpResponse(content_type="text/csv")
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+    file_name = f"warfare_modern_fortifications_{current_datetime}.csv"
+    response["Content-Disposition"] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
@@ -7012,8 +7278,10 @@ class ChainmailDetailView(generic.DetailView):
 def chainmail_download(request):
     items = Chainmail.objects.all()
 
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="chainmails.csv"'
+    response = HttpResponse(content_type="text/csv")
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+    file_name = f"warfare_chainmails_{current_datetime}.csv"
+    response["Content-Disposition"] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
@@ -7083,6 +7351,22 @@ def wfvars(request):
     context["number_of_variables"] = number_of_variables
     return render(request, 'wf/wfvars.html', context=context)
 
+@permission_required('core.view_capital')
+def show_problematic_wf_data_table(request):
+    # Fetch all models in the "socomp" app
+    app_name = 'wf'  # Replace with your app name
+    app_models = apps.get_app_config(app_name).get_models()
+
+    # Collect data from all models
+    data = []
+    for model in app_models:
+        items = model.objects.all()
+        for obj in items:
+            if obj.polity.start_year is not None and obj.year_from is not None and obj.polity.start_year > obj.year_from:
+                data.append(obj)
+
+    # Render the template with the data
+    return render(request, 'wf/problematic_wf_data_table.html', {'data': data})
 
 
 @permission_required('core.view_capital')

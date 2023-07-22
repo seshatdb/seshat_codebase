@@ -157,7 +157,7 @@ class Polity_territory(SeshatCommon):
         if self.polity_territory_from is not None:
             return self.polity_territory_from
         else:
-            return None
+            return "unknown"
 
     def show_value_to(self):
         if self.polity_territory_to is not None:
@@ -217,7 +217,7 @@ class Polity_population(SeshatCommon):
         if self.polity_population_from is not None:
             return self.polity_population_from
         else:
-            return None
+            return "unknown"
 
     def show_value_to(self):
         if self.polity_population_to is not None:
@@ -278,7 +278,7 @@ class Population_of_the_largest_settlement(SeshatCommon):
         if self.population_of_the_largest_settlement_from is not None:
             return self.population_of_the_largest_settlement_from
         else:
-            return None
+            return "unknown"
 
     def show_value_to(self):
         if self.population_of_the_largest_settlement_to is not None:
@@ -339,7 +339,7 @@ class Settlement_hierarchy(SeshatCommon):
         if self.settlement_hierarchy_from is not None:
             return self.settlement_hierarchy_from
         else:
-            return None
+            return "unknown"
 
     def show_value_to(self):
         if self.settlement_hierarchy_to is not None:
@@ -400,7 +400,7 @@ class Administrative_level(SeshatCommon):
         if self.administrative_level_from is not None:
             return self.administrative_level_from
         else:
-            return None
+            return "unknown"
 
     def show_value_to(self):
         if self.administrative_level_to is not None:
@@ -460,7 +460,7 @@ class Religious_level(SeshatCommon):
         if self.religious_level_from is not None:
             return self.religious_level_from
         else:
-            return None
+            return "unknown"
 
     def show_value_to(self):
         if self.religious_level_to is not None:
@@ -520,7 +520,7 @@ class Military_level(SeshatCommon):
         if self.military_level_from is not None:
             return self.military_level_from
         else:
-            return None
+            return "unknown"
 
     def show_value_to(self):
         if self.military_level_to is not None:

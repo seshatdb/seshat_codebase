@@ -28,7 +28,7 @@ commonfields = ['polity', 'year_from', 'year_to',
                 'description', 'tag', 'is_disputed', 'is_uncertain', 'expert_reviewed', 'drb_reviewed', 'finalized', 'citations']
 
 commonwidgets = {
-    'polity': forms.Select(attrs={'class': 'form-control  mb-3', }),
+    'polity': forms.Select(attrs={'class': 'form-control  mb-1 js-example-basic-single', 'id': 'id_polity', 'name': 'polity'}),
     'year_from': forms.NumberInput(attrs={'class': 'form-control  mb-3',}),
     'year_to': forms.NumberInput(attrs={'class': 'form-control  mb-3', }),
     'description': Textarea(attrs={'class': 'form-control  mb-3', 'style': 'height: 440px; line-height: 1.2;', 'placeholder':'Add a meaningful description (optional)'}),
