@@ -314,8 +314,8 @@
             {% endif %}
 
             {% for key, values in all_data.items %}
-            {% if "Human_sacrifice_for_polity" == key %}
-                {% if values %}
+            {% if "Human_sacrifice_for_polity" == key  %}
+                {% if values and 'core.view_capital' in user.get_all_permissions %}
 
                 <div class="col-md-9">
                     <h3 class="fw-bold pb-2 pt-3"> <i class="fa-solid fa-circle-right"></i> Human Sacrifice Data: &nbsp; <a href="#hs_var"><i class="fa-solid fa-circle-arrow-down fa-sm"></i></a></h3>
@@ -328,7 +328,7 @@
 
                 {% endif %}
 
-                {% if values %}
+                {% if values and 'core.view_capital' in user.get_all_permissions %}
 
                 <div class="row px-1">
                     <div class="mb-2 col-md-12">
@@ -360,8 +360,9 @@
             {% endif %}
 
             {% endfor %}  
+        
 
-            {% if all_crisis_cases_data %}
+            {% if all_crisis_cases_data and 'core.view_capital' in user.get_all_permissions %}
 
             <div class="col-md-9">
                 <h3 class="fw-bold pb-2 pt-3"> <i class="fa-solid fa-circle-right"></i> Crisis Consequences Data: &nbsp; <a href="#crisis_case_var"><i class="fa-solid fa-circle-arrow-down fa-sm"></i></a></h3>
@@ -403,7 +404,7 @@
 
 
 
-            {% if all_power_transitions_data %}
+            {% if all_power_transitions_data and 'core.view_capital' in user.get_all_permissions %}
 
             <div class="col-md-9">
                 <h3 class="fw-bold pb-2 pt-3"> <i class="fa-solid fa-circle-right"></i> Power Transitions Data: &nbsp; <a href="#power_trans_var"><i class="fa-solid fa-circle-arrow-down fa-sm"></i></a></h3>
@@ -655,7 +656,7 @@
                 <a href="{% url 'human_sacrifices_all' %}" class="btn float-end fw-light">View <b>all</b> Human Sacrifices <i class="fa-solid fa-list"></i></a>
             </div>
         </div>            
-        {% if values %}
+        {% if values and 'core.view_capital' in user.get_all_permissions %}
 
                 {% for value in values %}
                     <span class="fs-4 fw-bold text-teal pt-2 pb-1 pe-2 ps-2 ms-2 me-2 mb-1 mt-1 highlighted-value">{{value.show_value}} 
@@ -713,7 +714,7 @@
         <div class="py-2 custom-left-border-shadowed">
 
         {% for key, values in all_crisis_cases_data.items %}
-        {% if values %}
+        {% if values and 'core.view_capital' in user.get_all_permissions %}
             <div class="py-2"  id="{{key}}">
                     {% for value in values %}
                         <span class="pt-1 fs-5 pb-1 fw-bold" id="{{key}}"> 
@@ -755,7 +756,6 @@
             {% endif %}
             {% endfor %}
             
-        </div>
     </div>  
 
 
@@ -776,7 +776,7 @@
         <div class="py-2 custom-left-border-shadowed">
 
         {% for key, values in all_power_transitions_data.items %}
-        {% if values %}
+        {% if values and 'core.view_capital' in user.get_all_permissions %}
             <div class="py-2"  id="{{key}}">
                     {% for value in values %}
                         <span class="pt-1 fs-5 pb-1 fw-bold" id="{{key}}"> 
@@ -820,9 +820,7 @@
             {% endif %}
             {% endfor %}
             
-        </div>
     </div>  
-
 </div>
 
 

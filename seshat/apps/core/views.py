@@ -824,11 +824,11 @@ def capital_download(request):
     response['Content-Disposition'] = 'attachment; filename="capitals.csv"'
 
     writer = csv.writer(response, delimiter='|')
-    writer.writerow(['capital', 'polity',
+    writer.writerow(['capital', 'polity_old_ID', 'polity_new_ID', 'polity_long_name',
                      'current_country', 'longitude', 'latitude','is_verified', 'note'])
 
     for obj in items:
-        writer.writerow([obj.name, obj.polity_cap, obj.current_country, obj.longitude, obj.latitude, obj.is_verified, obj.note])
+        writer.writerow([obj.name, obj.polity_cap.name, obj.polity_cap.new_name, obj.polity_cap.long_name, obj.current_country, obj.longitude, obj.latitude, obj.is_verified, obj.note])
 
     return response
 
