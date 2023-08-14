@@ -17,15 +17,17 @@
             {% csrf_token %}
             <legend>
                 <div class="row d-flex align-items-center">
-                    <div class="col-md-9">
+                    <div class="col-md-12 pb-3">
                         <h5 class="lead-2 pt-4">Update Description for:</h5>
-                        <h4 class="pb-4">
+                        <h4 class="pb-2">
                             {% for hs_inst in object.crisisdb_human_sacrifice_related.all %}
                             <span class="lead-2 text-success pb-4">{{hs_inst.name}}</span>
                              in: <span><a href="{% url 'polity-detail-main' hs_inst.polity.id %}">{{hs_inst.polity}}</a></span>
                             {% endfor %}
                         </h4>
-                        <h5 class="lead-2 text-secondary">* Each Desciption has several subdescriptions:</h5>
+                        <h5 class="lead-2 text-primary">- Note that each description has several <u>subdescriptions</u><sup>*</sup>.</h5>
+                        <h6 class="lead-2 text-secondary">* A subdescription is a combination of some text and its corresponding citation or citations.</h6>
+                        <h5 class="lead-2 text-primary">- Use <a class="btn btn-danger btn-sm py-1"><i class="fa-regular fa-pen-to-square"></i></a> to modify a subdescription, or use <a class="btn btn-warning btn-sm py-1" href="#"><i class="fa-solid fa-arrow-down-short-wide"></i></a> to insert a new chunk below an existing subdescription.</h5>
                     </div>
                     {% if messages %}
                     <ul class="messages mt-3">
@@ -45,7 +47,7 @@
                 <tr>
                   <th scope="col" class="text-secondary">#</th>
                   <th scope="col" style="text-align: left"> Curator(s)</th>
-                  <th scope="col" style="text-align: left"> Text</th>
+                  <th scope="col" style="text-align: left"> SubDescriptionText</th>
                   <th scope="col" style="text-align: left"> Citations</th>
                   <th scope="col" style="text-align: center">Update</th>
                   <th scope="col" style="text-align: center">Insert</th>
@@ -70,7 +72,6 @@
                             {% else %}
                             <i class="fa-solid fa-minus text-danger"></i>
                             {% endif %}
-
                         </td>
                         <td style="text-align: center">
                             <a class="btn btn-danger btn-sm py-1" href="{% url 'seshatcommentpart-update' subcom.pk %}"><i class="fa-regular fa-pen-to-square"></i></a>

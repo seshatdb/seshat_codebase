@@ -670,8 +670,13 @@
 
                                 <a class="p-0 m-0 fs-6" type="button" href="{% url 'human_sacrifice-update' value.id %}">
                                     <span class="badge rounded-pill bg-danger tag-border"> <i class=" fa-solid fa-pen-to-square text-white"></i></span>
-                                </a>     
-                                <a class="p-0 m-0 fs-6" href="{% url 'seshatcomment-update' value.comment.id %}"><span class="badge rounded-pill bg-secondary tag-border"> <i class=" fa-solid fa-pen-to-square text-white"></i> Description</span></a>             
+                                </a>    
+                                
+                                {% if value.comment.id == 1 %}
+                                    <a class="p-0 m-0 fs-6" href="{% url 'create_subcomment' value.id %}"><span class="badge rounded-pill bg-secondary tag-border"> <i class=" fa-solid fa-plus text-white"></i> Create Description</span></a>
+                                {% else  %}
+                                    <a class="p-0 m-0 fs-6" href="{% url 'seshatcomment-update' value.comment.id %}"><span class="badge rounded-pill bg-secondary tag-border"> <i class=" fa-solid fa-pen-to-square text-white"></i> Edit Description</span></a>
+                                {% endif %}          
                             </div>
                         </div>
                     </span>

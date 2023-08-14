@@ -649,7 +649,7 @@ def create_a_comment_with_a_subcomment(request, hs_instance_id):
         seshat_expert_instance = None
     #user_at_work = User.
     # Create the subcomment instance and save it to the database
-    subcomment_instance = SeshatCommentPart.objects.create(comment_part_text='a subcomment text', comment=comment_instance, comment_curator= seshat_expert_instance,comment_order=1)
+    subcomment_instance = SeshatCommentPart.objects.create(comment_part_text='A subdescription text placeholder (to be edited)', comment=comment_instance, comment_curator= seshat_expert_instance,comment_order=1)
     #subcomment = comment_instance.seshatcommentpart.create(comment_part_text=request.POST.get('a subcomment text'))
 
     # Get the ModelName instance

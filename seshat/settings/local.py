@@ -20,6 +20,11 @@ DATABASES = {
     }
 }
 
+django_settings_module = os.environ.get('DJANGO_SETTINGS_MODULE')
+
+#print("###################",django_settings_module)
+#print(DATABASES)
+
 my_current_server = "127.0.0.1:8000"
 # ==============================================================================
 # EMAIL SETTINGS
