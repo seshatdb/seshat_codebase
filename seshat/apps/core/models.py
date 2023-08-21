@@ -73,6 +73,12 @@ AS = 'A*'
 P_TO_A = "P~A" 
 A_TO_P = "A~P" 
 
+POLITY_TAG_CHOICES = (('LEGACY', 'Legacy'),
+        ('POL_AFR_EAST', 'POL_AFR_EAST'),   # Africa ----> East Africa*
+        ('POL_AFR_WEST', 'POL_AFR_WEST'), # Africa ---->  West Africa
+        ('POL_AFR_SA', 'POL_AFR_SA'),    # Africa ----> Southern Africa*
+        ('POL_SA_SI', 'POL_SA_SI'),    # South Asia ----> Southern India*
+        )
 
 WORLD_REGION_CHOICES = (('Europe', 'Europe'),
         ('Southwest Asia', 'Southwest Asia'),
@@ -111,7 +117,7 @@ class Nga(models.Model):
     capital_city =  models.CharField(max_length=100, blank=True, null=True)
     nga_code = models.CharField(max_length=20, blank=True, null=True)
     fao_country = models.CharField(max_length=100, blank=True, null=True)
-    world_region = models.CharField(max_length=100, choices=WORLD_REGION_CHOICES, default="Europe")
+    world_region = models.CharField(max_length=100, choices=WORLD_REGION_CHOICES, default="Europe", null=True, blank=True)
 
     def get_absolute_url(self):
         return reverse('ngas')
@@ -130,6 +136,7 @@ class Polity(models.Model):
     long_name = models.CharField(max_length=200, blank=True, null=True)
     new_name = models.CharField(max_length=100, blank=True, null=True)
     home_nga = models.ForeignKey(Nga, on_delete=models.SET_NULL, null=True, blank=True, related_name="home_nga")
+    polity_tag = models.CharField(max_length=100, choices=POLITY_TAG_CHOICES, default="LEGACY", null=True, blank=True)
 
     created_date = models.DateTimeField(
         auto_now_add=True, blank=True, null=True)

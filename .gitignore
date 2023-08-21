@@ -182,6 +182,10 @@ venv.bak/
 # Rope project settings
 .ropeproject
 
+# fpl
+seshat/apps/crisisdb/templates/crisisdb/fpl_all_old.html
+seshat/apps/crisisdb/templates/crisisdb/fpl_all.html
+
 # mkdocs documentation
 /site
 

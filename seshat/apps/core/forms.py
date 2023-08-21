@@ -103,7 +103,7 @@ class NgaForm(forms.ModelForm):
         model = Nga
         fields = ('name', 'world_region', 'subregion', 'fao_country')
         labels = {
-        'name': '<b>Polity Id (Old)</b>',
+        'name': '<b>NGA</b>',
         'world_region': '<b>World Region</b>',
         'subregion': '<b>Subregion</b>',
         'fao_country': '<b>Current Country</b>',

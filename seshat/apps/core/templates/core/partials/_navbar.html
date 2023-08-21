@@ -44,13 +44,6 @@
                 <li>
                     <a class="dropdown-item" href="{% url 'power_transitions_all' %}" class="nav-link">Power Transitions <span class="badge rounded-pill bg-warning text-dark">NEW</span></a>
                 </li>
-                <li><a class="dropdown-item" href="{% url 'qing_vars' %}">Qing Crisis</a></li>
-                <li><a class="dropdown-item" href="#">100 Cases</a></li>
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item text-success" href="{% url 'playground' %}"> <strong>CrisisDB Playground</strong> </a></li>
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item text-secondary" href="#">Tests:</a></li>
-
             </ul>
             </li>
 
@@ -80,19 +73,19 @@
                 <li>
                     <a class="nav-link active" href="{% url 'human_sacrifices_all' %}" aria-current="page">Human Sacrifice</a>
                 </li>
+                {% if user.is_authenticated %}
                 <li>
                     <a class="nav-link active" aria-current="page" href="{% url 'discussion_room' %}">Discussion</a>
                 </li>
+                {% endif %}
+
                 <li>
                     <a class="nav-link active" aria-current="page" href="{% url 'nlp_datapoints' %}">NLP</a>
                 </li>
 
 
         </ul>
-        <form class="d-flex">
-            <input class="form-control me-2" type="search" placeholder="Search something" aria-label="Search">
-            <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
+
         </div>
     </div>
 </nav>

@@ -617,7 +617,7 @@ class PolityListView_old(PermissionRequiredMixin, SuccessMessageMixin, generic.L
 
         return context
 
-class PolityListView(SuccessMessageMixin, generic.ListView):
+class PolityListView1(SuccessMessageMixin, generic.ListView):
     model = Polity
     template_name = "core/polity/polity_list.html"
 
@@ -673,6 +673,112 @@ class PolityListView(SuccessMessageMixin, generic.ListView):
         ultimate_wregion_dic['Nomad Polities'][ "Nomad Land"] = nomad_polities
         context["all_ngas"] = all_ngas
         context["all_nga_pol_rels"] = all_nga_pol_rels
+        context["all_world_regions"] = all_world_regions
+        context["ultimate_wregion_dic"] = ultimate_wregion_dic
+        #print(ultimate_wregion_dic)
+
+        #print(f"out of {len(all_pols)}: {len(all_politys_on_the_polity_list_page)} were taken care of.")
+        
+
+        return context
+    
+
+class PolityListView(SuccessMessageMixin, generic.ListView):
+    model = Polity
+    template_name = "core/polity/polity_list.html"
+
+    #paginate_by = 10
+
+    def get_absolute_url(self):
+        return reverse('polities')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        all_ngas = Nga.objects.all()
+        all_pols = Polity.objects.all().order_by('start_year')
+        #all_nga_pol_rels  = Ngapolityrel.objects.all()
+        all_world_regions = {}
+        for a_nga in all_ngas:
+            if a_nga.world_region not in all_world_regions.keys():
+                all_world_regions[a_nga.world_region] = [a_nga.subregion]
+            else:
+                if a_nga.subregion not in all_world_regions[a_nga.world_region]:
+                    all_world_regions[a_nga.world_region].append(a_nga.subregion)
+        
+        ultimate_wregion_dic = {'Europe': {},
+        'Southwest Asia': {},
+        'Africa':  {},
+        'Central Eurasia': {},
+        'South Asia':  {},
+        'Southeast Asia': {},
+        'East Asia':  {},
+        'Oceania-Australia':  {},
+        'North America':  {},
+        'South America':  {},
+        'Nomad Polities': {
+            "Nomad Land": []
+        },
+        }
+
+        sub_regions_details = {'Western Europe': 'British Isles, France, Low Countries, Switzerland', 'Southern Europe': 'Iberia, Italy, Sicily, Sardinia, Corsica, Balearics', 'Northern Europe': 'Iceland, Scandinavia, Finland, Baltics, Karelia, Kola Peninsula', 'Central Europe': 'Germany, Poland, Austria, Hungary, Czechia, Slovakia', 'Southeastern Europe': 'Yugoslavia, Romania-Moldova, Bulgaria, Albania, Greece', 'Eastern Europe': 'Belarus, non-Steppe Russia and Ukraine', 'Maghreb': 'From Morocco to Libya', 'Northeastern Africa': 'Egypt and Sudan (the Nile Basin)', 'Sahel': 'Mauritania, Mali, Burkina Faso, Niger, Chad (Arid)', 'West Africa': 'From Senegal to Gabon (Tropical)', 'Central Africa': 'Angola and DRC', 'East Africa': 'Tanzania, Burundi, Uganda, So Sudan, Somalia, Ethiopia, Eritrea', 'Southern Africa': 'Namibia, Zambia, Malawi, Mozambique and south', 'Anatolia-Caucasus': 'Turkey, Armenia, Georgia, Azerbaijan', 'Levant-Mesopotamia': 'Israel, Jordan, Lebanon, Syria, Iraq, Kuwait, Khuzestan (Susiana)', 'Arabia': 'Arabian Peninsula', 'Iran': 'Persia, most of Afghanistan, (western Pakistan?)', 'Pontic-Caspian ': 'The steppe belt of Ukraine and Russia', 'Turkestan': 'Turkmenistan, Uzbekistan, Tajikistan, Kyrgyzstan, Kazakstan, Xinjiang', 'Afghanistan': 'Afghanistan', 'Mongolia': 'Mongolia, Inner Mongolia, the steppe part of Manchuria', 'Siberia': 'Urals, West Siberia, Central Siberia, Yakutia', 'Arctic Asia': 'The tundra and arctic regions of Eurasia sans Scandinavia', 'Tibet': 'Tibet', 'Northeast Asia': 'Korea, Japan, forest part of Manchuria, Russian Far East', 'China': 'China without Tibet, Inner Mongolia, and Xinjiang', 'Indo-Gangetic Plain': 'Pakistan, Punjab, upper and middle Ganges', 'Eastern India': 'Lower Ganges (Bangladesh) and eastern India (Assam)', 'Central India': 'Deccan, etc', 'Southern India': 'Southern India and Sri Lanka', 'Mainland': 'Myanmar, Thailand, Cambodia, Laos, south Vietnam', 'Archipelago': 'Malaysia, Indonesia, Philippines', 'Australia': 'Australia', 'New Guinea': 'New Guinea', 'Polynesia': 'Polynesia', 'Arctic America': 'Alaska, Arctic Canada, Greenland', 'Western NA': 'West Coast, the Rockies, and the American SouthWest', 'Great Plains': 'American Great Plains', 'Mississippi Basin': 'From the Great Lakes to Louisiana', 'East Coast': 'East Coast of US', 'Mexico': 'Mexico and Central America (without Panama)', 'Caribbean': 'Caribbean islands, Panama, coastal Columbia-Venezuela', 'Andes': 'From Ecuador to Chile', 'Amazonia': 'Brazil, Guyanas, plus Amazonian parts of bordering states', 'Southern Cone': 'Parguay, Uruguay, Argentina'}
+        all_politys_on_the_polity_list_page = []
+        nomad_polities = []
+
+        # modify the world regions:
+        all_world_regions["Africa"].append("East Africa")
+        all_world_regions["Africa"].append("Southern Africa")
+        all_world_regions["South Asia"].append("Southern India")
+
+
+        for a_world_region, all_its_sub_regions in all_world_regions.items():
+            for a_subregion in all_its_sub_regions:
+                list_for_a_subregion = []
+                extras_for_AFR_WEST = []
+                extras_for_AFR_EAST = []
+                extras_for_AFR_SA = []
+                extras_for_SA_SI = []
+
+                for a_polity in all_pols:
+                    if a_polity.home_nga and a_world_region == a_polity.home_nga.world_region and a_subregion == a_polity.home_nga.subregion and a_polity not in list_for_a_subregion:
+                        list_for_a_subregion.append(a_polity)
+                        if a_polity not in all_politys_on_the_polity_list_page:
+                            all_politys_on_the_polity_list_page.append(a_polity)
+                    elif a_polity.polity_tag == "POL_AFR_WEST":
+                        extras_for_AFR_WEST.append(a_polity)
+                        if a_polity not in all_politys_on_the_polity_list_page:
+                            all_politys_on_the_polity_list_page.append(a_polity)
+                    elif a_polity.polity_tag == "POL_AFR_EAST":
+                        extras_for_AFR_EAST.append(a_polity)
+                        if a_polity not in all_politys_on_the_polity_list_page:
+                            all_politys_on_the_polity_list_page.append(a_polity)
+                    elif a_polity.polity_tag == "POL_AFR_SA":
+                        extras_for_AFR_SA.append(a_polity)
+                        if a_polity not in all_politys_on_the_polity_list_page:
+                            all_politys_on_the_polity_list_page.append(a_polity)
+                    elif a_polity.polity_tag == "POL_SA_SI":
+                        extras_for_SA_SI.append(a_polity)
+                        if a_polity not in all_politys_on_the_polity_list_page:
+                            all_politys_on_the_polity_list_page.append(a_polity)
+
+                if a_world_region == "Africa" and a_subregion == "West Africa":
+                    ultimate_wregion_dic[a_world_region][a_subregion] = list_for_a_subregion + extras_for_AFR_WEST
+                elif a_world_region == "Africa" and a_subregion == "East Africa":
+                    ultimate_wregion_dic[a_world_region][a_subregion] = list_for_a_subregion + extras_for_AFR_EAST
+                elif a_world_region == "Africa" and a_subregion == "Southern Africa":
+                   ultimate_wregion_dic[a_world_region][a_subregion] = list_for_a_subregion + extras_for_AFR_SA
+                elif a_world_region == "South Asia" and a_subregion == "Southern India":
+                   ultimate_wregion_dic[a_world_region][a_subregion] = list_for_a_subregion + extras_for_SA_SI
+                else:
+                    ultimate_wregion_dic[a_world_region][a_subregion] = list_for_a_subregion
+
+                        
+        # nomads
+        for a_polity in all_pols:
+            if a_polity not in nomad_polities and a_polity not in all_politys_on_the_polity_list_page:
+                nomad_polities.append(a_polity)
+        ultimate_wregion_dic['Nomad Polities'][ "Nomad Land"] = nomad_polities
+        context["sub_regions_details"] = sub_regions_details
+        #context["all_nga_pol_rels"] = all_nga_pol_rels
         context["all_world_regions"] = all_world_regions
         context["ultimate_wregion_dic"] = ultimate_wregion_dic
         #print(ultimate_wregion_dic)
