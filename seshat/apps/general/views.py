@@ -845,6 +845,11 @@ class Polity_degree_of_centralizationCreate(PermissionRequiredMixin, CreateView)
     template_name = "general/polity_degree_of_centralization/polity_degree_of_centralization_form.html"
     permission_required = 'core.add_capital'
 
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        form.fields['degree_of_centralization'].choices = sorted(form.fields['degree_of_centralization'].choices, key=lambda x: x[1].lower())
+        return form
+
     def get_absolute_url(self):
         return reverse('polity_degree_of_centralization-create')
     def get_context_data(self, **kwargs):
@@ -865,6 +870,11 @@ class Polity_degree_of_centralizationUpdate(PermissionRequiredMixin, UpdateView)
     form_class = Polity_degree_of_centralizationForm
     template_name = "general/polity_degree_of_centralization/polity_degree_of_centralization_update.html"
     permission_required = 'core.add_capital'
+
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        form.fields['degree_of_centralization'].choices = sorted(form.fields['degree_of_centralization'].choices, key=lambda x: x[1].lower())
+        return form
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -978,6 +988,11 @@ class Polity_suprapolity_relationsCreate(PermissionRequiredMixin, CreateView):
     template_name = "general/polity_suprapolity_relations/polity_suprapolity_relations_form.html"
     permission_required = 'core.add_capital'
 
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        form.fields['supra_polity_relations'].choices = sorted(form.fields['supra_polity_relations'].choices, key=lambda x: x[1].lower())
+        return form
+
     def get_absolute_url(self):
         return reverse('polity_suprapolity_relations-create')
     def get_context_data(self, **kwargs):
@@ -998,6 +1013,11 @@ class Polity_suprapolity_relationsUpdate(PermissionRequiredMixin, UpdateView):
     form_class = Polity_suprapolity_relationsForm
     template_name = "general/polity_suprapolity_relations/polity_suprapolity_relations_update.html"
     permission_required = 'core.add_capital'
+
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        form.fields['supra_polity_relations'].choices = sorted(form.fields['supra_polity_relations'].choices, key=lambda x: x[1].lower())
+        return form
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -1244,6 +1264,11 @@ class Polity_languageCreate(PermissionRequiredMixin, CreateView):
     template_name = "general/polity_language/polity_language_form.html"
     permission_required = 'core.add_capital'
 
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        form.fields['language'].choices = sorted(form.fields['language'].choices, key=lambda x: x[1].lower())
+        return form
+
     def get_absolute_url(self):
         return reverse('polity_language-create')
     def get_context_data(self, **kwargs):
@@ -1264,6 +1289,11 @@ class Polity_languageUpdate(PermissionRequiredMixin, UpdateView):
     form_class = Polity_languageForm
     template_name = "general/polity_language/polity_language_update.html"
     permission_required = 'core.add_capital'
+
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        form.fields['language'].choices = sorted(form.fields['language'].choices, key=lambda x: x[1].lower())
+        return form
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -1377,6 +1407,11 @@ class Polity_linguistic_familyCreate(PermissionRequiredMixin, CreateView):
     template_name = "general/polity_linguistic_family/polity_linguistic_family_form.html"
     permission_required = 'core.add_capital'
 
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        form.fields['linguistic_family'].choices = sorted(form.fields['linguistic_family'].choices, key=lambda x: x[1].lower())
+        return form
+
     def get_absolute_url(self):
         return reverse('polity_linguistic_family-create')
     def get_context_data(self, **kwargs):
@@ -1397,6 +1432,11 @@ class Polity_linguistic_familyUpdate(PermissionRequiredMixin, UpdateView):
     form_class = Polity_linguistic_familyForm
     template_name = "general/polity_linguistic_family/polity_linguistic_family_update.html"
     permission_required = 'core.add_capital'
+
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        form.fields['linguistic_family'].choices = sorted(form.fields['linguistic_family'].choices, key=lambda x: x[1].lower())
+        return form
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -1643,6 +1683,11 @@ class Polity_religion_genusCreate(PermissionRequiredMixin, CreateView):
     template_name = "general/polity_religion_genus/polity_religion_genus_form.html"
     permission_required = 'core.add_capital'
 
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        form.fields['religion_genus'].choices = sorted(form.fields['religion_genus'].choices, key=lambda x: x[1].lower())
+        return form
+
     def get_absolute_url(self):
         return reverse('polity_religion_genus-create')
     def get_context_data(self, **kwargs):
@@ -1663,6 +1708,11 @@ class Polity_religion_genusUpdate(PermissionRequiredMixin, UpdateView):
     form_class = Polity_religion_genusForm
     template_name = "general/polity_religion_genus/polity_religion_genus_update.html"
     permission_required = 'core.add_capital'
+
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        form.fields['religion_genus'].choices = sorted(form.fields['religion_genus'].choices, key=lambda x: x[1].lower())
+        return form
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -1776,6 +1826,11 @@ class Polity_religion_familyCreate(PermissionRequiredMixin, CreateView):
     template_name = "general/polity_religion_family/polity_religion_family_form.html"
     permission_required = 'core.add_capital'
 
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        form.fields['religion_family'].choices = sorted(form.fields['religion_family'].choices, key=lambda x: x[1].lower())
+        return form
+
     def get_absolute_url(self):
         return reverse('polity_religion_family-create')
     def get_context_data(self, **kwargs):
@@ -1796,6 +1851,11 @@ class Polity_religion_familyUpdate(PermissionRequiredMixin, UpdateView):
     form_class = Polity_religion_familyForm
     template_name = "general/polity_religion_family/polity_religion_family_update.html"
     permission_required = 'core.add_capital'
+
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        form.fields['religion_family'].choices = sorted(form.fields['religion_family'].choices, key=lambda x: x[1].lower())
+        return form
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -1909,6 +1969,11 @@ class Polity_religionCreate(PermissionRequiredMixin, CreateView):
     template_name = "general/polity_religion/polity_religion_form.html"
     permission_required = 'core.add_capital'
 
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        form.fields['religion'].choices = sorted(form.fields['religion'].choices, key=lambda x: x[1].lower())
+        return form
+
     def get_absolute_url(self):
         return reverse('polity_religion-create')
     def get_context_data(self, **kwargs):
@@ -1929,6 +1994,11 @@ class Polity_religionUpdate(PermissionRequiredMixin, UpdateView):
     form_class = Polity_religionForm
     template_name = "general/polity_religion/polity_religion_update.html"
     permission_required = 'core.add_capital'
+
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        form.fields['religion'].choices = sorted(form.fields['religion'].choices, key=lambda x: x[1].lower())
+        return form
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -2042,6 +2112,11 @@ class Polity_relationship_to_preceding_entityCreate(PermissionRequiredMixin, Cre
     template_name = "general/polity_relationship_to_preceding_entity/polity_relationship_to_preceding_entity_form.html"
     permission_required = 'core.add_capital'
 
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        form.fields['relationship_to_preceding_entity'].choices = sorted(form.fields['relationship_to_preceding_entity'].choices, key=lambda x: x[1].lower())
+        return form
+
     def get_absolute_url(self):
         return reverse('polity_relationship_to_preceding_entity-create')
     def get_context_data(self, **kwargs):
@@ -2062,6 +2137,11 @@ class Polity_relationship_to_preceding_entityUpdate(PermissionRequiredMixin, Upd
     form_class = Polity_relationship_to_preceding_entityForm
     template_name = "general/polity_relationship_to_preceding_entity/polity_relationship_to_preceding_entity_update.html"
     permission_required = 'core.add_capital'
+
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        form.fields['relationship_to_preceding_entity'].choices = sorted(form.fields['relationship_to_preceding_entity'].choices, key=lambda x: x[1].lower())
+        return form
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -2707,6 +2787,11 @@ class Polity_alternate_religion_genusCreate(PermissionRequiredMixin, CreateView)
     template_name = "general/polity_alternate_religion_genus/polity_alternate_religion_genus_form.html"
     permission_required = 'core.add_capital'
 
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        form.fields['alternate_religion_genus'].choices = sorted(form.fields['alternate_religion_genus'].choices, key=lambda x: x[1].lower())
+        return form
+
     def get_absolute_url(self):
         return reverse('polity_alternate_religion_genus-create')
     def get_context_data(self, **kwargs):
@@ -2727,6 +2812,11 @@ class Polity_alternate_religion_genusUpdate(PermissionRequiredMixin, UpdateView)
     form_class = Polity_alternate_religion_genusForm
     template_name = "general/polity_alternate_religion_genus/polity_alternate_religion_genus_update.html"
     permission_required = 'core.add_capital'
+
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        form.fields['alternate_religion_genus'].choices = sorted(form.fields['alternate_religion_genus'].choices, key=lambda x: x[1].lower())
+        return form
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -2840,6 +2930,11 @@ class Polity_alternate_religion_familyCreate(PermissionRequiredMixin, CreateView
     template_name = "general/polity_alternate_religion_family/polity_alternate_religion_family_form.html"
     permission_required = 'core.add_capital'
 
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        form.fields['alternate_religion_family'].choices = sorted(form.fields['alternate_religion_family'].choices, key=lambda x: x[1].lower())
+        return form
+
     def get_absolute_url(self):
         return reverse('polity_alternate_religion_family-create')
     def get_context_data(self, **kwargs):
@@ -2860,6 +2955,11 @@ class Polity_alternate_religion_familyUpdate(PermissionRequiredMixin, UpdateView
     form_class = Polity_alternate_religion_familyForm
     template_name = "general/polity_alternate_religion_family/polity_alternate_religion_family_update.html"
     permission_required = 'core.add_capital'
+
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        form.fields['alternate_religion_family'].choices = sorted(form.fields['alternate_religion_family'].choices, key=lambda x: x[1].lower())
+        return form
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -2973,6 +3073,11 @@ class Polity_alternate_religionCreate(PermissionRequiredMixin, CreateView):
     template_name = "general/polity_alternate_religion/polity_alternate_religion_form.html"
     permission_required = 'core.add_capital'
 
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        form.fields['alternate_religion'].choices = sorted(form.fields['alternate_religion'].choices, key=lambda x: x[1].lower())
+        return form
+
     def get_absolute_url(self):
         return reverse('polity_alternate_religion-create')
     def get_context_data(self, **kwargs):
@@ -2993,6 +3098,11 @@ class Polity_alternate_religionUpdate(PermissionRequiredMixin, UpdateView):
     form_class = Polity_alternate_religionForm
     template_name = "general/polity_alternate_religion/polity_alternate_religion_update.html"
     permission_required = 'core.add_capital'
+
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        form.fields['alternate_religion'].choices = sorted(form.fields['alternate_religion'].choices, key=lambda x: x[1].lower())
+        return form
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

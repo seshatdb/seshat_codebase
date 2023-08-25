@@ -36,6 +36,7 @@ POLITY_DEGREE_OF_CENTRALIZATION_CHOICES = (
 ('NO_VALUE_ON_WIKI', 'NO_VALUE_ON_WIKI'),
 ('nominal allegiance', 'nominal allegiance'),
 ('unitary', 'unitary'),
+('feudal', 'feudal'),
 )
 
 POLITY_SUPRAPOLITY_RELATIONS_CHOICES = (
@@ -203,6 +204,61 @@ POLITY_LANGUAGE_CHOICES = (
 ('Qatabanic', 'Qatabanic'),
 ('Hadramawtic', 'Hadramawtic'),
 ('Old Arabic', 'Old Arabic'),
+('Susu', 'Susu'),
+('Koranko', 'Koranko'),
+('Limba', 'Limba'),
+('Temne', 'Temne'),
+('Bullom', 'Bullom'),
+('Loko', 'Loko'),
+('Manding', 'Manding'),
+('Krio', 'Krio'),
+('Pulaar', 'Pulaar'),
+('Kissi', 'Kissi'),
+('Krim', 'Krim'),
+('Vai', 'Vai'),
+('Mossi', 'Mossi'),
+('Shona', 'Shona'),
+('Sinhala', 'Sinhala'),
+('Dutch', 'Dutch'),
+('Sinhalese', 'Sinhalese'),
+('Oromo', 'Oromo'),
+('Harari', 'Harari'),
+('Argobba', 'Argobba'),
+('Maay', 'Maay'),
+('Somali', 'Somali'),
+('Harla', 'Harla'),
+('Hadiyya', 'Hadiyya'),
+('Tigrinya', 'Tigrinya'),
+('Funj', 'Funj'),
+('Kafa', 'Kafa'),
+('Yemsa', 'Yemsa'),
+('Qafar', 'Qafar'),
+('Proto-Yoruba', 'Proto-Yoruba'),
+('Yoruba', 'Yoruba'),
+('Bini', 'Bini'),
+('Jukun', 'Jukun'),
+('Ajagbe', 'Ajagbe'),
+('Proto-Yoruboid', 'Proto-Yoruboid'),
+('Sokoto', 'Sokoto'),
+('Hausa', 'Hausa'),
+('Idoma', 'Idoma'),
+('Igbo', 'Igbo'),
+('Nri', 'Nri'),
+('Kanuri', 'Kanuri'),
+('Kanembu', 'Kanembu'),
+('Fongbe', 'Fongbe'),
+('Wolof', 'Wolof'),
+('Sereer', 'Sereer'),
+('Fula', 'Fula'),
+('Luganda', 'Luganda'),
+('Kinyambo', 'Kinyambo'),
+('Kinyarwanda', 'Kinyarwanda'),
+('Runyankore', 'Runyankore'),
+('Kirundi', 'Kirundi'),
+('Fipa', 'Fipa'),
+('Haya', 'Haya'),
+('Old Tamil', 'Old Tamil'),
+('Efik-Ibibio', 'Efik-Ibibio'),
 )
 
 POLITY_LINGUISTIC_FAMILY_CHOICES = (
@@ -253,6 +309,14 @@ POLITY_LINGUISTIC_FAMILY_CHOICES = (
 ('Algonquian', 'Algonquian'),
 ('Iroquois', 'Iroquois'),
 ('Iranian', 'Iranian'),
+('Creoles and Pidgins', 'Creoles and Pidgins'),
+('Indo-Aryan', 'Indo-Aryan'),
+('Yoruboid', 'Yoruboid'),
+('Edoid', 'Edoid'),
+('Proto-Bene-Kwa', 'Proto-Bene-Kwa'),
+('Chadic', 'Chadic'),
+('Saharan', 'Saharan'),
+('Southern Dravidian', 'Southern Dravidian'),
 )
 
 POLITY_LANGUAGE_GENUS_CHOICES = (
@@ -324,6 +388,20 @@ POLITY_RELIGION_FAMILY_CHOICES = (
 ('Imperial Cult', 'Imperial Cult'),
 ('Theravada', 'Theravada'),
 ('Seleucid Religion', 'Seleucid Religion'),
+('Saivite Hinduism', 'Saivite Hinduism'),
+('Theravada Buddhism', 'Theravada Buddhism'),
+('Theravāda Buddhism', 'Theravāda Buddhism'),
+('Protestant Christianity', 'Protestant Christianity'),
+('Saivist Hinduism', 'Saivist Hinduism'),
+('Sunni Islam', 'Sunni Islam'),
+('Shia Islam', 'Shia Islam'),
+('Vodun', 'Vodun'),
+('Dahomey royal ancestor cult', 'Dahomey royal ancestor cult'),
+('Shaivist', 'Shaivist'),
+('Shaivism', 'Shaivism'),
+('Sufi Islam', 'Sufi Islam'),
+('Shaivite Hinduism', 'Shaivite Hinduism'),
+('Vaishnavist Hinduism', 'Vaishnavist Hinduism'),
 )
 
 POLITY_RELIGION_CHOICES = (
@@ -358,6 +436,9 @@ POLITY_RELATIONSHIP_TO_PRECEDING_ENTITY_CHOICES = (
 ('suspected unknown', 'suspected unknown'),
 ('vassalage', 'vassalage'),
 ('not applicable', 'not applicable'),
+('unknown', 'unknown'),
+('economic displacement', 'economic displacement'),
+('secession', 'secession'),
 )
 
 
@@ -682,7 +763,7 @@ class Polity_degree_of_centralization(SeshatCommon):
     def __str__(self) -> str:
         return call_my_name(self)
              
-        
+# Be aware that this variable name deviates from the name. Notice supra_polity 
 class Polity_suprapolity_relations(SeshatCommon):
     name = models.CharField(max_length=100, default="Polity_suprapolity_relations")
     supra_polity_relations = models.CharField(max_length=500, choices=POLITY_SUPRAPOLITY_RELATIONS_CHOICES)
