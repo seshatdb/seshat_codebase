@@ -53,17 +53,17 @@
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <li>
-                        <a class="dropdown-item" href="{% url 'api-root' %}" class="nav-link">API</a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" href="{% url 'references' %}" class="nav-link">References</a>
-                    </li>
+                            <a class="dropdown-item" href="{% url 'api-root' %}" class="nav-link">API</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="{% url 'references' %}" class="nav-link">References</a>
+                        </li>
 
-                    <li>
-                        <a class="dropdown-item" href="{% url 'ngas' %}" class="nav-link">NGAs</a>
-                    </li>
-                </ul>
-                </li>
+                        <li>
+                            <a class="dropdown-item" href="{% url 'ngas' %}" class="nav-link">NGAs</a>
+                        </li>
+                 </ul>
+            </li>
                 <li>
                     {% if user.is_authenticated %}
                     <a class="nav-link active" aria-current="page" href="{% url 'user-profile' %}">Profile</a>
@@ -79,10 +79,21 @@
                 </li>
                 {% endif %}
 
-                <li>
-                    <a class="nav-link active" aria-current="page" href="{% url 'nlp_datapoints' %}">NLP</a>
-                </li>
 
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdownNLP" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        NLP
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownNLP">
+                        <li>
+                            <a class="dropdown-item" href="{% url 'nlp-references' %}" class="nav-link">NLP References</a>
+                        </li>
+                        
+                        <li>
+                            <a class="dropdown-item" href="{% url 'nlp_datapoints' %}" class="nav-link">Discussion Room</a>
+                        </li>
+                     </ul>
+                </li>
 
         </ul>
 

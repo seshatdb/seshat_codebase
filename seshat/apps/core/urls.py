@@ -12,6 +12,7 @@ urlpatterns += [path('polity_filter_options/', views.polity_filter_options_view,
 
 urlpatterns += [
      path('core/references/', views.ReferenceListView.as_view(), name='references'),
+     path('core/nlp-references/', views.NlpReferenceListView.as_view(), name='nlp-references'),
      path('core/references/create/', views.ReferenceCreate.as_view(),
          name="reference-create"),
      path('core/references/<int:pk>', views.ReferenceDetailView.as_view(),name='reference-detail'),

@@ -1,0 +1,116 @@
+{% extends "core/seshat-base.html" %}
+{% load static %}
+{% load humanize %}
+
+
+{% block content %}
+<div class="container">
+    <div class="h3 pt-4">
+        <h6 class="lead-2 text-secondary">List of all</h6>
+        <h1 class="text-teal">NLP References:</h1>
+    </div>
+    {% if object_list %}
+    <div class="table-responsive">
+        {% if is_paginated %}
+        <div class="pagination mt-2 mb-3 pe-1 float-end">
+          <span class="page-links">
+              {% if page_obj.has_previous %}
+                  <a href="?page={{ page_obj.previous_page_number }}"><button class="btn btn-teal btn-md"> <i class="fas fa-step-backward"></i> Prev </button></a>
+              {% else %}
+              <button class="btn btn-outline-secondary btn-md" disabled> <i class="fas fa-step-backward"></i>  Prev</button>
+              {% endif %}
+              <span class="page-current text-secondary">
+                    &nbsp; Page <u class="h6 text-teal">{{ page_obj.number }}</u> of {{ page_obj.paginator.num_pages }} &nbsp; 
+                </span>
+              {% if page_obj.has_next %}
+                  <a href="?page={{ page_obj.next_page_number }}"><button class="btn btn-teal btn-md"> Next <i class="fas fa-step-forward"></i></button></a>
+                  {% else %}
+                  <button class="btn btn-outline-teal btn-md" disabled> Next <i class="fas fa-step-forward"></i></button>
+              {% endif %}
+          </span>
+          </div>
+          
+        {% endif %}
+        <table id="table_id" class="table align-middle table-bordered">
+            <thead>
+              <tr>
+                <th scope="col" class="text-secondary" style="text-align: center">#</th>
+                <th scope="col" style="text-align: left" class="fw-normal"> Title</th>
+                <th scope="col" style="text-align: left" class="fw-normal"> Creator(s)</th>
+                <th scope="col" style="text-align: center" class="fw-normal"> Year</th>
+                <th scope="col" style="text-align: center" class="fw-normal"> Zotero link</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% for obj in object_list %}
+                <tr class="py-3">
+                        <td class="text-secondary" style="text-align: center" scope="row">{{ forloop.counter0|add:page_obj.start_index }}</td>
+                        <td style="text-align: left;" class="py-2">
+                            {% if "NOZOTERO_LINK" in obj.zotero_link %}
+                                <span>{{ obj.reference_short_title }}</span>
+                            {% else %} <i class="fa-solid fa-book text-teal"></i>&nbsp;
+                                <a class="teallink h5 fw-normal" href="https://www.zotero.org/groups/1051264/seshat_databank/items/{{ obj.zotero_link }}">{{ obj.reference_short_title }}</a>
+                            {% endif %}
+                        </td>
+                        <td style="text-align: left;" class="fw-bold">
+                            <i class="fa-solid fa-circle-user"></i>
+                            <span>{{ obj.creator_cleaned }}</span>
+                        </td>
+                        <td style="text-align: center;" class="fw-bold">
+                            {{ obj.year }}
+                        </td>
+                        <td style="text-align: center;">
+                            {% if "NOZOTERO_LINK" in obj.zotero_link %}
+                            <span><u>No Zotero</u></span>
+                            {% else %}
+                                <a class="teallink h6" href="https://www.zotero.org/groups/1051264/seshat_databank/items/{{ obj.zotero_link }}"><u>{{ obj.zotero_link }}</u></a>
+                            {% endif %}
+                        </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+          </table>
+          {% if is_paginated %}
+          <div class="pagination mt-2 mb-3 pe-1 float-end">
+            <span class="page-links">
+                {% if page_obj.has_previous %}
+                    <a href="?page={{ page_obj.previous_page_number }}"><button class="btn btn-teal btn-md"> <i class="fas fa-step-backward"></i> Prev </button></a>
+                {% else %}
+                <button class="btn btn-outline-secondary btn-md" disabled> <i class="fas fa-step-backward"></i>  Prev</button>
+                {% endif %}
+                <span class="page-current text-secondary">
+                    &nbsp; Page <u class="h6 text-teal">{{ page_obj.number }}</u> of {{ page_obj.paginator.num_pages }} &nbsp; 
+                </span>
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}"><button class="btn btn-teal btn-md"> Next <i class="fas fa-step-forward"></i></button></a>
+                    {% else %}
+                    <button class="btn btn-outline-teal btn-md" disabled> Next <i class="fas fa-step-forward"></i></button>
+                {% endif %}
+            </span>
+            </div>
+            
+          {% endif %}
+    {% else %}
+    <div class="row">
+        <div class="col-md-12 mt-4">
+            <h3> <i class="fa-solid fa-triangle-exclamation"></i> There are no Facts for this variable in the Database.</h3>
+        </div>
+    </div>
+    {% endif %}
+    </div>
+    <script>
+        var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+        var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+          return new bootstrap.Popover(popoverTriggerEl)
+        })
+
+        function DisplayProgressMessage(ctl, msg) {
+            $(ctl).prop("class", "btn btn-success px-4 disabled");
+            $(ctl).text(msg);
+            return true;
+        }
+    </script>
+  {% endblock %}
+
+
+

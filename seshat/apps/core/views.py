@@ -19,7 +19,9 @@ from django.http import HttpResponseRedirect
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.db import IntegrityError
-from django.db.models import Prefetch, F
+from django.db.models import Prefetch, F, Value
+from django.db.models.functions import Replace
+
 from django.views.decorators.http import require_GET
 
 from django.contrib.auth.decorators import login_required, permission_required
@@ -40,6 +42,7 @@ from django.urls import reverse, reverse_lazy
 
 from django.contrib.messages.views import SuccessMessageMixin
 
+from ..general.models import Polity_research_assistant
 
 from .models import Citation, Polity, Section, Subsection, Variablehierarchy, Reference, SeshatComment, SeshatCommentPart, Nga, Ngapolityrel, Capital
 import pprint
@@ -120,6 +123,39 @@ class ReferenceListView(generic.ListView):
 
     #     return context
 
+
+class NlpReferenceListView(generic.ListView):
+    model = Reference
+    template_name = "core/references/nlp_reference_list.html"
+    paginate_by = 50
+
+    def get_absolute_url(self):
+        return reverse('nlp-references')
+
+    def get_queryset(self):
+        # Import the list of Zotero links inside the method
+        from .nlp_zotero_links import NLP_ZOTERO_LINKS_TO_FILTER
+
+        # Use the imported list of Zotero links to filter references
+        queryset = Reference.objects.filter(zotero_link__in=NLP_ZOTERO_LINKS_TO_FILTER)
+
+        queryset = queryset.filter(year__gt=0)
+
+        # Replace underscores in 'creator' with spaces
+        queryset = queryset.annotate(
+            creator_with_spaces=Replace('creator', Value('_'), Value(' '))
+        )
+
+        # Replace "_et_al" at the end of 'creator' with ", ..."
+        queryset = queryset.annotate(
+            creator_cleaned=Replace(F('creator_with_spaces'), Value(' et al'), Value(', ...'))
+        )
+
+        queryset = queryset.order_by('-year', 'title')
+
+
+        return queryset
+
 # references without a Zotero link:
 def no_zotero_refs_list(request):
     selected_no_zotero_refs = Reference.objects.filter(zotero_link__startswith='NOZOTERO_')
@@ -186,7 +222,7 @@ class ReferenceCreate(PermissionRequiredMixin, CreateView):
         context["mysubsection"] = "abc"
         context["myvar"] = "def reference"
         context["errors"] = "Halooooooooo"
-        print(context)
+        #print(context)
 
         return context
 
@@ -270,7 +306,7 @@ class CitationCreate(PermissionRequiredMixin, SuccessMessageMixin, CreateView):
         context["mysubsection"] = "abc"
         context["myvar"] = "def citation"
         context["errors"] = "Halooooooooo"
-        print(context)
+        #print(context)
 
         return context
 
@@ -433,8 +469,8 @@ class SeshatCommentPartCreate2(PermissionRequiredMixin, CreateView):
         context = super().get_context_data(**kwargs)
         logged_in_user = self.request.user
         logged_in_expert = Seshat_Expert.objects.get(user=logged_in_user)
-        print("Haloooooo_________ooooooooooo", self.kwargs['com_id'])
-        print("Halooooooooooooooooo", self.kwargs['subcom_order'])
+        #print("Haloooooo_________ooooooooooo", self.kwargs['com_id'])
+        #print("Halooooooooooooooooo", self.kwargs['subcom_order'])
         context["com_id"] = self.kwargs['com_id']
         context["subcom_order"] = self.kwargs['subcom_order']
         context["comment_curator"] = logged_in_expert
@@ -443,7 +479,7 @@ class SeshatCommentPartCreate2(PermissionRequiredMixin, CreateView):
 
         #context["subcom_order"] = self.comment_order
 
-        print(context)
+        #print(context)
 
         return context
 
@@ -467,7 +503,7 @@ class SeshatCommentPartUpdate(PermissionRequiredMixin, SuccessMessageMixin, Upda
 
         #context["subcom_order"] = self.comment_order
 
-        print(context)
+        #print(context)
 
         return context
 
@@ -801,7 +837,23 @@ class PolityDetailView(SuccessMessageMixin, generic.DetailView):
             context["all_wf_data"] = get_all_wf_data_for_a_polity(self.object.pk)
             context["all_crisis_cases_data"] = get_all_crisis_cases_data_for_a_polity(self.object.pk)
             context["all_power_transitions_data"] = get_all_power_transitions_data_for_a_polity(self.object.pk)
+            all_Ras = Polity_research_assistant.objects.filter(polity_id=self.object.pk)
+            all_Ras_ids = all_Ras.values_list('polity_ra_id', flat=True)
+            experts = Seshat_Expert.objects.filter(id__in=all_Ras_ids)
+            
+            all_general_ras = []
+            for xx in experts:
+                an_ra = xx.user.first_name + " " + xx.user.last_name
+                if an_ra not in all_general_ras:
+                    all_general_ras.append(an_ra)
+
+            all_general_ras_string = ", ".join(all_general_ras)
+
+            
+
+            #my_users_general = [User.objects.get(pk=aa.polity_ra_id) for aa in all_Ras]
             context["majid"] = {"utm_zone": "benam"}
+            context["all_Ras"] = all_general_ras_string
 
         except:
             context["all_data"] = None
@@ -1150,10 +1202,10 @@ def do_zotero(results):
         #    print(item)
         a_key = item['data']['key']
         if a_key == "3BQQ8WN8":
-            print("I skipped over  youuuuuuuuuuuuuuu: 3BQQ8WN8 because you are not in the database!")
+            print("I skipped over  youuuuu: 3BQQ8WN8 because you are not in the database!")
             continue
         if a_key == 'RR6R3383':
-            print("I skipped over  youuuuuuuuuuuuuuu: RR6R3383 because your title is too big")
+            print("I skipped over  youuuuu: RR6R3383 because your title is too big")
             continue
             
             #print(pprint.pprint(item))

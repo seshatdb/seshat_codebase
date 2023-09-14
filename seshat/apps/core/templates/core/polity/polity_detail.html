@@ -96,7 +96,7 @@
 
             </div>
             <div>
-                <div class="col-md-12 row ">
+                <div class="col-md-12 row ps-3">
                     <div class="col-md-4 tag-border2">
                         <h5 class="pt-2 fw-light text-teal">New ID: 
                             <span class="fw-bold text-dark">
@@ -127,11 +127,47 @@
             <h6 class="text-secondary pt-3">* A polity is defined as an independent political unit. Kinds of polities range from villages (local
                 communities) through simple and complex chiefdoms to states and empires.</h6>
             <h6 class="text-secondary pb-3">* A polity can be either centralized or not (e.g., organized as a confederation). For those periods when a region is divided up among a multitude of small-scale polities (e.g., independent villages or even many small chiefdoms) or when it is controlled in quick succession by a number of different regimes, we use the concept of 'quasi-polity'.</h6>
-            {% if all_general_data %}
+            <div class="row">
+                <div class="col-md-12 pb-3">
+                    <div class="accordion accordion-flush  border border-2 border-success rounded" id="accordionFlushExample">
+                        <div class="accordion-item" style="background-color:#d3e6e0;">
+                        <h5 class="accordion-header" id="flush-headingOne">
+                            
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne" style="background-color:#d3e6e0;"> <span class="fs-4 text-teal fw-bold"><i class="fa-solid fa-bars fa-xs"></i> &nbsp; General Description</span> 
+                            </button>
+                        </h5>
+                        <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                            <div class="accordion-body pt-1 px-0">
+                                <p class="p-2 m-2"> To be added soon.
+                                </p>
+                                
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
 
-            <div class="col-md-9">
-                <h3 class="fw-bold pb-2"> <i class="fa-solid fa-circle-right"></i> General Variables: &nbsp; <a href="#general_var"><i class="fa-solid fa-circle-arrow-down fa-sm"></i></a></h3>
+
+
+                <span>
+                    
+                </span>
             </div>
+            {% if all_general_data %}
+            <div class="row px-1">
+                <div class="col-md-6">
+                    <h3 class="fw-bold pb-2 align-self-center">
+                        <i class="fa-solid fa-circle-right"></i> General Variables:
+                        <a href="#general_var"><i class="fa-solid fa-circle-arrow-down fa-sm"></i></a>
+                    </h3>
+                </div>
+                <div class="col-md-6 pe-3 text-end align-self-center">
+                    {% if all_Ras %}
+                    <h6 class="text-secondary">RA(s): <span class="text-dark fw-bold">{{ all_Ras }}</span> </h6>
+                    {% endif %}
+                </div>
+            </div>
+
 
             <div class="row px-1">
                 <div class="table-responsive mb-4 col-md-12">

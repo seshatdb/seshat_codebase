@@ -1,7 +1,19 @@
 from .models import Ra, Polity_territory, Polity_population, Population_of_the_largest_settlement, Settlement_hierarchy, Administrative_level, Religious_level, Military_level, Professional_military_officer, Professional_soldier, Professional_priesthood, Full_time_bureaucrat, Examination_system, Merit_promotion, Specialized_government_building, Formal_legal_code, Judge, Court, Professional_lawyer, Irrigation_system, Drinking_water_supply_system, Market, Food_storage_site, Road, Bridge, Canal, Port, Mines_or_quarry, Mnemonic_device, Nonwritten_record, Written_record, Script, Non_phonetic_writing, Phonetic_alphabetic_writing, Lists_tables_and_classification, Calendar, Sacred_text, Religious_literature, Practical_literature, History, Philosophy, Scientific_literature, Fiction, Article, Token, Precious_metal, Foreign_coin, Indigenous_coin, Paper_currency, Courier, Postal_station, General_postal_service
 from django.urls import path
 
+#from .forms import BridgeForm, RoadForm
+#from .views import dynamic_create_view, dynamic_update_view, generic_list_view
+#from .var_defs import sc_var_defs
+
+
 from . import views
+
+# model_form_pairs = [
+#     (Bridge, BridgeForm, 'bridge', 'Bridge', "Bridge_sec", "Bridge_subsec"),
+#     (Road, RoadForm, 'road', 'Road', "Road_sec", "Road_subsec"),
+#     # Add more pairs as needed for other models
+# ]
+
 
 urlpatterns = [
     path('scvars/', views.scvars, name='scvars'),
@@ -18,6 +30,92 @@ urlpatterns = [
      path('download_csv_information/', views.download_csv_information,name='download_csv_information'),
 ]
 
+
+# Create URL patterns dynamically for each model-class pair: UPDATE
+# for model_class, form_class, x_name, myvar, sec, subsec in model_form_pairs:
+#     urlpatterns.append(
+#         path(f'{x_name}/update/<int:object_id>/', dynamic_update_view, {
+#             'form_class': form_class,
+#             'model_class': model_class,
+#             'x_name': x_name,
+#             'myvar': myvar,
+#             'my_exp': sc_var_defs[x_name],
+#           'var_section': sec,
+#             'var_subsection': subsec,
+#             'delete_url_name': x_name + "-delete",
+#         }, name=f'{x_name}-update')
+#     )
+
+# Create URL patterns dynamically for each model-class pair: CREATE
+# for model_class, form_class, x_name, myvar, sec, subsec in model_form_pairs:
+#     urlpatterns.append(
+#         path(f'{x_name}/create/', dynamic_create_view, {
+#             'form_class': form_class,
+#             'x_name': x_name,
+#             'myvar': myvar,
+#             'my_exp': sc_var_defs[x_name],
+#             'var_section': sec,
+#             'var_subsection': subsec,
+#         }, name=f'{x_name}-create')
+#     )
+
+# urlpatterns += [
+#     path('bridges_all/', generic_list_view, {
+#         'model_class': Bridge,
+#         'var_name' : 'bridge',
+#           'var_name_display': "Bridges",
+#           'var_section': "XX",
+#           'var_subsection': "YY",
+#           'var_main_desc': sc_var_defs['bridge'],
+#     }, name='bridges_all'),
+
+#      path('bridges/', generic_list_view, {
+#         'model_class': Bridge,
+#         'var_name' : 'bridge',
+#           'var_name_display': "Bridges",
+#           'var_section': "XX",
+#           'var_subsection': "YY",
+#           'var_main_desc': sc_var_defs['bridge'],
+#     }, name='bridges'),
+
+#     path('roads_all/', generic_list_view, {
+#         'model_class': Road,
+#         'var_name' : 'road',
+#           'var_name_display': "Roads",
+#           'var_section': "XX",
+#           'var_subsection': "YY",
+#           'var_main_desc': sc_var_defs['road'],
+#     }, name='roads_all'),
+# ]
+
+# urlpatterns += [
+#     path('bridge/create/', dynamic_create_view,
+#          {  'form_class': BridgeForm,
+#             'x_name': 'bridge',
+#             'myvar': "Bridge",
+#             'my_exp': sc_var_defs['bridge'],
+#     }, name="bridge-create"),
+# ]
+
+# urlpatterns += [
+#     path('bridge/update/<int:object_id>/', dynamic_update_view, {
+#         'form_class': BridgeForm,
+#         'model_class': Bridge,
+#         'x_name' : 'bridge',
+#           'myvar': "Bridge",
+#         "my_exp": sc_var_defs["bridge"],
+#         'delete_url_name': 'bridge-delete',  
+#     }, name='bridge-update'),
+
+#     path('road/update/<int:object_id>/', dynamic_update_view, {
+#         'form_class': RoadForm,
+#         'model_class': Road,
+#         'x_name' : 'road',
+#           'myvar': "Road",
+#         "my_exp": sc_var_defs["road"],
+#         'delete_url_name': 'road-delete',  
+#     }, name='road-update'),
+# ]
 
 urlpatterns += [
     path('ra/create/', views.RaCreate.as_view(),

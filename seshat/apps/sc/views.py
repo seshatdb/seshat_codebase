@@ -2,7 +2,7 @@
 from seshat.utils.utils import adder, dic_of_all_vars, list_of_all_Polities, dic_of_all_vars_in_sections, dic_of_all_vars_with_varhier
 from django.db.models.base import Model
 # from django.http.response import HttpResponse
-from django.shortcuts import render, get_object_or_404, HttpResponse
+from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.auth.decorators import login_required, permission_required
 from django.utils.safestring import mark_safe
@@ -7287,7 +7287,7 @@ def download_csv_all_sc(request):
 
 
         for obj in items:
-            writer.writerow([obj.subsection(), obj.name.lower(), obj.year_from, obj.year_to,
+            writer.writerow([obj.subsection(), obj.clean_name(), obj.year_from, obj.year_to,
                          obj.polity.long_name, obj.polity.new_name, obj.polity.name, obj.show_value_from(), obj.show_value_to(), obj.get_tag_display(), obj.is_disputed, obj.is_uncertain,
                          obj.expert_reviewed, obj.drb_reviewed,])
 
@@ -7324,7 +7324,7 @@ def download_csv_social_scale(request):
         if s_value == "Social Scale":
             items = model.objects.all()
             for obj in items:
-                writer.writerow([obj.subsection(), obj.name, obj.year_from, obj.year_to,
+                writer.writerow([obj.subsection(), obj.clean_name(), obj.year_from, obj.year_to,
                             obj.polity.long_name, obj.polity.new_name, obj.polity.name, obj.show_value_from(), obj.show_value_to(), obj.get_tag_display(), obj.is_disputed, obj.is_uncertain,
                             obj.expert_reviewed, obj.drb_reviewed,])
 
@@ -7360,7 +7360,7 @@ def download_csv_professions(request):
         if s_value == "Professions":
             items = model.objects.all()
             for obj in items:
-                writer.writerow([obj.subsection(), obj.name, obj.year_from, obj.year_to,
+                writer.writerow([obj.subsection(), obj.clean_name(), obj.year_from, obj.year_to,
                             obj.polity.long_name, obj.polity.new_name, obj.polity.name, obj.show_value_from(), obj.show_value_to(), obj.get_tag_display(), obj.is_disputed, obj.is_uncertain,
                             obj.expert_reviewed, obj.drb_reviewed,])
 
@@ -7396,7 +7396,7 @@ def download_csv_bureaucracy_characteristics(request):
         if s_value == "Bureaucracy Characteristics":
             items = model.objects.all()
             for obj in items:
-                writer.writerow([obj.subsection(), obj.name, obj.year_from, obj.year_to,
+                writer.writerow([obj.subsection(), obj.clean_name(), obj.year_from, obj.year_to,
                             obj.polity.long_name, obj.polity.new_name, obj.polity.name, obj.show_value_from(), obj.show_value_to(), obj.get_tag_display(), obj.is_disputed, obj.is_uncertain,
                             obj.expert_reviewed, obj.drb_reviewed,])
 
@@ -7432,7 +7432,7 @@ def download_csv_hierarchical_complexity(request):
         if s_value == "Hierarchical Complexity":
             items = model.objects.all()
             for obj in items:
-                writer.writerow([obj.subsection(), obj.name, obj.year_from, obj.year_to,
+                writer.writerow([obj.subsection(), obj.clean_name(), obj.year_from, obj.year_to,
                             obj.polity.long_name, obj.polity.new_name, obj.polity.name, obj.show_value_from(), obj.show_value_to(), obj.get_tag_display(), obj.is_disputed, obj.is_uncertain,
                             obj.expert_reviewed, obj.drb_reviewed,])
 
@@ -7468,7 +7468,7 @@ def download_csv_law(request):
         if s_value == "Law":
             items = model.objects.all()
             for obj in items:
-                writer.writerow([obj.subsection(), obj.name, obj.year_from, obj.year_to,
+                writer.writerow([obj.subsection(), obj.clean_name(), obj.year_from, obj.year_to,
                             obj.polity.long_name, obj.polity.new_name, obj.polity.name, obj.show_value_from(), obj.show_value_to(), obj.get_tag_display(), obj.is_disputed, obj.is_uncertain,
                             obj.expert_reviewed, obj.drb_reviewed,])
 
@@ -7504,7 +7504,7 @@ def download_csv_specialized_buildings_polity_owned(request):
         if s_value == "Specialized Buildings: polity owned":
             items = model.objects.all()
             for obj in items:
-                writer.writerow([obj.subsection(), obj.name, obj.year_from, obj.year_to,
+                writer.writerow([obj.subsection(), obj.clean_name(), obj.year_from, obj.year_to,
                             obj.polity.long_name, obj.polity.new_name, obj.polity.name, obj.show_value_from(), obj.show_value_to(), obj.get_tag_display(), obj.is_disputed, obj.is_uncertain,
                             obj.expert_reviewed, obj.drb_reviewed,])
 
@@ -7540,7 +7540,7 @@ def download_csv_transport_infrastructure(request):
         if s_value == "Transport Infrastructure":
             items = model.objects.all()
             for obj in items:
-                writer.writerow([obj.subsection(), obj.name, obj.year_from, obj.year_to,
+                writer.writerow([obj.subsection(), obj.clean_name(), obj.year_from, obj.year_to,
                             obj.polity.long_name, obj.polity.new_name, obj.polity.name, obj.show_value_from(), obj.show_value_to(), obj.get_tag_display(), obj.is_disputed, obj.is_uncertain,
                             obj.expert_reviewed, obj.drb_reviewed,])
 
@@ -7576,7 +7576,7 @@ def download_csv_special_purpose_sites(request):
         if s_value == "Special-purpose Sites":
             items = model.objects.all()
             for obj in items:
-                writer.writerow([obj.subsection(), obj.name, obj.year_from, obj.year_to,
+                writer.writerow([obj.subsection(), obj.clean_name(), obj.year_from, obj.year_to,
                             obj.polity.long_name, obj.polity.new_name, obj.polity.name, obj.show_value_from(), obj.show_value_to(), obj.get_tag_display(), obj.is_disputed, obj.is_uncertain,
                             obj.expert_reviewed, obj.drb_reviewed,])
 
@@ -7612,9 +7612,142 @@ def download_csv_information(request):
         if s_value == "Information":
             items = model.objects.all()
             for obj in items:
-                writer.writerow([obj.subsection(), obj.name, obj.year_from, obj.year_to,
+                writer.writerow([obj.subsection(), obj.clean_name(), obj.year_from, obj.year_to,
                             obj.polity.long_name, obj.polity.new_name, obj.polity.name, obj.show_value_from(), obj.show_value_to(), obj.get_tag_display(), obj.is_disputed, obj.is_uncertain,
                             obj.expert_reviewed, obj.drb_reviewed,])
 
     return response
 
+
+from django.contrib.auth.decorators import login_required, permission_required, user_passes_test
+from django.contrib.auth.mixins import UserPassesTestMixin
+from django.http import HttpResponseForbidden
+
+
+
+
+
+# Define a custom test function to check for the 'core.add_capital' permission
+def has_add_capital_permission(user):
+    return user.has_perm('core.add_capital')
+
+
+
+# Use the login_required, permission_required, and user_passes_test decorators
+@login_required
+@permission_required('core.add_capital', raise_exception=True)
+@user_passes_test(has_add_capital_permission, login_url='permission_denied')
+def dynamic_create_view(request, form_class, x_name, myvar, my_exp, var_section, var_subsection):
+    # Retrieve the object based on the object_id
+    if request.method == 'POST':
+        # If the request method is POST, it means the form has been submitted
+        my_form = form_class(request.POST)
+        
+        if my_form.is_valid():
+            # Save the new object to the database
+            new_object = my_form.save()
+            return redirect(f"{x_name}-detail", pk=new_object.id)  # Replace 'success_url_name' with your success URL
+    else:
+        my_form = form_class()
+
+    # Define the context with the variables you want to pass to the template
+    context = {
+        'form': my_form,
+        'object': object,
+        'extra_var': my_form[x_name], 
+        "myvar": myvar,
+        "my_exp": my_exp,
+        'var_section': var_section,
+        'var_subsection': var_subsection,
+    }
+
+    return render(request, 'sc/sc_create.html', context)
+
+
+# Use the login_required, permission_required, and user_passes_test decorators
+@login_required
+@permission_required('core.add_capital', raise_exception=True)
+@user_passes_test(has_add_capital_permission, login_url='permission_denied')
+def dynamic_update_view(request, object_id, form_class, model_class, x_name, myvar, my_exp, var_section, var_subsection, delete_url_name):
+    # Retrieve the object based on the object_id
+    my_object = model_class.objects.get(id=object_id)
+    #return_url = f"{x_name}s_all"
+    if request.method == 'POST':
+        # Bind the form to the POST data
+        my_form = form_class(request.POST, instance=my_object)
+        
+        if my_form.is_valid():
+            # Save the changes to the object
+            my_form.save()   
+            #return redirect(return_url) 
+            return redirect(f"{x_name}-detail", pk=my_object.id) 
+
+    else:
+        # Create an instance of the form and populate it with the object's data
+        my_form = form_class(instance=my_object)
+
+        # Define the context with the variables you want to pass to the template
+        context = {
+            'form': my_form,
+            'object': my_object,
+            'delete_url': delete_url_name,
+            'extra_var': my_form[x_name], 
+            "myvar": myvar,
+            'var_section': var_section,
+            'var_subsection': var_subsection,
+            "my_exp": my_exp,
+        }
+
+    return render(request, 'sc/sc_update.html', context)
+
+
+
+def generic_list_view(request, model_class, var_name, var_name_display, var_section, var_subsection, var_main_desc):
+    # Retrieve a list of objects from the database (you can customize this query)
+    object_list = model_class.objects.all()
+    extra_var_dict = {obj.id: obj.__dict__.get(var_name) for obj in object_list}
+
+    orderby = request.GET.get('orderby', None)
+
+    # Apply sorting if orderby is provided and is a valid field name
+    if orderby and hasattr(model_class, orderby):
+        object_list = object_list.order_by(orderby)
+
+
+    # Define any additional context variables you want to pass to the template
+    context = {
+        'object_list': object_list,
+        'var_name': var_name,
+        'create_url': f'{var_name}-create',
+        'update_url': f'{var_name}-update',
+        'download_url': f'{var_name}-download',
+        'pagination_url': f'{var_name}s',
+        'metadownload_url':  f'{var_name}-metadownload',
+        'list_all_url':  f'{var_name}s_all',
+        'var_name_display': var_name_display,
+        'ordering_tag': f"?orderby={var_name}",
+        'var_section': var_section,
+        'var_subsection': var_subsection,
+        'var_main_desc': var_main_desc,
+        'myvar': var_name_display,
+        'extra_var_dict': extra_var_dict,  # Add the dictionary to the context
+        #'extra_var': obj[var_name],
+
+        #'obj_var': my_form[x_name], 
+        #"myvar": myvar,
+        #"my_exp": my_exp,
+    }
+
+
+    context["inner_vars"] = {
+        var_name: {
+            'min': None,
+            'max': None,
+            'scale': None, 
+            'var_exp_source': None, 
+            'var_exp': 'The absence or presence of food storage site for a polity.',
+            'units': None, 
+            'choices': 'ABSENT_PRESENT_CHOICES', 
+            'null_meaning': None}}
+
+    return render(request, 'sc/sc_list_all.html', context)

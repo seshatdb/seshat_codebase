@@ -2,28 +2,28 @@
 {% load mathfilters %}
 
 {% if obj.year_from == None %}
-<td style="text-align: center;"> Year Range of <i class="text-secondary">{{ obj.polity.long_name }}</i> is assumed. <br>
+<td style="text-align: left;"> * Year Range of <i class="text-secondary">{{ obj.polity.long_name }}</i> is assumed. <br>
     <span class="fw-bold text-secondary">[{{ obj.polity.start_year}}, {{ obj.polity.end_year}}]</span></td>
 {% elif obj.year_from == obj.year_to %}
     {% if obj.year_from < 0 %}
-    <td style="text-align: center;">{{ obj.year_from|abs|intcomma }} <span class="text-secondary">BCE</span> </td>
+    <td style="text-align: left;">{{ obj.year_from|abs|intcomma }} <span class="text-secondary">BCE</span> </td>
     {% else %}
-    <td style="text-align: center;">{{ obj.year_from }} <span class="text-secondary">CE</span></td>
+    <td style="text-align: left;">{{ obj.year_from }} <span class="text-secondary">CE</span></td>
     {% endif %}
 {% elif obj.year_to == None %}
     {% if obj.year_from < 0 %}
-    <td style="text-align: center;">{{ obj.year_from|abs }} <span class="text-secondary">BCE</span></td>
+    <td style="text-align: left;">{{ obj.year_from|abs }} <span class="text-secondary">BCE</span></td>
     {% else %}
-    <td style="text-align: center;">{{ obj.year_from }} <span class="text-secondary">CE</span></td>
+    <td style="text-align: left;">{{ obj.year_from }} <span class="text-secondary">CE</span></td>
     {% endif %}
 {% elif obj.year_to == None and obj.year_from == None %}
-<td style="text-align: center;"> <i class="fa-solid fa-minus"></i> </td>
+<td style="text-align: left;"> <i class="fa-solid fa-minus"></i> </td>
 {% else %}
     {% if obj.year_from < 0 and obj.year_to < 0 %}
-    <td style="text-align: center;">{{ obj.year_from|abs }} <span class="text-secondary">BCE</span> <i class="fas fa-long-arrow-alt-right"></i> {{ obj.year_to|abs }} <span class="text-secondary">BCE</span></td>
+    <td style="text-align: left;">{{ obj.year_from|abs }} <span class="text-secondary">BCE</span> <i class="fas fa-long-arrow-alt-right"></i> {{ obj.year_to|abs }} <span class="text-secondary">BCE</span></td>
     {% elif obj.year_from < 0 and obj.year_to >= 0 %}
-    <td style="text-align: center;">{{ obj.year_from|abs }} <span class="text-secondary">BCE</span> <i class="fas fa-long-arrow-alt-right"></i> {{ obj.year_to }} <span class="text-secondary">CE</span></td>
+    <td style="text-align: left;">{{ obj.year_from|abs }} <span class="text-secondary">BCE</span> <i class="fas fa-long-arrow-alt-right"></i> {{ obj.year_to }} <span class="text-secondary">CE</span></td>
     {% else %}
-    <td style="text-align: center;">{{ obj.year_from }} <span class="text-secondary">CE</span> <i class="fas fa-long-arrow-alt-right"></i> {{ obj.year_to }} <span class="text-secondary">CE</span></td>
+    <td style="text-align: left;">{{ obj.year_from }} <span class="text-secondary">CE</span> <i class="fas fa-long-arrow-alt-right"></i> {{ obj.year_to }} <span class="text-secondary">CE</span></td>
     {% endif %}
 {% endif %}

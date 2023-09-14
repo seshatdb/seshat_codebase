@@ -21,6 +21,10 @@ def replace_underscore_and_capitalize(value):
     value = value.replace('_', ' ')
     return value.title()
 
+@register.filter
+def get_item_from_dic(dictionary, key):
+    return dictionary.get(key)
+
 # @register.filter
 # def make_references_look_nicer(value):
 #     value = value.replace("'", "&rsquo;")
