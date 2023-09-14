@@ -153,6 +153,13 @@ class NlpReferenceListView(generic.ListView):
 
         queryset = queryset.order_by('-year', 'title')
 
+        # Create a list of Zotero links from the queryset
+        matched_zotero_links = list(queryset.values_list('zotero_link', flat=True))
+
+        # Find the missing Zotero links
+        missing_zotero_links = [link for link in NLP_ZOTERO_LINKS_TO_FILTER if link not in matched_zotero_links]
+
+        print(missing_zotero_links)
 
         return queryset
 
@@ -1328,8 +1335,37 @@ def do_zotero(results):
     print("Bye Zotero")
     return mother_ref_dic
 
+def do_zotero_manually(results):
+    mother_ref_dic = []
+    for i, item in enumerate(results):
+
+        a_key = item['key']
+        if a_key == "3BQQ8WN8":
+            print("I skipped over  youuuuu: 3BQQ8WN8 because you are not in the database!")
+            continue
+        if a_key == 'RR6R3383':
+            print("I skipped over  youuuuu: RR6R3383 because your title is too big")
+            continue
+            
+        try:
+            potential_new_ref = Reference.objects.get(zotero_link=a_key)
+            continue
+        except:          
+            my_dic = {}
+            my_dic['key'] = a_key
+            my_dic['mainCreator'] = item['mainCreator']
+            my_dic['year'] = item['year']
+            my_dic['title'] = item['title']
+
+            newref = Reference(title=my_dic.get('title'), year=my_dic.get('year'), creator=my_dic.get('mainCreator'), zotero_link=my_dic.get('key'))
+
+            if my_dic.get('year') < 2040:
+                newref.save()
+                mother_ref_dic.append(my_dic)
 
 
+    print("Bye Zotero Manually")
+    return mother_ref_dic
 
 
 ##########
@@ -1348,6 +1384,17 @@ def update_citations_from_inside_zotero_update():
     #return render (request, 'core/references/reference_list.html')
 
 ###########
+
+
+def synczoteromanually(request):
+    print("Hallo Zotero Manually")
+    from .manual_input_refs import manual_input_refs 
+
+    new_refs = do_zotero_manually(manual_input_refs)
+    context = {}
+    context["newly_adds"] = new_refs
+    update_citations_from_inside_zotero_update()
+    return render (request, 'core/references/synczotero.html', context)
 
 def synczotero(request):
     print("Hallo Zotero")
