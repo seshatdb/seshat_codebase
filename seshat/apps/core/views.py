@@ -154,12 +154,12 @@ class NlpReferenceListView(generic.ListView):
         queryset = queryset.order_by('-year', 'title')
 
         # Create a list of Zotero links from the queryset
-        matched_zotero_links = list(queryset.values_list('zotero_link', flat=True))
+        #matched_zotero_links = list(queryset.values_list('zotero_link', flat=True))
 
         # Find the missing Zotero links
-        missing_zotero_links = [link for link in NLP_ZOTERO_LINKS_TO_FILTER if link not in matched_zotero_links]
+        #missing_zotero_links = [link for link in NLP_ZOTERO_LINKS_TO_FILTER if link not in matched_zotero_links]
 
-        print(missing_zotero_links)
+        #print(missing_zotero_links)
 
         return queryset
 

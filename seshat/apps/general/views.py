@@ -3646,4 +3646,47 @@ def generalvars(request):
 
     return render(request, 'general/generalvars.html', context=context)
 
+
+@permission_required('core.view_capital')
+def download_csv_all_general(request):
+    # Fetch all models in the "general" app
+    app_name = 'general' 
+    app_models = apps.get_app_config(app_name).get_models()
+
+    # Create a response object with CSV content type
+    response = HttpResponse(content_type='text/csv')
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    file_name = f"general_data_{current_datetime}.csv"
+
+    response['Content-Disposition'] = f'attachment; filename="{file_name}"'
+
+    # Create a CSV writer
+    writer = csv.writer(response, delimiter='|')
+
+    # type the headers
+    writer.writerow(['section', 'subsection', 'polity_name', 'polity_new_ID', 'polity_old_ID', 'variable_name', 'value_from', 'value_to', 'year_from', 'year_to',
+                   'confidence', 'is_disputed', 'is_uncertain', 'expert_checked',])
+    # Iterate over each model
+    for model in app_models:
+        # Get all rows of data from the model
+        items = model.objects.all()
+
+
+        for obj in items:
+            if obj.clean_name_spaced() == 'Polity Duration':
+                writer.writerow(['General Variables',None , obj.polity.long_name, obj.polity.new_name, obj.polity.name, obj.clean_name_spaced()[7:],
+                         obj.polity_year_from, obj.polity_year_to, obj.year_from, obj.year_to, obj.get_tag_display(), obj.is_disputed, obj.is_uncertain,
+                         obj.expert_reviewed,])
+            elif obj.clean_name_spaced() == 'Polity Peak Years':
+                writer.writerow(['General Variables',None , obj.polity.long_name, obj.polity.new_name, obj.polity.name, obj.clean_name_spaced()[7:],
+                         obj.peak_year_from, obj.peak_year_to, obj.year_from, obj.year_to, obj.get_tag_display(), obj.is_disputed, obj.is_uncertain,
+                         obj.expert_reviewed,])
+            else:
+                 writer.writerow(['General Variables',None , obj.polity.long_name, obj.polity.new_name, obj.polity.name, obj.clean_name_spaced()[7:],
+                            obj.show_value(), None,  obj.year_from, obj.year_to, obj.get_tag_display(), obj.is_disputed, obj.is_uncertain,
+                            obj.expert_reviewed,])
+
+    return response
+
     

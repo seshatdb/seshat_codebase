@@ -5,6 +5,7 @@ from . import views
 
 urlpatterns = [
     path('generalvars/', views.generalvars, name='generalvars'),
+    path('download-csv-general-all/', views.download_csv_all_general,name='download_csv_all_general'),
 ]
 
 
