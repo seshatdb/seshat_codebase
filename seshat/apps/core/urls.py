@@ -3,9 +3,9 @@ from django.urls import path, re_path
 from . import views
 
 urlpatterns = [path('', views.seshatindex, name='seshat-index'),]
-urlpatterns += [path('methods', views.seshatmethods, name='seshat-methods'),]
-urlpatterns += [path('whoweare', views.seshatwhoweare, name='seshat-whoweare'),]
-urlpatterns += [path('acknowledgements', views.seshatacknowledgements, name='seshat-acknowledgements'),]
+urlpatterns += [path('methods/', views.seshatmethods, name='seshat-methods'),]
+urlpatterns += [path('whoweare/', views.seshatwhoweare, name='seshat-whoweare'),]
+urlpatterns += [path('acknowledgements/', views.seshatacknowledgements, name='seshat-acknowledgements'),]
 
 urlpatterns += [path('polity_filter_options/', views.polity_filter_options_view, name='polity_filter_options'),]
 

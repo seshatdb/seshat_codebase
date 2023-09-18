@@ -3675,15 +3675,18 @@ def download_csv_all_general(request):
 
         for obj in items:
             if obj.clean_name_spaced() == 'Polity Duration':
-                writer.writerow(['General Variables',None , obj.polity.long_name, obj.polity.new_name, obj.polity.name, obj.clean_name_spaced()[7:],
+                writer.writerow(['General Variables',None , obj.polity.long_name, obj.polity.new_name, obj.polity.name, obj.clean_name()[7:],
                          obj.polity_year_from, obj.polity_year_to, obj.year_from, obj.year_to, obj.get_tag_display(), obj.is_disputed, obj.is_uncertain,
                          obj.expert_reviewed,])
             elif obj.clean_name_spaced() == 'Polity Peak Years':
-                writer.writerow(['General Variables',None , obj.polity.long_name, obj.polity.new_name, obj.polity.name, obj.clean_name_spaced()[7:],
+                writer.writerow(['General Variables',None , obj.polity.long_name, obj.polity.new_name, obj.polity.name, obj.clean_name()[7:],
                          obj.peak_year_from, obj.peak_year_to, obj.year_from, obj.year_to, obj.get_tag_display(), obj.is_disputed, obj.is_uncertain,
                          obj.expert_reviewed,])
             else:
-                 writer.writerow(['General Variables',None , obj.polity.long_name, obj.polity.new_name, obj.polity.name, obj.clean_name_spaced()[7:],
+                if obj.show_value() == "NO_VALUE_ON_WIKI" or obj.show_value() == "NO_VALID_VALUE":
+                    continue
+                else:
+                    writer.writerow(['General Variables',None , obj.polity.long_name, obj.polity.new_name, obj.polity.name, obj.clean_name()[7:],
                             obj.show_value(), None,  obj.year_from, obj.year_to, obj.get_tag_display(), obj.is_disputed, obj.is_uncertain,
                             obj.expert_reviewed,])
 
