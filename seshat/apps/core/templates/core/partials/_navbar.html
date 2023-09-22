@@ -1,13 +1,17 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark navbar-hide-on-scroll">
+{% load static %}
+
+<nav class="navbar navbar-expand-lg navbar-dark navbar-brown  navbar-hide-on-scroll sticky-top">
     <div class="container">
-        <a class="navbar-brand" href="{% url 'seshat-index' %}"> <i class="fas fa-landmark"></i> &nbsp; Seshat</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="{% url 'seshat-index' %}">Home</a>
+                    
+                    <a class="nav-link active" aria-current="page" href="{% url 'seshat-index' %}"> <img src="https://seshatdatabank.web.ox.ac.uk/sites/default/files/styles/site_logo/public/styles/site_logo/public/seshatdatabank/site-logo/seshat-sml-logo-white.png?itok=K-tPc8EE" alt="Logo" style="width:30px"> &nbsp; Home</a>
+                
+            
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -34,7 +38,7 @@
 
 
             <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 CrisisDB
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -44,6 +48,13 @@
                 <li>
                     <a class="dropdown-item" href="{% url 'power_transitions_all' %}" class="nav-link">Power Transitions <span class="badge rounded-pill bg-warning text-dark">NEW</span></a>
                 </li>
+                <li>
+                    <a class="dropdown-item" href="{% url 'qing_vars' %}" class="nav-link">Qing Crisis</a>
+                </li>
+                <li>
+                    <a class="dropdown-item text-secondary" href="{% url 'qing_vars' %}" class="nav-link">American Violence Data (Soon)</a>
+                </li>
+
             </ul>
             </li>
 
@@ -78,8 +89,10 @@
                     <a class="nav-link active" aria-current="page" href="{% url 'discussion_room' %}">Discussion</a>
                 </li>
                 {% endif %}
-
-
+                
+                <li>
+                    <a class="nav-link active" aria-current="page" href="{% url 'seshat-olddownloads' %}">Downloads</a>
+                </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdownNLP" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         NLP

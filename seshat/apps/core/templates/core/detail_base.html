@@ -51,7 +51,6 @@
         <th class = "fw-normal" style="text-align: center;" scope="col">Expert Reviewed?</th>
         <th class = "fw-normal" style="text-align: center;" scope="col">DRB?</th>
         <th scope="col" style="text-align: center">References</th>
-        <th scope="col" style="text-align: center">Update</th>
 
       </tr>
     </thead>
@@ -101,14 +100,6 @@
               {% endif %}
           </td>
               <td> {% autoescape off %}{{ object.display_citations }}{% endautoescape %}</td>
-              <td style="text-align: center;">
-                {% with object.clean_name|add:"-update" as meat %}
-                <div class="py-1">
-                  <a href="{% url meat object.id %}"><button class="btn btn-warning btn-sm btn-block">Update</button></a>
-                </div>
-                {% endwith %}
-
-              </td>
         </div>
         </tr>
     </tbody>

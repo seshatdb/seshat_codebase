@@ -29,6 +29,10 @@ from seshat.apps.accounts.models import Seshat_Expert
 
 from django.core.paginator import Paginator
 
+from django.http import FileResponse
+from django.shortcuts import get_object_or_404
+import os
+
 from markupsafe import Markup, escape
 from django.http import JsonResponse
 
@@ -97,6 +101,12 @@ def seshatwhoweare(request):
         'insta': "Instabilities All Over the Place..",
     }
     return render(request, 'core/seshat-whoweare.html', context=context)
+
+def seshatolddownloads(request):
+    context = {
+        'insta': "Instabilities All Over the Place..",
+    }
+    return render(request, 'core/old_downloads.html', context=context)
 
 def seshatacknowledgements(request):
     context = {
@@ -1460,3 +1470,9 @@ def polity_filter_options_view(request):
     }
     return JsonResponse(response)
 
+
+def download_oldcsv(request, file_name):
+    file_path = os.path.join(settings.STATIC_ROOT, 'csvfiles', file_name)
+    response = FileResponse(open(file_path, 'rb'))
+    response['Content-Disposition'] = f'attachment; filename="{file_name}"'
+    return response

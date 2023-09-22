@@ -153,7 +153,7 @@ class Crisis_consequenceListView(PermissionRequiredMixin, generic.ListView):
     template_name = "crisisdb/crisis_consequence/crisis_consequence_list.html"
     permission_required = 'core.add_capital'
 
-    #paginate_by = 10
+    #paginate_by = 50
 
     def get_absolute_url(self):
         return reverse('crisis_consequences')
@@ -191,7 +191,7 @@ class Crisis_consequenceListViewAll(PermissionRequiredMixin, generic.ListView):
     template_name = "crisisdb/crisis_consequence/crisis_consequence_list_all.html"
     permission_required = 'core.add_capital'
 
-    #paginate_by = 10
+    #paginate_by = 50
 
     def get_absolute_url(self):
         return reverse('crisis_consequences_all')
@@ -360,7 +360,7 @@ class Power_transitionListView(PermissionRequiredMixin, generic.ListView):
     template_name = "crisisdb/power_transition/power_transition_list.html"
     permission_required = 'core.add_capital'
 
-    #paginate_by = 10
+    #paginate_by = 50
 
     def get_absolute_url(self):
         return reverse('power_transitions')
@@ -398,7 +398,7 @@ class Power_transitionListViewAll(PermissionRequiredMixin, generic.ListView):
     model = Power_transition
     template_name = "crisisdb/power_transition/power_transition_list_all.html"
     permission_required = 'core.add_capital'
-    #paginate_by = 10
+    #paginate_by = 50
 
     def get_absolute_url(self):
         return reverse('power_transitions_all')
@@ -549,7 +549,7 @@ class Human_sacrificeDelete(PermissionRequiredMixin, DeleteView):
 class Human_sacrificeListView(PermissionRequiredMixin, generic.ListView):
     model = Human_sacrifice
     template_name = "crisisdb/human_sacrifice/human_sacrifice_list.html"
-    paginate_by = 10
+    paginate_by = 50
     permission_required = 'core.add_capital'
 
     def get_absolute_url(self):
@@ -574,7 +574,7 @@ class Human_sacrificeListViewAll(PermissionRequiredMixin, generic.ListView):
     template_name = "crisisdb/human_sacrifice/human_sacrifice_list_all.html"
     permission_required = 'core.add_capital'
 
-    #paginate_by = 10
+    #paginate_by = 50
 
     def get_absolute_url(self):
         return reverse('human_sacrifices_all')
@@ -752,7 +752,7 @@ class External_conflictDelete(PermissionRequiredMixin, DeleteView):
 class External_conflictListView(generic.ListView):
     model = External_conflict
     template_name = "crisisdb/external_conflict/external_conflict_list.html"
-    paginate_by = 10
+    paginate_by = 50
 
     def get_absolute_url(self):
         return reverse('external_conflicts')
@@ -880,7 +880,7 @@ class Internal_conflictDelete(PermissionRequiredMixin, DeleteView):
 class Internal_conflictListView(generic.ListView):
     model = Internal_conflict
     template_name = "crisisdb/internal_conflict/internal_conflict_list.html"
-    paginate_by = 10
+    paginate_by = 50
 
     def get_absolute_url(self):
         return reverse('internal_conflicts')
@@ -1008,7 +1008,7 @@ class External_conflict_sideDelete(PermissionRequiredMixin, DeleteView):
 class External_conflict_sideListView(generic.ListView):
     model = External_conflict_side
     template_name = "crisisdb/external_conflict_side/external_conflict_side_list.html"
-    paginate_by = 10
+    paginate_by = 50
 
     def get_absolute_url(self):
         return reverse('external_conflict_sides')
@@ -1136,7 +1136,7 @@ class Agricultural_populationDelete(PermissionRequiredMixin, DeleteView):
 class Agricultural_populationListView(generic.ListView):
     model = Agricultural_population
     template_name = "crisisdb/agricultural_population/agricultural_population_list.html"
-    paginate_by = 10
+    paginate_by = 50
 
     def get_absolute_url(self):
         return reverse('agricultural_populations')
@@ -1264,7 +1264,7 @@ class Arable_landDelete(PermissionRequiredMixin, DeleteView):
 class Arable_landListView(generic.ListView):
     model = Arable_land
     template_name = "crisisdb/arable_land/arable_land_list.html"
-    paginate_by = 10
+    paginate_by = 50
 
     def get_absolute_url(self):
         return reverse('arable_lands')
@@ -1392,7 +1392,7 @@ class Arable_land_per_farmerDelete(PermissionRequiredMixin, DeleteView):
 class Arable_land_per_farmerListView(generic.ListView):
     model = Arable_land_per_farmer
     template_name = "crisisdb/arable_land_per_farmer/arable_land_per_farmer_list.html"
-    paginate_by = 10
+    paginate_by = 50
 
     def get_absolute_url(self):
         return reverse('arable_land_per_farmers')
@@ -1520,7 +1520,7 @@ class Gross_grain_shared_per_agricultural_populationDelete(PermissionRequiredMix
 class Gross_grain_shared_per_agricultural_populationListView(generic.ListView):
     model = Gross_grain_shared_per_agricultural_population
     template_name = "crisisdb/gross_grain_shared_per_agricultural_population/gross_grain_shared_per_agricultural_population_list.html"
-    paginate_by = 10
+    paginate_by = 50
 
     def get_absolute_url(self):
         return reverse('gross_grain_shared_per_agricultural_populations')
@@ -1648,7 +1648,7 @@ class Net_grain_shared_per_agricultural_populationDelete(PermissionRequiredMixin
 class Net_grain_shared_per_agricultural_populationListView(generic.ListView):
     model = Net_grain_shared_per_agricultural_population
     template_name = "crisisdb/net_grain_shared_per_agricultural_population/net_grain_shared_per_agricultural_population_list.html"
-    paginate_by = 10
+    paginate_by = 50
 
     def get_absolute_url(self):
         return reverse('net_grain_shared_per_agricultural_populations')
@@ -1776,7 +1776,7 @@ class SurplusDelete(PermissionRequiredMixin, DeleteView):
 class SurplusListView(generic.ListView):
     model = Surplus
     template_name = "crisisdb/surplus/surplus_list.html"
-    paginate_by = 10
+    paginate_by = 50
 
     def get_absolute_url(self):
         return reverse('surplus')
@@ -1904,7 +1904,7 @@ class Military_expenseDelete(PermissionRequiredMixin, DeleteView):
 class Military_expenseListView(generic.ListView):
     model = Military_expense
     template_name = "crisisdb/military_expense/military_expense_list.html"
-    paginate_by = 10
+    paginate_by = 50
 
     def get_absolute_url(self):
         return reverse('military_expenses')
@@ -2032,7 +2032,7 @@ class Silver_inflowDelete(PermissionRequiredMixin, DeleteView):
 class Silver_inflowListView(generic.ListView):
     model = Silver_inflow
     template_name = "crisisdb/silver_inflow/silver_inflow_list.html"
-    paginate_by = 10
+    paginate_by = 50
 
     def get_absolute_url(self):
         return reverse('silver_inflows')
@@ -2160,7 +2160,7 @@ class Silver_stockDelete(PermissionRequiredMixin, DeleteView):
 class Silver_stockListView(generic.ListView):
     model = Silver_stock
     template_name = "crisisdb/silver_stock/silver_stock_list.html"
-    paginate_by = 10
+    paginate_by = 50
 
     def get_absolute_url(self):
         return reverse('silver_stocks')
@@ -2288,7 +2288,7 @@ class Total_populationDelete(PermissionRequiredMixin, DeleteView):
 class Total_populationListView(generic.ListView):
     model = Total_population
     template_name = "crisisdb/total_population/total_population_list.html"
-    paginate_by = 10
+    paginate_by = 50
 
     def get_absolute_url(self):
         return reverse('total_populations')
@@ -2416,7 +2416,7 @@ class Gdp_per_capitaDelete(PermissionRequiredMixin, DeleteView):
 class Gdp_per_capitaListView(generic.ListView):
     model = Gdp_per_capita
     template_name = "crisisdb/gdp_per_capita/gdp_per_capita_list.html"
-    paginate_by = 10
+    paginate_by = 50
 
     def get_absolute_url(self):
         return reverse('gdp_per_capitas')
@@ -2544,7 +2544,7 @@ class Drought_eventDelete(PermissionRequiredMixin, DeleteView):
 class Drought_eventListView(generic.ListView):
     model = Drought_event
     template_name = "crisisdb/drought_event/drought_event_list.html"
-    paginate_by = 10
+    paginate_by = 50
 
     def get_absolute_url(self):
         return reverse('drought_events')
@@ -2672,7 +2672,7 @@ class Locust_eventDelete(PermissionRequiredMixin, DeleteView):
 class Locust_eventListView(generic.ListView):
     model = Locust_event
     template_name = "crisisdb/locust_event/locust_event_list.html"
-    paginate_by = 10
+    paginate_by = 50
 
     def get_absolute_url(self):
         return reverse('locust_events')
@@ -2800,7 +2800,7 @@ class Socioeconomic_turmoil_eventDelete(PermissionRequiredMixin, DeleteView):
 class Socioeconomic_turmoil_eventListView(generic.ListView):
     model = Socioeconomic_turmoil_event
     template_name = "crisisdb/socioeconomic_turmoil_event/socioeconomic_turmoil_event_list.html"
-    paginate_by = 10
+    paginate_by = 50
 
     def get_absolute_url(self):
         return reverse('socioeconomic_turmoil_events')
@@ -2928,7 +2928,7 @@ class Crop_failure_eventDelete(PermissionRequiredMixin, DeleteView):
 class Crop_failure_eventListView(generic.ListView):
     model = Crop_failure_event
     template_name = "crisisdb/crop_failure_event/crop_failure_event_list.html"
-    paginate_by = 10
+    paginate_by = 50
 
     def get_absolute_url(self):
         return reverse('crop_failure_events')
@@ -3056,7 +3056,7 @@ class Famine_eventDelete(PermissionRequiredMixin, DeleteView):
 class Famine_eventListView(generic.ListView):
     model = Famine_event
     template_name = "crisisdb/famine_event/famine_event_list.html"
-    paginate_by = 10
+    paginate_by = 50
 
     def get_absolute_url(self):
         return reverse('famine_events')
@@ -3184,7 +3184,7 @@ class Disease_outbreakDelete(PermissionRequiredMixin, DeleteView):
 class Disease_outbreakListView(generic.ListView):
     model = Disease_outbreak
     template_name = "crisisdb/disease_outbreak/disease_outbreak_list.html"
-    paginate_by = 10
+    paginate_by = 50
 
     def get_absolute_url(self):
         return reverse('disease_outbreaks')
@@ -3248,7 +3248,9 @@ def disease_outbreak_meta_download(request):
 # THE temporary function for creating the my_sections_dic dic: test_for_varhier_dic inside utils
 # and the qing_vars_links_creator() inside utils.py
 def QingVars(request):
-    my_sections_dic = {'Other_Sections': {'Other_Subsections': []}, 'Conflict Variables': {'External Conflicts Subsection': [['External conflict', 'external_conflicts', 'external_conflict-create', 'external_conflict-download', 'external_conflict-metadownload'], ['External conflict side', 'external_conflict_sides', 'external_conflict_side-create', 'external_conflict_side-download', 'external_conflict_side-metadownload'], ['Human_sacrifice', 'human_sacrifices', 'human_sacrifice-create', 'human_sacrifice-download', 'human_sacrifice-metadownload']], 'Internal Conflicts Subsection': [['Internal conflict', 'internal_conflicts', 'internal_conflict-create', 'internal_conflict-download', 'internal_conflict-metadownload']]}, 'Economy Variables': {'Productivity': [['Agricultural population', 'agricultural_populations', 'agricultural_population-create', 'agricultural_population-download', 'agricultural_population-metadownload'], ['Arable land', 'arable_lands', 'arable_land-create', 'arable_land-download', 'arable_land-metadownload'], ['Arable land per farmer', 'arable_land_per_farmers', 'arable_land_per_farmer-create', 'arable_land_per_farmer-download', 'arable_land_per_farmer-metadownload'], ['Gross grain shared per agricultural population', 'gross_grain_shared_per_agricultural_populations', 'gross_grain_shared_per_agricultural_population-create', 'gross_grain_shared_per_agricultural_population-download', 'gross_grain_shared_per_agricultural_population-metadownload'], ['Net grain shared per agricultural population', 'net_grain_shared_per_agricultural_populations', 'net_grain_shared_per_agricultural_population-create', 'net_grain_shared_per_agricultural_population-download', 'net_grain_shared_per_agricultural_population-metadownload'], ['Surplus', 'surplus', 'surplus-create', 'surplus-download', 'surplus-metadownload'], ['Gdp per capita', 'gdp_per_capitas', 'gdp_per_capita-create', 'gdp_per_capita-download', 'gdp_per_capita-metadownload']], 'State Finances': [['Military expense', 'military_expenses', 'military_expense-create', 'military_expense-download', 'military_expense-metadownload'], ['Silver inflow', 'silver_inflows', 'silver_inflow-create', 'silver_inflow-download', 'silver_inflow-metadownload'], ['Silver stock', 'silver_stocks', 'silver_stock-create', 'silver_stock-download', 'silver_stock-metadownload']]}, 'Social Complexity Variables': {'Social Scale': [['Total population', 'total_populations', 'total_population-create', 'total_population-download', 'total_population-metadownload']]}, 'Well Being': {'Biological Well-Being': [['Drought event', 'drought_events', 'drought_event-create', 'drought_event-download', 'drought_event-metadownload'], ['Locust event', 'locust_events', 'locust_event-create', 'locust_event-download', 'locust_event-metadownload'], ['Socioeconomic turmoil event', 'socioeconomic_turmoil_events', 'socioeconomic_turmoil_event-create', 'socioeconomic_turmoil_event-download', 'socioeconomic_turmoil_event-metadownload'], ['Crop failure event', 'crop_failure_events', 'crop_failure_event-create', 'crop_failure_event-download', 'crop_failure_event-metadownload'], ['Famine event', 'famine_events', 'famine_event-create', 'famine_event-download', 'famine_event-metadownload'], ['Disease outbreak', 'disease_outbreaks', 'disease_outbreak-create', 'disease_outbreak-download', 'disease_outbreak-metadownload']]}}
+    my_sections_dic = {
+        #'Other_Sections': {'Other_Subsections': []}, 'Conflict Variables': {'External Conflicts Subsection': [['External conflict', 'external_conflicts', 'external_conflict-create', 'external_conflict-download', 'external_conflict-metadownload'], ['External conflict side', 'external_conflict_sides', 'external_conflict_side-create', 'external_conflict_side-download', 'external_conflict_side-metadownload'], ['Human_sacrifice', 'human_sacrifices', 'human_sacrifice-create', 'human_sacrifice-download', 'human_sacrifice-metadownload']], 'Internal Conflicts Subsection': [['Internal conflict', 'internal_conflicts', 'internal_conflict-create', 'internal_conflict-download', 'internal_conflict-metadownload']]},
+                        'Economy Variables': {'Productivity': [['Agricultural population', 'agricultural_populations', 'agricultural_population-create', 'agricultural_population-download', 'agricultural_population-metadownload'], ['Arable land', 'arable_lands', 'arable_land-create', 'arable_land-download', 'arable_land-metadownload'], ['Arable land per farmer', 'arable_land_per_farmers', 'arable_land_per_farmer-create', 'arable_land_per_farmer-download', 'arable_land_per_farmer-metadownload'], ['Gross grain shared per agricultural population', 'gross_grain_shared_per_agricultural_populations', 'gross_grain_shared_per_agricultural_population-create', 'gross_grain_shared_per_agricultural_population-download', 'gross_grain_shared_per_agricultural_population-metadownload'], ['Net grain shared per agricultural population', 'net_grain_shared_per_agricultural_populations', 'net_grain_shared_per_agricultural_population-create', 'net_grain_shared_per_agricultural_population-download', 'net_grain_shared_per_agricultural_population-metadownload'], ['Surplus', 'surplus', 'surplus-create', 'surplus-download', 'surplus-metadownload'], ['Gdp per capita', 'gdp_per_capitas', 'gdp_per_capita-create', 'gdp_per_capita-download', 'gdp_per_capita-metadownload']], 'State Finances': [['Military expense', 'military_expenses', 'military_expense-create', 'military_expense-download', 'military_expense-metadownload'], ['Silver inflow', 'silver_inflows', 'silver_inflow-create', 'silver_inflow-download', 'silver_inflow-metadownload'], ['Silver stock', 'silver_stocks', 'silver_stock-create', 'silver_stock-download', 'silver_stock-metadownload']]}, 'Social Complexity Variables': {'Social Scale': [['Total population', 'total_populations', 'total_population-create', 'total_population-download', 'total_population-metadownload']]}, 'Well Being': {'Biological Well-Being': [['Drought event', 'drought_events', 'drought_event-create', 'drought_event-download', 'drought_event-metadownload'], ['Locust event', 'locust_events', 'locust_event-create', 'locust_event-download', 'locust_event-metadownload'], ['Socioeconomic turmoil event', 'socioeconomic_turmoil_events', 'socioeconomic_turmoil_event-create', 'socioeconomic_turmoil_event-download', 'socioeconomic_turmoil_event-metadownload'], ['Crop failure event', 'crop_failure_events', 'crop_failure_event-create', 'crop_failure_event-download', 'crop_failure_event-metadownload'], ['Famine event', 'famine_events', 'famine_event-create', 'famine_event-download', 'famine_event-metadownload'], ['Disease outbreak', 'disease_outbreaks', 'disease_outbreak-create', 'disease_outbreak-download', 'disease_outbreak-metadownload']]}}
 
 
 

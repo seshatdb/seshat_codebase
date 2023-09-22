@@ -48,7 +48,7 @@
         <hr>
         {% endif %}
         <div class="row">
-          <div class="col-md-3 mb-2">
+          <div class="col-md-4 mb-2">
             {{ form.polity|as_crispy_field }}
           </div>
           <div class="col-md-2 mb-2">
@@ -60,25 +60,32 @@
                   <!-- Here come the extra vars -->
           {% block extra_vars %}
           {% endblock extra_vars %}
-          <div class="col-md-2 mb-2">
-            <fieldset>
-                <legend class="h6">{{form.tag.label}}</legend>
-                {% for radio in form.tag %}
-                <div class="form-check">
-                    <label for="{{ radio.id_for_label }}">
-                        <span class="radio">{{ radio.tag }}</span>
-                        {{ radio.choice_label }}
-                    </label>
-                </div>
-                {% endfor %}
-            </fieldset>
-          </div>
-            <div class="col-md-4 mb-2">
-                {{ form.is_disputed|as_crispy_field }}
-                {{ form.is_uncertain|as_crispy_field }}
-                {{ form.expert_reviewed|as_crispy_field }}
-                {{ form.drb_reviewed|as_crispy_field }}
-            </div>
+          {% block extra_vars2 %}
+          {% endblock extra_vars2 %}
+
+        </div>
+        <div class="row">
+                <div class="col-md-3 mb-2">
+                    <fieldset>
+                        <legend class="h6">{{form.tag.label}}</legend>
+                        {% for radio in form.tag %}
+                        <div class="form-check">
+                            <label for="{{ radio.id_for_label }}">
+                                <span class="radio">{{ radio.tag }}</span>
+                                {{ radio.choice_label }}
+                            </label>
+                        </div>
+                        {% endfor %}
+                    </fieldset>
+                  </div>
+                  <div class="col-md-3 mb-2">
+
+                        {{ form.is_disputed|as_crispy_field }}
+                        {{ form.is_uncertain|as_crispy_field }}
+                        {{ form.expert_reviewed|as_crispy_field }}
+                        {{ form.drb_reviewed|as_crispy_field }}
+                    </div>
+
         </div>
 
         <div class="row">

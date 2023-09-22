@@ -161,8 +161,8 @@
         <table id="table_id" class="table align-middle table-hover table-striped table-bordered" style="padding: 0.25 rem !important;">
             <thead>
               <tr>
-                <th scope="col" class="text-secondary">#</th>
-                <th scope="col" style="text-align: center" class="fw-light"> 
+                <th scope="col" style="text-align: center"  class="text-secondary">#</th>
+                <th scope="col" style="text-align: left" class="fw-light"> 
                     Polity </th>
                 <th scope="col" style="text-align: center" class="fw-light"> Year(s)</th>
                 <!-- headings for extra vars -->
@@ -176,18 +176,19 @@
                 {% for obj in object_list %}
                     <tr>
                     <div>
-                    <td class="text-secondary" scope="row">{{ forloop.counter0|add:page_obj.start_index }}</td>
+                    <td class="text-secondary" style="text-align: center"  scope="row">{{ forloop.counter0|add:page_obj.start_index }}</td>
                     {% if obj.polity %}
-                    <td style="text-align: center;">
+                    <td style="text-align: left;">
                         {% if obj.polity.long_name %}
-                        <h6>
-                            (<a href="{% url 'polity-detail-main' obj.polity.id %}">{{ obj.polity.long_name }}</a>)
-                        </h6>
+                        <span class="h5">
+                            <a href="{% url 'polity-detail-main' obj.polity.id %}">{{ obj.polity.long_name }}</a>
+                        </span>
                         {% else %}
-                        <h6>
-                            (<a href="{% url 'polity-detail-main' obj.polity.id %}">{{ obj.polity.name }}</a>)
-                        </h6>
+                        <span class="h5">
+                            <a href="{% url 'polity-detail-main' obj.polity.id %}">{{ obj.polity.name }}</a>
+                        </span>
                         {% endif %}
+                        (<span class="h6">{{ obj.polity.new_name }}</span>)
                     </td>
                     {% else %}
                     <td style="text-align: center;">-</td>

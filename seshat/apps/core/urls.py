@@ -5,7 +5,12 @@ from . import views
 urlpatterns = [path('', views.seshatindex, name='seshat-index'),]
 urlpatterns += [path('methods/', views.seshatmethods, name='seshat-methods'),]
 urlpatterns += [path('whoweare/', views.seshatwhoweare, name='seshat-whoweare'),]
+urlpatterns += [path('olddownloads/', views.seshatolddownloads, name='seshat-olddownloads'),]
 urlpatterns += [path('acknowledgements/', views.seshatacknowledgements, name='seshat-acknowledgements'),]
+urlpatterns += [path('download_oldcsv/<str:file_name>/', views.download_oldcsv, name='download_oldcsv'),]
+
+    
+
 
 urlpatterns += [path('polity_filter_options/', views.polity_filter_options_view, name='polity_filter_options'),]
 

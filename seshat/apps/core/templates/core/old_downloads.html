@@ -1,0 +1,180 @@
+{% extends "core/seshat-base.html" %}
+
+<!-- NavBar -->
+{% block content-home %}
+
+
+<div class="container pt-4">
+<h2>Seshat Data</h2>
+
+<p>The Seshat team makes our data publicly available in three different ways.</p>
+
+<p>First, we deposit in open access all data on which analyses are based at the time of publication of the article that reports these analyses. These &ldquo;replication datasets&rdquo; are published as downloadable spreadsheets. In many cases we post preprints of articles on SoxArXiv accompanied by the data and analysis scripts.&nbsp;</p>
+
+<p>Second, we periodically publish &ldquo;snapshots&rdquo; of the Seshat Databank for well-curated variables and polities. The current such data release is Equinox-2020, which presents data in both browsable format and through a spreadsheet. Whereas the spreadsheet contains data in computer-readable form suitable for statistical analyses, Seshat Data Browser also includes narrative paragraphs, explaining the codes, as well as references.&nbsp;Equinox-2020 is forward looking and brings together all data upon which the next series of forthcoming publications is based. This approach allows our collaborators and other domain experts to browse our data and suggest improvements.</p>
+
+<p>Third, we are in the process of constructing a triple store that will house the Seshat data. Once this process is completed, we will make our data available in the RDF format. We will also continue the current practice of making data available in browsable format and as downloadable spreadsheets.</p>
+
+<h2>Data Browser Releases</h2>
+
+<table class="table align-middle table-hover">
+    <tbody>
+        <tr>
+            <th>Date</th>
+            <th>Download</th>
+        </tr>
+        <tr>
+            <td>2017-04-10</td>
+            <td>Web-release only - no downloads</td>
+        </tr>
+        <tr>
+            <td>2018-04-02</td>
+            <td>2018 Dataset Release - Social Complexity variables. Formats: RDF (Turtle), CSV (Archived, available on request).</td>
+        </tr>
+        <tr>
+            <td>2020-03-20</td>
+            <td>&ldquo;Equinox-2020&rdquo; Dataset Release - General, Social Complexity, Warfare, and Religion variables.</td>
+        </tr>
+        <tr>
+            <td>2020-05-18</td>
+            <td>&quot;Equinox-2020&quot; Dataset Update - Minor issues fixed.</td>
+        </tr>
+        <tr>
+            <td>2020-10-23</td>
+            <td>&quot;Equinox-2020&quot; Dataset Update - Minor issues fixed.</td>
+        </tr>
+        <tr>
+            <td>2021-3-29</td>
+            <td>&quot;Equinox-2020&quot; Dataset Update -&nbsp;Minor issues fixed.</td>
+        </tr>
+        <tr>
+            <td>2021-8-03</td>
+            <td>&quot;Equinox-2020&quot; Dataset Update -&nbsp;Minor updates</td>
+        </tr>
+        <tr>
+            <td>2021-10-12</td>
+            <td>&quot;Equinox-2020&quot; Dataset - Religion variables updated.</td>
+        </tr>
+        <tr>
+            <td>2021-12-14</td>
+            <td>&quot;Equinox-2020&quot; Dataset - Minor updates.&nbsp;Format: <a href="{% url 'download_oldcsv' file_name='Equinox2020.05.2023.xlsx' %}">CSV</a>. Definitions: <a href="http://seshatdatabank.info/browser/Equinox_Code_Book">Equinox Code Book</a>.&nbsp;</td>
+        </tr>
+    </tbody>
+</table>
+
+<h3 class="pt-3">Attribution &amp; Licensing</h3>
+
+<div class="border border-success rounded  p-2">
+<p style="font-weight: 400; text-align: left;"><strong>Please include the following text in any publication using these data:</strong></p>
+
+<p style="font-weight: 400;">This research employed data from the Seshat Databank (<a data-saferedirecturl="https://www.google.com/url?hl=en&amp;q=http://seshatdatabank.info&amp;source=gmail&amp;ust=1514248061829000&amp;usg=AFQjCNFtVhmvreXc3p_D1YWNo0k-TBgP1A" href="http://seshatdatabank.info/">seshatdatabank.info</a>) under&nbsp;<a data-saferedirecturl="https://www.google.com/url?hl=en&amp;q=https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode&amp;source=gmail&amp;ust=1514248061829000&amp;usg=AFQjCNGRXwdBW5a7mZQfwjyqf4XpjZYQvQ" href="https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode">Creative Commons Attribution Non-Commercial (CC By-NC SA)</a>&nbsp;licensing.&nbsp;The Equinox dataset is an openly accessible file stored on Zenodo under the doi:&nbsp;<a data-saferedirecturl="https://www.google.com/url?q=https://doi.org/10.5281/zenodo.6642229&amp;source=gmail&amp;ust=1661360751719000&amp;usg=AOvVaw1nXW5kX8q_5n66qemtdswz" href="https://doi.org/10.5281/zenodo.6642229" rel="noreferrer" target="_blank">https://doi.org/10.5281/zenodo.6642229</a>.</p>
+
+<p style="font-weight: 400;"><strong>and cite:</strong></p>
+
+<p style="font-weight: 400;">Benam, M. et al. (2022). Seshat Data: Equinox Packaged Data (1.0) [Data set]. Zenodo. <a data-saferedirecturl="https://www.google.com/url?q=https://doi.org/10.5281/zenodo.6642229&amp;source=gmail&amp;ust=1661360751719000&amp;usg=AOvVaw1nXW5kX8q_5n66qemtdswz" href="https://doi.org/10.5281/zenodo.6642229" rel="noreferrer" target="_blank">https://doi.org/10.5281/zenodo.6642229</a></p>
+
+<p style="font-weight: 400;">Turchin P. et al. 2015. Seshat: The Global History Databank.&nbsp;<em>Cliodynamics&nbsp;</em>6(1):77&ndash;107.&nbsp;<a data-saferedirecturl="https://www.google.com/url?hl=en&amp;q=https://doi.org/10.21237/C7clio6127917&amp;source=gmail&amp;ust=1514248061829000&amp;usg=AFQjCNFcxD2850lPanAtU3C6EBCPSDeVZw" href="https://doi.org/10.21237/C7clio6127917">https://doi.org/10.21237/C7clio6127917</a></p>
+
+<p style="font-weight: 400;">Turchin P. et al. 2017. Quantitative historical analysis uncovers a single dimension of complexity that structures global variation in human social organization.&nbsp;<em>PNAS</em>.&nbsp;<a data-saferedirecturl="https://www.google.com/url?hl=en&amp;q=http://www.pnas.org/content/early/2017/12/20/1708800115.full&amp;source=gmail&amp;ust=1514248061829000&amp;usg=AFQjCNHph_mKvLf_fz_Cq8aTIzgCJU1OdA" href="http://www.pnas.org/content/early/2017/12/20/1708800115.full">http://www.pnas.org/content/early/2017/12/20/1708800115.full</a></p>
+
+<p style="font-weight: 400;"><strong>The views and conclusions contained in this document are those of the authors and should not be interpreted as representing the official positions, either expressed or implied, of the Seshat Databank, its collaborative scholarly community, or the Evolution Institute.</strong></p>
+</div>
+
+<p class="body-copy"></p>
+
+<h2>Replication Datasets</h2>
+
+<p>The following downloadable datasets are meant to accompany specific published articles, to provide a &#39;snapshot&#39; of the data used in analyses at the time of writing. They are free to use for any non-commercial, research purposes under a&nbsp;<a data-saferedirecturl="https://www.google.com/url?hl=en&amp;q=https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode&amp;source=gmail&amp;ust=1514248061829000&amp;usg=AFQjCNGRXwdBW5a7mZQfwjyqf4XpjZYQvQ" href="https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode">Creative Commons Attribution Non-Commercial (CC By-NC SA)</a>&nbsp;license.</p>
+
+<p>The views and conclusions contained in the any document utilizing these public data are those of the authors and should not be interpreted as representing the official positions, either expressed or implied, of the Seshat Databank, its collaborative scholarly community, or any of the affiliated research centres.</p>
+
+<h3 class="pt-2"><em>Social Complexity Dataset</em></h3>
+
+<p>Download the Social Complexity dataset <a href="{% url 'download_oldcsv' file_name='sc_dataset.12.2017.xlsx' %}"class="fw-bold">here</a></p>
+
+<p>Please include the following text in any publication using these data:&nbsp;</p>
+
+<p><em>This research employed data from the Seshat Databank (seshatdatabank.info) under Creative Commons Attribution Non-Commercial (CC By-NC SA) licensing.</em></p>
+
+<p>And cite:&nbsp;</p>
+
+<ul>
+    <li>Turchin, P., R. Brennan, T. E. Currie, K. Feeney, P. Fran&ccedil;ois, [&hellip;] H. Whitehouse. 2015. &ldquo;Seshat: The Global History Databank.&rdquo; Cliodynamics 6(1): 77&ndash;107. https://doi.org/10.21237/C7clio6127917.</li>
+    <li>Turchin, P., T. E. Currie, H. Whitehouse, P. Fran&ccedil;ois, K. Feeney, &nbsp;[&hellip;] C. Spencer. 2017. &ldquo;Quantitative historical analysis uncovers a single dimension of complexity that structures global variation in human social organization.&rdquo; PNAS. http://www.pnas.org/content/early/2017/12/20/1708800115.full.<br />
+    &nbsp;</li>
+</ul>
+
+<h3 class="pt-2"><em>Agricultural Productivity Dataset</em></h3>
+
+<p>Download the Agri dataset <a href="{% url 'download_oldcsv' file_name='agri_dataset.07.2020.csv' %}"class="fw-bold">here</a></p>
+
+<p>Please include the following text in any publication using these data:&nbsp;</p>
+
+<p><em>This research employed data from the Seshat Databank (seshatdatabank.info) under Creative Commons Attribution Non-Commercial (CC By-NC SA) licensing.</em></p>
+
+<p>And cite:&nbsp;</p>
+
+<ul>
+    <li>Turchin, P., R. Brennan, T. E. Currie, K. Feeney, P. Fran&ccedil;ois, [&hellip;] H. Whitehouse. 2015. &ldquo;Seshat: The Global History Databank.&rdquo; Cliodynamics 6(1): 77&ndash;107. https://doi.org/10.21237/C7clio6127917.</li>
+    <li>Turchin, Peter, Thomas Currie, Christina Collins, Jill Levine, Oluwole Oyebamiji, Neil R. Edwards, Philip B. Holden, et al. &ldquo;An Integrative Approach to Estimating Productivity in Past Societies Using Seshat: Global History Databank:&rdquo; The Holocene 31, no. 6 (2021): 1055&ndash;65. https://doi.org/10.1177/0959683621994644.&nbsp;</li>
+</ul>
+
+<p></p>
+
+<h3 class="pt-2"><em>Axial Age Dataset</em></h3>
+
+<p>Download the Axial Age dataset <a href="{% url 'download_oldcsv' file_name='axial_dataset.05.2018.csv' %}"class="fw-bold">here</a></p>
+
+<p>Please include the following text in any publication using these data:&nbsp;</p>
+
+<p><em>This research employed data from the Seshat Databank (seshatdatabank.info) under Creative Commons Attribution Non-Commercial (CC By-NC SA) licensing.</em></p>
+
+<p>And cite:&nbsp;</p>
+
+<ul>
+    <li>Turchin, P., R. Brennan, T. E. Currie, K. Feeney, P. Fran&ccedil;ois, [&hellip;] H. Whitehouse. 2015. &ldquo;Seshat: The Global History Databank.&rdquo; Cliodynamics 6(1): 77&ndash;107. https://doi.org/10.21237/C7clio6127917.</li>
+    <li>Mullins, D., D. Hoyer, [&hellip;] P. Turchin. Preprint. &ldquo;Mullins, D., D. Hoyer, [&hellip;] P. Turchin. 2018. &ldquo;A Systematic Assessment of &lsquo;Axial Age&rsquo; Proposals Using Global Comparative Historical Evidence.&rdquo; American Sociological Review 83(3): 596&ndash;626. https://doi.org/10.1177/0003122418772567.</li>
+</ul>
+
+<p></p>
+
+<h3 class="pt-2"><em>Moralizing Religion Dataset</em></h3>
+
+<p>Download the Moralizing Religion dataset <a href="{% url 'download_oldcsv' file_name='mr_dataset.04.2021.csv' %}"class="fw-bold">here</a></p>
+
+<p>Download the Moralizing Religion &#39;Retake&#39;&nbsp; dataset <a href="{% url 'download_oldcsv' file_name='mr_replication_dataset.02.2020.csv' %}"class="fw-bold">here</a></p>
+
+<p><em>&nbsp; &nbsp; &nbsp;*Archived versions of our moralizing religion data are available by request.&nbsp;</em></p>
+
+<p>Please include the following text in any publication using these data:&nbsp;</p>
+
+<p><em>This research employed data from the Seshat Databank (seshatdatabank.info) under Creative Commons Attribution Non-Commercial (CC By-NC SA) licensing.</em></p>
+
+<p>And cite:&nbsp;</p>
+
+<ul>
+    <li>Turchin, P., R. Brennan, T. E. Currie, K. Feeney, P. Fran&ccedil;ois, [&hellip;] H. Whitehouse. 2015. &ldquo;Seshat: The Global History Databank.&rdquo; Cliodynamics 6(1): 77&ndash;107. https://doi.org/10.21237/C7clio6127917.</li>
+    <li>Turchin, P., H. Whitehouse, J. Larson, et al. 2022. &ldquo;Explaining the Rise of Moralizing Religions: A Test of Competing Hypotheses Using the Seshat Databank.&rdquo; Religion Brain &amp; Behavior. doi: 10.1080/2153599X.2022.2065345.</li>
+    <li>Whitehouse et al. 2022. &ldquo;Testing the Big Gods hypothesis with global historical data: a review and &ldquo;retake&rdquo;.&rdquo; Religion Brain &amp; Behavior. doi: 10.1080/2153599X.2022.2074085</li>
+</ul>
+
+<p></p>
+
+<h3 class="pt-2"><em>Consequences of Crisis Dataset</em></h3>
+
+<p>Download the Consequences of Crisis dataset <a href="{% url 'download_oldcsv' file_name='CrisisConsequencesData_NavigatingPolycrisis_2023.03.csv' %}"class="fw-bold">here</a></p>
+
+<p>Please include the following text in any publication using these data:&nbsp;</p>
+
+<p><em>This research employed data from the Seshat Databank (seshatdatabank.info) under Creative Commons Attribution Non-Commercial (CC By-NC SA) licensing.</em></p>
+
+<p>And cite:&nbsp;</p>
+
+<ul>
+    <li>Turchin, P., R. Brennan, T. E. Currie, K. Feeney, P. Fran&ccedil;ois, [&hellip;] H. Whitehouse. 2015. &ldquo;Seshat: The Global History Databank.&rdquo; Cliodynamics 6(1): 77&ndash;107. https://doi.org/10.21237/C7clio6127917.</li>
+    <li>Hoyer, Daniel, James S Bennett, Samantha Holder, Robert Howard, Jill Levine, Peter Turchin, Jenny Reddish, Majid Benam, Francis Ludlow, and Gary M Feinman. (Forthcoming).&nbsp;&ldquo;Navigating Polycrisis: Long-Run Socio-Cultural Factors Shape Response to Changing Climate.&rdquo;&nbsp;<i>Philosophical Transactions of the Royal Society B</i>&nbsp;Special Issue: Climate change adaptation needs a science of culture, edited by Anne C Pisor, J. Stephen Lansing, and Kate Magargal..&nbsp;<a href="https://doi.org/10.1098/rstb.2022.0402">https://doi.org/10.1098/rstb.2022.0402</a>.</li>
+</ul>
+
+<p></p>
+</div>
+{% endblock content-home %}

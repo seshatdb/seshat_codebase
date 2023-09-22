@@ -1,20 +1,31 @@
-<section id="top-bar" class="p-2">
+{% load static %}
+
+<section id="top-bar" class="p-2 navbar-brown ">
     <div class="container">
         <div class="row">
-            <div class="col-md-4">
-                <i class="fa fa-envelope-open"></i> <span style="font-family: 'Lobster', serif;"> benam@csh.ac.at </span>
+            <div class="col-md-1 py-2">
+                <span>
+                    <a class="navbar-brand" href="{% url 'seshat-index' %}"> <img style="width:170px" src="{% static 'SeshatLogo2.png' %}" class="seshat-logo img-thumbnail rounded" alt="No Seshat Logo found."></a> 
+                </span>
             </div>
-            <div class="col-md-4 text-center">
-                <a href = "https://twitter.com/seshatdatabank" style="color:#1DA1F2;"> <i class="fab fa-twitter"> </i></a>
-                <a href = "https://www.facebook.com/seshatdatabank/" style="color:#3b5998;"> <i class="fab fa-facebook"> </i></a>
+            <div class="col-md-7 py-2">
+               <div class="h3 text-light">
+                Seshat:                
+            </div>
+                <div class="h5 text-light">
+Global History Databank
+               </div>
+                
+
+                 
             </div>
             <div class="col-md-4 text-end">
                 {% if user.is_authenticated %}
-                    <a href="{% url 'account_logout' %}" class="pe-4"><strong>Logout </strong></a>
-                    <a href="{% url 'account_login' %}" class="pe-2 text-success"> <i class="fas fa-user-check"></i> &nbsp; Logged in as: <strong> {{ user.email }} </strong></a>
+                    <a href="{% url 'account_logout' %}" class="pe-4  fw-light" style="color:rgba(255,255,255,.55)"><strong>Logout </strong></a>
+                    <a href="{% url 'account_login' %}" class="pe-2 text-light"> <i class="fas fa-user-check text-light"></i> &nbsp; Logged in as: <strong> {{ user.email }} </strong></a>
                 {% else %}
-                    <a href="{% url 'account_signup' %}" class="pe-4"><strong> Sign Up <i class="fas fa-user-plus"></i> </strong></a>
-                    <a href="{% url 'account_login' %}" class="pe-2"><strong>Login <i class="fas fa-sign-in-alt"></i></strong></a>
+                    <a href="{% url 'account_signup' %}" class="pe-4 text-warning"><strong> Sign Up <i class="fas fa-user-plus"></i> </strong></a>
+                    <a href="{% url 'account_login' %}" class="pe-2 text-warning"><strong>Login <i class="fas fa-sign-in-alt"></i></strong></a>
                 {% endif %}
 
             </div>

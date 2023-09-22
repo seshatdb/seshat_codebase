@@ -1,4 +1,6 @@
 from django.urls import path, include
+######EMAIL_CONFIRMATION_BRANCH
+#from .views import CustomRegistrationView
 
 #from django.conf.urls import url
 
@@ -9,6 +11,9 @@ urlpatterns = [
     path('', views.accounts, name='accounts'),
     path('accounts/', include('django.contrib.auth.urls')),
     path('userprofile/', views.profile, name='user-profile'),
+    ######EMAIL_CONFIRMATION_BRANCH
+    #path('accounts/register/', CustomRegistrationView.as_view(), name='account_signup'),
+
 ]
 
 urlpatterns += [

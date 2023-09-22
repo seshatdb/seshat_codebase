@@ -1,4 +1,5 @@
 from pathlib import Path
+######EMAIL_CONFIRMATION_BRANCH is the keyword that needs to be searched
 
 import os
 
@@ -39,13 +40,6 @@ else:
 ALLOWED_HOSTS = ['seshatdb.herokuapp.com', '127.0.0.1',
                  'majidbenam.com', 'www.majidbenam.com', 'https://majidbenam.com']
 
-AUTHENTICATION_BACKENDS = [
-    # Needed to login by username in Django admin, regardless of `allauth`
-    'django.contrib.auth.backends.ModelBackend',
-
-    # `allauth` specific authentication methods, such as login by e-mail
-    'allauth.account.auth_backends.AuthenticationBackend',
-]
 
 INSTALLED_APPS = [
     "seshat.apps.accounts",
@@ -81,16 +75,35 @@ INSTALLED_APPS = [
 
 ]
 
+AUTHENTICATION_BACKENDS = [
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+
+    # `allauth` specific authentication methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',
+    #'allauth.socialaccount.auth_backends.AuthenticationBackend',
+
+]
+
 # all-auth
 LOGIN_REDIRECT_URL = 'seshat-index'
 ACCOUNT_LOGOUT_REDIRECT = 'seshat-index'
 SITE_ID = 2
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+######EMAIL_CONFIRMATION_BRANCH is the keyword that needs to be searched
+#EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
 
 #ACCOUNT_USER_MODEL_USERNAME_FIELD = None
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
+
+######EMAIL_CONFIRMATION_BRANCH is the keyword that needs to be searched
+# ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+# ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 1 
+# ACCOUNT_EMAIL_SUBJECT_PREFIX = '[Django Seshat] '  # Customize email subjects
+# ACCOUNT_DEFAULT_HTTP_PROTOCOL = 'http' 
 
 #SOCIALACCOUNT_AUTO_SIGNUP = False
 
@@ -229,13 +242,21 @@ USE_TZ = True
 
 LOCALE_PATHS = [BASE_DIR / "locale"]
 
-# Email config:
+# Email config BACKUP:
 EMAIL_FROM_USER = config('EMAIL_FROM_USER')
 EMAIL_HOST = config('EMAIL_HOST')
 EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
+
+######EMAIL_CONFIRMATION_BRANCH is the keyword that needs to be searched
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_PORT = 587
+# EMAIL_USE_TLS = True
+# EMAIL_HOST_USER = 'xxxx.xxx@gmail.com'
+# EMAIL_HOST_PASSWORD = 'xxxx xxxx xxxx xxxx'
 
 
 # ==============================================================================

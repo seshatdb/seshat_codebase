@@ -153,3 +153,18 @@ class Seshat_taskCreate(PermissionRequiredMixin, CreateView):
 class Seshat_taskDetailView(generic.DetailView):
     model = Seshat_Task
     template_name = "registration/seshat_task/seshat_task_detail.html"
+
+######EMAIL_CONFIRMATION_BRANCH
+# from allauth.account.views import SignupView
+# from allauth.account.models import EmailAddress
+
+# class CustomRegistrationView(SignupView):
+#     def form_valid(self, form):
+#         # Call the parent class's form_valid method
+#         response = super().form_valid(form)
+
+#         # Send a verification email to the user
+#         email_address = EmailAddress.objects.get(user=self.user)
+#         email_address.send_confirmation(self.request)
+
+#         return response

@@ -16,12 +16,17 @@ class CustomUserAdmin(admin.ModelAdmin):
     inlines = (ProfileInline, )
 
     list_display = ('username', 'email', 'first_name',
-                    'last_name', 'is_staff', 'get_location')
+                    'last_name', 'is_staff', 'get_location','get_email_confirmed')
     list_select_related = ('profile', )
 
     def get_location(self, instance):
         return instance.profile.location
     get_location.short_description = 'Location'
+
+    def get_email_confirmed(self, instance):
+        return instance.profile.email_confirmed
+    get_email_confirmed.boolean = True  # Display as a checkbox
+    get_email_confirmed.short_description = 'Email Confirmed'
 
     def get_inline_instances(self, request, obj=None):
         if not obj:

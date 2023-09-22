@@ -36,7 +36,7 @@ text-secondary
 text-primary
 {% else %}
 text-success
-{% endif %} fw-normal" style="text-align: center;">{{ obj.gdp_per_capita }}
+{% endif %} fw-normal" style="text-align: center;">{{ obj.gdp_per_capita|floatformat:"2" }}
 </td>
 {% endblock extra_vars_list %}
 
