@@ -3685,7 +3685,7 @@ def download_csv_all_general(request):
                          obj.peak_year_from, obj.peak_year_to, obj.year_from, obj.year_to, obj.get_tag_display(), obj.is_disputed, obj.is_uncertain,
                          obj.expert_reviewed,])
             else:
-                if obj.show_value() == "NO_VALUE_ON_WIKI" or obj.show_value() == "NO_VALID_VALUE":
+                if obj.show_value() == "NO_VALUE_ON_WIKI" or obj.show_value() == "NO_VALID_VALUE" or obj.show_value() == "N O_VALUE_ON_WIKI":
                     continue
                 else:
                     writer.writerow(['General Variables',None , obj.polity.long_name, obj.polity.new_name, obj.polity.name, obj.clean_name()[7:],

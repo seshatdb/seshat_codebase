@@ -510,10 +510,8 @@ class Polity_research_assistant(SeshatCommon):
         return "Polity Research Assistant"
     
     def show_value(self):
-        if self.polity_ra and self.polity_ra.last_name != 'O_VALUE_ON_WIKI':
+        if self.polity_ra:
             return self.polity_ra
-        elif self.polity_ra:
-            return "NO_VALUE_ON_WIKI"
         else:
             return " - "
         
@@ -1357,10 +1355,8 @@ class Polity_expert(SeshatCommon):
         return "Polity Expert"
     
     def show_value(self):
-        if self.expert and self.expert.last_name != 'O_VALUE_ON_WIKI':
+        if self.expert:
             return self.expert
-        elif self.expert:
-            return "NO_VALUE_ON_WIKI"
         else:
             return " - "
         
