@@ -3,6 +3,7 @@ from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 
 from .models import Profile, Seshat_Expert, Seshat_Task
+######EMAIL_CONFIRMATION_BRANCH is the keyword that needs to be searched
 
 
 class ProfileInline(admin.StackedInline):
