@@ -15,7 +15,7 @@ a {
 } */
 
 label {
-    color: rgba(var(--bs-success-rgb));
+    color: #782823;
     font-weight: normal;
     display: inline-block;
 }
@@ -126,6 +126,30 @@ hr.bg-fading {
     /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
     background: linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593);
     }
+
+    .gradient-custom-light-left {
+        /* fallback for old browsers */
+        background: #f0e6e6;
+    
+        /* Chrome 10-25, Safari 5.1-6 */
+        background: -webkit-linear-gradient(to right, #fffdf2,  #f0e6e6);
+    
+        /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+        background: linear-gradient(to right, #fffdf2,  #f0e6e6);
+    }
+
+    .gradient-custom-light-right {
+        /* fallback for old browsers */
+        background: #f0e6e6;
+    
+        /* Chrome 10-25, Safari 5.1-6 */
+        background: -webkit-linear-gradient(to right, #f0e6e6,  #fffdf2);
+    
+        /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+        background: linear-gradient(to right,#f0e6e6, #fffdf2);
+    }
+    
+    
     
     @media (min-width: 768px) {
     .gradient-form {
@@ -170,4 +194,8 @@ hr.bg-fading {
 
 .navbar-brown {
     background-color: #782823;
+}
+
+.text-darkorange {
+    color: #FF8C00;
 }

@@ -1,9 +1,19 @@
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, AbstractUser
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.urls import reverse
+from django.core.exceptions import ValidationError
+from .custom_validators import validate_email_with_dots  # Import your custom validator
+from django.core.validators import EmailValidator
 
+
+
+# class CustomUser(AbstractUser):
+#     email = models.EmailField(
+#         unique=True,  # Make sure emails are unique
+#         validators=[validate_email_with_dots, EmailValidator(message="Enter a valid email address.")],
+#     )
 
 class Profile(models.Model):
     SESHATADMIN = 1

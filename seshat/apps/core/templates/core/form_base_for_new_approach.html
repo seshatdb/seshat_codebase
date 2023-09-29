@@ -2,6 +2,32 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
+<style>
+    .form-check-inline {
+        display: flex;
+        flex-direction: row;
+        align-items: center; /* Center vertically */
+        margin-right: 10px; /* Add some spacing between radio buttons */
+    }
+    .form-check-label {
+        display: flex;
+        align-items: center;
+        margin-right: 15px; /* Add spacing between radio buttons */
+    }
+    
+    .form-check-label input[type="radio"] {
+        margin-right: 5px; /* Add spacing between radio circle and label */
+    }
+
+    /* Hide the up and down arrows */
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button,
+    input[type="number"] {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+    
+</style>
 <!-- form-row and form-group etc are removed in Bootstrap 5 -->
 <div class="container mt-3">
     <form action="" method="post">
@@ -10,7 +36,14 @@
 
             <div class="row d-flex align-items-center">
                 <div class="col-md-12">
-                    <h6 class="lead-2 text-secondary">Enter new data for:</h6>
+                    <h6><span class="text-secondary">Section:</span>  {{var_section}} / 
+                        {% if var_subsection %}
+                        {{var_subsection}}
+                        {% else %}
+                            &nbsp;- 
+                        {% endif %}
+                    </h6>
+                    <h6 class="lead-2 text-success pt-1">Enter data for:</h6>
                     <h6><span class="display-6">{{ myvar }}</span></h6>
                     <h6 class="lead-2 text-secondary">{{my_exp}}</h6>
                 </div>
@@ -53,28 +86,44 @@
                   <!-- Here come the extra vars -->
           {% block extra_vars %}
           {% endblock extra_vars %}
-          <div class="col-md-2 mb-2">
-            <fieldset>
-                <legend class="h6">{{form.tag.label}}</legend>
-                {% for radio in form.tag %}
-                <div class="form-check">
-                    <label for="{{ radio.id_for_label }}">
-                        <span class="radio">{{ radio.tag }}</span>
-                        {{ radio.choice_label }}
-                    </label>
-                </div>
-                {% endfor %}
-            </fieldset>
-          </div>
-            <div class="col-md-2 mb-2">
+        </div>
+        <div class="row pt-2">
+            <div class="col-md-2 mb-1">
                 {{ form.is_disputed|as_crispy_field }}
+            </div>
+            <div class="col-md-2 mb-1">
                 {{ form.is_uncertain|as_crispy_field }}
+            </div>
+            <div class="col-md-2 mb-1">
                 {{ form.expert_reviewed|as_crispy_field }}
             </div>
+            <div class="col-md-6 mb-1 pe-0">
+                <fieldset>
+                    <div class="form-check form-check-inline  justify-content-end">
+                        {% for radio in form.tag %}
+                            <label class="ps-4 pe-0 h6 form-check-label" for="{{ radio.id_for_label }}">
+                                {{ radio.tag }}
+                                <span class="badge rounded-pill px-3 py-1 border border-dark
+                                    {% if radio.choice_label == 'Evidenced' %}
+                                        bg-success
+                                    {% elif radio.choice_label == 'Inferred' %}
+                                        bg-primary 
+                                    {% elif radio.choice_label == 'Suspected' %}
+                                        bg-warning text-dark 
+                                    {% endif %}
+                                ">  
+                                    {{ radio.choice_label }}
+                                </span>
+                            </label>
+                        {% endfor %}
+                    </div>
+                </fieldset>
+            </div>
+            
         </div>
 
         <div class="row">
-            <div class="col-md-12 py-3 ps-4">
+            <div class="col-md-12 py-1 ps-2">
                     {{ form.description|as_crispy_field }}
             </div>
 

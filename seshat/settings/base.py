@@ -134,6 +134,7 @@ INTERNAL_IPS = ["127.0.0.1"]
 
 WSGI_APPLICATION = "seshat.wsgi.application"
 
+#AUTH_USER_MODEL = 'accounts.CustomUser'
 
 # ==============================================================================
 # MIDDLEWARE SETTINGS

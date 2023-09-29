@@ -19,6 +19,7 @@ urlpatterns = [
 urlpatterns += [
     path('seshat_task/create/', views.Seshat_taskCreate.as_view(),
          name="seshat_task-create"),
+    #path('signup/', views.accounts_new, name='account_signup'),
 
     # path('seshat_tasks/', views.Seshat_taskListView.as_view(), name='seshat_tasks'),
     path('seshat_task/<int:pk>', views.Seshat_taskDetailView.as_view(),

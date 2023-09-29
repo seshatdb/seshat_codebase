@@ -15,11 +15,15 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .forms import Seshat_TaskForm, ProfileForm
 from django.views import generic
 from django.http import HttpResponseRedirect
+from django.contrib.auth import login, authenticate
+
 
 
 def accounts(request):
     return HttpResponse('<h1>Hello Accounts.</h1>')
 
+def accounts_new(request):
+    return HttpResponse('<h1>Hello Aiiiiiiiccounts.</h1>')
 
 # @login_required
 # def edit_profile(request):
@@ -168,3 +172,20 @@ class Seshat_taskDetailView(generic.DetailView):
 #         email_address.send_confirmation(self.request)
 
 #         return response
+
+from .forms import CustomSignUpForm  # Import your custom form
+
+def signup(request):
+    if request.method == 'POST':
+        form = CustomSignUpForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            # Authenticate the user
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password1')
+            user = authenticate(request, username=username, password=password)
+            login(request, user)
+            return redirect('home')  # Replace 'home' with your desired redirect URL
+    else:
+        form = CustomSignUpForm()
+    return render(request, 'signup.html', {'form': form})

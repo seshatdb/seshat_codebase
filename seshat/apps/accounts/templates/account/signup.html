@@ -6,13 +6,13 @@
 {% block head_title %}{% trans "Sign In" %}{% endblock %}
 
 {% block content %}
-<section class="h-100 gradient-form">
-  <div class="container py-2 h-100">
-    <div class="row d-flex justify-content-center align-items-center h-100">
+<section class=" gradient-form pt-5">
+  <div class="container py-2">
+    <div class="row d-flex justify-content-center align-items-center">
       <div class="col-xl-10">
         <div class="card rounded-3 text-black">
-          <div class="row g-0">
-            <div class="col-lg-6">
+          <div class="row g-0 border border-3">
+            <div class="col-lg-6 gradient-custom-light" style="background-color: #fefae6">
               <div class="card-body p-md-5 mx-md-4">
                 <div class="row">
                   <div class="col-md-12">
@@ -31,61 +31,14 @@
                 {% if socialaccount_providers %}
                 <div class="socialaccount_ballot">
                   <div class="row">
-                    <div class="col-md-6">
-                      <a title="GitHub" class="socialaccount_provider github btn btn-outline-dark fw-bold fa-lg col-md-12 mb-3 my-1 disabled" href="/accounts/github/login/?process=login"> <i class="fa-brands fa-github"></i> &nbsp; GitHub</a>
-                    </div>
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                       <a title="Google" class="socialaccount_provider google btn btn-outline-danger fw-bold fa-lg col-md-12 mb-1 my-1" href="/accounts/google/login/?process=login"> <i class="fa-brands fa-google"></i>  &nbsp; Google</a>
                     </div>
                   </div>
-                  <div class="row">
-                    <div class="col-md-6">
-                        <a title="GitHub" class="socialaccount_provider github btn btn-outline-info fw-bold fa-lg col-md-12 mb-3 my-1 disabled" href="/accounts/github/login/?process=login"> <i class="fa-brands fa-twitter"></i> &nbsp; Twitter</a>
-                      </div>
-                      <div class="col-md-6">
-                        <a title="Google" class="socialaccount_provider google btn btn-outline-primary fw-bold fa-lg col-md-12 mb-1 my-1 disabled" href="/accounts/google/login/?process=login"> <i class="fa-brands fa-facebook"></i>  &nbsp; Facebook</a>
-                      </div>
-                  </div>
                   <div class="col-md-12 mt-4">
-                    <p> or, sign up the traditional way:</p>
+                    <p> or, sign up the traditional way: </p>
+                    <a class="btn btn-primary fw-bold fa-lg col-md-12 gradient-custom-2 me-3 my-2 px-5"  href="{% url 'signup' %}">{% trans "Sign Up" %}</a>
                   </div>
-
-                  <form class="signup" id="signup_form" method="POST" action="{% url 'account_signup' %}">
-                    {% csrf_token %}
-                    <div class="text-danger"> 
-                    {{ form.non_field_errors }}
-                  </div>
-
-                    <div class="mt-2 fieldWrapper">
-                      <div class="text-danger"> 
-                        {{ form.email.errors }}
-                      </div>
-                        <label for="id_email"  class="form-label fw-bold">E-mail:</label>
-                        <input type="email" name="email" class="form-control" placeholder="E-mail address" autocomplete="email" required="" id="id_email">
-                    </div>
-                    <div class="mt-2 fieldWrapper">
-                      <div class="text-danger"> 
-                        {{ form.password.errors }}
-                      </div>
-                        <label for="id_password1"  class="form-label fw-bold">Password:</label>
-                        <input type="password" name="password1" placeholder="Password" autocomplete="new-password" required=""  class="form-control" id="id_password1">
-                    </div>
-                    <div class="mt-2 fieldWrapper">
-                      <div class="text-danger"> 
-                        {{ form.password2.errors }}
-                      </div>
-                        <label for="id_password2"  class="form-label fw-bold">Password (again):</label>
-                        <input type="password" name="password2" placeholder="Password (again)" autocomplete="new-password" required="" class="form-control" id="id_password2">
-                    </div>
-                    {% if redirect_field_value %}
-                    <div>
-                      <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
-                    </div>
-                    {% endif %}
-                    <div class="col-md-12 mt-3">
-                      <button class="primaryAction btn btn-primary fw-bold fa-lg col-md-12 gradient-custom-2 mb-3 me-3 my-3 px-5"  type="submit">{% trans "Sign Up" %}</button>
-                    </div>
-                  </form>
                 </div>
                 
                 {% include "socialaccount/snippets/login_extra.html" %}
@@ -97,8 +50,8 @@
 
               </div>
             </div>
-            <div class="col-lg-6 d-flex align-items-center gradient-custom-2">
-              <div class="text-white px-3 py-4 p-md-5 mx-md-4">
+            <div class="col-lg-6 d-flex align-items-center gradient-custom-light" style="background-color: #fefae6">
+              <div class="text-dark px-3 py-4 p-md-5 mx-md-4">
                 <h4 class="mt-4 mb-3">Seshat: Global History Databank</h4>
                 <p class="small mb-2">was founded in 2011 to bring together the most current and comprehensive body of knowledge about human history in one place. The huge potential of this knowledge for testing theories about political and economic development has been largely untapped.</p>
                 <hr>

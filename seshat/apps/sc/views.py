@@ -32,6 +32,8 @@ import requests
 from requests.structures import CaseInsensitiveDict
 from django.apps import apps
 
+from django.contrib import messages
+
 
 
 from .models import Ra, Polity_territory, Polity_population, Population_of_the_largest_settlement, Settlement_hierarchy, Administrative_level, Religious_level, Military_level, Professional_military_officer, Professional_soldier, Professional_priesthood, Full_time_bureaucrat, Examination_system, Merit_promotion, Specialized_government_building, Formal_legal_code, Judge, Court, Professional_lawyer, Irrigation_system, Drinking_water_supply_system, Market, Food_storage_site, Road, Bridge, Canal, Port, Mines_or_quarry, Mnemonic_device, Nonwritten_record, Written_record, Script, Non_phonetic_writing, Phonetic_alphabetic_writing, Lists_tables_and_classification, Calendar, Sacred_text, Religious_literature, Practical_literature, History, Philosophy, Scientific_literature, Fiction, Article, Token, Precious_metal, Foreign_coin, Indigenous_coin, Paper_currency, Courier, Postal_station, General_postal_service
@@ -192,7 +194,7 @@ class Polity_territoryCreate(PermissionRequiredMixin, CreateView):
         context["myvar"] = "Polity Territory"
         context["my_exp"] = "Talking about Social Scale, Polity territory is coded in squared kilometers."
         context["var_null_meaning"] = "The value is not available."
-        context["inner_vars"] = {'polity_territory_from': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The lower range of polity territory for a polity.', 'units': 'km squared', 'choices': None, 'null_meaning': None}, 'polity_territory_to': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The lower range of polity territory for a polity.', 'units': 'km squared', 'choices': None, 'null_meaning': None}}
+        context["inner_vars"] = {'polity_territory_from': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The lower range of polity territory for a polity.', 'units': 'km squared', 'choices': None, 'null_meaning': None}, 'polity_territory_to': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The upper range of polity territory for a polity.', 'units': 'km squared', 'choices': None, 'null_meaning': None}}
         context["potential_cols"] = []
         return context
 
@@ -231,7 +233,7 @@ class Polity_territoryListView(generic.ListView):
         context["var_main_desc_source"] = "NOTHING"
         context["var_section"] = "Social Complexity"
         context["var_subsection"] = "Social Scale"
-        context["inner_vars"] = {'polity_territory_from': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The lower range of polity territory for a polity.', 'units': 'km squared', 'choices': None, 'null_meaning': None}, 'polity_territory_to': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The lower range of polity territory for a polity.', 'units': 'km squared', 'choices': None, 'null_meaning': None}}
+        context["inner_vars"] = {'polity_territory_from': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The lower range of polity territory for a polity.', 'units': 'km squared', 'choices': None, 'null_meaning': None}, 'polity_territory_to': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The upper range of polity territory for a polity.', 'units': 'km squared', 'choices': None, 'null_meaning': None}}
         context["potential_cols"] = ['Units']
 
         return context
@@ -258,7 +260,7 @@ class Polity_territoryListViewAll(generic.ListView):
         context["var_main_desc_source"] = "NOTHING"
         context["var_section"] = "Social Complexity"
         context["var_subsection"] = "Social Scale"
-        context["inner_vars"] = {'polity_territory_from': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The lower range of polity territory for a polity.', 'units': 'km squared', 'choices': None, 'null_meaning': None}, 'polity_territory_to': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The lower range of polity territory for a polity.', 'units': 'km squared', 'choices': None, 'null_meaning': None}}
+        context["inner_vars"] = {'polity_territory_from': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The lower range of polity territory for a polity.', 'units': 'km squared', 'choices': None, 'null_meaning': None}, 'polity_territory_to': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The upper range of polity territory for a polity.', 'units': 'km squared', 'choices': None, 'null_meaning': None}}
         context["potential_cols"] = ['Units']
         context['orderby'] = self.request.GET.get('orderby', 'year_from')
 
@@ -297,7 +299,7 @@ def polity_territory_meta_download(request):
     response['Content-Disposition'] = 'attachment; filename="metadata_polity_territorys.csv"'
     
     my_meta_data_dic = {'notes': 'No_Actual_note', 'main_desc': 'Talking about Social Scale, Polity territory is coded in squared kilometers.', 'main_desc_source': 'NOTHING', 'section': 'Social Complexity', 'subsection': 'Social Scale'}
-    my_meta_data_dic_inner_vars = {'polity_territory_from': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The lower range of polity territory for a polity.', 'units': 'km squared', 'choices': None, 'null_meaning': None}, 'polity_territory_to': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The lower range of polity territory for a polity.', 'units': 'km squared', 'choices': None, 'null_meaning': None}}
+    my_meta_data_dic_inner_vars = {'polity_territory_from': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The lower range of polity territory for a polity.', 'units': 'km squared', 'choices': None, 'null_meaning': None}, 'polity_territory_to': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The upper range of polity territory for a polity.', 'units': 'km squared', 'choices': None, 'null_meaning': None}}
     writer = csv.writer(response, delimiter='|')
     # bring in the meta data nedded
     for k, v in my_meta_data_dic.items():
@@ -329,7 +331,7 @@ class Polity_populationCreate(PermissionRequiredMixin, CreateView):
         context["myvar"] = "Polity Population"
         context["my_exp"] = "Talking about Social Scale, Polity Population is the estimated population of the polity; can change as a result of both adding/losing new territories or by population growth/decline within a region"
         context["var_null_meaning"] = "The value is not available."
-        context["inner_vars"] = {'polity_population_from': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The lower range of polity population for a polity.', 'units': None, 'choices': None, 'null_meaning': None}, 'polity_population_to': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The lower range of polity population for a polity.', 'units': None, 'choices': None, 'null_meaning': None}}
+        context["inner_vars"] = {'polity_population_from': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The lower range of polity population for a polity.', 'units': None, 'choices': None, 'null_meaning': None}, 'polity_population_to': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The upper range of polity population for a polity.', 'units': None, 'choices': None, 'null_meaning': None}}
         context["potential_cols"] = []
         return context
 
@@ -368,7 +370,7 @@ class Polity_populationListView(generic.ListView):
         context["var_main_desc_source"] = "NOTHING"
         context["var_section"] = "Social Complexity"
         context["var_subsection"] = "Social Scale"
-        context["inner_vars"] = {'polity_population_from': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The lower range of polity population for a polity.', 'units': None, 'choices': None, 'null_meaning': None}, 'polity_population_to': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The lower range of polity population for a polity.', 'units': None, 'choices': None, 'null_meaning': None}}
+        context["inner_vars"] = {'polity_population_from': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The lower range of polity population for a polity.', 'units': None, 'choices': None, 'null_meaning': None}, 'polity_population_to': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The upper range of polity population for a polity.', 'units': None, 'choices': None, 'null_meaning': None}}
         context["potential_cols"] = []
 
         return context
@@ -395,7 +397,7 @@ class Polity_populationListViewAll(generic.ListView):
         context["var_main_desc_source"] = "NOTHING"
         context["var_section"] = "Social Complexity"
         context["var_subsection"] = "Social Scale"
-        context["inner_vars"] = {'polity_population_from': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The lower range of polity population for a polity.', 'units': None, 'choices': None, 'null_meaning': None}, 'polity_population_to': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The lower range of polity population for a polity.', 'units': None, 'choices': None, 'null_meaning': None}}
+        context["inner_vars"] = {'polity_population_from': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The lower range of polity population for a polity.', 'units': None, 'choices': None, 'null_meaning': None}, 'polity_population_to': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The upper range of polity population for a polity.', 'units': None, 'choices': None, 'null_meaning': None}}
         context["potential_cols"] = []
         context['orderby'] = self.request.GET.get('orderby', 'year_from')
 
@@ -434,7 +436,7 @@ def polity_population_meta_download(request):
     response['Content-Disposition'] = 'attachment; filename="metadata_polity_populations.csv"'
     
     my_meta_data_dic = {'notes': 'No_Actual_note', 'main_desc': 'Talking about Social Scale, Polity Population is the estimated population of the polity; can change as a result of both adding/losing new territories or by population growth/decline within a region', 'main_desc_source': 'NOTHING', 'section': 'Social Complexity', 'subsection': 'Social Scale'}
-    my_meta_data_dic_inner_vars = {'polity_population_from': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The lower range of polity population for a polity.', 'units': None, 'choices': None, 'null_meaning': None}, 'polity_population_to': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The lower range of polity population for a polity.', 'units': None, 'choices': None, 'null_meaning': None}}
+    my_meta_data_dic_inner_vars = {'polity_population_from': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The lower range of polity population for a polity.', 'units': None, 'choices': None, 'null_meaning': None}, 'polity_population_to': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The upper range of polity population for a polity.', 'units': None, 'choices': None, 'null_meaning': None}}
     writer = csv.writer(response, delimiter='|')
     # bring in the meta data nedded
     for k, v in my_meta_data_dic.items():
@@ -466,7 +468,7 @@ class Population_of_the_largest_settlementCreate(PermissionRequiredMixin, Create
         context["myvar"] = "Population of the Largest Settlement"
         context["my_exp"] = "Talking about Social Scale, Population of the largest settlement is the estimated population of the largest settlement of the polity. Note that the largest settlement could be different from the capital (coded under General Variables). If possible, indicate the dynamics (that is, how population changed during the temporal period of the polity). Note that we are also building a city database - you should consult it as it may already have the needed data."
         context["var_null_meaning"] = "The value is not available."
-        context["inner_vars"] = {'population_of_the_largest_settlement_from': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The lower range of population of the largest settlement for a polity.', 'units': None, 'choices': None, 'null_meaning': None}, 'population_of_the_largest_settlement_to': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The lower range of population of the largest settlement for a polity.', 'units': None, 'choices': None, 'null_meaning': None}}
+        context["inner_vars"] = {'population_of_the_largest_settlement_from': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The lower range of population of the largest settlement for a polity.', 'units': None, 'choices': None, 'null_meaning': None}, 'population_of_the_largest_settlement_to': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The upper range of population of the largest settlement for a polity.', 'units': None, 'choices': None, 'null_meaning': None}}
         context["potential_cols"] = []
         return context
 
@@ -505,7 +507,7 @@ class Population_of_the_largest_settlementListView(generic.ListView):
         context["var_main_desc_source"] = "NOTHING"
         context["var_section"] = "Social Complexity"
         context["var_subsection"] = "Social Scale"
-        context["inner_vars"] = {'population_of_the_largest_settlement_from': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The lower range of population of the largest settlement for a polity.', 'units': None, 'choices': None, 'null_meaning': None}, 'population_of_the_largest_settlement_to': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The lower range of population of the largest settlement for a polity.', 'units': None, 'choices': None, 'null_meaning': None}}
+        context["inner_vars"] = {'population_of_the_largest_settlement_from': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The lower range of population of the largest settlement for a polity.', 'units': None, 'choices': None, 'null_meaning': None}, 'population_of_the_largest_settlement_to': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The upper range of population of the largest settlement for a polity.', 'units': None, 'choices': None, 'null_meaning': None}}
         context["potential_cols"] = []
 
         return context
@@ -532,7 +534,7 @@ class Population_of_the_largest_settlementListViewAll(generic.ListView):
         context["var_main_desc_source"] = "NOTHING"
         context["var_section"] = "Social Complexity"
         context["var_subsection"] = "Social Scale"
-        context["inner_vars"] = {'population_of_the_largest_settlement_from': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The lower range of population of the largest settlement for a polity.', 'units': None, 'choices': None, 'null_meaning': None}, 'population_of_the_largest_settlement_to': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The lower range of population of the largest settlement for a polity.', 'units': None, 'choices': None, 'null_meaning': None}}
+        context["inner_vars"] = {'population_of_the_largest_settlement_from': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The lower range of population of the largest settlement for a polity.', 'units': None, 'choices': None, 'null_meaning': None}, 'population_of_the_largest_settlement_to': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The upper range of population of the largest settlement for a polity.', 'units': None, 'choices': None, 'null_meaning': None}}
         context["potential_cols"] = []
         context['orderby'] = self.request.GET.get('orderby', 'year_from')
 
@@ -571,7 +573,7 @@ def population_of_the_largest_settlement_meta_download(request):
     response['Content-Disposition'] = 'attachment; filename="metadata_population_of_the_largest_settlements.csv"'
     
     my_meta_data_dic = {'notes': 'No_Actual_note', 'main_desc': 'Talking about Social Scale, Population of the largest settlement is the estimated population of the largest settlement of the polity. Note that the largest settlement could be different from the capital (coded under General Variables). If possible, indicate the dynamics (that is, how population changed during the temporal period of the polity). Note that we are also building a city database - you should consult it as it may already have the needed data.', 'main_desc_source': 'NOTHING', 'section': 'Social Complexity', 'subsection': 'Social Scale'}
-    my_meta_data_dic_inner_vars = {'population_of_the_largest_settlement_from': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The lower range of population of the largest settlement for a polity.', 'units': None, 'choices': None, 'null_meaning': None}, 'population_of_the_largest_settlement_to': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The lower range of population of the largest settlement for a polity.', 'units': None, 'choices': None, 'null_meaning': None}}
+    my_meta_data_dic_inner_vars = {'population_of_the_largest_settlement_from': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The lower range of population of the largest settlement for a polity.', 'units': None, 'choices': None, 'null_meaning': None}, 'population_of_the_largest_settlement_to': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The upper range of population of the largest settlement for a polity.', 'units': None, 'choices': None, 'null_meaning': None}}
     writer = csv.writer(response, delimiter='|')
     # bring in the meta data nedded
     for k, v in my_meta_data_dic.items():
@@ -603,7 +605,7 @@ class Settlement_hierarchyCreate(PermissionRequiredMixin, CreateView):
         context["myvar"] = "Settlement Hierarchy"
         context["my_exp"] = "Talking about Hierarchical Complexity, Settlement hierarchy records (in levels) the hierarchy of not just settlement sizes, but also their complexity as reflected in different roles they play within the (quasi)polity. As settlements become more populous they acquire more complex functions: transportational (e.g. port); economic (e.g. market); administrative (e.g. storehouse, local government building); cultural (e.g. theatre); religious (e.g. temple), utilitarian (e.g. hospital), monumental (e.g. statues, plazas). Example: (1) Large City (monumental structures, theatre, market, hospital, central government buildings) (2) City (market, theatre, regional government buildings) (3) Large Town (market, administrative buildings) (4) Town (administrative buildings, storehouse)) (5) Village (shrine) (6) Hamlet (residential only). In the narrative paragraph explain the different levels and list their functions. Provide a (crude) estimate of population sizes. For example, Large Town (market, temple, administrative buildings): 2,000-5,000 inhabitants."
         context["var_null_meaning"] = "The value is not available."
-        context["inner_vars"] = {'settlement_hierarchy_from': {'min': 0, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The lower range of settlement hierarchy for a polity.', 'units': None, 'choices': None, 'null_meaning': None}, 'settlement_hierarchy_to': {'min': 0, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The lower range of settlement hierarchy for a polity.', 'units': None, 'choices': None, 'null_meaning': None}}
+        context["inner_vars"] = {'settlement_hierarchy_from': {'min': 0, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The lower range of settlement hierarchy for a polity.', 'units': None, 'choices': None, 'null_meaning': None}, 'settlement_hierarchy_to': {'min': 0, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The upper range of settlement hierarchy for a polity.', 'units': None, 'choices': None, 'null_meaning': None}}
         context["potential_cols"] = []
         return context
 
@@ -642,7 +644,7 @@ class Settlement_hierarchyListView(generic.ListView):
         context["var_main_desc_source"] = "NOTHING"
         context["var_section"] = "Social Complexity"
         context["var_subsection"] = "Hierarchical Complexity"
-        context["inner_vars"] = {'settlement_hierarchy_from': {'min': 0, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The lower range of settlement hierarchy for a polity.', 'units': None, 'choices': None, 'null_meaning': None}, 'settlement_hierarchy_to': {'min': 0, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The lower range of settlement hierarchy for a polity.', 'units': None, 'choices': None, 'null_meaning': None}}
+        context["inner_vars"] = {'settlement_hierarchy_from': {'min': 0, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The lower range of settlement hierarchy for a polity.', 'units': None, 'choices': None, 'null_meaning': None}, 'settlement_hierarchy_to': {'min': 0, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The upper range of settlement hierarchy for a polity.', 'units': None, 'choices': None, 'null_meaning': None}}
         context["potential_cols"] = []
 
         return context
@@ -669,7 +671,7 @@ class Settlement_hierarchyListViewAll(generic.ListView):
         context["var_main_desc_source"] = "NOTHING"
         context["var_section"] = "Social Complexity"
         context["var_subsection"] = "Hierarchical Complexity"
-        context["inner_vars"] = {'settlement_hierarchy_from': {'min': 0, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The lower range of settlement hierarchy for a polity.', 'units': None, 'choices': None, 'null_meaning': None}, 'settlement_hierarchy_to': {'min': 0, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The lower range of settlement hierarchy for a polity.', 'units': None, 'choices': None, 'null_meaning': None}}
+        context["inner_vars"] = {'settlement_hierarchy_from': {'min': 0, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The lower range of settlement hierarchy for a polity.', 'units': None, 'choices': None, 'null_meaning': None}, 'settlement_hierarchy_to': {'min': 0, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The upper range of settlement hierarchy for a polity.', 'units': None, 'choices': None, 'null_meaning': None}}
         context["potential_cols"] = []
         context['orderby'] = self.request.GET.get('orderby', 'year_from')
 
@@ -708,7 +710,7 @@ def settlement_hierarchy_meta_download(request):
     response['Content-Disposition'] = 'attachment; filename="metadata_settlement_hierarchys.csv"'
     
     my_meta_data_dic = {'notes': 'No_Actual_note', 'main_desc': 'Talking about Hierarchical Complexity, Settlement hierarchy records (in levels) the hierarchy of not just settlement sizes, but also their complexity as reflected in different roles they play within the (quasi)polity. As settlements become more populous they acquire more complex functions: transportational (e.g. port); economic (e.g. market); administrative (e.g. storehouse, local government building); cultural (e.g. theatre); religious (e.g. temple), utilitarian (e.g. hospital), monumental (e.g. statues, plazas). Example: (1) Large City (monumental structures, theatre, market, hospital, central government buildings) (2) City (market, theatre, regional government buildings) (3) Large Town (market, administrative buildings) (4) Town (administrative buildings, storehouse)) (5) Village (shrine) (6) Hamlet (residential only). In the narrative paragraph explain the different levels and list their functions. Provide a (crude) estimate of population sizes. For example, Large Town (market, temple, administrative buildings): 2,000-5,000 inhabitants.', 'main_desc_source': 'NOTHING', 'section': 'Social Complexity', 'subsection': 'Hierarchical Complexity'}
-    my_meta_data_dic_inner_vars = {'settlement_hierarchy_from': {'min': 0, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The lower range of settlement hierarchy for a polity.', 'units': None, 'choices': None, 'null_meaning': None}, 'settlement_hierarchy_to': {'min': 0, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The lower range of settlement hierarchy for a polity.', 'units': None, 'choices': None, 'null_meaning': None}}
+    my_meta_data_dic_inner_vars = {'settlement_hierarchy_from': {'min': 0, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The lower range of settlement hierarchy for a polity.', 'units': None, 'choices': None, 'null_meaning': None}, 'settlement_hierarchy_to': {'min': 0, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The upper range of settlement hierarchy for a polity.', 'units': None, 'choices': None, 'null_meaning': None}}
     writer = csv.writer(response, delimiter='|')
     # bring in the meta data nedded
     for k, v in my_meta_data_dic.items():
@@ -740,7 +742,7 @@ class Administrative_levelCreate(PermissionRequiredMixin, CreateView):
         context["myvar"] = "Administrative Level"
         context["my_exp"] = "Talking about Hierarchical Complexity, Administrative levels records the administrative levels of a polity. An example of hierarchy for a state society could be (1) the overall ruler, (2) provincial/regional governors, (3) district heads, (4) town mayors, (5) village heads. Note that unlike in settlement hierarchy, here you code people hierarchy. Do not simply copy settlement hierarchy data here. For archaeological polities, you will usually code as 'unknown', unless experts identified ranks of chiefs or officials independently of the settlement hierarchy. Note: Often there are more than one concurrent administrative hierarchy. In the example above the hierarchy refers to the territorial government. In addition, the ruler may have a hierarchically organized central bureaucracy located in the capital. For example, (4)the overall ruler, (3) chiefs of various ministries, (2) midlevel bureaucrats, (1) scribes and clerks. In the narrative paragraph detail what is known about both hierarchies. The machine-readable code should reflect the largest number (the longer chain of command)."
         context["var_null_meaning"] = "The value is not available."
-        context["inner_vars"] = {'administrative_level_from': {'min': 0, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The lower range of administrative level for a polity.', 'units': None, 'choices': None, 'null_meaning': None}, 'administrative_level_to': {'min': 0, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The lower range of administrative level for a polity.', 'units': None, 'choices': None, 'null_meaning': None}}
+        context["inner_vars"] = {'administrative_level_from': {'min': 0, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The lower range of administrative level for a polity.', 'units': None, 'choices': None, 'null_meaning': None}, 'administrative_level_to': {'min': 0, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The upper range of administrative level for a polity.', 'units': None, 'choices': None, 'null_meaning': None}}
         context["potential_cols"] = []
         return context
 
@@ -779,7 +781,7 @@ class Administrative_levelListView(generic.ListView):
         context["var_main_desc_source"] = "NOTHING"
         context["var_section"] = "Social Complexity"
         context["var_subsection"] = "Hierarchical Complexity"
-        context["inner_vars"] = {'administrative_level_from': {'min': 0, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The lower range of administrative level for a polity.', 'units': None, 'choices': None, 'null_meaning': None}, 'administrative_level_to': {'min': 0, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The lower range of administrative level for a polity.', 'units': None, 'choices': None, 'null_meaning': None}}
+        context["inner_vars"] = {'administrative_level_from': {'min': 0, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The lower range of administrative level for a polity.', 'units': None, 'choices': None, 'null_meaning': None}, 'administrative_level_to': {'min': 0, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The upper range of administrative level for a polity.', 'units': None, 'choices': None, 'null_meaning': None}}
         context["potential_cols"] = []
 
         return context
@@ -806,7 +808,7 @@ class Administrative_levelListViewAll(generic.ListView):
         context["var_main_desc_source"] = "NOTHING"
         context["var_section"] = "Social Complexity"
         context["var_subsection"] = "Hierarchical Complexity"
-        context["inner_vars"] = {'administrative_level_from': {'min': 0, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The lower range of administrative level for a polity.', 'units': None, 'choices': None, 'null_meaning': None}, 'administrative_level_to': {'min': 0, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The lower range of administrative level for a polity.', 'units': None, 'choices': None, 'null_meaning': None}}
+        context["inner_vars"] = {'administrative_level_from': {'min': 0, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The lower range of administrative level for a polity.', 'units': None, 'choices': None, 'null_meaning': None}, 'administrative_level_to': {'min': 0, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The upper range of administrative level for a polity.', 'units': None, 'choices': None, 'null_meaning': None}}
         context["potential_cols"] = []
         context['orderby'] = self.request.GET.get('orderby', 'year_from')
 
@@ -845,7 +847,7 @@ def administrative_level_meta_download(request):
     response['Content-Disposition'] = 'attachment; filename="metadata_administrative_levels.csv"'
     
     my_meta_data_dic = {'notes': 'No_Actual_note', 'main_desc': "Talking about Hierarchical Complexity, Administrative levels records the administrative levels of a polity. An example of hierarchy for a state society could be (1) the overall ruler, (2) provincial/regional governors, (3) district heads, (4) town mayors, (5) village heads. Note that unlike in settlement hierarchy, here you code people hierarchy. Do not simply copy settlement hierarchy data here. For archaeological polities, you will usually code as 'unknown', unless experts identified ranks of chiefs or officials independently of the settlement hierarchy. Note: Often there are more than one concurrent administrative hierarchy. In the example above the hierarchy refers to the territorial government. In addition, the ruler may have a hierarchically organized central bureaucracy located in the capital. For example, (4)the overall ruler, (3) chiefs of various ministries, (2) midlevel bureaucrats, (1) scribes and clerks. In the narrative paragraph detail what is known about both hierarchies. The machine-readable code should reflect the largest number (the longer chain of command).", 'main_desc_source': 'NOTHING', 'section': 'Social Complexity', 'subsection': 'Hierarchical Complexity'}
-    my_meta_data_dic_inner_vars = {'administrative_level_from': {'min': 0, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The lower range of administrative level for a polity.', 'units': None, 'choices': None, 'null_meaning': None}, 'administrative_level_to': {'min': 0, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The lower range of administrative level for a polity.', 'units': None, 'choices': None, 'null_meaning': None}}
+    my_meta_data_dic_inner_vars = {'administrative_level_from': {'min': 0, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The lower range of administrative level for a polity.', 'units': None, 'choices': None, 'null_meaning': None}, 'administrative_level_to': {'min': 0, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The upper range of administrative level for a polity.', 'units': None, 'choices': None, 'null_meaning': None}}
     writer = csv.writer(response, delimiter='|')
     # bring in the meta data nedded
     for k, v in my_meta_data_dic.items():
@@ -877,7 +879,7 @@ class Religious_levelCreate(PermissionRequiredMixin, CreateView):
         context["myvar"] = "Religious Level"
         context["my_exp"] = "Talking about Hierarchical Complexity, Religious levels records the Religious levels of a polity. Same principle as with Administrative levels. Start with the head of the official cult (if present) coded as: level 1, and work down to the local priest."
         context["var_null_meaning"] = "The value is not available."
-        context["inner_vars"] = {'religious_level_from': {'min': 0, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The lower range of religious level for a polity.', 'units': None, 'choices': None, 'null_meaning': None}, 'religious_level_to': {'min': 0, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The lower range of religious level for a polity.', 'units': None, 'choices': None, 'null_meaning': None}}
+        context["inner_vars"] = {'religious_level_from': {'min': 0, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The lower range of religious level for a polity.', 'units': None, 'choices': None, 'null_meaning': None}, 'religious_level_to': {'min': 0, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The upper range of religious level for a polity.', 'units': None, 'choices': None, 'null_meaning': None}}
         context["potential_cols"] = []
         return context
 
@@ -916,7 +918,7 @@ class Religious_levelListView(generic.ListView):
         context["var_main_desc_source"] = "NOTHING"
         context["var_section"] = "Social Complexity"
         context["var_subsection"] = "Hierarchical Complexity"
-        context["inner_vars"] = {'religious_level_from': {'min': 0, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The lower range of religious level for a polity.', 'units': None, 'choices': None, 'null_meaning': None}, 'religious_level_to': {'min': 0, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The lower range of religious level for a polity.', 'units': None, 'choices': None, 'null_meaning': None}}
+        context["inner_vars"] = {'religious_level_from': {'min': 0, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The lower range of religious level for a polity.', 'units': None, 'choices': None, 'null_meaning': None}, 'religious_level_to': {'min': 0, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The upper range of religious level for a polity.', 'units': None, 'choices': None, 'null_meaning': None}}
         context["potential_cols"] = []
 
         return context
@@ -943,7 +945,7 @@ class Religious_levelListViewAll(generic.ListView):
         context["var_main_desc_source"] = "NOTHING"
         context["var_section"] = "Social Complexity"
         context["var_subsection"] = "Hierarchical Complexity"
-        context["inner_vars"] = {'religious_level_from': {'min': 0, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The lower range of religious level for a polity.', 'units': None, 'choices': None, 'null_meaning': None}, 'religious_level_to': {'min': 0, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The lower range of religious level for a polity.', 'units': None, 'choices': None, 'null_meaning': None}}
+        context["inner_vars"] = {'religious_level_from': {'min': 0, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The lower range of religious level for a polity.', 'units': None, 'choices': None, 'null_meaning': None}, 'religious_level_to': {'min': 0, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The upper range of religious level for a polity.', 'units': None, 'choices': None, 'null_meaning': None}}
         context["potential_cols"] = []
         context['orderby'] = self.request.GET.get('orderby', 'year_from')
 
@@ -982,7 +984,7 @@ def religious_level_meta_download(request):
     response['Content-Disposition'] = 'attachment; filename="metadata_religious_levels.csv"'
     
     my_meta_data_dic = {'notes': 'No_Actual_note', 'main_desc': 'Talking about Hierarchical Complexity, Religious levels records the Religious levels of a polity. Same principle as with Administrative levels. Start with the head of the official cult (if present) coded as: level 1, and work down to the local priest.', 'main_desc_source': 'NOTHING', 'section': 'Social Complexity', 'subsection': 'Hierarchical Complexity'}
-    my_meta_data_dic_inner_vars = {'religious_level_from': {'min': 0, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The lower range of religious level for a polity.', 'units': None, 'choices': None, 'null_meaning': None}, 'religious_level_to': {'min': 0, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The lower range of religious level for a polity.', 'units': None, 'choices': None, 'null_meaning': None}}
+    my_meta_data_dic_inner_vars = {'religious_level_from': {'min': 0, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The lower range of religious level for a polity.', 'units': None, 'choices': None, 'null_meaning': None}, 'religious_level_to': {'min': 0, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The upper range of religious level for a polity.', 'units': None, 'choices': None, 'null_meaning': None}}
     writer = csv.writer(response, delimiter='|')
     # bring in the meta data nedded
     for k, v in my_meta_data_dic.items():
@@ -1014,7 +1016,7 @@ class Military_levelCreate(PermissionRequiredMixin, CreateView):
         context["myvar"] = "Military Level"
         context["my_exp"] = "Talking about Hierarchical Complexity, Military levels records the Military levels of a polity. Same principle as with Administrative levels. Start with the commander-in-chief coded as: level 1, and work down to the private. Even in primitive societies such as simple chiefdoms it is often possible to distinguish at least two levels – a commander and soldiers. A complex chiefdom would be coded three levels. The presence of warrior burials might be the basis for inferring the existence of a military organization. (The lowest military level is always the individual soldier)."
         context["var_null_meaning"] = "The value is not available."
-        context["inner_vars"] = {'military_level_from': {'min': 0, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The lower range of military level for a polity.', 'units': None, 'choices': None, 'null_meaning': None}, 'military_level_to': {'min': 0, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The lower range of military level for a polity.', 'units': None, 'choices': None, 'null_meaning': None}}
+        context["inner_vars"] = {'military_level_from': {'min': 0, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The lower range of military level for a polity.', 'units': None, 'choices': None, 'null_meaning': None}, 'military_level_to': {'min': 0, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The upper range of military level for a polity.', 'units': None, 'choices': None, 'null_meaning': None}}
         context["potential_cols"] = []
         return context
 
@@ -1053,7 +1055,7 @@ class Military_levelListView(generic.ListView):
         context["var_main_desc_source"] = "NOTHING"
         context["var_section"] = "Social Complexity"
         context["var_subsection"] = "Hierarchical Complexity"
-        context["inner_vars"] = {'military_level_from': {'min': 0, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The lower range of military level for a polity.', 'units': None, 'choices': None, 'null_meaning': None}, 'military_level_to': {'min': 0, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The lower range of military level for a polity.', 'units': None, 'choices': None, 'null_meaning': None}}
+        context["inner_vars"] = {'military_level_from': {'min': 0, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The lower range of military level for a polity.', 'units': None, 'choices': None, 'null_meaning': None}, 'military_level_to': {'min': 0, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The upper range of military level for a polity.', 'units': None, 'choices': None, 'null_meaning': None}}
         context["potential_cols"] = []
 
         return context
@@ -1080,7 +1082,7 @@ class Military_levelListViewAll(generic.ListView):
         context["var_main_desc_source"] = "NOTHING"
         context["var_section"] = "Social Complexity"
         context["var_subsection"] = "Hierarchical Complexity"
-        context["inner_vars"] = {'military_level_from': {'min': 0, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The lower range of military level for a polity.', 'units': None, 'choices': None, 'null_meaning': None}, 'military_level_to': {'min': 0, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The lower range of military level for a polity.', 'units': None, 'choices': None, 'null_meaning': None}}
+        context["inner_vars"] = {'military_level_from': {'min': 0, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The lower range of military level for a polity.', 'units': None, 'choices': None, 'null_meaning': None}, 'military_level_to': {'min': 0, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The upper range of military level for a polity.', 'units': None, 'choices': None, 'null_meaning': None}}
         context["potential_cols"] = []
         context['orderby'] = self.request.GET.get('orderby', 'year_from')
 
@@ -1119,7 +1121,7 @@ def military_level_meta_download(request):
     response['Content-Disposition'] = 'attachment; filename="metadata_military_levels.csv"'
     
     my_meta_data_dic = {'notes': 'No_Actual_note', 'main_desc': 'Talking about Hierarchical Complexity, Military levels records the Military levels of a polity. Same principle as with Administrative levels. Start with the commander-in-chief coded as: level 1, and work down to the private. Even in primitive societies such as simple chiefdoms it is often possible to distinguish at least two levels – a commander and soldiers. A complex chiefdom would be coded three levels. The presence of warrior burials might be the basis for inferring the existence of a military organization. (The lowest military level is always the individual soldier).', 'main_desc_source': 'NOTHING', 'section': 'Social Complexity', 'subsection': 'Hierarchical Complexity'}
-    my_meta_data_dic_inner_vars = {'military_level_from': {'min': 0, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The lower range of military level for a polity.', 'units': None, 'choices': None, 'null_meaning': None}, 'military_level_to': {'min': 0, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The lower range of military level for a polity.', 'units': None, 'choices': None, 'null_meaning': None}}
+    my_meta_data_dic_inner_vars = {'military_level_from': {'min': 0, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The lower range of military level for a polity.', 'units': None, 'choices': None, 'null_meaning': None}, 'military_level_to': {'min': 0, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The upper range of military level for a polity.', 'units': None, 'choices': None, 'null_meaning': None}}
     writer = csv.writer(response, delimiter='|')
     # bring in the meta data nedded
     for k, v in my_meta_data_dic.items():
@@ -7632,6 +7634,24 @@ def has_add_capital_permission(user):
     return user.has_perm('core.add_capital')
 
 
+# Use the login_required, permission_required, and user_passes_test decorators
+@login_required
+@permission_required('core.add_capital', raise_exception=True)
+@user_passes_test(has_add_capital_permission, login_url='permission_denied')
+def dynamic_detail_view(request, pk, model_class, myvar, var_name_display):
+    # Retrieve the object for the given model class
+    obj = get_object_or_404(model_class, pk=pk)
+
+    context = {
+        'object': obj,
+        "myvar": myvar,
+        "var_name_display": var_name_display,
+        'create_new_url': myvar+"-create",
+        'see_all_url': myvar+"s_all",
+    }
+
+    return render(request, 'sc/sc_detail.html', context)
+
 
 # Use the login_required, permission_required, and user_passes_test decorators
 @login_required
@@ -7740,14 +7760,135 @@ def generic_list_view(request, model_class, var_name, var_name_display, var_sect
 
 
     context["inner_vars"] = {
-        var_name: {
+        var_name_display: {
             'min': None,
             'max': None,
             'scale': None, 
             'var_exp_source': None, 
-            'var_exp': 'The absence or presence of food storage site for a polity.',
+            'var_exp': f'The absence or presence of "{var_name_display}" for a polity.',
             'units': None, 
             'choices': 'ABSENT_PRESENT_CHOICES', 
             'null_meaning': None}}
 
     return render(request, 'sc/sc_list_all.html', context)
+
+
+
+
+@login_required
+@permission_required('core.add_capital', raise_exception=True)
+@user_passes_test(has_add_capital_permission, login_url='permission_denied')
+def generic_download(request, model_class, var_name):
+    # Fetch all objects for the specified model
+    items = model_class.objects.all()
+
+    response = HttpResponse(content_type='text/csv')
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    file_name = f"social_complexity_{var_name}_{current_datetime}.csv"
+
+    response['Content-Disposition'] = f'attachment; filename="{file_name}"'
+
+    writer = csv.writer(response, delimiter='|')
+    writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
+                    var_name, 'confidence', 'is_disputed', 'is_uncertain', 'expert_checked', 'DRB_reviewed'])
+    for obj in items:
+        dynamic_value = getattr(obj, var_name, '')
+        writer.writerow([obj.name, obj.year_from, obj.year_to,
+                         obj.polity.long_name, obj.polity.new_name, obj.polity.name, dynamic_value, obj.get_tag_display(), obj.is_disputed, obj.is_uncertain,
+                         obj.expert_reviewed, obj.drb_reviewed,])
+
+    return response
+
+@login_required
+@permission_required('core.add_capital', raise_exception=True)
+@user_passes_test(has_add_capital_permission, login_url='permission_denied')
+def generic_metadata_download(request, var_name, var_name_display, var_section, var_subsection, var_main_desc):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = f'attachment; filename="metadata_{var_name}s.csv"'
+    
+    my_meta_data_dic = {'notes': 'No_Actual_note', 'main_desc': var_main_desc, 'main_desc_source': 'NOTHING', 'section': var_section, 'subsection': var_subsection}
+    my_meta_data_dic_inner_vars = {'general_postal_service': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': f'The absence or presence of {var_name_display} for a polity.', 'units': None, 'choices': 'ABSENT_PRESENT_CHOICES', 'null_meaning': None}}
+
+    writer = csv.writer(response, delimiter='|')
+    # bring in the meta data nedded
+    for k, v in my_meta_data_dic.items():
+        writer.writerow([k, v])
+
+    for k_in, v_in in my_meta_data_dic_inner_vars.items():
+        writer.writerow([k_in,])
+        for inner_key, inner_value in v_in.items():
+            if inner_value:
+                writer.writerow([inner_key, inner_value])
+
+    return response
+
+
+
+# def generic_delete_view(request, model_class, pk, var_name):
+#     permission_required = 'core.add_capital'
+    
+#     # Retrieve the object for the given model class
+#     #obj = get_object_or_404(model_class, pk=request.POST.get(pk))
+#     obj = get_object_or_404(model_class, pk=pk)
+
+#     # Check if the user has the required permission
+#     if not request.user.has_perm(permission_required):
+#         return HttpResponseForbidden("You don't have permission to delete this object.")
+
+#     # Delete the object
+#     #obj.delete()
+
+#     # Redirect to the success URL
+#     success_url_name = var_name + "s_all"
+#     success_url = reverse(success_url_name)
+
+#     template_name = "core/delete_general.html"
+    
+#     #return HttpResponseRedirect(success_url)
+#     # Display a success message
+#     messages.success(request, f"{var_name} has been deleted successfully.")
+
+#     # Redirect or render a template
+#     return render(request, template_name, {})
+
+
+def confirm_delete_view(request, model_class, pk, var_name):
+    permission_required = 'core.add_capital'
+    
+    # Retrieve the object for the given model class
+    obj = get_object_or_404(model_class, pk=pk)
+
+    # Check if the user has the required permission
+    if not request.user.has_perm(permission_required):
+        return HttpResponseForbidden("You don't have permission to delete this object.")
+
+    template_name = "core/confirm_delete.html"
+    
+    context = {
+        'var_name': var_name,
+        'obj': obj,
+        'delete_object': f'{var_name}-delete',
+    }
+
+    return render(request, template_name, context)
+
+def delete_object_view(request, model_class, pk, var_name):
+    permission_required = 'core.add_capital'
+    # Retrieve the object for the given model class
+    obj = get_object_or_404(model_class, pk=pk)
+
+    if not request.user.has_perm(permission_required):
+        return HttpResponseForbidden("You don't have permission to delete this object.")
+    
+    # Delete the object
+    obj.delete()
+    
+    # Redirect to the success URL
+    success_url_name = f'{var_name}s_all'  # Adjust the success URL as needed
+    success_url = reverse(success_url_name)
+    
+    # Display a success message
+    messages.success(request, f"{var_name} has been deleted successfully.")
+    
+    return redirect(success_url)

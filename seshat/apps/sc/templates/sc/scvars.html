@@ -151,11 +151,16 @@
         {% for v in vv %}
                 <div class="card col-md-2">
                     <div class="card-body d-flex flex-column align-items-center">
-                      <h5 class="card-title mb-3">
+                      <h5 class="card-title mb-0 pb-1">
                         <span>
-                        {{v.0}}
-                        </span>
+                        {{v.0}} 
+                      </span>
                     </h5>
+                    <p class="mb-3">
+                      {% if v.0 in 'Communal Building, Utilitarian Public Building, Symbolic Building, Entertainment Building, Knowledge Or Information Building, Special Purpose Site, Ceremonial Site, Burial Site, Trading Emporia, Enclosure, Length Measurement System, Area Measurement System, Volume Measurement System, Weight Measurement System, Time Measurement System, Geometrical Measurement System, Other Measurement System, Debt And Credit Structure, Store Of Wealth' %}
+                      <span class="badge rounded-pill bg-danger text-light py-1 px-2">NEW</span>                        
+                      {% endif%}
+                    </p>
                       
                       <div class="flex-grow-1"></div>
                       <h4 class="card-subtitle mb-2 text-muted">

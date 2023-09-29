@@ -11,7 +11,13 @@
             <!-- <h5 class="lead-2">List of all the data for: {{object_list.0.section}}</h5> -->
             <div class="col-md-12 justify-content-end my-3">
                 <h6><span class="text-secondary text-end">Section</span>: <mark>{{var_section}}</mark></h6>
-                <h6><span class="text-secondary text-end">Subsection</span>: <mark>{{var_subsection}} </mark> </h6>      
+                <h6><span class="text-secondary text-end">Subsection</span>: <mark>
+                    {% if var_subsection %}
+                    {{var_subsection}}
+                    {% else %}
+                        &nbsp;- 
+                    {% endif %}
+                </mark> </h6>      
             <!-- <h5 class="lead-2">List of all the data for: {{object_list.0.section}}</h5> -->
           </div>
           <div>
@@ -23,7 +29,7 @@
             </div>
             <div class="contributors mt-4">
                 <h6><span class="text-secondary text-end">
-                    <i class="fa-solid fa-people-group"></i> Contributors</span>: Jenny, Majid, Peter
+                    <i class="fa-solid fa-people-group"></i> Contributors</span>: Seshat RAs and Experts
                 </h6>   
             </div>
         </div>
@@ -42,7 +48,7 @@
                 <div class="accordion-item" style="background-color:#fffdf2;">
                   <h2 class="accordion-header" id="headingOne">
                     <button class="accordion-button collapsed px-0" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne" style="background-color:#fffdf2;">
-                      <span class="text-success"><i class="fa-solid fa-chevron-right"></i>  &nbsp; General</span> 
+                      <span class="text-success"><i class="fa-solid fa-chevron-right"></i>  &nbsp; General Metadata</span> 
                     </button>
                   </h2>
                   <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne">
@@ -88,24 +94,23 @@
                 </div>
                 <div class="accordion-item" style="background-color:#fffdf2;">
                   <h2 class="accordion-header" id="headingTwo">
-                    <button class="accordion-button px-0" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo" style="background-color:#fffdf2;">
-                    <span class="text-success"><i class="fa-solid fa-chevron-right"></i> &nbsp; Specific to <strong>{{myvar}}</strong></span> 
+                    <button class="accordion-button px-0 collapsed" type="button" data-bs-toggle="collapse"  data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo" style="background-color:#fffdf2;">
+                    <span class="text-success"><i class="fa-solid fa-chevron-right"></i> &nbsp; Metadata Specific to <strong>{{myvar}}</strong></span> 
                     </button>
                   </h2>
-                  <div id="collapseTwo" class="accordion-collapse collapse show" aria-labelledby="headingTwo">
-                    <div class="accordion-body table-responsive p-0 m-0">
+                  <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo">
+                    <div class="accordion-body table-responsive px-0 pt-0">
                         <table class="table align-middle table-striped table-bordered">
                             <thead>   
                                 <tr>
-                                    <th scope="col" class="col-md-2">Variable</th>
-                                        <th scope="col">Definition</th> 
+                                    <th scope="col">Variable</th>
+                                    <th scope="col">Definition</th> 
                                 </tr>
-
                             </thead>
                             <tbody>
                                 {% for ktop, vtop in inner_vars.items %}
                                 <tr>
-                                    <td scope="row">{{ktop}}</td>
+                                    <td class="fw-bold">{{ktop}}</td>
                                     {% if vtop.var_exp %}
                                         <td scope="col">{{vtop.var_exp}}</td> 
                                         {% elif "Definition" in potential_cols %}
@@ -133,7 +138,6 @@
                                     {% endif %}
                                 <tr>
                                 {% endfor %}
-
                             </tbody>
                         </table>
                     </div>
@@ -189,13 +193,13 @@
                     {% if obj.polity %}
                     <td style="text-align: left;">
                         {% if obj.polity.long_name %}
-                        <h6 class="fw-bold">
+                        <span class="fw-bold h5">
                             <a href="{% url 'polity-detail-main' obj.polity.id %}">{{ obj.polity.long_name }}</a>
-                        </h6>
+                        </span>
                         {% else %}
-                        <h6 class="fw-bold">
+                        <span class="fw-bold h5">
                             <a href="{% url 'polity-detail-main' obj.polity.id %}">{{ obj.polity.name }}</a>
-                        </h6>
+                        </span>
                         {% endif %}
 
                     </td>
@@ -251,12 +255,24 @@
                 {% endfor %}
             </tbody>
           </table>
+        </div>
+
     {% else %}
-    <div class="row">
-        <div class="col-md-12 mt-4">
-            <h3> <i class="fa-solid fa-triangle-exclamation"></i> There are no Facts for this variable in the Database.</h3>
+    <div class="row my-4">
+        <div class="col-md-8 ">
+            <h4> <i class="fa-solid fa-triangle-exclamation text-danger"></i> There are no Facts for this variable ({{myvar}}) in the Database.</h4>
+        </div>
+        <div class="col-md-4">
+            <a href="{% url create_url %}" class="btn btn-outline-success mx-3 float-end"><i class="fas fa-plus"></i> &nbsp; Add a Fact</a>
         </div>
     </div>
+    <div class="row">
+        <div class="col-md-12 my-2 pb-4">
+            <h6><span class="display-6">{{ myvar }}</span></h6>
+            <h6 class="text-secondary">{{var_main_desc}}</h6>
+        </div>
+    </div>
+
     {% endif %}
     </div>
     <script>

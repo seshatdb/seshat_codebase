@@ -55,7 +55,7 @@ urlpatterns += [
 
 
 
-    path('signup/', views.signup, name='signup'),
+    path('signup/', views.signup_traditional, name='signup'),
     path('signup_followup/', views.signupfollowup, name='signup-followup'),
     # re_path(r'^account_activation_sent/$', views.account_activation_sent,
     #         name='account_activation_sent'),

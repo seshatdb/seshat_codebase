@@ -201,6 +201,15 @@ class SignUpForm(UserCreationForm):
             attrs={'class': 'form-control mb-3', 'type': 'password', 'align': 'center', 'placeholder': 'password'}),
     )
 
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if email:
+            username, domain = email.split('@')
+            username_parts = username.split('.')
+            if len(username_parts) > 5:
+                raise ValidationError("Email address contains too many dots in the username part.")
+        return email
+
     class Meta:
         model = User
         fields = ('username', 'first_name', 'last_name',

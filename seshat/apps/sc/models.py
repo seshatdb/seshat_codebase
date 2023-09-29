@@ -2745,3 +2745,955 @@ class General_postal_service(SeshatCommon):
              
         
 ########## END of class Definitions for general Models
+
+
+############################## NEW SC Variables
+class Communal_building(SeshatCommon):
+    name = models.CharField(max_length=100, default="Communal_building")
+    communal_building = models.CharField(max_length=500, choices=ABSENT_PRESENT_CHOICES)
+
+    class Meta:
+        verbose_name = 'Communal_building'
+        verbose_name_plural = 'Communal_buildings'
+        ordering = ['year_from', 'year_to']
+
+    @property
+    def display_citations(self):
+        return return_citations(self)
+
+    def clean(self):
+        clean_times(self)
+
+    def clean_name(self):
+        return "communal_building"
+
+    def clean_name_spaced(self):
+        return "Communal Building"
+    
+    def show_value(self):
+        if self.communal_building:
+            return self.get_communal_building_display()
+        else:
+            return " - "
+
+    def show_value_from(self):
+        if self.communal_building:
+            return self.communal_building
+        else:
+            return None
+
+    def show_value_to(self):
+        return None  
+    
+    def subsection(self):
+        return "Specialized Buildings: polity owned"
+
+    def sub_subsection(self):
+        return None
+        
+    def get_absolute_url(self):
+        return reverse('communal_building-detail', args=[str(self.id)])
+
+    def __str__(self) -> str:
+        return call_my_name(self)
+    
+
+class Utilitarian_public_building(SeshatCommon):
+    name = models.CharField(max_length=100, default="Utilitarian_public_building")
+    utilitarian_public_building = models.CharField(max_length=500, choices=ABSENT_PRESENT_CHOICES)
+
+    class Meta:
+        verbose_name = 'Utilitarian_public_building'
+        verbose_name_plural = 'Utilitarian_public_buildings'
+        ordering = ['year_from', 'year_to']
+
+    @property
+    def display_citations(self):
+        return return_citations(self)
+
+    def clean(self):
+        clean_times(self)
+
+    def clean_name(self):
+        return "utilitarian_public_building"
+
+    def clean_name_spaced(self):
+        return "Utilitarian Public Building"
+    
+    def show_value(self):
+        if self.utilitarian_public_building:
+            return self.get_utilitarian_public_building_display()
+        else:
+            return " - "
+
+    def show_value_from(self):
+        if self.utilitarian_public_building:
+            return self.utilitarian_public_building
+        else:
+            return None
+
+    def show_value_to(self):
+        return None  
+    
+    def subsection(self):
+        return "Specialized Buildings: polity owned"
+
+    def sub_subsection(self):
+        return None
+        
+    def get_absolute_url(self):
+        return reverse('utilitarian_public_building-detail', args=[str(self.id)])
+
+    def __str__(self) -> str:
+        return call_my_name(self)
+
+
+class Symbolic_building(SeshatCommon):
+    name = models.CharField(max_length=100, default="Symbolic_building")
+    symbolic_building = models.CharField(max_length=500, choices=ABSENT_PRESENT_CHOICES)
+
+    class Meta:
+        verbose_name = 'Symbolic_building'
+        verbose_name_plural = 'Symbolic_buildings'
+        ordering = ['year_from', 'year_to']
+
+    @property
+    def display_citations(self):
+        return return_citations(self)
+
+    def clean(self):
+        clean_times(self)
+
+    def clean_name(self):
+        return "symbolic_building"
+
+    def clean_name_spaced(self):
+        return "Symbolic Building"
+    
+    def show_value(self):
+        if self.symbolic_building:
+            return self.get_symbolic_building_display()
+        else:
+            return " - "
+
+    def show_value_from(self):
+        if self.symbolic_building:
+            return self.symbolic_building
+        else:
+            return None
+
+    def show_value_to(self):
+        return None  
+    
+    def subsection(self):
+        return "Specialized Buildings: polity owned"
+
+    def sub_subsection(self):
+        return None
+        
+    def get_absolute_url(self):
+        return reverse('symbolic_building-detail', args=[str(self.id)])
+
+    def __str__(self) -> str:
+        return call_my_name(self)
+
+
+class Entertainment_building(SeshatCommon):
+    name = models.CharField(max_length=100, default="Entertainment_building")
+    entertainment_building = models.CharField(max_length=500, choices=ABSENT_PRESENT_CHOICES)
+
+    class Meta:
+        verbose_name = 'Entertainment_building'
+        verbose_name_plural = 'Entertainment_buildings'
+        ordering = ['year_from', 'year_to']
+
+    @property
+    def display_citations(self):
+        return return_citations(self)
+
+    def clean(self):
+        clean_times(self)
+
+    def clean_name(self):
+        return "entertainment_building"
+
+    def clean_name_spaced(self):
+        return "Entertainment Building"
+    
+    def show_value(self):
+        if self.entertainment_building:
+            return self.get_entertainment_building_display()
+        else:
+            return " - "
+
+    def show_value_from(self):
+        if self.entertainment_building:
+            return self.entertainment_building
+        else:
+            return None
+
+    def show_value_to(self):
+        return None  
+    
+    def subsection(self):
+        return "Specialized Buildings: polity owned"
+
+    def sub_subsection(self):
+        return None
+        
+    def get_absolute_url(self):
+        return reverse('entertainment_building-detail', args=[str(self.id)])
+
+    def __str__(self) -> str:
+        return call_my_name(self)
+
+
+class Knowledge_or_information_building(SeshatCommon):
+    name = models.CharField(max_length=100, default="Knowledge_or_information_building")
+    knowledge_or_information_building = models.CharField(max_length=500, choices=ABSENT_PRESENT_CHOICES)
+
+    class Meta:
+        verbose_name = 'Knowledge_or_information_building'
+        verbose_name_plural = 'Knowledge_or_information_buildings'
+        ordering = ['year_from', 'year_to']
+
+    @property
+    def display_citations(self):
+        return return_citations(self)
+
+    def clean(self):
+        clean_times(self)
+
+    def clean_name(self):
+        return "knowledge_or_information_building"
+
+    def clean_name_spaced(self):
+        return "Knowledge Or Information Building"
+    
+    def show_value(self):
+        if self.knowledge_or_information_building:
+            return self.get_knowledge_or_information_building_display()
+        else:
+            return " - "
+
+    def show_value_from(self):
+        if self.knowledge_or_information_building:
+            return self.knowledge_or_information_building
+        else:
+            return None
+
+    def show_value_to(self):
+        return None  
+    
+    def subsection(self):
+        return "Specialized Buildings: polity owned"
+
+    def sub_subsection(self):
+        return None
+        
+    def get_absolute_url(self):
+        return reverse('knowledge_or_information_building-detail', args=[str(self.id)])
+
+    def __str__(self) -> str:
+        return call_my_name(self)
+
+
+class Special_purpose_site(SeshatCommon):
+    name = models.CharField(max_length=100, default="Special_purpose_site")
+    special_purpose_site = models.CharField(max_length=500, choices=ABSENT_PRESENT_CHOICES)
+
+    class Meta:
+        verbose_name = 'Special_purpose_site'
+        verbose_name_plural = 'Special_purpose_sites'
+        ordering = ['year_from', 'year_to']
+
+    @property
+    def display_citations(self):
+        return return_citations(self)
+
+    def clean(self):
+        clean_times(self)
+
+    def clean_name(self):
+        return "special_purpose_site"
+
+    def clean_name_spaced(self):
+        return "Special Purpose Site"
+    
+    def show_value(self):
+        if self.special_purpose_site:
+            return self.get_special_purpose_site_display()
+        else:
+            return " - "
+
+    def show_value_from(self):
+        if self.special_purpose_site:
+            return self.special_purpose_site
+        else:
+            return None
+
+    def show_value_to(self):
+        return None  
+    
+    def subsection(self):
+        return "Specialized Buildings: polity owned"
+
+    def sub_subsection(self):
+        return None
+        
+    def get_absolute_url(self):
+        return reverse('special_purpose_site-detail', args=[str(self.id)])
+
+    def __str__(self) -> str:
+        return call_my_name(self)
+
+
+class Ceremonial_site(SeshatCommon):
+    name = models.CharField(max_length=100, default="Ceremonial_site")
+    ceremonial_site = models.CharField(max_length=500, choices=ABSENT_PRESENT_CHOICES)
+
+    class Meta:
+        verbose_name = 'Ceremonial_site'
+        verbose_name_plural = 'Ceremonial_sites'
+        ordering = ['year_from', 'year_to']
+
+    @property
+    def display_citations(self):
+        return return_citations(self)
+
+    def clean(self):
+        clean_times(self)
+
+    def clean_name(self):
+        return "ceremonial_site"
+
+    def clean_name_spaced(self):
+        return "Ceremonial Site"
+    
+    def show_value(self):
+        if self.ceremonial_site:
+            return self.get_ceremonial_site_display()
+        else:
+            return " - "
+
+    def show_value_from(self):
+        if self.ceremonial_site:
+            return self.ceremonial_site
+        else:
+            return None
+
+    def show_value_to(self):
+        return None  
+    
+    def subsection(self):
+        return "Specialized Buildings: polity owned"
+
+    def sub_subsection(self):
+        return None
+        
+    def get_absolute_url(self):
+        return reverse('ceremonial_site-detail', args=[str(self.id)])
+
+    def __str__(self) -> str:
+        return call_my_name(self)
+
+
+class Burial_site(SeshatCommon):
+    name = models.CharField(max_length=100, default="Burial_site")
+    burial_site = models.CharField(max_length=500, choices=ABSENT_PRESENT_CHOICES)
+
+    class Meta:
+        verbose_name = 'Burial_site'
+        verbose_name_plural = 'Burial_sites'
+        ordering = ['year_from', 'year_to']
+
+    @property
+    def display_citations(self):
+        return return_citations(self)
+
+    def clean(self):
+        clean_times(self)
+
+    def clean_name(self):
+        return "burial_site"
+
+    def clean_name_spaced(self):
+        return "Burial Site"
+    
+    def show_value(self):
+        if self.burial_site:
+            return self.get_burial_site_display()
+        else:
+            return " - "
+
+    def show_value_from(self):
+        if self.burial_site:
+            return self.burial_site
+        else:
+            return None
+
+    def show_value_to(self):
+        return None  
+    
+    def subsection(self):
+        return "Specialized Buildings: polity owned"
+
+    def sub_subsection(self):
+        return None
+        
+    def get_absolute_url(self):
+        return reverse('burial_site-detail', args=[str(self.id)])
+
+    def __str__(self) -> str:
+        return call_my_name(self)
+
+
+class Trading_emporia(SeshatCommon):
+    name = models.CharField(max_length=100, default="Trading_emporia")
+    trading_emporia = models.CharField(max_length=500, choices=ABSENT_PRESENT_CHOICES)
+
+    class Meta:
+        verbose_name = 'Trading_emporia'
+        verbose_name_plural = 'Trading_emporias'
+        ordering = ['year_from', 'year_to']
+
+    @property
+    def display_citations(self):
+        return return_citations(self)
+
+    def clean(self):
+        clean_times(self)
+
+    def clean_name(self):
+        return "trading_emporia"
+
+    def clean_name_spaced(self):
+        return "Trading Emporia"
+    
+    def show_value(self):
+        if self.trading_emporia:
+            return self.get_trading_emporia_display()
+        else:
+            return " - "
+
+    def show_value_from(self):
+        if self.trading_emporia:
+            return self.trading_emporia
+        else:
+            return None
+
+    def show_value_to(self):
+        return None  
+    
+    def subsection(self):
+        return "Specialized Buildings: polity owned"
+
+    def sub_subsection(self):
+        return None
+        
+    def get_absolute_url(self):
+        return reverse('trading_emporia-detail', args=[str(self.id)])
+
+    def __str__(self) -> str:
+        return call_my_name(self)
+
+
+class Enclosure(SeshatCommon):
+    name = models.CharField(max_length=100, default="Enclosure")
+    enclosure = models.CharField(max_length=500, choices=ABSENT_PRESENT_CHOICES)
+
+    class Meta:
+        verbose_name = 'Enclosure'
+        verbose_name_plural = 'Enclosures'
+        ordering = ['year_from', 'year_to']
+
+    @property
+    def display_citations(self):
+        return return_citations(self)
+
+    def clean(self):
+        clean_times(self)
+
+    def clean_name(self):
+        return "enclosure"
+
+    def clean_name_spaced(self):
+        return "Enclosure"
+    
+    def show_value(self):
+        if self.enclosure:
+            return self.get_enclosure_display()
+        else:
+            return " - "
+
+    def show_value_from(self):
+        if self.enclosure:
+            return self.enclosure
+        else:
+            return None
+
+    def show_value_to(self):
+        return None  
+    
+    def subsection(self):
+        return "Specialized Buildings: polity owned"
+
+    def sub_subsection(self):
+        return None
+        
+    def get_absolute_url(self):
+        return reverse('enclosure-detail', args=[str(self.id)])
+
+    def __str__(self) -> str:
+        return call_my_name(self)
+
+
+class Length_measurement_system(SeshatCommon):
+    name = models.CharField(max_length=100, default="Length_measurement_system")
+    length_measurement_system = models.CharField(max_length=500, choices=ABSENT_PRESENT_CHOICES)
+
+    class Meta:
+        verbose_name = 'Length_measurement_system'
+        verbose_name_plural = 'Length_measurement_systems'
+        ordering = ['year_from', 'year_to']
+
+    @property
+    def display_citations(self):
+        return return_citations(self)
+
+    def clean(self):
+        clean_times(self)
+
+    def clean_name(self):
+        return "length_measurement_system"
+
+    def clean_name_spaced(self):
+        return "Length Measurement System"
+    
+    def show_value(self):
+        if self.length_measurement_system:
+            return self.get_length_measurement_system_display()
+        else:
+            return " - "
+
+    def show_value_from(self):
+        if self.length_measurement_system:
+            return self.length_measurement_system
+        else:
+            return None
+
+    def show_value_to(self):
+        return None  
+    
+    def subsection(self):
+        return "Information"
+
+    def sub_subsection(self):
+        return "Measurement System"
+        
+    def get_absolute_url(self):
+        return reverse('length_measurement_system-detail', args=[str(self.id)])
+
+    def __str__(self) -> str:
+        return call_my_name(self)
+
+
+class Area_measurement_system(SeshatCommon):
+    name = models.CharField(max_length=100, default="Area_measurement_system")
+    area_measurement_system = models.CharField(max_length=500, choices=ABSENT_PRESENT_CHOICES)
+
+    class Meta:
+        verbose_name = 'Area_measurement_system'
+        verbose_name_plural = 'Area_measurement_systems'
+        ordering = ['year_from', 'year_to']
+
+    @property
+    def display_citations(self):
+        return return_citations(self)
+
+    def clean(self):
+        clean_times(self)
+
+    def clean_name(self):
+        return "area_measurement_system"
+
+    def clean_name_spaced(self):
+        return "Area Measurement System"
+    
+    def show_value(self):
+        if self.area_measurement_system:
+            return self.get_area_measurement_system_display()
+        else:
+            return " - "
+
+    def show_value_from(self):
+        if self.area_measurement_system:
+            return self.area_measurement_system
+        else:
+            return None
+
+    def show_value_to(self):
+        return None  
+    
+    def subsection(self):
+        return "Information"
+
+    def sub_subsection(self):
+        return "Measurement System"
+        
+    def get_absolute_url(self):
+        return reverse('area_measurement_system-detail', args=[str(self.id)])
+
+    def __str__(self) -> str:
+        return call_my_name(self)
+
+
+class Volume_measurement_system(SeshatCommon):
+    name = models.CharField(max_length=100, default="Volume_measurement_system")
+    volume_measurement_system = models.CharField(max_length=500, choices=ABSENT_PRESENT_CHOICES)
+
+    class Meta:
+        verbose_name = 'Volume_measurement_system'
+        verbose_name_plural = 'Volume_measurement_systems'
+        ordering = ['year_from', 'year_to']
+
+    @property
+    def display_citations(self):
+        return return_citations(self)
+
+    def clean(self):
+        clean_times(self)
+
+    def clean_name(self):
+        return "volume_measurement_system"
+
+    def clean_name_spaced(self):
+        return "Volume Measurement System"
+    
+    def show_value(self):
+        if self.volume_measurement_system:
+            return self.get_volume_measurement_system_display()
+        else:
+            return " - "
+
+    def show_value_from(self):
+        if self.volume_measurement_system:
+            return self.volume_measurement_system
+        else:
+            return None
+
+    def show_value_to(self):
+        return None  
+    
+    def subsection(self):
+        return "Information"
+
+    def sub_subsection(self):
+        return "Measurement System"
+        
+    def get_absolute_url(self):
+        return reverse('volume_measurement_system-detail', args=[str(self.id)])
+
+    def __str__(self) -> str:
+        return call_my_name(self)
+
+
+class Weight_measurement_system(SeshatCommon):
+    name = models.CharField(max_length=100, default="Weight_measurement_system")
+    weight_measurement_system = models.CharField(max_length=500, choices=ABSENT_PRESENT_CHOICES)
+
+    class Meta:
+        verbose_name = 'Weight_measurement_system'
+        verbose_name_plural = 'Weight_measurement_systems'
+        ordering = ['year_from', 'year_to']
+
+    @property
+    def display_citations(self):
+        return return_citations(self)
+
+    def clean(self):
+        clean_times(self)
+
+    def clean_name(self):
+        return "weight_measurement_system"
+
+    def clean_name_spaced(self):
+        return "Weight Measurement System"
+    
+    def show_value(self):
+        if self.weight_measurement_system:
+            return self.get_weight_measurement_system_display()
+        else:
+            return " - "
+
+    def show_value_from(self):
+        if self.weight_measurement_system:
+            return self.weight_measurement_system
+        else:
+            return None
+
+    def show_value_to(self):
+        return None  
+    
+    def subsection(self):
+        return "Information"
+
+    def sub_subsection(self):
+        return "Measurement System"
+        
+    def get_absolute_url(self):
+        return reverse('weight_measurement_system-detail', args=[str(self.id)])
+
+    def __str__(self) -> str:
+        return call_my_name(self)
+
+
+class Time_measurement_system(SeshatCommon):
+    name = models.CharField(max_length=100, default="Time_measurement_system")
+    time_measurement_system = models.CharField(max_length=500, choices=ABSENT_PRESENT_CHOICES)
+
+    class Meta:
+        verbose_name = 'Time_measurement_system'
+        verbose_name_plural = 'Time_measurement_systems'
+        ordering = ['year_from', 'year_to']
+
+    @property
+    def display_citations(self):
+        return return_citations(self)
+
+    def clean(self):
+        clean_times(self)
+
+    def clean_name(self):
+        return "time_measurement_system"
+
+    def clean_name_spaced(self):
+        return "Time Measurement System"
+    
+    def show_value(self):
+        if self.time_measurement_system:
+            return self.get_time_measurement_system_display()
+        else:
+            return " - "
+
+    def show_value_from(self):
+        if self.time_measurement_system:
+            return self.time_measurement_system
+        else:
+            return None
+
+    def show_value_to(self):
+        return None  
+    
+    def subsection(self):
+        return "Information"
+
+    def sub_subsection(self):
+        return "Measurement System"
+        
+    def get_absolute_url(self):
+        return reverse('time_measurement_system-detail', args=[str(self.id)])
+
+    def __str__(self) -> str:
+        return call_my_name(self)
+
+
+class Geometrical_measurement_system(SeshatCommon):
+    name = models.CharField(max_length=100, default="Geometrical_measurement_system")
+    geometrical_measurement_system = models.CharField(max_length=500, choices=ABSENT_PRESENT_CHOICES)
+
+    class Meta:
+        verbose_name = 'Geometrical_measurement_system'
+        verbose_name_plural = 'Geometrical_measurement_systems'
+        ordering = ['year_from', 'year_to']
+
+    @property
+    def display_citations(self):
+        return return_citations(self)
+
+    def clean(self):
+        clean_times(self)
+
+    def clean_name(self):
+        return "geometrical_measurement_system"
+
+    def clean_name_spaced(self):
+        return "Geometrical Measurement System"
+    
+    def show_value(self):
+        if self.geometrical_measurement_system:
+            return self.get_geometrical_measurement_system_display()
+        else:
+            return " - "
+
+    def show_value_from(self):
+        if self.geometrical_measurement_system:
+            return self.geometrical_measurement_system
+        else:
+            return None
+
+    def show_value_to(self):
+        return None  
+    
+    def subsection(self):
+        return "Information"
+
+    def sub_subsection(self):
+        return "Measurement System"
+        
+    def get_absolute_url(self):
+        return reverse('geometrical_measurement_system-detail', args=[str(self.id)])
+
+    def __str__(self) -> str:
+        return call_my_name(self)
+
+
+class Other_measurement_system(SeshatCommon):
+    name = models.CharField(max_length=100, default="Other_measurement_system")
+    other_measurement_system = models.CharField(max_length=500, choices=ABSENT_PRESENT_CHOICES)
+
+    class Meta:
+        verbose_name = 'Other_measurement_system'
+        verbose_name_plural = 'Other_measurement_systems'
+        ordering = ['year_from', 'year_to']
+
+    @property
+    def display_citations(self):
+        return return_citations(self)
+
+    def clean(self):
+        clean_times(self)
+
+    def clean_name(self):
+        return "other_measurement_system"
+
+    def clean_name_spaced(self):
+        return "Other Measurement System"
+    
+    def show_value(self):
+        if self.other_measurement_system:
+            return self.get_other_measurement_system_display()
+        else:
+            return " - "
+
+    def show_value_from(self):
+        if self.other_measurement_system:
+            return self.other_measurement_system
+        else:
+            return None
+
+    def show_value_to(self):
+        return None  
+    
+    def subsection(self):
+        return "Information"
+
+    def sub_subsection(self):
+        return "Measurement System"
+        
+    def get_absolute_url(self):
+        return reverse('other_measurement_system-detail', args=[str(self.id)])
+
+    def __str__(self) -> str:
+        return call_my_name(self)
+
+
+class Debt_and_credit_structure(SeshatCommon):
+    name = models.CharField(max_length=100, default="Debt_and_credit_structure")
+    debt_and_credit_structure = models.CharField(max_length=500, choices=ABSENT_PRESENT_CHOICES)
+
+    class Meta:
+        verbose_name = 'Debt_and_credit_structure'
+        verbose_name_plural = 'Debt_and_credit_structures'
+        ordering = ['year_from', 'year_to']
+
+    @property
+    def display_citations(self):
+        return return_citations(self)
+
+    def clean(self):
+        clean_times(self)
+
+    def clean_name(self):
+        return "debt_and_credit_structure"
+
+    def clean_name_spaced(self):
+        return "Debt And Credit Structure"
+    
+    def show_value(self):
+        if self.debt_and_credit_structure:
+            return self.get_debt_and_credit_structure_display()
+        else:
+            return " - "
+
+    def show_value_from(self):
+        if self.debt_and_credit_structure:
+            return self.debt_and_credit_structure
+        else:
+            return None
+
+    def show_value_to(self):
+        return None  
+    
+    def subsection(self):
+        return "Information"
+
+    def sub_subsection(self):
+        return "Money"
+        
+    def get_absolute_url(self):
+        return reverse('debt_and_credit_structure-detail', args=[str(self.id)])
+
+    def __str__(self) -> str:
+        return call_my_name(self)
+
+
+class Store_of_wealth(SeshatCommon):
+    name = models.CharField(max_length=100, default="Store_of_wealth")
+    store_of_wealth = models.CharField(max_length=500, choices=ABSENT_PRESENT_CHOICES)
+
+    class Meta:
+        verbose_name = 'Store_of_wealth'
+        verbose_name_plural = 'Store_of_wealths'
+        ordering = ['year_from', 'year_to']
+
+    @property
+    def display_citations(self):
+        return return_citations(self)
+
+    def clean(self):
+        clean_times(self)
+
+    def clean_name(self):
+        return "store_of_wealth"
+
+    def clean_name_spaced(self):
+        return "Store Of Wealth"
+    
+    def show_value(self):
+        if self.store_of_wealth:
+            return self.get_store_of_wealth_display()
+        else:
+            return " - "
+
+    def show_value_from(self):
+        if self.store_of_wealth:
+            return self.store_of_wealth
+        else:
+            return None
+
+    def show_value_to(self):
+        return None  
+    
+    def subsection(self):
+        return "Information"
+
+    def sub_subsection(self):
+        return "Money"
+        
+    def get_absolute_url(self):
+        return reverse('store_of_wealth-detail', args=[str(self.id)])
+
+    def __str__(self) -> str:
+        return call_my_name(self)
+             

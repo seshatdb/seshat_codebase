@@ -33,6 +33,8 @@ from django.http import FileResponse
 from django.shortcuts import get_object_or_404
 import os
 
+
+
 from markupsafe import Markup, escape
 from django.http import JsonResponse
 
@@ -1008,31 +1010,31 @@ def capital_download(request):
     return response
 
 
-def signup(request):
+def signup_traditional(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)
         if form.is_valid():
             user = form.save(commit=False)
             user.is_active = False
             user.save()
-            current_site = get_current_site(request)
-            subject = 'Activate Your Seshat Account'
-            message = render_to_string('core/account_activation_email.html', {
-                'user': user,
-                'domain': current_site,
-                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-                'token': account_activation_token.make_token(user)
-            })
+            #current_site = get_current_site(request)
+            #subject = 'Activate Your Seshat Account'
+            #message = render_to_string('core/account_activation_email.html', {
+            #     'user': user,
+            #     'domain': current_site,
+            #     'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+            #     'token': account_activation_token.make_token(user)
+            # })
             #user.email_user(subject, message)
-            to_be_sent_email = EmailMessage(subject=subject, body=message,
-                                            from_email=settings.EMAIL_FROM_USER, to=[user.email])
+            # to_be_sent_email = EmailMessage(subject=subject, body=message,
+            #                                 from_email=settings.EMAIL_FROM_USER, to=[user.email])
 
-            print(settings.EMAIL_HOST_USER)
-            to_be_sent_email.send()
+            # #print(settings.EMAIL_HOST_USER)
+            # to_be_sent_email.send()
             return redirect('account_activation_sent')
     else:
         form = SignUpForm()
-    return render(request, 'core/signup.html', {'form': form})
+    return render(request, 'core/signup_traditional.html', {'form': form})
 
 
 def signupfollowup(request):

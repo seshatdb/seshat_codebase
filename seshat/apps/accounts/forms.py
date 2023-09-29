@@ -9,6 +9,8 @@ from django.contrib.admin.widgets import FilteredSelectMultiple
 
 from django.template.defaulttags import register
 from .models import Seshat_Task, Seshat_Expert, Profile, User
+from django.contrib.auth.forms import UserCreationForm
+
 
 
 class Seshat_TaskForm(forms.ModelForm):
@@ -67,3 +69,16 @@ class ProfileForm(forms.ModelForm):
 #         'first_name': forms.TextInput(attrs={'class': 'form-control  mb-3', }),
 
 }
+
+
+class CustomSignUpForm(UserCreationForm):
+    # Your other form fields
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if email:
+            username, domain = email.split('@')
+            username_parts = username.split('.')
+            if len(username_parts) > 5:
+                raise ValidationError("Email address contains too many dots in the username part.")
+        return email

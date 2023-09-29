@@ -8,7 +8,6 @@
 {% block download_button %}
     <a href="{% url create_url %}" class="btn btn-outline-success mx-3 my-4 float-end"><i class="fas fa-plus"></i> &nbsp; Add More Facts</a>
     <a href="{% url download_url %}" class="btn btn-outline-primary mx-3 my-4 float-end"><i class="fas fa-download"></i> &nbsp; Download All</a>
-    <a href="{% url pagination_url %}" class="btn btn-warning mx-3 my-4 float-end"><i class="fa-solid fa-file-lines"></i> &nbsp; See Pagination Mode</a>
 {% endblock download_button %}
 
 {% block metadownload_button %}
@@ -24,18 +23,18 @@
 {% endblock myheadings_list %}
 
 {% block extra_vars_list %}
-<td class = "{% if obj.tag == 'DSP' %}
-text-danger
-{% elif obj.tag == 'SSP' %}
-text-warning
-{% elif obj.tag == 'UNK' %}
-text-secondary
-{% elif obj.tag == 'IFR' %}
-text-primary
-{% else %}
-text-success
-{% endif %} fw-normal" style="text-align: center;">
-<h6 class="pt-3">{{extra_var_dict|get_item_from_dic:obj.id}}</h6>
+<td style="text-align: center;">
+    <span class="pt-3 h5 fw-bold {% if obj.tag == 'DSP' %}
+    text-danger
+    {% elif obj.tag == 'SSP' %}
+        text-darkorange
+    {% elif obj.tag == 'UNK' %}
+        text-secondary
+    {% elif obj.tag == 'IFR' %}
+        text-primary
+    {% else %}
+        text-success
+    {% endif %} fw-normal">{{extra_var_dict|get_item_from_dic:obj.id}}</span>
 </td>
 {% endblock extra_vars_list %}
 

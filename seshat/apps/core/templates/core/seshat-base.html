@@ -64,8 +64,29 @@
     {% block dynamicdropdownjs %} {% endblock %}
     
   </head>
+  <style>
+    body {
+        margin: 0;
+        padding: 0;
+        /*font-family: Arial, sans-serif; /* Add your preferred font */
+    }
 
-  <body style="background-color: #fffdf2">
+    .wrapper {
+        min-height: 100vh; /* Minimum height to cover the full viewport height */
+        display: flex;
+        flex-direction: column;
+    }
+
+    .inner-content {
+        flex-grow: 1; /* Allow content to grow and fill remaining space */
+        /* Add any additional styles for your content here */
+    }
+
+</style>
+  <body style="background-color: #fffdf2;">
+    <div class="wrapper">
+      <div class="inner-content">
+
     <!-- Topbar -->
     {% include "core/partials/_topbar.html" %}
 
@@ -76,9 +97,12 @@
     {% block content %} {% endblock %}
     <!-- main content -->
     {% block content-home %} {% endblock %}
+  </div>
+
 
     <!-- footer -->
       {% include "core/partials/_footer_bar.html" %}
+    </div>
 
 
     <!-- JS Scripts Needed -->

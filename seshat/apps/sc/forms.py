@@ -1,4 +1,4 @@
-from .models import Ra, Polity_territory, Polity_population, Population_of_the_largest_settlement, Settlement_hierarchy, Administrative_level, Religious_level, Military_level, Professional_military_officer, Professional_soldier, Professional_priesthood, Full_time_bureaucrat, Examination_system, Merit_promotion, Specialized_government_building, Formal_legal_code, Judge, Court, Professional_lawyer, Irrigation_system, Drinking_water_supply_system, Market, Food_storage_site, Road, Bridge, Canal, Port, Mines_or_quarry, Mnemonic_device, Nonwritten_record, Written_record, Script, Non_phonetic_writing, Phonetic_alphabetic_writing, Lists_tables_and_classification, Calendar, Sacred_text, Religious_literature, Practical_literature, History, Philosophy, Scientific_literature, Fiction, Article, Token, Precious_metal, Foreign_coin, Indigenous_coin, Paper_currency, Courier, Postal_station, General_postal_service
+from .models import Ra, Polity_territory, Polity_population, Population_of_the_largest_settlement, Settlement_hierarchy, Administrative_level, Religious_level, Military_level, Professional_military_officer, Professional_soldier, Professional_priesthood, Full_time_bureaucrat, Examination_system, Merit_promotion, Specialized_government_building, Formal_legal_code, Judge, Court, Professional_lawyer, Irrigation_system, Drinking_water_supply_system, Market, Food_storage_site, Road, Bridge, Canal, Port, Mines_or_quarry, Mnemonic_device, Nonwritten_record, Written_record, Script, Non_phonetic_writing, Phonetic_alphabetic_writing, Lists_tables_and_classification, Calendar, Sacred_text, Religious_literature, Practical_literature, History, Philosophy, Scientific_literature, Fiction, Article, Token, Precious_metal, Foreign_coin, Indigenous_coin, Paper_currency, Courier, Postal_station, General_postal_service, Communal_building, Utilitarian_public_building, Symbolic_building, Entertainment_building, Knowledge_or_information_building, Special_purpose_site, Ceremonial_site, Burial_site, Trading_emporia, Enclosure, Length_measurement_system, Area_measurement_system, Volume_measurement_system, Weight_measurement_system, Time_measurement_system, Geometrical_measurement_system, Other_measurement_system, Debt_and_credit_structure, Store_of_wealth
 import datetime
 
 from django import forms
@@ -13,12 +13,14 @@ from django.contrib.admin.widgets import FilteredSelectMultiple
 from django.template.defaulttags import register
 
 commonlabels = {
-    'year_from': 'Start Year',
-    'year_to': 'End Year',
+    'polity': '&nbsp;<b>Polity:</b>',
+    'year_from': '&nbsp;<b>Start Year:</b>',
+    'year_to': '&nbsp;<b>End Year:</b>',
     'tag': 'Confidence Level',
+    'description': "&nbsp; <b> Description: </b>",
     "is_disputed" : "&nbsp; <b> There is a Dispute? </b>",
     "is_uncertain" : "&nbsp; <b> There is Uncertainty? </b>",
-    "expert_reviewed" : "&nbsp; Expert Checked?",
+    "expert_reviewed" : "&nbsp; <b> Expert Checked? </b>",
     "drb_reviewed" : "&nbsp; Data Review Board Reviewed?",
     'citations': 'Add one or more Citations',
     'finalized': 'This piece of data is verified.',
@@ -28,10 +30,10 @@ commonfields = ['polity', 'year_from', 'year_to',
                 'description', 'tag', 'is_disputed', 'is_uncertain', 'expert_reviewed', 'drb_reviewed', 'finalized', 'citations']
 
 commonwidgets = {
-    'polity': forms.Select(attrs={'class': 'form-control  mb-1 js-example-basic-single', 'id': 'id_polity', 'name': 'polity'}),
+    'polity': forms.Select(attrs={'class': 'form-control  mb-3 js-example-basic-single', 'id': 'id_polity', 'name': 'polity'}),
     'year_from': forms.NumberInput(attrs={'class': 'form-control  mb-3',}),
     'year_to': forms.NumberInput(attrs={'class': 'form-control  mb-3', }),
-    'description': Textarea(attrs={'class': 'form-control  mb-3', 'style': 'height: 440px; line-height: 1.2;', 'placeholder':'Add a meaningful description (optional)'}),
+    'description': Textarea(attrs={'class': 'form-control  mb-3', 'style': 'height: 240px; line-height: 1.2;', 'placeholder':'Add a meaningful description (optional)\nNote: USe §REF§ opening and closing tags to include citations to the description.\nExample: §REF§Chadwick, J. 1976. The Mycenaean World, Cambridge, p.78.§REF§.'}),
     'citations': forms.SelectMultiple(attrs={'class': 'form-control mb-3 js-states js-example-basic-multiple', 'text':'citations[]' , 'style': 'height: 340px', 'multiple': 'multiple'}),
     'tag': forms.RadioSelect(),
     "is_disputed" : forms.CheckboxInput(attrs={'class': 'mb-3', }),
@@ -626,3 +628,249 @@ class General_postal_serviceForm(forms.ModelForm):
         widgets = dict(commonwidgets)
         widgets['general_postal_service'] = forms.Select(attrs={'class': 'form-control  mb-3', })
         
+
+# NEW SC vars
+class Communal_buildingForm(forms.ModelForm):
+    class Meta:
+        model = Communal_building
+        fields = commonfields.copy()
+        fields.append('communal_building')
+        labels = commonlabels
+
+        labels['communal_building'] = "&nbsp;<b> Communal Building: </b>"
+        
+        widgets = dict(commonwidgets)
+        widgets['communal_building'] = forms.Select(attrs={'class': 'form-control  mb-3', })
+        
+class Utilitarian_public_buildingForm(forms.ModelForm):
+    class Meta:
+        model = Utilitarian_public_building
+        fields = commonfields.copy()
+        fields.append('utilitarian_public_building')
+        labels = commonlabels
+
+        labels['utilitarian_public_building'] = "&nbsp;<b> Utilitarian Public Building: </b>"
+        
+        widgets = dict(commonwidgets)
+        widgets['utilitarian_public_building'] = forms.Select(attrs={'class': 'form-control  mb-3', })
+
+
+class Symbolic_buildingForm(forms.ModelForm):
+    class Meta:
+        model = Symbolic_building
+        fields = commonfields.copy()
+        fields.append('symbolic_building')
+        labels = commonlabels
+
+        labels['symbolic_building'] = "&nbsp;<b> Symbolic Building: </b>"
+        
+        widgets = dict(commonwidgets)
+        widgets['symbolic_building'] = forms.Select(attrs={'class': 'form-control  mb-3', })
+
+
+class Entertainment_buildingForm(forms.ModelForm):
+    class Meta:
+        model = Entertainment_building
+        fields = commonfields.copy()
+        fields.append('entertainment_building')
+        labels = commonlabels
+
+        labels['entertainment_building'] = "&nbsp;<b> Entertainment Building: </b>"
+        
+        widgets = dict(commonwidgets)
+        widgets['entertainment_building'] = forms.Select(attrs={'class': 'form-control  mb-3', })
+
+
+class Knowledge_or_information_buildingForm(forms.ModelForm):
+    class Meta:
+        model = Knowledge_or_information_building
+        fields = commonfields.copy()
+        fields.append('knowledge_or_information_building')
+        labels = commonlabels
+
+        labels['knowledge_or_information_building'] = "&nbsp;<b> Knowledge Or Information Building: </b>"
+        
+        widgets = dict(commonwidgets)
+        widgets['knowledge_or_information_building'] = forms.Select(attrs={'class': 'form-control  mb-3', })
+
+
+class Special_purpose_siteForm(forms.ModelForm):
+    class Meta:
+        model = Special_purpose_site
+        fields = commonfields.copy()
+        fields.append('special_purpose_site')
+        labels = commonlabels
+
+        labels['special_purpose_site'] = "&nbsp;<b> Special Purpose Site: </b>"
+        
+        widgets = dict(commonwidgets)
+        widgets['special_purpose_site'] = forms.Select(attrs={'class': 'form-control  mb-3', })
+
+
+class Ceremonial_siteForm(forms.ModelForm):
+    class Meta:
+        model = Ceremonial_site
+        fields = commonfields.copy()
+        fields.append('ceremonial_site')
+        labels = commonlabels
+
+        labels['ceremonial_site'] = "&nbsp;<b> Ceremonial Site: </b>"
+        
+        widgets = dict(commonwidgets)
+        widgets['ceremonial_site'] = forms.Select(attrs={'class': 'form-control  mb-3', })
+
+
+class Burial_siteForm(forms.ModelForm):
+    class Meta:
+        model = Burial_site
+        fields = commonfields.copy()
+        fields.append('burial_site')
+        labels = commonlabels
+
+        labels['burial_site'] = "&nbsp;<b> Burial Site: </b>"
+        
+        widgets = dict(commonwidgets)
+        widgets['burial_site'] = forms.Select(attrs={'class': 'form-control  mb-3', })
+
+
+class Trading_emporiaForm(forms.ModelForm):
+    class Meta:
+        model = Trading_emporia
+        fields = commonfields.copy()
+        fields.append('trading_emporia')
+        labels = commonlabels
+
+        labels['trading_emporia'] = "&nbsp;<b> Trading Emporia: </b>"
+        
+        widgets = dict(commonwidgets)
+        widgets['trading_emporia'] = forms.Select(attrs={'class': 'form-control  mb-3', })
+
+
+class EnclosureForm(forms.ModelForm):
+    class Meta:
+        model = Enclosure
+        fields = commonfields.copy()
+        fields.append('enclosure')
+        labels = commonlabels
+
+        labels['enclosure'] = "&nbsp;<b> Enclosure: </b>"
+        
+        widgets = dict(commonwidgets)
+        widgets['enclosure'] = forms.Select(attrs={'class': 'form-control  mb-3', })
+
+
+class Length_measurement_systemForm(forms.ModelForm):
+    class Meta:
+        model = Length_measurement_system
+        fields = commonfields.copy()
+        fields.append('length_measurement_system')
+        labels = commonlabels
+
+        labels['length_measurement_system'] = "&nbsp;<b> Length Measurement System: </b>"
+        
+        widgets = dict(commonwidgets)
+        widgets['length_measurement_system'] = forms.Select(attrs={'class': 'form-control  mb-3', })
+
+
+class Area_measurement_systemForm(forms.ModelForm):
+    class Meta:
+        model = Area_measurement_system
+        fields = commonfields.copy()
+        fields.append('area_measurement_system')
+        labels = commonlabels
+
+        labels['area_measurement_system'] = "&nbsp;<b> Area Measurement System: </b>"
+        
+        widgets = dict(commonwidgets)
+        widgets['area_measurement_system'] = forms.Select(attrs={'class': 'form-control  mb-3', })
+
+
+class Volume_measurement_systemForm(forms.ModelForm):
+    class Meta:
+        model = Volume_measurement_system
+        fields = commonfields.copy()
+        fields.append('volume_measurement_system')
+        labels = commonlabels
+
+        labels['volume_measurement_system'] = "&nbsp;<b> Volume Measurement System: </b>"
+        
+        widgets = dict(commonwidgets)
+        widgets['volume_measurement_system'] = forms.Select(attrs={'class': 'form-control  mb-3', })
+
+
+class Weight_measurement_systemForm(forms.ModelForm):
+    class Meta:
+        model = Weight_measurement_system
+        fields = commonfields.copy()
+        fields.append('weight_measurement_system')
+        labels = commonlabels
+
+        labels['weight_measurement_system'] = "&nbsp;<b> Weight Measurement System: </b>"
+        
+        widgets = dict(commonwidgets)
+        widgets['weight_measurement_system'] = forms.Select(attrs={'class': 'form-control  mb-3', })
+
+
+class Time_measurement_systemForm(forms.ModelForm):
+    class Meta:
+        model = Time_measurement_system
+        fields = commonfields.copy()
+        fields.append('time_measurement_system')
+        labels = commonlabels
+
+        labels['time_measurement_system'] = "&nbsp;<b> Time Measurement System: </b>"
+        
+        widgets = dict(commonwidgets)
+        widgets['time_measurement_system'] = forms.Select(attrs={'class': 'form-control  mb-3', })
+
+
+class Geometrical_measurement_systemForm(forms.ModelForm):
+    class Meta:
+        model = Geometrical_measurement_system
+        fields = commonfields.copy()
+        fields.append('geometrical_measurement_system')
+        labels = commonlabels
+
+        labels['geometrical_measurement_system'] = "&nbsp;<b> Geometrical Measurement System: </b>"
+        
+        widgets = dict(commonwidgets)
+        widgets['geometrical_measurement_system'] = forms.Select(attrs={'class': 'form-control  mb-3', })
+
+
+class Other_measurement_systemForm(forms.ModelForm):
+    class Meta:
+        model = Other_measurement_system
+        fields = commonfields.copy()
+        fields.append('other_measurement_system')
+        labels = commonlabels
+
+        labels['other_measurement_system'] = "&nbsp;<b> Other Measurement System: </b>"
+        
+        widgets = dict(commonwidgets)
+        widgets['other_measurement_system'] = forms.Select(attrs={'class': 'form-control  mb-3', })
+
+
+class Debt_and_credit_structureForm(forms.ModelForm):
+    class Meta:
+        model = Debt_and_credit_structure
+        fields = commonfields.copy()
+        fields.append('debt_and_credit_structure')
+        labels = commonlabels
+
+        labels['debt_and_credit_structure'] = "&nbsp;<b> Debt And Credit Structure: </b>"
+        
+        widgets = dict(commonwidgets)
+        widgets['debt_and_credit_structure'] = forms.Select(attrs={'class': 'form-control  mb-3', })
+
+
+class Store_of_wealthForm(forms.ModelForm):
+    class Meta:
+        model = Store_of_wealth
+        fields = commonfields.copy()
+        fields.append('store_of_wealth')
+        labels = commonlabels
+
+        labels['store_of_wealth'] = "&nbsp;<b> Store Of Wealth: </b>"
+        
+        widgets = dict(commonwidgets)
+        widgets['store_of_wealth'] = forms.Select(attrs={'class': 'form-control  mb-3', })
