@@ -2,7 +2,39 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
+
+<link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+
+
+
 <style>
+    /* Style the dropdown */
+    .select2-container .select2-selection--single {
+      height: 38px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      padding: 6px;
+    }
+
+    .select2-container .select2-results__option:hover {
+        background-color: #782823;
+        color: beige;
+      }
+
+
+      .select2-container--default .select2-results__option--highlighted[aria-selected] {
+        background-color: #782823;
+        color: beige;
+      }
+  
+    /* Style the dropdown arrow */
+    .select2-container .select2-selection__arrow {
+      height: 36px;
+      margin-top: 4px; /* Adjust the margin-top as needed */
+    }
+
     .form-check-inline {
         display: flex;
         flex-direction: row;

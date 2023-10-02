@@ -137,6 +137,7 @@ class Polity(models.Model):
     new_name = models.CharField(max_length=100, blank=True, null=True)
     home_nga = models.ForeignKey(Nga, on_delete=models.SET_NULL, null=True, blank=True, related_name="home_nga")
     polity_tag = models.CharField(max_length=100, choices=POLITY_TAG_CHOICES, default="LEGACY", null=True, blank=True)
+    general_description = models.TextField(blank=True, null=True,)
 
     created_date = models.DateTimeField(
         auto_now_add=True, blank=True, null=True)

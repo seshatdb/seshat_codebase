@@ -31,7 +31,6 @@ model_form_pairs = [
      (Other_measurement_system, Other_measurement_systemForm, 'other_measurement_system', 'Other Measurement System', "Information", "Measurement System"),
      (Debt_and_credit_structure, Debt_and_credit_structureForm, 'debt_and_credit_structure', 'Debt And Credit Structure', "Information", "Money"),
      (Store_of_wealth, Store_of_wealthForm, 'store_of_wealth', 'Store Of Wealth', "Information", "Money"),
-     (Bridge, BridgeForm, 'bridge', 'Bridgeee', "Information", "Money")
 ]
 
 

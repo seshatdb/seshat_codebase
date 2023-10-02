@@ -13,50 +13,50 @@
     {% elif  value.year_from == value.year_to %}
         {% if  value.year_from < 0 %}
         {{ value.year_from|abs }} 
-        <sup>
+        
         <span class="text-secondary fw-light fs-6">BCE</span> 
-        </sup>
+    
         {% else %}
         {{ value.year_from }} 
-    <sup>
+    
         <span class="text-secondary fw-light fs-6">CE</span>
-    </sup>
+
         {% endif %}
     {% elif value.year_to == None %}
         {% if  value.year_from < 0 %}
         {{ value.year_from|abs }} 
-        <sup>
+        
             <span class="text-secondary fw-light fs-6">BCE</span>
-        </sup>
+    
         {% else %}
         {{ value.year_from }} 
-        <sup>
+        
             <span class="text-secondary fw-light fs-6">CE</span>
-        </sup>
+    
         {% endif %}
     {% elif value.year_to == None and  value.year_from == None %}
         <i class="fa-solid fa-minus"></i> 
     {% else %}
         {% if  value.year_from < 0 and value.year_to < 0 %}
         {{ value.year_from|abs }} 
-        <sup>
+        
             <span class="text-secondary fw-light fs-6">BCE</span> 
-        </sup>
-        <i class="fas fa-long-arrow-alt-right"></i> {{ value.year_to|abs }}         <sup>
+    
+        <i class="fas fa-long-arrow-alt-right"></i> {{ value.year_to|abs }}         
             <span class="text-secondary fw-light fs-6">BCE</span> 
-        </sup>
+    
         {% elif  value.year_from < 0 and value.year_to >= 0 %}
-        {{ value.year_from|abs }}         <sup>
+        {{ value.year_from|abs }}         
             <span class="text-secondary fw-light fs-6">BCE</span> 
-        </sup> <i class="fas fa-long-arrow-alt-right"></i> {{ value.year_to }}         <sup>
+     <i class="fas fa-long-arrow-alt-right"></i> {{ value.year_to }}         
             <span class="text-secondary fw-light fs-6">CE</span> 
-        </sup>
+    
         {% else %}
-        {{ value.year_from }} <sup>
+        {{ value.year_from }} 
             <span class="text-secondary fw-light fs-6">CE</span>
-        </sup>  <i class="fas fa-long-arrow-alt-right"></i> {{ value.year_to }}         <sup>
+      <i class="fas fa-long-arrow-alt-right"></i> {{ value.year_to }}         
             <span class="text-secondary fw-light fs-6">CE</span> 
-        </sup>
+    
         {% endif %}
 
     {% endif %}

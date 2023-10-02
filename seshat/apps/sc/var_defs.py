@@ -18,6 +18,4 @@ sc_var_defs = {
  'other_measurement_system': 'Textual evidence of more advanced measurement systems: temperature, force, astronomical',
  'debt_and_credit_structure': 'Commercial/market practices that take physical form, e.g. a contract on parchment (not just verbal agreements).',
  'store_of_wealth': 'Example: hoard, chest for storing valuables, treasury room. Note for the future: perhaps should separate these into individual variables.',
-  'bridge': 'Exaeeeeeeeeeaps should separate these into individual variables.'
  }
-
