@@ -6,6 +6,11 @@ import os
 import django_heroku
 
 import dj_database_url
+import environ
+# Initialise environment variables
+env = environ.Env()
+environ.Env.read_env()
+
 from decouple import Csv, config
 
 from django.contrib.messages import constants as messages
@@ -193,10 +198,9 @@ TEMPLATES = [
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'seshat_oct5',
-        'USER': 'postgres',
-        # 'PASSWORD': config('DB_PASSWORD'),
-        'HOST': 'localhost',
+        'NAME': env('NAME'),
+        'USER': env('USER'),
+        'HOST': env('HOST'),
         'PORT': 5432,
     }
 }
