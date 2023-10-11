@@ -193,9 +193,9 @@ TEMPLATES = [
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': config('DB_NAME'),
-        'USER': config('DB_USER'),
-        'PASSWORD': config('DB_PASSWORD'),
+        'NAME': 'seshat_oct5',
+        'USER': 'postgres',
+        # 'PASSWORD': config('DB_PASSWORD'),
         'HOST': 'localhost',
         'PORT': 5432,
     }
@@ -245,12 +245,12 @@ USE_TZ = True
 LOCALE_PATHS = [BASE_DIR / "locale"]
 
 # Email config BACKUP:
-EMAIL_FROM_USER = config('EMAIL_FROM_USER')
-EMAIL_HOST = config('EMAIL_HOST')
-EMAIL_HOST_USER = config('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
-EMAIL_USE_TLS = True
-EMAIL_PORT = 587
+# EMAIL_FROM_USER = config('EMAIL_FROM_USER')
+# EMAIL_HOST = config('EMAIL_HOST')
+# EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+# EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
+# EMAIL_USE_TLS = True
+# EMAIL_PORT = 587
 
 ######EMAIL_CONFIRMATION_BRANCH is the keyword that needs to be searched
 # EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'

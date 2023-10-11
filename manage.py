@@ -6,12 +6,12 @@ import sys
 
 def main():
     """Run administrative tasks."""
-    if os.path.exists(".env"):
-        os.environ.setdefault('DJANGO_SETTINGS_MODULE',
+    # if os.path.exists(".env"):
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE',
                               'seshat.settings.local')
-    else:
-        os.environ.setdefault('DJANGO_SETTINGS_MODULE',
-                              'seshat.settings.production')
+    # else:
+    #     os.environ.setdefault('DJANGO_SETTINGS_MODULE',
+    #                           'seshat.settings.production')
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:
