@@ -39,10 +39,10 @@ SECRET_KEY = config(
 
 DEBUG = config("DEBUG", default=True, cast=bool)
 
-# if DEBUG:
-#     MY_CURRENT_SERVER = "http://127.0.0.1:8000"
-# else:
-#     MY_CURRENT_SERVER = "https://www.majidbenam.com"
+if DEBUG:
+    MY_CURRENT_SERVER = "http://127.0.0.1:8000"
+else:
+    MY_CURRENT_SERVER = "https://www.majidbenam.com"
 
 ALLOWED_HOSTS = config("ALLOWED_HOSTS", default="127.0.0.1,localhost", cast=Csv())
 # ALLOWED_HOSTS = ['seshatdb.herokuapp.com', '127.0.0.1',
