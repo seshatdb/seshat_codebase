@@ -58,10 +58,22 @@ This page instructs software engineers how to get started working with the Djang
         ```
 
 8. Create a config with your database info for Django
+    - Within the repo, create a file called `seshat/settings/.env` with the db connection vars
+    - For example:
+        ```
+            NAME=<seshat_db_name>
+            USER=postgres
+            HOST=localhost
+            PORT=5432
+        ```
+    - The presence of this file will ensure Django connects to your local database
 
-10. Create stuff in settings/base.py
+9. Run Django
+    ```
+        python manage.py runserver
+    ```
 
-11. `python manage.py runserver`
+10. The webapp should be visible in a browser at http://127.0.0.1:8000/
 
 
 
