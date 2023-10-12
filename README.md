@@ -1,8 +1,6 @@
-# seshat
+# Seshat: Global History Databank
 
-This is the beginning of the Seshat Project code.
-I will keep my notes here.
-Just added the branch to add sections and subsections.
-Part of the job is done in the utils and we need to commit the changes to the updated templates and views as well later.
+[Seshat](http://seshat-db.com/) was founded in 2011 to bring together the most current and comprehensive body of knowledge about human history in one place.
 
-### Switching to Qing for now.
+This repo contains the necessary Django Python code to host the [Seshat](http://seshat-db.com/) website and interact with the backend PostgreSQL database.
+
