@@ -44,7 +44,7 @@ if DEBUG:
 else:
     MY_CURRENT_SERVER = "https://www.majidbenam.com"
 
-# ALLOWED_HOSTS = config("ALLOWED_HOSTS", default="127.0.0.1,localhost", cast=Csv())
+#ALLOWED_HOSTS = config("ALLOWED_HOSTS", default="127.0.0.1,localhost", cast=Csv())
 ALLOWED_HOSTS = ['seshatdb.herokuapp.com', '127.0.0.1',
                  'majidbenam.com', 'www.majidbenam.com', 'https://majidbenam.com']
 
