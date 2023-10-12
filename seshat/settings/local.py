@@ -19,7 +19,7 @@ DATABASES = {
         'NAME': env('NAME'),
         'USER': env('USER'),
         'HOST': env('HOST'),
-        'PORT': 5432,
+        'PORT': env('PORT'),
     }
 }
 
