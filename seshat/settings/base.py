@@ -267,12 +267,13 @@ USE_TZ = True
 LOCALE_PATHS = [BASE_DIR / "locale"]
 
 # Email config BACKUP:
-# EMAIL_FROM_USER = config('EMAIL_FROM_USER')
-# EMAIL_HOST = config('EMAIL_HOST')
-# EMAIL_HOST_USER = config('EMAIL_HOST_USER')
-# EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
-# EMAIL_USE_TLS = True
-# EMAIL_PORT = 587
+if not os.path.exists(local_env_path):
+    EMAIL_FROM_USER = config('EMAIL_FROM_USER')
+    EMAIL_HOST = config('EMAIL_HOST')
+    EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+    EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
+    EMAIL_USE_TLS = True
+    EMAIL_PORT = 587
 
 ######EMAIL_CONFIRMATION_BRANCH is the keyword that needs to be searched
 # EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
