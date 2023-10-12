@@ -31,7 +31,10 @@ This page instructs software engineers how to get started working with the Djang
             ```
         - Open a new terminal
         </details>
-    - Check the installation works with `psql postgres` and do `\l` to see Owner username
+    - Open PostgreSQL with:
+        ```
+            psql postgres
+        ```
     - In psql, create a default superuser called "postgres", which is needed to restore the Seshat database from backup:
         ```
             CREATE USER postgres SUPERUSER;
