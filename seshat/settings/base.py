@@ -37,8 +37,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config(
     "SECRET_KEY", default="django-insecure$seshat.settings.local")
 
-# DEBUG = config("DEBUG", default=True, cast=bool)
-DEBUG = True
+DEBUG = config("DEBUG", default=True, cast=bool)
 
 # if DEBUG:
 #     MY_CURRENT_SERVER = "http://127.0.0.1:8000"
