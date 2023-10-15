@@ -2,6 +2,7 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
+
 <!-- form-row and form-group etc are removed in Bootstrap 5 -->
 <div class="container mt-3">
     <form action="" method="post">
@@ -16,25 +17,34 @@
             <hr>
         </legend>
         <div class="row">
-          <div class="col-md-2 mb-2">
-            {{ form.name|as_crispy_field }}
-          </div>
-          <div class="col-md-3 mb-2">
+
+          <div class="col-md-4 mb-2">
             {{ form.new_name|as_crispy_field }}
+          </div>
+          <div class="col-md-4 mb-2">
+            {{ form.start_year|as_crispy_field }}
+          </div>
+          <div class="col-md-4 mb-2">
+            {{ form.end_year|as_crispy_field }}
           </div>
           <div class="col-md-4 mb-2">
             {{ form.long_name|as_crispy_field }}
           </div>
-          <div class="col-md-3 mb-2">
+          <div class="col-md-4 mb-2">
             {{ form.home_nga|as_crispy_field }}
           </div>
-          <div class="col-md-2 mb-2">
-                {{ form.start_year|as_crispy_field }}
+          <div class="col-md-4 mb-2">
+            {{ form.name|as_crispy_field }}
           </div>
-          <div class="col-md-2 mb-2">
-            {{ form.end_year|as_crispy_field }}
         </div>
+        <div class="row">
+          <div class="col-md-12 pt-3">
+            {{ form.general_description|as_crispy_field }}
+
+          </div>
         </div>
+
+
         <div class="row">
             <div class="col-md-4 mb-2 py-2 d-grid mx-auto">
                 <button type="submit" class="btn btn-outline-success my-auto btn-block btn-lg">Submit for Review*</button>

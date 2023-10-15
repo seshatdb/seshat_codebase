@@ -56,6 +56,7 @@ import requests
 from requests.structures import CaseInsensitiveDict
 from seshat.utils.utils import adder, dic_of_all_vars, list_of_all_Polities, dic_of_all_vars_in_sections, dic_of_all_vars_with_varhier, get_all_data_for_a_polity, polity_detail_data_collector, get_all_general_data_for_a_polity, get_all_sc_data_for_a_polity, get_all_wf_data_for_a_polity, get_all_crisis_cases_data_for_a_polity, get_all_power_transitions_data_for_a_polity
 
+
 from django.shortcuts import HttpResponse
 
 
@@ -99,10 +100,43 @@ def seshatmethods(request):
     return render(request, 'core/seshat-methods.html', context=context)
 
 def seshatwhoweare(request):
-    context = {
-        'insta': "Instabilities All Over the Place..",
-    }
-    return render(request, 'core/seshat-whoweare.html', context=context)
+    #json_url_inners = "https://eric.clst.org/assets/wiki/uploads/Stuff/gz_2010_us_040_00_500k.json"
+    #json_url_outline = "https://eric.clst.org/assets/wiki/uploads/Stuff/gz_2010_us_outline_500k.json"
+    json_file_path = "/home/majid/dev/seshat/seshat/seshat/apps/core/static/geojson/us_states_geojson.json"
+
+    try:
+        #response_inners = requests.get(json_url_inners)
+        #response_outline = requests.get(json_url_outline)
+        with open(json_file_path, "r") as json_file:
+            json_data = json.load(json_file)
+        #with open(json_file_path, "r") as json_file:
+        #    json_data = json.load(json_file)
+        # Check if the request was successful (status code 200)
+        #if response_inners.status_code == 200 and response_outline.status_code == 200:
+        #    # Parse the JSON data from the response_inners
+        #    json_inners = response_inners.json()
+        #    json_outline = response_outline.json()
+
+        context = {
+                'insta': "Instabilities All Over the Place..",
+                'json_data': json_data,  # Add this line to your context
+        }
+        print(len(json_data))
+        return render(request, 'core/seshat-whoweare.html', context=context)
+    except FileNotFoundError:
+        # Handle the case when the file is not found
+        context = {
+            'insta': "Instabilities All Over the Place..",
+            'json_error': "JSON file not found",
+        }
+        return render(request, 'core/seshat-whoweare.html', context=context)
+    except json.JSONDecodeError as e:
+        # Handle JSON decoding errors if the file is not valid JSON
+        context = {
+            'insta': "Instabilities All Over the Place..",
+            'json_error': f"JSON decoding error: {str(e)}",
+        }
+        return render(request, 'core/seshat-whoweare.html', context=context)
 
 def seshatolddownloads(request):
     context = {

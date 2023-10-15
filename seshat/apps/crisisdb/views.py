@@ -15,7 +15,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.db.models import F, CharField, ExpressionWrapper
 
 
-from django.http import HttpResponseRedirect, response, JsonResponse
+from django.http import HttpResponseRedirect, response, JsonResponse, HttpResponseForbidden
 from ..core.models import Citation, Reference, Polity, Section, Subsection, Country, Variablehierarchy, SeshatComment, SeshatCommentPart
 from seshat.apps.accounts.models import Seshat_Expert
 
@@ -36,12 +36,21 @@ from django.template.loader import render_to_string
 import requests
 from requests.structures import CaseInsensitiveDict
 
+from django.contrib import messages
 
 
-from .models import Power_transition, Crisis_consequence, Human_sacrifice, External_conflict, Internal_conflict, External_conflict_side, Agricultural_population, Arable_land, Arable_land_per_farmer, Gross_grain_shared_per_agricultural_population, Net_grain_shared_per_agricultural_population, Surplus, Military_expense, Silver_inflow, Silver_stock, Total_population, Gdp_per_capita, Drought_event, Locust_event, Socioeconomic_turmoil_event, Crop_failure_event, Famine_event, Disease_outbreak
+
+import re
 
 
-from .forms import Power_transitionForm, Crisis_consequenceForm, Human_sacrificeForm, External_conflictForm, Internal_conflictForm, External_conflict_sideForm, Agricultural_populationForm, Arable_landForm, Arable_land_per_farmerForm, Gross_grain_shared_per_agricultural_populationForm, Net_grain_shared_per_agricultural_populationForm, SurplusForm, Military_expenseForm, Silver_inflowForm, Silver_stockForm, Total_populationForm, Gdp_per_capitaForm, Drought_eventForm, Locust_eventForm, Socioeconomic_turmoil_eventForm, Crop_failure_eventForm, Famine_eventForm, Disease_outbreakForm
+def remove_html_tags(text):
+    clean = re.compile('<.*?>')
+    return re.sub(clean, '', text)
+
+from .models import Power_transition, Crisis_consequence, Human_sacrifice, External_conflict, Internal_conflict, External_conflict_side, Agricultural_population, Arable_land, Arable_land_per_farmer, Gross_grain_shared_per_agricultural_population, Net_grain_shared_per_agricultural_population, Surplus, Military_expense, Silver_inflow, Silver_stock, Total_population, Gdp_per_capita, Drought_event, Locust_event, Socioeconomic_turmoil_event, Crop_failure_event, Famine_event, Disease_outbreak, Us_location, Us_violence_subtype, Us_violence_data_source, Us_violence
+
+
+from .forms import Power_transitionForm, Crisis_consequenceForm, Human_sacrificeForm, External_conflictForm, Internal_conflictForm, External_conflict_sideForm, Agricultural_populationForm, Arable_landForm, Arable_land_per_farmerForm, Gross_grain_shared_per_agricultural_populationForm, Net_grain_shared_per_agricultural_populationForm, SurplusForm, Military_expenseForm, Silver_inflowForm, Silver_stockForm, Total_populationForm, Gdp_per_capitaForm, Drought_eventForm, Locust_eventForm, Socioeconomic_turmoil_eventForm, Crop_failure_eventForm, Famine_eventForm, Disease_outbreakForm, Us_locationForm, Us_violence_subtypeForm, Us_violence_data_sourceForm, Us_violenceForm
 
 
 
@@ -242,7 +251,7 @@ def crisis_consequence_download(request):
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['year_from', 'year_to',
                    'polity_new_ID', 'polity_old_ID', 'polity_long_name',
-                    'other_polity_new_ID', 'other_polity_old_ID', 'other_polity_long_name', 'crisis_consequence_id', 'decline', 'collapse', 'epidemic', 'downward_mobility', 'extermination', 'uprising', 'revolution', 'successful_revolution', 'civil_war', 'century_plus', 'fragmentation', 'capital', 'conquest', 'assassination', 'depose', 'constitution', 'labor', 'unfree_labor', 'suffrage', 'public_goods', 'religion'])
+                    'other_polity_new_ID', 'other_polity_old_ID', 'other_polity_long_name', 'crisis_consequence_id', 'decline', 'collapse', 'epidemic', 'downward_mobility', 'extermination', 'uprising', 'revolution', 'successful_revolution', 'civil_war', 'century_plus', 'fragmentation', 'capital', 'conquest', 'assassination', 'depose', 'constitution', 'labor', 'unfree_labor', 'suffrage', 'public_goods', 'religion', 'description'])
 
     for obj in items:
         if obj.other_polity:
@@ -3420,3 +3429,165 @@ def playgrounddownload(request):
 
 def fpl_all(request):
     return render(request, 'crisisdb/fpl_all.html')
+
+
+# ... Your existing imports ...
+
+class UsLocationListView(ListView):
+    model = Us_location
+    template_name = 'crisisdb/us_location/list.html'
+    context_object_name = 'us_locations'
+
+class UsLocationCreateView(CreateView):
+    model = Us_location
+    form_class = Us_locationForm
+    template_name = 'crisisdb/us_location/create.html'
+    success_url = reverse_lazy('us_location_list')
+
+class UsLocationUpdateView(UpdateView):
+    model = Us_location
+    form_class = Us_locationForm
+    template_name = 'crisisdb/us_location/update.html'
+    success_url = reverse_lazy('us_location_list')
+
+class UsViolenceSubtypeListView(ListView):
+    model = Us_violence_subtype
+    template_name = 'crisisdb/subtype/list.html'
+    context_object_name = 'subtypes'
+
+class UsViolenceSubtypeCreateView(CreateView):
+    model = Us_violence_subtype
+    form_class = Us_violence_subtypeForm
+    template_name = 'crisisdb/subtype/create.html'
+    success_url = reverse_lazy('subtype_list')
+
+class UsViolenceSubtypeUpdateView(UpdateView):
+    model = Us_violence_subtype
+    form_class = Us_violence_subtypeForm
+    template_name = 'crisisdb/subtype/update.html'
+    success_url = reverse_lazy('subtype_list')
+
+class UsViolenceDataSourceListView(ListView):
+    model = Us_violence_data_source
+    template_name = 'crisisdb/datasource/list.html'
+    context_object_name = 'datasources'
+
+class UsViolenceDataSourceCreateView(CreateView):
+    model = Us_violence_data_source
+    form_class = Us_violence_data_sourceForm
+    template_name = 'crisisdb/datasource/create.html'
+    success_url = reverse_lazy('datasource_list')
+
+class UsViolenceDataSourceUpdateView(UpdateView):
+    model = Us_violence_data_source
+    form_class = Us_violence_data_sourceForm
+    template_name = 'crisisdb/datasource/update.html'
+    success_url = reverse_lazy('datasource_list')
+
+class UsViolenceListView(ListView):
+    model = Us_violence
+    template_name = 'crisisdb/us_violence/list.html'
+    context_object_name = 'us_violences'
+
+    def get_queryset(self):
+        # Get the query parameters from the request, if provided
+        order_by = self.request.GET.get('order_by', self.ordering)
+        
+        # Check if the order_by parameter is valid
+        valid_ordering = ['violence_date', '-violence_date', 'violence_type', '-violence_type', 'fatalities', '-fatalities']
+        if order_by not in valid_ordering:
+            order_by = '-violence_date'  # Use the default ordering if the parameter is invalid
+
+        
+        # Get the queryset with the specified ordering
+        queryset = super().get_queryset().order_by(order_by)
+        return queryset
+
+class UsViolenceListViewPaginated(ListView):
+    model = Us_violence
+    template_name = 'crisisdb/us_violence/list_paginated.html'
+    context_object_name = 'us_violences'
+    paginate_by = 100
+
+class UsViolenceCreateView(CreateView):
+    model = Us_violence
+    form_class = Us_violenceForm
+    template_name = 'crisisdb/us_violence/create.html'
+    success_url = reverse_lazy('us_violence_paginated')
+
+class UsViolenceUpdateView(UpdateView):
+    model = Us_violence
+    form_class = Us_violenceForm
+    template_name = 'crisisdb/us_violence/update.html'
+    success_url = reverse_lazy('us_violence_paginated')
+
+
+@permission_required('core.view_capital')
+def download_csv_all_american_violence(request):
+    #from bs4 import BeautifulSoup
+
+    response = HttpResponse(content_type='text/csv')
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    file_name = f"american_violence_data_{current_datetime}.csv"
+
+    response['Content-Disposition'] = f'attachment; filename="{file_name}"'
+
+    # Create a CSV writer
+    writer = csv.writer(response, delimiter='|')
+
+    # type the headers
+    writer.writerow(['date', 'type', 'subtypes', 'locations', 'fatality', 'sources', 'url_address',])
+    items = Us_violence.objects.all()
+    if items:
+        for obj in items:
+            #locations_text = BeautifulSoup(obj.show_locations(), 'html.parser').get_text()
+            locations_text = remove_html_tags(obj.show_locations())
+            short_data_sources_text = remove_html_tags(obj.show_short_data_sources())
+
+            writer.writerow([obj.violence_date, obj.violence_type, obj.show_violence_subtypes(), locations_text, obj.fatalities,
+                        short_data_sources_text, obj.url_address,])
+
+
+    return response
+
+
+def confirm_delete_view(request, model_class, pk, var_name):
+    permission_required = 'core.add_capital'
+    
+    # Retrieve the object for the given model class
+    obj = get_object_or_404(model_class, pk=pk)
+
+    # Check if the user has the required permission
+    if not request.user.has_perm(permission_required):
+        return HttpResponseForbidden("You don't have permission to delete this object.")
+
+    template_name = "core/confirm_delete.html"
+    
+    context = {
+        'var_name': var_name,
+        'obj': obj,
+        'delete_object': f'{var_name}-delete',
+    }
+
+    return render(request, template_name, context)
+
+def delete_object_view(request, model_class, pk, var_name):
+    permission_required = 'core.add_capital'
+    # Retrieve the object for the given model class
+    obj = get_object_or_404(model_class, pk=pk)
+
+    if not request.user.has_perm(permission_required):
+        return HttpResponseForbidden("You don't have permission to delete this object.")
+    
+    # Delete the object
+    obj.delete()
+    
+    # Redirect to the success URL
+    success_url_name = f'{var_name}_list'  # Adjust the success URL as needed
+    success_url = reverse(success_url_name)
+    
+    # Display a success message
+    messages.success(request, f"{var_name} has been deleted successfully.")
+    
+    return redirect(success_url)

@@ -1,0 +1,16 @@
+{% extends "core/seshat-base.html" %}
+{% block content %}
+<div class="container pt-3">
+
+  <h1>US Violence Data sources</h1>
+  <ul>
+    {% for datasource in datasources %}
+      <li><a href="{% url 'datasource_update' datasource.pk %}">{{ datasource }}</a></li>
+    {% empty %}
+      <li>No datasources found.</li>
+    {% endfor %}
+  </ul>
+  <a href="{% url 'datasource_create' %}">Create New datasource</a>
+</div>
+
+{% endblock %}

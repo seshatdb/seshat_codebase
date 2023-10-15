@@ -7,6 +7,7 @@ from django.utils.safestring import mark_safe
 #from model_utils.models import StatusModel
 from django.core.exceptions import ValidationError
 from django.urls import reverse
+from django.core.validators import MinValueValidator
 
 from datetime import date
 
@@ -71,6 +72,85 @@ DURATION_DISEASE_OUTBREAK_CHOICES = (
 ('60-90 Days', '60-90 Days'),
 )
 
+US_STATE_CHOICES = (
+("AL", "Alabama"),
+("AK", "Alaska"),
+("AZ", "Arizona"),
+("AR", "Arkansas"),
+("CA", "California"),
+("CO", "Colorado"),
+("CT", "Connecticut"),
+("DE", "Delaware"),
+("FL", "Florida"),
+("GA", "Georgia"),
+("HI", "Hawaii"),
+("ID", "Idaho"),
+("IL", "Illinois"),
+("IN", "Indiana"),
+("IA", "Iowa"),
+("KS", "Kansas"),
+("KY", "Kentucky"),
+("LA", "Louisiana"),
+("ME", "Maine"),
+("MD", "Maryland"),
+("MA", "Massachusetts"),
+("MI", "Michigan"),
+("MN", "Minnesota"),
+("MS", "Mississippi"),
+("MO", "Missouri"),
+("MT", "Montana"),
+("NE", "Nebraska"),
+("NV", "Nevada"),
+("NH", "New Hampshire"),
+("NJ", "New Jersey"),
+("NM", "New Mexico"),
+("NY", "New York"),
+("NC", "North Carolina"),
+("ND", "North Dakota"),
+("OH", "Ohio"),
+("OK", "Oklahoma"),
+("OR", "Oregon"),
+("PA", "Pennsylvania"),
+("RI", "Rhode Island"),
+("SC", "South Carolina"),
+("SD", "South Dakota"),
+("TN", "Tennessee"),
+("TX", "Texas"),
+("UT", "Utah"),
+("VT", "Vermont"),
+("VA", "Virginia"),
+("WA", "Washington"),
+("WV", "West Virginia"),
+("WI", "Wisconsin"),
+("WY", "Wyoming"),
+("UNK", "UNKNOWN"),
+)
+
+ATTENTION_TAGS_CHOICES = (
+    ('NeedsExpertInput', 'Needs Expert Input'),
+    ('IsInconsistent', 'Is Inconsistent'),
+    ('IsWrong', 'Is Wrong'),
+    ('IsOk', 'IS OK'),
+)
+
+VIOLENCE_TYPE_CHOICES = (
+('lynching', 'lynching'),
+  ('riot', 'riot'), 
+  ('executions', 'executions'), 
+  ('war', 'war'), 
+  ('assassination', 'assassination'), 
+  ('compilation', 'compilation'), 
+  ('terrorism', 'terrorism'), 
+  ('rampage', 'rampage'), 
+  ('insurrection', 'insurrection'), 
+  ('mass suicide', 'mass suicide'), 
+  ('UNKNOWN_INPUT', 'UNKNOWN_INPUT'), 
+  ('unknown', 'unknown'), 
+  ('revenge', 'revenge')
+)
+
+
+
 
 ########## END of  tuple choices for CrisisDB Models
 
@@ -119,6 +199,132 @@ def clean_times(self):
         })
 
 ########## End of Function Definitions for CrisisDB Models
+
+################American Violence Models:
+class Us_location(models.Model):
+    city = models.CharField(max_length=300, null=True, blank=True)
+    county = models.CharField(max_length=300, null=True, blank=True)
+    special_place = models.CharField(max_length=300, null=True, blank=True)
+    us_state = models.CharField(max_length=5, choices=US_STATE_CHOICES, null=True, blank=True)
+    attention_tag =  models.CharField(max_length=30, choices=ATTENTION_TAGS_CHOICES, null=True, blank=True)
+
+    class Meta:
+        ordering = ['us_state', '-city', '-county', '-special_place']
+
+    # def show_state(self):
+    #     if self.us_state and self.us_state != "UNK":
+    #         return f'{self.get_us_state_display()} ({self.us_state})'
+    #     elif self.us_state and self.us_state == "UNK":
+    #         components = []
+
+    #         if self.city and self.county:
+    #             components.extend([self.city, self.county])
+    #         elif self.city:
+    #             components.append(self.city)
+    #         elif self.county:
+    #             components.append(self.county)
+    #         elif self.special_place:
+    #             components.append(self.special_place)
+    #         return ", ".join(components)
+    #     else:
+    #         return "Unknown Location"
+
+    def __str__(self):
+        components = []
+
+        if self.us_state:
+            components.append(f'<b>{self.get_us_state_display()} ({self.us_state})</b>')
+
+        if self.city and self.county:
+            components.extend([self.city, self.county])
+        elif self.city:
+            components.append(self.city)
+        elif self.county:
+            components.append(self.county)
+        elif self.special_place:
+            components.append(self.special_place)
+
+        return mark_safe(", ".join(components)) or "Location (No Data)"
+    
+
+    
+class Us_violence_subtype(models.Model):
+    name = models.CharField(max_length=80, null=True, blank=True)
+    is_uncertain = models.BooleanField(default=False)
+
+    class Meta:
+        ordering = ['name']
+    
+    def __str__(self) -> str:
+        return f"{self.name}{' (?)' if self.is_uncertain else ''}"
+    
+class Us_violence_data_source(models.Model):
+    name = models.CharField(max_length=300, null=True, blank=True)
+    abbreviation = models.CharField(max_length=20, null=True, blank=True)
+    url_address = models.URLField(max_length=500, null=True, blank=True)
+    is_uncertain = models.BooleanField(default=False)
+    attention_tag =  models.CharField(max_length=30, choices=ATTENTION_TAGS_CHOICES, null=True, blank=True)
+
+    class Meta:
+        ordering = ['name']
+    
+    def __str__(self) -> str:
+        if self.abbreviation:
+            return mark_safe(f"<b>{self.abbreviation}</b>: {self.name}{' (?)' if self.is_uncertain else ''}")
+        else:
+            return f"{self.name}{' (?)' if self.is_uncertain else ''}"
+    
+    
+class Us_violence(models.Model):
+    violence_date = models.DateField(null=True, blank=True)
+    violence_type = models.CharField(max_length=50, choices=VIOLENCE_TYPE_CHOICES, null=True, blank=True)
+    violence_subtype = models.ManyToManyField(Us_violence_subtype, related_name="%(app_label)s_%(class)s_related",related_query_name="%(app_label)s_%(class)ss", blank=True,)
+    fatalities = models.IntegerField(validators=[MinValueValidator(0)],blank=True,null=True)
+    location = models.ManyToManyField(Us_location, related_name="%(app_label)s_%(class)s_related",
+                               related_query_name="%(app_label)s_%(class)ss", blank=True,)
+    url_address = models.URLField(max_length=500, null=True, blank=True)
+    short_data_source = models.ManyToManyField(Us_violence_data_source, related_name="%(app_label)s_%(class)s_related", related_query_name="%(app_label)s_%(class)ss", blank=True,)
+    source_details = models.TextField(blank=True, null=True,)
+    narrative = models.TextField(blank=True, null=True,)
+
+    class Meta:
+        ordering = ['-violence_date', "-fatalities"]
+
+    def show_locations(self):
+        list_of_locations = list(self.location.all())
+        location_str = " / ".join(str(location) for location in list_of_locations)
+        return location_str
+    
+
+    def show_narrative_without_quotes(self):
+        if self.narrative:
+            return self.narrative.replace('"', "'")
+        else:
+            return "No_Narrative"
+    
+    # def show_states(self):
+    #     list_of_locations = list(self.location.all())
+    #     location_str = " / ".join(str(location.show_state()) for location in list_of_locations)
+    #     return location_str
+    
+    def show_violence_subtypes(self):
+        list_of_subtypes = list(self.violence_subtype.all())
+        subtype_str = ", ".join(str(subtype) for subtype in list_of_subtypes)
+        return subtype_str
+    
+    def show_short_data_sources(self):
+        list_of_short_data_sources = list(self.short_data_source.all())
+        short_data_source_str = ", ".join(str(short_data_source) for short_data_source in list_of_short_data_sources)
+        return short_data_source_str
+    
+    def __str__(self) -> str:
+        list_of_locations = list(self.location.all())
+        location_str = ": " + " and ".join(str(location) for location in list_of_locations)
+        return f"Violence: {self.fatalities} deaths in{location_str}."
+
+
+
+###########################
 
 # Beginning of Crisis Consequences Model
 class Crisis_consequence(SeshatCommon):

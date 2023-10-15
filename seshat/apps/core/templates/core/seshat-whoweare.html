@@ -1,11 +1,103 @@
 {% extends "core/seshat-base.html" %}
+{% load static %}
 
 <!-- NavBar -->
 {% block content-home %}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css">
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+<style>
+    .leaflet-popup-content-wrapper {
+        width: 400px;
+        background-color: rgb(214, 244, 244);
+    }
 
+</style>
+
+<div id="map" style="height: 600px;"></div>
 
 
 {% include "core/partials/_old_seshat_whoweare.html" %}
+
+<script type="text/javascript">
+    // Initialize the map
+    var map = L.map('map').setView([37.8, -96], 4);
+    console.log('ali yaret 1')
+
+    // Add a tile layer (OpenStreetMap)
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    var geojsonMarkerOptions = {
+        radius: 8,
+        fillColor: "#ff7800",
+        color: "#000",
+        weight: 1,
+        opacity: 1,
+        fillOpacity: 0.8
+    };
+    
+
+const json_data1 = {{json_data|safe}};
+
+function onEachFeature(feature, layer) {
+    // does this feature have a property named popupContent?
+    if (feature.properties && feature.properties.name) {
+        var stateAbbreviation = feature.id;
+        var stateName = feature.properties.name;
+        var popupContent = `state: <strong>${stateName}</strong> (${stateAbbreviation})`;
+        layer.bindPopup(popupContent, { maxWidth: 7200 });
+        // Add a label with the state name to the centroid
+        var centroid = layer.getBounds().getCenter();
+        var stateLabel = L.divIcon({
+            className: 'state-label',
+            html: '<small class="fw-bold text-teal">' +  stateAbbreviation + '</small>'
+        });
+        // Show the state label marker on mouseover
+        layer.on('mouseover', function () {
+            // Calculate the centroid of the state polygon
+            var centroid = layer.getBounds().getCenter();
+
+            // Create a custom icon for the state label with arrow
+            var stateLabel = L.divIcon({
+                className: 'state-label',
+                html: '<span class="fw-bold text-teal bg-light px-1 rounded">' +  stateAbbreviation + '</span>'
+            });
+
+            // Add the marker with the custom icon to the map
+            stateLabelMarker = L.marker(centroid, { icon: stateLabel }).addTo(map);
+        });
+
+        // Hide the state label marker on mouseout
+        layer.on('mouseout', function () {
+            if (stateLabelMarker) {
+                map.removeLayer(stateLabelMarker);
+            }
+        });
+}
+}
+
+var myStyle = {
+    "weight": 2,
+    "opacity": 0.1,
+    'color': 'blue',
+    'fillColor': "#ff7800",
+    'fillOpacity': 0.3,
+};
+
+var myStyle2 = {
+    "weight": 8,
+    "opacity": 0.45,
+    'color': 'red',
+};
+L.geoJSON(json_data1,{
+    style: myStyle,
+    onEachFeature: onEachFeature
+}).addTo(map);
+
+
+</script>
+
 
 
 

@@ -1,0 +1,73 @@
+{% extends "core/seshat-base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="container pt-3">
+
+  <h1 class="display-6">Update &#127482;&#127480; US Violence Case</h1>
+  <a href="{% url 'us_violence_paginated' %}">Back to List</a>
+
+  <hr class="bg-colorful">
+  <form method="post">
+    <div class="row">
+
+    {% csrf_token %}
+    <div class="col-md-2 mb-2">
+      {{ form.violence_date|as_crispy_field }}
+  </div>    
+  <div class="col-md-2 mb-2">
+    {{ form.violence_type|as_crispy_field }}
+  </div>    
+  <div class="col-md-2 mb-2">
+    {{ form.violence_subtype|as_crispy_field }}
+  </div>    
+  <div class="col-md-2 mb-2">
+    {{ form.fatalities|as_crispy_field }}
+  </div>    
+  <div class="col-md-4 mb-2">
+    {{ form.location|as_crispy_field }}
+  </div>    
+  <div class="col-md-4 mb-2">
+    {{ form.short_data_source|as_crispy_field }}
+  </div>
+  <div class="col-md-8 mb-2">
+  {{ form.url_address|as_crispy_field }}
+  </div>   
+
+  <div class="col-md-4 mb-2">
+  {{ form.source_details|as_crispy_field }}
+  </div>
+
+  <div class="col-md-8 mb-2">
+  {{ form.narrative|as_crispy_field }}
+  </div>     
+  <div class="col-md-4 mb-2 pb-3">
+  <button type="submit" class="btn btn-outline-success my-auto btn-block btn-lg px-5 me-3">Update</button>
+  <a href="{% url 'us_violence-confirm-delete' object.id %}" type="cancel" class="btn btn-outline-danger my-auto btn-block btn-lg">Delete </a>
+
+  </div>
+
+</div>
+
+  </form>
+</div>
+
+<script>
+  $(document).ready(function() {
+      // Initialize Select2 with an empty dataset
+      $('.js-example-basic-multiple-violence-subtype').select2({
+        placeholder: "Select one or more",
+        allowClear: true,
+      });
+      $('.js-example-basic-multiple-short-data-source').select2({
+        placeholder: "Select one or more",
+        allowClear: true,
+      });
+      $('.js-example-basic-multiple-location').select2({
+        placeholder: "Select one or more",
+        allowClear: true,
+      });
+  });   
+  
+</script>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends "core/seshat-base.html" %}
+{% block content %}
+<div class="container pt-3">
+
+  <h1>Create New Data Source</h1>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Create</button>
+  </form>
+  <a href="{% url 'datasource_list' %}">Back to List</a>
+</div>
+
+{% endblock %}

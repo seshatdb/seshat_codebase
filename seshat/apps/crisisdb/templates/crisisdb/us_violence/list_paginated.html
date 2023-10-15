@@ -1,0 +1,207 @@
+{% extends "core/seshat-base.html" %}
+{% block content %}
+
+<style>
+    i.highlight-on-hover:hover {
+        color: teal; /* Change the text color to blue on hover */
+    }
+</style>
+<div class="container">
+  <div class="row d-flex mt-3">
+    <div class="col-md-6">
+        <div class="col-md-12 justify-content-end">
+            <h6><span class="text-secondary text-end">Section</span>: <mark>CrisisDB /
+                American Violence
+            </mark> </h6>      
+      </div>
+      <div>
+        <span class="mb-3"><span class="display-6 h1">&#127482;&#127480; US Violence Cases</span> <span class="text-secondary">(Paginated Mode) </span> </span>
+      </div>
+        <div>
+            <h6 class="fw-bold pt-3 ps-1 pe-4"><span class="fw-normal"><i class="fa-solid fa-caret-right"></i> Collection of historical records of violent incidents in the United States, spanning from 1782 to the present day. The dataset is categorized by date, incident type, subtypes, casualties, geographical location of the violence, documented fatalities, and the authoritative sources from which this data is derived. Additionally, each entry includes a detailed narrative describing the specific circumstances surrounding the violent incident.</span>
+            </h6>
+        </div>
+
+    </div>
+      <div class="col-md-6">
+        <div class="row">
+            <div class="col-md-6">
+                <h5 class="py-2 my-2 fw-bold">Metadata:</h5>
+            </div>
+
+        </div>
+        <div class="accordion accordion-flush" id="accordionExample">
+            <div class="accordion-item" style="background-color:#fffdf2;">
+              <h2 class="accordion-header" id="headingOne">
+                <button class="accordion-button collapsed px-0" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne" style="background-color:#fffdf2;">
+                  <span class="text-success"><i class="fa-solid fa-chevron-right"></i>  &nbsp; General Metadata</span> 
+                </button>
+              </h2>
+              <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne">
+                <div class="accordion-body table-responsive p-0">
+                        <table class="table align-middle table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th scope="col" class="col-md-2">Term</th>
+                                    <th scope="col" class="col-md-10">Definition</th> 
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td scope="row" class="col-md-2 text-secondary">Riot
+                                    </td>
+                                    <td scope="row" class="col-md-10 text-secondary">a group of 12 or more people attempting to impose their will through the use of lethal force outside the normal bounds of law (group on group)</td>
+                                </tr>
+                                <tr>
+                                    <td scope="row" class="col-md-2 text-secondary">Lynching 
+                                    </td>
+                                    <td scope="row" class="col-md-10 text-secondary">a group of people killing 1 or few persons (group on individual)</td>
+                                </tr>
+                                <tr>
+                                    <td scope="row"  class="col-md-2 text-secondary">Rampage</td>
+                                    <td scope="row"  class="col-md-10 text-secondary">1 (rarely 2) person attempting to kill many members of a certain social category: racial, ethnic, government, school, business, society as a whole. (individual on group)</td>
+                                </tr>
+                                <tr>
+                                    <td scope="row"  class="col-md-2 text-secondary">Terrorism</td>
+                                    <td scope="row"  class="col-md-10 text-secondary">
+                                      1 or few people attempting to kill many individuals belonging to a certain social category (up to the society as a whole)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td scope="row"  class="col-md-2 text-secondary">Assassination</td>
+                                    <td scope="row"  class="col-md-10 text-secondary">1 or few people killing another individual belonging to a certain social category (individual vs individual)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+  </div>
+  <hr class="bg-colorful p-0 m-0">
+  <div class="row d-flex align-items-center">
+    <div class="col-md-4 py-0">
+      <div class="contributors">
+        <h6><span class="text-secondary text-end">
+            <i class="fa-solid fa-people-group"></i> Contributors</span>: Peter, Jakob, Majid
+        </h6>   
+    </div>       
+    </div>
+      <div class="col-md-8 pe-0">      
+        <!-- Download and Create Buttons -->
+        <a href="{% url 'us_violence_create' %}" class="btn btn-outline-success mx-3 my-4 float-end"><i class="fas fa-plus"></i> &nbsp; Add a New Violence Case</a>
+        <a href="{% url 'us_violence_download' %}" class="btn btn-outline-primary ms-auto my-4 float-end"><i class="fas fa-download"></i> &nbsp; Download All</a>
+        <a href="{% url 'us_violence_list' %}" class="btn btn-warning mx-3 my-4 float-end"><i class="fa-solid fa-table-list"></i> &nbsp; See All (slow)</a>
+    </div>
+</div>
+
+  {% autoescape off %}   
+
+
+  <div class="table-responsive mb-2">
+    {% if is_paginated %}
+        <div class="pagination mt-2 mb-3 pe-1 float-end">
+        <span class="page-links">
+            {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}"><button class="btn btn-teal btn-md"> <i class="fas fa-step-backward"></i> Prev </button></a>
+            {% else %}
+            <button class="btn btn-outline-secondary btn-md" disabled> <i class="fas fa-step-backward"></i>  Prev</button>
+            {% endif %}
+            <span class="page-current text-secondary">
+                &nbsp; Page <u class="h6 text-teal">{{ page_obj.number }}</u> of {{ page_obj.paginator.num_pages }} &nbsp; 
+            </span>
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}"><button class="btn btn-teal btn-md"> Next <i class="fas fa-step-forward"></i></button></a>
+                {% else %}
+                <button class="btn btn-outline-secondary btn-md" disabled> Next <i class="fas fa-step-forward"></i></button>
+            {% endif %}
+        </span>
+        </div>
+    {% endif %}
+    <table id="table_id" class="table align-middle table-hover table-bordered" style="padding: 0.25 rem !important;">
+      <thead>
+        <tr>
+          <th scope="col" style="text-align: center"  class="text-secondary">#</th>
+          <th scope="col" style="text-align: left;  width:10%;" class="fw-bold text-secondary"> 
+              Date </th>
+              <th scope="col" style="text-align: center" class="fw-bold text-secondary"> 
+                Type </th>
+                <th scope="col" style="text-align: center" class="fw-bold text-secondary">Subtype(s)</th>
+            <th scope="col" style="text-align: left" class="fw-bold text-secondary">&nbsp;<i class="fa-solid fa-location-dot"></i> Location(s) </th>
+          <th scope="col" style="text-align: center; background-color:#fcf8e3;" class="fw-bold text-secondary"> Fatalities</th>
+          <!-- headings for extra vars -->
+          <th scope="col" style="text-align: center;" class="fw-bold text-secondary"> Source(s)</th>
+          <th scope="col" style="text-align: center; width:3%;" class="fw-bold text-secondary"> Narrative</th>
+
+          <th scope="col" style="text-align: center" class="fw-light">Edit</th>
+
+        </tr>
+      </thead>
+      <tbody>
+        {% for violence in us_violences %}
+        <tr>
+          <td scope="col" style="text-align: center"  class="text-secondary">{{ forloop.counter0|add:page_obj.start_index }}</td>
+          <td scope="col" style="text-align: left" class="fw-normal"> <strong>{{ violence.violence_date|date:"Y" }}</strong>
+            {{ violence.violence_date|date:"M"}}, {{ violence.violence_date|date:"j"}}{{ violence.violence_date|date:"S"}}  </td>
+          <td scope="col" style="text-align: center" class="fw-normal fst-italic"> 
+            {{violence.violence_type|title }} </td>
+          <td scope="col" style="text-align: center" class="fw-normal fst-italic"> 
+            {{violence.show_violence_subtypes|title }} </td>
+          <td scope="col" style="text-align: left" class="fw-normal">&nbsp;<i class="fa-solid fa-location-dot text-teal"></i>
+            {{violence.show_locations}} </td>
+          <td scope="col" style="text-align: center; background-color:#fcf8e3;" class="fs-5 text-danger fw-bold"> {{violence.fatalities}}</td>
+          <!-- headings for extra vars -->
+          <td scope="col" style="text-align: center;" class="fw-normal">
+            {%if violence.url_address %}
+            &nbsp;<a href="{{violence.url_address}}" target="_blank"><i class="fa-solid fa-up-right-from-square"></i></a>
+          {% endif %}
+            {{violence.show_short_data_sources}}
+          </td>
+          <td scope="col" style="text-align: center; " class="fw-normal"> 
+            <span type="button"  tabindex="0" data-bs-toggle="popover" title="Source Details" data-bs-html="true" data-bs-trigger="focus" data-bs-content="{{ violence.source_details }}"><span class="fw-light text-secondary"><i class="fa-solid fa-circle-info highlight-on-hover"></i></span></span>
+
+            <span type="button"  tabindex="0" data-bs-toggle="popover" title="Case Narrative" data-bs-html="true" data-bs-trigger="focus" data-bs-content="{{ violence.show_narrative_without_quotes }}"> &nbsp; <span class="fs-5">&#128240;</span>  </span></td>
+          <td style="text-align: center;"><a href="{% url 'us_violence_update' violence.pk %}"><button class="btn btn-outline-danger btn-sm"><i class="fa-solid fa-pen fa-sm"></i></button></a></td>
+        </tr>
+        {% endfor %}
+
+    </tbody>
+  </table>
+  {% if is_paginated %}
+  <div class="pagination mt-2 mb-3 pe-1 float-end">
+    <span class="page-links">
+        {% if page_obj.has_previous %}
+            <a href="?page={{ page_obj.previous_page_number }}"><button class="btn btn-teal btn-md"> <i class="fas fa-step-backward"></i> Prev </button></a>
+        {% else %}
+        <button class="btn btn-outline-secondary btn-md" disabled> <i class="fas fa-step-backward"></i>  Prev</button>
+        {% endif %}
+        <span class="page-current text-secondary">
+            &nbsp; Page <u class="h6 text-teal">{{ page_obj.number }}</u> of {{ page_obj.paginator.num_pages }} &nbsp; 
+        </span>
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}"><button class="btn btn-teal btn-md"> Next <i class="fas fa-step-forward"></i></button></a>
+            {% else %}
+            <button class="btn btn-outline-secondary btn-md" disabled> Next <i class="fas fa-step-forward"></i></button>
+        {% endif %}
+    </span>
+    </div>
+  {% endif %}
+
+
+
+
+</div>
+
+{% endautoescape %}   
+
+
+</div>
+<script>
+  var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+  var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+    return new bootstrap.Popover(popoverTriggerEl)
+  })
+</script>
+
+{% endblock %}

@@ -1,4 +1,4 @@
-from .models import Power_transition, Crisis_consequence, Human_sacrifice, External_conflict, Internal_conflict, External_conflict_side, Agricultural_population, Arable_land, Arable_land_per_farmer, Gross_grain_shared_per_agricultural_population, Net_grain_shared_per_agricultural_population, Surplus, Military_expense, Silver_inflow, Silver_stock, Total_population, Gdp_per_capita, Drought_event, Locust_event, Socioeconomic_turmoil_event, Crop_failure_event, Famine_event, Disease_outbreak
+from .models import Us_location, Us_violence_subtype, Us_violence_data_source, Us_violence, Power_transition, Crisis_consequence, Human_sacrifice, External_conflict, Internal_conflict, External_conflict_side, Agricultural_population, Arable_land, Arable_land_per_farmer, Gross_grain_shared_per_agricultural_population, Net_grain_shared_per_agricultural_population, Surplus, Military_expense, Silver_inflow, Silver_stock, Total_population, Gdp_per_capita, Drought_event, Locust_event, Socioeconomic_turmoil_event, Crop_failure_event, Famine_event, Disease_outbreak
 import datetime
 
 from django import forms
@@ -41,6 +41,41 @@ commonwidgets = {
     'finalized': forms.CheckboxInput(attrs={'class': 'mb-1', 'checked': True, }),
 }
 
+############## American Violence
+
+class Us_locationForm(forms.ModelForm):
+    class Meta:
+        model = Us_location
+        fields = '__all__'
+
+class Us_violence_subtypeForm(forms.ModelForm):
+    class Meta:
+        model = Us_violence_subtype
+        fields = '__all__'
+
+class Us_violence_data_sourceForm(forms.ModelForm):
+    class Meta:
+        model = Us_violence_data_source
+        fields = '__all__'
+
+class Us_violenceForm(forms.ModelForm):
+    class Meta:
+        model = Us_violence
+        fields = ["violence_date", "violence_type", "violence_subtype", "fatalities", 
+                  "location", "url_address", "short_data_source", "source_details", "narrative",]
+        widgets = {
+            'violence_date': forms.DateInput(attrs={'class': 'form-control  mb-3', 'placeholder':'Ex: 2022-12-14'}),
+            'violence_type': forms.Select(attrs={'class': 'form-control  mb-3', }),
+            'violence_subtype': forms.SelectMultiple(attrs={'class': 'form-control mb-3 js-states js-example-basic-multiple-violence-subtype', 'text':'violence_subtypes[]' , 'style': 'height: 340px', 'multiple': 'multiple'}),
+            'fatalities': forms.NumberInput(attrs={'class': 'form-control  mb-3', }),
+            'location': forms.SelectMultiple(attrs={'class': 'form-control mb-3 js-states js-example-basic-multiple-location', 'text':'locations[]' , 'style': 'height: 340px', 'multiple': 'multiple'}),
+            'url_address': forms.TextInput(attrs={'class': 'form-control  mb-3','placeholder': 'Enter a URL'}),
+            'short_data_source': forms.SelectMultiple(attrs={'class': 'form-control mb-3 js-states js-example-basic-multiple-short-data-source', 'text':'short_data_sources[]' , 'style': 'height: 340px', 'multiple': 'multiple'}),
+            'source_details': Textarea(attrs={'class': 'form-control  mb-3', 'style': 'height: 250px', 'placeholder':'Add a narrative (optional)'}),
+            'narrative': Textarea(attrs={'class': 'form-control  mb-3', 'style': 'height: 250px', 'placeholder':'Add a narrative (optional)'}),
+        }
+
+###########################
 class Crisis_consequenceForm(forms.ModelForm):
     class Meta:
         model = Crisis_consequence

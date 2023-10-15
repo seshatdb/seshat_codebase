@@ -1,0 +1,15 @@
+{% extends "core/seshat-base.html" %}
+{% block content %}
+<div class="container pt-3">
+    <h1>US Locations</h1>
+    <ul>
+      {% for location in us_locations %}
+        <li><a href="{% url 'us_location_update' location.pk %}">{{ location }}</a></li>
+      {% empty %}
+        <li>No locations found.</li>
+      {% endfor %}
+    </ul>
+    <a href="{% url 'us_location_create' %}">Create New Location</a>
+</div>
+
+{% endblock %}

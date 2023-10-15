@@ -1,0 +1,16 @@
+{% extends "core/seshat-base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="container pt-3">
+
+  <h1>Edit US Location</h1>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Save Changes</button>
+  </form>
+  <a href="{% url 'us_location_list' %}">Back to List</a>
+</div>
+
+{% endblock %}

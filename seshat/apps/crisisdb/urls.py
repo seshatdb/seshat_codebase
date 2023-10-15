@@ -1,7 +1,16 @@
-from .models import Human_sacrifice, External_conflict, Internal_conflict, External_conflict_side, Agricultural_population, Arable_land, Arable_land_per_farmer, Gross_grain_shared_per_agricultural_population, Net_grain_shared_per_agricultural_population, Surplus, Military_expense, Silver_inflow, Silver_stock, Total_population, Gdp_per_capita, Drought_event, Locust_event, Socioeconomic_turmoil_event, Crop_failure_event, Famine_event, Disease_outbreak
+from .models import Human_sacrifice, External_conflict, Internal_conflict, External_conflict_side, Agricultural_population, Arable_land, Arable_land_per_farmer, Gross_grain_shared_per_agricultural_population, Net_grain_shared_per_agricultural_population, Surplus, Military_expense, Silver_inflow, Silver_stock, Total_population, Gdp_per_capita, Drought_event, Locust_event, Socioeconomic_turmoil_event, Crop_failure_event, Famine_event, Disease_outbreak, Us_violence, Us_location, Us_violence_subtype, Us_violence_data_source
 from django.urls import path
 
+from .views import confirm_delete_view, delete_object_view
+
 from . import views
+
+model_form_pairs = [
+     (Us_location, 'us_location', ),
+     (Us_violence, 'us_violence', ),
+     (Us_violence_subtype, 'us_violence_subtype', ),
+     (Us_violence_data_source, 'us_violence_data_source', ),
+]
 
 urlpatterns = [
     path('vars/', views.QingVars, name='qing_vars'),
@@ -11,6 +20,45 @@ urlpatterns = [
      path('fpl_all/', views.fpl_all,
          name="fpl_all"), 
 ]
+
+urlpatterns += [
+    path('us_locations/', views.UsLocationListView.as_view(), name='us_location_list'),
+    path('us_locations/create/', views.UsLocationCreateView.as_view(), name='us_location_create'),
+    path('us_locations/<int:pk>/update/', views.UsLocationUpdateView.as_view(), name='us_location_update'),
+    
+    path('subtypes/', views.UsViolenceSubtypeListView.as_view(), name='subtype_list'),
+    path('subtypes/create/', views.UsViolenceSubtypeCreateView.as_view(), name='subtype_create'),
+    path('subtypes/<int:pk>/update/', views.UsViolenceSubtypeUpdateView.as_view(), name='subtype_update'),
+    
+    path('datasources/', views.UsViolenceDataSourceListView.as_view(), name='datasource_list'),
+    path('datasources/create/', views.UsViolenceDataSourceCreateView.as_view(), name='datasource_create'),
+    path('datasources/<int:pk>/update/', views.UsViolenceDataSourceUpdateView.as_view(), name='datasource_update'),
+     
+     path('us_violences_all/', views.UsViolenceListView.as_view(), name='us_violence_list'),
+     path('us_violences/', views.UsViolenceListViewPaginated.as_view(), name='us_violence_paginated'),
+
+    path('us_violences/create/', views.UsViolenceCreateView.as_view(), name='us_violence_create'),
+    path('us_violences/<int:pk>/update/', views.UsViolenceUpdateView.as_view(), name='us_violence_update'),
+     path('us_violence_download/', views.download_csv_all_american_violence,
+         name="us_violence_download"),
+     ]
+
+
+for model_class, x_name in model_form_pairs:
+     urlpatterns.append(
+          path(f'{x_name}/<int:pk>/confirm-delete/', confirm_delete_view, {
+               'model_class': model_class,
+               'var_name': x_name,
+          }, name=f'{x_name}-confirm-delete')
+          )
+
+     urlpatterns.append(
+          path(f'{x_name}/<int:pk>/delete/', delete_object_view, {
+               'model_class': model_class,
+               'var_name': x_name,
+          }, name=f'{x_name}-delete')
+          )
+
 
 
 

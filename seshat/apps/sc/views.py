@@ -3,8 +3,7 @@ from seshat.utils.utils import adder, dic_of_all_vars, list_of_all_Polities, dic
 from django.db.models.base import Model
 # from django.http.response import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin
 from django.utils.safestring import mark_safe
 from django.views.generic.list import ListView
 
@@ -12,7 +11,7 @@ from django.contrib.contenttypes.models import ContentType
 
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
-from django.http import HttpResponseRedirect, response, JsonResponse
+from django.http import HttpResponseRedirect, response, JsonResponse, HttpResponseForbidden
 from ..core.models import Citation, Reference, Polity, Section, Subsection, Country, Variablehierarchy
 
 # from .mycodes import *
@@ -33,6 +32,8 @@ from requests.structures import CaseInsensitiveDict
 from django.apps import apps
 
 from django.contrib import messages
+
+from django.contrib.auth.decorators import login_required, permission_required, user_passes_test
 
 
 
@@ -7621,9 +7622,6 @@ def download_csv_information(request):
     return response
 
 
-from django.contrib.auth.decorators import login_required, permission_required, user_passes_test
-from django.contrib.auth.mixins import UserPassesTestMixin
-from django.http import HttpResponseForbidden
 
 
 
