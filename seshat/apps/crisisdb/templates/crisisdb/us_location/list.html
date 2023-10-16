@@ -2,14 +2,21 @@
 {% block content %}
 <div class="container pt-3">
     <h1>US Locations</h1>
+    <a href="{% url 'us_location_create' %}">Create a New Location</a>
+    <hr class="bg-colorful">
     <ul>
       {% for location in us_locations %}
-        <li><a href="{% url 'us_location_update' location.pk %}">{{ location }}</a></li>
+        <li>
+          <a href="{% url 'us_location_update' location.pk %}">{{ location }}</a>
+          {% if location.is_uncertain or location.attention_tag == "NeedsExpertInput" %}
+          &nbsp; <span class="text-danger fw-light"> Expert Input Required</span>
+         {% endif %}
+        </li>
       {% empty %}
         <li>No locations found.</li>
       {% endfor %}
     </ul>
-    <a href="{% url 'us_location_create' %}">Create New Location</a>
+    <a href="{% url 'us_location_create' %}">Create a New Location</a>
 </div>
 
 {% endblock %}

@@ -3,6 +3,9 @@
 <div class="container pt-3">
 
   <h1>Violence Subtypes</h1>
+
+  <a href="{% url 'subtype_create' %}">Create a New subtype</a>
+  <hr class="bg-colorful">
   <ul>
     {% for subtype in subtypes %}
       <li><a href="{% url 'subtype_update' subtype.pk %}">{{ subtype }}</a></li>

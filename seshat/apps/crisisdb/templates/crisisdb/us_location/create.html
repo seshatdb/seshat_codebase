@@ -5,12 +5,14 @@
 <div class="container pt-3">
 
   <h1>Create New US Location</h1>
+  <a href="{% url 'us_location_list' %}">List of All US Locations</a>
+<hr class="bg-colorful">
   <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Create</button>
+    <button type="submit" class="mb-2">Create</button>
   </form>
-  <a href="{% url 'us_location_list' %}">Back to List</a>
+  <a href="{% url 'us_location_list' %}">List of All US Locations</a>
 </div>
 
 {% endblock %}

@@ -4,8 +4,27 @@
 {% block content %}
 
 <div class="container pt-3">
-  <h1 class="display-6">Create New &#127482;&#127480; US Violence Case</h1>
-  <a href="{% url 'us_violence_paginated' %}">Back to List</a>
+
+
+  <div class="row d-flex align-items-center">
+    <div class="col-md-6">
+      <div class="contributors">
+        <h2><span class="text-end">
+             Create New &#127482;&#127480; US Violence Case
+        </h2>   
+    </div>       
+    </div>
+      <div class="col-md-6 pe-0">      
+        <!-- Download and Create Buttons -->
+        <a href="{% url 'us_location_create' %}" class="btn btn-outline-secondary mx-3 my-4 float-end"><i class="fas fa-plus"></i> &nbsp; Location</a>
+        <a href="{% url 'datasource_create' %}" class="btn btn-outline-secondary ms-auto my-4 float-end"><i class="fas fa-plus"></i> &nbsp; Data Source</a>
+        <a href="{% url 'subtype_create' %}" class="btn btn-outline-secondary mx-3 my-4 float-end"><i class="fas fa-plus"></i> &nbsp; Subtype</a>
+    </div>
+</div>
+
+
+
+
 <hr class="bg-colorful">
   <form method="post">
     <div class="row">
