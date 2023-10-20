@@ -1,10 +1,6 @@
 # flake8: noqa
 
 from .base import *
-import environ
-# Initialise environment variables
-env = environ.Env()
-environ.Env.read_env()
 
 #INSTALLED_APPS += ["debug_toolbar"]
 
@@ -15,11 +11,12 @@ environ.Env.read_env()
 # Databases
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': env('NAME'),
-        'USER': env('USER'),
-        'HOST': env('HOST'),
-        'PORT': env('PORT'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': config('DB_NAME'),
+        'USER': config('DB_USER'),
+        'PASSWORD': config('DB_PASSWORD'),
+        'HOST': config('DB_HOST'),
+        'PORT': '',
     }
 }
 

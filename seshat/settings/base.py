@@ -6,11 +6,6 @@ import os
 import django_heroku
 
 import dj_database_url
-import environ
-# Initialise environment variables
-env = environ.Env()
-environ.Env.read_env()
-
 from decouple import Csv, config
 
 from django.contrib.messages import constants as messages
@@ -21,9 +16,6 @@ MESSAGE_TAGS = {
         messages.WARNING: 'alert-warning',
         messages.ERROR: 'alert-danger',
 }
-
-from pathlib import Path
-local_env_path = str(Path.cwd()) + "/seshat/settings/.env"
 
 # base_dir is calculated based on this file (base.py) and then goes to parents above.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -197,30 +189,16 @@ TEMPLATES = [
 # DATABASES['default'].update(db_from_env)
 
 # Qing data database
-
-# Use local db if .env present
-if os.path.exists(local_env_path):
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': env('NAME'),
-            'USER': env('USER'),
-            'HOST': env('HOST'),
-            'PORT': env('PORT'),
-        }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': config('DB_NAME'),
+        'USER': config('DB_USER'),
+        'PASSWORD': config('DB_PASSWORD'),
+        'HOST': 'localhost',
+        'PORT': 5432,
     }
-else:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': config('DB_NAME'),
-            'USER': config('DB_USER'),
-            'PASSWORD': config('DB_PASSWORD'),
-            'HOST': 'localhost',
-            'PORT': 5432,
-        }
-    }
-
+}
 #DATABASES['default'] = dj_database_url.config(conn_max_age=600)
 
 # ==============================================================================
@@ -266,13 +244,12 @@ USE_TZ = True
 LOCALE_PATHS = [BASE_DIR / "locale"]
 
 # Email config BACKUP:
-if not os.path.exists(local_env_path):
-    EMAIL_FROM_USER = config('EMAIL_FROM_USER')
-    EMAIL_HOST = config('EMAIL_HOST')
-    EMAIL_HOST_USER = config('EMAIL_HOST_USER')
-    EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
-    EMAIL_USE_TLS = True
-    EMAIL_PORT = 587
+EMAIL_FROM_USER = config('EMAIL_FROM_USER')
+EMAIL_HOST = config('EMAIL_HOST')
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
 
 ######EMAIL_CONFIRMATION_BRANCH is the keyword that needs to be searched
 # EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
