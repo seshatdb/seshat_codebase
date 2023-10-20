@@ -73,11 +73,14 @@ AS = 'A*'
 P_TO_A = "P~A" 
 A_TO_P = "A~P" 
 
-POLITY_TAG_CHOICES = (('LEGACY', 'Legacy'),
-        ('POL_AFR_EAST', 'POL_AFR_EAST'),   # Africa ----> East Africa*
-        ('POL_AFR_WEST', 'POL_AFR_WEST'), # Africa ---->  West Africa
-        ('POL_AFR_SA', 'POL_AFR_SA'),    # Africa ----> Southern Africa*
-        ('POL_SA_SI', 'POL_SA_SI'),    # South Asia ----> Southern India*
+POLITY_TAG_CHOICES = (('LEGACY', 'Legacy Polities'),
+        ('POL_AFR_EAST', 'NEW East African Polities'),   # Africa ----> East Africa*
+        ('POL_AFR_WEST', 'NEW West African Polities'), # Africa ---->  West Africa
+        ('POL_AFR_SA', 'NEW Southern African Polities'),    # Africa ----> Southern Africa*
+        ('POL_SA_SI', 'NEW South East Indian Polities'),    # South Asia ----> Southern India*
+        ('CRISISDB_POLITIES', 'CrisisDB-specific Polities'),
+        ('OTHER_TAG', 'Other Polities'),
+
         )
 
 WORLD_REGION_CHOICES = (('Europe', 'Europe'),
@@ -139,7 +142,7 @@ class Polity(models.Model):
     long_name = models.CharField(max_length=200, blank=True, null=True)
     new_name = models.CharField(max_length=100, blank=True, null=True)
     home_nga = models.ForeignKey(Nga, on_delete=models.SET_NULL, null=True, blank=True, related_name="home_nga")
-    polity_tag = models.CharField(max_length=100, choices=POLITY_TAG_CHOICES, default="LEGACY", null=True, blank=True)
+    polity_tag = models.CharField(max_length=100, choices=POLITY_TAG_CHOICES, default="OTHER_TAG", null=True, blank=True)
     general_description = models.TextField(blank=True, null=True,)
 
     created_date = models.DateTimeField(
@@ -151,9 +154,13 @@ class Polity(models.Model):
         verbose_name_plural = 'polities'
 
     def clean(self):
+        current_year = date.today().year
         if self.start_year is not None and self.end_year is not None and self.start_year > self.end_year:
             raise ValidationError("Start year cannot be greater than end year.")
-
+        if self.end_year is not None and self.end_year > current_year:
+            raise ValidationError("End year cannot be greater than the current year")
+        if self.start_year is not None and self.start_year > current_year:
+            raise ValidationError("Start year cannot be greater than the current year")
 
     def __str__(self) -> str:
         """string for epresenting the model obj in Admin Site"""

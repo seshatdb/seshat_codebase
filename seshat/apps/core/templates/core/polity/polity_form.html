@@ -17,7 +17,8 @@
                 <div class="col-md-12">
                     <h6 class="lead-2 text-secondary">Enter new data for:</h6>
                     <h6><span class="display-6">Polity</span></h6>
-                    <h6 class="text-secondary">* Make sure that both <span class="text-dark">Polity ID (NEW)</span>  and <span class="text-dark">Polity ID (OLD)</span> are added. If <span class="text-dark">Polity ID (OLD)</span> is not relevant, enter the <span class="text-dark">Polity ID (NEW)</span> for both fields.</h6>
+                    <h6 class="text-secondary">* Make sure that both <span class="text-dark">Polity ID (NEW and OLD)</span> are added. If <span class="text-dark">Polity ID (OLD)</span> is not relevant, enter the <span class="text-dark">Polity ID (NEW)</span> for both fields.</h6>
+                    <h6 class="text-secondary">* If you are not sure about the value of any other field, keep the default value (or leave it empty).</h6>
                     {% if messages %}
                     <ul class="messages mt-3">
                         {% for message in messages %}
@@ -59,21 +60,24 @@
             <div class="col-md-12">
               {{ form.name|as_crispy_field }}
             </div>   
+            <div class="col-md-12 d-grid">
+              {{ form.polity_tag|as_crispy_field }}
+            </div>
           </div>
           <div class="col-md-8">
             <div class="col-md-12">
               {{ form.general_description|as_crispy_field }}
             </div>
+            <div class="col-md-8 d-grid">
+          </div>
+            <div class="col-md-4 d-grid float-end">
+              <button type="submit" class="btn btn-outline-primary my-auto btn-block btn-lg">Submit for Review*</button>
+          </div>
           </div>
         </div>
 
 
-        <div class="row">
-            <div class="col-md-3 mb-2 py-2 d-grid">
-                <button type="submit" class="btn btn-outline-primary my-auto btn-block btn-lg">Submit for Review*</button>
-            </div>
 
-        </div>
 
         <!-- {% if form.errors %}
         {% for field in form %}

@@ -73,13 +73,14 @@ class CitationForm(forms.ModelForm):
 class PolityForm(forms.ModelForm):
     class Meta:
         model = Polity
-        fields = ('name', 'new_name', 'long_name', 'start_year', 'end_year', 'general_description')
+        fields = ('name', 'new_name', 'long_name', 'start_year', 'end_year', 'polity_tag','general_description')
         labels = {
         'name': 'Polity ID (Old)',
         'new_name': 'Polity ID (New)',
         'long_name': 'Long Name',
         'start_year': 'Start Year',
         'end_year': 'End Year',
+        'polity_tag': 'Polity Tag',
         'general_description': 'General Description of the Polity',
 
         }
@@ -94,7 +95,8 @@ class PolityForm(forms.ModelForm):
                 attrs={'class': 'form-control  mb-3 fw-bold', }),
             'end_year': forms.NumberInput(
                 attrs={'class': 'form-control  mb-3 fw-bold', }),
-            'general_description': forms.Textarea(attrs={'class': 'form-control  mb-3', 'style': 'height: 300px', 'placeholder':'Add a general description (optional)'}),
+            'polity_tag': forms.Select(attrs={'class': 'form-control form-select mb-3',}),
+            'general_description': forms.Textarea(attrs={'class': 'form-control  mb-3', 'style': 'height: 290px', 'placeholder':'Add a general description (optional)'}),
 
         }
 
