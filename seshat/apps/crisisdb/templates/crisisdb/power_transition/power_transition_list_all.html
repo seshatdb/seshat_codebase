@@ -187,10 +187,6 @@
 
 <p class="fw-light text-secondary pt-3">{{ obj.description|make_references_look_nicer }}</p>
 
-<p class="fw-bold mb-1 text-secondary">References:</p>
-<p class="fw-light text-secondary">
-    {{obj.display_citations}}
-</p>
 <td class="col-sm-6  align-text-top" style="text-align: center;">
     {% with obj|get_columns_with_value_dic:"P" as columns_dic %}
         {% if columns_dic %}

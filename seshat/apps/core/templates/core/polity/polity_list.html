@@ -20,6 +20,8 @@
         <h2>Polities</h2>
     </div>
     {% if user.is_authenticated %}
+
+
         <div class="col-md-9 p-3">
             <div class="accordion accordion-flush" id="accordionFlushExample">
                 <div class="accordion-item" style="background-color:#fffdf2;">
@@ -39,9 +41,17 @@
                 </div>
             </div>
         </div>
+        <div class="col-md-3 pb-3">
+            <a href="{% url 'polity-create'  %}" class="btn btn-outline-success mx-1 my-2"><i class="fa-solid fa-plus"></i> &nbsp; Create a New Polity</a>
+        </div>
     {% endif %}
 
     </div>
+
+    
+
+
+
 
     <h6 class="text-secondary">* A polity is defined as an independent political unit. Kinds of polities range from villages (local
         communities) through simple and complex chiefdoms to states and empires.</h6>

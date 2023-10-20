@@ -119,6 +119,9 @@ class Nga(models.Model):
     fao_country = models.CharField(max_length=100, blank=True, null=True)
     world_region = models.CharField(max_length=100, choices=WORLD_REGION_CHOICES, default="Europe", null=True, blank=True)
 
+    class Meta:
+        ordering = ['name']
+
     def get_absolute_url(self):
         return reverse('ngas')
 
@@ -146,6 +149,11 @@ class Polity(models.Model):
     class Meta:
         verbose_name = 'polity'
         verbose_name_plural = 'polities'
+
+    def clean(self):
+        if self.start_year is not None and self.end_year is not None and self.start_year > self.end_year:
+            raise ValidationError("Start year cannot be greater than end year.")
+
 
     def __str__(self) -> str:
         """string for epresenting the model obj in Admin Site"""

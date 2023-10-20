@@ -3537,6 +3537,36 @@ def download_csv_all_american_violence(request):
     writer = csv.writer(response, delimiter='|')
 
     # type the headers
+    writer.writerow(['id','date', 'type', 'subtypes', 'locations', 'fatality', 'sources', 'url_address', 'source_details', 'narrative'])
+    items = Us_violence.objects.all().order_by("id")
+    if items:
+        for obj in items:
+            #locations_text = BeautifulSoup(obj.show_locations(), 'html.parser').get_text()
+            locations_text = remove_html_tags(obj.show_locations())
+            short_data_sources_text = remove_html_tags(obj.show_short_data_sources())
+
+            writer.writerow([obj.id, obj.violence_date, obj.violence_type, obj.show_violence_subtypes(), locations_text, obj.fatalities,
+                        short_data_sources_text, obj.url_address, obj.source_details, obj.narrative,])
+
+
+    return response
+
+
+@permission_required('core.view_capital')
+def download_csv_all_american_violence2(request):
+    #from bs4 import BeautifulSoup
+
+    response = HttpResponse(content_type='text/csv')
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    file_name = f"american_violence_data_{current_datetime}.csv"
+
+    response['Content-Disposition'] = f'attachment; filename="{file_name}"'
+
+    # Create a CSV writer
+    writer = csv.writer(response, delimiter='|')
+
+    # type the headers
     writer.writerow(['date', 'type', 'subtypes', 'locations', 'fatality', 'sources', 'url_address',])
     items = Us_violence.objects.all()
     if items:

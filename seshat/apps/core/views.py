@@ -33,6 +33,8 @@ from django.http import FileResponse
 from django.shortcuts import get_object_or_404
 import os
 
+from django.apps import apps
+
 
 
 from markupsafe import Markup, escape
@@ -594,7 +596,10 @@ class PolityCreate(PermissionRequiredMixin, CreateView):
         return super().form_valid(form)
     
     def form_invalid(self, form):
-        return HttpResponseRedirect(reverse('seshat-index'))
+        #return HttpResponseRedirect(reverse('seshat-index'))
+        messages.error(self.request, "Form submission failed. Please check the form.")
+        # Redirect to the 'polities' page
+        return self.render_to_response(self.get_context_data(form=form))
 
 
 class PolityUpdate(PermissionRequiredMixin, SuccessMessageMixin, UpdateView):
@@ -1512,3 +1517,40 @@ def download_oldcsv(request, file_name):
     response = FileResponse(open(file_path, 'rb'))
     response['Content-Disposition'] = f'attachment; filename="{file_name}"'
     return response
+
+
+
+def home_cards(request):
+    app_names = ['general','sc', 'wf', 'crisisdb']  # Replace with your app name
+    context = {
+        'general_data': [],
+        'sc_data': [], 
+        'wf_data': [],
+        'crisisdb': [],
+        }
+    for app_name in app_names:
+        models = apps.get_app_config(app_name).get_models()
+        unique_politys = set()
+        number_of_variables = 0
+        number_of_rows_in_app = 0
+        app_key = app_name + "_data"
+        for model in models:
+            model_name = model.__name__
+            if model_name == "Ra":
+                continue
+            if  model_name.startswith("Us_"):
+                continue
+            queryset_count = model.objects.count()
+
+            queryset = model.objects.all()
+            politys = queryset.values_list('polity', flat=True).distinct()
+            unique_politys.update(politys)
+            number_of_variables += 1
+
+            number_of_rows_in_app += queryset_count
+
+        to_be_appended = [number_of_rows_in_app, number_of_variables, len(unique_politys),]
+
+        context[app_key] = to_be_appended
+
+    return render(request, 'core/seshat-index_2.html', context=context)

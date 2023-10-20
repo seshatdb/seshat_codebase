@@ -2,7 +2,12 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-
+<style>
+  .error {
+      color: red;
+      /* You can add more styling here, like font-weight, background-color, etc. */
+    }
+</style>
 <!-- form-row and form-group etc are removed in Bootstrap 5 -->
 <div class="container mt-3">
     <form action="" method="post">
@@ -12,42 +17,60 @@
                 <div class="col-md-12">
                     <h6 class="lead-2 text-secondary">Enter new data for:</h6>
                     <h6><span class="display-6">Polity</span></h6>
+                    <h6 class="text-secondary">* Make sure that both <span class="text-dark">Polity ID (NEW)</span>  and <span class="text-dark">Polity ID (OLD)</span> are added. If <span class="text-dark">Polity ID (OLD)</span> is not relevant, enter the <span class="text-dark">Polity ID (NEW)</span> for both fields.</h6>
+                    {% if messages %}
+                    <ul class="messages mt-3">
+                        {% for message in messages %}
+                        <div class=" p-0">
+                            <div class="alert {{ message.tags }} alert-dismissible" role="alert" >
+                                <i class="fa-solid fa-circle-info"></i> Hi <b>{{ user }}</b>. {{ message }}
+                            </div>
+                        </div>
+                        {% endfor %}
+                        {% if form.non_field_errors %}
+                        {% for error in form.non_field_errors %}
+                        <div class=" p-0">
+                          <div class="text-danger" role="alert" >
+                            <i class="fa-solid fa-triangle-exclamation"></i>  {{ error }}
+                          </div>
+                        </div>
+                        {% endfor %}
+                        {% endif %}
+                    </ul>
+                    {% endif %}
                 </div>
             </div> 
-            <hr>
+            <hr class="bg-colorful">
         </legend>
         <div class="row">
-
-          <div class="col-md-4 mb-2">
-            {{ form.new_name|as_crispy_field }}
+          <div class="col-md-4 row">
+            <div class="col-md-12">
+              {{ form.new_name|as_crispy_field }}
+            </div>
+            <div class="col-md-6">
+              {{ form.start_year|as_crispy_field }}
+            </div>
+            <div class="col-md-6">
+              {{ form.end_year|as_crispy_field }}
+            </div>
+            <div class="col-md-12">
+              {{ form.long_name|as_crispy_field }}
+            </div>
+            <div class="col-md-12">
+              {{ form.name|as_crispy_field }}
+            </div>   
           </div>
-          <div class="col-md-4 mb-2">
-            {{ form.start_year|as_crispy_field }}
-          </div>
-          <div class="col-md-4 mb-2">
-            {{ form.end_year|as_crispy_field }}
-          </div>
-          <div class="col-md-4 mb-2">
-            {{ form.long_name|as_crispy_field }}
-          </div>
-          <div class="col-md-4 mb-2">
-            {{ form.home_nga|as_crispy_field }}
-          </div>
-          <div class="col-md-4 mb-2">
-            {{ form.name|as_crispy_field }}
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-12 pt-3">
-            {{ form.general_description|as_crispy_field }}
-
+          <div class="col-md-8">
+            <div class="col-md-12">
+              {{ form.general_description|as_crispy_field }}
+            </div>
           </div>
         </div>
 
 
         <div class="row">
-            <div class="col-md-4 mb-2 py-2 d-grid mx-auto">
-                <button type="submit" class="btn btn-outline-success my-auto btn-block btn-lg">Submit for Review*</button>
+            <div class="col-md-3 mb-2 py-2 d-grid">
+                <button type="submit" class="btn btn-outline-primary my-auto btn-block btn-lg">Submit for Review*</button>
             </div>
 
         </div>
