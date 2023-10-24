@@ -89,12 +89,41 @@
             <div class="row d-flex align-items-center mb-2">
                 <div class="col-md-8">
                     <span class="fw-bolder fs-1 text-teal"><i class="fa-solid fa-star fa-sm"></i> {{ object.long_name }}</span>
+<div class="ps-3 py-2">
+    {% if all_general_data %}
+    <a href="#general_var"><span class="badge bg-warning text-dark p-1 me-1 fs-4">G</span></a>
+    {% endif %}
+
+    {% if all_sc_data %}
+    <a href="#sc_var"><span class="badge bg-primary p-1 me-2 fs-4">SC</span></a>
+    {% endif %}
+
+    {% if all_wf_data %}
+    <a href="#wf_var"><span class="badge bg-danger p-1 me-2 fs-4">WF</span></a>
+    {% endif %}
+
+    {% if "Human_sacrifice_for_polity" in all_data.keys %} 
+    <a href="#hs_var"><span class="badge bg-success text-light p-1 me-2 fs-4">HS</span></a>
+    {% endif %}
+
+    {% if all_crisis_cases_data %}
+    <a href="#crisis_case_var"><span class="badge bg-dark p-1 me-2 fs-4">CC</span></a>
+    {% endif %}
+
+
+    {% if all_power_transitions_data %}
+    <a href="#power_transition_var"><span class="badge bg-info text-dark  p-1 me-2 fs-4">PT</span></a>
+    {% endif %}
+
+    
+</div>
+                   
+
                 </div>
                 <div class="col-md-4">    
                     <a href="{% url 'polity-update' object.pk  %}" class="btn btn-outline-danger mx-1 my-2 float-end"><i class="fa-regular fa-pen-to-square"></i> &nbsp; Edit This Polity</a>
 
                     <a href="{% url 'polities' %}" class="btn btn-outline-success mx-1 my-2 float-end"><i class="fa-solid fa-list-ul"></i> &nbsp; See All Polities</a>
-                    <a href='http://seshatdatabank.info/browser/{{ object.name }}' class="btn btn-outline-secondary mx-1 my-2 float-end" target="_blank"> <i class="fa-solid fa-arrow-up-right-from-square"></i> Wiki: {{ object.name }}</a>
                 </div>
 
             </div>
@@ -538,7 +567,7 @@
     <hr>
 
     <div>
-        <h1 class="pt-2 display-4" style="text-align: left; color:#893101;" id="general_var"><span class="h1"> General Variables</span></h1>
+        <h1 class="pt-5 display-4" style="text-align: left; color:#893101;" id="general_var"><span class="h1"> General Variables</span></h1>
         
         {% for key, values in all_general_data.items %}
         {% if values %}
@@ -585,7 +614,7 @@
     </div>
 
     <div>
-        <h1 class="pt-2 display-4" style="text-align: left; color:#893101;" id="sc_var"><span class="h1"> Social Complexity Variables</span></h1>
+        <h1 class="pt-5 display-4" style="text-align: left; color:#893101;" id="sc_var"><span class="h1"> Social Complexity Variables</span></h1>
         {% for key, values in all_sc_data.items %}
         {% if values %}
         <div class="py-2 custom-left-border-shadowed">
@@ -633,7 +662,7 @@
     </div>
 
     <div>
-        <h1 class="pt-2 display-4" style="text-align: left; color:#893101;" id="wf_var"><span class="h1"> Warfare Variables (Military Technologies)</span></h1>
+        <h1 class="pt-5 display-4" style="text-align: left; color:#893101;" id="wf_var"><span class="h1"> Warfare Variables (Military Technologies)</span></h1>
 
         {% for key, values in all_wf_data.items %}
         {% if values %}
@@ -682,7 +711,7 @@
     {% for key, values in all_data.items %}
     {% if "Human_sacrifice_for_polity" == key %}
 
-    <h1 class="pt-2 display-4" style="text-align: left;  color:#893101;" id="hs_var"><span class="h1"> Human Sacrifice Data</span></h1>
+    <h1 class="pt-5 display-4" style="text-align: left;  color:#893101;" id="hs_var"><span class="h1"> Human Sacrifice Data</span></h1>
     <h6>
         <span> <i class="fa-solid fa-caret-right"></i> Human Sacrifice is the deliberate and ritualized killing of a person to please or placate supernatural entities (including gods, spirits, and ancestors) or gain other supernatural benefits. </span>
     </h6>
@@ -747,11 +776,11 @@
     <div>
         <div class="row d-flex align-items-center justify-content-center">
             <div class="col-md-6">
-                <h1 class="pt-2 display-4" style="text-align: left; color:#893101;" id="crisis_case_var">
+                <h1 class="pt-5 display-4" style="text-align: left; color:#893101;" id="crisis_case_var">
                     <span class="h1"> Crisis Cases</span>
                 </h1>
             </div>
-            <div class="col-md-6 pt-5 pb-4">
+            <div class="col-md-6 pt-5">
                 <a href="{% url 'crisis_consequences_all' %}" class="btn float-end fw-light">View all values of <b> <u>Crisis Consequences</u></b> <i class="fa-solid fa-list"></i>
                 </a>
             </div>
@@ -810,7 +839,7 @@
     <div>
         <div class="row d-flex align-items-center justify-content-center">
             <div class="col-md-6">
-                <h1 class="pt-2 display-4" style="text-align: left; color:#893101;" id="crisis_case_var">
+                <h1 class="pt-5 display-4" style="text-align: left; color:#893101;" id="power_transition_var">
                     <span class="h1"> Power Transitions</span>
                 </h1>
             </div>

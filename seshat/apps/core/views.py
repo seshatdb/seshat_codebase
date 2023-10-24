@@ -56,7 +56,7 @@ from .models import Citation, Polity, Section, Subsection, Variablehierarchy, Re
 import pprint
 import requests
 from requests.structures import CaseInsensitiveDict
-from seshat.utils.utils import adder, dic_of_all_vars, list_of_all_Polities, dic_of_all_vars_in_sections, dic_of_all_vars_with_varhier, get_all_data_for_a_polity, polity_detail_data_collector, get_all_general_data_for_a_polity, get_all_sc_data_for_a_polity, get_all_wf_data_for_a_polity, get_all_crisis_cases_data_for_a_polity, get_all_power_transitions_data_for_a_polity
+from seshat.utils.utils import adder, dic_of_all_vars, list_of_all_Polities, dic_of_all_vars_in_sections, dic_of_all_vars_with_varhier, get_all_data_for_a_polity, polity_detail_data_collector, get_all_general_data_for_a_polity, get_all_sc_data_for_a_polity, get_all_wf_data_for_a_polity, get_all_crisis_cases_data_for_a_polity, get_all_power_transitions_data_for_a_polity, give_polity_app_data
 
 
 from django.shortcuts import HttpResponse
@@ -790,6 +790,12 @@ class PolityListView(SuccessMessageMixin, generic.ListView):
         context = super().get_context_data(**kwargs)
         all_ngas = Nga.objects.all()
         all_pols = Polity.objects.all().order_by('start_year')
+        #import time
+        #start_time = time.time()
+
+        all_polities_g_sc_wf = give_polity_app_data()
+
+
         #all_nga_pol_rels  = Ngapolityrel.objects.all()
         all_world_regions = {}
         for a_nga in all_ngas:
@@ -823,6 +829,25 @@ class PolityListView(SuccessMessageMixin, generic.ListView):
         all_world_regions["Africa"].append("Southern Africa")
         all_world_regions["South Asia"].append("Southern India")
 
+        for a_polity in all_pols:
+            try:
+                #a_polity.has_general = has_general_data_for_polity(a_polity.id)
+                #a_polity.has_sc = has_sc_data_for_polity(a_polity.id)
+                #a_polity.has_wf = has_wf_data_for_polity(a_polity.id)
+                #a_polity.has_cc = has_crisis_cases_data_for_polity(a_polity.id)
+                #a_polity.has_pt = has_power_transition_data_for_polity(a_polity.id)
+                a_polity.has_g_sc_wf = all_polities_g_sc_wf[a_polity.id]
+                
+            except:
+                #a_polity.has_general = None
+                #a_polity.has_sc = None
+                #a_polity.has_wf = None
+                #a_polity.has_cc = None
+                #a_polity.has_pt = None
+                a_polity.has_g_sc_wf = None
+
+        #end_time = time.time()
+        #print('elapsed_time ', end_time-start_time)
 
         for a_world_region, all_its_sub_regions in all_world_regions.items():
             for a_subregion in all_its_sub_regions:
@@ -870,12 +895,14 @@ class PolityListView(SuccessMessageMixin, generic.ListView):
         for a_polity in all_pols:
             if a_polity not in nomad_polities and a_polity not in all_politys_on_the_polity_list_page:
                 nomad_polities.append(a_polity)
+
         ultimate_wregion_dic['Nomad Polities'][ "Nomad Land"] = nomad_polities
         context["sub_regions_details"] = sub_regions_details
         #context["all_nga_pol_rels"] = all_nga_pol_rels
         context["all_world_regions"] = all_world_regions
         context["ultimate_wregion_dic"] = ultimate_wregion_dic
         #print(ultimate_wregion_dic)
+        context['all_pols'] = all_pols
 
         #print(f"out of {len(all_pols)}: {len(all_politys_on_the_polity_list_page)} were taken care of.")
         

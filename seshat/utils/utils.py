@@ -2,9 +2,11 @@ from seshat.apps.core.models import Polity, Variablehierarchy
 from seshat.apps.crisisdb.models import *
 import django.apps
 import pprint
-from seshat.apps.crisisdb.models import Crisis_consequence, Power_transition
+from seshat.apps.crisisdb.models import Crisis_consequence, Power_transition, Human_sacrifice
+
 from django.contrib.contenttypes.models import ContentType
 
+from ..apps.core.models import Polity
 import requests
 from requests.structures import CaseInsensitiveDict
 
@@ -230,6 +232,17 @@ def get_all_general_data_for_a_polity(polity_id):
                 a_huge_context_data_dic[m.__name__] = my_data
     return a_huge_context_data_dic
 
+# def has_general_data_for_polity(polity_id):
+#     if Polity_degree_of_centralization.objects.filter(polity=polity_id).exists() or Polity_utm_zone.objects.filter(polity=polity_id).exists():
+#         return
+#     for ct in ContentType.objects.filter(app_label='general'):
+#         m = ct.model_class()
+#         if m and m.__module__ == "seshat.apps.general.models":
+#             data_exists = m.objects.filter(polity=polity_id).exists()
+#             if data_exists:
+#                 return True
+#     return False
+
 def get_all_sc_data_for_a_polity(polity_id):
     a_huge_context_data_dic = {}
     for ct in ContentType.objects.all():
@@ -239,6 +252,16 @@ def get_all_sc_data_for_a_polity(polity_id):
             if my_data:
                 a_huge_context_data_dic[m.__name__] = my_data
     return a_huge_context_data_dic
+
+# def has_sc_data_for_polity(polity_id):
+#     for ct in ContentType.objects.filter(app_label='sc'):
+#         m = ct.model_class()
+#         #print(m)
+#         if m and m.__module__ == "seshat.apps.sc.models":
+#             data_exists = m.objects.filter(polity=polity_id).exists()
+#             if data_exists:
+#                 return True
+#     return False
 
 def get_all_wf_data_for_a_polity(polity_id):
     a_huge_context_data_dic = {}
@@ -250,6 +273,15 @@ def get_all_wf_data_for_a_polity(polity_id):
                 a_huge_context_data_dic[m.__name__] = my_data
     return a_huge_context_data_dic
 
+# def has_wf_data_for_polity(polity_id):
+#     for ct in ContentType.objects.filter(app_label='wf'):
+#         m = ct.model_class()
+#         if m and m.__module__ == "seshat.apps.wf.models":
+#             data_exists = m.objects.filter(polity=polity_id).exists()
+#             if data_exists:
+#                 return True
+#     return False
+
 # get crsisi cocases data
 def get_all_crisis_cases_data_for_a_polity(polity_id):
     a_data_dic = {}
@@ -259,6 +291,9 @@ def get_all_crisis_cases_data_for_a_polity(polity_id):
     #print(a_data_dic)
     return a_data_dic
 
+# def has_crisis_cases_data_for_polity(polity_id):
+#     return Crisis_consequence.objects.filter(polity=polity_id).exists()
+
 def get_all_power_transitions_data_for_a_polity(polity_id):
     a_data_dic = {}
     my_data = Power_transition.objects.filter(polity = polity_id)
@@ -266,6 +301,169 @@ def get_all_power_transitions_data_for_a_polity(polity_id):
         a_data_dic["crisis_cases"] = my_data
     #print(a_data_dic)
     return a_data_dic
+
+# def has_power_transition_data_for_polity(polity_id):
+#     return Power_transition.objects.filter(polity=polity_id).exists()
+
+
+# def has_g_sc_wf_data_for_all_polities():
+#     import time
+#     start_time = time.time()
+
+#     print("ali")
+#     app_labels = ["general","sc", "wf"]
+#     polity_ids = Polity.objects.values_list('id', flat=True)  
+#     contain_dic = {}
+#     remiaining_general_pols = []
+#     for polity_id in polity_ids:
+#         data_exists_g = Polity_degree_of_centralization.objects.filter(polity=polity_id).exists() or Polity_utm_zone.objects.filter(polity=polity_id).exists()
+#         if data_exists_g:
+#             contain_dic[polity_id] = {
+#                 'g': True,
+#                 'sc': False,
+#                 'wf': False,
+#             }
+#             #print("hoooooooooooooooo")
+#         else:
+#             contain_dic[polity_id] = {
+#                 'g': False,
+#                 'sc': False,
+#                 'wf': False,
+#             }
+#             remiaining_general_pols.append(polity_id)
+            
+
+
+#     mid_time = time.time()
+#     elapsed_time = mid_time - start_time
+
+#     #print(f"Elapsed time (Mid): {elapsed_time} seconds---- {len(remiaining_general_pols)}")
+
+#     for polity_id in polity_ids:
+
+#         for ct in ContentType.objects.filter(app_label__in=app_labels):
+
+#             m = ct.model_class()
+
+#             midmid_time = time.time()
+#             elapsed_time = midmid_time - start_time
+#             #print(f"Elapsed time (MidMid): {elapsed_time} seconds")
+
+#             if m.__module__ == "seshat.apps.general.models":
+#                 if contain_dic[polity_id]['g']:
+#                     continue
+#                 contain_dic[polity_id]['g'] = m.objects.filter(polity=polity_id).exists()
+#             if m.__module__ == "seshat.apps.sc.models":
+#                 if contain_dic[polity_id]['sc']:
+#                     continue
+#                 contain_dic[polity_id]['sc']  = m.objects.filter(polity=polity_id).exists()
+#             if m.__module__ == "seshat.apps.wf.models":
+#                 if contain_dic[polity_id]['wf']:
+#                     continue
+#                 contain_dic[polity_id]['wf'] = m.objects.filter(polity=polity_id).exists()
+
+#     print("yaret")
+#     end_time = time.time()
+
+#     # Calculate the elapsed time
+#     elapsed_time = end_time - start_time
+
+#     print(f"Elapsed time: {elapsed_time} seconds")
+
+#     return contain_dic
+
+
+# def has_g_sc_wf_data_for_all_polities():
+#     import time
+#     from django.apps import apps
+
+
+#     start_time = time.time()
+
+#     #app_labels = ["general", "sc", "wf"]
+#     polity_ids = Polity.objects.values_list('id', flat=True)
+
+#     contain_dic = {}
+
+#     for polity_id in polity_ids:
+#         contain_dic[polity_id] = {'sc': False, }
+
+#     app_models = apps.get_app_config("sc").get_models()
+#     print(app_models)
+
+#     for model in app_models:
+#             all_sc_data = model.objects.all()
+
+#     for polity_id in polity_ids:   
+        
+#             print(model)
+#             if contain_dic[polity_id]['sc']:
+#                 break
+#             else:
+#                 data_exists = model.objects.filter(polity=polity_id).exists()
+#                 if data_exists:
+#                     contain_dic[polity_id]['sc'] = data_exists
+#                     print(model, polity_id)
+#                     break
+
+#             #contain_dic[polity_id]['sc'] = False
+        
+
+#     end_time = time.time()
+#     elapsed_time = end_time - start_time
+
+#     print(f"Elapsed time: {elapsed_time} seconds")
+
+#     return contain_dic
+
+
+
+def give_polity_app_data():
+    from django.apps import apps
+
+    contain_dic = {}
+    unique_polity_ids_general = set()
+    unique_polity_ids_sc = set()
+    unique_polity_ids_wf = set()
+
+
+    app_models_general = apps.get_app_config('general').get_models()
+    app_models_sc = apps.get_app_config('sc').get_models()
+    app_models_wf = apps.get_app_config('wf').get_models()
+
+    for model in app_models_general:
+        if hasattr(model, 'polity_id'):
+            polity_ids_general = model.objects.values_list('polity_id', flat=True).distinct()
+            unique_polity_ids_general.update(polity_ids_general)
+
+    for model in app_models_sc:
+        if hasattr(model, 'polity_id'):
+            polity_ids_sc = model.objects.values_list('polity_id', flat=True).distinct()
+            unique_polity_ids_sc.update(polity_ids_sc)
+
+    for model in app_models_wf:
+        if hasattr(model, 'polity_id'):
+            polity_ids_wf = model.objects.values_list('polity_id', flat=True).distinct()
+            unique_polity_ids_wf.update(polity_ids_wf)
+
+    all_polity_ids = Polity.objects.values_list('id', flat=True)
+    for polity_id in all_polity_ids:
+        contain_dic[polity_id] = {
+            'g': False,
+            'sc': False,
+            'wf': False,
+            'hs': Human_sacrifice.objects.filter(polity=polity_id).exists(),
+            'cc': Crisis_consequence.objects.filter(polity=polity_id).exists(),
+            'pt': Power_transition.objects.filter(polity=polity_id).exists(),
+        }
+        if polity_id in unique_polity_ids_general:
+            contain_dic[polity_id]["g"] = True
+        if polity_id in unique_polity_ids_sc:
+            contain_dic[polity_id]["sc"] = True        
+        if polity_id in unique_polity_ids_wf:
+            contain_dic[polity_id]["wf"] = True
+
+    return contain_dic
 
 
 def polity_detail_data_collector(polity_id):
