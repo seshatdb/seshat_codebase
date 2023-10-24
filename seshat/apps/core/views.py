@@ -42,6 +42,7 @@ from django.http import JsonResponse
 
 from django.core.mail import EmailMessage
 import html
+import datetime
 import csv
 
 import json
@@ -1581,3 +1582,66 @@ def home_cards(request):
         context[app_key] = to_be_appended
 
     return render(request, 'core/seshat-index_2.html', context=context)
+
+
+def get_polity_data_single(polity_id):
+    from seshat.apps.crisisdb.models import Crisis_consequence, Power_transition, Human_sacrifice
+    from django.apps import apps
+
+    app_models_general = apps.get_app_config('general').get_models()
+    app_models_sc = apps.get_app_config('sc').get_models()
+    app_models_wf = apps.get_app_config('wf').get_models()
+
+    data = {
+        'g': 0,
+        'sc': 0,
+        'wf': 0,
+        'hs': 0,
+        'cc': 0,
+        'pt': 0,
+    }
+
+    for model in app_models_general:
+        if hasattr(model, 'polity_id') and model.objects.filter(polity_id=polity_id).exists():
+            data['g'] += model.objects.filter(polity_id=polity_id).count()
+
+    for model in app_models_sc:
+        if hasattr(model, 'polity_id') and model.objects.filter(polity_id=polity_id).exists():
+            data['sc'] += model.objects.filter(polity_id=polity_id).count()
+
+    for model in app_models_wf:
+        if hasattr(model, 'polity_id') and model.objects.filter(polity_id=polity_id).exists():
+            data['wf'] += model.objects.filter(polity_id=polity_id).count()
+
+    data['hs'] = Human_sacrifice.objects.filter(polity=polity_id).count()
+    data['cc'] = Crisis_consequence.objects.filter(polity=polity_id).count()
+    data['pt'] = Power_transition.objects.filter(polity=polity_id).count()
+
+    return data
+
+@permission_required('core.view_capital')
+def download_csv_all_polities(request):
+    # Create a response object with CSV content type
+    response = HttpResponse(content_type='text/csv')
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    file_name = f"polities_{current_datetime}.csv"
+
+    response['Content-Disposition'] = f'attachment; filename="{file_name}"'
+
+    # Create a CSV writer
+    writer = csv.writer(response, delimiter='|')
+
+    # type the headers
+    writer.writerow(['polity_new_id', 'polity_old_id', 'polity_long_name', 'start_year', 'end_year', 'home_nga', 'G', "SC", "WF", "HS", "CC", "PT", 'polity_tag',])
+
+    items = Polity.objects.all()
+    coded_value_data = give_polity_app_data()
+
+    for obj in items:
+        #coded_values_data = get_polity_data_single(obj.id)
+        #print(coded_values_data)
+        writer.writerow([obj.new_name, obj.name, obj.long_name, obj.start_year,
+                    obj.end_year, obj.home_nga,  coded_value_data[obj.id]['g'], coded_value_data[obj.id]['sc'], coded_value_data[obj.id]['wf'], coded_value_data[obj.id]['hs'], coded_value_data[obj.id]['cc'], coded_value_data[obj.id]['pt'], obj.get_polity_tag_display(),])
+
+    return response

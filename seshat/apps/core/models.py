@@ -73,7 +73,7 @@ AS = 'A*'
 P_TO_A = "P~A" 
 A_TO_P = "A~P" 
 
-POLITY_TAG_CHOICES = (('LEGACY', 'Legacy Polities'),
+POLITY_TAG_CHOICES = (('LEGACY', 'Equinox 2020 Polities'),
         ('POL_AFR_EAST', 'NEW East African Polities'),   # Africa ----> East Africa*
         ('POL_AFR_WEST', 'NEW West African Polities'), # Africa ---->  West Africa
         ('POL_AFR_SA', 'NEW Southern African Polities'),    # Africa ----> Southern Africa*
