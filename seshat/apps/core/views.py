@@ -791,6 +791,7 @@ class PolityListView(SuccessMessageMixin, generic.ListView):
         context = super().get_context_data(**kwargs)
         all_ngas = Nga.objects.all()
         all_pols = Polity.objects.all().order_by('start_year')
+        pol_count = len(all_pols)
         #import time
         #start_time = time.time()
 
@@ -904,6 +905,7 @@ class PolityListView(SuccessMessageMixin, generic.ListView):
         context["ultimate_wregion_dic"] = ultimate_wregion_dic
         #print(ultimate_wregion_dic)
         context['all_pols'] = all_pols
+        context["pol_count"] = pol_count
 
         #print(f"out of {len(all_pols)}: {len(all_politys_on_the_polity_list_page)} were taken care of.")
         
