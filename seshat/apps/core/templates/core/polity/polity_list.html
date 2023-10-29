@@ -325,6 +325,11 @@
         {{ a_world_region }}
     </h2>
     {% for a_subregion, a_list_of_polities in a_dic_of_subregions.items %}
+    {% if a_subregion == "Somewhere" and not a_list_of_polities %}
+
+    {% else %}
+
+
     <div class="pb-3" id="{{a_subregion}}_{{a_world_region}}"></div>
     <h2 class="text-teal pt-5"><i class="fa-solid fa-circle-chevron-right"></i> {{ a_subregion }} <span class="h6 text-secondary">({{a_world_region}})</span> <span class="h6 text-secondary"><a href="#"><i class="fa-solid fa-turn-up"></i></a></span></h2>
     {% if a_list_of_polities %}
@@ -341,7 +346,12 @@
         </thead>
         <tbody>
                 {% for a_polity in a_list_of_polities %}
+                {% if a_polity.home_seshat_region.name == "Somewhere" %}
+                <tr style="background-color:#f78ea0">
+                {% else %}
                 <tr>
+                {% endif %}
+
                 <td class="col-md-5 ps-2 py-2" style="text-align: left;"> 
                     {% if a_polity.long_name %}
                         <span class="fw-bold h5"><i class="fa-solid fa-location-dot fa-xs text-secondary"></i>&nbsp; {{ a_polity.long_name }}&nbsp;</span>
@@ -387,6 +397,14 @@
 
                     {% else %}
                     <span class="text-danger fw-bold h5"> <i class="fa-solid fa-location-dot fa-xs text-secondary"></i> &nbsp; No Long Name</span> <a href="{% url 'polity-update' a_polity.id %}"><span class="badge bg-small bg-warning text-dark">EDIT</span></a> 
+                    {% endif %}
+
+
+                    {% if a_polity.home_seshat_region.name == "Somewhere" %}
+                    <sup>
+                        <a href="{% url 'polity-update' a_polity.id %}"><span class="badge bg-warning text-dark">EDIT</span></a> 
+                    </sup>
+
                     {% endif %}
 
 
@@ -487,6 +505,8 @@
           </div>
       </div>
       {% endif %}
+      {% endif %}
+
       {% endfor %}
 
     {% endfor %}
