@@ -225,13 +225,13 @@
         <div class="table-responsive pb-2 col-md-4">
             <table id="table_id_3" class="table align-middle caption-top">
                 <caption style="border-bottom: 2px solid rgb(177, 175, 175); "> 
-                    <h2 style="margin-bottom: 0.25rem;">
+                    <h4 style="margin-bottom: 0.25rem;">
                         <a class="fw-bold" href="#{{a_world_region}}"> 
                             {% if a_world_region == "Europe" %}
                             <i class="fa-solid fa-earth-europe"></i>
                             {% elif a_world_region == "Africa" %}
                             <i class="fa-solid fa-earth-africa"></i>
-                            {% elif a_world_region == "Southwest Asia" or a_world_region == "Southeast Asia" or a_world_region == "Central Eurasia" or a_world_region == "East Asia" or a_world_region == "South Asia" %}
+                            {% elif a_world_region == "Southwest Asia" or a_world_region == "Southeast Asia" or a_world_region == "Central and Northern Eurasia" or a_world_region == "East Asia" or a_world_region == "South Asia" %}
                             <i class="fa-solid fa-earth-asia"></i>
                             {% elif a_world_region == "Oceania-Australia" %}
                             <i class="fa-solid fa-earth-oceania"></i>
@@ -242,29 +242,49 @@
                             {% endif %}
                             {{ a_world_region }}                            
                         </a>          
-                    </h2>                       
+                    </h4>                       
                                    
                 </caption>
                 <tbody style="border-style: none;">
                             {% for a_subregion, a_list_of_polities in a_dic_of_subregions.items %}
+                            {% if a_subregion == "Somewhere" and not a_list_of_polities %}
+
+                            {% elif not a_list_of_polities %}
+                            <tr>
+                                <td style="border-style:none;" class="text-info">
+                                    <span class="h5">
+                                        <a class="fw-bold text-info" href="#{{a_subregion}}">
+                                            <i class="fa-solid fa-location-dot fa-xs text-info"></i> {{ a_subregion }}
+                                        </a>
+                                    </span>
+                                    <span class="text-info fw-bold" style="float: right;">{{a_list_of_polities|length}}</span> 
+                                </td>
+                            </tr>  
+                            {% elif a_subregion == "Somewhere" %}
+                            <tr>
+                                <td style="border-style:none;" class="text-danger">
+                                    <span class="h5">
+                                        <a class="fw-bold text-danger" href="#{{a_subregion}}">
+                                            <i class="fa-solid fa-location-dot fa-xs text-danger"></i> {{ a_subregion }}
+                                        </a>
+                                    </span>
+                                    <span class="text-danger fw-bold" style="float: right;">{{a_list_of_polities|length}}</span> 
+                                </td>
+                            </tr>  
+                            {% else %}
                             <tr>
                                 <td style="border-style:none;">
-                                    <span class="h5 ps-1">
-                                        <a class="fw-bold" href="#{{a_subregion}}"> 
+                                    <span class="h5">
+                                        <a class="fw-bold" href="#{{a_subregion}}">
                                             <i class="fa-solid fa-location-dot fa-xs text-secondary"></i> {{ a_subregion }}
-                                        </a> 
+                                        </a>
                                     </span>
-                                    {% for k, list_of_regions in sub_regions_details.items %}
-                                        {% if a_subregion == k %}
-                                        <span class="text-secondary">
-                                            {{ list_of_regions }}
-                                        </span>  
-                                        {% endif %}
-                                    {% endfor %}
-
+                                    <span class="text-teal fw-bold" style="float: right;">{{a_list_of_polities|length}}</span> 
                                 </td>
                             </tr>        
+                            {% endif %}
                             {% endfor %}
+
                 </tbody>
             </table>
         </div>
@@ -293,10 +313,10 @@
     </h2>
     {% for a_subregion, a_list_of_polities in a_dic_of_subregions.items %}
     <div class="pb-3" id="{{a_subregion}}"></div>
-    <h2 class="text-teal pt-5"><i class="fa-solid fa-circle-chevron-right"></i> {{ a_subregion }}:</h2>
+    <h2 class="text-teal pt-5"><i class="fa-solid fa-circle-chevron-right"></i> {{ a_subregion }} <span class="h6 text-secondary">({{a_world_region}})</span> <span class="h6 text-secondary"><a href="#"><i class="fa-solid fa-turn-up"></i></a></span></h2>
     {% if a_list_of_polities %}
     <div class="table-responsive">
-    <table id="table_id" class="table align-middle table-striped table-bordered">
+    <table id="table_id" class="table align-middle table-striped table-bordered pb-2">
         <thead>
           <tr>
             <th class="ps-2"> <i class="fa-solid fa-circle-chevron-right fa-xs text-secondary"></i> &nbsp; Polity Name</th>

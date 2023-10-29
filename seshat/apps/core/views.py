@@ -53,7 +53,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 
 from ..general.models import Polity_research_assistant
 
-from .models import Citation, Polity, Section, Subsection, Variablehierarchy, Reference, SeshatComment, SeshatCommentPart, Nga, Ngapolityrel, Capital
+from .models import Citation, Polity, Section, Subsection, Variablehierarchy, Reference, SeshatComment, SeshatCommentPart, Nga, Ngapolityrel, Capital, Seshat_region, Macro_region
 import pprint
 import requests
 from requests.structures import CaseInsensitiveDict
@@ -778,7 +778,7 @@ class PolityListView1(SuccessMessageMixin, generic.ListView):
         return context
     
 
-class PolityListView(SuccessMessageMixin, generic.ListView):
+class PolityListViewX(SuccessMessageMixin, generic.ListView):
     model = Polity
     template_name = "core/polity/polity_list.html"
 
@@ -911,6 +911,68 @@ class PolityListView(SuccessMessageMixin, generic.ListView):
         
 
         return context
+    
+
+
+class PolityListView(SuccessMessageMixin, generic.ListView):
+    model = Polity
+    template_name = "core/polity/polity_list.html"
+
+    def get_absolute_url(self):
+        return reverse('polities')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        all_srs = Seshat_region.objects.all()
+        all_mrs_unsorted = Macro_region.objects.all()
+
+        # 1 | World
+        # 2 | Africa
+        # 3 | Central and Northern Eurasia
+        # 4 | East Asia
+        # 5 | Europe
+        # 6 | South America
+        # 7 | North America
+        # 8 | Oceania-Australia
+        # 9 | South Asia
+        # 10 | Southeast Asia
+        # 11 | Southwest Asia
+
+
+
+        custom_order = [7, 6, 5, 2, 3, 9, 11, 10, 4, 8, 1, 23, 24, 27, 26,25, 29,28, 31,33,32,30, ]  
+        all_mrs = sorted(all_mrs_unsorted, key=lambda item: custom_order.index(item.id))
+
+        all_pols = Polity.objects.all().order_by('start_year')
+        pol_count = len(all_pols)
+
+        ultimate_wregion_dic = {}
+        for a_mr in all_mrs:
+            if a_mr not in ultimate_wregion_dic:
+                ultimate_wregion_dic[a_mr.name] = {}
+            for a_sr in all_srs:
+                if a_sr.mac_region_id == a_mr.id:
+                    if a_sr.name not in ultimate_wregion_dic[a_mr.name]:
+                        ultimate_wregion_dic[a_mr.name][a_sr.name] = []
+
+        for a_polity in all_pols:
+            if a_polity.home_seshat_region:
+                ultimate_wregion_dic[a_polity.home_seshat_region.mac_region.name][a_polity.home_seshat_region.name].append(a_polity)
+
+        all_polities_g_sc_wf = give_polity_app_data()
+
+        for a_polity in all_pols:
+            try:
+                a_polity.has_g_sc_wf = all_polities_g_sc_wf[a_polity.id]
+            except:
+                a_polity.has_g_sc_wf = None
+
+        context["ultimate_wregion_dic"] = ultimate_wregion_dic
+        context['all_pols'] = all_pols
+        context["pol_count"] = pol_count
+
+        return context
+
 
 class PolityDetailView(SuccessMessageMixin, generic.DetailView):
     model = Polity
@@ -1635,7 +1697,7 @@ def download_csv_all_polities(request):
     writer = csv.writer(response, delimiter='|')
 
     # type the headers
-    writer.writerow(['polity_new_id', 'polity_old_id', 'polity_long_name', 'start_year', 'end_year', 'home_nga', 'G', "SC", "WF", "HS", "CC", "PT", 'polity_tag',])
+    writer.writerow(['macro_region', 'home_seshat_region',  'polity_new_id', 'polity_old_id', 'polity_long_name', 'start_year', 'end_year', 'home_nga', 'G', "SC", "WF", "HS", "CC", "PT", 'polity_tag',])
 
     items = Polity.objects.all()
     coded_value_data = give_polity_app_data()
@@ -1643,7 +1705,11 @@ def download_csv_all_polities(request):
     for obj in items:
         #coded_values_data = get_polity_data_single(obj.id)
         #print(coded_values_data)
-        writer.writerow([obj.new_name, obj.name, obj.long_name, obj.start_year,
-                    obj.end_year, obj.home_nga,  coded_value_data[obj.id]['g'], coded_value_data[obj.id]['sc'], coded_value_data[obj.id]['wf'], coded_value_data[obj.id]['hs'], coded_value_data[obj.id]['cc'], coded_value_data[obj.id]['pt'], obj.get_polity_tag_display(),])
+        if obj.home_seshat_region:
+            writer.writerow([obj.home_seshat_region.mac_region.name, obj.home_seshat_region.name, obj.new_name, obj.name, obj.long_name, obj.start_year,
+                        obj.end_year, obj.home_nga,  coded_value_data[obj.id]['g'], coded_value_data[obj.id]['sc'], coded_value_data[obj.id]['wf'], coded_value_data[obj.id]['hs'], coded_value_data[obj.id]['cc'], coded_value_data[obj.id]['pt'], obj.get_polity_tag_display(),])
+        else:
+            writer.writerow(["None", "None", obj.new_name, obj.name, obj.long_name, obj.start_year,
+                        obj.end_year, obj.home_nga,  coded_value_data[obj.id]['g'], coded_value_data[obj.id]['sc'], coded_value_data[obj.id]['wf'], coded_value_data[obj.id]['hs'], coded_value_data[obj.id]['cc'], coded_value_data[obj.id]['pt'], obj.get_polity_tag_display(),])
 
     return response

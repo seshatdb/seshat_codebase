@@ -99,10 +99,7 @@
         </legend>
         <div class="row">
           <div class="col-md-6 row">
-            <div class="col-md-6 d-grid">
-              {{ form.polity_tag|as_crispy_field }}
-            </div>
-            <div class="col-md-6 pb-2">
+            <div class="col-md-12 pb-2">
               {{ form.home_seshat_region|as_crispy_field }}
             </div>
             <div class="col-md-12">
@@ -114,11 +111,14 @@
             <div class="col-md-6">
               {{ form.name|as_crispy_field }}
             </div>   
-            <div class="col-md-6">
+            <div class="col-md-3">
               {{ form.start_year|as_crispy_field }}
             </div>
-            <div class="col-md-6">
+            <div class="col-md-3">
               {{ form.end_year|as_crispy_field }}
+            </div>
+            <div class="col-md-6 d-grid">
+              {{ form.polity_tag|as_crispy_field }}
             </div>
             <div class="col-md-12">
               <button type="submit" class="btn btn-outline-primary my-auto btn-block btn-lg">Submit for Review*</button>

@@ -103,51 +103,56 @@
         <div class="col-md-12">
             <div class="row d-flex align-items-center mb-2">
                 <div class="col-md-8">
-                    <span class="fw-bolder fs-1 text-teal"><i class="fa-solid fa-star fa-sm"></i> {{ object.long_name }}</span>
-<div class="py-2">
-    {% if object.general_description %}
-    <span type="button"  tabindex="0" data-bs-toggle="popover" title="General Description" data-bs-html="true" data-bs-trigger="focus">
-    <a href="#"><span class="badge text-dark p-1  me-2 fs-4 custom-left-border-shadowed_2" style="background-color: rgb(195, 195, 195);">D</span></a>
-    </span>
-    {% endif %}
-    {% if all_general_data %}
-    <span type="button"  tabindex="0" data-bs-toggle="popover" title="General Variables" data-bs-html="true" data-bs-trigger="focus">
-    <a href="#general_var"><span class="badge bg-warning text-dark p-1 me-2 fs-4 custom-left-border-shadowed_2">G</span></a>
-    </span>
-    {% endif %}
-
-    {% if all_sc_data %}
-    <span type="button"  tabindex="0" data-bs-toggle="popover" title="Social Complexity Variables" data-bs-html="true" data-bs-trigger="focus">
-    <a href="#sc_var"><span class="badge bg-primary p-1 me-2 fs-4 custom-left-border-shadowed_2">SC</span></a>
-    </span>
-    {% endif %}
-
-    {% if all_wf_data %}
-    <span type="button"  tabindex="0" data-bs-toggle="popover" title="Warfare Variables (MilTech)" data-bs-html="true" data-bs-trigger="focus">
-    <a href="#wf_var"><span class="badge bg-danger p-1 me-2 fs-4 custom-left-border-shadowed_2">WF</span></a>
-    </span>
-    {% endif %}
-
-    {% if "Human_sacrifice_for_polity" in all_data.keys and all_data.Human_sacrifice_for_polity %}
-    <span type="button"  tabindex="0" data-bs-toggle="popover" title="Human Sacrifice Data" data-bs-html="true" data-bs-trigger="focus">
-    <a href="#hs_var"><span class="badge bg-success text-light p-1 me-2 fs-4 custom-left-border-shadowed_2">HS</span></a>
-    </span>
-    {% endif %}
-
-    {% if all_crisis_cases_data %}
-    <span type="button"  tabindex="0" data-bs-toggle="popover" title="Crisis Consequences" data-bs-html="true" data-bs-trigger="focus">
-    <a href="#crisis_case_var"><span class="badge bg-dark p-1 me-2 fs-4 custom-left-border-shadowed_2">CC</span></a>
-    </span>
-    {% endif %}
+                    <div class="pb-0">
+                        <span class="h6 text-secondary">Home Seshat Region:</span> <span class="h6 text-dark">{{ object.home_seshat_region }}</span> 
+                    </div>
+                    <span class="fw-bolder fs-1 text-teal"><i class="fa-solid fa-star fa-sm"></i> {{ object.long_name }}</span> 
 
 
-    {% if all_power_transitions_data %}
-    <span type="button"  tabindex="0" data-bs-toggle="popover" title="Power Transition" data-bs-html="true" data-bs-trigger="focus">
-    <a href="#power_transition_var"><span class="badge bg-info text-dark  p-1 me-2 fs-4 custom-left-border-shadowed_2">PT</span></a>
-</span>
-    {% endif %}
-    
-</div>
+                    <div class="py-2">
+                        {% if object.general_description %}
+                        <span type="button"  tabindex="0" data-bs-toggle="popover" title="General Description" data-bs-html="true" data-bs-trigger="focus">
+                        <a href="#"><span class="badge text-dark p-1  me-2 fs-4 custom-left-border-shadowed_2" style="background-color: rgb(195, 195, 195);">D</span></a>
+                        </span>
+                        {% endif %}
+                        {% if all_general_data %}
+                        <span type="button"  tabindex="0" data-bs-toggle="popover" title="General Variables" data-bs-html="true" data-bs-trigger="focus">
+                        <a href="#general_var"><span class="badge bg-warning text-dark p-1 me-2 fs-4 custom-left-border-shadowed_2">G</span></a>
+                        </span>
+                        {% endif %}
+
+                        {% if all_sc_data %}
+                        <span type="button"  tabindex="0" data-bs-toggle="popover" title="Social Complexity Variables" data-bs-html="true" data-bs-trigger="focus">
+                        <a href="#sc_var"><span class="badge bg-primary p-1 me-2 fs-4 custom-left-border-shadowed_2">SC</span></a>
+                        </span>
+                        {% endif %}
+
+                        {% if all_wf_data %}
+                        <span type="button"  tabindex="0" data-bs-toggle="popover" title="Warfare Variables (MilTech)" data-bs-html="true" data-bs-trigger="focus">
+                        <a href="#wf_var"><span class="badge bg-danger p-1 me-2 fs-4 custom-left-border-shadowed_2">WF</span></a>
+                        </span>
+                        {% endif %}
+
+                        {% if "Human_sacrifice_for_polity" in all_data.keys and all_data.Human_sacrifice_for_polity %}
+                        <span type="button"  tabindex="0" data-bs-toggle="popover" title="Human Sacrifice Data" data-bs-html="true" data-bs-trigger="focus">
+                        <a href="#hs_var"><span class="badge bg-success text-light p-1 me-2 fs-4 custom-left-border-shadowed_2">HS</span></a>
+                        </span>
+                        {% endif %}
+
+                        {% if all_crisis_cases_data %}
+                        <span type="button"  tabindex="0" data-bs-toggle="popover" title="Crisis Consequences" data-bs-html="true" data-bs-trigger="focus">
+                        <a href="#crisis_case_var"><span class="badge bg-dark p-1 me-2 fs-4 custom-left-border-shadowed_2">CC</span></a>
+                        </span>
+                        {% endif %}
+
+
+                        {% if all_power_transitions_data %}
+                        <span type="button"  tabindex="0" data-bs-toggle="popover" title="Power Transition" data-bs-html="true" data-bs-trigger="focus">
+                        <a href="#power_transition_var"><span class="badge bg-info text-dark  p-1 me-2 fs-4 custom-left-border-shadowed_2">PT</span></a>
+                    </span>
+                        {% endif %}
+                        
+                    </div>
                    
 
                 </div>
