@@ -18,6 +18,19 @@
     .ce-color {
         color: #00ab41 !important;
     }
+
+    .custom-left-border-shadowed {
+        border-left: none; /* Adjust the border color and thickness as desired */
+        box-shadow: 0 0 4px teal; 
+        padding-right: 10px;
+        padding-top: 5px;
+        margin-top: 5px;
+        padding-bottom: 5px;
+        border-radius: 15px;
+        padding-left: 10px; /* Adjust the padding to create spacing between the border and content */
+        text-align: justify;
+        background-color:antiquewhite;
+    }
 </style>
 
 <div class="container">
@@ -253,7 +266,7 @@
                             <tr>
                                 <td style="border-style:none;" class="text-info">
                                     <span class="h5">
-                                        <a class="fw-bold text-info" href="#{{a_subregion}}">
+                                        <a class="fw-bold text-info" href="#{{a_subregion}}_{{a_world_region}}">
                                             <i class="fa-solid fa-location-dot fa-xs text-info"></i> {{ a_subregion }}
                                         </a>
                                     </span>
@@ -264,7 +277,7 @@
                             <tr>
                                 <td style="border-style:none;" class="text-danger">
                                     <span class="h5">
-                                        <a class="fw-bold text-danger" href="#{{a_subregion}}">
+                                        <a class="fw-bold text-danger" href="#{{a_subregion}}_{{a_world_region}}">
                                             <i class="fa-solid fa-location-dot fa-xs text-danger"></i> {{ a_subregion }}
                                         </a>
                                     </span>
@@ -275,7 +288,7 @@
                             <tr>
                                 <td style="border-style:none;">
                                     <span class="h5">
-                                        <a class="fw-bold" href="#{{a_subregion}}">
+                                        <a class="fw-bold" href="#{{a_subregion}}_{{a_world_region}}">
                                             <i class="fa-solid fa-location-dot fa-xs text-secondary"></i> {{ a_subregion }}
                                         </a>
                                     </span>
@@ -295,7 +308,7 @@
     {% for a_world_region, a_dic_of_subregions in ultimate_wregion_dic.items %}
         <div class="text-success py-2" id="{{a_world_region}}"><i class="fa-solid fa-up-long"></i><a href="#">&nbsp; top of the page</a>
         </div>
-    <h2 class="display-5 pt-3"> 
+    <h2 class="display-5 py-4 custom-left-border-shadowed"> 
         {% if a_world_region == "Europe" %}
         <i class="fa-solid fa-earth-europe"></i>
         {% elif a_world_region == "Africa" %}
@@ -312,11 +325,11 @@
         {{ a_world_region }}
     </h2>
     {% for a_subregion, a_list_of_polities in a_dic_of_subregions.items %}
-    <div class="pb-3" id="{{a_subregion}}"></div>
+    <div class="pb-3" id="{{a_subregion}}_{{a_world_region}}"></div>
     <h2 class="text-teal pt-5"><i class="fa-solid fa-circle-chevron-right"></i> {{ a_subregion }} <span class="h6 text-secondary">({{a_world_region}})</span> <span class="h6 text-secondary"><a href="#"><i class="fa-solid fa-turn-up"></i></a></span></h2>
     {% if a_list_of_polities %}
     <div class="table-responsive">
-    <table id="table_id" class="table align-middle table-striped table-bordered pb-2">
+    <table id="table_id" class="table align-middle table-striped table-bordered mb-2">
         <thead>
           <tr>
             <th class="ps-2"> <i class="fa-solid fa-circle-chevron-right fa-xs text-secondary"></i> &nbsp; Polity Name</th>
