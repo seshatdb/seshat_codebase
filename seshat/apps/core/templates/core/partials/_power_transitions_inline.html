@@ -136,13 +136,24 @@
             <tr class="pt-4 mb-2">
                 <td class="col-sm-12 pt-3 mb-2" scope="row">
                     <span class="fw-light fs-5 text-secondary">
-                Culture Group: <b>{{ value.culture_group|replace_underscore_and_capitalize }}</b> </span>
+                Culture Group: 
+                {% if value.culture_group %}
+                
+                <b>{{ value.culture_group|replace_underscore_and_capitalize }}</b> 
+                {% endif %}
+
+            </span>
                 <br>
                 {% autoescape off %}
 
                 <p class="fs-6">
                     <i class="fa-solid fa-layer-group fa-xs text-teal"></i>  
-                    {{ value.description|make_references_look_nicer }}</p>
+                    {% if value.description %}
+
+                    {{ value.description|make_references_look_nicer }}
+                    {% endif %}
+
+                </p>
                 {% endautoescape %}
 
                 </td>

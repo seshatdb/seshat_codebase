@@ -24,6 +24,17 @@
         text-align: justify;
     }
 
+    .custom-left-border-shadowed_2 {
+        border-left: none; /* Adjust the border color and thickness as desired */
+        box-shadow: 0 0 2px teal; 
+        padding-right: 10px;
+        padding-top: 10px;
+        margin-top: 5px;
+        padding-bottom: 10px;
+        padding-left: 10px; /* Adjust the padding to create spacing between the border and content */
+        text-align: justify;
+    }
+
     .custom-top-border {
         border-top: 2px solid teal; /* Adjust the border color and thickness as desired */
         padding-top: 2px; /* Adjust the padding to create spacing between the border and content */
@@ -79,6 +90,10 @@
         background-color:#acd2cc;;
       }
 
+      .shadowed_text {
+        text-shadow: 0 0 4px gray;
+        color: gray; /* Text color */      }
+
 </style>
 
 <!-- showcase for index -->
@@ -89,32 +104,48 @@
             <div class="row d-flex align-items-center mb-2">
                 <div class="col-md-8">
                     <span class="fw-bolder fs-1 text-teal"><i class="fa-solid fa-star fa-sm"></i> {{ object.long_name }}</span>
-<div class="ps-3 py-2">
+<div class="py-2">
+    {% if object.general_description %}
+    <span type="button"  tabindex="0" data-bs-toggle="popover" title="General Description" data-bs-html="true" data-bs-trigger="focus">
+    <a href="#"><span class="badge text-dark p-1  me-2 fs-4 custom-left-border-shadowed_2" style="background-color: rgb(195, 195, 195);">D</span></a>
+    </span>
+    {% endif %}
     {% if all_general_data %}
-    <a href="#general_var"><span class="badge bg-warning text-dark p-1 me-1 fs-4">G</span></a>
+    <span type="button"  tabindex="0" data-bs-toggle="popover" title="General Variables" data-bs-html="true" data-bs-trigger="focus">
+    <a href="#general_var"><span class="badge bg-warning text-dark p-1 me-2 fs-4 custom-left-border-shadowed_2">G</span></a>
+    </span>
     {% endif %}
 
     {% if all_sc_data %}
-    <a href="#sc_var"><span class="badge bg-primary p-1 me-2 fs-4">SC</span></a>
+    <span type="button"  tabindex="0" data-bs-toggle="popover" title="Social Complexity Variables" data-bs-html="true" data-bs-trigger="focus">
+    <a href="#sc_var"><span class="badge bg-primary p-1 me-2 fs-4 custom-left-border-shadowed_2">SC</span></a>
+    </span>
     {% endif %}
 
     {% if all_wf_data %}
-    <a href="#wf_var"><span class="badge bg-danger p-1 me-2 fs-4">WF</span></a>
+    <span type="button"  tabindex="0" data-bs-toggle="popover" title="Warfare Variables (MilTech)" data-bs-html="true" data-bs-trigger="focus">
+    <a href="#wf_var"><span class="badge bg-danger p-1 me-2 fs-4 custom-left-border-shadowed_2">WF</span></a>
+    </span>
     {% endif %}
 
-    {% if "Human_sacrifice_for_polity" in all_data.keys and all_data.Human_sacrifice_for_polity %} 
-    <a href="#hs_var"><span class="badge bg-success text-light p-1 me-2 fs-4">HS</span></a>
+    {% if "Human_sacrifice_for_polity" in all_data.keys and all_data.Human_sacrifice_for_polity %}
+    <span type="button"  tabindex="0" data-bs-toggle="popover" title="Human Sacrifice Data" data-bs-html="true" data-bs-trigger="focus">
+    <a href="#hs_var"><span class="badge bg-success text-light p-1 me-2 fs-4 custom-left-border-shadowed_2">HS</span></a>
+    </span>
     {% endif %}
 
     {% if all_crisis_cases_data %}
-    <a href="#crisis_case_var"><span class="badge bg-dark p-1 me-2 fs-4">CC</span></a>
+    <span type="button"  tabindex="0" data-bs-toggle="popover" title="Crisis Consequences" data-bs-html="true" data-bs-trigger="focus">
+    <a href="#crisis_case_var"><span class="badge bg-dark p-1 me-2 fs-4 custom-left-border-shadowed_2">CC</span></a>
+    </span>
     {% endif %}
 
 
     {% if all_power_transitions_data %}
-    <a href="#power_transition_var"><span class="badge bg-info text-dark  p-1 me-2 fs-4">PT</span></a>
+    <span type="button"  tabindex="0" data-bs-toggle="popover" title="Power Transition" data-bs-html="true" data-bs-trigger="focus">
+    <a href="#power_transition_var"><span class="badge bg-info text-dark  p-1 me-2 fs-4 custom-left-border-shadowed_2">PT</span></a>
+</span>
     {% endif %}
-
     
 </div>
                    
@@ -128,29 +159,25 @@
 
             </div>
             <div>
-                <div class="col-md-12 row ps-3">
-                    <div class="col-md-4 tag-border2">
-                        <h5 class="pt-2 fw-light text-teal">New ID: 
-                            <span class="fw-bold text-dark">
-                                {{ object.new_name }}
-                            </span>
-                        </h5>
-                    </div>
-                    <div class="col-md-4 tag-border2">
-                        <h5 class="pt-2 fw-light text-secondary">Old ID:
-                            <span class="fw-bold text-dark">
-                                {{ object.name }}
-                            </span>
-                        </h5>
-                    </div>
-                    <div class="col-md-4 tag-border2">
+                <div class="col-md-12 row">
+                    <div class="col-md-6">
+                        <i class="fa-solid fa-circle text-secondary fa-xs"></i>&nbsp;
+                        {% if object.new_name %}
+                        <span class="fs-5 fw-normal"><b>{{ object.new_name }}</b></span>
+    
+                        {% if object.new_name != object.name %}
+                        <span class="text-secondary">/ {{ object.name }}</span>
+                        {% endif %}
+    
+    
+                        {% else %}
+                        (<a href="{% url 'polity-detail-main' object.id %}"><b>{{ object.name }}</b></a>) 
+                        <span class="text-danger"><b>NEW_Polity_ID</b>  missing</span>  
+                        <a href="{% url 'polity-update' object.id %}"><span class="badge bg-small bg-warning text-dark">update</span></a>
+                        {% endif %}
 
-                        <h5 class="pt-2 fw-light">Home NGA: 
-                            <span class="fw-bold text-dark">
-                                {{ object.home_nga }}
-                            </span>
-                        </h5>
                     </div>
+
 
                 </div>
 
@@ -165,11 +192,15 @@
                         <div class="accordion-item" style="background-color:#fefae6;">
                         <h5 class="accordion-header" id="flush-headingOne">
                             
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne" style="background-color:#fefae6;"> <span class="fs-4 text-teal fw-bold"><i class="fa-solid fa-bars fa-xs"></i> &nbsp; General Description</span> 
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne" style="background-color:#fefae6;"> 
+                                <span class="fs-4 text-teal fw-bold"><i class="fa-solid fa-bars fa-xs"></i> &nbsp; General Description     
+                                <span type="button"  tabindex="0" data-bs-toggle="popover" title="General Description" data-bs-html="true" data-bs-trigger="focus">
+                                <a href="#"><span class="badge text-dark p-1  me-2 fs-4" style="background-color: rgb(195, 195, 195);">D</span></a>
+                                </span></span> 
                             </button>
                         </h5>
                         <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
-                            <div class="accordion-body pt-3 ps-3">
+                            <div class="accordion-body pt-3 ps-3"  id="general_desc">
                                 {% if object.general_description %}
                                 <p> {{object.general_description|make_references_look_nicer|safe}}
                                 </p>
@@ -183,11 +214,6 @@
                     </div>
                 </div>
 
-
-
-                <span>
-                    
-                </span>
             </div>
             {% if all_general_data %}
             <div class="row px-1">
@@ -269,7 +295,8 @@
 
             {% if all_sc_data %}
             <div class="col-md-9">
-                <h3 class="fw-bold pb-2 pt-3">  Social Complexity Variables: &nbsp; <a href="#sc_var"><i class="fa-solid fa-circle-arrow-down fa-sm"></i></a></h3>
+                <h3 class="fw-bold pb-2 pt-3 ps-1">                      
+                    Social Complexity Variables: &nbsp; <a href="#sc_var"><i class="fa-solid fa-circle-arrow-down fa-sm"></i></a></h3>
             </div>
 
             <div class="row px-1">
@@ -321,7 +348,8 @@
             </div>
             {% else %}
             <div class="col-md-9">
-                <h3 class="fw-bold pb-2">  Social Complexity Variables: <span class="text-secondary fs-4">No variables coded yet.</span>   </h3>
+                <h3 class="fw-bold pb-2"> 
+                    Social Complexity Variables: <span class="text-secondary fs-4">No variables coded yet.</span>   </h3>
             </div>
 
             {% endif %}
@@ -561,7 +589,7 @@
                 {% endfor %}
             </tbody>
             </table>
-            <h5 class="fw-light pt-2 ms-2 text-teal"> <i class="fa-solid fa-house fa-sm"></i> Home NGA: <span class="fw-bold">{{ object.home_nga }}</span></span></h5>
+            <h5 class="fw-light pt-2 ms-2 text-teal"> <i class="fa-solid fa-house fa-sm"></i> Home NGA: <span class="fw-bold">{{ object.home_nga }}</span></h5>
         </div>
     </div>
     <hr>
@@ -614,7 +642,8 @@
     </div>
 
     <div>
-        <h1 class="pt-5 display-4" style="text-align: left; color:#893101;" id="sc_var"><span class="h1"> Social Complexity Variables</span></h1>
+        <h1 class="pt-5 display-4" style="text-align: left; color:#893101;" id="sc_var"><span class="h1">
+            Social Complexity Variables</span></h1>
         {% for key, values in all_sc_data.items %}
         {% if values %}
         <div class="py-2 custom-left-border-shadowed">
@@ -646,7 +675,6 @@
                     </div>
                 </span>
                 {% endfor %}
-            </span>
             <br>
             {% autoescape off %}   
                 {% if values.0.description %}
@@ -904,14 +932,5 @@
 </div>
 
 
-
-
-
-<script>
-    var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
-    var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
-      return new bootstrap.Popover(popoverTriggerEl)
-    })
-</script>
 
 {% endblock content%}

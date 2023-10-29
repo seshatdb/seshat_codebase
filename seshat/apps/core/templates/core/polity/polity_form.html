@@ -3,51 +3,117 @@
 
 {% block content %}
 <style>
-  .error {
-      color: red;
-      /* You can add more styling here, like font-weight, background-color, etc. */
+  /* Style the dropdown */
+  .select2-container .select2-selection--single {
+    height: 38px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 6px;
+  }
+
+  .select2-container .select2-results__option:hover {
+      background-color: #782823;
+      color: beige;
     }
+
+
+    .select2-container--default .select2-results__option--highlighted[aria-selected] {
+      background-color: #782823;
+      color: beige;
+    }
+
+  /* Style the dropdown arrow */
+  .select2-container .select2-selection__arrow {
+    height: 36px;
+    margin-top: 4px; /* Adjust the margin-top as needed */
+  }
+
+  .form-check-inline {
+      display: flex;
+      flex-direction: row;
+      align-items: center; /* Center vertically */
+      margin-right: 10px; /* Add some spacing between radio buttons */
+  }
+  .form-check-label {
+      display: flex;
+      align-items: center;
+      margin-right: 15px; /* Add spacing between radio buttons */
+  }
+  
+  .form-check-label input[type="radio"] {
+      margin-right: 5px; /* Add spacing between radio circle and label */
+  }
+
+  /* Hide the up and down arrows */
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button,
+  input[type="number"] {
+      -webkit-appearance: none;
+      margin: 0;
+  }
+
+  .error {
+    color: red;
+    /* You can add more styling here, like font-weight, background-color, etc. */
+  }
+  
 </style>
+
+
 <!-- form-row and form-group etc are removed in Bootstrap 5 -->
 <div class="container mt-3">
     <form action="" method="post">
         {% csrf_token %}
         <legend>
             <div class="row d-flex align-items-center">
-                <div class="col-md-12">
+                <div class="col-md-2">
                     <h6 class="lead-2 text-secondary">Enter new data for:</h6>
                     <h6><span class="display-6">Polity</span></h6>
-                    <h6 class="text-secondary">* Make sure that both <span class="text-dark">Polity ID (NEW and OLD)</span> are added. If <span class="text-dark">Polity ID (OLD)</span> is not relevant, enter the <span class="text-dark">Polity ID (NEW)</span> for both fields.</h6>
-                    <h6 class="text-secondary">* If you are not sure about the value of any other field, keep the default value (or leave it empty).</h6>
-                    {% if messages %}
-                    <ul class="messages mt-3">
-                        {% for message in messages %}
-                        <div class=" p-0">
-                            <div class="alert {{ message.tags }} alert-dismissible" role="alert" >
-                                <i class="fa-solid fa-circle-info"></i> Hi <b>{{ user }}</b>. {{ message }}
-                            </div>
-                        </div>
-                        {% endfor %}
-                        {% if form.non_field_errors %}
-                        {% for error in form.non_field_errors %}
-                        <div class=" p-0">
-                          <div class="text-danger" role="alert" >
-                            <i class="fa-solid fa-triangle-exclamation"></i>  {{ error }}
-                          </div>
-                        </div>
-                        {% endfor %}
-                        {% endif %}
-                    </ul>
-                    {% endif %}
                 </div>
+                <div class="col-md-10">
+                  <h6 class="text-secondary">* Make sure that both <span class="text-dark">Polity ID (NEW and OLD)</span> are added. If <span class="text-dark">Polity ID (OLD)</span> is not available, enter the <span class="text-dark">Polity ID (NEW)</span> for both fields.</h6>
+                  <h6 class="text-secondary">* If you are not sure about the value of any other field, keep the default value (or leave it empty).</h6>
+                  {% if messages %}
+                  <ul class="messages mt-3">
+                      {% for message in messages %}
+                      <div class=" p-0">
+                          <div class="alert {{ message.tags }} alert-dismissible" role="alert" >
+                              <i class="fa-solid fa-circle-info"></i> Hi <b>{{ user }}</b>. {{ message }}
+                          </div>
+                      </div>
+                      {% endfor %}
+                      {% if form.non_field_errors %}
+                      {% for error in form.non_field_errors %}
+                      <div class=" p-0">
+                        <div class="text-danger" role="alert" >
+                          <i class="fa-solid fa-triangle-exclamation"></i>  {{ error }}
+                        </div>
+                      </div>
+                      {% endfor %}
+                      {% endif %}
+                  </ul>
+                  {% endif %}
+              </div>
             </div> 
             <hr class="bg-colorful">
         </legend>
         <div class="row">
-          <div class="col-md-4 row">
+          <div class="col-md-6 row">
+            <div class="col-md-6 d-grid">
+              {{ form.polity_tag|as_crispy_field }}
+            </div>
+            <div class="col-md-6 pb-2">
+              {{ form.home_seshat_region|as_crispy_field }}
+            </div>
             <div class="col-md-12">
+              {{ form.long_name|as_crispy_field }}
+            </div>
+            <div class="col-md-6">
               {{ form.new_name|as_crispy_field }}
             </div>
+            <div class="col-md-6">
+              {{ form.name|as_crispy_field }}
+            </div>   
             <div class="col-md-6">
               {{ form.start_year|as_crispy_field }}
             </div>
@@ -55,24 +121,16 @@
               {{ form.end_year|as_crispy_field }}
             </div>
             <div class="col-md-12">
-              {{ form.long_name|as_crispy_field }}
-            </div>
-            <div class="col-md-12">
-              {{ form.name|as_crispy_field }}
-            </div>   
-            <div class="col-md-12 d-grid">
-              {{ form.polity_tag|as_crispy_field }}
-            </div>
+              <button type="submit" class="btn btn-outline-primary my-auto btn-block btn-lg">Submit for Review*</button>
           </div>
-          <div class="col-md-8">
+          </div>
+          <div class="col-md-6">
             <div class="col-md-12">
               {{ form.general_description|as_crispy_field }}
             </div>
             <div class="col-md-8 d-grid">
           </div>
-            <div class="col-md-4 d-grid float-end">
-              <button type="submit" class="btn btn-outline-primary my-auto btn-block btn-lg">Submit for Review*</button>
-          </div>
+
           </div>
         </div>
 
@@ -94,4 +152,10 @@
         </div>
 
 </div>
+<script>
+  $(document).ready(function() {
+      // Initialize Select2 with an empty dataset
+      $('.js-example-basic-single').select2();
+  });    
+</script>
 {% endblock %}

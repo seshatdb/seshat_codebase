@@ -112,6 +112,15 @@
 
                               <tr>
                                 <td class="text-center">
+                                    <span type="button" tabindex="0" data-bs-toggle="popover" title="General Description" data-bs-html="true" data-bs-trigger="focus">
+                                        <span class="badge text-dark p-1" style="background-color: rgb(195, 195, 195);">D</span>                                    
+                                    </span>
+                                  </td>
+                                  <td title="General Variables is coded for this polity.">This Polity has a General Description.</td>
+                                </tr>
+                                <tr>
+
+                                <td class="text-center">
                                   <span type="button" tabindex="0" data-bs-toggle="popover" title="General Variables" data-bs-html="true" data-bs-trigger="focus">
                                     <span class="badge bg-warning text-dark p-1">G</span>
                                   </span>
@@ -366,6 +375,11 @@
                 </td>
 
                 <td class="col-md-2"  style="text-align: center;"> 
+                    {% if a_polity.general_description %}
+                    <span type="button"  tabindex="0" data-bs-toggle="popover" title="General Description" data-bs-html="true" data-bs-trigger="focus">
+                        <a href="{% url 'polity-detail-main' a_polity.id %}#general_desc"><span class="badge text-dark p-1" style="background-color: rgb(195, 195, 195);">D</span></a>
+                    </span>
+                {% endif %}
                     {% if a_polity.has_g_sc_wf.g %}
                         <span type="button"  tabindex="0" data-bs-toggle="popover" title="General Variables" data-bs-html="true" data-bs-trigger="focus">
                             <a href="{% url 'polity-detail-main' a_polity.id %}#general_var"><span class="badge bg-warning text-dark p-1">G</span></a>

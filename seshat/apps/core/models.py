@@ -110,6 +110,29 @@ Certainty = (
 def return_citations_for_comments(self):
     if self.comment_citations.all():
         return ', '.join(['<a href="' + citation.zoteroer() + '">' + citation.citation_short_title + ' </a>' for citation in self.comment_citations.all()[:2]])
+    
+
+class Macro_region(models.Model):
+    name = models.CharField(max_length=100)
+
+    class Meta:
+        ordering = ['name',]
+
+    def __str__(self):
+        return self.name
+
+class Seshat_region(models.Model):
+    name = models.CharField(max_length=100)
+    mac_region = models.ForeignKey(Macro_region, on_delete=models.SET_NULL, null=True, blank=True, related_name="mac_region")
+    subregions_list = models.CharField(max_length=500, blank=True, null=True)
+
+    class Meta:
+        ordering = ['mac_region__name', 'name']
+
+    def __str__(self):
+        if self.mac_region:
+            return f"{self.name} ({self.mac_region.name})"
+        return self.name
 
 
 class Nga(models.Model):
@@ -134,7 +157,6 @@ class Nga(models.Model):
 
 
 
-
 class Polity(models.Model):
     name = models.CharField(max_length=100)
     start_year = models.IntegerField(blank=True, null=True)
@@ -142,6 +164,7 @@ class Polity(models.Model):
     long_name = models.CharField(max_length=200, blank=True, null=True)
     new_name = models.CharField(max_length=100, blank=True, null=True)
     home_nga = models.ForeignKey(Nga, on_delete=models.SET_NULL, null=True, blank=True, related_name="home_nga")
+    home_seshat_region = models.ForeignKey(Seshat_region, on_delete=models.SET_NULL, null=True, blank=True, related_name="home_seshat_region")
     polity_tag = models.CharField(max_length=100, choices=POLITY_TAG_CHOICES, default="OTHER_TAG", null=True, blank=True)
     general_description = models.TextField(blank=True, null=True,)
 
