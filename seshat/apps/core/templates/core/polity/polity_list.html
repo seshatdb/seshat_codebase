@@ -31,6 +31,19 @@
         text-align: justify;
         background-color:antiquewhite;
     }
+
+    .custom-left-border-shadowed_2 {
+        border-left: none; /* Adjust the border color and thickness as desired */
+        padding-right: 10px;
+        padding-top: 5px;
+        margin-top: 5px;
+        padding-bottom: 5px;
+        border: solid 1px teal;
+        border-radius: 15px;
+        padding-left: 10px; /* Adjust the padding to create spacing between the border and content */
+        text-align: justify;
+        background-color:rgb(252, 244, 234);
+    }
 </style>
 
 <div class="container">
@@ -333,8 +346,8 @@
     <div class="pb-3" id="{{a_subregion}}_{{a_world_region}}"></div>
     <h2 class="text-teal pt-5"><i class="fa-solid fa-circle-chevron-right"></i> {{ a_subregion }} <span class="h6 text-secondary">({{a_world_region}})</span> <span class="h6 text-secondary"><a href="#"><i class="fa-solid fa-turn-up"></i></a></span></h2>
     {% if a_list_of_polities %}
-    <div class="table-responsive">
-    <table id="table_id" class="table align-middle table-striped table-bordered mb-2">
+    <div class="table-responsive pb-0 mb-0" style="border: solid 2px teal;border-radius:10px">
+    <table id="table_id" class="table align-middle table bordered pb-0 mb-0">
         <thead>
           <tr>
             <th class="ps-2"> <i class="fa-solid fa-circle-chevron-right fa-xs text-secondary"></i> &nbsp; Polity Name</th>

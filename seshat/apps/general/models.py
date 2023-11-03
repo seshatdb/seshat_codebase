@@ -259,6 +259,16 @@ POLITY_LANGUAGE_CHOICES = (
 ('Haya', 'Haya'),
 ('Old Tamil', 'Old Tamil'),
 ('Efik-Ibibio', 'Efik-Ibibio'),
+('Hungarian', 'Hungarian'),
+('Native languages', 'Native languages'),
+('German', 'German'),
+('Czech', 'Czech'),
+('Lombardic', 'Lombardic'),
+('Pukina / Puquina', 'Pukina / Puquina'),
+('Old English', 'Old English'),
+('Middle-Modern Persian', 'Middle-Modern Persian'),
+('Anglo-Norman', 'Anglo-Norman'),
+('Pictish', 'Pictish'),
 )
 
 POLITY_LINGUISTIC_FAMILY_CHOICES = (
@@ -317,6 +327,9 @@ POLITY_LINGUISTIC_FAMILY_CHOICES = (
 ('Chadic', 'Chadic'),
 ('Saharan', 'Saharan'),
 ('Southern Dravidian', 'Southern Dravidian'),
+('Uralic', 'Uralic'),
+('Romance', 'Romance'),
+('West Germanic', 'West Germanic'),
 )
 
 POLITY_LANGUAGE_GENUS_CHOICES = (
@@ -402,6 +415,16 @@ POLITY_RELIGION_FAMILY_CHOICES = (
 ('Sufi Islam', 'Sufi Islam'),
 ('Shaivite Hinduism', 'Shaivite Hinduism'),
 ('Vaishnavist Hinduism', 'Vaishnavist Hinduism'),
+('Catholicism', 'Catholicism'),
+('Protestant', 'Protestant'),
+('Christianity', 'Christianity'),
+('Vedic', 'Vedic'),
+('Church of England', 'Church of England'),
+('Protestantism', 'Protestantism'),
+('Zoroastrianism', 'Zoroastrianism'),
+('Central Asian Shamanism', 'Central Asian Shamanism'),
+('Hawaiian Religion', 'Hawaiian Religion'),
+('Paganism', 'Paganism'),
 )
 
 POLITY_RELIGION_CHOICES = (

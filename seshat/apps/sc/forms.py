@@ -1,4 +1,4 @@
-from .models import Ra, Polity_territory, Polity_population, Population_of_the_largest_settlement, Settlement_hierarchy, Administrative_level, Religious_level, Military_level, Professional_military_officer, Professional_soldier, Professional_priesthood, Full_time_bureaucrat, Examination_system, Merit_promotion, Specialized_government_building, Formal_legal_code, Judge, Court, Professional_lawyer, Irrigation_system, Drinking_water_supply_system, Market, Food_storage_site, Road, Bridge, Canal, Port, Mines_or_quarry, Mnemonic_device, Nonwritten_record, Written_record, Script, Non_phonetic_writing, Phonetic_alphabetic_writing, Lists_tables_and_classification, Calendar, Sacred_text, Religious_literature, Practical_literature, History, Philosophy, Scientific_literature, Fiction, Article, Token, Precious_metal, Foreign_coin, Indigenous_coin, Paper_currency, Courier, Postal_station, General_postal_service, Communal_building, Utilitarian_public_building, Symbolic_building, Entertainment_building, Knowledge_or_information_building, Special_purpose_site, Ceremonial_site, Burial_site, Trading_emporia, Enclosure, Length_measurement_system, Area_measurement_system, Volume_measurement_system, Weight_measurement_system, Time_measurement_system, Geometrical_measurement_system, Other_measurement_system, Debt_and_credit_structure, Store_of_wealth
+from .models import Ra, Polity_territory, Polity_population, Population_of_the_largest_settlement, Settlement_hierarchy, Administrative_level, Religious_level, Military_level, Professional_military_officer, Professional_soldier, Professional_priesthood, Full_time_bureaucrat, Examination_system, Merit_promotion, Specialized_government_building, Formal_legal_code, Judge, Court, Professional_lawyer, Irrigation_system, Drinking_water_supply_system, Market, Food_storage_site, Road, Bridge, Canal, Port, Mines_or_quarry, Mnemonic_device, Nonwritten_record, Written_record, Script, Non_phonetic_writing, Phonetic_alphabetic_writing, Lists_tables_and_classification, Calendar, Sacred_text, Religious_literature, Practical_literature, History, Philosophy, Scientific_literature, Fiction, Article, Token, Precious_metal, Foreign_coin, Indigenous_coin, Paper_currency, Courier, Postal_station, General_postal_service, Communal_building, Utilitarian_public_building, Symbolic_building, Entertainment_building, Knowledge_or_information_building, Special_purpose_site, Ceremonial_site, Burial_site, Trading_emporia, Enclosure, Length_measurement_system, Area_measurement_system, Volume_measurement_system, Weight_measurement_system, Time_measurement_system, Geometrical_measurement_system, Other_measurement_system, Debt_and_credit_structure, Store_of_wealth, Source_of_support, Occupational_complexity, Special_purpose_house, Other_special_purpose_site, Largest_communication_distance, Fastest_individual_communication
 import datetime
 
 from django import forms
@@ -874,3 +874,78 @@ class Store_of_wealthForm(forms.ModelForm):
         
         widgets = dict(commonwidgets)
         widgets['store_of_wealth'] = forms.Select(attrs={'class': 'form-control  mb-3', })
+
+class Source_of_supportForm(forms.ModelForm):
+    class Meta:
+        model = Source_of_support
+        fields = commonfields.copy()
+        fields.append('source_of_support')
+        labels = commonlabels
+
+        labels['source_of_support'] = "&nbsp;<b> Source Of Support: </b>"
+        
+        widgets = dict(commonwidgets)
+        widgets['source_of_support'] = forms.Select(attrs={'class': 'form-control  mb-3', })
+
+
+
+class Occupational_complexityForm(forms.ModelForm):
+    class Meta:
+        model = Occupational_complexity
+        fields = commonfields.copy()
+        fields.append('occupational_complexity')
+        labels = commonlabels
+        labels['occupational_complexity'] = "&nbsp;<b> Occupational Complexity: </b>"
+        widgets = dict(commonwidgets)
+        widgets['occupational_complexity'] = forms.Select(attrs={'class': 'form-control  mb-3', })
+        
+
+class Special_purpose_houseForm(forms.ModelForm):
+    class Meta:
+        model = Special_purpose_house
+        fields = commonfields.copy()
+        fields.append('special_purpose_house')
+        labels = commonlabels
+        labels['special_purpose_house'] = "&nbsp;<b> Special Purpose House: </b>"
+        widgets = dict(commonwidgets)
+        widgets['special_purpose_house'] = forms.Select(attrs={'class': 'form-control  mb-3', })
+        
+
+class Other_special_purpose_siteForm(forms.ModelForm):
+    class Meta:
+        model = Other_special_purpose_site
+        fields = commonfields.copy()
+        fields.append('other_special_purpose_site')
+        labels = commonlabels
+        labels['other_special_purpose_site'] = "&nbsp;<b> Other Special Purpose Site: </b>"
+        widgets = dict(commonwidgets)
+        widgets['other_special_purpose_site'] = forms.Select(attrs={'class': 'form-control  mb-3', })
+
+
+
+class Largest_communication_distanceForm(forms.ModelForm):
+    class Meta:
+        model = Largest_communication_distance
+        fields = commonfields.copy()
+        fields.append('largest_communication_distance_from')
+        fields.append('largest_communication_distance_to')
+        labels = commonlabels
+        labels['largest_communication_distance_from'] = "&nbsp;<b> Largest Communication Distance (From): </b>"
+        labels['largest_communication_distance_to'] = "&nbsp;<b> Largest Communication Distance (To): </b>"
+        widgets = dict(commonwidgets)
+        widgets['largest_communication_distance_from'] = forms.NumberInput(attrs={'class': 'form-control  mb-3', })
+        widgets['largest_communication_distance_to'] = forms.NumberInput(attrs={'class': 'form-control  mb-3', })
+
+
+class Fastest_individual_communicationForm(forms.ModelForm):
+    class Meta:
+        model = Fastest_individual_communication
+        fields = commonfields.copy()
+        fields.append('fastest_individual_communication_from')
+        fields.append('fastest_individual_communication_to')
+        labels = commonlabels
+        labels['fastest_individual_communication_from'] = "&nbsp;<b> Fastest Individual Communication (From): </b>"
+        labels['fastest_individual_communication_to'] = "&nbsp;<b> Fastest Individual Communication (To): </b>"
+        widgets = dict(commonwidgets)
+        widgets['fastest_individual_communication_from'] = forms.NumberInput(attrs={'class': 'form-control  mb-3', })
+        widgets['fastest_individual_communication_to'] = forms.NumberInput(attrs={'class': 'form-control  mb-3', })

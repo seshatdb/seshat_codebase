@@ -1062,32 +1062,32 @@ class Military_levelListView(generic.ListView):
         return context
 
 
-class Military_levelListViewAll(generic.ListView):
-    model = Military_level
-    template_name = "sc/military_level/military_level_list_all.html"
+# class Military_levelListViewAll(generic.ListView):
+#     model = Military_level
+#     template_name = "sc/military_level/military_level_list_all.html"
 
-    def get_absolute_url(self):
-        return reverse('military_levels_all')
+#     def get_absolute_url(self):
+#         return reverse('military_levels_all')
 
-    def get_queryset(self):
-        order = self.request.GET.get('orderby', 'year_from')
-        order2 = self.request.GET.get('orderby2', 'year_to')
-        #orders = [order, order2]
-        new_context = Military_level.objects.all().order_by(order, order2)
-        return new_context
+#     def get_queryset(self):
+#         order = self.request.GET.get('orderby', 'year_from')
+#         order2 = self.request.GET.get('orderby2', 'year_to')
+#         #orders = [order, order2]
+#         new_context = Military_level.objects.all().order_by(order, order2)
+#         return new_context
     
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["myvar"] = "Military Level"
-        context["var_main_desc"] = "Talking about hierarchical complexity, military levels records the military levels of a polity. same principle as with administrative levels. start with the commander-in-chief coded as: level 1, and work down to the private. even in primitive societies such as simple chiefdoms it is often possible to distinguish at least two levels – a commander and soldiers. a complex chiefdom would be coded three levels. the presence of warrior burials might be the basis for inferring the existence of a military organization. (the lowest military level is always the individual soldier)."
-        context["var_main_desc_source"] = "NOTHING"
-        context["var_section"] = "Social Complexity"
-        context["var_subsection"] = "Hierarchical Complexity"
-        context["inner_vars"] = {'military_level_from': {'min': 0, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The lower range of military level for a polity.', 'units': None, 'choices': None, 'null_meaning': None}, 'military_level_to': {'min': 0, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The upper range of military level for a polity.', 'units': None, 'choices': None, 'null_meaning': None}}
-        context["potential_cols"] = []
-        context['orderby'] = self.request.GET.get('orderby', 'year_from')
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         context["myvar"] = "Military Level"
+#         context["var_main_desc"] = "Talking about hierarchical complexity, military levels records the military levels of a polity. same principle as with administrative levels. start with the commander-in-chief coded as: level 1, and work down to the private. even in primitive societies such as simple chiefdoms it is often possible to distinguish at least two levels – a commander and soldiers. a complex chiefdom would be coded three levels. the presence of warrior burials might be the basis for inferring the existence of a military organization. (the lowest military level is always the individual soldier)."
+#         context["var_main_desc_source"] = "NOTHING"
+#         context["var_section"] = "Social Complexity"
+#         context["var_subsection"] = "Hierarchical Complexity"
+#         context["inner_vars"] = {'military_level_from': {'min': 0, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The lower range of military level for a polity.', 'units': None, 'choices': None, 'null_meaning': None}, 'military_level_to': {'min': 0, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The upper range of military level for a polity.', 'units': None, 'choices': None, 'null_meaning': None}}
+#         context["potential_cols"] = []
+#         context['orderby'] = self.request.GET.get('orderby', 'year_from')
 
-        return context
+#         return context
         
 class Military_levelDetailView(generic.DetailView):
     model = Military_level
@@ -7657,6 +7657,15 @@ def dynamic_detail_view(request, pk, model_class, myvar, var_name_display):
 @user_passes_test(has_add_capital_permission, login_url='permission_denied')
 def dynamic_create_view(request, form_class, x_name, myvar, my_exp, var_section, var_subsection):
     # Retrieve the object based on the object_id
+
+    if x_name in ["largest_communication_distance", "fastest_individual_communication"]:
+        x_name_with_from = x_name + "_from"
+        x_name_with_to = x_name + "_to"
+    else:
+        x_name_with_from = x_name
+        x_name_with_to = None
+
+
     if request.method == 'POST':
         # If the request method is POST, it means the form has been submitted
         my_form = form_class(request.POST)
@@ -7669,15 +7678,27 @@ def dynamic_create_view(request, form_class, x_name, myvar, my_exp, var_section,
         my_form = form_class()
 
     # Define the context with the variables you want to pass to the template
-    context = {
-        'form': my_form,
-        'object': object,
-        'extra_var': my_form[x_name], 
-        "myvar": myvar,
-        "my_exp": my_exp,
-        'var_section': var_section,
-        'var_subsection': var_subsection,
-    }
+    if x_name in ["largest_communication_distance", "fastest_individual_communication"]:
+        context = {
+            'form': my_form,
+            'object': object,
+            'extra_var': my_form[x_name_with_from], 
+            'extra_var2': my_form[x_name_with_to], 
+            "myvar": myvar,
+            "my_exp": my_exp,
+            'var_section': var_section,
+            'var_subsection': var_subsection,
+            }
+    else:
+        context = {
+            'form': my_form,
+            'object': object,
+            'extra_var': my_form[x_name], 
+            "myvar": myvar,
+            "my_exp": my_exp,
+            'var_section': var_section,
+            'var_subsection': var_subsection,
+        }
 
     return render(request, 'sc/sc_create.html', context)
 
@@ -7689,6 +7710,15 @@ def dynamic_create_view(request, form_class, x_name, myvar, my_exp, var_section,
 def dynamic_update_view(request, object_id, form_class, model_class, x_name, myvar, my_exp, var_section, var_subsection, delete_url_name):
     # Retrieve the object based on the object_id
     my_object = model_class.objects.get(id=object_id)
+
+
+    if x_name in ["largest_communication_distance", "fastest_individual_communication"]:
+        x_name_with_from = x_name + "_from"
+        x_name_with_to = x_name + "_to"
+    else:
+        x_name_with_from = x_name
+        x_name_with_to = None
+
     #return_url = f"{x_name}s_all"
     if request.method == 'POST':
         # Bind the form to the POST data
@@ -7705,16 +7735,29 @@ def dynamic_update_view(request, object_id, form_class, model_class, x_name, myv
         my_form = form_class(instance=my_object)
 
         # Define the context with the variables you want to pass to the template
-        context = {
-            'form': my_form,
-            'object': my_object,
-            'delete_url': delete_url_name,
-            'extra_var': my_form[x_name], 
-            "myvar": myvar,
-            'var_section': var_section,
-            'var_subsection': var_subsection,
-            "my_exp": my_exp,
-        }
+        if x_name in ["largest_communication_distance", "fastest_individual_communication"]:
+            context = {
+                'form': my_form,
+                'object': my_object,
+                'delete_url': delete_url_name,
+                'extra_var': my_form[x_name_with_from], 
+                'extra_var2': my_form[x_name_with_to], 
+                "myvar": myvar,
+                'var_section': var_section,
+                'var_subsection': var_subsection,
+                "my_exp": my_exp,
+            }
+        else:
+            context = {
+                'form': my_form,
+                'object': my_object,
+                'delete_url': delete_url_name,
+                'extra_var': my_form[x_name], 
+                "myvar": myvar,
+                'var_section': var_section,
+                'var_subsection': var_subsection,
+                "my_exp": my_exp,
+            }
 
     return render(request, 'sc/sc_update.html', context)
 
@@ -7723,13 +7766,21 @@ def dynamic_update_view(request, object_id, form_class, model_class, x_name, myv
 def generic_list_view(request, model_class, var_name, var_name_display, var_section, var_subsection, var_main_desc):
     # Retrieve a list of objects from the database (you can customize this query)
     object_list = model_class.objects.all()
-    extra_var_dict = {obj.id: obj.__dict__.get(var_name) for obj in object_list}
+    #extra_var_dict = {obj.id: obj.__dict__.get(var_name) for obj in object_list}
+    extra_var_dict = {obj.id: obj.show_value() for obj in object_list}
 
     orderby = request.GET.get('orderby', None)
 
     # Apply sorting if orderby is provided and is a valid field name
     if orderby and hasattr(model_class, orderby):
         object_list = object_list.order_by(orderby)
+
+    if var_name in ["largest_communication_distance", "fastest_individual_communication"]:
+        var_name_with_from = var_name + "_from"
+        var_exp_new = f'The range of "{var_name_display}" for a polity.'
+    else:
+        var_name_with_from = var_name
+        var_exp_new = f'The absence or presence of "{var_name_display}" for a polity.'
 
 
     # Define any additional context variables you want to pass to the template
@@ -7743,7 +7794,7 @@ def generic_list_view(request, model_class, var_name, var_name_display, var_sect
         'metadownload_url':  f'{var_name}-metadownload',
         'list_all_url':  f'{var_name}s_all',
         'var_name_display': var_name_display,
-        'ordering_tag': f"?orderby={var_name}",
+        'ordering_tag': f"?orderby={var_name_with_from}",
         'var_section': var_section,
         'var_subsection': var_subsection,
         'var_main_desc': var_main_desc,
@@ -7763,7 +7814,7 @@ def generic_list_view(request, model_class, var_name, var_name_display, var_sect
             'max': None,
             'scale': None, 
             'var_exp_source': None, 
-            'var_exp': f'The absence or presence of "{var_name_display}" for a polity.',
+            'var_exp': var_exp_new,
             'units': None, 
             'choices': 'ABSENT_PRESENT_CHOICES', 
             'null_meaning': None}}
@@ -7787,14 +7838,32 @@ def generic_download(request, model_class, var_name):
 
     response['Content-Disposition'] = f'attachment; filename="{file_name}"'
 
+    if var_name in ["largest_communication_distance", "fastest_individual_communication"]:
+        var_name_with_from = var_name + "_from"
+        var_name_with_to = var_name + "_to"
+    else:
+        var_name_with_from = var_name
+        var_name_with_to = None
+
     writer = csv.writer(response, delimiter='|')
-    writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
+    if var_name in ["largest_communication_distance", "fastest_individual_communication"]:
+        writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
+                    var_name_with_from, var_name_with_to, 'confidence', 'is_disputed', 'is_uncertain', 'expert_checked', 'DRB_reviewed'])
+    else:
+        writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
                     var_name, 'confidence', 'is_disputed', 'is_uncertain', 'expert_checked', 'DRB_reviewed'])
     for obj in items:
-        dynamic_value = getattr(obj, var_name, '')
-        writer.writerow([obj.name, obj.year_from, obj.year_to,
-                         obj.polity.long_name, obj.polity.new_name, obj.polity.name, dynamic_value, obj.get_tag_display(), obj.is_disputed, obj.is_uncertain,
-                         obj.expert_reviewed, obj.drb_reviewed,])
+        if var_name in ["largest_communication_distance", "fastest_individual_communication"]:
+            dynamic_value_from = getattr(obj, var_name_with_from, '')
+            dynamic_value_to = getattr(obj, var_name_with_to, '')
+            writer.writerow([obj.name, obj.year_from, obj.year_to,
+                            obj.polity.long_name, obj.polity.new_name, obj.polity.name, dynamic_value_from, dynamic_value_to, obj.get_tag_display(), obj.is_disputed, obj.is_uncertain,
+                            obj.expert_reviewed, obj.drb_reviewed,])
+        else:
+            dynamic_value = getattr(obj, var_name, '')
+            writer.writerow([obj.name, obj.year_from, obj.year_to,
+                            obj.polity.long_name, obj.polity.new_name, obj.polity.name, dynamic_value, obj.get_tag_display(), obj.is_disputed, obj.is_uncertain,
+                            obj.expert_reviewed, obj.drb_reviewed,])
 
     return response
 
@@ -7806,7 +7875,7 @@ def generic_metadata_download(request, var_name, var_name_display, var_section, 
     response['Content-Disposition'] = f'attachment; filename="metadata_{var_name}s.csv"'
     
     my_meta_data_dic = {'notes': 'No_Actual_note', 'main_desc': var_main_desc, 'main_desc_source': 'NOTHING', 'section': var_section, 'subsection': var_subsection}
-    my_meta_data_dic_inner_vars = {'general_postal_service': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': f'The absence or presence of {var_name_display} for a polity.', 'units': None, 'choices': 'ABSENT_PRESENT_CHOICES', 'null_meaning': None}}
+    my_meta_data_dic_inner_vars = {'general_postal_service': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': f'The {var_name_display} for a polity.', 'units': None, 'choices': 'ABSENT_PRESENT_CHOICES', 'null_meaning': None}}
 
     writer = csv.writer(response, delimiter='|')
     # bring in the meta data nedded

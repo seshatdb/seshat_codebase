@@ -58,10 +58,6 @@
         -webkit-appearance: none;
         margin: 0;
     }
-
-    .row {
-        --bs-gutter-x: 1.0rem;
-    }
     
 </style>
 <!-- form-row and form-group etc are removed in Bootstrap 5 -->
@@ -70,8 +66,8 @@
         {% csrf_token %}
         <legend>
 
-            <div class="row d-flex">
-                <div class="col-md-4">
+            <div class="row d-flex align-items-center">
+                <div class="col-md-12">
                     <h6><span class="text-secondary">Section:</span>  {{var_section}} / 
                         {% if var_subsection %}
                         {{var_subsection}}
@@ -80,14 +76,12 @@
                         {% endif %}
                     </h6>
                     <h6 class="lead-2 text-success pt-1">Enter data for:</h6>
-                    <h4><span >{{ myvar }}</span></h4>
+                    <h6><span class="display-6">{{ myvar }}</span></h6>
+                    <h6 class="lead-2 text-secondary">{{my_exp}}</h6>
                 </div>
-                <div class="col-md-8 border-dark">
-                    <h6 class="lead-2 text-secondary"><span class="text-dark fw-bold">{{ myvar }}: </span> {{my_exp}}</h6>
-                </div> 
-
             </div> 
-            <hr class="bg-colorful">
+     
+            <hr>
         </legend>
         {% if messages %}
         <ul class="messages mt-3">
@@ -109,66 +103,63 @@
             <hr> 
             {% endif %}
         </ul>
-        <hr class="bg-colorful">
+        <hr>
         {% endif %}
         <div class="row">
-            <div class="col-md-6 row">
-                <div class="col-md-12 pb-2">
-                    {{ form.polity|as_crispy_field }}
-                </div>
-                <div class="col-md-6 pb-2">
-                    {{ form.year_from|as_crispy_field }}
-                  </div>
-                  <div class="col-md-6 pb-2">
-                    {{ form.year_to|as_crispy_field }}
-                  </div>
-                  {% block extra_vars %}
-                  {% endblock extra_vars %}
-                  <div class="col-md-6 mb-1">
-                    {{ form.is_disputed|as_crispy_field }}
-                    {{ form.is_uncertain|as_crispy_field }}
-                    {{ form.expert_reviewed|as_crispy_field }}
-                </div>
-                <div class="col-md-6 pe-0">
-                    <fieldset>
-                        <div class="form-check pb-4 justify-content-end">
-                            {% for radio in form.tag %}
-                                <label class="ps-4 pb-1 pe-0 h6 form-check-label" for="{{ radio.id_for_label }}">
-                                    {{ radio.tag }}
-                                    <span class="badge rounded-pill px-3 py-1 border border-dark
-                                        {% if radio.choice_label == 'Evidenced' %}
-                                            bg-success
-                                        {% elif radio.choice_label == 'Inferred' %}
-                                            bg-primary 
-                                        {% elif radio.choice_label == 'Suspected' %}
-                                            bg-warning text-dark 
-                                        {% endif %}
-                                    ">  
-                                        {{ radio.choice_label }}
-                                    </span>
-                                </label>
-                            {% endfor %}
-                        </div>
-                    </fieldset>
-                </div>
-            </div>
-            <div class="col-md-6 row">
-                <div class="col-md-12">
-                    {{ form.description|as_crispy_field }}
-                </div>
-                <div class="col-md-6 mb-2 py-2 d-grid mx-auto">
-                    {% block delete_button %}
-                    {% endblock delete_button %}
-                </div>
-                <div class="col-md-6 mb-2 py-2 d-grid mx-auto">
-                    <button type="submit" class="btn btn-outline-success my-auto btn-block btn-lg">Submit for Review*</button>
-                </div>
-            </div>
-
+          <div class="col-md-4 mb-2">
+            {{ form.polity|as_crispy_field }}
+          </div>
+          <div class="col-md-2 mb-2">
+            {{ form.year_from|as_crispy_field }}
+          </div>
+          <div class="col-md-2 mb-2">
+            {{ form.year_to|as_crispy_field }}
+          </div>
                   <!-- Here come the extra vars -->
-
+          {% block extra_vars %}
+          {% endblock extra_vars %}
+        </div>
+        <div class="row pt-2">
+            <div class="col-md-2 mb-1">
+                {{ form.is_disputed|as_crispy_field }}
+            </div>
+            <div class="col-md-2 mb-1">
+                {{ form.is_uncertain|as_crispy_field }}
+            </div>
+            <div class="col-md-2 mb-1">
+                {{ form.expert_reviewed|as_crispy_field }}
+            </div>
+            <div class="col-md-6 mb-1 pe-0">
+                <fieldset>
+                    <div class="form-check form-check-inline  justify-content-end">
+                        {% for radio in form.tag %}
+                            <label class="ps-1 pe-0 h6 form-check-label" for="{{ radio.id_for_label }}">
+                                {{ radio.tag }}
+                                <span class="badge rounded-pill px-3 py-1 border border-dark
+                                    {% if radio.choice_label == 'Evidenced' %}
+                                        bg-success
+                                    {% elif radio.choice_label == 'Inferred' %}
+                                        bg-primary 
+                                    {% elif radio.choice_label == 'Suspected' %}
+                                        bg-warning text-dark 
+                                    {% endif %}
+                                ">  
+                                    {{ radio.choice_label }}
+                                </span>
+                            </label>
+                        {% endfor %}
+                    </div>
+                </fieldset>
+            </div>
+            
         </div>
 
+        <div class="row">
+            <div class="col-md-12 py-1 ps-2">
+                    {{ form.description|as_crispy_field }}
+            </div>
+
+        </div>
         <div class="row">
             {% if request.user.is_staff %}
             <div class="col-md-4 py-3 ps-4">
@@ -185,6 +176,13 @@
                 <label for="seshatexpert"> You are not a Seshat Expert.</label>
             </div>
             {% endif %}
+            <div class="col-md-4 mb-2 py-2 d-grid mx-auto">
+                {% block delete_button %}
+                {% endblock delete_button %}
+            </div>
+            <div class="col-md-4 mb-2 py-2 d-grid mx-auto">
+                <button type="submit" class="btn btn-outline-success my-auto btn-block btn-lg">Submit for Review*</button>
+            </div>
 
         </div>
 

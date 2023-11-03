@@ -18,4 +18,13 @@ sc_var_defs = {
  'other_measurement_system': 'Textual evidence of more advanced measurement systems: temperature, force, astronomical',
  'debt_and_credit_structure': 'Commercial/market practices that take physical form, e.g. a contract on parchment (not just verbal agreements).',
  'store_of_wealth': 'Example: hoard, chest for storing valuables, treasury room. Note for the future: perhaps should separate these into individual variables.',
+  'source_of_support': "possible codes: state salary, governed population, land, none. 'State salary' can be paid either in currency or in kind (e.g., koku of rice). 'Governed population' means that the official directly collects tribute from the population (for example, the 'kormlenie' system in Medieval Russia). 'Land' is when the bureaucrats live off land supplied by the state. 'None' is when the state officials are not compensated (example: in the Republican and Principate Rome the magistrates were wealthy individuals who served without salary, motivated by prestige and social or career advancement).",
+   'other_special_purpose_site': 'Other special-purpose sites.',
+'special_purpose_house': 'A normal house used in a distinctive or special manner. This code reflects differentiation between houses.',
+'occupational_complexity': "No Descriptions in the code book.",
+'military_level': """levels. Again, start with the commander-in-chief = level 1 and work down to the private.
+Even in primitive societies such as simple chiefdoms it is often possible to distinguish at least two levels – a commander and soldiers. A complex chiefdom would be coded three levels. The presence of warrior burials might be the basis for inferring the existence of a military organization. (The lowest military level is always the individual soldier).""",
+'fastest_individual_communication': 'This is the fastest time (in days) an individual can travel from the capital city to the most outlying provincial capital (if one exists), usually keeping within the boundaries of the polity. This might be by ship, horse, horse relay, or on foot, or a combination.',
+'largest_communication_distance': """Distance in kilometers between the capital and the furthest provincial capital. Use the figure for the most direct land and/or sea route that was available.
+As an alternative for prehistoric communities, measure the distance between largest quasi-capital and furthest village within the quasi-polity.""",
  }

@@ -61,14 +61,14 @@
 
 
 <!-- form-row and form-group etc are removed in Bootstrap 5 -->
-<div class="container mt-3">
+<div class="container mt-2">
     <form action="" method="post">
         {% csrf_token %}
         <legend>
             <div class="row d-flex align-items-center">
                 <div class="col-md-2">
-                    <h6 class="lead-2 text-secondary">Enter new data for:</h6>
-                    <h6><span class="display-6">Polity</span></h6>
+                    <h6 class="lead-2 text-secondary">Enter data for:</h6>
+                    <h5><span>Polity</span></h5>
                 </div>
                 <div class="col-md-10">
                   <h6 class="text-secondary">* Make sure that both <span class="text-dark">Polity ID (NEW and OLD)</span> are added. If <span class="text-dark">Polity ID (OLD)</span> is not available, enter the <span class="text-dark">Polity ID (NEW)</span> for both fields.</h6>
@@ -95,8 +95,9 @@
                   {% endif %}
               </div>
             </div> 
-            <hr class="bg-colorful">
         </legend>
+        <hr class="bg-colorful">
+
         <div class="row">
           <div class="col-md-6 row">
             <div class="col-md-12 pb-2">
@@ -120,17 +121,24 @@
             <div class="col-md-6 d-grid">
               {{ form.polity_tag|as_crispy_field }}
             </div>
-            <div class="col-md-12">
-              <button type="submit" class="btn btn-outline-primary my-auto btn-block btn-lg">Submit for Review*</button>
-          </div>
           </div>
           <div class="col-md-6">
             <div class="col-md-12">
               {{ form.general_description|as_crispy_field }}
             </div>
-            <div class="col-md-8 d-grid">
           </div>
+        </div>
 
+        <div class="row">
+          <div class="col-md-9 row">
+            <div class="col-md-12 pb-2">
+              {{ form.private_comment|as_crispy_field }}
+            </div>
+
+          </div>
+          <div class="col-md-3 row">
+            <div class="col-md-12 pb-2 d-flex flex-column mt-auto">
+              <button type="submit" class="btn btn-outline-primary my-auto btn-block btn-lg">Submit for Review*</button>            </div>
           </div>
         </div>
 
@@ -147,8 +155,8 @@
           </form>
 
         <div class="col-md-12">
-            <hr>
-            <h6>* Your entered data will soon be checked by a Seshat Expert.</h6>
+          <hr class="bg-colorful">
+          <h6>* Your entered data will soon be checked by a Seshat Expert.</h6>
         </div>
 
 </div>

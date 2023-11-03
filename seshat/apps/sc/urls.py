@@ -1,8 +1,8 @@
-from .models import Communal_building, Utilitarian_public_building, Symbolic_building, Entertainment_building, Knowledge_or_information_building, Special_purpose_site, Ceremonial_site, Burial_site, Trading_emporia, Enclosure, Length_measurement_system, Area_measurement_system, Volume_measurement_system, Weight_measurement_system, Time_measurement_system, Geometrical_measurement_system, Other_measurement_system, Debt_and_credit_structure, Store_of_wealth, Bridge
+from .models import Communal_building, Utilitarian_public_building, Symbolic_building, Entertainment_building, Knowledge_or_information_building, Special_purpose_site, Ceremonial_site, Burial_site, Trading_emporia, Enclosure, Length_measurement_system, Area_measurement_system, Volume_measurement_system, Weight_measurement_system, Time_measurement_system, Geometrical_measurement_system, Other_measurement_system, Debt_and_credit_structure, Store_of_wealth, Bridge, Source_of_support, Occupational_complexity, Special_purpose_house, Other_special_purpose_site, Military_level, Largest_communication_distance, Fastest_individual_communication
 
 from django.urls import path
 
-from .forms import Communal_buildingForm, Utilitarian_public_buildingForm, Symbolic_buildingForm, Entertainment_buildingForm, Knowledge_or_information_buildingForm, Special_purpose_siteForm, Ceremonial_siteForm, Burial_siteForm, Trading_emporiaForm, EnclosureForm, Length_measurement_systemForm, Area_measurement_systemForm, Volume_measurement_systemForm, Weight_measurement_systemForm, Time_measurement_systemForm, Geometrical_measurement_systemForm, Other_measurement_systemForm, Debt_and_credit_structureForm, Store_of_wealthForm, BridgeForm
+from .forms import Communal_buildingForm, Utilitarian_public_buildingForm, Symbolic_buildingForm, Entertainment_buildingForm, Knowledge_or_information_buildingForm, Special_purpose_siteForm, Ceremonial_siteForm, Burial_siteForm, Trading_emporiaForm, EnclosureForm, Length_measurement_systemForm, Area_measurement_systemForm, Volume_measurement_systemForm, Weight_measurement_systemForm, Time_measurement_systemForm, Geometrical_measurement_systemForm, Other_measurement_systemForm, Debt_and_credit_structureForm, Store_of_wealthForm, BridgeForm, Source_of_supportForm, Occupational_complexityForm, Special_purpose_houseForm, Other_special_purpose_siteForm, Military_levelForm, Largest_communication_distanceForm, Fastest_individual_communicationForm
 
 
 from .views import dynamic_create_view, dynamic_update_view, generic_list_view, generic_download, generic_metadata_download, dynamic_detail_view, confirm_delete_view, delete_object_view
@@ -31,6 +31,14 @@ model_form_pairs = [
      (Other_measurement_system, Other_measurement_systemForm, 'other_measurement_system', 'Other Measurement System', "Information", "Measurement System"),
      (Debt_and_credit_structure, Debt_and_credit_structureForm, 'debt_and_credit_structure', 'Debt And Credit Structure', "Information", "Money"),
      (Store_of_wealth, Store_of_wealthForm, 'store_of_wealth', 'Store Of Wealth', "Information", "Money"),
+    (Source_of_support, Source_of_supportForm, 'source_of_support', 'Source Of Support', "Professions", None),
+    (Occupational_complexity, Occupational_complexityForm, 'occupational_complexity', 'Occupational Complexity', "Professions", None),
+    (Special_purpose_house, Special_purpose_houseForm, 'special_purpose_house', 'Special Purpose House', "Specialized Buildings: polity owned", None),
+    (Other_special_purpose_site, Other_special_purpose_siteForm, 'other_special_purpose_site', 'Other Special Purpose Site', "Special-purpose Sites", None),
+    (Military_level, Military_levelForm, 'military_level', 'Military Level', "Hierarchical Complexity", None),
+     (Largest_communication_distance, Largest_communication_distanceForm, 'largest_communication_distance', 'Largest Communication Distance', "Social Scale", None),
+    (Fastest_individual_communication, Fastest_individual_communicationForm, 'fastest_individual_communication', 'Fastest Individual Communication', "Information", "Postal System"),
+
 ]
 
 
@@ -271,7 +279,7 @@ urlpatterns += [
          name="military_level-create"),
 
     path('military_levels/', views.Military_levelListView.as_view(), name='military_levels'),
-    path('military_levels_all/', views.Military_levelListViewAll.as_view(), name='military_levels_all'),
+    #path('military_levels_all/', views.Military_levelListViewAll.as_view(), name='military_levels_all'),
     path('military_level/<int:pk>', views.Military_levelDetailView.as_view(),
          name='military_level-detail'),
     path('military_level/<int:pk>/update/',

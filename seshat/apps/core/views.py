@@ -1,7 +1,7 @@
 from seshat.utils.utils import adder, dic_of_all_vars, list_of_all_Polities, dic_of_all_vars_in_sections
 
 from django.contrib.sites.shortcuts import get_current_site
-from seshat.apps.core.forms import SignUpForm, VariablehierarchyFormNew, CitationForm, ReferenceForm, SeshatCommentForm, SeshatCommentPartForm, PolityForm, CapitalForm, NgaForm
+from seshat.apps.core.forms import SignUpForm, VariablehierarchyFormNew, CitationForm, ReferenceForm, SeshatCommentForm, SeshatCommentPartForm, PolityForm, PolityUpdateForm, CapitalForm, NgaForm
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate
 from django.shortcuts import render
@@ -605,7 +605,7 @@ class PolityCreate(PermissionRequiredMixin, CreateView):
 
 class PolityUpdate(PermissionRequiredMixin, SuccessMessageMixin, UpdateView):
     model = Polity
-    form_class = PolityForm
+    form_class = PolityUpdateForm
     template_name = "core/polity/polity_form.html"
     permission_required = 'core.add_capital'
     success_message = "You successfully updated the Polity."
@@ -940,7 +940,7 @@ class PolityListView(SuccessMessageMixin, generic.ListView):
 
 
 
-        custom_order = [7, 6, 5, 2, 3, 9, 11, 10, 4, 8, 1, 23, 24, 27, 26,25, 29,28, 31,33,32,30, ]  
+        custom_order = [5, 2, 11, 3, 4, 9, 10, 8, 7, 6, 1, 23, 24, 27, 26,25, 29,28, 31,33,32,30, ]  
         all_mrs = sorted(all_mrs_unsorted, key=lambda item: custom_order.index(item.id))
 
         all_pols = Polity.objects.all().order_by('start_year')

@@ -4,9 +4,16 @@
 
 {% block extra_vars %}
     <!-- Render the input variable specified in the context -->
-    <div class="col-md-4 mb-2">
+    <div class="col-md-12">
         {{ extra_var|as_crispy_field }}
     </div>
+
+    {% if extra_var %}
+        <div>Aliiiiiiiiiiiiii</div>
+        <div class="col-md-12">
+            {{ extra_var|as_crispy_field }}
+        </div>
+    {% endif %}
 {% endblock extra_vars %}
 
 {% block delete_button %}

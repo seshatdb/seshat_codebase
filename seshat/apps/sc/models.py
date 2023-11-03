@@ -27,9 +27,23 @@ ABSENT_PRESENT_CHOICES = (
 ('unknown', 'unknown'),
 ('A~P', 'Transitional (Absent -> Present)'),
 ('P~A', 'Transitional (Present -> Absent)'),
-
 )
 
+SOURCE_OF_SUPPORT_CHOICES = (
+('state salary', 'state salary'),
+('pensions', 'pensions'),
+('enoblement', 'enoblement'),
+('suspected unknown', 'suspected unknown'),
+('unknown', 'unknown'),
+('land', 'land'),
+('absent', 'absent'),
+('cash', 'cash'),
+('salary', 'salary'),
+('state', 'state'),
+('governed population', 'governed population'),
+('none', 'none'),
+('cattle', 'cattle'),
+)
 
 ########## TUPLE CHOICES THAT ARE THE SAME 
 
@@ -3036,7 +3050,7 @@ class Special_purpose_site(SeshatCommon):
         return None  
     
     def subsection(self):
-        return "Specialized Buildings: polity owned"
+        return "Special-purpose Sites"
 
     def sub_subsection(self):
         return None
@@ -3086,7 +3100,7 @@ class Ceremonial_site(SeshatCommon):
         return None  
     
     def subsection(self):
-        return "Specialized Buildings: polity owned"
+        return "Special-purpose Sites"
 
     def sub_subsection(self):
         return None
@@ -3136,7 +3150,7 @@ class Burial_site(SeshatCommon):
         return None  
     
     def subsection(self):
-        return "Specialized Buildings: polity owned"
+        return "Special-purpose Sites"
 
     def sub_subsection(self):
         return None
@@ -3186,7 +3200,7 @@ class Trading_emporia(SeshatCommon):
         return None  
     
     def subsection(self):
-        return "Specialized Buildings: polity owned"
+        return "Special-purpose Sites"
 
     def sub_subsection(self):
         return None
@@ -3236,7 +3250,7 @@ class Enclosure(SeshatCommon):
         return None  
     
     def subsection(self):
-        return "Specialized Buildings: polity owned"
+        return "Special-purpose Sites"
 
     def sub_subsection(self):
         return None
@@ -3696,4 +3710,320 @@ class Store_of_wealth(SeshatCommon):
 
     def __str__(self) -> str:
         return call_my_name(self)
-             
+    
+class Source_of_support(SeshatCommon):
+    name = models.CharField(max_length=100, default="Source_of_support")
+    source_of_support = models.CharField(max_length=500, choices=SOURCE_OF_SUPPORT_CHOICES)
+
+    class Meta:
+        verbose_name = 'Source_of_support'
+        verbose_name_plural = 'Source_of_supports'
+        ordering = ['year_from', 'year_to']
+
+    @property
+    def display_citations(self):
+        return return_citations(self)
+
+    def clean(self):
+        clean_times(self)
+
+    def clean_name(self):
+        return "source_of_support"
+
+    def clean_name_spaced(self):
+        return "Source Of Support"
+    
+    def show_value(self):
+        if self.source_of_support:
+            return self.get_source_of_support_display()
+        else:
+            return " - "
+
+    def show_value_from(self):
+        if self.source_of_support:
+            return self.source_of_support
+        else:
+            return None
+
+    def show_value_to(self):
+        return None  
+    
+    def subsection(self):
+        return "Professions"
+
+    def sub_subsection(self):
+        return None
+        
+    def get_absolute_url(self):
+        return reverse('source_of_support-detail', args=[str(self.id)])
+
+    def __str__(self) -> str:
+        return call_my_name(self)
+    
+class Occupational_complexity(SeshatCommon):
+    name = models.CharField(max_length=100, default="Occupational_complexity")
+    occupational_complexity = models.CharField(max_length=500, choices=ABSENT_PRESENT_CHOICES)
+
+    class Meta:
+        verbose_name = 'Occupational_complexity'
+        verbose_name_plural = 'Occupational_complexies'
+        ordering = ['year_from', 'year_to']
+
+    @property
+    def display_citations(self):
+        return return_citations(self)
+
+    def clean(self):
+        clean_times(self)
+
+    def clean_name(self):
+        return "occupational_complexity"
+
+    def clean_name_spaced(self):
+        return "Occupational Complexity"
+    
+    def show_value(self):
+        if self.occupational_complexity:
+            return self.get_occupational_complexity_display()
+        else:
+            return " - "
+
+    def show_value_from(self):
+        if self.occupational_complexity:
+            return self.occupational_complexity
+        else:
+            return None
+
+    def show_value_to(self):
+        return None  
+    
+    def subsection(self):
+        return "Professions"
+
+    def sub_subsection(self):
+        return None
+        
+    def get_absolute_url(self):
+        return reverse('occupational_complexity-detail', args=[str(self.id)])
+
+    def __str__(self) -> str:
+        return call_my_name(self)
+    
+
+class Special_purpose_house(SeshatCommon):
+    name = models.CharField(max_length=100, default="Special_purpose_house")
+    special_purpose_house = models.CharField(max_length=500, choices=ABSENT_PRESENT_CHOICES)
+
+    class Meta:
+        verbose_name = 'Special_purpose_house'
+        verbose_name_plural = 'Special Purpose Houses'
+        ordering = ['year_from', 'year_to']
+
+    @property
+    def display_citations(self):
+        return return_citations(self)
+
+    def clean(self):
+        clean_times(self)
+
+    def clean_name(self):
+        return "special_purpose_house"
+
+    def clean_name_spaced(self):
+        return "Special Purpose House"
+
+    def show_value(self):
+        if self.special_purpose_house:
+            return self.get_special_purpose_house_display()
+        else:
+            return " - "
+
+    def show_value_from(self):
+        if self.special_purpose_house:
+            return self.special_purpose_house
+        else:
+            return None
+
+    def show_value_to(self):
+        return None  
+
+    def subsection(self):
+        return "Specialized Buildings: polity owned"
+
+    def sub_subsection(self):
+        return None
+
+    def get_absolute_url(self):
+        return reverse('special_purpose_house-detail', args=[str(self.id)])
+
+    def __str__(self) -> str:
+        return call_my_name(self)
+    
+class Other_special_purpose_site(SeshatCommon):
+    name = models.CharField(max_length=100, default="Other_special_purpose_site")
+    other_special_purpose_site = models.CharField(max_length=500, choices=ABSENT_PRESENT_CHOICES)
+
+    class Meta:
+        verbose_name = 'Other_special_purpose_site'
+        verbose_name_plural = 'Other Special Purpose Sites'
+        ordering = ['year_from', 'year_to']
+
+    @property
+    def display_citations(self):
+        return return_citations(self)
+
+    def clean(self):
+        clean_times(self)
+
+    def clean_name(self):
+        return "other_special_purpose_site"
+
+    def clean_name_spaced(self):
+        return "Other Special Purpose Site"
+
+    def show_value(self):
+        if self.other_special_purpose_site:
+            return self.get_other_special_purpose_site_display()
+        else:
+            return " - "
+
+    def show_value_from(self):
+        if self.other_special_purpose_site:
+            return self.other_special_purpose_site
+        else:
+            return None
+
+    def show_value_to(self):
+        return None  
+
+    def subsection(self):
+        return "Special-purpose Sites"
+
+    def sub_subsection(self):
+        return None
+
+    def get_absolute_url(self):
+        return reverse('other_special_purpose_site-detail', args=[str(self.id)])
+
+    def __str__(self) -> str:
+        return call_my_name(self)
+    
+
+class Largest_communication_distance(SeshatCommon):
+    name = models.CharField(max_length=100, default="Largest_communication_distance")
+    largest_communication_distance_from = models.IntegerField(null=True, blank=True)
+    largest_communication_distance_to = models.IntegerField(null=True, blank=True)
+
+    class Meta:
+        verbose_name = 'Largest_communication_distance'
+        verbose_name_plural = 'Largest Communication Distances'
+        ordering = ['year_from', 'year_to']
+
+    @property
+    def display_citations(self):
+        return return_citations(self)
+
+    def clean(self):
+        clean_times(self)
+
+    def clean_name(self):
+        return "largest_communication_distance"
+
+    def clean_name_spaced(self):
+        return "Largest Communication Distance"
+
+    def show_value(self):
+        if self.largest_communication_distance_from is not None and self.largest_communication_distance_to is not None and self.largest_communication_distance_to == self.largest_communication_distance_from:
+            return self.largest_communication_distance_from
+        elif self.largest_communication_distance_from is not None and self.largest_communication_distance_to is not None:
+            return f"[{self.largest_communication_distance_from:,} to {self.largest_communication_distance_to:,}]"
+        elif self.largest_communication_distance_from is not None:
+            return f"[{self.largest_communication_distance_from:,}, ...]"
+        elif self.largest_communication_distance_to is not None:
+            return f"[..., {self.largest_communication_distance_to:,}]"
+        else:
+            return " - "
+        
+    def show_value_from(self):
+        if self.largest_communication_distance_from is not None:
+            return self.largest_communication_distance_from
+        else:
+            return "unknown"
+
+    def show_value_to(self):
+        if self.largest_communication_distance_to is not None:
+            return self.largest_communication_distance_to
+        else:
+            return None  
+
+    def subsection(self):
+        return "Social Scale"
+
+    def sub_subsection(self):
+        return None
+
+    def get_absolute_url(self):
+        return reverse('largest_communication_distance-detail', args=[str(self.id)])
+
+    def __str__(self) -> str:
+        return call_my_name(self)
+
+
+class Fastest_individual_communication(SeshatCommon):
+    name = models.CharField(max_length=100, default="Fastest_individual_communication")
+    fastest_individual_communication_from = models.IntegerField(null=True, blank=True)
+    fastest_individual_communication_to = models.IntegerField(null=True, blank=True)
+
+    class Meta:
+        verbose_name = 'Fastest_individual_communication'
+        verbose_name_plural = 'Fastest Individual Communications'
+        ordering = ['year_from', 'year_to']
+
+    @property
+    def display_citations(self):
+        return return_citations(self)
+
+    def clean(self):
+        clean_times(self)
+
+    def clean_name(self):
+        return "fastest_individual_communication"
+
+    def clean_name_spaced(self):
+        return "Fastest Individual Communication"
+
+    def show_value(self):
+        if self.fastest_individual_communication_from is not None and self.fastest_individual_communication_to is not None and self.fastest_individual_communication_to == self.fastest_individual_communication_from:
+            return self.fastest_individual_communication_from
+        elif self.fastest_individual_communication_from is not None and self.fastest_individual_communication_to is not None:
+            return f"[{self.fastest_individual_communication_from:,} to {self.fastest_individual_communication_to:,}]"
+        elif self.fastest_individual_communication_from is not None:
+            return f"[{self.fastest_individual_communication_from:,}, ...]"
+        elif self.fastest_individual_communication_to is not None:
+            return f"[..., {self.fastest_individual_communication_to:,}]"
+        else:
+            return " - "
+        
+    def show_value_from(self):
+        if self.fastest_individual_communication_from is not None:
+            return self.fastest_individual_communication_from
+        else:
+            return "unknown"
+
+    def show_value_to(self):
+        if self.fastest_individual_communication_to is not None:
+            return self.fastest_individual_communication_to
+        else:
+            return None  
+
+    def subsection(self):
+        return "Information"
+
+    def sub_subsection(self):
+        return "Postal System"
+
+    def get_absolute_url(self):
+        return reverse('fastest_individual_communication-detail', args=[str(self.id)])
+
+    def __str__(self) -> str:
+        return call_my_name(self)
