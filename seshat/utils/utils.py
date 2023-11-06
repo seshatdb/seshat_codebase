@@ -422,6 +422,14 @@ def give_polity_app_data():
     from django.apps import apps
 
     contain_dic = {}
+    freq_dic = {
+            'g': 0,
+            'sc': 0,
+            'wf': 0,
+            'hs': 0,
+            'cc': 0,
+            'pt': 0,
+        }
     unique_polity_ids_general = set()
     unique_polity_ids_sc = set()
     unique_polity_ids_wf = set()
@@ -448,22 +456,37 @@ def give_polity_app_data():
 
     all_polity_ids = Polity.objects.values_list('id', flat=True)
     for polity_id in all_polity_ids:
+        has_hs =  Human_sacrifice.objects.filter(polity=polity_id).exists()
+        if has_hs:
+            freq_dic["hs"] += 1
+        has_cc =  Crisis_consequence.objects.filter(polity=polity_id).exists()
+        if has_cc:
+            freq_dic["cc"] += 1
+        has_pt =  Power_transition.objects.filter(polity=polity_id).exists()
+        if has_pt:
+            freq_dic["pt"] += 1
+
+            
         contain_dic[polity_id] = {
             'g': False,
             'sc': False,
             'wf': False,
-            'hs': Human_sacrifice.objects.filter(polity=polity_id).exists(),
-            'cc': Crisis_consequence.objects.filter(polity=polity_id).exists(),
-            'pt': Power_transition.objects.filter(polity=polity_id).exists(),
+            'hs': has_hs,
+            'cc': has_cc,
+            'pt': has_pt,
         }
         if polity_id in unique_polity_ids_general:
             contain_dic[polity_id]["g"] = True
+            freq_dic["g"] += 1
         if polity_id in unique_polity_ids_sc:
-            contain_dic[polity_id]["sc"] = True        
+            contain_dic[polity_id]["sc"] = True  
+            freq_dic["sc"] += 1      
         if polity_id in unique_polity_ids_wf:
             contain_dic[polity_id]["wf"] = True
+            freq_dic["wf"] += 1
+    #freq_dic["pol_count"] = len(all_polity_ids)
 
-    return contain_dic
+    return contain_dic, freq_dic
 
 
 def polity_detail_data_collector(polity_id):

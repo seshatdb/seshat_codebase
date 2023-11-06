@@ -1,0 +1,223 @@
+{% extends "core/seshat-base.html" %}
+{% load static %}
+{% load humanize %}
+{% load mathfilters %}
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+
+
+<div class="container pt-3">
+    <div class="row">
+    <div class="col-md-10">
+        <h6 class="lead-2 text-secondary">List of all:</h6>
+        <h2>Polities (with comments)</h2>
+
+    </div>
+    <div class="col-md-2">
+        <a href="{% url 'polities'  %}" class="btn btn-outline-success me-1 my-1"><i class="fa-solid fa-list"></i> &nbsp; Back to all Polities</a>
+    </div>
+    </div>
+    <hr class="bg-colorful">
+
+    {% if messages %}
+    <ul class="messages mt-3">
+        {% for message in messages %}
+        <div class="container-fluid p-0">
+            <div class="alert {{ message.tags }} alert-dismissible" role="alert" >
+                <i class="fa-solid fa-circle-info"></i> Thank you <b>{{ user }}</b>. {{ message }}
+            </div>
+        </div>
+        {% endfor %}
+        {% if form.non_field_errors %}
+        {% for error in form.non_field_errors %}
+        <div class="container-fluid p-0">
+          <div class="text-danger" role="alert" >
+            <i class="fa-solid fa-triangle-exclamation"></i>  {{ error }}
+          </div>
+        </div>
+        {% endfor %}
+        <hr> 
+        {% endif %}
+    </ul>
+    <hr>
+    {% endif %}
+
+
+    {% if all_pols %}
+    <div class="table-responsive pb-0 mb-0" style="border: solid 2px teal;border-radius:10px">
+    <table id="table_id" class="table align-middle table-bordered pb-0 mb-0">
+        <thead>
+          <tr>
+            <th class="ps-2"> <i class="fa-solid fa-circle-chevron-right fa-xs text-secondary"></i> &nbsp; Polity Name and Year Range</th>
+            <th class="ps-2"> <i class="fa-solid fa-key"></i> &nbsp;Polity ID and Coded Data</th>
+            <th  style="text-align: left;"> Comment</th>
+            <th  style="text-align: center;"> Edit</th>
+
+          </tr>
+        </thead>
+        <tbody>
+                {% for a_polity in all_pols %}
+                {% if a_polity.home_seshat_region.name == "Somewhere" %}
+                <tr style="background-color:#f78ea0">
+                {% else %}
+                <tr>
+                {% endif %}
+
+                <td class="col-md-3 ps-2 py-2" style="text-align: left;"> 
+                    {% if a_polity.long_name %}
+                        <span class="fw-bold h5"><i class="fa-solid fa-location-dot fa-xs text-secondary"></i>&nbsp; {{ a_polity.long_name }}&nbsp;</span>
+                        {% if a_polity.polity_tag == 'POL_AFR_WEST' %}
+                        <sup>
+                            <span type="button"  tabindex="0" data-bs-toggle="popover" title="A NEW West African Polity" data-bs-html="true" data-bs-trigger="focus">
+                            <span class="badge bg-secondary text-light p-1">New WA</span>    
+                        </sup>
+                        {% elif a_polity.polity_tag == "POL_AFR_EAST" %}
+                        <sup>
+                            <span type="button"  tabindex="0" data-bs-toggle="popover" title="A NEW East African Polity" data-bs-html="true" data-bs-trigger="focus">
+                            <span class="badge bg-secondary text-light p-1">New EA</span> 
+                        </sup>
+                        {% elif a_polity.polity_tag == "POL_AFR_SA" %}
+                        <sup>
+                            <span type="button"  tabindex="0" data-bs-toggle="popover" title="A NEW Southern African Polity" data-bs-html="true" data-bs-trigger="focus">
+                            <span class="badge bg-secondary text-light p-1">New SA</span> 
+                        </sup>
+                        {% elif a_polity.polity_tag == "POL_SA_SI" %}
+                        <sup>
+                            <span type="button"  tabindex="0" data-bs-toggle="popover" title="A NEW South East Indian Polity" data-bs-html="true" data-bs-trigger="focus">
+                            <span class="badge bg-secondary text-light p-1">New SEA</span> 
+                        </sup>
+                        {% elif a_polity.polity_tag == "LEGACY" %}
+                        <sup>
+                            <span type="button"  tabindex="0" data-bs-toggle="popover" title="An Equinox 2020 Polity" data-bs-html="true" data-bs-trigger="focus">
+                            <span class="badge bg-secondary text-light p-1">EQ 2020</span> 
+                        </span> 
+                        </sup>
+                        {% elif a_polity.polity_tag == "CRISISDB_POLITIES" %}
+                        <sup>
+                            <span type="button"  tabindex="0" data-bs-toggle="popover" title="A CrisisDB-specific Polity" data-bs-html="true" data-bs-trigger="focus">
+                            <span class="badge bg-secondary text-light p-1">CrisisDB</span> 
+                        </sup>
+                        {% elif a_polity.polity_tag == "OTHER_TAG" %}
+                        <sup>
+                            <span type="button"  tabindex="0" data-bs-toggle="popover" title="Unknown Polity Category" data-bs-html="true" data-bs-trigger="focus">
+                            <span class="badge bg-secondary text-light p-1">OTHER</span> 
+                        </sup>
+                        {% endif %}
+
+
+
+                    {% else %}
+                    <span class="text-danger fw-bold h5"> <i class="fa-solid fa-location-dot fa-xs text-secondary"></i> &nbsp; No Long Name</span> <a href="{% url 'polity-update' a_polity.id %}"><span class="badge bg-small bg-warning text-dark">EDIT</span></a> 
+                    {% endif %}
+                    <div>
+
+                        {% block years_short_for_top_pol %}
+                        {% if  a_polity.start_year == a_polity.end_year %}
+                            {% if  a_polity.start_year < 0 %}
+                                {{ a_polity.start_year|abs }} <span class="text-secondary fw-normal bce-color fs-6">BCE</span> 
+                            {% else %}
+                                {{ a_polity.start_year }} <span class="text-secondary fw-normal ce-color fs-6">CE</span>
+                            {% endif %}
+                        {% elif a_polity.end_year == None %}
+                            {% if  a_polity.start_year < 0 %}
+                                {{ a_polity.start_year|abs }} <span class="text-secondary fw-normal bce-color fs-6">BCE</span>
+                            {% else %}
+                                {{ a_polity.start_year }} <span class="text-secondary fw-normal ce-color fs-6">CE</span>
+                            {% endif %}
+                        {% elif a_polity.end_year == None and  a_polity.start_year == None %}
+                            <i class="fa-solid fa-minus"></i> 
+                        {% else %}
+                            {% if  a_polity.start_year < 0 and a_polity.end_year < 0 %}
+                                {{ a_polity.start_year|abs }} <span class="text-secondary fw-normal bce-color fs-6">BCE</span> <i class="fas fa-long-arrow-alt-right"></i> {{ a_polity.end_year|abs }} <span class="text-secondary fw-normal bce-color fs-6">BCE</span>
+                            {% elif  a_polity.start_year < 0 and a_polity.end_year >= 0 %}
+                                {{ a_polity.start_year|abs }} <span class="text-secondary fw-normal bce-color fs-6">BCE</span> <i class="fas fa-long-arrow-alt-right"></i> {{ a_polity.end_year }} <span class="text-secondary fw-normal ce-color fs-6">CE</span>
+                            {% else %}
+                                {{ a_polity.start_year }} <span class="text-secondary fw-normal ce-color fs-6">CE</span> <i class="fas fa-long-arrow-alt-right"></i> {{ a_polity.end_year }} <span class="text-secondary fw-normal ce-color fs-6">CE</span>
+                            {% endif %}
+                        {% endif %}
+                        {% endblock years_short_for_top_pol %}
+                    </div>
+
+
+                </td>
+                <td class="col-md-3 ps-2 py-2" style="text-align: left;"> 
+                    {% if a_polity.new_name %}
+                    <a href="{% url 'polity-detail-main' a_polity.id %}" class="fs-6 fw-normal"><b>{{ a_polity.new_name }}</b></a>
+
+                    {% if a_polity.new_name != a_polity.name %}
+                    <span class="text-secondary">/ {{ a_polity.name }}</span>
+                    {% endif %}
+
+
+                    {% else %}
+                    (<a href="{% url 'polity-detail-main' a_polity.id %}"><b>{{ a_polity.name }}</b></a>) 
+                    <span class="text-danger"><b>NEW_Polity_ID</b>  missing</span>  
+                    <a href="{% url 'polity-update' a_polity.id %}"><span class="badge bg-small bg-warning text-dark">update</span></a>
+                    {% endif %}
+                    <div>
+                        {% if a_polity.general_description %}
+                        <span type="button"  tabindex="0" data-bs-toggle="popover" title="General Description" data-bs-html="true" data-bs-trigger="focus">
+                            <a href="{% url 'polity-detail-main' a_polity.id %}#general_desc"><span class="badge text-dark p-1" style="background-color: rgb(195, 195, 195);">D</span></a>
+                        </span>
+                    {% endif %}
+                        {% if a_polity.has_g_sc_wf.g %}
+                            <span type="button"  tabindex="0" data-bs-toggle="popover" title="General Variables" data-bs-html="true" data-bs-trigger="focus">
+                                <a href="{% url 'polity-detail-main' a_polity.id %}#general_var"><span class="badge bg-warning text-dark p-1">G</span></a>
+                            </span>
+                        {% endif %}
+                        {% if a_polity.has_g_sc_wf.sc %}
+                            <span type="button"  tabindex="0" data-bs-toggle="popover" title="Social Complexity Variables" data-bs-html="true" data-bs-trigger="focus">
+                                <a href="{% url 'polity-detail-main' a_polity.id %}#sc_var"><span class="badge bg-primary p-1">SC</span></a>
+                        </span>                   
+                        {% endif %}
+                        {% if a_polity.has_g_sc_wf.wf %}
+                        <span type="button"  tabindex="0" data-bs-toggle="popover" title="Warfare Variables (MilTech)" data-bs-html="true" data-bs-trigger="focus">
+                            <a href="{% url 'polity-detail-main' a_polity.id %}#wf_var"><span class="badge bg-danger p-1">WF</span></a>
+                        </span>                  
+                        {% endif %}
+                        {% if a_polity.has_g_sc_wf.hs %}
+                        <span type="button"  tabindex="0" data-bs-toggle="popover" title="Human Sacrifice" data-bs-html="true" data-bs-trigger="focus">
+                            <a href="{% url 'polity-detail-main' a_polity.id %}#hs_var"><span class="badge bg-success text-light p-1">HS</span></a>
+                        </span>                   
+                        {% endif %}
+                        {% if a_polity.has_g_sc_wf.cc %}
+                        <span type="button"  tabindex="0" data-bs-toggle="popover" title="Crisis Consequences" data-bs-html="true" data-bs-trigger="focus">
+                            <a href="{% url 'polity-detail-main' a_polity.id %}#crisis_case_var"><span class="badge bg-dark p-1">CC</span></a>
+                        </span>                   
+                        {% endif %}
+                        {% if a_polity.has_g_sc_wf.pt %}
+                        <span type="button"  tabindex="0" data-bs-toggle="popover" title="Power Transition" data-bs-html="true" data-bs-trigger="focus">
+                            <a href="{% url 'polity-detail-main' a_polity.id %}#power_transition_var"><span class="badge bg-info text-dark p-1">PT</span></a>
+                        </span>                   
+    
+                        {% endif %}
+                    </div>
+                  
+
+                </td>
+                <td class="col-md-5 fs-6"  style="text-align: left;">
+                    {{ a_polity.private_comment }}     
+                </td>
+                <td class="col-md-1" style="text-align: center;"">
+                    <a href="{% url 'polity-update' a_polity.id %}"><span class="badge fs-6 bg-warning text-dark">EDIT</span></a>
+                </td>
+
+
+            </tr>
+            {% endfor %}
+
+        </tbody>
+      </table>
+    </div>
+      {% else %}
+      <div class="row">
+          <div class="col-md-12 mt-4">
+              <h3> <i class="fa-solid fa-triangle-exclamation"></i> There are no Polities (with Comments) in the Database for this region.</h3>
+          </div>
+      </div>
+      {% endif %}
+</div>
+
+  {% endblock %}

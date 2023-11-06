@@ -923,6 +923,8 @@ class PolityListView(SuccessMessageMixin, generic.ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        #import time
+        #start_time = time.time()
         all_srs = Seshat_region.objects.all()
         all_mrs_unsorted = Macro_region.objects.all()
 
@@ -955,11 +957,16 @@ class PolityListView(SuccessMessageMixin, generic.ListView):
                     if a_sr.name not in ultimate_wregion_dic[a_mr.name]:
                         ultimate_wregion_dic[a_mr.name][a_sr.name] = []
 
+        all_polities_g_sc_wf, freq_dic = give_polity_app_data()
+        #all_polities_g_sc_wf = give_polity_app_data()
+
+        freq_dic["d"] = 0
+
         for a_polity in all_pols:
             if a_polity.home_seshat_region:
                 ultimate_wregion_dic[a_polity.home_seshat_region.mac_region.name][a_polity.home_seshat_region.name].append(a_polity)
-
-        all_polities_g_sc_wf = give_polity_app_data()
+            if a_polity.general_description:
+                freq_dic["d"] += 1
 
         for a_polity in all_pols:
             try:
@@ -970,8 +977,44 @@ class PolityListView(SuccessMessageMixin, generic.ListView):
         context["ultimate_wregion_dic"] = ultimate_wregion_dic
         context['all_pols'] = all_pols
         context["pol_count"] = pol_count
+        freq_dic['pol_count'] = pol_count
+        context["freq_data"] = freq_dic
+
+        #end_time = time.time()
+        #print('elapsed_time ', end_time-start_time)
 
         return context
+    
+
+class PolityListViewCommented(PermissionRequiredMixin, SuccessMessageMixin, generic.ListView):
+    model = Polity
+    template_name = "core/polity/polity_list_commented.html"
+    permission_required = 'core.add_capital'
+
+
+    def get_absolute_url(self):
+        return reverse('polities')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        all_pols = Polity.objects.filter(private_comment__isnull=False).order_by('start_year')
+        pol_count = len(all_pols)
+
+        all_polities_g_sc_wf, freq_dic = give_polity_app_data()
+
+        for a_polity in all_pols:
+            try:
+                a_polity.has_g_sc_wf = all_polities_g_sc_wf[a_polity.id]
+            except:
+                a_polity.has_g_sc_wf = None
+
+        context['all_pols'] = all_pols
+        context["pol_count"] = pol_count
+
+        return context
+    
+
 
 
 class PolityDetailView(SuccessMessageMixin, generic.DetailView):

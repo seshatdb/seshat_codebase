@@ -8,8 +8,11 @@
 {% block content %}
 <style>
     .accordion-button{
-        text-align: right;
+        text-align: left;
         display:block;
+        padding-left: 0px;
+        padding-right: 0px;
+
     }
     .bce-color {
         color: #f0778c !important;
@@ -35,40 +38,183 @@
     .custom-left-border-shadowed_2 {
         border-left: none; /* Adjust the border color and thickness as desired */
         padding-right: 10px;
-        padding-top: 5px;
+        padding-top: 2px;
         margin-top: 5px;
-        padding-bottom: 5px;
+        padding-bottom: 2px;
         border: solid 1px teal;
         border-radius: 15px;
         padding-left: 10px; /* Adjust the padding to create spacing between the border and content */
         text-align: justify;
         background-color:rgb(252, 244, 234);
     }
+
+    .custom-left-border-shadowed_4 {
+        border-left: none; /* Adjust the border color and thickness as desired */
+        box-shadow: 0 0 2px teal; 
+        padding-right: 10px;
+        padding-top: 10px;
+        margin-top: 5px;
+        padding-bottom: 10px;
+        text-align: justify;
+    }
+
+    .progress {
+        height: 1.75rem !important;
+        font-size: 0.85rem !important;
+    }
+
+    .progress-bar {
+        display: flex; 
+        flex-direction: row;
+    }
+
+    .shadowed_text {
+        text-shadow: 0 0 4px gray;
+        color: gray; /* Text color */      
+    }
+
 </style>
 
-<div class="container">
+<div class="container pt-3">
     <div class="row">
-    <div class="col-md-3">
-        <h6 class="lead-2 text-secondary pt-4">List of all:</h6>
+    <div class="col-md-6">
+        <h6 class="lead-2 text-secondary">List of all:</h6>
         <h2>Polities</h2>
+        <div class="pb-3 text-right">
+            <a href="{% url 'polity-create'  %}" class="btn btn-outline-success me-1 my-1"><i class="fa-solid fa-plus"></i> &nbsp; New Polity</a>
+            <a href="{% url 'download_csv_all_polities' %}" class="btn btn-outline-danger me-1 my-1"><i class="fa-solid fa-file-arrow-down"></i> &nbsp; Download All <b>({{pol_count}})</b> Polities</a>
+            {% if user.is_authenticated %}
+            <a href="{% url 'polities-commented'  %}" class="btn btn-outline-info me-1 my-1"> &nbsp; See Commented Polities</a>
+            {% endif %}
+
+        </div>
+        <h6 class="text-secondary">* A polity is defined as an independent political unit. Kinds of polities range from villages (local
+            communities) through simple and complex chiefdoms to states and empires. A polity can be either centralized or not (e.g., organized as a confederation). For those periods when a region is divided up among a multitude of small-scale polities (e.g., independent villages or even many small chiefdoms) or when it is controlled in quick succession by a number of different regimes, we use the concept of 'quasi-polity'.</h6>
     </div>
-    {% if user.is_authenticated %}
+        <div class="col-md-6">
+        <table style="width: 100%">
+            <tbody>
+              <tr>
+                <td class="text-end pe-1" style="width:5%;">
+                    <span type="button" tabindex="0" data-bs-toggle="popover" title="General Description" data-bs-html="true" data-bs-trigger="focus">
+                        <span class="badge text-dark px-2 py-2 custom-left-border-shadowed_4" style="background-color: rgb(195, 195, 195);">D</span>                                    
+                    </span>
+                </td>
+                <td style="vertical-align: bottom">                    
+                    <div class="progress align-items-center custom-left-border-shadowed_4">
+                        <div class="progress-bar text-dark py-2" role="progressbar" style="width: {{ freq_data.d|div:freq_data.pol_count|mul:100|floatformat:0 }}%; background-color: rgb(195, 195, 195);" aria-valuenow="{{ freq_data.d|div:freq_data.pol_count|mul:100|floatformat:0 }}" aria-valuemin="0" aria-valuemax="100">
+                            {{freq_data.d}}/{{freq_data.pol_count}}&nbsp;&nbsp;&nbsp;
+                            <b>{{ freq_data.d|div:freq_data.pol_count|mul:100|floatformat:0 }}&nbsp;%</b>                        
+                         </div>
+                    </div>
+                </td>
+                </tr>
+                <tr>
+                <td class="text-end pe-1" style="width:5%;">
+                  <span type="button" tabindex="0" data-bs-toggle="popover" title="General Variables" data-bs-html="true" data-bs-trigger="focus">
+                    <span class="badge bg-warning text-dark px-2 py-2 custom-left-border-shadowed_4">G</span>
+                  </span>
+                </td>
+                <td style="vertical-align: bottom">                    
+                    <div class="progress align-items-center custom-left-border-shadowed_4">
+                        <div class="progress-bar bg-warning text-dark py-2" role="progressbar" style="width: {{ freq_data.g|div:freq_data.pol_count|mul:100|floatformat:0 }}%;" aria-valuenow="{{ freq_data.g|div:freq_data.pol_count|mul:100|floatformat:0 }}" aria-valuemin="0" aria-valuemax="100">
+                           {{freq_data.g}}/{{freq_data.pol_count}}&nbsp;&nbsp;&nbsp;
+                           <b>{{ freq_data.g|div:freq_data.pol_count|mul:100|floatformat:0 }}&nbsp;%</b> 
+                        </div>
+                    </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="text-end pe-1" style="width:5%;">
+                  <span type="button" tabindex="0" data-bs-toggle="popover" title="Social Complexity Variables" data-bs-html="true" data-bs-trigger="focus">
+                    <span class="badge bg-primary px-2 py-2 custom-left-border-shadowed_4">SC</span>
+                  </span>
+                </td>
+                <td style="vertical-align: bottom">                    
+                    <div class="progress align-items-center custom-left-border-shadowed_4">
+                        <div class="progress-bar bg-primary py-2" role="progressbar" style="width: {{ freq_data.sc|div:freq_data.pol_count|mul:100|floatformat:0 }}%;" aria-valuenow="{{ freq_data.sc|div:freq_data.pol_count|mul:100|floatformat:0 }}" aria-valuemin="0" aria-valuemax="100">
+                           {{freq_data.sc}}/{{freq_data.pol_count}}&nbsp;&nbsp;&nbsp;
+                           <b>{{ freq_data.sc|div:freq_data.pol_count|mul:100|floatformat:0 }}&nbsp;%</b> 
+                        </div>
+                    </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="text-end pe-1" style="width:5%;">
+                  <span type="button" tabindex="0" data-bs-toggle="popover" title="Warfare Variables (MilTech)" data-bs-html="true" data-bs-trigger="focus">
+                    <span class="badge bg-danger px-2 py-2 custom-left-border-shadowed_4">WF</span>
+                  </span>
+                </td>
+                <td style="vertical-align: bottom">                    
+                    <div class="progress align-items-center custom-left-border-shadowed_4">
+                        <div class="progress-bar bg-danger py-2" role="progressbar" style="width: {{ freq_data.wf|div:freq_data.pol_count|mul:100|floatformat:0 }}%;" aria-valuenow="{{ freq_data.wf|div:freq_data.pol_count|mul:100|floatformat:0 }}" aria-valuemin="0" aria-valuemax="100">
+                           {{freq_data.wf}}/{{freq_data.pol_count}}&nbsp;&nbsp;&nbsp;
+                           <b>{{ freq_data.wf|div:freq_data.pol_count|mul:100|floatformat:0 }}&nbsp;%</b> 
+                        </div>
+                    </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="text-end pe-1" style="width:5%;">
+                  <span type="button" tabindex="0" data-bs-toggle="popover" title="Human Sacrifice" data-bs-html="true" data-bs-trigger="focus">
+                    <span class="badge bg-success text-light px-2 py-2 custom-left-border-shadowed_4">HS</span>
+                  </span>
+                </td>
+                <td style="vertical-align: bottom">                    
+                    <div class="progress align-items-center custom-left-border-shadowed_4">
+                        <div class="progress-bar bg-success py-2" role="progressbar" style="width: {{ freq_data.hs|div:freq_data.pol_count|mul:100|floatformat:0 }}%;" aria-valuenow="{{ freq_data.hs|div:freq_data.pol_count|mul:100|floatformat:0 }}" aria-valuemin="0" aria-valuemax="100">
+                           {{freq_data.hs}}/{{freq_data.pol_count}}&nbsp;&nbsp;&nbsp;
+                           <b>{{ freq_data.hs|div:freq_data.pol_count|mul:100|floatformat:0 }}&nbsp;%</b> 
+                        </div>
+                    </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="text-end pe-1" style="width:5%;">
+                  <span type="button" tabindex="0" data-bs-toggle="popover" title="Crisis Consequences" data-bs-html="true" data-bs-trigger="focus">
+                    <span class="badge bg-dark px-2 py-2 custom-left-border-shadowed_4">CC</span>
+                  </span>
+                </td>
+                <td style="vertical-align: bottom">                    
+                    <div class="progress align-items-center custom-left-border-shadowed_4">
+                        <div class="progress-bar bg-dark py-2" role="progressbar" style="width: {{ freq_data.cc|div:freq_data.pol_count|mul:100|floatformat:0 }}%;" aria-valuenow="{{ freq_data.cc|div:freq_data.pol_count|mul:100|floatformat:0 }}" aria-valuemin="0" aria-valuemax="100">
+                           {{freq_data.cc}}/{{freq_data.pol_count}}&nbsp;&nbsp;&nbsp;
+                           <b>{{ freq_data.cc|div:freq_data.pol_count|mul:100|floatformat:0 }}&nbsp;%</b> 
+                        </div>
+                    </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="text-end pe-1" style="width:5%;">
+                  <span type="button" tabindex="0" data-bs-toggle="popover" title="Power Transition" data-bs-html="true" data-bs-trigger="focus" >
+                    <span class="badge bg-info text-dark px-2 py-2 custom-left-border-shadowed_4">PT</span>
+                  </span>
+                </td>
+                <td style="vertical-align: bottom">                    
+                    <div class="progress align-items-center custom-left-border-shadowed_4">
+                        <div class="progress-bar bg-info text-dark py-2" role="progressbar" style="width: {{ freq_data.pt|div:freq_data.pol_count|mul:100|floatformat:0 }}%;" aria-valuenow="{{ freq_data.pt|div:freq_data.pol_count|mul:100|floatformat:0 }}" aria-valuemin="0" aria-valuemax="100">
+                           {{freq_data.pt}}/{{freq_data.pol_count}}&nbsp;&nbsp;&nbsp;
+                           <b>{{ freq_data.pt|div:freq_data.pol_count|mul:100|floatformat:0 }}&nbsp;%</b> 
+                        </div>
+                    </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+    </div>
 
+    <div class="col-md-12">
+        <div class="accordion accordion-flush" id="accordionFlushExample">
+            <div class="accordion-item" style="background-color:#fffdf2;">
+            <h5 class="accordion-header" id="flush-headingOne">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne" style="background-color:#fffdf2;"> <span class="badge  rounded-pill  bg-warning text-dark fs-6">MetaData*</span> 
+                </button>
+            </h5>
+            <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                <div class="accordion-body pt-1 px-0">
+                    <div class="row">
 
-        <div class="col-md-9 p-3">
-            <div class="accordion accordion-flush" id="accordionFlushExample">
-                <div class="accordion-item" style="background-color:#fffdf2;">
-                <h5 class="accordion-header" id="flush-headingOne">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne" style="background-color:#fffdf2;"> <span class="badge  rounded-pill  bg-warning text-dark fs-6">Majid's Note + MetaData*</span> 
-                    </button>
-                </h5>
-                <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
-                    <div class="accordion-body pt-1 px-0">
-                        <p class="p-0 m-0">
-                            - Please note that the alignment of the list of world regions with the Seshat Regions is not yet <b>complete</b>. This is due to the ongoing process of establishing the Spatial Associations between polities, World Regions, and Seshat Regions. Currently, I'm utilizing the existing legacy home NGA associations to provide preliminary insights into the way forward.
-                        </p>
-
-
+                    <div class="col-md-6">
                         <table class="table table-bordered pt-2">
                             <thead>
                               <tr>
@@ -133,97 +279,100 @@
                                     </td>
                                     <td>Unknown Polity Category</td>
                                   </tr>
+                                </tbody>
+                            </table>
 
-
-
-                              <tr>
-                                <td class="text-center">
-                                    <span type="button" tabindex="0" data-bs-toggle="popover" title="General Description" data-bs-html="true" data-bs-trigger="focus">
-                                        <span class="badge text-dark p-1" style="background-color: rgb(195, 195, 195);">D</span>                                    
-                                    </span>
-                                  </td>
-                                  <td title="General Variables is coded for this polity.">This Polity has a General Description.</td>
-                                </tr>
-                                <tr>
-
-                                <td class="text-center">
-                                  <span type="button" tabindex="0" data-bs-toggle="popover" title="General Variables" data-bs-html="true" data-bs-trigger="focus">
-                                    <span class="badge bg-warning text-dark p-1">G</span>
-                                  </span>
-                                </td>
-                                <td title="General Variables is coded for this polity.">General Variables have been coded for this Polity.</td>
-                              </tr>
-                              <tr>
-                                <td class="text-center">
-                                  <span type="button" tabindex="0" data-bs-toggle="popover" title="Social Complexity Variables" data-bs-html="true" data-bs-trigger="focus">
-                                    <span class="badge bg-primary p-1">SC</span>
-                                  </span>
-                                </td>
-                                <td title="Social Complexity Variables is coded for this polity.">Social Complexity Variables have been coded for this Polity.</td>
-                              </tr>
-                              <tr>
-                                <td class="text-center">
-                                  <span type="button" tabindex="0" data-bs-toggle="popover" title="Warfare Variables (MilTech)" data-bs-html="true" data-bs-trigger="focus">
-                                    <span class="badge bg-danger p-1">WF</span>
-                                  </span>
-                                </td>
-                                <td title="Warfare Variables (MilTech) is coded for this polity.">Warfare Variables (MilTech) have been coded for this Polity.</td>
-                              </tr>
-                              <tr>
-                                <td class="text-center">
-                                  <span type="button" tabindex="0" data-bs-toggle="popover" title="Human Sacrifice" data-bs-html="true" data-bs-trigger="focus">
-                                    <span class="badge bg-success text-light p-1">HS</span>
-                                  </span>
-                                </td>
-                                <td title="Human Sacrifice is coded for this polity.">Human Sacrifice Data has been coded for this Polity.</td>
-                              </tr>
-                              <tr>
-                                <td class="text-center">
-                                  <span type="button" tabindex="0" data-bs-toggle="popover" title="Crisis Consequences" data-bs-html="true" data-bs-trigger="focus">
-                                    <span class="badge bg-dark p-1">CC</span>
-                                  </span>
-                                </td>
-                                <td title="Crisis Consequences is coded for this polity.">Crisis Consequences have been coded for this Polity.</td>
-                              </tr>
-                              <tr>
-                                <td class="text-center">
-                                  <span type="button" tabindex="0" data-bs-toggle="popover" title="Power Transition" data-bs-html="true" data-bs-trigger="focus">
-                                    <span class="badge bg-info text-dark p-1">PT</span>
-                                  </span>
-                                </td>
-                                <td title="Power Transition is coded for this polity.">Power Transitions have been coded for this Polity.</td>
-                              </tr>
-                            </tbody>
-                          </table>
-                          
-
-
-                        <p class="text-secondary pt-1 m-0">* This message is only shown to logged in users.</p>
-                        
                     </div>
+                    <div class="col-md-6">
+
+                    <table class="table table-bordered pt-2">
+                        <thead>
+                          <tr>
+                            <th class="text-center">Code</th>
+                            <th>Definition</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+
+
+
+                          <tr>
+                            <td class="text-center">
+                                <span type="button" tabindex="0" data-bs-toggle="popover" title="General Description" data-bs-html="true" data-bs-trigger="focus">
+                                    <span class="badge text-dark p-1" style="background-color: rgb(195, 195, 195);">D</span>                                    
+                                </span>
+                              </td>
+                              <td title="General Variables is coded for this polity.">This Polity has a General Description.</td>
+                            </tr>
+                            <tr>
+
+                            <td class="text-center">
+                              <span type="button" tabindex="0" data-bs-toggle="popover" title="General Variables" data-bs-html="true" data-bs-trigger="focus">
+                                <span class="badge bg-warning text-dark p-1">G</span>
+                              </span>
+                            </td>
+                            <td title="General Variables is coded for this polity.">General Variables have been coded for this Polity.</td>
+                          </tr>
+                          <tr>
+                            <td class="text-center">
+                              <span type="button" tabindex="0" data-bs-toggle="popover" title="Social Complexity Variables" data-bs-html="true" data-bs-trigger="focus">
+                                <span class="badge bg-primary p-1">SC</span>
+                              </span>
+                            </td>
+                            <td title="Social Complexity Variables is coded for this polity.">Social Complexity Variables have been coded for this Polity.</td>
+                          </tr>
+                          <tr>
+                            <td class="text-center">
+                              <span type="button" tabindex="0" data-bs-toggle="popover" title="Warfare Variables (MilTech)" data-bs-html="true" data-bs-trigger="focus">
+                                <span class="badge bg-danger p-1">WF</span>
+                              </span>
+                            </td>
+                            <td title="Warfare Variables (MilTech) is coded for this polity.">Warfare Variables (MilTech) have been coded for this Polity.</td>
+                          </tr>
+                          <tr>
+                            <td class="text-center">
+                              <span type="button" tabindex="0" data-bs-toggle="popover" title="Human Sacrifice" data-bs-html="true" data-bs-trigger="focus">
+                                <span class="badge bg-success text-light p-1">HS</span>
+                              </span>
+                            </td>
+                            <td title="Human Sacrifice is coded for this polity.">Human Sacrifice Data has been coded for this Polity.</td>
+                          </tr>
+                          <tr>
+                            <td class="text-center">
+                              <span type="button" tabindex="0" data-bs-toggle="popover" title="Crisis Consequences" data-bs-html="true" data-bs-trigger="focus">
+                                <span class="badge bg-dark p-1">CC</span>
+                              </span>
+                            </td>
+                            <td title="Crisis Consequences is coded for this polity.">Crisis Consequences have been coded for this Polity.</td>
+                          </tr>
+                          <tr>
+                            <td class="text-center">
+                              <span type="button" tabindex="0" data-bs-toggle="popover" title="Power Transition" data-bs-html="true" data-bs-trigger="focus">
+                                <span class="badge bg-info text-dark p-1">PT</span>
+                              </span>
+                            </td>
+                            <td title="Power Transition is coded for this polity.">Power Transitions have been coded for this Polity.</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                      
+                    </div>
+                                                
                 </div>
+                    <p class="text-secondary pt-1 m-0">* This message is only shown to logged in users.</p>
+                    
                 </div>
             </div>
+            </div>
         </div>
+    </div>
 
-    {% endif %}
+
 
 
     </div>
+    <hr class="bg-colorful">
 
-    <div class="col-md-6 pb-3 ml-auto text-right">
-        <a href="{% url 'polity-create'  %}" class="btn btn-outline-success mx-1 my-2"><i class="fa-solid fa-plus"></i> &nbsp; Create a New Polity</a>
-        <a href="{% url 'download_csv_all_polities' %}" class="btn btn-outline-danger mx-1 my-2"><i class="fa-solid fa-file-arrow-down"></i> &nbsp; Downlaod All <b>({{pol_count}})</b> Polities (PolsVars)</a>
-    </div>
-
-    
-
-
-
-
-    <h6 class="text-secondary">* A polity is defined as an independent political unit. Kinds of polities range from villages (local
-        communities) through simple and complex chiefdoms to states and empires.</h6>
-    <h6 class="text-secondary pb-3">* A polity can be either centralized or not (e.g., organized as a confederation). For those periods when a region is divided up among a multitude of small-scale polities (e.g., independent villages or even many small chiefdoms) or when it is controlled in quick succession by a number of different regimes, we use the concept of 'quasi-polity'.</h6>
     {% if messages %}
     <ul class="messages mt-3">
         {% for message in messages %}
@@ -481,25 +630,25 @@
                     {% block years_short_for_top_pol %}
                     {% if  a_polity.start_year == a_polity.end_year %}
                         {% if  a_polity.start_year < 0 %}
-                            {{ a_polity.start_year|abs|intcomma }} <span class="text-secondary fw-normal bce-color fs-6">BCE</span> 
+                            {{ a_polity.start_year|abs }} <span class="text-secondary fw-normal bce-color fs-6">BCE</span> 
                         {% else %}
-                            {{ a_polity.start_year|intcomma }} <span class="text-secondary fw-normal ce-color fs-6">CE</span>
+                            {{ a_polity.start_year }} <span class="text-secondary fw-normal ce-color fs-6">CE</span>
                         {% endif %}
                     {% elif a_polity.end_year == None %}
                         {% if  a_polity.start_year < 0 %}
-                            {{ a_polity.start_year|abs|intcomma }} <span class="text-secondary fw-normal bce-color fs-6">BCE</span>
+                            {{ a_polity.start_year|abs }} <span class="text-secondary fw-normal bce-color fs-6">BCE</span>
                         {% else %}
-                            {{ a_polity.start_year|intcomma }} <span class="text-secondary fw-normal ce-color fs-6">CE</span>
+                            {{ a_polity.start_year }} <span class="text-secondary fw-normal ce-color fs-6">CE</span>
                         {% endif %}
                     {% elif a_polity.end_year == None and  a_polity.start_year == None %}
                         <i class="fa-solid fa-minus"></i> 
                     {% else %}
                         {% if  a_polity.start_year < 0 and a_polity.end_year < 0 %}
-                            {{ a_polity.start_year|abs|intcomma }} <span class="text-secondary fw-normal bce-color fs-6">BCE</span> <i class="fas fa-long-arrow-alt-right"></i> {{ a_polity.end_year|abs|intcomma }} <span class="text-secondary fw-normal bce-color fs-6">BCE</span>
+                            {{ a_polity.start_year|abs }} <span class="text-secondary fw-normal bce-color fs-6">BCE</span> <i class="fas fa-long-arrow-alt-right"></i> {{ a_polity.end_year|abs }} <span class="text-secondary fw-normal bce-color fs-6">BCE</span>
                         {% elif  a_polity.start_year < 0 and a_polity.end_year >= 0 %}
-                            {{ a_polity.start_year|abs|intcomma }} <span class="text-secondary fw-normal bce-color fs-6">BCE</span> <i class="fas fa-long-arrow-alt-right"></i> {{ a_polity.end_year|intcomma }} <span class="text-secondary fw-normal ce-color fs-6">CE</span>
+                            {{ a_polity.start_year|abs }} <span class="text-secondary fw-normal bce-color fs-6">BCE</span> <i class="fas fa-long-arrow-alt-right"></i> {{ a_polity.end_year }} <span class="text-secondary fw-normal ce-color fs-6">CE</span>
                         {% else %}
-                            {{ a_polity.start_year|intcomma }} <span class="text-secondary fw-normal ce-color fs-6">CE</span> <i class="fas fa-long-arrow-alt-right"></i> {{ a_polity.end_year|intcomma }} <span class="text-secondary fw-normal ce-color fs-6">CE</span>
+                            {{ a_polity.start_year }} <span class="text-secondary fw-normal ce-color fs-6">CE</span> <i class="fas fa-long-arrow-alt-right"></i> {{ a_polity.end_year }} <span class="text-secondary fw-normal ce-color fs-6">CE</span>
                         {% endif %}
                     {% endif %}
                     {% endblock years_short_for_top_pol %}
@@ -526,6 +675,3 @@
 </div>
 
   {% endblock %}
-
-
-

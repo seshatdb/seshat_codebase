@@ -182,15 +182,24 @@
                         {% endif %}
 
                     </div>
-
-
                 </div>
+            </div>
+            {% if user.is_authenticated and object.private_comment %}
+            <div class="bg-light custom-left-border-shadowed_2">
+
+                <div class="badge bg-info text-dark  p-1-1 me-2 fs-5 custom-left-border-shadowed_2">PRIVATE COMMENT:</div> <span class="text-secondary">(only Visible to Seshat Experts and RAs)</span>
+                <div class="text-dark fs-6 pt-2">
+                    {{ object.private_comment }}
+                </div>
+                
 
             </div>
+            {% endif %}
 
-            <h6 class="text-secondary pt-3">* A polity is defined as an independent political unit. Kinds of polities range from villages (local
-                communities) through simple and complex chiefdoms to states and empires.</h6>
-            <h6 class="text-secondary pb-3">* A polity can be either centralized or not (e.g., organized as a confederation). For those periods when a region is divided up among a multitude of small-scale polities (e.g., independent villages or even many small chiefdoms) or when it is controlled in quick succession by a number of different regimes, we use the concept of 'quasi-polity'.</h6>
+            <h6 class="text-secondary pt-3">* A polity is defined as an independent political unit. Kinds of polities range from villages (local communities) through simple and complex chiefdoms to states and empires. A polity can be either centralized or not (e.g., organized as a confederation). For those periods when a region is divided up among a multitude of small-scale polities (e.g., independent villages or even many small chiefdoms) or when it is controlled in quick succession by a number of different regimes, we use the concept of 'quasi-polity'.</h6>
+
+
+
             <div class="row">
                 <div class="col-md-12 pb-3">
                     <div class="accordion accordion-flush  border border-2 border-success rounded" id="accordionFlushExample">
