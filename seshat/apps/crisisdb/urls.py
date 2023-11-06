@@ -34,8 +34,8 @@ urlpatterns += [
     path('datasources/create/', views.UsViolenceDataSourceCreateView.as_view(), name='datasource_create'),
     path('datasources/<int:pk>/update/', views.UsViolenceDataSourceUpdateView.as_view(), name='datasource_update'),
      
-     path('us_violences_all/', views.UsViolenceListView.as_view(), name='us_violence_list'),
-     path('us_violences/', views.UsViolenceListViewPaginated.as_view(), name='us_violence_paginated'),
+     path('uspvdb_all/', views.UsViolenceListView.as_view(), name='us_violence_list'),
+     path('uspvdb/', views.UsViolenceListViewPaginated.as_view(), name='us_violence_paginated'),
 
     path('us_violences/create/', views.UsViolenceCreateView.as_view(), name='us_violence_create'),
     path('us_violences/<int:pk>/update/', views.UsViolenceUpdateView.as_view(), name='us_violence_update'),

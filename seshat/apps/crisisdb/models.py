@@ -141,10 +141,10 @@ VIOLENCE_TYPE_CHOICES = (
   ('assassination', 'assassination'), 
   ('compilation', 'compilation'), 
   ('terrorism', 'terrorism'), 
-  ('rampage', 'rampage'), 
+  #('rampage', 'rampage'), 
   ('insurrection', 'insurrection'), 
   ('mass suicide', 'mass suicide'), 
-  ('UNKNOWN_INPUT', 'UNKNOWN_INPUT'), 
+  #('UNKNOWN_INPUT', 'UNKNOWN_INPUT'), 
   ('unknown', 'unknown'), 
   ('revenge', 'revenge')
 )
@@ -301,6 +301,12 @@ class Us_violence(models.Model):
             return self.narrative.replace('"', "'")
         else:
             return "No_Narrative"
+        
+    def show_source_details_without_quotes(self):
+        if self.source_details:
+            return self.source_details.replace('"', "'")
+        else:
+            return "No_source_details"
     
     # def show_states(self):
     #     list_of_locations = list(self.location.all())
