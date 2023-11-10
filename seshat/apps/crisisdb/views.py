@@ -12,7 +12,7 @@ from django.contrib.contenttypes.models import ContentType
 
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
-from django.db.models import F, CharField, ExpressionWrapper
+from django.db.models import F, Count, CharField, ExpressionWrapper
 
 
 from django.http import HttpResponseRedirect, response, JsonResponse, HttpResponseForbidden
@@ -311,7 +311,7 @@ class Power_transitionUpdate(PermissionRequiredMixin, UpdateView):
     model = Power_transition
     success_url = reverse_lazy('power_transitions_all')
     form_class = Power_transitionForm
-    template_name = "crisisdb/power_transition/power_transition_form.html"
+    template_name = "crisisdb/power_transition/power_transition_update.html"
     permission_required = 'core.add_capital'
 
     def get_context_data(self, **kwargs):
@@ -369,7 +369,7 @@ class Power_transitionListView(PermissionRequiredMixin, generic.ListView):
     template_name = "crisisdb/power_transition/power_transition_list.html"
     permission_required = 'core.add_capital'
 
-    #paginate_by = 50
+    paginate_by = 500
 
     def get_absolute_url(self):
         return reverse('power_transitions')
@@ -383,7 +383,7 @@ class Power_transitionListView(PermissionRequiredMixin, generic.ListView):
                 F('polity__home_nga__name'),
                 output_field=CharField()
             )
-        ).order_by(order, order2)
+        ).order_by(order2, order)
         return new_context
     
     
@@ -405,7 +405,7 @@ class Power_transitionListView(PermissionRequiredMixin, generic.ListView):
     
 class Power_transitionListViewAll(PermissionRequiredMixin, generic.ListView):
     model = Power_transition
-    template_name = "crisisdb/power_transition/power_transition_list_all.html"
+    template_name = "crisisdb/power_transition/power_transition_list_all_new.html"
     permission_required = 'core.add_capital'
     #paginate_by = 50
 
@@ -413,20 +413,35 @@ class Power_transitionListViewAll(PermissionRequiredMixin, generic.ListView):
         return reverse('power_transitions_all')
 
     def get_queryset(self):
-        #order = self.request.GET.get('orderby', 'year_from')
-        order = self.request.GET.get('orderby', 'home_nga')
+        order = self.request.GET.get('orderby', 'year_to')
         order2 = self.request.GET.get('orderby2', 'year_from')
-        #polity.home_nga.id
-        #orders = [order, order2]
-        new_context = Power_transition.objects.all().annotate(
-            home_nga=ExpressionWrapper(
-                F('polity__home_nga__name'),
-                output_field=CharField()
-            )
-        ).order_by(order, order2)
-        #.polity.home_nga.id
-        #new_context = Power_transition.objects.all().order_by(order, order2)
-        return new_context
+
+        new_context = Power_transition.objects.all().order_by(order2, order)
+
+        #grouped_dict = {}
+        pols_dict  = {}
+        for transition in new_context:
+            polity_id = transition.polity_id
+            if polity_id not in pols_dict:
+                pols_dict[polity_id] = {
+                    'polity_new_name': transition.polity.new_name,
+                    'polity_long_name': transition.polity.long_name,
+                    'polity_start_year': transition.polity.start_year,
+                    'polity_end_year': transition.polity.end_year,
+                    'trans_list': []
+                }
+
+            pols_dict[polity_id]['trans_list'].append({
+                'year_from': transition.year_from,
+                'year_to': transition.year_to,
+                'predecessor': transition.predecessor,
+                'successor': transition.successor,
+                'name': transition.name,
+                'trans_id': transition.id,
+            })
+        #print(grouped_dict)
+
+        return pols_dict
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

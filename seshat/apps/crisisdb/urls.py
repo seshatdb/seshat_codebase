@@ -1,4 +1,4 @@
-from .models import Human_sacrifice, External_conflict, Internal_conflict, External_conflict_side, Agricultural_population, Arable_land, Arable_land_per_farmer, Gross_grain_shared_per_agricultural_population, Net_grain_shared_per_agricultural_population, Surplus, Military_expense, Silver_inflow, Silver_stock, Total_population, Gdp_per_capita, Drought_event, Locust_event, Socioeconomic_turmoil_event, Crop_failure_event, Famine_event, Disease_outbreak, Us_violence, Us_location, Us_violence_subtype, Us_violence_data_source
+from .models import Human_sacrifice, External_conflict, Internal_conflict, External_conflict_side, Agricultural_population, Arable_land, Arable_land_per_farmer, Gross_grain_shared_per_agricultural_population, Net_grain_shared_per_agricultural_population, Surplus, Military_expense, Silver_inflow, Silver_stock, Total_population, Gdp_per_capita, Drought_event, Locust_event, Socioeconomic_turmoil_event, Crop_failure_event, Famine_event, Disease_outbreak, Us_violence, Us_location, Us_violence_subtype, Us_violence_data_source, Power_transition
 from django.urls import path
 
 from .views import confirm_delete_view, delete_object_view
@@ -10,6 +10,8 @@ model_form_pairs = [
      (Us_violence, 'us_violence', ),
      (Us_violence_subtype, 'us_violence_subtype', ),
      (Us_violence_data_source, 'us_violence_data_source', ),
+     (Power_transition, 'power_transition', ),
+
 ]
 
 urlpatterns = [
@@ -37,9 +39,9 @@ urlpatterns += [
      path('uspvdb_all/', views.UsViolenceListView.as_view(), name='us_violence_list'),
      path('uspvdb/', views.UsViolenceListViewPaginated.as_view(), name='us_violence_paginated'),
 
-    path('us_violences/create/', views.UsViolenceCreateView.as_view(), name='us_violence_create'),
-    path('us_violences/<int:pk>/update/', views.UsViolenceUpdateView.as_view(), name='us_violence_update'),
-     path('us_violence_download/', views.download_csv_all_american_violence,
+    path('uspvdb/create/', views.UsViolenceCreateView.as_view(), name='us_violence_create'),
+    path('uspvdb/<int:pk>/update/', views.UsViolenceUpdateView.as_view(), name='us_violence_update'),
+     path('uspvdb_download/', views.download_csv_all_american_violence,
          name="us_violence_download"),
      ]
 
@@ -92,6 +94,7 @@ urlpatterns += [
      path('power_transition/createheavy/', views.Power_transitionCreateHeavy.as_view(),
          name="power_transition-create_heavy"),
     path('power_transitions/', views.Power_transitionListView.as_view(), name='power_transitions'),
+    path('power_transitions_list_all/', views.Power_transitionListViewAll.as_view(), name='power_transition_list'),
     path('power_transitions_all/', views.Power_transitionListViewAll.as_view(), name='power_transitions_all'),
     path('power_transition/<int:pk>', views.Power_transitionDetailView.as_view(),
          name='power_transition-detail'),
@@ -99,8 +102,8 @@ urlpatterns += [
          views.Power_transitionUpdate.as_view(), name="power_transition-update"),
     path('power_transition/<int:pk>/updateheavy/',
          views.Power_transitionUpdateHeavy.as_view(), name="power_transition-update_heavy"),
-    path('power_transition/<int:pk>/delete/',
-         views.Power_transitionDelete.as_view(), name="power_transition-delete"),
+    #path('power_transition/<int:pk>/delete/',
+    #     views.Power_transitionDelete.as_view(), name="power_transition-delete"),
     # Download
     path('power_transitiondownload/', views.power_transition_download,
          name="power_transition-download"),

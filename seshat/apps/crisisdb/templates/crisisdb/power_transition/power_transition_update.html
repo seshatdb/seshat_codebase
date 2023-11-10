@@ -1,15 +1,490 @@
-{% extends "core/form_base.html" %}
+{% extends "core/seshat-base.html" %}
 {% load crispy_forms_tags %}
 {% load humanize %}
 
-{% block extra_vars %}
-<div class="col-md-3 mb-2">
-    {{ form.decline|as_crispy_field }}
-</div>
-{{ form.comment.as_hidden }}
-{% endblock extra_vars %}
+{% block content %}
+<style>
+    /* Increase the size of the checkbox */
+    input[type="checkbox"].checkboxinput {
+        transform: scale(1.5); /* Change the value to make it bigger or smaller */
+        margin-right: 5px; /* Add some margin to separate the checkbox from the text */
+    }
 
-{% block delete_button %}
-    <a href="{% url 'crisis_consequence-delete' object.id %}" type="cancel" class="btn btn-outline-danger my-auto btn-block btn-lg">Delete </a>
-{% endblock delete_button %}
+    /* Increase the size of the label text */
+    .checkbox label {
+        font-size: 38px; /* Change the value to make it bigger or smaller */
+    }
+    .accordion-button:not(.collapsed) {
+        color: #0d6efd;
+        background-color: blueviolet;
+        box-shadow: none;
+    }
+
+    .accordion-button:focus {
+        z-index: 3;
+        outline: 0;
+        box-shadow: none;
+    }
+
+    .accordion-button::after {
+        flex-shrink: 0;
+        width: 1.25rem;
+        height: 1.25rem;
+        margin-left: auto;
+        content: "";
+        background-image: none;
+        background-repeat: no-repeat;
+        background-size: 1.25rem;
+        transition: transform .2s ease-in-out;
+    }
+
+    .custom-left-border-shadowed {
+      border-left: none; /* Adjust the border color and thickness as desired */
+      box-shadow: 0 0 4px teal; 
+      padding-right: 10px;
+      padding-top: 10px;
+      margin-top: 5px;
+      padding-bottom: 10px;
+      border-radius: 15px;
+      padding-left: 10px; /* Adjust the padding to create spacing between the border and content */
+      text-align: justify;
+  }
+
+</style>
+
+<!-- form-row and form-group etc are removed in Bootstrap 5 -->
+<div class="container mt-3">
+    <form action="" method="post">
+        {% csrf_token %}
+        <legend>
+            <div class="row d-flex align-items-center">
+                <div class="col-md-12">
+                    {% if messages %}
+                    <ul class="messages mt-3">
+                        {% for message in messages %}
+                        <div class="container-fluid p-0">
+                            <div class="alert {{ message.tags }} alert-dismissible" role="alert" >
+                              {{ message }}
+                            </div>
+                          </div>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+
+                    {% if messages %}
+                    <ul class="messages mt-3">
+                        {% for message in messages %}
+                        <div class="container-fluid p-0">
+                            <div class="alert {{ message.tags }} alert-dismissible" role="alert" >
+                                <i class="fa-solid fa-circle-info"></i> Thank you <b>{{ user }}</b>. {{ message }}
+                            </div>
+                        </div>
+                        {% endfor %}
+                        {% if form.non_field_errors %}
+                        {% for error in form.non_field_errors %}
+                        <div class="container-fluid p-0">
+                          <div class="text-danger" role="alert" >
+                            <i class="fa-solid fa-triangle-exclamation"></i>  {{ error }}
+                          </div>
+                        </div>
+                        {% endfor %}
+                        <hr> 
+                        {% endif %}
+                    </ul>
+                    <hr>
+                    {% endif %}
+                    <div class="row d-flex align-items-center mb-2">
+                      <div class="col-md-9">
+                        <h6><span class="display-6">Power Transitions</span></h6>
+                      </div>
+                      <div class="col-md-3">  
+                          {% if object.pk %}  
+                            <a href="{% url 'power_transition-update_heavy' object.pk  %}"  class="btn btn-outline-secondary mx-1 my-2 float-end"> <i class="fa-solid fa-arrow-up-right-from-square"></i> Edit Refs as well (Heavy)</a>
+                            <a href="{% url 'power_transitions_all' %}"  class="btn btn-outline-success mx-1 my-2 float-end"> <i class="fa-solid fa-arrow-up-right-from-square"></i> &nbsp; See All Power Transitions</a>
+                            {% else %}
+                            <a href="{% url 'power_transition-create_heavy' %}"  class="btn btn-outline-secondary mx-1 my-2 float-end"> <i class="fa-solid fa-arrow-up-right-from-square"></i> Add Refs as well (Heavy)</a>
+                            <a href="{% url 'power_transitions_all' %}"  class="btn btn-outline-success mx-1 my-2 float-end"> <i class="fa-solid fa-arrow-up-right-from-square"></i> &nbsp; See All Power Transitions</a>
+                            {% endif %}
+                        </div>
+      
+                  </div> 
+                                </div>
+            </div> 
+            <div class="row d-flex align-items-center">
+                <div class="col-md-12">
+                    <div class="accordion accordion-flush" id="accordionContributors">
+                        <div class="accordion-item" style="background-color:#fffdf2;">
+                          <h2 class="accordion-header" id="headingOneCont">
+                            <button class="accordion-button collapsed px-0" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOneCont" aria-expanded="false" aria-controls="collapseOneCont" style="background-color:#fffdf2;">
+                              <span class="text-success h5"><i class="fa-solid fa-chevron-right"></i> Defining Power Transitions <i class="fa-solid fa-circle-info"></i></span> 
+                            </button>
+                          </h2>
+                          <div id="collapseOneCont" class="accordion-collapse collapse" aria-labelledby="headingOneCont">
+                            <div class="accordion-body table-responsive p-0">
+                                <div class="contributors">
+                                   <span>No official Expalantion for this variable.</span> 
+                                </div>
+                            </div>
+                          </div>
+                        </div>
         
+                      </div>
+                    
+                    
+                </div>
+            </div>  
+     
+        </legend>
+        {% if messages %}
+        <ul class="messages mt-3">
+            {% for message in messages %}
+            <div class="container-fluid p-0">
+                <div class="alert {{ message.tags }} alert-dismissible" role="alert" >
+                    <i class="fa-solid fa-circle-info"></i> Thank you <b>{{ user }}</b>. {{ message }}
+                </div>
+            </div>
+            {% endfor %}
+            {% if form.non_field_errors %}
+            {% for error in form.non_field_errors %}
+            <div class="container-fluid p-0">
+              <div class="text-danger" role="alert" >
+                <i class="fa-solid fa-triangle-exclamation"></i>  {{ error }}
+              </div>
+            </div>
+            {% endfor %}
+            <hr> 
+            {% endif %}
+        </ul>
+        <hr>
+        {% endif %}
+        <h3 class="pb-2"> <span class="badge rounded-pill bg-warning text-dark"><i class="fa-solid fa-circle-plus"></i> {{mytitle}}</span></h3>
+        <h6 class="lead-2 pb-2 text-secondary">{{mysubtitle}}</h6>
+        <div class="row">
+          <div class="row custom-left-border-shadowed">
+
+          <div class="col-md-4 mb-2">
+            {{ form.polity|as_crispy_field }}
+          </div>
+
+          <div  class="col-md-3 mb-2">
+            {{ form.name|as_crispy_field }}
+            {{ form.tag.as_hidden }}
+
+          </div>
+
+          <div class="col-md-5 mb-2">
+            <div class="row">
+                <div class="col-md-6 mb-2">
+                    {{ form.year_from|as_crispy_field }}
+                </div>
+                <div class="col-md-6 mb-2">
+                    {{ form.year_to|as_crispy_field }}
+                </div>
+            </div>
+            </div>
+
+            <div class="col-md-4 mb-2 mt-4">
+              {{ form.culture_group|as_crispy_field }}
+              <div class="accordion accordion-flush" id="accordionculture_group">
+                  <div class="accordion-item" style="background-color:#fffdf2;">
+                    <h2 class="accordion-header" id="headingOneCont">
+                      <button class="accordion-button collapsed px-0" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOneculture_group" aria-expanded="false" aria-controls="collapseOneculture_group" style="background-color:#fffdf2; padding-top: 0.25rem !important; padding-bottom: 0.25rem !important;">
+                        <span  class="text-secondary"><i class="fa-solid fa-arrow-down-short-wide"></i> &nbsp; Explanation / Example:</span> 
+                      </button>
+                    </h2>
+                    <div id="collapseOneculture_group" class="accordion-collapse collapse" aria-labelledby="headingOneCont">
+                      <div class="accordion-body table-responsive p-0">
+                          <div class="culture_group">
+                            <span> No culture_group explanation yet.</span>
+                          </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+
+          <div class="col-md-4 mb-2 mt-4">
+            {{ form.predecessor|as_crispy_field }}
+            <div class="accordion accordion-flush" id="accordionpredecessor">
+                <div class="accordion-item" style="background-color:#fffdf2;">
+                  <h2 class="accordion-header" id="headingOneCont">
+                    <button class="accordion-button collapsed px-0" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOnepredecessor" aria-expanded="false" aria-controls="collapseOnepredecessor" style="background-color:#fffdf2; padding-top: 0.25rem !important; padding-bottom: 0.25rem !important;">
+                      <span  class="text-secondary"><i class="fa-solid fa-arrow-down-short-wide"></i> &nbsp; Explanation / Example:</span> 
+                    </button>
+                  </h2>
+                  <div id="collapseOnepredecessor" class="accordion-collapse collapse" aria-labelledby="headingOneCont">
+                    <div class="accordion-body table-responsive p-0">
+                        <div class="predecessor">
+                          <span> No Predecessor explanation yet.</span>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+          </div>
+
+          <div class="col-md-4 mb-2 mt-4">
+            {{ form.successor|as_crispy_field }}
+            <div class="accordion accordion-flush" id="accordionsuccessor">
+                <div class="accordion-item" style="background-color:#fffdf2;">
+                  <h2 class="accordion-header" id="headingOneCont">
+                    <button class="accordion-button collapsed px-0" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOnesuccessor" aria-expanded="false" aria-controls="collapseOnesuccessor" style="background-color:#fffdf2; padding-top: 0.25rem !important; padding-bottom: 0.25rem !important;">
+                      <span  class="text-secondary"><i class="fa-solid fa-arrow-down-short-wide"></i> &nbsp; Explanation / Example:</span> 
+                    </button>
+                  </h2>
+                  <div id="collapseOnesuccessor" class="accordion-collapse collapse" aria-labelledby="headingOneCont">
+                    <div class="accordion-body table-responsive p-0">
+                        <div class="successor">
+                          <span> No successor explanation yet.</span>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+          </div>
+        </div>
+
+                  <!-- Here come the extra vars -->
+                  <div class="row custom-left-border-shadowed">
+
+                  <div class="col-md-4 mb-3 mt-3">{{ form.contested|as_crispy_field }}
+                    <div class="accordion accordion-flush" id="accordioncontested">
+                        <div class="accordion-item" style="background-color:#fffdf2;">
+                          <h2 class="accordion-header" id="headingOneCont">
+                            <button class="accordion-button collapsed px-0" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOnecontested" aria-expanded="false" aria-controls="collapseOnecontested" style="background-color:#fffdf2; padding-top: 0.25rem !important; padding-bottom: 0.25rem !important;">
+                              <span class="text-secondary"><i class="fa-solid fa-arrow-down-short-wide"></i> &nbsp; Explanation / Example:</span> 
+                            </button>
+                          </h2>
+                          <div id="collapseOnecontested" class="accordion-collapse collapse" aria-labelledby="headingOneCont">
+                            <div class="accordion-body table-responsive p-0">
+                                <div class="contested">
+
+                                </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                  </div>
+
+                  <div class="col-md-4 mb-3 mt-3">{{ form.overturn|as_crispy_field }}
+                    <div class="accordion accordion-flush" id="accordionoverturn">
+                        <div class="accordion-item" style="background-color:#fffdf2;">
+                          <h2 class="accordion-header" id="headingOneCont">
+                            <button class="accordion-button collapsed px-0" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOneoverturn" aria-expanded="false" aria-controls="collapseOneoverturn" style="background-color:#fffdf2; padding-top: 0.25rem !important; padding-bottom: 0.25rem !important;">
+                              <span  class="text-secondary"><i class="fa-solid fa-arrow-down-short-wide"></i> &nbsp; Explanation / Example:</span> 
+                            </button>
+                          </h2>
+                          <div id="collapseOneoverturn" class="accordion-collapse collapse" aria-labelledby="headingOneCont">
+                            <div class="accordion-body table-responsive p-0">
+                                <div class="overturn">
+                                  
+                                </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                  </div>
+                  <div class="col-md-4 mb-3 mt-3">{{ form.predecessor_assassination|as_crispy_field }}
+                    <div class="accordion accordion-flush" id="accordionpredecessor_assassination">
+                        <div class="accordion-item" style="background-color:#fffdf2;">
+                          <h2 class="accordion-header" id="headingOneCont">
+                            <button class="accordion-button collapsed px-0" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOnepredecessor_assassination" aria-expanded="false" aria-controls="collapseOnepredecessor_assassination" style="background-color:#fffdf2; padding-top: 0.25rem !important; padding-bottom: 0.25rem !important;">
+                              <span  class="text-secondary"><i class="fa-solid fa-arrow-down-short-wide"></i> &nbsp; Explanation / Example:</span> 
+                            </button>
+                          </h2>
+                          <div id="collapseOnepredecessor_assassination" class="accordion-collapse collapse" aria-labelledby="headingOneCont">
+                            <div class="accordion-body table-responsive p-0">
+                                <div class="predecessor_assassination">
+                                </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                  </div>
+                  <div class="col-md-4 mb-3 mt-3">{{ form.intra_elite|as_crispy_field }}
+                    <div class="accordion accordion-flush" id="accordionintra_elite">
+                        <div class="accordion-item" style="background-color:#fffdf2;">
+                          <h2 class="accordion-header" id="headingOneCont">
+                            <button class="accordion-button collapsed px-0" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOneintra_elite" aria-expanded="false" aria-controls="collapseOneintra_elite" style="background-color:#fffdf2; padding-top: 0.25rem !important; padding-bottom: 0.25rem !important;">
+                              <span  class="text-secondary"><i class="fa-solid fa-arrow-down-short-wide"></i> &nbsp; Explanation / Example:</span> 
+                            </button>
+                          </h2>
+                          <div id="collapseOneintra_elite" class="accordion-collapse collapse" aria-labelledby="headingOneCont">
+                            <div class="accordion-body table-responsive p-0">
+                                <div class="intra_elite">
+
+                                </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                  </div>
+                  <div class="col-md-4 mb-3 mt-3">{{ form.military_revolt|as_crispy_field }}
+                    <div class="accordion accordion-flush" id="accordionmilitary_revolt">
+                        <div class="accordion-item" style="background-color:#fffdf2;">
+                          <h2 class="accordion-header" id="headingOneCont">
+                            <button class="accordion-button collapsed px-0" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOnemilitary_revolt" aria-expanded="false" aria-controls="collapseOnemilitary_revolt" style="background-color:#fffdf2; padding-top: 0.25rem !important; padding-bottom: 0.25rem !important;">
+                              <span  class="text-secondary"><i class="fa-solid fa-arrow-down-short-wide"></i> &nbsp; Explanation / Example:</span> 
+                            </button>
+                          </h2>
+                          <div id="collapseOnemilitary_revolt" class="accordion-collapse collapse" aria-labelledby="headingOneCont">
+                            <div class="accordion-body table-responsive p-0">
+                                <div class="military_revolt">
+                                </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                  </div>
+                  <div class="col-md-4 mb-3 mt-3">{{ form.popular_uprising|as_crispy_field }}
+                    <div class="accordion accordion-flush" id="accordionpopular_uprising">
+                        <div class="accordion-item" style="background-color:#fffdf2;">
+                          <h2 class="accordion-header" id="headingOneCont">
+                            <button class="accordion-button collapsed px-0" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOnepopular_uprising" aria-expanded="false" aria-controls="collapseOnepopular_uprising" style="background-color:#fffdf2; padding-top: 0.25rem !important; padding-bottom: 0.25rem !important;">
+                              <span  class="text-secondary"><i class="fa-solid fa-arrow-down-short-wide"></i> &nbsp; Explanation / Example:</span> 
+                            </button>
+                          </h2>
+                          <div id="collapseOnepopular_uprising" class="accordion-collapse collapse" aria-labelledby="headingOneCont">
+                            <div class="accordion-body table-responsive p-0">
+                                <div class="popular_uprising">
+
+                                </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                  </div>
+
+                  <div class="col-md-4 mb-3 mt-3">{{ form.separatist_rebellion|as_crispy_field }}
+                    <div class="accordion accordion-flush" id="accordionseparatist_rebellion">
+                        <div class="accordion-item" style="background-color:#fffdf2;">
+                          <h2 class="accordion-header" id="headingOneCont">
+                            <button class="accordion-button collapsed px-0" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOneseparatist_rebellion" aria-expanded="false" aria-controls="collapseOneseparatist_rebellion" style="background-color:#fffdf2; padding-top: 0.25rem !important; padding-bottom: 0.25rem !important;">
+                              <span  class="text-secondary"><i class="fa-solid fa-arrow-down-short-wide"></i> &nbsp; Explanation / Example:</span> 
+                            </button>
+                          </h2>
+                          <div id="collapseOneseparatist_rebellion" class="accordion-collapse collapse" aria-labelledby="headingOneCont">
+                            <div class="accordion-body table-responsive p-0">
+                                <div class="separatist_rebellion">
+                                </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                  </div>
+                  <div class="col-md-4 mb-3 mt-3">{{ form.external_invasion|as_crispy_field }}
+                    <div class="accordion accordion-flush" id="accordionexternal_invasion">
+                        <div class="accordion-item" style="background-color:#fffdf2;">
+                          <h2 class="accordion-header" id="headingOneCont">
+                            <button class="accordion-button collapsed px-0" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOneexternal_invasion" aria-expanded="false" aria-controls="collapseOneexternal_invasion" style="background-color:#fffdf2; padding-top: 0.25rem !important; padding-bottom: 0.25rem !important;">
+                              <span  class="text-secondary"><i class="fa-solid fa-arrow-down-short-wide"></i> &nbsp; Explanation / Example:</span> 
+                            </button>
+                          </h2>
+                          <div id="collapseOneexternal_invasion" class="accordion-collapse collapse" aria-labelledby="headingOneCont">
+                            <div class="accordion-body table-responsive p-0">
+                                <div class="external_invasion">
+
+                                </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                  </div>
+                  <div class="col-md-4 mb-3 mt-3">{{ form.external_interference|as_crispy_field }}
+                    <div class="accordion accordion-flush" id="accordionexternal_interference">
+                        <div class="accordion-item" style="background-color:#fffdf2;">
+                          <h2 class="accordion-header" id="headingOneCont">
+                            <button class="accordion-button collapsed px-0" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOneexternal_interference" aria-expanded="false" aria-controls="collapseOneexternal_interference" style="background-color:#fffdf2; padding-top: 0.25rem !important; padding-bottom: 0.25rem !important;">
+                              <span  class="text-secondary"><i class="fa-solid fa-arrow-down-short-wide"></i> &nbsp; Explanation / Example:</span> 
+                            </button>
+                          </h2>
+                          <div id="collapseOneexternal_interference" class="accordion-collapse collapse" aria-labelledby="headingOneCont">
+                            <div class="accordion-body table-responsive p-0">
+                                <div class="external_interference">
+                                    No Example Yet
+                                </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                  </div>
+                </div>
+
+                  <div class="row custom-left-border-shadowed">
+                    <h4 class="mb-3"><span class="badge bg-info text-dark">Notes and Citations</span></h4>
+
+                  <div class="col-md-12 mb-2">{{ form.description|as_crispy_field }}
+
+                  </div>
+                </div>
+              </div>
+        <div class="row mt-3">
+            {% if request.user.is_staff %}
+            <div class="col-md-4 py-3 ps-4">
+                <div class="mb-2">
+                    <i class="fas fa-user-check"></i> You are a Seshat Expert; you can enter a fact.
+                </div> 
+                <div  class="mb-2" style="display: none;">
+                    {{ form.finalized|as_crispy_field }}
+                </div>               
+            </div>
+            {% else %}
+            <div class="col-md-4 py-3 ps-4">
+                <input type="checkbox" id="seshatexpert" name="vehicle2" value="Car" onclick="return false">
+                <label for="seshatexpert"> You are not a Seshat Expert.</label>
+            </div>
+            {% endif %}
+            <div class="col-md-4 mb-2 py-2 d-grid mx-auto">
+              <a href="{% url 'power_transition-confirm-delete' object.id %}" type="cancel" class="btn btn-outline-danger my-auto btn-block btn-lg">Delete </a>
+            </div>
+            <div class="col-md-4 mb-2 py-2 d-grid mx-auto">
+                <button type="submit" class="btn btn-outline-success my-auto btn-block btn-lg">Submit for Review*</button>
+            </div>
+
+        </div>
+
+        <!-- {% if form.errors %}
+        {% for field in form %}
+            {% for error in field.errors %}
+                <div class="text-danger"><h3> {{ error }} </h3></div>
+            {% endfor %}
+        {% endfor %}
+        {% endif %} -->
+          </form>
+
+        <div class="col-md-12">
+            <hr>
+            <h6>* Your entered data will soon be checked by a Seshat Expert.</h6>
+        </div>
+
+        {% block delete_option %}
+        {% endblock delete_option %}
+
+</div>
+
+<script>
+    $(document).ready(function() {
+      $('.js-example-basic-single').select2();
+        $('.js-example-basic-multiple').select2({
+            placeholder: "Select one or more Citations for this Power transition case",
+            allowClear: true,
+        });
+    });
+    var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+    var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+      return new bootstrap.Popover(popoverTriggerEl)
+    })
+
+    function DisplayProgressMessage(ctl, msg) {
+        $(ctl).prop("class", "btn btn-success px-4 disabled");
+        $(ctl).text(msg);
+        return true;
+    }
+</script>
+  
+
+{% endblock %}
+
+
+

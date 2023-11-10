@@ -521,7 +521,7 @@
             {% if all_power_transitions_data and 'core.view_capital' in user.get_all_permissions %}
 
             <div class="col-md-9">
-                <h3 class="fw-bold pb-2 pt-3">  Power Transitions Data: &nbsp; <a href="#power_trans_var"><i class="fa-solid fa-circle-arrow-down fa-sm"></i></a></h3>
+                <h3 class="fw-bold pb-2 pt-3">  Power Transitions Data: &nbsp; <a href="#power_transition_var"><i class="fa-solid fa-circle-arrow-down fa-sm"></i></a></h3>
             </div>
             <div class="row px-1">
                 <div class="mb-2 col-md-12">
@@ -919,7 +919,7 @@
                             <span class = "fw-bold text-teal">
                                 {{ value.successor }}
                             </span>
-                            {% include "core/partials/_year_block_value_inline.html" %}
+                            {% include "core/partials/_year_block_value_inline_pt.html" %}
                             <div style="display: block; padding: 0;">
                                 <div style="display: inline-flex; flex-direction: row;">
                                     {% include "core/partials/_tag_value_inline.html" %}

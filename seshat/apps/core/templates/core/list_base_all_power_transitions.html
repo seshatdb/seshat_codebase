@@ -7,71 +7,245 @@
 <div class="container">
     {% if object_list %}
     <div class="row d-flex mt-3">
-        <div class="col-md-12">
+        <div class="row">
             <!-- <h5 class="lead-2">List of all the data for: {{object_list.0.section}}</h5> -->
-            <div class="col-md-12 justify-content-end my-3">
+            <div class="col-md-6 justify-content-end">
                 <h6><span class="text-secondary text-end">Section</span>: <mark>Power Transitions </mark></h6>
+                <div>
+                    <h1 class="mb-3"><span class="display-6">Power Transitions</span></h1>
+                  </div>
+                  <div>
+                    <h6 class="fw-bold"><span class="fw-normal"><i class="fa-solid fa-caret-right"></i> We define Power transition as a transition of power.</span>
+                    </h6>
+                </div>
+                <div class="contributors mt-4">
+                    <h6><span class="text-secondary text-end">
+                        <i class="fa-solid fa-people-group"></i> Contributors</span>: Dan Hoyer, Peter Turchin, Sam, etc.
+                    </h6>   
+                </div>
             <!-- <h5 class="lead-2">List of all the data for: {{object_list.0.section}}</h5> -->
           </div>
-          <div>
-            <h1 class="mb-3"><span class="display-6">Transitions of Power</span></h1>
+          <div class="col-md-6">
+            {% block download_button %}
+            {% endblock download_button %}
           </div>
-            <div>
-                <h6 class="fw-bold"><span class="fw-normal"><i class="fa-solid fa-caret-right"></i> We define Power transition as a transition of power.</span>
-                </h6>
-            </div>
-            <div class="contributors mt-4">
-                <h6><span class="text-secondary text-end">
-                    <i class="fa-solid fa-people-group"></i> Contributors</span>: Dan Hoyer, Peter Turchin, Sam, etc.
-                </h6>   
-            </div>
         </div>
+
+
+
       </div>
     {% block main_description %}
     {% endblock main_description %}
     {% block secondary_description %}
     {% endblock secondary_description %}
-    <hr>
-    <div class="row d-flex align-items-center mb-3">
-        <div class="col-md-3">
-            <h5 class="fw-bold">Actual Data:</h5>
-        </div>
-        <div class="col-md-9">      
-        <!-- Download and Create Buttons -->
-    {% block download_button %}
-    {% endblock download_button %}
-    </div>
-    </div>
+    <hr class="bg-colorful">
     <div class="table-responsive">
         <div>
 
         <table id="table_id" class="table align-middle table-hover table-striped table-bordered mb-4" style="padding: 0.25 rem !important;">
             <thead>
                 <tr>
-                    <th scope="col" class="text-secondary sticky-start"  style="text-align: center">
-                        <h5><span class="badge rounded-pill bg-light text-dark">#</h5></span> 
-                        </th>
+                    <th scope="col" class="text-secondary fs-5"  style="text-align: center">
+                       <span class="badge rounded-pill bg-light text-dark">#</span> 
+                    </th>
+                    <th scope="col" class="text-secondary fs-6"  style="text-align: center">
+                        Polity
+                    </th>
+                    <th scope="col" class="text-secondary fs-6"  style="text-align: center">
+                        Power Transitions
+                    </th>
                     <!-- headings for extra vars -->
-                    {% block myheadings_list %}
-                    {% endblock myheadings_list %}
                   </tr>
 
             </thead>
             <tbody>
-                {% for obj in object_list %}
-                    <tr>
-                    <td class="text-secondary sticky-start" scope="row"  style="text-align: center">{{ forloop.counter }}</td>
-                    <!-- NGA -->
-                    
-                    <!-- extra vars come here -->
+            
+                {% for pol_id, info_list in object_list.items %}
+                <tr>
+                    <td class="text-secondary sticky-start" scope="row"  style="text-align: center">
+                        
+                        {{ forloop.counter }}</td>
+                    <td class="text-teal h4 sticky-start" scope="row"  style="text-align: center">
+                        <div class="h5">
+                            <span class="badge  border border-dark text-dark p-1 fs-5" style="background:  #94dbeb">{{ info_list.trans_list|length }}</span> <span class="text-secondary">Power Transitions for:</span> 
+                        </div>
+                        <div class="h4">
+                            <a href="{% url 'polity-detail-main' pol_id %}#power_transition_var">{{ info_list.polity_long_name }}</a>
+                        </div>
+                        <div class="h5 text-dark">
+                            <span class="badge border border-dark text-dark px-2 py-1 fw-light fs-5" style="background: linear-gradient(to right, #d1fede, #c1ecf6)">
+                                        
+                                {% if info_list.polity_start_year == None %}
+                                <a type="button" class="btn p-0 m-0" data-bs-toggle="tooltip" data-bs-html="true"  title='Year Range of Polity is assumed.'>
+                                    <span><i class="fa-solid fa-clock fs-5 text-secondary"></i> </span>
+                                </a>
+                            
+                            
+                                    
+                                {% elif info_list.polity_start_year == info_list.polity_end_year %}
+                                    {% if info_list.polity_start_year < 0 %}
+                                    {{info_list.polity_start_year|abs }} 
+                                    
+                                    <span class="text-secondary fw-light fs-6">BCE</span> 
+                                
+                                    {% else %}
+                                    {{info_list.polity_start_year }} 
+                                
+                                    <span class="text-secondary fw-light fs-6">CE</span>
+                            
+                                    {% endif %}
+                                {% elif info_list.polity_end_year == None %}
+                                    {% if info_list.polity_start_year < 0 %}
+                                    {{info_list.polity_start_year|abs }} 
+                                    
+                                        <span class="text-secondary fw-light fs-6">BCE</span>
+                                
+                                    {% else %}
+                                    {{info_list.polity_start_year }} 
+                                    
+                                        <span class="text-secondary fw-light fs-6">CE</span>
+                                
+                                    {% endif %}
+                                {% elif info_list.polity_end_year == None and info_list.polity_start_year == None %}
+                                    <i class="fa-solid fa-minus"></i> 
+                                {% else %}
+                                    {% if info_list.polity_start_year < 0 and info_list.polity_end_year < 0 %}
+                                    {{info_list.polity_start_year|abs }} 
+                                    
+                                        <span class="text-secondary fw-light fs-6">BCE</span> 
+                                
+                                    <i class="fas fa-long-arrow-alt-right"></i> {{ info_list.polity_end_year|abs }}         
+                                        <span class="text-secondary fw-light fs-6">BCE</span> 
+                                
+                                    {% elif info_list.polity_start_year < 0 and info_list.polity_end_year >= 0 %}
+                                    {{info_list.polity_start_year|abs }}         
+                                        <span class="text-secondary fw-light fs-6">BCE</span> 
+                                 <i class="fas fa-long-arrow-alt-right"></i> {{ info_list.polity_end_year }}         
+                                        <span class="text-secondary fw-light fs-6">CE</span> 
+                                
+                                    {% else %}
+                                    {{info_list.polity_start_year }} 
+                                        <span class="text-secondary fw-light fs-6">CE</span>
+                                  <i class="fas fa-long-arrow-alt-right"></i> {{ info_list.polity_end_year }}         
+                                        <span class="text-secondary fw-light fs-6">CE</span> 
+                                
+                                    {% endif %}
+                            
+                                {% endif %}
+                            </span>
+                        </div>
+                        <div class="h5">
+                            (<a href="{% url 'polity-detail-main' pol_id %}#power_transition_var">{{ info_list.polity_new_name }}</a>)
+                        </div>
+                </td>
+                    <td class="text-secondary sticky-start" scope="row"  style="text-align: left">
+                        
+                        <table class="table table-bordered">
+                            <tbody>
+                                {% for a_trans in info_list.trans_list %}
 
-                    {% block extra_vars_list %}
-                    {% endblock extra_vars_list %}
-                    <!-- Tag tag (Disputed/Suspected etc.) -->
+                                <tr>
 
-                    {% block update_button %}
-                    {% endblock update_button %}
+                                                                   
+                                     <td style="position: relative;">
+                                        <span class="badge border border-dark text-dark px-2 py-1 fw-light fs-6" style="background: linear-gradient(to right, #f8bdb2, #faf0b6)">
+                                        
+                                            {% if a_trans.year_from == None %}
+                                            <a type="button" class="btn p-0 m-0" data-bs-toggle="tooltip" data-bs-html="true"  title='Year Range of Polity is assumed.'>
+                                                <span><i class="fa-solid fa-clock fs-6 text-secondary"></i> </span>
+                                            </a>
+                                        
+                                        
+                                                
+                                            {% elif  a_trans.year_from == a_trans.year_to %}
+                                                {% if  a_trans.year_from < 0 %}
+                                                {{ a_trans.year_from|abs }} 
+                                                
+                                                <span class="text-secondary fw-light fs-6">BCE</span> 
+                                            
+                                                {% else %}
+                                                {{ a_trans.year_from }} 
+                                            
+                                                <span class="text-secondary fw-light fs-6">CE</span>
+                                        
+                                                {% endif %}
+                                            {% elif a_trans.year_to == None %}
+                                                {% if  a_trans.year_from < 0 %}
+                                                {{ a_trans.year_from|abs }} 
+                                                
+                                                    <span class="text-secondary fw-light fs-6">BCE</span>
+                                            
+                                                {% else %}
+                                                {{ a_trans.year_from }} 
+                                                
+                                                    <span class="text-secondary fw-light fs-6">CE</span>
+                                            
+                                                {% endif %}
+                                            {% elif a_trans.year_to == None and  a_trans.year_from == None %}
+                                                <i class="fa-solid fa-minus"></i> 
+                                            {% else %}
+                                                {% if  a_trans.year_from < 0 and a_trans.year_to < 0 %}
+                                                {{ a_trans.year_from|abs }} 
+                                                
+                                                    <span class="text-secondary fw-light fs-6">BCE</span> 
+                                            
+                                                <i class="fas fa-long-arrow-alt-right"></i> {{ a_trans.year_to|abs }}         
+                                                    <span class="text-secondary fw-light fs-6">BCE</span> 
+                                            
+                                                {% elif  a_trans.year_from < 0 and a_trans.year_to >= 0 %}
+                                                {{ a_trans.year_from|abs }}         
+                                                    <span class="text-secondary fw-light fs-6">BCE</span> 
+                                             <i class="fas fa-long-arrow-alt-right"></i> {{ a_trans.year_to }}         
+                                                    <span class="text-secondary fw-light fs-6">CE</span> 
+                                            
+                                                {% else %}
+                                                {{ a_trans.year_from }} 
+                                                    <span class="text-secondary fw-light fs-6">CE</span>
+                                              <i class="fas fa-long-arrow-alt-right"></i> {{ a_trans.year_to }}         
+                                                    <span class="text-secondary fw-light fs-6">CE</span> 
+                                            
+                                                {% endif %}
+                                        
+                                            {% endif %}
+                                            {% if  info_list.polity_end_year < a_trans.year_to %}
+                                            <span class="text-danger"> *Bad Years...</span>
+                                            {% endif %}
+                                        </span>
+                                        
+                                        <span class = "fw-bold text-danger">
+                                            {{ a_trans.predecessor }}
+                                        </span> 
+                                        <span class="text-dark">
+                                            <i class="fa-solid fa-arrow-right-long fa-sm"></i> 
+                                        </span> 
+                                        <span class = "fw-bold text-teal">
+                                            {{ a_trans.successor }}
+                                        </span>
+
+                                        
+
+
+
+
+                                        <span class="badge border border-dark text-dark p-1 fs-6" style="position: absolute; right: 0; text-align: left; background: #f8bdb2;"><a href="{% url 'power_transition-update' a_trans.trans_id %}"> <i class="fa-solid fa-pencil text-dark fa-sm"></i></a></span>
+
+
+
+
+
+
+                                    </td>
+                                </tr>
+                                {% endfor %}
+
+                            </tbody>
+                        </table>
+                        
+
+                    </td>
+
                 </tr>
+
                 {% endfor %}
             </tbody>
           </table>

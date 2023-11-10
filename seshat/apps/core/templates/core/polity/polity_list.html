@@ -396,11 +396,11 @@
     <hr>
     {% endif %}
     <div class="row">
-        {% for a_world_region, a_dic_of_subregions in ultimate_wregion_dic.items %}
-        <div class="table-responsive pb-2 col-md-4">
+        {% for a_world_region, a_dic_of_subregions in ultimate_wregion_dic_top.items %}
+        <div class="table-responsive pb-2 col-md-3">
             <table id="table_id_3" class="table align-middle caption-top">
                 <caption style="border-bottom: 2px solid rgb(177, 175, 175); "> 
-                    <h4 style="margin-bottom: 0.25rem;">
+                    <h5 style="margin-bottom: 0.25rem;">
                         <a class="fw-bold" href="#{{a_world_region}}"> 
                             {% if a_world_region == "Europe" %}
                             <i class="fa-solid fa-earth-europe"></i>
@@ -410,51 +410,53 @@
                             <i class="fa-solid fa-earth-asia"></i>
                             {% elif a_world_region == "Oceania-Australia" %}
                             <i class="fa-solid fa-earth-oceania"></i>
-                            {% elif a_world_region == "North America" or a_world_region == "South America" %}
+                            {% elif a_world_region == "North America" or a_world_region == "South America and Caribbean" %}
                             <i class="fa-solid fa-earth-americas"></i>
                             {% else %}
                             <i class="fa-solid fa-map-location-dot"></i>        
                             {% endif %}
                             {{ a_world_region }}                            
                         </a>          
-                    </h4>                       
+                    </h5>                       
                                    
                 </caption>
                 <tbody style="border-style: none;">
-                            {% for a_subregion, a_list_of_polities in a_dic_of_subregions.items %}
-                            {% if a_subregion == "Somewhere" and not a_list_of_polities %}
+                            {% for a_subregion, sub_reg_meta in a_dic_of_subregions.items %}
+                            {% if a_subregion == "Somewhere" and not sub_reg_meta.1 %}
 
-                            {% elif not a_list_of_polities %}
+                            {% elif not sub_reg_meta.1 %}
                             <tr>
                                 <td style="border-style:none;" class="text-info">
-                                    <span class="h5">
+                                    <span class="h6">
                                         <a class="fw-bold text-info" href="#{{a_subregion}}_{{a_world_region}}">
-                                            <i class="fa-solid fa-location-dot fa-xs text-info"></i> {{ a_subregion }}
+                                            <span class="text-info fw-bold  border border-info px-1">{{sub_reg_meta.1}}</span> 
+                                            {{ a_subregion }}
                                         </a>
                                     </span>
-                                    <span class="text-info fw-bold" style="float: right;">{{a_list_of_polities|length}}</span> 
                                 </td>
                             </tr>  
                             {% elif a_subregion == "Somewhere" %}
                             <tr>
                                 <td style="border-style:none;" class="text-danger">
-                                    <span class="h5">
+                                    <span class="h6">
                                         <a class="fw-bold text-danger" href="#{{a_subregion}}_{{a_world_region}}">
-                                            <i class="fa-solid fa-location-dot fa-xs text-danger"></i> {{ a_subregion }}
+                                            <span class="text-danger fw-bold border border-danger px-1">{{sub_reg_meta.1}}</span> 
+                                            {{ a_subregion }}
                                         </a>
                                     </span>
-                                    <span class="text-danger fw-bold" style="float: right;">{{a_list_of_polities|length}}</span> 
                                 </td>
                             </tr>  
                             {% else %}
                             <tr>
                                 <td style="border-style:none;">
-                                    <span class="h5">
-                                        <a class="fw-bold" href="#{{a_subregion}}_{{a_world_region}}">
-                                            <i class="fa-solid fa-location-dot fa-xs text-secondary"></i> {{ a_subregion }}
-                                        </a>
+                                    <span class="h6">
+                                        <span type="button" tabindex="0" data-bs-toggle="popover" title="{{sub_reg_meta.0}}" data-bs-html="true" data-bs-trigger="focus">   
+                                            <a class="fw-bold" href="#{{a_subregion}}_{{a_world_region}}">
+                                                <span class="text-teal fw-bold border border-success px-1">{{sub_reg_meta.1}}</span>  {{ a_subregion }}
+                                            </a>                             
+                                        </span>
                                     </span>
-                                    <span class="text-teal fw-bold" style="float: right;">{{a_list_of_polities|length}}</span> 
+
                                 </td>
                             </tr>        
                             {% endif %}

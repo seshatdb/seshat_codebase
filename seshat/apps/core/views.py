@@ -19,7 +19,7 @@ from django.http import HttpResponseRedirect
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.db import IntegrityError
-from django.db.models import Prefetch, F, Value
+from django.db.models import Prefetch, F, Value, Q
 from django.db.models.functions import Replace
 
 from django.views.decorators.http import require_GET
@@ -923,9 +923,9 @@ class PolityListView(SuccessMessageMixin, generic.ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        #import time
-        #start_time = time.time()
-        all_srs = Seshat_region.objects.all()
+        import time
+        start_time = time.time()
+        all_srs_unsorted = Seshat_region.objects.all()
         all_mrs_unsorted = Macro_region.objects.all()
 
         # 1 | World
@@ -943,19 +943,28 @@ class PolityListView(SuccessMessageMixin, generic.ListView):
 
 
         custom_order = [5, 2, 11, 3, 4, 9, 10, 8, 7, 6, 1, 23, 24, 27, 26,25, 29,28, 31,33,32,30, ]  
+
+        custom_order_sr = [20, 18, 17, 15, 19, 16, 3, 4, 5, 7, 1, 2, 6, 43, 61, 62, 44, 45, 10, 13, 8, 9, 11, 12, 14, 58, 59, 38, 39, 37, 36, 40, 41, 42, 28, 29, 30, 26,25, 27,24, 22, 23, 21, 32, 31, 33, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, ]
+
         all_mrs = sorted(all_mrs_unsorted, key=lambda item: custom_order.index(item.id))
+        all_srs = sorted(all_srs_unsorted, key=lambda item: custom_order_sr.index(item.id))
 
         all_pols = Polity.objects.all().order_by('start_year')
         pol_count = len(all_pols)
 
         ultimate_wregion_dic = {}
+        ultimate_wregion_dic_top = {}
         for a_mr in all_mrs:
             if a_mr not in ultimate_wregion_dic:
                 ultimate_wregion_dic[a_mr.name] = {}
+            if a_mr not in ultimate_wregion_dic_top:
+                ultimate_wregion_dic_top[a_mr.name] = {}
             for a_sr in all_srs:
                 if a_sr.mac_region_id == a_mr.id:
                     if a_sr.name not in ultimate_wregion_dic[a_mr.name]:
                         ultimate_wregion_dic[a_mr.name][a_sr.name] = []
+                    if a_sr.name not in ultimate_wregion_dic_top[a_mr.name]:
+                        ultimate_wregion_dic_top[a_mr.name][a_sr.name] = [a_sr.subregions_list, 0]
 
         all_polities_g_sc_wf, freq_dic = give_polity_app_data()
         #all_polities_g_sc_wf = give_polity_app_data()
@@ -965,6 +974,8 @@ class PolityListView(SuccessMessageMixin, generic.ListView):
         for a_polity in all_pols:
             if a_polity.home_seshat_region:
                 ultimate_wregion_dic[a_polity.home_seshat_region.mac_region.name][a_polity.home_seshat_region.name].append(a_polity)
+            if a_polity.home_seshat_region:
+                ultimate_wregion_dic_top[a_polity.home_seshat_region.mac_region.name][a_polity.home_seshat_region.name][1] += 1
             if a_polity.general_description:
                 freq_dic["d"] += 1
 
@@ -975,13 +986,15 @@ class PolityListView(SuccessMessageMixin, generic.ListView):
                 a_polity.has_g_sc_wf = None
 
         context["ultimate_wregion_dic"] = ultimate_wregion_dic
+        context["ultimate_wregion_dic_top"] = ultimate_wregion_dic_top
         context['all_pols'] = all_pols
+        context['all_srs'] = all_srs
         context["pol_count"] = pol_count
         freq_dic['pol_count'] = pol_count
         context["freq_data"] = freq_dic
 
-        #end_time = time.time()
-        #print('elapsed_time ', end_time-start_time)
+        end_time = time.time()
+        print('elapsed_time ', end_time-start_time)
 
         return context
     
@@ -998,7 +1011,9 @@ class PolityListViewCommented(PermissionRequiredMixin, SuccessMessageMixin, gene
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        all_pols = Polity.objects.filter(private_comment__isnull=False).order_by('start_year')
+        #all_pols = Polity.objects.filter(private_comment__isnull=False).order_by('start_year')
+        all_pols = Polity.objects.exclude(Q(private_comment__isnull=True) | Q(private_comment=''))
+
         pol_count = len(all_pols)
 
         all_polities_g_sc_wf, freq_dic = give_polity_app_data()
@@ -1740,19 +1755,18 @@ def download_csv_all_polities(request):
     writer = csv.writer(response, delimiter='|')
 
     # type the headers
-    writer.writerow(['macro_region', 'home_seshat_region',  'polity_new_id', 'polity_old_id', 'polity_long_name', 'start_year', 'end_year', 'home_nga', 'G', "SC", "WF", "HS", "CC", "PT", 'polity_tag',])
+    writer.writerow(['macro_region', 'home_seshat_region',  'polity_new_id', 'polity_old_id', 'polity_long_name', 'start_year', 'end_year', 'home_nga', 'G', "SC", "WF", "HS", "CC", "PT", 'polity_tag'])
 
     items = Polity.objects.all()
-    coded_value_data = give_polity_app_data()
+    coded_value_data, freq_data = give_polity_app_data()
 
     for obj in items:
         #coded_values_data = get_polity_data_single(obj.id)
-        #print(coded_values_data)
+        #print(obj.id)
+        #print(type(obj))
         if obj.home_seshat_region:
-            writer.writerow([obj.home_seshat_region.mac_region.name, obj.home_seshat_region.name, obj.new_name, obj.name, obj.long_name, obj.start_year,
-                        obj.end_year, obj.home_nga,  coded_value_data[obj.id]['g'], coded_value_data[obj.id]['sc'], coded_value_data[obj.id]['wf'], coded_value_data[obj.id]['hs'], coded_value_data[obj.id]['cc'], coded_value_data[obj.id]['pt'], obj.get_polity_tag_display(),])
+            writer.writerow([obj.home_seshat_region.mac_region.name, obj.home_seshat_region.name, obj.new_name, obj.name, obj.long_name, obj.start_year, obj.end_year, obj.home_nga,  coded_value_data[obj.id]['g'], coded_value_data[obj.id]['sc'], coded_value_data[obj.id]['wf'], coded_value_data[obj.id]['hs'], coded_value_data[obj.id]['cc'], coded_value_data[obj.id]['pt'], obj.get_polity_tag_display()])
         else:
-            writer.writerow(["None", "None", obj.new_name, obj.name, obj.long_name, obj.start_year,
-                        obj.end_year, obj.home_nga,  coded_value_data[obj.id]['g'], coded_value_data[obj.id]['sc'], coded_value_data[obj.id]['wf'], coded_value_data[obj.id]['hs'], coded_value_data[obj.id]['cc'], coded_value_data[obj.id]['pt'], obj.get_polity_tag_display(),])
+            writer.writerow(["None", "None", obj.new_name, obj.name, obj.long_name, obj.start_year, obj.end_year, obj.home_nga,  coded_value_data[obj.id]['g'], coded_value_data[obj.id]['sc'], coded_value_data[obj.id]['wf'], coded_value_data[obj.id]['hs'], coded_value_data[obj.id]['cc'], coded_value_data[obj.id]['pt'], obj.get_polity_tag_display()])
 
     return response
