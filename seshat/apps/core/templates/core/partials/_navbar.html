@@ -1,115 +1,111 @@
 {% load static %}
+<style>
+
+    .custom-dropdown .dropdown-menu {
+        width: 60vw; /* Adjust the width as needed */
+    }
+</style>
 
 <nav class="navbar navbar-expand-lg navbar-dark navbar-brown  navbar-hide-on-scroll sticky-top">
     <div class="container">
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
+            <span>
+                <a class="navbar-brand fw-bold" href="{% url 'seshat-index' %}"> <img style="width:50px" src="{% static 'SeshatLogo2.png' %}" class="seshat-logo img-thumbnail rounded" alt="No Seshat Logo found.">&nbsp;&nbsp;&nbsp;&nbsp;Home</a> 
+            </span>
+        
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
         </button>
+
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item">
-                    
-                    <a class="nav-link active" aria-current="page" href="{% url 'seshat-index' %}"> <img src="https://seshatdatabank.web.ox.ac.uk/sites/default/files/styles/site_logo/public/styles/site_logo/public/seshatdatabank/site-logo/seshat-sml-logo-white.png?itok=K-tPc8EE" alt="Logo" style="width:30px"> &nbsp; Home</a>
-                
-            
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Classic Seshat
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <li>
-                        <a class="dropdown-item" href="{% url 'polities' %}">Polities</a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" href="{% url 'capitals' %}">Capitals</a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" href="{% url 'generalvars' %}" class="nav-link">General Variables</a>
-                    </li>
-  	                <li>
-                        <a class="dropdown-item" href="{% url 'scvars' %}" class="nav-link">Social Complexity Variables</a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" href="{% url 'wfvars' %}" class="nav-link">Warfare Variables (MilTech)</a>
-                    </li>
-                </ul>
-                </li>
-
-
-            <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                CrisisDB
-            </a>
-            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <li>
-                    <a class="dropdown-item" href="{% url 'crisis_consequences_all' %}" class="nav-link">Crisis Consequences <span class="badge rounded-pill bg-warning text-dark">NEW</span></a>
-                </li>
-                <li>
-                    <a class="dropdown-item" href="{% url 'power_transitions_all' %}" class="nav-link">Power Transitions <span class="badge rounded-pill bg-warning text-dark">NEW</span></a>
-                </li>
-                <li>
-                    <a class="dropdown-item" href="{% url 'qing_vars' %}" class="nav-link">Qing Crisis</a>
-                </li>
-                <li>
-                    <a class="dropdown-item" href="{% url 'us_violence_paginated' %}" class="nav-link">US Political Violence Database &#127482;&#127480;</a>
-                </li>
-
-            </ul>
-            </li>
-
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Others
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <li>
-                            <a class="dropdown-item" href="{% url 'api-root' %}" class="nav-link">API</a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item" href="{% url 'references' %}" class="nav-link">References</a>
-                        </li>
-
-                        <li>
-                            <a class="dropdown-item" href="{% url 'ngas' %}" class="nav-link">NGAs</a>
-                        </li>
-                 </ul>
-            </li>
-                <li>
-                    {% if user.is_authenticated %}
-                    <a class="nav-link active" aria-current="page" href="{% url 'user-profile' %}">Profile</a>
-                {% endif %}
-
-                </li>
-                <li>
-                    <a class="nav-link active" href="{% url 'human_sacrifices_all' %}" aria-current="page">Human Sacrifice</a>
-                </li>
-                {% if user.is_authenticated %}
-                <li>
-                    <a class="nav-link active" aria-current="page" href="{% url 'discussion_room' %}">Discussion</a>
-                </li>
-                {% endif %}
-                
-                <li>
-                    <a class="nav-link active" aria-current="page" href="{% url 'seshat-olddownloads' %}">Downloads</a>
-                </li>
-
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdownNLP" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        NLP
+                <li class="nav-item dropdown custom-dropdown">
+                    <a class="nav-link dropdown-toggle active fw-bold" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Variables
                     </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownNLP">
+                    <ul class="dropdown-menu dropdown-menu-lg" aria-labelledby="navbarDropdown">
+                        <div class="row">
+                            <!-- Subcategory 1: General Variables -->
+                            <div class="col border-end border-secondary">
+                                <li class="dropdown-header"><span class="badge badge rounded-pill px-3 pt-1 pb-0 fs-6 text-dark" style="background-color:rgba(127, 255, 212, 0.479)">Classical Seshat</span> </li>
+                                <li>
+                                    <a class="dropdown-item" href="{% url 'generalvars' %}" class="nav-link">General Variables</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="{% url 'scvars' %}" class="nav-link">Social Complexity Variables</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="{% url 'wfvars' %}" class="nav-link">Warfare Variables (MilTech)</a>
+                                </li>
+                            </div>
+                
+                            <!-- Subcategory 2: Specific Variables -->
+                            <div class="col  border-end border-secondary">
+                                <li class="dropdown-header"><span class="badge badge rounded-pill px-3 pt-1 pb-0 fs-6 text-dark" style="background-color:rgba(255, 127, 80, 0.401)">CrisisDB</span> </li>
+                                <li>
+                                    <a class="dropdown-item" href="{% url 'crisis_consequences_all' %}" class="nav-link">Crisis Consequences</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="{% url 'power_transitions_all' %}" class="nav-link">Power Transitions</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="{% url 'human_sacrifices_all' %}" aria-current="page">Human Sacrifice</a>
+                                </li>
+
+                            </div>
+
+                            <div class="col">
+                                <li class="dropdown-header"><span class="badge badge rounded-pill px-3 pt-1 pb-0 fs-6 text-dark" style="background-color:rgba(30, 143, 255, 0.329)">Extended CrisisDB</span> </li>
+                                <li>
+                                    <a class="dropdown-item" href="{% url 'us_violence_paginated' %}" class="nav-link">US Political Violence Database &#127482;&#127480;</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="{% url 'qing_vars' %}" class="nav-link">Qing Crisis</a>
+                                </li>
+
+                            </div>
+                        </div>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle active fw-bold" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Objects
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <li>
-                            <a class="dropdown-item" href="{% url 'nlp-references' %}" class="nav-link">NLP References</a>
+                            <a class="dropdown-item" href="{% url 'polities' %}">Polities</a>
                         </li>
-                        
                         <li>
-                            <a class="dropdown-item" href="{% url 'nlp_datapoints' %}" class="nav-link">Discussion Room</a>
+                            <a class="dropdown-item" href="#">Seshat Regions</a>
                         </li>
                      </ul>
                 </li>
-
         </ul>
+        <ul class="navbar-nav ms-auto d-none d-lg-inline-flex">
+            {% if user.is_authenticated %}
+            <li class="nav-item mx-1">
+            <a href="{% url 'account_logout' %}" class="pe-3  fw-light" style="color:rgba(255,255,255,.55)"><strong>Logout </strong></a>
+        </li>
+        <li class="nav-item mx-1">
+            <a href="{% url 'user-profile' %}" class="pe-3 text-light fw-light"><strong>Profile </strong></a>
+        </li>
+            <li class="nav-item mx-1">
+
+            <a href="{% url 'account_login' %}" class="pe-2 text-light"> <i class="fas fa-user-check text-light"></i> &nbsp; Logged in as: <strong> {{ user.email }} </strong></a>
+        </li>
+
+        {% else %}
+        <li class="nav-item mx-1">
+
+            <a href="{% url 'account_signup' %}" class="pe-4 text-warning"><strong> Sign Up <i class="fas fa-user-plus"></i> </strong></a>
+        </li>
+
+            <li class="nav-item mx-1">
+
+            <a href="{% url 'account_login' %}" class="pe-2 text-warning"><strong>Login <i class="fas fa-sign-in-alt"></i></strong></a>
+        </li>
+
+        {% endif %}
+          </ul>
 
         </div>
     </div>

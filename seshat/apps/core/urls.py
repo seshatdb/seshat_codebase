@@ -9,7 +9,7 @@ urlpatterns += [path('olddownloads/', views.seshatolddownloads, name='seshat-old
 urlpatterns += [path('acknowledgements/', views.seshatacknowledgements, name='seshat-acknowledgements'),]
 urlpatterns += [path('download_oldcsv/<str:file_name>/', views.download_oldcsv, name='download_oldcsv'),]
 
-urlpatterns += [path('home_cards/', views.home_cards, name='home_cards'),]
+#urlpatterns += [path('home_cards/', views.home_cards, name='home_cards'),]
 
 urlpatterns  += [path('download_csv_all_polities/', views.download_csv_all_polities,name='download_csv_all_polities'),]
 

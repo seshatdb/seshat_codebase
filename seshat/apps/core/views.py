@@ -84,7 +84,7 @@ def index(request):
 def four_o_four(request):
     return render(request, 'core/not_found_404.html')
 
-def seshatindex(request):
+def seshatindex2(request):
     context = {
         'insta': "Instabilities All Over the Place..",
         'trans': "Transitions All Over the Place",
@@ -944,7 +944,7 @@ class PolityListView(SuccessMessageMixin, generic.ListView):
 
         custom_order = [5, 2, 11, 3, 4, 9, 10, 8, 7, 6, 1, 23, 24, 27, 26,25, 29,28, 31,33,32,30, ]  
 
-        custom_order_sr = [20, 18, 17, 15, 19, 16, 3, 4, 5, 7, 1, 2, 6, 43, 61, 62, 44, 45, 10, 13, 8, 9, 11, 12, 14, 58, 59, 38, 39, 37, 36, 40, 41, 42, 28, 29, 30, 26,25, 27,24, 22, 23, 21, 32, 31, 33, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, ]
+        custom_order_sr = [20, 18, 17, 15, 19, 16, 3, 4, 5, 7, 1, 2, 6, 43, 61, 62, 44, 45, 10, 13, 8, 9, 11, 12, 14, 58, 59, 38, 39, 37, 36, 40, 41, 42, 28, 29, 30, 26,25, 27,24, 22, 23, 21, 32, 31, 33, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57 ]
 
         all_mrs = sorted(all_mrs_unsorted, key=lambda item: custom_order.index(item.id))
         all_srs = sorted(all_srs_unsorted, key=lambda item: custom_order_sr.index(item.id))
@@ -1670,14 +1670,60 @@ def download_oldcsv(request, file_name):
 
 
 
-def home_cards(request):
+def seshatindex(request):
     app_names = ['general','sc', 'wf', 'crisisdb']  # Replace with your app name
     context = {
+        'pols_data': [],
         'general_data': [],
         'sc_data': [], 
         'wf_data': [],
         'crisisdb': [],
+        'pt_data': [],
+        'cc_data': [],
+        'hs_data': [],
+        'sr_data': [],
+        'general_examples': [('Polity Duration', 'polity_durations_all'), 
+                            ('Polity Language', 'polity_languages_all'),
+                            ('Degree of Centralization', 'polity_degree_of_centralizations_all'),
+                            ('Suprapolity Relations', 'polity_suprapolity_relationss_all'),
+                            ('Alternative Name', 'polity_alternative_names_all'),],
+
+        'sc_examples': [('Polity Territory', 'polity_territorys_all'), 
+                        ('Polity Population', 'polity_populations_all'), 
+                        ('Settlement Hierarchy', 'settlement_hierarchys_all'), 
+                        ('Irrigation System', 'irrigation_systems_all'), 
+                        ('Postal Station', 'postal_stations_all')],
+        'wf_examples': [('Atlatl', 'atlatls_all'),
+                        ('Javelin', 'javelins_all'),
+                        ('Battle Axe', 'battle_axes_all'),
+                        ('Sword', 'swords_all'),
+                        ('Horse', 'horses_all')]
+        #'crisisdb_examples': [],
+        #'pt_examples': [],
+        #'cc_examples': [],
+        #'sr_examples': [],
+
         }
+    all_srs_unsorted = Seshat_region.objects.exclude(name="Somewhere")
+    all_mrs_unsorted = Macro_region.objects.exclude(name="World")
+    to_be_appended_y = [len(all_srs_unsorted), len(all_mrs_unsorted)] 
+    context['sr_data'] = to_be_appended_y
+
+    all_pols_count = Polity.objects.count()
+    to_be_appended_y = [all_pols_count, len(all_srs_unsorted)] 
+    context['pols_data'] = to_be_appended_y
+
+    five_pols = Polity.objects.order_by('?')[:5]
+    context['five_pols'] = five_pols
+
+    five_srs = Seshat_region.objects.exclude(name="Somewhere").order_by('?')[:5]
+    context['five_srs'] = five_srs
+
+
+
+  
+  
+
     for app_name in app_names:
         models = apps.get_app_config(app_name).get_models()
         unique_politys = set()
@@ -1688,8 +1734,52 @@ def home_cards(request):
             model_name = model.__name__
             if model_name == "Ra":
                 continue
+            if  model_name.startswith("Us_violence"):
+                queryset_count = model.objects.count()
+
+                queryset = model.objects.all()
+
+                to_be_appended_xxxx = [queryset_count, 1,]
+                context['us_data'] = to_be_appended_xxxx
+                five_uss = queryset.order_by('?')[:5]
+                context['five_uss'] = five_uss
+                continue
             if  model_name.startswith("Us_"):
                 continue
+            if  model_name.startswith("Power_transition"):
+                queryset_count = model.objects.count()
+
+                queryset = model.objects.all()
+                politys = queryset.values_list('polity', flat=True).distinct()
+
+                to_be_appended_x = [queryset_count, 1, len(set(politys)),]
+                context['pt_data'] = to_be_appended_x
+                five_pts = queryset.order_by('?')[:5]
+                context['five_pts'] = five_pts
+                continue
+            if  model_name.startswith("Crisis_consequence"):
+                queryset_count = model.objects.count()
+
+                queryset = model.objects.all()
+                politys = queryset.values_list('polity', flat=True).distinct()
+
+                to_be_appended_xx = [queryset_count, 1, len(set(politys)),]
+                context['cc_data'] = to_be_appended_xx
+                five_ccs = queryset.order_by('?')[:5]
+                context['five_ccs'] = five_ccs
+                continue
+            if  model_name.startswith("Human_sacrifice"):
+                queryset_count = model.objects.count()
+
+                queryset = model.objects.all()
+                politys = queryset.values_list('polity', flat=True).distinct()
+
+                to_be_appended_xxx = [queryset_count, 1, len(set(politys)),]
+                context['hs_data'] = to_be_appended_xxx
+                five_hss = queryset.order_by('?')[:5]
+                context['five_hss'] = five_hss
+                continue
+
             queryset_count = model.objects.count()
 
             queryset = model.objects.all()
@@ -1703,7 +1793,7 @@ def home_cards(request):
 
         context[app_key] = to_be_appended
 
-    return render(request, 'core/seshat-index_2.html', context=context)
+    return render(request, 'core/seshat-index.html', context=context)
 
 
 def get_polity_data_single(polity_id):

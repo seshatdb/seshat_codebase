@@ -98,32 +98,32 @@ def profile(request):
     if request.user.is_authenticated:
         user_profile_id = request.user.profile.id
     my_user = Profile.objects.get(pk = user_profile_id)
-    try:
-        for ct in ContentType.objects.all():
-            m = ct.model_class()
-            if m and m.__module__ == f"seshat.apps.crisisdb.models":
-                #print(dir(m.objects.all()))
-                for an_instance in m.objects.all():
-                    all_facts = all_facts + 1
-                    #print(dir(an_instance.curator.values()))
-                    if an_instance.curator.values():
-                        for curator_person in an_instance.curator.values():
-                            if curator_person['user_id'] == my_user.id:
-                                print(curator_person, "YOOOOOOOOOOha")
-                                verified_facts += 1
+    # try:
+    #     for ct in ContentType.objects.all():
+    #         m = ct.model_class()
+    #         if m and m.__module__ == f"seshat.apps.crisisdb.models":
+    #             #print(dir(m.objects.all()))
+    #             for an_instance in m.objects.all():
+    #                 all_facts = all_facts + 1
+    #                 #print(dir(an_instance.curator.values()))
+    #                 if an_instance.curator.values():
+    #                     for curator_person in an_instance.curator.values():
+    #                         if curator_person['user_id'] == my_user.id:
+    #                             print(curator_person, "YOOOOOOOOOOha")
+    #                             verified_facts += 1
         
-                #print("__")
-                #print(m.curators.values())
-    except:
-        print("BAd message")
+    #             #print("__")
+    #             #print(m.curators.values())
+    # except:
+    #     print("BAd message")
 
-    try:
-        for task in Seshat_Task.objects.all():
-            if task.giver.user.id == my_user.id:
-                print(task.giver.user.id, my_user.id)
-                all_tasks_given.append(task)
-    except:
-        print("OUT")
+    # try:
+    #     for task in Seshat_Task.objects.all():
+    #         if task.giver.user.id == my_user.id:
+    #             print(task.giver.user.id, my_user.id)
+    #             all_tasks_given.append(task)
+    # except:
+    #     print("OUT")
     #print(dir(my_user))
     #print(my_user_name.user_id)
     context = {

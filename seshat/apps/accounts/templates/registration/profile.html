@@ -109,6 +109,14 @@
                                 </tr>
                             </thead>
                             <tbody>
+                              <tr>
+                                <td class="text-secondary">1</td>
+                                <td scope="col" class="text-danger col-md-2">A User</td>                                    
+                                <td  class="col-md-5">an Expalnation of the task</td>
+                                <td  class="col-md-4">a Link</td>
+
+                                <td  class="text-success fw-bold col-md-1" style="text-align: center" >Done?</td>
+                            </tr>
                                 {% for task in all_tasks_given %}
                                 <tr>
                                     <td class="text-secondary">{{forloop.counter}}</td>

@@ -1,9 +1,932 @@
 {% extends "core/seshat-base.html" %}
-
+{% load humanize %}
+{% load mathfilters %}
 <!-- NavBar -->
 {% block content-home %}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200;0,6..12,300;0,6..12,400;0,6..12,500;0,6..12,600;0,6..12,700;0,6..12,800;0,6..12,900;0,6..12,1000;1,6..12,200;1,6..12,300;1,6..12,400;1,6..12,500;1,6..12,600;1,6..12,700;1,6..12,800;1,6..12,900;1,6..12,1000&family=Roboto+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;1,100;1,200;1,300&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
 <!-- showcase for index -->
+<style>
+body {
+    font-family: 'Nunito Sans', sans-serif;
+    }
+.card {
+  background: linear-gradient(45deg, #fd947a, darkcyan);
+  border-radius: 10px;
+  padding: 5px;
+  color: white;
+  min-height: 500px;
+  border-top-right-radius: 10px !important; 
+  border-bottom-right-radius: 10px !important;
+  border-top-left-radius: 10px !important; 
+  border-bottom-left-radius: 10px !important;
 
-{% include "core/partials/_old_seshat.html" %}
+
+
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+  .gray-background {
+    background-color: #fffdf2; /* Light gray color */
+    border-radius: 10px;
+    flex: 1;
+
+
+  }
+
+  /* Optional: Add padding to the sections */
+
+  .card-group {
+    display: flex;
+  }
+  
+  .card-img-overlay {
+    display: flex;
+    flex-direction: column;
+    justify-content:last baseline;
+    border-radius: 10px;
+
+  }
+  .bg-colorful {
+    background-image: linear-gradient(to right, rgb(246, 127, 127, 0.216),rgb(242, 199, 119, 0.216),rgb(151, 230, 151, 0.216),rgb(141, 141, 232, 0.216),rgb(218, 178, 246, 0.216));
+
+  }
+
+.card-text-spaced {
+    font-size: 16px;
+    color: #782823;
+    display: flex;
+    padding-top: 5px;
+    justify-content: space-between;
+    }
+
+.left-span {
+        font-size: 16px;
+        color: #782823;
+    }
+
+.right-span {
+        text-align: right;
+        font-size: 16px;
+        color: #782823;
+    }
+
+    .mirrored-image {
+        transform: scaleX(-1);
+      }
+        
+</style>
+<div style="background-image: linear-gradient(to bottom, #782823, rgb(151, 230, 151, 0.216),  #fffdf2); text-align: center; "> 
+    <h3  class="pt-5" style="font-size:50px; color: #782823;  text-shadow: 2px 2px 4px rgba(9, 71, 45, 0.5);">
+    Welcome to
+
+</h3>
+<h1  class="pt-4" style="font-size:80px; color: #782823; text-shadow: 2px 2px 4px rgba(9, 71, 45, 0.5);">
+    Seshat:  Global History Databank
+
+</h1>
+<h5 style="color: #782923b6;  text-shadow: 2px 2px 4px rgba(9, 71, 45, 0.24);">
+    &check;  the most current and comprehensive body of knowledge about human history
+
+</h5>
+<h5 style="color: #782923b6;  text-shadow: 2px 2px 4px rgba(9, 71, 45, 0.24);">
+    &check; collects what is currently known about the social and political organization of human societies over time.
+
+</h5>
+<h5 style="color: #782923b6;  text-shadow: 2px 2px 4px rgba(9, 71, 45, 0.24);">
+    &check;  offers the means to study the past through well-established scientific techniques.
+
+</h5>
+<h5 class="pb-4" style="color: #782923b6;  text-shadow: 2px 2px 4px rgba(9, 71, 45, 0.24);">
+    &check;  founded in 2011 and thriving ever since.
+
+</h5>
+</div>
+<div class="container pe-3">
+
+
+
+
+
+
+<h1 class="px-3 pt-3 pb-3 bg-colorful container-fluid fw-bold" style="text-align: left; color: #782823;   border-radius: 10px;   text-shadow: 2px 2px 4px rgba(9, 71, 45, 0.261);
+">Seshat Objects</h1>
+
+<div class="row py-4">
+    <div class="col-md-4">
+        <div class="gray-background">      </div>
+        <div class="px-2">
+          <h1 class="card-title  fw-bold" style="color:darkcyan; text-align: center;">
+            <a href="#">  
+                {{sr_data.0}}            </a>
+           
+          </h1>
+          <hr class="bg-colorful p-1 m-0">
+          <h1 class="card-text pt-1 pb-2 m-0 fw-bold" style="font-size:40px; color: #782823; text-align: center; ">
+            <a href="#">  
+                Seshat Regions
+            </a>
+          </h1>
+          <div class="row pt-1">
+            <div class="col-md-12">
+                {% for an_example in five_srs %}
+                <p class="card-text p-0 m-0" style="font-size:18px; color: #782823;">
+                    <b> 
+                        <span class="card-text-spaced">
+                            <span class="left-span">
+                                <i class="fa-solid fa-star fa-xs"></i>
+                                <a href="#">                                
+                                    {% if an_example.name %}
+                                    {{an_example.name}}
+                                    {% endif %}
+                                    {% if an_example.mac_region %}
+                                    <span class="fw-normal">
+                                        ({{an_example.mac_region}})
+                                    </span> 
+                                    {% endif %}</a>
+                            </span>
+                        </span>
+                    </b>
+                </p>
+                {% endfor %}
+                <p class="card-text-spaced" style="font-size:16px; color: #782823;"> 
+                    <span  class="left-span pt-0 px-3" style="font-size:16px; color: #782823;"> and 
+                        <a href="">  
+                           <u><b>{{sr_data.0|add:-5}}</b></u>  more...
+                        </a>
+                    </span>
+                    <span classs="right-span pt-0" style="text-align: right; justify-content:baseline">             
+                            <i class="fa-solid fa-feather fa-xs"></i> in
+                            <b> {{sr_data.1}}  Macro Regions</b>.
+                    </span>
+                </p>
+            </div>
+          </div>
+          
+
+        </div>
+      </div>
+    <div class="col-md-8">
+        <div class="gray-background">      </div>
+
+        <div class="px-2">
+            <h1 class="card-title fw-bold" style="color:rgba(1, 81, 81, 0.806); text-align: center;">
+                <a href="{% url 'polities'  %}">  
+                {{pols_data.0}}
+            </a>
+        </h1>     
+            <hr class="bg-colorful p-1 m-0">
+     
+          <h1 class="card-text pt-1 pb-2 m-0 fw-bold" style="font-size:40px; color: #782823; text-align: center;">
+            <a href="{% url 'polities'  %}">  
+                Polities</a>
+          </h1>
+          <div class="row pt-1">
+            <div class="col-md-12">
+                {% for an_example in five_pols %}
+
+                <p class="card-text p-0 m-0" style="font-size:18px; color: #782923cf;">
+                    <b> 
+                        <span class="card-text-spaced">
+                            <span class="left-span">
+                                <i class="fa-solid fa-star fa-xs"></i>
+                            <a href="{% url 'polity-detail-main'  an_example.id %}">                           
+                                {% if an_example.long_name %}
+                                {{an_example.long_name}}
+                                {% endif %}
+                                {% if an_example.new_name %}
+                                <span class="fw-normal">
+                                    ({{an_example.new_name}})
+                                </span> 
+                                {% endif %}
+                                </a>
+                            </span>
+                            <span class="text-dark px-2 fw-light fs-6 right-span">
+                                        
+                                {% if an_example.start_year == None %}
+                                <a type="button" class="btn p-0 m-0" data-bs-toggle="tooltip" data-bs-html="true"  title='Year Range of Polity is assumed.'>
+                                    <span><i class="fa-solid fa-clock fs-6 text-secondary"></i> </span>
+                                </a>
+                                {% elif an_example.start_year == an_example.end_year %}
+                                    {% if an_example.start_year < 0 %}
+                                    {{an_example.start_year|abs }} 
+                                    <span class="text-secondary fw-light fs-6">BCE</span> 
+                                    {% else %}
+                                    {{an_example.start_year }} 
+                                    <span class="text-secondary fw-light fs-6">CE</span>
+                                    {% endif %}
+                                {% elif an_example.end_year == None %}
+                                    {% if an_example.start_year < 0 %}
+                                    {{an_example.start_year|abs }} 
+                                        <span class="text-secondary fw-light fs-6">BCE</span>
+                                    {% else %}
+                                    {{an_example.start_year }} 
+                                        <span class="text-secondary fw-light fs-6">CE</span>
+                                    {% endif %}
+                                {% elif an_example.end_year == None and an_example.start_year == None %}
+                                    <i class="fa-solid fa-minus"></i> 
+                                {% else %}
+                                    {% if an_example.start_year < 0 and an_example.end_year < 0 %}
+                                    {{an_example.start_year|abs }} 
+                                        <span class="text-secondary fw-light fs-6">BCE</span> 
+                                    <i class="fas fa-long-arrow-alt-right"></i> {{ an_example.end_year|abs }}         
+                                        <span class="text-secondary fw-light fs-6">BCE</span> 
+                                    {% elif an_example.start_year < 0 and an_example.end_year >= 0 %}
+                                    {{an_example.start_year|abs }}         
+                                        <span class="text-secondary fw-light fs-6">BCE</span> 
+                                 <i class="fas fa-long-arrow-alt-right"></i> {{ an_example.end_year }}         
+                                        <span class="text-secondary fw-light fs-6">CE</span> 
+                                    {% else %}
+                                    {{an_example.start_year }} 
+                                        <span class="text-secondary fw-light fs-6">CE</span>
+                                  <i class="fas fa-long-arrow-alt-right"></i> {{ an_example.end_year }}         
+                                        <span class="text-secondary fw-light fs-6">CE</span> 
+                                    {% endif %}
+                                {% endif %}
+                            </span>
+                        </span>
+                    </b>
+                </p>
+                {% endfor %}
+
+                <p class="card-text-spaced" style="font-size:16px; color: #782823;"> 
+                    <span  class="left-span pt-0 px-3" style="font-size:16px; color: #782823;"> and 
+                        
+                        <a href="{% url 'polities'  %}">  
+                           <u><b>{{pols_data.0|add:-5}}</b></u>  more...
+                        </a>
+                    </span>
+                    <span classs="right-span pt-0" style="text-align: right; justify-content:baseline">             
+                            <i class="fa-solid fa-feather fa-xs"></i> in
+                            <b> {{pols_data.1}} Seshat Regions</b>.
+                    </span>
+                </p>
+
+
+            </div>
+          </div>
+
+
+
+        </div>
+      </div>
+
+
+  </div>
+
+
+
+
+    <h1 class="px-3 pt-3 pb-3 bg-colorful fw-bold" style="text-align: left; color: #782823;   border-radius: 10px;  text-shadow: 2px 2px 4px rgba(9, 71, 45, 0.261);
+    ">Classical Seshat Variables</h1>
+
+    <div class="row py-4">
+        <div class="col-md-4">
+            <div class="gray-background">      </div>
+            <div class="px-2">
+                <h2 class="card-title" style="color:darkcyan; text-align: center;">
+                    <a href="{% url 'generalvars' %}"> {{general_data.0}}</a>    
+                   
+                </h2>     
+                <hr class="bg-colorful p-1 m-0">
+         
+              <h1 class="card-text pt-1 pb-2 fw-bold" style="font-size:28px; color: #782823; text-align: center;">
+                <a href="{% url 'generalvars' %}">General Variables</a>              
+            </h1>
+
+              <div class="row pt-1">
+                <div class="col-md-12">
+                    {% for an_example in general_examples %}
+                    <p class="card-text p-0 m-0" style="font-size:16px; color: #782823;">
+                        <b> 
+                            <span class="card-text-spaced">
+                                <span class="left-span">
+                                    <i class="fa-solid fa-star fa-xs"></i>
+                                    <a href="{% url an_example.1  %}">                                
+                                        {{an_example.0}}
+                                    </a>
+                                </span>
+                            </span>
+                        </b>
+                    </p>
+                    {% endfor %}
+                    <p class="card-text-spaced" style="font-size:16px; color: #782823;"> 
+                        <span  class="left-span pt-0 px-3" style="font-size:16px; color: #782823;"> and 
+                            <a href="{% url 'generalvars'  %}">  
+                               <u><b>{{general_data.1|add:-5}}</b></u>  more...
+                            </a>
+                        </span>
+                        <span classs="right-span pt-0" style="text-align: right; justify-content:baseline">             
+                                <i class="fa-solid fa-feather fa-xs"></i> for
+                                <b> {{general_data.2}} Polities</b>.
+                        </span>
+                    </p>
+                </div>
+
+<!-- dddd -->
+              </div>
+
+
+    
+            </div>
+          </div>
+        <div class="col-md-4">
+            <div class="gray-background">      </div>
+    
+            <div class="px-2">
+              <h2 class="card-title" style="color:darkcyan; text-align: center;">
+                <a href="{% url 'scvars' %}">{{sc_data.0}}</a>
+                </h2>
+              <hr class="bg-colorful p-1 m-0">
+
+              <h1 class="card-text pt-1 pb-2 fw-bold" style="font-size:28px; color: #782823; text-align: center;">
+                <a href="{% url 'scvars' %}">Social Complexity Variables</a>
+              </h1>
+
+              <div class="row pt-1">
+                <div class="col-md-12">
+                    {% for an_example in sc_examples %}
+
+                    <p class="card-text p-0 m-0" style="font-size:16px; color: #782823;">
+                        <b> 
+                            <span class="card-text-spaced">
+                                <span class="left-span">
+                                    <i class="fa-solid fa-star fa-xs"></i>
+                                    <a href="{% url an_example.1  %}">                                
+                                        {{an_example.0}}
+                                    </a>
+                                </span>
+                            </span>
+                        </b>
+                    </p>
+                    {% endfor %}
+                    <p class="card-text-spaced" style="font-size:16px; color: #782823;"> 
+                        <span  class="left-span pt-0 px-3" style="font-size:16px; color: #782823;"> and 
+                            <a href="{% url 'generalvars'  %}">  
+                               <u><b>{{sc_data.1|add:-5}}</b></u>  more...
+                            </a>
+                        </span>
+                        <span classs="right-span pt-0" style="text-align: right; justify-content:baseline">             
+                                <i class="fa-solid fa-feather fa-xs"></i> for
+                                <b> {{sc_data.2}} Polities</b>.
+                        </span>
+                    </p>
+                </div>
+
+              </div>
+              
+    
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="gray-background">      </div>
+    
+            <div class="px-2">
+              <h2 class="card-title" style="color:darkcyan; text-align: center;">               
+                 <a href="{% url 'wfvars' %}">{{wf_data.0}}</a>
+              </h2>
+              <hr class="bg-colorful p-1 m-0">
+
+              <h1 class="card-text pt-1 pb-2 fw-bold" style="font-size:28px; color: #782823; text-align: center;">
+                <a href="{% url 'wfvars' %}">Warfare Variables (MilTech)</a>              </h1>
+
+              <div class="row pt-1">
+                <div class="col-md-12">
+                    {% for an_example in wf_examples %}
+
+                    <p class="card-text p-0 m-0" style="font-size:16px; color: #782823;">
+                        <b> 
+                            <span class="card-text-spaced">
+                                <span class="left-span">
+                                    <i class="fa-solid fa-star fa-xs"></i>
+                                    <a href="{% url an_example.1  %}">                                
+                                        {{an_example.0}}
+                                    </a>
+                                </span>
+                            </span>
+                        </b>
+                    </p>
+                    {% endfor %}
+                    <p class="card-text-spaced" style="font-size:16px; color: #782823;"> 
+                        <span  class="left-span pt-0 px-3" style="font-size:16px; color: #782823;"> and 
+                            <a href="{% url 'generalvars'  %}">  
+                               <u><b>{{wf_data.1|add:-5}}</b></u>  more...
+                            </a>
+                        </span>
+                        <span classs="right-span pt-0" style="text-align: right; justify-content:baseline">             
+                                <i class="fa-solid fa-feather fa-xs"></i> for
+                                <b> {{wf_data.2}} Polities</b>.
+                        </span>
+                    </p>
+
+                </div>
+              </div>
+              
+    
+            </div>
+          </div>
+  
+      </div>
+
+
+
+      <h1 class="px-3 pt-3 pb-3 bg-colorful fw-bold" style="text-align: left; color: #782823;   border-radius: 10px;  text-shadow: 2px 2px 4px rgba(9, 71, 45, 0.261);
+      ">CrisisDB Variables</h1>
+  
+      <div class="row py-4">
+          <div class="col-md-12">
+              <div class="gray-background">      </div>
+      
+              <div class="px-2">
+                  <h1 class="card-title" style="color:darkcyan; text-align: center;">
+                    <a href="{% url 'power_transitions_all'  %}">  
+                        {{pt_data.0}}                   
+                     </a>
+                    
+                   </h1>     
+                  <hr class="bg-colorful p-1 m-0">
+           
+                <h1 class="card-text pt-1 pb-2 m-0 fw-bold" style="font-size:38px; color: #782823; text-align: center;">
+                   <a href="{% url 'power_transitions_all'  %}">  
+                    Power Transitions
+                </a>
+                </h1>
+                <h6  style="color:rgba(0, 139, 139, 0.659); text-align: center;">
+                    coded for absensce or presence of Predecessor Assassination, Military Revolt, Popular Uprising, Separatist Rebellion, External Invasion, and more...
+                </h6>
+  
+                <div class="row pt-1">
+                  <div class="col-md-12">
+
+                      {% for an_example in five_pts %}
+                      <p class="card-text p-0 m-0" style="font-size:18px; color: #782923cf;">
+                        <b> 
+                      <span class="card-text-spaced">
+                        <span class="left-span">     
+                            <i class="fa-solid fa-star fa-xs"></i>
+                    
+                              <span class="badge border border-dark text-dark px-2 py-1 fw-light fs-6" style="background: linear-gradient(to right, #f8bdb2, #faf0b6)">
+                                {% if an_example.year_from == None %}
+                                <a type="button" class="btn p-0 m-0" data-bs-toggle="tooltip" data-bs-html="true"  title='Year Range of Polity is assumed.'>
+                                    <span> - </span>
+                                </a>
+                            
+                            
+                                    
+                                {% elif  an_example.year_from == an_example.year_to %}
+                                    {% if  an_example.year_from < 0 %}
+                                    {{ an_example.year_from|abs }} 
+                                    
+                                    <span class="text-secondary fw-light fs-6">BCE</span> 
+                                
+                                    {% else %}
+                                    {{ an_example.year_from }} 
+                                
+                                    <span class="text-secondary fw-light fs-6">CE</span>
+                            
+                                    {% endif %}
+                                {% elif an_example.year_to == None %}
+                                    {% if  an_example.year_from < 0 %}
+                                    {{ an_example.year_from|abs }} 
+                                    
+                                        <span class="text-secondary fw-light fs-6">BCE</span>
+                                
+                                    {% else %}
+                                    {{ an_example.year_from }} 
+                                    
+                                        <span class="text-secondary fw-light fs-6">CE</span>
+                                
+                                    {% endif %}
+                                {% elif an_example.year_to == None and  an_example.year_from == None %}
+                                    <i class="fa-solid fa-minus"></i> 
+                                {% else %}
+                                    {% if  an_example.year_from < 0 and an_example.year_to < 0 %}
+                                    {{ an_example.year_from|abs }} 
+                                    
+                                        <span class="text-secondary fw-light fs-6">BCE</span> 
+                                
+                                    <i class="fas fa-long-arrow-alt-right"></i> {{ an_example.year_to|abs }}         
+                                        <span class="text-secondary fw-light fs-6">BCE</span> 
+                                
+                                    {% elif  an_example.year_from < 0 and an_example.year_to >= 0 %}
+                                    {{ an_example.year_from|abs }}         
+                                        <span class="text-secondary fw-light fs-6">BCE</span> 
+                                 <i class="fas fa-long-arrow-alt-right"></i> {{ an_example.year_to }}         
+                                        <span class="text-secondary fw-light fs-6">CE</span> 
+                                
+                                    {% else %}
+                                    {{ an_example.year_from }} 
+                                        <span class="text-secondary fw-light fs-6">CE</span>
+                                  <i class="fas fa-long-arrow-alt-right"></i> {{ an_example.year_to }}         
+                                        <span class="text-secondary fw-light fs-6">CE</span> 
+                                
+                                    {% endif %}
+                            
+                                {% endif %}
+
+                            </span>
+                            <span class = "fw-bold text-danger">
+                                {{ an_example.predecessor }}
+                            </span> 
+                            <span class="text-dark">
+                                <i class="fa-solid fa-arrow-right-long fa-sm"></i> 
+                            </span> 
+                            <span class = "fw-bold text-teal">
+                                {{ an_example.successor }}
+                            </span>
+                        </span>
+                        <span class="right-span fw-normal">   
+                            in
+                            <a href="{% url 'polity-detail-main'  an_example.polity.id %}#power_transition_var">  
+                            <b>{{an_example.polity.long_name}}</b>  
+                            </a>
+    
+                        </span>
+                  
+
+                    </span>
+                          </b>
+                      </p>
+                      {% endfor %}
+
+                      <p class="card-text-spaced" style="font-size:16px; color: #782823;"> 
+                        <span  class="left-span pt-0 px-3" style="font-size:16px; color: #782823;"> and 
+                            
+                            <a href="{% url 'power_transitions_all'  %}">  
+                               <u><b>{{pt_data.0|add:-5}}</b></u>  more...
+                            </a>
+                        </span>
+                        <span classs="right-span pt-0" style="text-align: right; justify-content:baseline">             
+                                <i class="fa-solid fa-feather fa-xs"></i> coded for
+                                <b> {{pt_data.2}} Polities</b>.
+                        </span>
+                    </p>
+  
+                  </div>
+                </div>
+  
+  
+      
+              </div>
+            </div>
+            <div class="col-md-12">
+                <div class="gray-background">      </div>
+        
+                <div class="px-2">
+                    <h1 class="card-title" style="color:darkcyan; text-align: center;">
+                      <a href="{% url 'crisis_consequences_all'  %}">  
+                          {{cc_data.0}}                   
+                       </a>
+                      
+                     </h1>     
+                    <hr class="bg-colorful p-1 m-0">
+             
+                  <h1 class="card-text pt-1 pb-2 m-0 fw-bold" style="font-size:38px; color: #782823; text-align: center;">
+                     <a href="{% url 'crisis_consequences_all'  %}">  
+                      Crisis Consequence Cases
+                  </a>
+                  </h1>
+                  <h6  style="color:rgba(0, 139, 139, 0.659); text-align: center;">
+                    coded for absence or presence of Decline, Collapse, Epidemic, Uprising, Revolution, Conquest, Assassination, and more ... 
+                  </h6>
+    
+                  <div class="row pt-1">
+                    <div class="col-md-12">
+  
+                        {% for an_example in five_ccs %}
+                        <p class="card-text p-0 m-0" style="font-size:18px; color: #782923cf;">
+                          <b> 
+                        <span class="card-text-spaced">
+                          <span class="left-span">     
+                              <i class="fa-solid fa-star fa-xs"></i>
+                      
+                                <span class="badge border border-dark text-dark px-2 py-1 fw-light fs-6" style="background: linear-gradient(to right, #f8bdb2, #faf0b6)">
+                                  {% if an_example.year_from == None %}
+                                  <a type="button" class="btn p-0 m-0" data-bs-toggle="tooltip" data-bs-html="true"  title='Year Range of Polity is assumed.'>
+                                      <span> - </span>
+                                  </a>
+                                  {% elif  an_example.year_from == an_example.year_to %}
+                                      {% if  an_example.year_from < 0 %}
+                                      {{ an_example.year_from|abs }} 
+                                      <span class="text-secondary fw-light fs-6">BCE</span> 
+                                      {% else %}
+                                      {{ an_example.year_from }} 
+                                      <span class="text-secondary fw-light fs-6">CE</span>
+                              
+                                      {% endif %}
+                                  {% elif an_example.year_to == None %}
+                                      {% if  an_example.year_from < 0 %}
+                                      {{ an_example.year_from|abs }} 
+                                      
+                                          <span class="text-secondary fw-light fs-6">BCE</span>
+                                  
+                                      {% else %}
+                                      {{ an_example.year_from }} 
+                                      
+                                          <span class="text-secondary fw-light fs-6">CE</span>
+                                  
+                                      {% endif %}
+                                  {% elif an_example.year_to == None and  an_example.year_from == None %}
+                                      <i class="fa-solid fa-minus"></i> 
+                                  {% else %}
+                                      {% if  an_example.year_from < 0 and an_example.year_to < 0 %}
+                                      {{ an_example.year_from|abs }} 
+                                      
+                                          <span class="text-secondary fw-light fs-6">BCE</span> 
+                                  
+                                      <i class="fas fa-long-arrow-alt-right"></i> {{ an_example.year_to|abs }}         
+                                          <span class="text-secondary fw-light fs-6">BCE</span> 
+                                      {% elif  an_example.year_from < 0 and an_example.year_to >= 0 %}
+                                      {{ an_example.year_from|abs }}         
+                                          <span class="text-secondary fw-light fs-6">BCE</span> 
+                                   <i class="fas fa-long-arrow-alt-right"></i> {{ an_example.year_to }}         
+                                          <span class="text-secondary fw-light fs-6">CE</span> 
+                                  
+                                      {% else %}
+                                      {{ an_example.year_from }} 
+                                          <span class="text-secondary fw-light fs-6">CE</span>
+                                    <i class="fas fa-long-arrow-alt-right"></i> {{ an_example.year_to }}         
+                                          <span class="text-secondary fw-light fs-6">CE</span> 
+                                  
+                                      {% endif %}
+                              
+                                  {% endif %}
+  
+                              </span>
+                              <span class = "fw-bold text-danger">
+                                  {{ an_example.name }}:
+                              </span> 
+                              <span class = "fw-bold text-teal">
+                                  {{ an_example.crisis_case_id }}
+                              </span>
+                          </span>
+                          <span class="right-span fw-normal">   
+                              in
+                              <a href="{% url 'polity-detail-main'  an_example.polity.id %}#crisis_case_var">  
+                              <b>{{an_example.polity.long_name}}</b>  
+                              </a>
+      
+                          </span>
+                    
+  
+                      </span>
+                            </b>
+                        </p>
+                        {% endfor %}
+  
+                        <p class="card-text-spaced" style="font-size:16px; color: #782823;"> 
+                          <span  class="left-span pt-0 px-3" style="font-size:16px; color: #782823;"> and 
+                              
+                              <a href="{% url 'crisis_consequences_all'  %}">  
+                                 <u><b>{{cc_data.0|add:-5}}</b></u>  more...
+                              </a>
+                          </span>
+                          <span classs="right-span pt-0" style="text-align: right; justify-content:baseline">             
+                                  <i class="fa-solid fa-feather fa-xs"></i> coded for
+                                  <b> {{cc_data.2}} Polities</b>.
+                          </span>
+                      </p>
+    
+                    </div>
+                  </div>
+    
+    
+        
+                </div>
+              </div>
+
+
+
+
+<!--  -->
+     
+<div class="col-md-12">
+    <div class="gray-background">      </div>
+
+    <div class="px-2">
+        <h1 class="card-title" style="color:darkcyan; text-align: center;">
+          <a href="{% url 'human_sacrifices_all'  %}">  
+              {{hs_data.0}}                   
+           </a>
+          
+         </h1>     
+        <hr class="bg-colorful p-1 m-0">
+ 
+      <h1 class="card-text pt-1 pb-2 m-0 fw-bold" style="font-size:38px; color: #782823; text-align: center;">
+         <a href="{% url 'human_sacrifices_all'  %}">  
+          Human Sacrifice
+      </a>
+      </h1>
+
+      <div class="row pt-1">
+        <div class="col-md-12">
+
+            {% for an_example in five_hss %}
+            <p class="card-text p-0 m-0" style="font-size:18px; color: #782923cf;">
+              <b> 
+            <span class="card-text-spaced">
+              <span class="left-span">     
+                  <i class="fa-solid fa-star fa-xs"></i>
+          
+                    <span class="badge border border-dark text-dark px-2 py-1 fw-light fs-6" style="background: linear-gradient(to right, #f8bdb2, #faf0b6)">
+                      {% if an_example.year_from == None %}
+                      <a type="button" class="btn p-0 m-0" data-bs-toggle="tooltip" data-bs-html="true"  title='Year Range of Polity is assumed.'>
+                          <span> - </span>
+                      </a>
+                      {% elif  an_example.year_from == an_example.year_to %}
+                          {% if  an_example.year_from < 0 %}
+                          {{ an_example.year_from|abs }} 
+                          <span class="text-secondary fw-light fs-6">BCE</span> 
+                          {% else %}
+                          {{ an_example.year_from }} 
+                          <span class="text-secondary fw-light fs-6">CE</span>
+                  
+                          {% endif %}
+                      {% elif an_example.year_to == None %}
+                          {% if  an_example.year_from < 0 %}
+                          {{ an_example.year_from|abs }} 
+                          
+                              <span class="text-secondary fw-light fs-6">BCE</span>
+                      
+                          {% else %}
+                          {{ an_example.year_from }} 
+                          
+                              <span class="text-secondary fw-light fs-6">CE</span>
+                      
+                          {% endif %}
+                      {% elif an_example.year_to == None and  an_example.year_from == None %}
+                          <i class="fa-solid fa-minus"></i> 
+                      {% else %}
+                          {% if  an_example.year_from < 0 and an_example.year_to < 0 %}
+                          {{ an_example.year_from|abs }} 
+                          
+                              <span class="text-secondary fw-light fs-6">BCE</span> 
+                      
+                          <i class="fas fa-long-arrow-alt-right"></i> {{ an_example.year_to|abs }}         
+                              <span class="text-secondary fw-light fs-6">BCE</span> 
+                          {% elif  an_example.year_from < 0 and an_example.year_to >= 0 %}
+                          {{ an_example.year_from|abs }}         
+                              <span class="text-secondary fw-light fs-6">BCE</span> 
+                       <i class="fas fa-long-arrow-alt-right"></i> {{ an_example.year_to }}         
+                              <span class="text-secondary fw-light fs-6">CE</span> 
+                      
+                          {% else %}
+                          {{ an_example.year_from }} 
+                              <span class="text-secondary fw-light fs-6">CE</span>
+                        <i class="fas fa-long-arrow-alt-right"></i> {{ an_example.year_to }}         
+                              <span class="text-secondary fw-light fs-6">CE</span> 
+                      
+                          {% endif %}
+                  
+                      {% endif %}
+                  </span>
+                  <span class = "text-teal">
+                    <span class="text-dark">was</span> <b>{{ an_example.get_human_sacrifice_display }}   </b>                 <span class="text-dark">in:</span>
+                    <a href="{% url 'polity-detail-main'  an_example.polity.id %}#crisis_case_var">  
+                    <span>{{an_example.polity.long_name}}</span>  
+                    </a>
+
+                  </span> 
+              </span>
+              <span class="right-span fw-normal">   
+                  see more in:
+                  <a href="{% url 'polity-detail-main'  an_example.polity.id %}#crisis_case_var">  
+                  <b>{{an_example.polity.long_name}}</b>  
+                  </a>
+
+              </span>
+        
+
+          </span>
+                </b>
+            </p>
+            {% endfor %}
+
+            <p class="card-text-spaced" style="font-size:16px; color: #782823;"> 
+              <span  class="left-span pt-0 px-3" style="font-size:16px; color: #782823;"> and 
+                  
+                  <a href="{% url 'human_sacrifices_all'  %}">  
+                     <u><b>{{hs_data.0|add:-5}}</b></u>  more...
+                  </a>
+              </span>
+              <span classs="right-span pt-0" style="text-align: right; justify-content:baseline">             
+                      <i class="fa-solid fa-feather fa-xs"></i> coded for
+                      <b> {{hs_data.2}} Polities</b>.
+              </span>
+          </p>
+
+        </div>
+      </div>
+
+
+
+    </div>
+  </div>
+<!--  -->
+        </div>
+
+        <h1 class="px-3 pt-3 pb-3 bg-colorful fw-bold" style="text-align: left; color: #782823;   border-radius: 10px;  text-shadow: 2px 2px 4px rgba(9, 71, 45, 0.261);
+        ">Extended CrisisDB Variables</h1>
+        <div class="row py-4">
+            <div class="col-md-12">
+                <div class="gray-background">      </div>
+        
+                <div class="px-2">
+                    <h1 class="card-title" style="color:darkcyan; text-align: center;">
+                      <a href="{% url 'us_violence_paginated'  %}">  
+                          {{us_data.0}}                   
+                       </a>
+                      
+                     </h1>     
+                    <hr class="bg-colorful p-1 m-0">
+             
+                  <h1 class="card-text pt-1 pb-2 m-0 fw-bold" style="font-size:38px; color: #782823; text-align: center;">
+                     <a href="{% url 'us_violence_paginated'  %}">  
+                      US Political Violence Database
+                  </a>
+                  </h1>
+                  <h6  style="color:rgba(0, 139, 139, 0.659); text-align: center;">
+                      coded for Date, Type, Subtype(s), Location(s), Fatalities, etc
+                  </h6>
+    
+                  <div class="row pt-1">
+                    <div class="col-md-12">
+  
+                        {% for an_example in five_uss %}
+                        <p class="card-text p-0 m-0" style="font-size:18px; color: #782923cf;">
+                          <b> 
+                        <span class="card-text-spaced">
+                          <span class="left-span">     
+                              <i class="fa-solid fa-star fa-xs"></i>
+                      
+                                <span class="badge border border-dark text-dark px-2 py-1 fw-light fs-6" style="background: linear-gradient(to right, #f8bdb2, #faf0b6)">
+                                  {% if an_example.violence_date == None %}
+                                    No Date Provided
+                                  {% else %}
+                                      {{ an_example.violence_date }} 
+                                  {% endif %}
+  
+                              </span>
+                              <span class = "fw-bold text-danger">
+                                 A {{ an_example.violence_type }} ({{an_example.show_violence_subtypes}})
+                              </span> 
+                              <span class = "text-teal">
+in                               
+                                  {% autoescape off %}
+                                  <b>{{an_example.show_locations}}</b>:
+                                  {% endautoescape %}
+                              </span>
+                              <span class="text-dark">
+                                {{ an_example.fatalities }}
+                                {% if an_example.fatalities == 1 %}
+                                was
+                                {% else%}
+                                were 
+                                {% endif %}
+                                killed. 
+                            </span> 
+                          </span>
+                          <span class="right-span fw-normal">   
+                              Source(s):
+                              {% autoescape off %}
+
+                                {%if an_example.url_address %}
+            &nbsp;<a href="{{an_example.url_address}}" target="_blank"><i class="fa-solid fa-up-right-from-square"></i>  <b>{{an_example.show_short_data_sources}}</b>  </a>
+          {% endif %}
+                             
+                              {% endautoescape %}
+
+                          </span>
+                    
+  
+                      </span>
+                            </b>
+                        </p>
+                        {% endfor %}
+                        <p class="card-text-spaced" style="font-size:16px; color: #782823;"> 
+                            <span  class="left-span pt-0 px-3" style="font-size:16px; color: #782823;"> and 
+                                
+                                <a href="{% url 'us_violence_paginated'  %}">  
+                                   <u><b>{{us_data.0|add:-5}}</b></u>  more...
+                                </a>
+                            </span>
+                        </p>
+    
+                    </div>
+                  </div>
+    
+    
+        
+                </div>
+              </div>
+
+        </div>
+
+
+</div>
+
 
 {% endblock %}
