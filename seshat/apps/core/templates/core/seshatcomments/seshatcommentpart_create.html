@@ -1,0 +1,76 @@
+<!-- seshatcommentpart_create.html -->
+{% extends "core/seshat-base.html" %}
+{% load crispy_forms_tags %}
+{% load humanize %}
+
+
+{% block content %}
+<div class="container p-4">
+
+<!-- seshatcommentpart_create.html -->
+<form method="post" action="{% url 'seshatcommentpart_create3' %}">
+    {% csrf_token %}
+    {{ form.comment_text.label_tag }} {{ form.comment_text }}<br>
+    {{ form.formset.management_form }}
+
+
+    <div id="formset-container">
+        {% for form in form.formset %}
+        <div class="formset-item">
+            {{ form.id }} {# Include the form ID for proper formset rendering #}
+
+          {{ form.ref }} {{ form.page_from|as_crispy_field }} {{ form.page_to|as_crispy_field }}<br>
+        </div>
+
+        {% endfor %}
+      </div>
+      <button type="button" id="add-formset">Add More</button>
+
+    {{ form.comment_order.label_tag }} {{ form.comment_order }}<br>
+  
+    <input type="submit" value="Submit">
+  </form>
+  
+</div>
+<!-- seshatcommentpart_create.html -->
+<script>
+    
+    document.addEventListener("DOMContentLoaded", function () {
+      const addButton = document.getElementById("add-formset");
+      const formsetContainer = document.getElementById("formset-container");
+      const managementForm = document.getElementById("id_refs-TOTAL_FORMS");
+    
+      let formsetCount = {{ form.formset.total_form_count }};
+    
+      addButton.addEventListener("click", function () {
+        const lastFormset = formsetContainer.querySelector('.formset-item:last-child');
+    
+        if (lastFormset) {
+          const newFormset = lastFormset.cloneNode(true);
+          newFormset.innerHTML = lastFormset.innerHTML;
+    
+          // Increment form indices
+          const formInputs = newFormset.querySelectorAll('[id^=id_refs], [name^=refs]');
+          formInputs.forEach(input => {
+            input.value = input.value.replace(/-\d+-/g, `-${managementForm.value}-`);
+            input.id = input.id.replace(/-\d+-/g, `-${managementForm.value}-`);
+            input.name = input.name.replace(/-\d+-/g, `-${managementForm.value}-`);
+        });
+    
+          formsetContainer.appendChild(newFormset);
+          formsetCount += 1;
+          managementForm.value = parseInt(managementForm.value) + 1;      
+        }
+      });
+    });
+    
+    $(document).ready(function() {
+        // Initialize Select2 with an empty dataset
+        $('.js-example-basic-single').select2();
+    });    
+</script>
+
+    
+{% endblock %}
+
+  

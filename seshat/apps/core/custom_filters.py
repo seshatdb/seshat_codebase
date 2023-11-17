@@ -9,3 +9,4 @@ def get_attributes(obj):
 @register.filter
 def zip_lists(a, b):
     return zip(a, b)
+

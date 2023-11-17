@@ -114,6 +114,31 @@ L.geoJSON(json_data1,{
 
 </div>
 
-
+<script>
+    
+    document.addEventListener("DOMContentLoaded", function () {
+      const addButton = document.getElementById("add-formset");
+      const formsetContainer = document.getElementById("formset-container");
+      const managementForm = document.getElementById("id_references-TOTAL_FORMS");
+    
+      let formsetCount = {{ form.formset.total_form_count }};
+    
+      addButton.addEventListener("click", function () {
+        const existingFormset = formsetContainer.querySelector('.formset-item:last-child');
+        
+        if (existingFormset) {
+          const newFormset = existingFormset.cloneNode(true);
+          formsetContainer.appendChild(newFormset);
+          formsetCount += 1;
+          managementForm.value = formsetCount;
+        }
+      });
+    });
+    
+    $(document).ready(function() {
+        // Initialize Select2 with an empty dataset
+        $('.js-example-basic-single').select2();
+    });    
+</script>
 
 {% endblock %}

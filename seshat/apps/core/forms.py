@@ -223,6 +223,33 @@ class SeshatCommentPartForm(forms.ModelForm):
             'comment_curator': forms.Select(attrs={'class': 'form-control form-select mb-3',}),
         }
 
+class ReferenceWithPageForm(forms.Form):
+    ref = forms.ModelChoiceField(
+        queryset=Reference.objects.all(),
+        #widget=forms.Select(attrs={'class': 'form-control form-select mb-3   js-example-basic-single', 'text':'ref'}),
+        label='ref'
+    ) 
+    # ref = forms.ModelChoiceField(
+    #     queryset=Reference.objects.all(),
+    #     widget=forms.Select(attrs={'class': 'form-control form-select mb-3  js-states js-example-basic-single'}),
+    #     label='ref'
+    # )    
+    page_from = forms.IntegerField(label='Page From', required=False)
+    page_to = forms.IntegerField(label='Page To', required=False)
+
+ReferenceFormSet = forms.formset_factory(ReferenceWithPageForm, extra=2)
+
+
+class SeshatCommentPartForm2(forms.Form):
+    comment_text = forms.CharField(label='Comment Text', widget=forms.Textarea(attrs={'class': 'form-control  mb-3 ', 'style': 'height: 200px',}))
+
+    formset = ReferenceFormSet(prefix='refs')
+    
+    #forms.ModelChoiceField(queryset=Reference.objects.all(), label='Reference')
+    comment_order = forms.IntegerField(label='Comment Order', required=False)
+    formset.management_form  # Include the management form
+
+
 
 class SignUpForm(UserCreationForm):
     # first_name = forms.CharField(

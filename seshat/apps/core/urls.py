@@ -120,6 +120,8 @@ urlpatterns += [
          views.SeshatCommentPartUpdate.as_view(), name="seshatcommentpart-update"),
     path('core/seshatcommentparts/<int:pk>/delete/',
          views.SeshatCommentPartDelete.as_view(), name="seshatcommentpart-delete"),
+    path('core/seshatcommentparts/create3/', views.seshatcommentpart_create_view, name='seshatcommentpart_create3'),
+
     # Download
     #path('balancedownload/', views.balance_download,
      #    name="balance-download"),

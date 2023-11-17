@@ -1,7 +1,7 @@
 from seshat.utils.utils import adder, dic_of_all_vars, list_of_all_Polities, dic_of_all_vars_in_sections
 
 from django.contrib.sites.shortcuts import get_current_site
-from seshat.apps.core.forms import SignUpForm, VariablehierarchyFormNew, CitationForm, ReferenceForm, SeshatCommentForm, SeshatCommentPartForm, PolityForm, PolityUpdateForm, CapitalForm, NgaForm
+from seshat.apps.core.forms import SignUpForm, VariablehierarchyFormNew, CitationForm, ReferenceForm, SeshatCommentForm, SeshatCommentPartForm, PolityForm, PolityUpdateForm, CapitalForm, NgaForm, SeshatCommentPartForm2, ReferenceFormSet
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate
 from django.shortcuts import render
@@ -1860,3 +1860,134 @@ def download_csv_all_polities(request):
             writer.writerow(["None", "None", obj.new_name, obj.name, obj.long_name, obj.start_year, obj.end_year, obj.home_nga,  coded_value_data[obj.id]['g'], coded_value_data[obj.id]['sc'], coded_value_data[obj.id]['wf'], coded_value_data[obj.id]['hs'], coded_value_data[obj.id]['cc'], coded_value_data[obj.id]['pt'], obj.get_polity_tag_display()])
 
     return response
+
+##### additions for the seshatcommentpart enhancement
+# views.py
+
+
+def get_or_create_citation(reference, page_from, page_to):
+    # Check if a matching citation already exists
+    existing_citation = Citation.objects.filter(
+        ref=reference,
+        page_from=page_from,
+        page_to=page_to
+    ).first()
+
+    # If a matching citation exists, return it; otherwise, create a new one
+    return existing_citation or Citation.objects.create(
+        ref=reference,
+        page_from=page_from,
+        page_to=page_to
+    )
+from django.shortcuts import render, redirect
+from .forms import SeshatCommentPartForm
+from .models import SeshatCommentPart, Citation
+
+def seshatcommentpart_create_view_old(request):
+    if request.method == 'POST':
+        form = SeshatCommentPartForm2(request.POST)
+        if form.is_valid():
+            comment_text = form.cleaned_data['comment_text']
+            reference = form.cleaned_data['reference']
+            page_from = form.cleaned_data['page_from']
+            page_to = form.cleaned_data['page_to']
+            comment_order = form.cleaned_data['comment_order']
+
+            # Get or create the Citation instance
+            citation = get_or_create_citation(reference, page_from, page_to)
+            user_logged_in = request.user
+
+            comment_instance = SeshatComment.objects.create(text='a new_comment_text')
+
+            try:
+                seshat_expert_instance = Seshat_Expert.objects.get(user=user_logged_in)
+            except Seshat_Expert.DoesNotExist:
+                seshat_expert_instance = None
+
+            # Create the SeshatCommentPart instance and associate the Citation
+            comment_part = SeshatCommentPart.objects.create(
+                comment=comment_instance,
+                comment_part_text=comment_text,
+                comment_order=comment_order,
+                comment_curator=seshat_expert_instance 
+            )
+            comment_part.comment_citations.add(citation)
+
+            return redirect('seshat-index')  # Redirect to a success page
+
+    else:
+        form = SeshatCommentPartForm2()
+
+    return render(request, 'core/seshatcomments/seshatcommentpart_create.html', {'form': form})
+
+
+# views.py
+from django.shortcuts import render, redirect
+from .models import SeshatCommentPart, Citation
+
+def seshatcommentpart_create_view(request):
+    if request.method == 'POST':
+        form = SeshatCommentPartForm2(request.POST)
+        if form.is_valid():
+            comment_text = form.cleaned_data['comment_text']
+            comment_order = form.cleaned_data['comment_order']
+            user_logged_in = request.user
+
+            comment_instance = SeshatComment.objects.create(text='a new_comment_text')
+
+            try:
+                seshat_expert_instance = Seshat_Expert.objects.get(user=user_logged_in)
+            except Seshat_Expert.DoesNotExist:
+                seshat_expert_instance = None
+
+            # Create the SeshatCommentPart instance
+            comment_part = SeshatCommentPart.objects.create(
+                comment=comment_instance,
+                comment_part_text=comment_text,
+                comment_order=comment_order,
+                comment_curator=seshat_expert_instance 
+            )
+
+            # Process the formset
+            reference_formset = ReferenceFormSet(request.POST, prefix='refs')
+            print("++++++ffffffff++++++++")
+            if reference_formset.is_valid():
+                print("Ahsaaaaant")
+            else:
+                print(f'Formset errors: {reference_formset.errors}, {reference_formset.non_form_errors()}')
+
+            if reference_formset.has_changed():
+                print("Ahsaaaaaaaaaaaaaaaaaant")
+            else:
+                print(f'Formset errors: {reference_formset.errors}, {reference_formset.non_form_errors()}')
+            print("++++++ffffffff++++++++")
+            for i, reference_form in enumerate(reference_formset):
+                if reference_form.is_valid():
+                    print("+++++++xxaaaaaaaaaxx+++++++")
+                    reference = reference_form.cleaned_data['ref']
+                    page_from = reference_form.cleaned_data['page_from']
+                    page_to = reference_form.cleaned_data['page_to']
+
+                    # Get or create the Citation instance
+                    #citation = get_or_create_citation(reference, page_from, page_to)
+                    citation, created = Citation.objects.get_or_create(
+                        ref=reference,
+                        page_from=int(page_from),
+                        page_to=int(page_to)
+                    )
+
+
+                    # Associate the Citation with the SeshatCommentPart
+                    comment_part.comment_citations.add(citation)
+                    print("+++++++xxxx+++++++")
+                    print("I am here::::::", citation)
+                else:
+                    print(f'Form errors: {reference_form.errors}')
+
+            return redirect('seshat-index')  # Redirect to a success page
+
+    else:
+        form = SeshatCommentPartForm2()
+
+    return render(request, 'core/seshatcomments/seshatcommentpart_create.html', {'form': form})
+
