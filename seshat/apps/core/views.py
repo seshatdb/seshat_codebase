@@ -1040,9 +1040,9 @@ class PolityDetailView(SuccessMessageMixin, generic.DetailView):
         context = super().get_context_data(**kwargs)
         try:
             context["all_data"] = get_all_data_for_a_polity(self.object.pk, "crisisdb") 
-            context["all_general_data"] = get_all_general_data_for_a_polity(self.object.pk)
-            context["all_sc_data"] = get_all_sc_data_for_a_polity(self.object.pk)
-            context["all_wf_data"] = get_all_wf_data_for_a_polity(self.object.pk)
+            context["all_general_data"], context["has_any_general_data"] = get_all_general_data_for_a_polity(self.object.pk)
+            context["all_sc_data"], context["has_any_sc_data"] = get_all_sc_data_for_a_polity(self.object.pk)
+            context["all_wf_data"], context["has_any_wf_data"] = get_all_wf_data_for_a_polity(self.object.pk)
             context["all_crisis_cases_data"] = get_all_crisis_cases_data_for_a_polity(self.object.pk)
             context["all_power_transitions_data"] = get_all_power_transitions_data_for_a_polity(self.object.pk)
             all_Ras = Polity_research_assistant.objects.filter(polity_id=self.object.pk)

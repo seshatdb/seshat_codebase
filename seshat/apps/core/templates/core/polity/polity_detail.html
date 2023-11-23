@@ -115,19 +115,19 @@
                         <a href="#"><span class="badge text-dark p-1  me-2 fs-4 custom-left-border-shadowed_2" style="background-color: rgb(195, 195, 195);">D</span></a>
                         </span>
                         {% endif %}
-                        {% if all_general_data %}
+                        {% if has_any_general_data %}
                         <span type="button"  tabindex="0" data-bs-toggle="popover" title="General Variables" data-bs-html="true" data-bs-trigger="focus">
                         <a href="#general_var"><span class="badge bg-warning text-dark p-1 me-2 fs-4 custom-left-border-shadowed_2">G</span></a>
                         </span>
                         {% endif %}
 
-                        {% if all_sc_data %}
+                        {% if has_any_sc_data %}
                         <span type="button"  tabindex="0" data-bs-toggle="popover" title="Social Complexity Variables" data-bs-html="true" data-bs-trigger="focus">
                         <a href="#sc_var"><span class="badge bg-primary p-1 me-2 fs-4 custom-left-border-shadowed_2">SC</span></a>
                         </span>
                         {% endif %}
 
-                        {% if all_wf_data %}
+                        {% if has_any_wf_data %}
                         <span type="button"  tabindex="0" data-bs-toggle="popover" title="Warfare Variables (MilTech)" data-bs-html="true" data-bs-trigger="focus">
                         <a href="#wf_var"><span class="badge bg-danger p-1 me-2 fs-4 custom-left-border-shadowed_2">WF</span></a>
                         </span>
@@ -232,7 +232,7 @@
 
 
 
-            {% if all_general_data %}
+            {% if all_general_data and has_any_general_data %}
             <div class="col-md-12 m-0 p-0 border-bottom border-2">
                 <span class=" h3 fw-bold m-0 p-0 ">  
                     <span class="badge mt-4 mb-2 fw-bold bg-warning text-dark" style="text-align: left; border:1px solid #8931015e">
@@ -326,7 +326,7 @@
 
 
 
-            {% if all_sc_data %}
+            {% if all_sc_data and has_any_sc_data %}
             <div class="col-md-12 m-0 p-0 border-bottom border-2">
                 <span class=" h3 fw-bold m-0 p-0 ">  
                     <span class="badge mt-4 mb-2 fw-bold text-light bg-primary" style="text-align: left; border:1px solid #8931015e">
@@ -406,7 +406,7 @@
 
             {% endif %}
 
-            {% if all_wf_data %}
+            {% if all_wf_data and has_any_wf_data %}
             <div class="col-md-12 m-0 p-0 border-bottom border-2">
                 <span class=" h3 fw-bold m-0 p-0 ">  
                     <span class="badge mt-4 mb-2 fw-bold text-light bg-danger" style="text-align: left; border:1px solid #8931015e">

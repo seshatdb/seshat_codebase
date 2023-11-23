@@ -249,6 +249,8 @@ def get_all_general_data_for_a_polity_old(polity_id):
 def get_all_general_data_for_a_polity(polity_id):
     app_name = 'general'  # Replace with your app name
     models_1 = apps.get_app_config(app_name).get_models()
+    has_any_data = False
+
 
     all_vars_grouped_g = {}
     for model in models_1:
@@ -282,6 +284,8 @@ def get_all_general_data_for_a_polity(polity_id):
                 continue
             #print(f"--------xxxxxxxxxxxxx-----{m.__name__}, ")
             if my_data:
+                has_any_data = True
+
                 my_s = m().subsection()
                 #print(f"-------------{my_s}, ")
 
@@ -293,11 +297,12 @@ def get_all_general_data_for_a_polity(polity_id):
                 #    print(f"------{m.subsection()}-------")
     #print(all_vars_grouped_g)
 
-    return all_vars_grouped_g
+    return all_vars_grouped_g, has_any_data
 
 def get_all_sc_data_for_a_polity(polity_id):
     app_name = 'sc'  # Replace with your app name
     models_1 = apps.get_app_config(app_name).get_models()
+    has_any_data = False
 
     all_vars_grouped = {}
     for model in models_1:
@@ -328,6 +333,7 @@ def get_all_sc_data_for_a_polity(polity_id):
             if m.__name__ == "Ra":
                 continue
             if my_data:
+                has_any_data = True
                 my_s = m().subsection()
                 my_ss = m().sub_subsection()
 
@@ -341,7 +347,7 @@ def get_all_sc_data_for_a_polity(polity_id):
                 #    print(f"------{m.subsection()}-------")
     #print(all_vars_grouped)
 
-    return all_vars_grouped
+    return all_vars_grouped, has_any_data
 
 # def has_sc_data_for_polity(polity_id):
 #     for ct in ContentType.objects.filter(app_label='sc'):
@@ -356,6 +362,8 @@ def get_all_sc_data_for_a_polity(polity_id):
 def get_all_wf_data_for_a_polity(polity_id):
     app_name = 'wf'  # Replace with your app name
     models_1 = apps.get_app_config(app_name).get_models()
+
+    has_any_data = False
 
     all_vars_grouped_wf = {}
     for model in models_1:
@@ -385,6 +393,7 @@ def get_all_wf_data_for_a_polity(polity_id):
 
             #print(f"--------xxxxxxxxxxxxx-----{m.__name__}, ")
             if my_data:
+                has_any_data = True
                 my_s = m().subsection()
                 #print(f"-------------{my_s}, ")
 
@@ -396,7 +405,7 @@ def get_all_wf_data_for_a_polity(polity_id):
                 #    print(f"------{m.subsection()}-------")
     #print(all_vars_grouped_wf)
 
-    return all_vars_grouped_wf
+    return all_vars_grouped_wf, has_any_data
 
 
 def get_all_wf_data_for_a_polity_old(polity_id):
