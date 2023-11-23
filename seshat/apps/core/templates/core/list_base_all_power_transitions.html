@@ -4,6 +4,33 @@
 {% load mathfilters %}
 
 {% block content %}
+<style>
+    .card-text-spaced {
+        font-size: 16px;
+        color: #782823;
+        display: flex;
+        padding-top: 5px;
+        justify-content: space-between;
+        }
+    
+    .left-span {
+            font-size: 16px;
+            color: #782823;
+        }
+    
+    .right-span {
+            text-align: right;
+            font-size: 16px;
+            color: #782823;
+        }
+    
+        .center-span {
+            text-align: center;
+            font-size: 16px;
+            color: #782823;
+        }
+    
+</style>
 <div class="container">
     {% if object_list %}
     <div class="row d-flex mt-3">
@@ -38,50 +65,76 @@
     {% endblock main_description %}
     {% block secondary_description %}
     {% endblock secondary_description %}
-    <hr class="bg-colorful">
-    <div class="table-responsive">
+    <hr class="bg-colorful p-0 m-0">
+    <div class="table-responsive" style="overflow-x:hidden;">
         <div>
+            <span class="left-span px-1" style="color:rgba(0, 139, 139, 0.837);">
+                        
+                <h6 class="fw-bold" style="color:rgba(0, 139, 139, 0.837); text-align: left; line-height: 1.75;">
+                     <span class="badge bg-secondary" style="vertical-align: top;">&nbsp;</span> absent&nbsp;&nbsp; 
+                    <span class="badge bg-success" style="vertical-align: top;">&nbsp;</span> present&nbsp;&nbsp; <span class="badge bg-dark" style="vertical-align: top;">&nbsp;</span> inferred absent&nbsp;&nbsp; 
+                    <span class="badge bg-primary" style="vertical-align: top;">&nbsp;</span> inferred present&nbsp;&nbsp; <span class="badge bg-warning" style="vertical-align: top;">&nbsp;</span> suspected unknown&nbsp;&nbsp; <span class="fw-normal text-dark"></span>
+                    <span class="badge bg-danger" style="vertical-align: top;">&nbsp;</span> unknown <span class="fw-normal text-dark"> are coded for:</span> <br>  
+                    
 
-        <table id="table_id" class="table align-middle table-hover table-striped table-bordered mb-4" style="padding: 0.25 rem !important;">
-            <thead>
-                <tr>
-                    <th scope="col" class="text-secondary fs-5"  style="text-align: center">
-                       <span class="badge rounded-pill bg-light text-dark">#</span> 
-                    </th>
-                    <th scope="col" class="text-secondary fs-6"  style="text-align: center">
-                        Polity
-                    </th>
-                    <th scope="col" class="text-secondary fs-6"  style="text-align: center">
-                        Power Transitions
-                    </th>
-                    <!-- headings for extra vars -->
-                  </tr>
+                  </h6>
+                  <div class="row">
+                    <div class="col-md-3">
+                        <span class="badge bg-light text-dark border border-dark" style="padding-bottom:3px;" >OT</span> Overturn
+                    </div>
+                    <div class="col-md-3">                            
+                        <span class="badge bg-light text-dark border border-dark" style="padding-bottom:3px;"  >PA</span> Predecessor Assassination</div>
 
-            </thead>
+                    <div class="col-md-3">                             
+                        <span class="badge bg-light text-dark border border-dark" style="padding-bottom:3px;"  >IE</span> Intra-Elite</div>
+                    <div class="col-md-3">
+                        <span class="badge bg-light text-dark border border-dark" style="padding-bottom:3px;"  >MR</span> Military Revolt
+                    </div>
+                    <div class="col-md-3">
+                        <span class="badge bg-light text-dark border border-dark" style="padding-bottom:3px;"  >PU</span> Popular Uprising
+                    </div>
+                    <div class="col-md-3">
+                        <span class="badge bg-light text-dark border border-dark" style="padding-bottom:3px;"  >SR</span> Separatist Rebellion
+                    </div>
+                    <div class="col-md-3">                             
+                        <span class="badge bg-light text-dark border border-dark" style="padding-bottom:3px;"  >EV</span> External Invasion
+                    </div>
+                    <div class="col-md-3">
+                        <span class="badge bg-light text-dark border border-dark" style="padding-bottom:3px;"  >EF</span> External Inteference
+                    </div>
+                </div>
+            </span> 
+
+        <table id="table_id" class="table align-middle table-striped table-bordered mb-4" style="padding: 0.25 rem !important;">
             <tbody>
             
                 {% for pol_id, info_list in object_list.items %}
                 <tr>
-                    <td class="text-secondary sticky-start" scope="row"  style="text-align: center">
-                        
-                        {{ forloop.counter }}</td>
-                    <td class="text-teal h4 sticky-start" scope="row"  style="text-align: center">
+                    <td class="text-teal h4 sticky-start pt-2" scope="row"  style="text-align: center">
                         <div class="h5">
-                            <span class="badge  border border-dark text-dark p-1 fs-5" style="background:  #94dbeb">{{ info_list.trans_list|length }}</span> <span class="text-secondary">Power Transitions for:</span> 
+                            <span class="badge  border border-dark text-dark p-1 fs-5" style="background:  #94dbeb">{{ info_list.trans_list|length }}</span> <span class="text-secondary">Power
+
+                                {% with num_transitions=info_list.trans_list|length %}
+                                    {% if num_transitions == 1 %}
+                                        Transition
+                                    {% else %}
+                                        Transitions
+                                    {% endif %}
+                                {% endwith %}
+
+                                for:</span> 
                         </div>
                         <div class="h4">
                             <a href="{% url 'polity-detail-main' pol_id %}#power_transition_var">{{ info_list.polity_long_name }}</a>
+                            <a class="h5" href="{% url 'polity-detail-main' pol_id %}#power_transition_var">({{ info_list.polity_new_name }})</a>
                         </div>
                         <div class="h5 text-dark">
-                            <span class="badge border border-dark text-dark px-2 py-1 fw-light fs-5" style="background: linear-gradient(to right, #d1fede, #c1ecf6)">
+                            <span class="badge border border-dark text-dark px-2 py-1 fw-light fs-5" style="background: linear-gradient(to right, #d1fedea6, #c1ecf69a)">
                                         
                                 {% if info_list.polity_start_year == None %}
                                 <a type="button" class="btn p-0 m-0" data-bs-toggle="tooltip" data-bs-html="true"  title='Year Range of Polity is assumed.'>
                                     <span><i class="fa-solid fa-clock fs-5 text-secondary"></i> </span>
                                 </a>
-                            
-                            
-                                    
                                 {% elif info_list.polity_start_year == info_list.polity_end_year %}
                                     {% if info_list.polity_start_year < 0 %}
                                     {{info_list.polity_start_year|abs }} 
@@ -133,12 +186,12 @@
                             
                                 {% endif %}
                             </span>
-                        </div>
-                        <div class="h5">
-                            (<a href="{% url 'polity-detail-main' pol_id %}#power_transition_var">{{ info_list.polity_new_name }}</a>)
+                            
                         </div>
                 </td>
-                    <td class="text-secondary sticky-start" scope="row"  style="text-align: left">
+            </tr>
+                <tr>
+                    <td class="text-secondary sticky-start p-0 m-0" scope="row"  style="text-align: left">
                         
                         <table class="table table-bordered">
                             <tbody>
@@ -148,7 +201,13 @@
 
                                                                    
                                      <td style="position: relative;">
-                                        <span class="badge border border-dark text-dark px-2 py-1 fw-light fs-6" style="background: linear-gradient(to right, #f8bdb2, #faf0b6)">
+                                      
+                                        <span class="card-text-spaced">
+                                            <span class="left-span">    
+                                                <span class="badge border border-dark text-dark p-1 fs-6" style="text-align: left; background: #f8bdb2a1;"><a href="{% url 'power_transition-update' a_trans.trans_id %}"> <i class="fa-solid fa-pencil text-dark fa-sm"></i></a></span>
+
+
+                                        <span class="badge border border-dark text-dark px-2 py-1 fw-light fs-6" style="background: linear-gradient(to right, #f8bdb288, #faf0b68e)">
                                         
                                             {% if a_trans.year_from == None %}
                                             <a type="button" class="btn p-0 m-0" data-bs-toggle="tooltip" data-bs-html="true"  title='Year Range of Polity is assumed.'>
@@ -227,11 +286,126 @@
 
 
 
-                                        <span class="badge border border-dark text-dark p-1 fs-6" style="position: absolute; right: 0; text-align: left; background: #f8bdb2;"><a href="{% url 'power_transition-update' a_trans.trans_id %}"> <i class="fa-solid fa-pencil text-dark fa-sm"></i></a></span>
+ 
+    </span>
 
 
+<span class="right-span fw-normal">   
+    {% if  a_trans.overturn == "P" %}
+    <span class="badge border border-dark bg-success">OV</span> 
+    {% elif  a_trans.overturn == "IP" %}
+    <span class="badge border border-dark bg-primary">OV</span> 
+    {% elif  a_trans.overturn == "A" %}
+    <span class="badge border border-dark bg-secondary">OV</span> 
+    {% elif  a_trans.overturn == "IA" %}
+    <span class="badge border border-dark bg-dark text-light">OV</span> 
+    {% elif  a_trans.overturn == "U" %}
+    <span class="badge border border-dark bg-danger">OV</span> 
+    {% elif  a_trans.overturn == "SU" %}
+    <span class="badge border border-dark bg-warning text-dark">OV</span>
+    {% endif %}
+
+    {% if  a_trans.predecessor_assassination == "P" %}
+    <span class="badge border border-dark bg-success">PA</span> 
+    {% elif  a_trans.predecessor_assassination == "IP" %}
+    <span class="badge border border-dark bg-primary">PA</span> 
+    {% elif  a_trans.predecessor_assassination == "A" %}
+    <span class="badge border border-dark bg-secondary">PA</span> 
+    {% elif  a_trans.predecessor_assassination == "IA" %}
+    <span class="badge border border-dark bg-dark text-light">PA</span> 
+    {% elif  a_trans.predecessor_assassination == "U" %}
+    <span class="badge border border-dark bg-danger">PA</span> 
+    {% elif  a_trans.predecessor_assassination == "SU" %}
+    <span class="badge border border-dark bg-warning text-dark">PA</span>
+    {% endif %}
+
+    {% if  a_trans.intra_elite == "P" %}
+    <span class="badge border border-dark bg-success">IE</span> 
+    {% elif  a_trans.intra_elite == "IP" %}
+    <span class="badge border border-dark bg-primary">IE</span> 
+    {% elif  a_trans.intra_elite == "A" %}
+    <span class="badge border border-dark bg-secondary">IE</span> 
+    {% elif  a_trans.intra_elite == "IA" %}
+    <span class="badge border border-dark bg-dark text-light">IE</span> 
+    {% elif  a_trans.intra_elite == "U" %}
+    <span class="badge border border-dark bg-danger">IE</span> 
+    {% elif  a_trans.intra_elite == "SU" %}
+    <span class="badge border border-dark bg-warning text-dark">IE</span>
+    {% endif %}
+
+    {% if  a_trans.military_revolt == "P" %}
+    <span class="badge border border-dark bg-success">MR</span> 
+    {% elif  a_trans.military_revolt == "IP" %}
+    <span class="badge border border-dark bg-primary">MR</span> 
+    {% elif  a_trans.military_revolt == "A" %}
+    <span class="badge border border-dark bg-secondary">MR</span> 
+    {% elif  a_trans.military_revolt == "IA" %}
+    <span class="badge border border-dark bg-dark text-light">MR</span> 
+    {% elif  a_trans.military_revolt == "U" %}
+    <span class="badge border border-dark bg-danger">MR</span> 
+    {% elif  a_trans.military_revolt == "SU" %}
+    <span class="badge border border-dark bg-warning text-dark">MR</span>
+    {% endif %}
+
+    {% if  a_trans.popular_uprising == "P" %}
+    <span class="badge border border-dark bg-success">PU</span> 
+    {% elif  a_trans.popular_uprising == "IP" %}
+    <span class="badge border border-dark bg-primary">PU</span> 
+    {% elif  a_trans.popular_uprising == "A" %}
+    <span class="badge border border-dark bg-secondary">PU</span> 
+    {% elif  a_trans.popular_uprising == "IA" %}
+    <span class="badge border border-dark bg-dark text-light">PU</span> 
+    {% elif  a_trans.popular_uprising == "U" %}
+    <span class="badge border border-dark bg-danger">PU</span> 
+    {% elif  a_trans.popular_uprising == "SU" %}
+    <span class="badge border border-dark bg-warning text-dark">PU</span>
+    {% endif %}
+
+    {% if  a_trans.separatist_rebellion == "P" %}
+    <span class="badge border border-dark bg-success">SR</span> 
+    {% elif  a_trans.separatist_rebellion == "IP" %}
+    <span class="badge border border-dark bg-primary">SR</span> 
+    {% elif  a_trans.separatist_rebellion == "A" %}
+    <span class="badge border border-dark bg-secondary">SR</span> 
+    {% elif  a_trans.separatist_rebellion == "IA" %}
+    <span class="badge border border-dark bg-dark text-light">SR</span> 
+    {% elif  a_trans.separatist_rebellion == "U" %}
+    <span class="badge border border-dark bg-danger">SR</span> 
+    {% elif  a_trans.separatist_rebellion == "SU" %}
+    <span class="badge border border-dark bg-warning text-dark">SR</span>
+    {% endif %}
+
+    {% if  a_trans.external_invasion == "P" %}
+    <span class="badge border border-dark bg-success">EV</span> 
+    {% elif  a_trans.external_invasion == "IP" %}
+    <span class="badge border border-dark bg-primary">EV</span> 
+    {% elif  a_trans.external_invasion == "A" %}
+    <span class="badge border border-dark bg-secondary">EV</span> 
+    {% elif  a_trans.external_invasion == "IA" %}
+    <span class="badge border border-dark bg-dark text-light">EV</span> 
+    {% elif  a_trans.external_invasion == "U" %}
+    <span class="badge border border-dark bg-danger">EV</span> 
+    {% elif  a_trans.external_invasion == "SU" %}
+    <span class="badge border border-dark bg-warning text-dark">EV</span>
+    {% endif %}
+
+    {% if  a_trans.external_interference == "P" %}
+    <span class="badge border border-dark bg-success">EF</span> 
+    {% elif  a_trans.external_interference == "IP" %}
+    <span class="badge border border-dark bg-primary">EF</span> 
+    {% elif  a_trans.external_interference == "A" %}
+    <span class="badge border border-dark bg-secondary">EF</span> 
+    {% elif  a_trans.external_interference == "IA" %}
+    <span class="badge border border-dark bg-dark text-light">EF</span> 
+    {% elif  a_trans.external_interference == "U" %}
+    <span class="badge border border-dark bg-danger">EF</span> 
+    {% elif  a_trans.external_interference == "SU" %}
+    <span class="badge border border-dark bg-warning text-dark">EF</span>
+    {% endif %}
 
 
+</span>
+</span>
 
 
                                     </td>
@@ -260,7 +434,7 @@
         </div>
     </div>
     {% endif %}
-    </div>
+</div>
     <script>
         var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
         var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {

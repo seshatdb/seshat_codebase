@@ -438,6 +438,16 @@ class Power_transitionListViewAll(PermissionRequiredMixin, generic.ListView):
                 'successor': transition.successor,
                 'name': transition.name,
                 'trans_id': transition.id,
+
+
+                'overturn': transition.overturn,
+                'predecessor_assassination':  transition.predecessor_assassination,
+                'intra_elite': transition.intra_elite,
+                'military_revolt': transition.military_revolt,
+                'popular_uprising': transition.popular_uprising,
+                'separatist_rebellion': transition.separatist_rebellion,
+                'external_invasion': transition.external_invasion,
+                'external_interference': transition.external_interference,
             })
         #print(grouped_dict)
 

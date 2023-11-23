@@ -1682,22 +1682,33 @@ def seshatindex(request):
         'cc_data': [],
         'hs_data': [],
         'sr_data': [],
-        'general_examples': [('Polity Duration', 'polity_durations_all'), 
-                            ('Polity Language', 'polity_languages_all'),
-                            ('Degree of Centralization', 'polity_degree_of_centralizations_all'),
-                            ('Suprapolity Relations', 'polity_suprapolity_relationss_all'),
-                            ('Alternative Name', 'polity_alternative_names_all'),],
+        'general_examples': [('Alternative Name', 'polity_alternative_names_all', 'Identity and Location'),
+                            ('Polity Peak Years', 'polity_peak_yearss_all', 'Temporal Bounds'), 
+                            ('Polity Capital', 'polity_capitals_all', 'Identity and Location'), 
+                            ('Polity Language', 'polity_languages_all', 'Language'),
+                            ('Polity Religion', 'polity_religions_all', 'Religion'),
+                            ('Degree of Centralization', 'polity_degree_of_centralizations_all', 'Temporal Bounds'),
+                            ('Succeeding Entity', 'polity_succeeding_entitys_all', 'Supra-cultural relations'),
+                            ('Relationship to Preceding Entity', 'polity_relationship_to_preceding_entitys_all', 'Supra-cultural relations'),
+                            ],
 
-        'sc_examples': [('Polity Territory', 'polity_territorys_all'), 
-                        ('Polity Population', 'polity_populations_all'), 
-                        ('Settlement Hierarchy', 'settlement_hierarchys_all'), 
-                        ('Irrigation System', 'irrigation_systems_all'), 
-                        ('Postal Station', 'postal_stations_all')],
-        'wf_examples': [('Atlatl', 'atlatls_all'),
-                        ('Javelin', 'javelins_all'),
-                        ('Battle Axe', 'battle_axes_all'),
-                        ('Sword', 'swords_all'),
-                        ('Horse', 'horses_all')]
+        'sc_examples': [('Polity Territory', 'polity_territorys_all', 'Social Scale'), 
+                        ('Polity Population', 'polity_populations_all', 'Social Scale'), 
+                        ('Settlement Hierarchy', 'settlement_hierarchys_all', 'Hierarchical Complexity'), 
+                        ('Irrigation System', 'irrigation_systems_all', 'Specialized Buildings: polity owned'), 
+                        ('Merit Promotion', 'merit_promotions_all', 'Bureaucracy Characteristics'), 
+                        ('Formal Legal Code', 'formal_legal_codes_all', 'Law'), 
+                        ('Road', 'roads_all', 'Transport Infrastructure'), 
+                        ('Postal Station', 'postal_stations_all', 'Information / Postal System')],
+        'wf_examples': [('Bronze', 'bronzes_all', 'Military use of Metals'),
+                        ('Javelin', 'javelins_all', 'Projectiles'),
+                        ('Battle Axe', 'battle_axes_all', 'Handheld Weapons'),
+                        ('Sword', 'swords_all', 'Handheld Weapons'),
+                        ('Horse', 'horses_all', 'Animals used in warfare'),
+                        ('Small Vessels (canoes, etc)', 'small_vessels_canoes_etcs_all', 'Naval technology'),
+                        ('Shield', 'shields_all', 'Armor'),
+                        ('Wooden Palisade', 'small_vessels_canoes_etcs_all', 'Fortifications'),
+                        ]
         #'crisisdb_examples': [],
         #'pt_examples': [],
         #'cc_examples': [],
@@ -1713,11 +1724,11 @@ def seshatindex(request):
     to_be_appended_y = [all_pols_count, len(all_srs_unsorted)] 
     context['pols_data'] = to_be_appended_y
 
-    five_pols = Polity.objects.order_by('?')[:5]
-    context['five_pols'] = five_pols
+    eight_pols = Polity.objects.order_by('?')[:8]
+    context['eight_pols'] = eight_pols
 
-    five_srs = Seshat_region.objects.exclude(name="Somewhere").order_by('?')[:5]
-    context['five_srs'] = five_srs
+    eight_srs = Seshat_region.objects.exclude(name="Somewhere").order_by('?')[:8]
+    context['eight_srs'] = eight_srs
 
 
 
@@ -1741,8 +1752,8 @@ def seshatindex(request):
 
                 to_be_appended_xxxx = [queryset_count, 1,]
                 context['us_data'] = to_be_appended_xxxx
-                five_uss = queryset.order_by('?')[:5]
-                context['five_uss'] = five_uss
+                eight_uss = queryset.order_by('?')[:8]
+                context['eight_uss'] = eight_uss
                 continue
             if  model_name.startswith("Us_"):
                 continue
@@ -1754,8 +1765,8 @@ def seshatindex(request):
 
                 to_be_appended_x = [queryset_count, 1, len(set(politys)),]
                 context['pt_data'] = to_be_appended_x
-                five_pts = queryset.order_by('?')[:5]
-                context['five_pts'] = five_pts
+                eight_pts = queryset.order_by('?')[:8]
+                context['eight_pts'] = eight_pts
                 continue
             if  model_name.startswith("Crisis_consequence"):
                 queryset_count = model.objects.count()
@@ -1765,8 +1776,8 @@ def seshatindex(request):
 
                 to_be_appended_xx = [queryset_count, 1, len(set(politys)),]
                 context['cc_data'] = to_be_appended_xx
-                five_ccs = queryset.order_by('?')[:5]
-                context['five_ccs'] = five_ccs
+                eight_ccs = queryset.order_by('?')[:8]
+                context['eight_ccs'] = eight_ccs
                 continue
             if  model_name.startswith("Human_sacrifice"):
                 queryset_count = model.objects.count()
@@ -1776,8 +1787,8 @@ def seshatindex(request):
 
                 to_be_appended_xxx = [queryset_count, 1, len(set(politys)),]
                 context['hs_data'] = to_be_appended_xxx
-                five_hss = queryset.order_by('?')[:5]
-                context['five_hss'] = five_hss
+                eight_hss = queryset.order_by('?')[:8]
+                context['eight_hss'] = eight_hss
                 continue
 
             queryset_count = model.objects.count()

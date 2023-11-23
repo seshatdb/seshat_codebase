@@ -1,10 +1,4 @@
 {% load static %}
-<style>
-
-    .custom-dropdown .dropdown-menu {
-        width: 60vw; /* Adjust the width as needed */
-    }
-</style>
 
 <nav class="navbar navbar-expand-lg navbar-dark navbar-brown  navbar-hide-on-scroll sticky-top">
     <div class="container">
@@ -18,15 +12,14 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item dropdown custom-dropdown">
+                <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle active fw-bold" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Variables
                     </a>
                     <ul class="dropdown-menu dropdown-menu-lg" aria-labelledby="navbarDropdown">
                         <div class="row">
                             <!-- Subcategory 1: General Variables -->
-                            <div class="col border-end border-secondary">
-                                <li class="dropdown-header"><span class="badge badge rounded-pill px-3 pt-1 pb-0 fs-6 text-dark" style="background-color:rgba(127, 255, 212, 0.479)">Classical Seshat</span> </li>
+                                <li class="dropdown-header"><span class="badge badge rounded-pill ms-2 px-2 pt-1 pb-0 fs-6 text-dark" style="background-color:rgba(127, 255, 212, 0.479)">Seshat</span> </li>
                                 <li>
                                     <a class="dropdown-item" href="{% url 'generalvars' %}" class="nav-link">General Variables</a>
                                 </li>
@@ -36,11 +29,13 @@
                                 <li>
                                     <a class="dropdown-item" href="{% url 'wfvars' %}" class="nav-link">Warfare Variables (MilTech)</a>
                                 </li>
-                            </div>
-                
+                                <li>
+                                    <a class="dropdown-item" href="{% url 'human_sacrifices_all' %}" aria-current="page">Human Sacrifice</a>
+                                </li>
+                                <li><hr class="dropdown-divider mx-2"></li>
+
                             <!-- Subcategory 2: Specific Variables -->
-                            <div class="col  border-end border-secondary">
-                                <li class="dropdown-header"><span class="badge badge rounded-pill px-3 pt-1 pb-0 fs-6 text-dark" style="background-color:rgba(255, 127, 80, 0.401)">CrisisDB</span> </li>
+                                <li class="dropdown-header"><span class="badge badge rounded-pill ms-2 px-2 pt-1 pb-0 fs-6 text-dark" style="background-color:rgba(255, 127, 80, 0.401)">CrisisDB</span> </li>
                                 <li>
                                     <a class="dropdown-item" href="{% url 'crisis_consequences_all' %}" class="nav-link">Crisis Consequences</a>
                                 </li>
@@ -48,21 +43,12 @@
                                     <a class="dropdown-item" href="{% url 'power_transitions_all' %}" class="nav-link">Power Transitions</a>
                                 </li>
                                 <li>
-                                    <a class="dropdown-item" href="{% url 'human_sacrifices_all' %}" aria-current="page">Human Sacrifice</a>
-                                </li>
-
-                            </div>
-
-                            <div class="col">
-                                <li class="dropdown-header"><span class="badge badge rounded-pill px-3 pt-1 pb-0 fs-6 text-dark" style="background-color:rgba(30, 143, 255, 0.329)">Extended CrisisDB</span> </li>
-                                <li>
-                                    <a class="dropdown-item" href="{% url 'us_violence_paginated' %}" class="nav-link">US Political Violence Database &#127482;&#127480;</a>
+                                    <a class="dropdown-item" href="{% url 'us_violence_paginated' %}" class="nav-link">&#127482;&#127480; US Political Violence Database </a>
                                 </li>
                                 <li>
                                     <a class="dropdown-item" href="{% url 'qing_vars' %}" class="nav-link">Qing Crisis</a>
                                 </li>
 
-                            </div>
                         </div>
                     </ul>
                 </li>
@@ -83,28 +69,28 @@
                     <a href="{% url 'seshat-olddownloads' %}" class="nav-link  active"><strong>Downloads </strong></a>
                 </li>
         </ul>
-        <ul class="navbar-nav ms-auto d-none d-lg-inline-flex">
+        <ul class="navbar-nav ms-auto d-lg-inline-flex">
             {% if user.is_authenticated %}
             <li class="nav-item mx-1">
-            <a href="{% url 'account_logout' %}" class="pe-3  fw-light" style="color:rgba(255,255,255,.55)"><strong>Logout </strong></a>
+            <a href="{% url 'account_logout' %}" class="pe-3  fw-light nav-link active" style="color:rgba(255,255,255,.55)"><strong>Logout </strong></a>
         </li>
         <li class="nav-item mx-1">
-            <a href="{% url 'user-profile' %}" class="pe-3 text-light fw-light"><strong>Profile </strong></a>
+            <a href="{% url 'user-profile' %}" class="pe-3 text-light nav-link active fw-light"><strong>Profile </strong></a>
         </li>
             <li class="nav-item mx-1">
 
-            <a href="{% url 'account_login' %}" class="pe-2 text-light"> <i class="fas fa-user-check text-light"></i> &nbsp; Logged in as: <strong> {{ user.email }} </strong></a>
+            <a href="{% url 'account_login' %}" class="pe-2 text-light nav-link active"> <i class="fas fa-user-check text-light"></i> &nbsp; Logged in as: <strong> {{ user.email }} </strong></a>
         </li>
 
         {% else %}
         <li class="nav-item mx-1">
 
-            <a href="{% url 'account_signup' %}" class="pe-4 text-warning"><strong> Sign Up <i class="fas fa-user-plus"></i> </strong></a>
+            <a href="{% url 'account_signup' %}" class="pe-4 text-warning nav-link active"><strong> Sign Up <i class="fas fa-user-plus"></i> </strong></a>
         </li>
 
             <li class="nav-item mx-1">
 
-            <a href="{% url 'account_login' %}" class="pe-2 text-warning"><strong>Login <i class="fas fa-sign-in-alt"></i></strong></a>
+            <a href="{% url 'account_login' %}" class="pe-2 text-warning nav-link active"><strong>Login <i class="fas fa-sign-in-alt"></i></strong></a>
         </li>
 
         {% endif %}

@@ -109,11 +109,13 @@ ACCOUNT_AUTHENTICATION_METHOD = 'email'
 
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
-        # 'APP': {
-        #     'client_id': '77017415274-u1f5efvo1ubkmp1uqc4h7otic27d5qmc.apps.googleusercontent.com',
-        #     'secret': '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',
-        #     'key': ''
-        # },
+        'APP': {
+            'client_id': config('GOOGLE_APP_CLIENT_ID'),
+            'secret': config('GOOGLE_APP_SECRET_KEY'),
+            'redirect_uris': ['https://seshat-db.com/accounts/google/login/callback/'],
+           # 'key': ''
+         },
+
         'SCOPE': [
             'profile',
             'email',

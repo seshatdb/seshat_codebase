@@ -200,8 +200,8 @@
 
 
 
-            <div class="row">
-                <div class="col-md-12 pb-3">
+            <div class="row m-0 p-0">
+                <div class="col-md-12 pb-3 m-0 pt-0 ps-0 pe-0">
                     <div class="accordion accordion-flush  border border-2 border-success rounded" id="accordionFlushExample">
                         <div class="accordion-item" style="background-color:#fefae6;">
                         <h5 class="accordion-header" id="flush-headingOne">
@@ -229,103 +229,54 @@
                 </div>
 
             </div>
+
+
+
             {% if all_general_data %}
-            <div class="row px-1">
-                <div class="col-md-6">
-                    <h3 class="fw-bold pb-2 align-self-center">
-                         General Variables:
-                        <a href="#general_var"><i class="fa-solid fa-circle-arrow-down fa-sm"></i></a>
-                    </h3>
-                </div>
-                <div class="col-md-6 pe-3 text-end align-self-center">
-                    {% if all_Ras %}
-                    <h6 class="text-secondary">RA(s): <span class="text-dark fw-bold">{{ all_Ras }}</span> </h6>
-                    {% endif %}
-                </div>
+            <div class="col-md-12 m-0 p-0 border-bottom border-2">
+                <span class=" h3 fw-bold m-0 p-0 ">  
+                    <span class="badge mt-4 mb-2 fw-bold bg-warning text-dark" style="text-align: left; border:1px solid #8931015e">
+                       General Variables
+                    </span>   
+                    <span class=" mt-3">
+                        <a href="#sc_var"><i class="fa-solid fa-circle-arrow-down mt-3 fa-lg"></i></a>
+                    </span>                 
+
+                </span>
             </div>
+            <div class="row">
+                {% for key_top, values_top in all_general_data.items %}
 
+                    {% for key_m, values_m in values_top.items %}
+                    {% if values_m %}
 
-            <div class="row px-1">
-                <div class="table-responsive mb-4 col-md-12">
-                    <table id="table_id" class="table align-middle table-bordered">
-                        <tbody>
-                            <tr class="col-md-12">
-                        {% for key, values in all_general_data.items %}
-                        {% if values %}
+                    <div class="col-md-3 border-bottom border-2 d-flex align-items-center">
+                        <span class=" fs-6 text-dark"  style="text-align: left;">
+                            <i class="fa-solid fa-circle fa-2xs text-warning"></i>
 
-                            <td class="fw-bold text-secondary" style="text-align: left;">
-                                <i class="fa-solid fa-circle fa-2xs text-teal"></i>&nbsp;{{values.0.clean_name_spaced|slice:"7:"}}:&nbsp;
+                            <span class="fw-bold"> {{key_top}}</span> 
+                            {% if key_m != 'None' %}
+                            <span class="fw-light">/ {{key_m}}</span> 
+                            {% endif %}
+                        </span>
+
+                     </div>
+                     {% endif %}
+
+                     {% if values_m %}
+
+                            <div class="col-md-9" id="table_id_general">
+                
+                            {% for key, values in values_m.items %}
+                            {% if values %}
+
+            
+
+                            <span class="badge rounded-pill my-1 mx-1 fw-bold text-secondary" style="text-align: left; background:#acd2cc62; border:1px solid #8931015e">
+                                <span class="fs-6">  {{ values.0.clean_name_spaced|slice:"7:" }}:&nbsp; </span>
                                 {% for vv in values %}
                                         {% if forloop.counter0 > 0 %}
-                                        <span class="text-secondary">
-                                            /
-                                        </span>
-                                        {% endif %}
-                                        {% if  vv.show_value == 'present' %}
-
-                                        <span class="h6 text-teal fw-bold">
-                                            {{ vv.show_value }}
-                                        </span> 
-                                        {% elif vv.show_value == "absent" %}
-                                        <span class="h6 text-danger fw-bold">
-                                            {{ vv.show_value }}
-                                        </span> 
-                                        {% else %}
-                                        <span class="h6 text-dark fw-bold">
-                                            {{ vv.show_value }}
-                                        </span> 
-
-                                        {% endif %}
-
-                                {% endfor %}
-                                <a class="h6" href="#{{key}}"> &nbsp;<i class="fa-solid fa-circle-arrow-down fa-sm text-teal-light"></i>
-                                    </a>
-
-                            {% else %}
-                            <td class="fw-bold text-secondary" style="text-align: left;">
-                                <i class="fa-solid fa-circle fa-xs text-teal"></i> &nbsp;{{key}}: &nbsp; Not coded yet.
-
-                            {% endif %}
-
-                            </td>
-                            {% if forloop.counter|divisibleby:2 and not forloop.last %}
-                                </tr><tr class="col-md-12">
-                            {% elif forloop.last %}
-                                </tr>
-                            {% endif %}
-
-                        {% endfor %}
-
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            {% else %}
-            <div class="col-md-9">
-                <h3 class="fw-bold pb-2">  General Variables: <span class="text-secondary fs-4">No variables coded yet.</span>   </h3>
-            </div>
-
-            {% endif %}
-
-            {% if all_sc_data %}
-            <div class="col-md-9">
-                <h3 class="fw-bold pb-2 pt-3 ps-1">                      
-                    Social Complexity Variables: &nbsp; <a href="#sc_var"><i class="fa-solid fa-circle-arrow-down fa-sm"></i></a></h3>
-            </div>
-
-            <div class="row px-1">
-                <div class="table-responsive mb-4 col-md-12">
-                    <table id="table_id_sc" class="table align-middle table-bordered">
-                        <tbody>
-                            <tr class="col-md-12">
-                        {% for key, values in all_sc_data.items %}
-                        {% if values %}
-
-                            <td class="fw-bold text-secondary" style="text-align: left;">
-                                <i class="fa-solid fa-circle fa-2xs text-teal"></i>&nbsp;{{values.0.clean_name_spaced}}:&nbsp;
-                                {% for vv in values %}
-                                        {% if forloop.counter0 > 0 %}
-                                    <span class="text-secondary">/</span>
+                                    <span class="text-secondary h6">/</span>
                                         {% endif %}
                                         {% if  vv.show_value == 'present' %}
 
@@ -341,24 +292,111 @@
                                 <a class="h6" href="#{{key}}"> &nbsp;<i class="fa-solid fa-circle-arrow-down fa-sm text-teal-light"></i>
                                     </a>
 
-                            {% else %}
-                            <td class="fw-bold text-secondary" style="text-align: left;">
-                                <i class="fa-solid fa-circle fa-xs text-teal"></i> &nbsp;{{key}}: &nbsp; Not coded yet.
-
+                                    </span>
                             {% endif %}
 
-                            </td>
-                            {% if forloop.counter|divisibleby:2 and not forloop.last %}
-                                </tr><tr class="col-md-12">
-                            {% elif forloop.last %}
-                                </tr>
-                            {% endif %}
-
-                        {% endfor %}
-
-                        </tbody>
-                    </table>
+                            {% endfor %}
                 </div>
+                {% endif %}
+
+
+                {% endfor %}
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="col-md-9">
+                <h3 class="fw-bold pb-2"> 
+                    General Variables: <span class="text-secondary fs-4">No variables coded yet.</span>   </h3>
+            </div>
+
+            {% endif %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            {% if all_sc_data %}
+            <div class="col-md-12 m-0 p-0 border-bottom border-2">
+                <span class=" h3 fw-bold m-0 p-0 ">  
+                    <span class="badge mt-4 mb-2 fw-bold text-light bg-primary" style="text-align: left; border:1px solid #8931015e">
+                        Social Complexity Variables
+                    </span>   
+                    <span class=" mt-3">
+                        <a href="#sc_var"><i class="fa-solid fa-circle-arrow-down mt-3 fa-lg"></i></a>
+                    </span>                 
+
+                </span>
+            </div>
+
+            <div class="row">
+                {% for key_top, values_top in all_sc_data.items %}
+
+                    {% for key_m, values_m in values_top.items %}
+                    {% if values_m %}
+
+                    <div class="col-md-3 border-bottom border-2 d-flex align-items-center">
+
+                        <span class=" fs-6 text-dark"  style="text-align: left;">
+                            <i class="fa-solid fa-circle fa-2xs text-primary"></i>
+                            <span class="fw-bold"> {{key_top}}</span> 
+                            {% if key_m != 'None' %}
+                            <span class="fw-light">/ {{key_m}}</span> 
+                            {% endif %}
+                        </span>
+
+                     </div>
+                     {% endif %}
+
+                     {% if values_m %}
+
+                            <div class="col-md-9" id="table_id_sc">
+                
+                            {% for key, values in values_m.items %}
+                            {% if values %}
+
+            
+
+                            <span class="badge rounded-pill my-1 mx-1 fw-bold text-secondary" style="text-align: left; background:#acd2cc62; border:1px solid #8931015e;">
+                                <span class="fs-6">  {{values.0.clean_name_spaced}}:&nbsp; </span>
+                                {% for vv in values %}
+                                        {% if forloop.counter0 > 0 %}
+                                    <span class="text-secondary h6">/</span>
+                                        {% endif %}
+                                        {% if  vv.show_value == 'present' %}
+
+                                        <span class="h6 text-teal fw-bold">{{ vv.show_value }}</span> 
+                                        {% elif vv.show_value == "absent" %}
+                                        <span class="h6 text-danger fw-bold">{{ vv.show_value }}</span> 
+                                        {% else %}
+                                        <span class="h6 text-dark fw-bold">{{ vv.show_value }}</span> 
+
+                                        {% endif %}
+
+                                {% endfor %}
+                                <a class="h6" href="#{{key}}"> &nbsp;<i class="fa-solid fa-circle-arrow-down fa-sm text-teal-light"></i>
+                                    </a>
+
+                                    </span>
+                            {% endif %}
+
+                            {% endfor %}
+                </div>
+                {% endif %}
+
+
+                {% endfor %}
+                {% endfor %}
             </div>
             {% else %}
             <div class="col-md-9">
@@ -369,23 +407,51 @@
             {% endif %}
 
             {% if all_wf_data %}
+            <div class="col-md-12 m-0 p-0 border-bottom border-2">
+                <span class=" h3 fw-bold m-0 p-0 ">  
+                    <span class="badge mt-4 mb-2 fw-bold text-light bg-danger" style="text-align: left; border:1px solid #8931015e">
+                        Warfare Variables (Military Technologies)
+                    </span>   
+                    <span class=" mt-3">
+                        <a href="#wf_var"><i class="fa-solid fa-circle-arrow-down mt-3 fa-lg"></i></a>
+                    </span>                 
 
-            <div class="col-md-9">
-                <h3 class="fw-bold pb-2 pt-3">  Warfare Variables (Military Technologies): &nbsp; <a href="#wf_var"><i class="fa-solid fa-circle-arrow-down fa-sm"></i></a></h3>
+                </span>
             </div>
-            <div class="row px-1">
-                <div class="table-responsive mb-4 col-md-12">
-                    <table id="table_id_sc" class="table align-middle table-bordered">
-                        <tbody>
-                            <tr class="col-md-12">
-                        {% for key, values in all_wf_data.items %}
-                        {% if values %}
 
-                            <td class="fw-bold text-secondary" style="text-align: left;">
-                                <i class="fa-solid fa-circle fa-2xs text-teal"></i>&nbsp;{{values.0.clean_name_spaced}}:&nbsp;
+            <div class="row">
+                {% for key_top, values_top in all_wf_data.items %}
+
+                    {% for key_m, values_m in values_top.items %}
+                    {% if values_m %}
+
+                    <div class="col-md-3 border-bottom border-2 d-flex align-items-center">
+
+                        <span class=" fs-6 text-dark"  style="text-align: left;">
+                            <i class="fa-solid fa-circle fa-2xs text-danger"></i>
+                            <span class="fw-bold"> {{key_top}}</span> 
+                            {% if key_m != 'None' %}
+                            <span class="fw-light">/ {{key_m}}</span> 
+                            {% endif %}
+                        </span>
+
+                     </div>
+                     {% endif %}
+
+                     {% if values_m %}
+
+                            <div class="col-md-9" id="table_id_sc">
+                
+                            {% for key, values in values_m.items %}
+                            {% if values %}
+
+            
+
+                            <span class="badge rounded-pill my-1 mx-1 fw-bold text-secondary" style="text-align: left; background:#acd2cc62; border:1px solid #8931015e;">
+                                <span class="fs-6">  {{values.0.clean_name_spaced}}:&nbsp; </span>
                                 {% for vv in values %}
                                         {% if forloop.counter0 > 0 %}
-                                    <span class="text-secondary">/</span>
+                                    <span class="text-secondary h6">/</span>
                                         {% endif %}
                                         {% if  vv.show_value == 'present' %}
 
@@ -401,28 +467,21 @@
                                 <a class="h6" href="#{{key}}"> &nbsp;<i class="fa-solid fa-circle-arrow-down fa-sm text-teal-light"></i>
                                     </a>
 
-                            {% else %}
-                            <td class="fw-bold text-secondary" style="text-align: left;">
-                                <i class="fa-solid fa-circle fa-xs text-teal"></i> &nbsp;{{key}}: &nbsp; Not coded yet.
-
+                                    </span>
                             {% endif %}
 
-                            </td>
-                            {% if forloop.counter|divisibleby:2 and not forloop.last %}
-                                </tr><tr class="col-md-12">
-                            {% elif forloop.last %}
-                                </tr>
-                            {% endif %}
-
-                        {% endfor %}
-
-                        </tbody>
-                    </table>
+                            {% endfor %}
                 </div>
+                {% endif %}
+
+
+                {% endfor %}
+                {% endfor %}
             </div>
             {% else %}
             <div class="col-md-9">
-                <h3 class="fw-bold pb-2">  Warfare Variables (Military Technologies): <span class="text-secondary fs-4">No variables coded yet.</span>   </h3>
+                <h3 class="fw-bold pb-2"> 
+                    Warfare Variables (MilTech): <span class="text-secondary fs-4">No variables coded yet.</span>   </h3>
             </div>
 
             {% endif %}
@@ -608,147 +667,218 @@
     </div>
     <hr>
 
-    <div>
-        <h1 class="pt-5 display-4" style="text-align: left; color:#893101;" id="general_var"><span class="h1"> General Variables</span></h1>
-        
-        {% for key, values in all_general_data.items %}
-        {% if values %}
+
+<!-- GV -->
+<div>
+    <h1 class="pt-5 display-4" style="text-align: left; color:#893101;" id="general_var"><span class="h1">
+        General Variables</span>
+    </h1>
+    {% for key_top, values_top in all_general_data.items %}
         <div class="py-2 custom-left-border-shadowed">
-            <div class="row d-flex">
-                <div class="col-md-6">
-                    <span class="pt-1 fs-5 pb-1 fw-bold" id="{{key}}"> <i class="fa-solid fa-star fa-2xs"></i> {{ values.0.clean_name_spaced|slice:"7:" }}:            </span> 
-
-                </div>
-                <div class="col-md-6">
-                    <a href="{% url key|lower|add:'s_all' %}" class="btn float-end fw-light">View all values of <b> <u> {{ values.0.clean_name_spaced|slice:"7:" }}</u></b> <i class="fa-solid fa-list"></i></a>
-                </div>
-            </div>
-                {% for value in values %}
-                <span class="fs-4 fw-bold text-teal pt-2 pb-1 pe-2 ps-2 ms-2 me-2 mb-1 mt-1 highlighted-value">
-                    {{value.show_value}} 
-                    {% include "core/partials/_year_block_value_inline.html" %}
-                    <div style="display: block; padding: 0;">
-                        <div style="display: inline-flex; flex-direction: row;">
-                            {% include "core/partials/_tag_value_inline.html" %}
-                            {% include "core/partials/_disputed_value_inline.html" %}
-                            {% include "core/partials/_uncertain_value_inline.html" %}
-                            {% include "core/partials/_expert_checked_value_inline.html" %}
-
-                            <a class="p-0 m-0 fs-6" type="button" href="{% url key|lower|add:'-update' value.id %}">
-                                <span class="badge rounded-pill bg-danger tag-border"> <i class=" fa-solid fa-pen-to-square text-white"></i></span>
-                            </a>                  
-                        </div>
-                    </div>
+        {% for key_m, values_m in values_top.items %}
+            {% if values_m %}
+                <span class=" fs-1 text-dark my-5 bg-light border-bottom border-5 border-warning"  style="text-align: left;">
+                    <i class="fa-solid fa-circle fa-2xs text-warning"></i>
+                    <span class="fw-bold"> {{key_top}}</span> 
+                    {% if key_m != 'None' %}
+                    <span class="fw-light">/ {{key_m}}</span> 
+                    {% endif %}
                 </span>
-                {% endfor %}
-            <br>
-                    {% autoescape off %}   
-                        {% if values.0.description %}
-                        <p class="fs-6">
-                            <i class="fa-solid fa-layer-group fa-xs text-teal"></i>   
-                            {{values.0.description|make_references_look_nicer}}
-                        </p>  
-                        {% endif %}
-                    {% endautoescape %}
-        </div>
-        {% endif %}
-        {% endfor %}
-    </div>
-
-    <div>
-        <h1 class="pt-5 display-4" style="text-align: left; color:#893101;" id="sc_var"><span class="h1">
-            Social Complexity Variables</span></h1>
-        {% for key, values in all_sc_data.items %}
-        {% if values %}
-        <div class="py-2 custom-left-border-shadowed">
-            <div class="row d-flex">
-                <div class="col-md-6">
-                    <span class="pt-1 fs-5 pb-1 fw-bold" id="{{key}}"> 
-                        <i class="fa-solid fa-star fa-2xs"></i>
-                        {{ values.0.clean_name_spaced }}:            
-                    </span> 
-                </div>
-                <div class="col-md-6">
-                    <a href="{% url key|lower|add:'s_all' %}" class="btn float-end fw-light">View all values of <b> <u> {{ values.0.clean_name_spaced }}</u></b> <i class="fa-solid fa-list"></i></a>
-                </div>
-            </div>
-                {% for value in values %}
-                <span class="fs-4 fw-bold text-teal pt-2 pb-1 pe-2 ps-2 ms-2 me-2 mb-1 mt-1 highlighted-value">{{value.show_value}} 
-                    {% include "core/partials/_year_block_value_inline.html" %}
-                    <div style="display: block; padding: 0;">
-                        <div style="display: inline-flex; flex-direction: row;">
-                            {% include "core/partials/_tag_value_inline.html" %}
-                            {% include "core/partials/_disputed_value_inline.html" %}
-                            {% include "core/partials/_uncertain_value_inline.html" %}
-                            {% include "core/partials/_expert_checked_value_inline.html" %}
-
-                            <a class="p-0 m-0 fs-6" type="button" href="{% url key|lower|add:'-update' value.id %}">
-                                <span class="badge rounded-pill bg-danger tag-border"> <i class=" fa-solid fa-pen-to-square text-white"></i></span>
-                            </a>                  
-                        </div>
-                    </div>
-                </span>
-                {% endfor %}
-            <br>
-            {% autoescape off %}   
-                {% if values.0.description %}
-                <p class="fs-6">
-                    <i class="fa-solid fa-layer-group fa-xs text-teal"></i>   
-                    {{values.0.description|make_references_look_nicer}}
-                </p>     
-                {% endif %}
-            {% endautoescape %}    
-        </div>
-        {% endif %}
-        {% endfor %}
-    </div>
-
-    <div>
-        <h1 class="pt-5 display-4" style="text-align: left; color:#893101;" id="wf_var"><span class="h1"> Warfare Variables (Military Technologies)</span></h1>
-
-        {% for key, values in all_wf_data.items %}
-        {% if values %}
-            <div class="py-2 custom-left-border-shadowed">
-                <div class="row d-flex">
-                    <div class="col-md-6">
-                        <span class="pt-1 fs-5 pb-1 fw-bold" id="{{key}}"> 
-                            <i class="fa-solid fa-star fa-2xs"></i>
-                            {{ values.0.clean_name_spaced }}:            
-                        </span> 
-                    </div>
-                    <div class="col-md-6">
-                        <a href="{% url key|lower|add:'s_all' %}" class="btn float-end fw-light">View all values of <b> <u> {{ values.0.clean_name_spaced }}</u></b> <i class="fa-solid fa-list"></i></a>
-                    </div>
-                </div>
-                    {% for value in values %}
-                    <span class="fs-4 fw-bold text-teal pt-2 pb-1 pe-2 ps-2 ms-2 me-2 mb-1 mt-1 highlighted-value">{{value.show_value}} 
-                        {% include "core/partials/_year_block_value_inline.html" %}
-                        <div style="display: block; padding: 0;">
-                            <div style="display: inline-flex; flex-direction: row;">
-                                {% include "core/partials/_tag_value_inline.html" %}
-                                {% include "core/partials/_disputed_value_inline.html" %}
-                                {% include "core/partials/_uncertain_value_inline.html" %}
-                                {% include "core/partials/_expert_checked_value_inline.html" %}
-                                <a class="p-0 m-0 fs-6" type="button" href="{% url key|lower|add:'-update' value.id %}">
-                                    <span class="badge rounded-pill bg-danger tag-border"> <i class=" fa-solid fa-pen-to-square text-white"></i></span>
-                                </a>                  
+                <hr class="light-narrow-hr">
+            {% endif %}
+            {% for key, values in values_m.items %}
+                {% if values %}
+                    <div>
+                        <div class="row d-flex">
+                            <div class="col-md-6">
+                                <span class="pt-1 fs-5 pb-1 fw-bold" id="{{key}}"> 
+                                    <i class="fa-solid fa-star fa-2xs"></i>
+                                    {{ values.0.clean_name_spaced|slice:"7:" }}:            
+                                </span> 
+                            </div>
+                            <div class="col-md-6">
+                                <a href="{% url key|lower|add:'s_all' %}" class="btn float-end fw-light">View all values of <b> <u> {{ values.0.clean_name_spaced|slice:"7:" }}</u></b> <i class="fa-solid fa-list"></i></a>
                             </div>
                         </div>
-                    </span>
-                    {% endfor %}
-                <br>
-                {% autoescape off %}   
-                    {% if values.0.description %}
-                    <p class="fs-6">
-                        <i class="fa-solid fa-layer-group fa-xs text-teal"></i>   
-                        {{values.0.description|make_references_look_nicer}}
-                    </p>    
-                    {% endif %}
-                {% endautoescape %}      
-                </div>
-            {% endif %}
+                            {% for value in values %}
+                            <span class="fs-4 fw-bold text-teal pt-2 pb-1 pe-2 ps-2 ms-2 me-2 mb-1 mt-1 highlighted-value">{{value.show_value}} 
+                                {% include "core/partials/_year_block_value_inline.html" %}
+                                <div style="display: block; padding: 0;">
+                                    <div style="display: inline-flex; flex-direction: row;">
+                                        {% include "core/partials/_tag_value_inline.html" %}
+                                        {% include "core/partials/_disputed_value_inline.html" %}
+                                        {% include "core/partials/_uncertain_value_inline.html" %}
+                                        {% include "core/partials/_expert_checked_value_inline.html" %}
+
+                                        <a class="p-0 m-0 fs-6" type="button" href="{% url key|lower|add:'-update' value.id %}">
+                                            <span class="badge rounded-pill bg-danger tag-border"> <i class=" fa-solid fa-pen-to-square text-white"></i></span>
+                                        </a>                  
+                                    </div>
+                                </div>
+                            </span>
+                            {% endfor %}
+                            <br>
+                            {% autoescape off %}   
+                                {% if values.0.description %}
+                                <p class="fs-6">
+                                    <i class="fa-solid fa-layer-group fa-xs text-teal"></i>   
+                                    {{values.0.description|make_references_look_nicer}}
+                                </p>     
+                                {% endif %}
+                            {% endautoescape %}    
+                    </div>
+                {% endif %}
+                {% if not forloop.last %}
+                    <hr class="light-narrow-hr">
+                {% endif %}
             {% endfor %}
+        {% endfor %}
+        </div>
+    {% endfor %}
+</div>
+
+
+<!-- SC -->
+    <div>
+        <h1 class="pt-5 display-4" style="text-align: left; color:#893101;" id="sc_var"><span class="h1">
+            Social Complexity Variables</span>
+        </h1>
+        {% for key_top, values_top in all_sc_data.items %}
+            <div class="py-2 custom-left-border-shadowed">
+            {% for key_m, values_m in values_top.items %}
+                {% if values_m %}
+                    <span class=" fs-1 text-dark my-5 bg-light border-bottom border-5 border-primary"  style="text-align: left;">
+                        <i class="fa-solid fa-circle fa-2xs text-primary"></i>
+                        <span class="fw-bold"> {{key_top}}</span> 
+                        {% if key_m != 'None' %}
+                        <span class="fw-light">/ {{key_m}}</span> 
+                        {% endif %}
+                    </span>
+                    <hr class="light-narrow-hr">
+                {% endif %}
+                {% for key, values in values_m.items %}
+                    {% if values %}
+                        <div>
+                            <div class="row d-flex">
+                                <div class="col-md-6">
+                                    <span class="pt-1 fs-5 pb-1 fw-bold" id="{{key}}"> 
+                                        <i class="fa-solid fa-star fa-2xs"></i>
+                                        {{ values.0.clean_name_spaced }}:            
+                                    </span> 
+                                </div>
+                                <div class="col-md-6">
+                                    <a href="{% url key|lower|add:'s_all' %}" class="btn float-end fw-light">View all values of <b> <u> {{ values.0.clean_name_spaced }}</u></b> <i class="fa-solid fa-list"></i></a>
+                                </div>
+                            </div>
+                                {% for value in values %}
+                                <span class="fs-4 fw-bold text-teal pt-2 pb-1 pe-2 ps-2 ms-2 me-2 mb-1 mt-1 highlighted-value">{{value.show_value}} 
+                                    {% include "core/partials/_year_block_value_inline.html" %}
+                                    <div style="display: block; padding: 0;">
+                                        <div style="display: inline-flex; flex-direction: row;">
+                                            {% include "core/partials/_tag_value_inline.html" %}
+                                            {% include "core/partials/_disputed_value_inline.html" %}
+                                            {% include "core/partials/_uncertain_value_inline.html" %}
+                                            {% include "core/partials/_expert_checked_value_inline.html" %}
+
+                                            <a class="p-0 m-0 fs-6" type="button" href="{% url key|lower|add:'-update' value.id %}">
+                                                <span class="badge rounded-pill bg-danger tag-border"> <i class=" fa-solid fa-pen-to-square text-white"></i></span>
+                                            </a>                  
+                                        </div>
+                                    </div>
+                                </span>
+                                {% endfor %}
+                                <br>
+                                {% autoescape off %}   
+                                    {% if values.0.description %}
+                                    <p class="fs-6">
+                                        <i class="fa-solid fa-layer-group fa-xs text-teal"></i>   
+                                        {{values.0.description|make_references_look_nicer}}
+                                    </p>     
+                                    {% endif %}
+                                {% endautoescape %}    
+                        </div>
+                    {% endif %}
+                    {% if not forloop.last %}
+                        <hr class="light-narrow-hr">
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+            </div>
+        {% endfor %}
     </div>
+<!-- WF -->
+    <div>
+        <h1 class="pt-5 display-4" style="text-align: left; color:#893101;" id="wf_var"><span class="h1">
+            Warfare Variables (Military Technologies)</span>
+        </h1>
+        {% for key_top, values_top in all_wf_data.items %}
+        <div class="py-2 custom-left-border-shadowed">
+
+            {% for key_m, values_m in values_top.items %}
+                {% if values_m %}
+
+                    <span class=" fs-1 text-dark my-5 bg-light border-bottom border-5 border-danger"  style="text-align: left;">
+                        <i class="fa-solid fa-circle fa-2xs text-danger"></i>
+                        <span class="fw-bold"> {{key_top}}</span> 
+                        {% if key_m != 'None' %}
+                        <span class="fw-light">/ {{key_m}}</span> 
+                        {% endif %}
+                    </span>
+                    <hr class="light-narrow-hr">
+                {% endif %}
+                {% for key, values in values_m.items %}
+                    {% if values %}
+                        <div>
+                            <div class="row d-flex">
+                                <div class="col-md-6">
+                                    <span class="pt-1 fs-5 pb-1 fw-bold" id="{{key}}"> 
+                                        <i class="fa-solid fa-star fa-2xs"></i>
+                                        {{ values.0.clean_name_spaced }}:            
+                                    </span> 
+                                </div>
+                                <div class="col-md-6">
+                                    <a href="{% url key|lower|add:'s_all' %}" class="btn float-end fw-light">View all values of <b> <u> {{ values.0.clean_name_spaced }}</u></b> <i class="fa-solid fa-list"></i></a>
+                                </div>
+                            </div>
+                                {% for value in values %}
+                                <span class="fs-4 fw-bold text-teal pt-2 pb-1 pe-2 ps-2 ms-2 me-2 mb-1 mt-1 highlighted-value">{{value.show_value}} 
+                                    {% include "core/partials/_year_block_value_inline.html" %}
+                                    <div style="display: block; padding: 0;">
+                                        <div style="display: inline-flex; flex-direction: row;">
+                                            {% include "core/partials/_tag_value_inline.html" %}
+                                            {% include "core/partials/_disputed_value_inline.html" %}
+                                            {% include "core/partials/_uncertain_value_inline.html" %}
+                                            {% include "core/partials/_expert_checked_value_inline.html" %}
+
+                                            <a class="p-0 m-0 fs-6" type="button" href="{% url key|lower|add:'-update' value.id %}">
+                                                <span class="badge rounded-pill bg-danger tag-border"> <i class=" fa-solid fa-pen-to-square text-white"></i></span>
+                                            </a>                  
+                                        </div>
+                                    </div>
+                                </span>
+                                {% endfor %}
+                                <br>
+                                {% autoescape off %}   
+                                    {% if values.0.description %}
+                                    <p class="fs-6">
+                                        <i class="fa-solid fa-layer-group fa-xs text-teal"></i>   
+                                        {{values.0.description|make_references_look_nicer}}
+                                    </p>     
+                                    {% endif %}
+                                {% endautoescape %}    
+                        </div>
+                    {% endif %}
+                    {% if not forloop.last %}
+                        <hr class="light-narrow-hr">
+                    {% endif %}
+                {% endfor %}
+
+            {% endfor %}
+        </div>
+
+        {% endfor %}
+    </div>
+
 
     {% for key, values in all_data.items %}
     {% if "Human_sacrifice_for_polity" == key %}

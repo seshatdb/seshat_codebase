@@ -136,6 +136,12 @@ class Long_wall(SeshatCommon):
             return self.long_wall_to
         else:
             return None
+        
+    def subsection(self):
+        return "Fortifications"
+
+    def sub_subsection(self):
+        return None   
 
     def get_absolute_url(self):
         return reverse('long_wall-detail', args=[str(self.id)])
@@ -177,6 +183,12 @@ class Copper(SeshatCommon):
             return "NO_NGA_ASSOCIATED"
         else:
             return nga_rel.nga_party.name
+        
+    def subsection(self):
+        return "Military use of Metals"
+
+    def sub_subsection(self):
+        return None   
 
     def get_absolute_url(self):
         return reverse('copper-detail', args=[str(self.id)])
@@ -219,6 +231,12 @@ class Bronze(SeshatCommon):
             return "NO_NGA_ASSOCIATED"
         else:
             return nga_rel.nga_party.name
+        
+    def subsection(self):
+        return "Military use of Metals"
+
+    def sub_subsection(self):
+        return None   
 
     def get_absolute_url(self):
         return reverse('bronze-detail', args=[str(self.id)])
@@ -261,6 +279,12 @@ class Iron(SeshatCommon):
             return "NO_NGA_ASSOCIATED"
         else:
             return nga_rel.nga_party.name
+        
+    def subsection(self):
+        return "Military use of Metals"
+
+    def sub_subsection(self):
+        return None   
 
     def get_absolute_url(self):
         return reverse('iron-detail', args=[str(self.id)])
@@ -303,6 +327,12 @@ class Steel(SeshatCommon):
             return "NO_NGA_ASSOCIATED"
         else:
             return nga_rel.nga_party.name
+        
+    def subsection(self):
+        return "Military use of Metals"
+
+    def sub_subsection(self):
+        return None   
 
     def get_absolute_url(self):
         return reverse('steel-detail', args=[str(self.id)])
@@ -345,6 +375,12 @@ class Javelin(SeshatCommon):
             return "NO_NGA_ASSOCIATED"
         else:
             return nga_rel.nga_party.name
+        
+    def subsection(self):
+        return "Projectiles"
+
+    def sub_subsection(self):
+        return None   
 
     def get_absolute_url(self):
         return reverse('javelin-detail', args=[str(self.id)])
@@ -387,6 +423,12 @@ class Atlatl(SeshatCommon):
             return "NO_NGA_ASSOCIATED"
         else:
             return nga_rel.nga_party.name
+        
+    def subsection(self):
+        return "Projectiles"
+
+    def sub_subsection(self):
+        return None   
 
     def get_absolute_url(self):
         return reverse('atlatl-detail', args=[str(self.id)])
@@ -429,6 +471,12 @@ class Sling(SeshatCommon):
             return "NO_NGA_ASSOCIATED"
         else:
             return nga_rel.nga_party.name
+        
+    def subsection(self):
+        return "Projectiles"
+
+    def sub_subsection(self):
+        return None   
 
     def get_absolute_url(self):
         return reverse('sling-detail', args=[str(self.id)])
@@ -471,6 +519,12 @@ class Self_bow(SeshatCommon):
             return "NO_NGA_ASSOCIATED"
         else:
             return nga_rel.nga_party.name
+        
+    def subsection(self):
+        return "Projectiles"
+
+    def sub_subsection(self):
+        return None   
 
     def get_absolute_url(self):
         return reverse('self_bow-detail', args=[str(self.id)])
@@ -513,6 +567,12 @@ class Composite_bow(SeshatCommon):
             return "NO_NGA_ASSOCIATED"
         else:
             return nga_rel.nga_party.name
+        
+    def subsection(self):
+        return "Projectiles"
+
+    def sub_subsection(self):
+        return None   
 
     def get_absolute_url(self):
         return reverse('composite_bow-detail', args=[str(self.id)])
@@ -555,6 +615,12 @@ class Crossbow(SeshatCommon):
             return "NO_NGA_ASSOCIATED"
         else:
             return nga_rel.nga_party.name
+        
+    def subsection(self):
+        return "Projectiles"
+
+    def sub_subsection(self):
+        return None   
 
     def get_absolute_url(self):
         return reverse('crossbow-detail', args=[str(self.id)])
@@ -597,6 +663,12 @@ class Tension_siege_engine(SeshatCommon):
             return "NO_NGA_ASSOCIATED"
         else:
             return nga_rel.nga_party.name
+        
+    def subsection(self):
+        return "Projectiles"
+
+    def sub_subsection(self):
+        return None   
 
     def get_absolute_url(self):
         return reverse('tension_siege_engine-detail', args=[str(self.id)])
@@ -639,6 +711,12 @@ class Sling_siege_engine(SeshatCommon):
             return "NO_NGA_ASSOCIATED"
         else:
             return nga_rel.nga_party.name
+        
+    def subsection(self):
+        return "Projectiles"
+
+    def sub_subsection(self):
+        return None   
 
     def get_absolute_url(self):
         return reverse('sling_siege_engine-detail', args=[str(self.id)])
@@ -681,6 +759,12 @@ class Gunpowder_siege_artillery(SeshatCommon):
             return "NO_NGA_ASSOCIATED"
         else:
             return nga_rel.nga_party.name
+        
+    def subsection(self):
+        return "Projectiles"
+
+    def sub_subsection(self):
+        return None   
 
     def get_absolute_url(self):
         return reverse('gunpowder_siege_artillery-detail', args=[str(self.id)])
@@ -723,6 +807,12 @@ class Handheld_firearm(SeshatCommon):
             return "NO_NGA_ASSOCIATED"
         else:
             return nga_rel.nga_party.name
+        
+    def subsection(self):
+        return "Projectiles"
+
+    def sub_subsection(self):
+        return None   
 
     def get_absolute_url(self):
         return reverse('handheld_firearm-detail', args=[str(self.id)])
@@ -766,6 +856,12 @@ class War_club(SeshatCommon):
         else:
             return nga_rel.nga_party.name
 
+    def subsection(self):
+        return "Handheld weapons"
+
+    def sub_subsection(self):
+        return None   
+
     def get_absolute_url(self):
         return reverse('war_club-detail', args=[str(self.id)])
 
@@ -807,6 +903,12 @@ class Battle_axe(SeshatCommon):
             return "NO_NGA_ASSOCIATED"
         else:
             return nga_rel.nga_party.name
+        
+    def subsection(self):
+        return "Handheld weapons"
+
+    def sub_subsection(self):
+        return None   
 
     def get_absolute_url(self):
         return reverse('battle_axe-detail', args=[str(self.id)])
@@ -849,6 +951,12 @@ class Dagger(SeshatCommon):
             return "NO_NGA_ASSOCIATED"
         else:
             return nga_rel.nga_party.name
+        
+    def subsection(self):
+        return "Handheld weapons"
+
+    def sub_subsection(self):
+        return None   
 
     def get_absolute_url(self):
         return reverse('dagger-detail', args=[str(self.id)])
@@ -891,6 +999,12 @@ class Sword(SeshatCommon):
             return "NO_NGA_ASSOCIATED"
         else:
             return nga_rel.nga_party.name
+        
+    def subsection(self):
+        return "Handheld weapons"
+
+    def sub_subsection(self):
+        return None   
 
     def get_absolute_url(self):
         return reverse('sword-detail', args=[str(self.id)])
@@ -933,6 +1047,12 @@ class Spear(SeshatCommon):
             return "NO_NGA_ASSOCIATED"
         else:
             return nga_rel.nga_party.name
+        
+    def subsection(self):
+        return "Handheld weapons"
+
+    def sub_subsection(self):
+        return None   
 
     def get_absolute_url(self):
         return reverse('spear-detail', args=[str(self.id)])
@@ -975,6 +1095,12 @@ class Polearm(SeshatCommon):
             return "NO_NGA_ASSOCIATED"
         else:
             return nga_rel.nga_party.name
+        
+    def subsection(self):
+        return "Handheld weapons"
+
+    def sub_subsection(self):
+        return None   
 
     def get_absolute_url(self):
         return reverse('polearm-detail', args=[str(self.id)])
@@ -1017,6 +1143,12 @@ class Dog(SeshatCommon):
             return "NO_NGA_ASSOCIATED"
         else:
             return nga_rel.nga_party.name
+        
+    def subsection(self):
+        return "Animals used in warfare"
+
+    def sub_subsection(self):
+        return None  
 
     def get_absolute_url(self):
         return reverse('dog-detail', args=[str(self.id)])
@@ -1059,6 +1191,12 @@ class Donkey(SeshatCommon):
             return "NO_NGA_ASSOCIATED"
         else:
             return nga_rel.nga_party.name
+        
+    def subsection(self):
+        return "Animals used in warfare"
+
+    def sub_subsection(self):
+        return None  
 
     def get_absolute_url(self):
         return reverse('donkey-detail', args=[str(self.id)])
@@ -1101,6 +1239,12 @@ class Horse(SeshatCommon):
             return "NO_NGA_ASSOCIATED"
         else:
             return nga_rel.nga_party.name
+        
+    def subsection(self):
+        return "Animals used in warfare"
+
+    def sub_subsection(self):
+        return None  
 
     def get_absolute_url(self):
         return reverse('horse-detail', args=[str(self.id)])
@@ -1143,6 +1287,12 @@ class Camel(SeshatCommon):
             return "NO_NGA_ASSOCIATED"
         else:
             return nga_rel.nga_party.name
+        
+    def subsection(self):
+        return "Animals used in warfare"
+
+    def sub_subsection(self):
+        return None  
 
     def get_absolute_url(self):
         return reverse('camel-detail', args=[str(self.id)])
@@ -1185,6 +1335,12 @@ class Elephant(SeshatCommon):
             return "NO_NGA_ASSOCIATED"
         else:
             return nga_rel.nga_party.name
+        
+    def subsection(self):
+        return "Animals used in warfare"
+
+    def sub_subsection(self):
+        return None  
 
     def get_absolute_url(self):
         return reverse('elephant-detail', args=[str(self.id)])
@@ -1227,6 +1383,13 @@ class Wood_bark_etc(SeshatCommon):
             return "NO_NGA_ASSOCIATED"
         else:
             return nga_rel.nga_party.name
+        
+    def subsection(self):
+        return "Armor"
+
+    def sub_subsection(self):
+        return None   
+
 
     def get_absolute_url(self):
         return reverse('wood_bark_etc-detail', args=[str(self.id)])
@@ -1269,6 +1432,13 @@ class Leather_cloth(SeshatCommon):
             return "NO_NGA_ASSOCIATED"
         else:
             return nga_rel.nga_party.name
+        
+    def subsection(self):
+        return "Armor"
+
+    def sub_subsection(self):
+        return None   
+
 
     def get_absolute_url(self):
         return reverse('leather_cloth-detail', args=[str(self.id)])
@@ -1311,6 +1481,13 @@ class Shield(SeshatCommon):
             return "NO_NGA_ASSOCIATED"
         else:
             return nga_rel.nga_party.name
+        
+    def subsection(self):
+        return "Armor"
+
+    def sub_subsection(self):
+        return None   
+
 
     def get_absolute_url(self):
         return reverse('shield-detail', args=[str(self.id)])
@@ -1353,6 +1530,13 @@ class Helmet(SeshatCommon):
             return "NO_NGA_ASSOCIATED"
         else:
             return nga_rel.nga_party.name
+        
+    def subsection(self):
+        return "Armor"
+
+    def sub_subsection(self):
+        return None   
+
 
     def get_absolute_url(self):
         return reverse('helmet-detail', args=[str(self.id)])
@@ -1395,6 +1579,13 @@ class Breastplate(SeshatCommon):
             return "NO_NGA_ASSOCIATED"
         else:
             return nga_rel.nga_party.name
+        
+    def subsection(self):
+        return "Armor"
+
+    def sub_subsection(self):
+        return None   
+
 
     def get_absolute_url(self):
         return reverse('breastplate-detail', args=[str(self.id)])
@@ -1437,6 +1628,13 @@ class Limb_protection(SeshatCommon):
             return "NO_NGA_ASSOCIATED"
         else:
             return nga_rel.nga_party.name
+        
+    def subsection(self):
+        return "Armor"
+
+    def sub_subsection(self):
+        return None   
+
 
     def get_absolute_url(self):
         return reverse('limb_protection-detail', args=[str(self.id)])
@@ -1479,6 +1677,13 @@ class Scaled_armor(SeshatCommon):
             return "NO_NGA_ASSOCIATED"
         else:
             return nga_rel.nga_party.name
+        
+    def subsection(self):
+        return "Armor"
+
+    def sub_subsection(self):
+        return None   
+
 
     def get_absolute_url(self):
         return reverse('scaled_armor-detail', args=[str(self.id)])
@@ -1521,6 +1726,13 @@ class Laminar_armor(SeshatCommon):
             return "NO_NGA_ASSOCIATED"
         else:
             return nga_rel.nga_party.name
+        
+    def subsection(self):
+        return "Armor"
+
+    def sub_subsection(self):
+        return None   
+
 
     def get_absolute_url(self):
         return reverse('laminar_armor-detail', args=[str(self.id)])
@@ -1563,6 +1775,13 @@ class Plate_armor(SeshatCommon):
             return "NO_NGA_ASSOCIATED"
         else:
             return nga_rel.nga_party.name
+        
+    def subsection(self):
+        return "Armor"
+
+    def sub_subsection(self):
+        return None   
+
 
     def get_absolute_url(self):
         return reverse('plate_armor-detail', args=[str(self.id)])
@@ -1605,6 +1824,12 @@ class Small_vessels_canoes_etc(SeshatCommon):
             return "NO_NGA_ASSOCIATED"
         else:
             return nga_rel.nga_party.name
+        
+    def subsection(self):
+        return "Naval technology"
+
+    def sub_subsection(self):
+        return None   
 
     def get_absolute_url(self):
         return reverse('small_vessels_canoes_etc-detail', args=[str(self.id)])
@@ -1647,6 +1872,12 @@ class Merchant_ships_pressed_into_service(SeshatCommon):
             return "NO_NGA_ASSOCIATED"
         else:
             return nga_rel.nga_party.name
+        
+    def subsection(self):
+        return "Naval technology"
+
+    def sub_subsection(self):
+        return None   
 
     def get_absolute_url(self):
         return reverse('merchant_ships_pressed_into_service-detail', args=[str(self.id)])
@@ -1689,6 +1920,12 @@ class Specialized_military_vessel(SeshatCommon):
             return "NO_NGA_ASSOCIATED"
         else:
             return nga_rel.nga_party.name
+        
+    def subsection(self):
+        return "Naval technology"
+
+    def sub_subsection(self):
+        return None   
 
     def get_absolute_url(self):
         return reverse('specialized_military_vessel-detail', args=[str(self.id)])
@@ -1731,6 +1968,12 @@ class Settlements_in_a_defensive_position(SeshatCommon):
             return "NO_NGA_ASSOCIATED"
         else:
             return nga_rel.nga_party.name
+        
+    def subsection(self):
+        return "Fortifications"
+
+    def sub_subsection(self):
+        return None   
 
     def get_absolute_url(self):
         return reverse('settlements_in_a_defensive_position-detail', args=[str(self.id)])
@@ -1773,6 +2016,12 @@ class Wooden_palisade(SeshatCommon):
             return "NO_NGA_ASSOCIATED"
         else:
             return nga_rel.nga_party.name
+        
+    def subsection(self):
+        return "Fortifications"
+
+    def sub_subsection(self):
+        return None   
 
     def get_absolute_url(self):
         return reverse('wooden_palisade-detail', args=[str(self.id)])
@@ -1815,6 +2064,12 @@ class Earth_rampart(SeshatCommon):
             return "NO_NGA_ASSOCIATED"
         else:
             return nga_rel.nga_party.name
+        
+    def subsection(self):
+        return "Fortifications"
+
+    def sub_subsection(self):
+        return None   
 
     def get_absolute_url(self):
         return reverse('earth_rampart-detail', args=[str(self.id)])
@@ -1857,6 +2112,12 @@ class Ditch(SeshatCommon):
             return "NO_NGA_ASSOCIATED"
         else:
             return nga_rel.nga_party.name
+        
+    def subsection(self):
+        return "Fortifications"
+
+    def sub_subsection(self):
+        return None   
 
     def get_absolute_url(self):
         return reverse('ditch-detail', args=[str(self.id)])
@@ -1899,6 +2160,12 @@ class Moat(SeshatCommon):
             return "NO_NGA_ASSOCIATED"
         else:
             return nga_rel.nga_party.name
+        
+    def subsection(self):
+        return "Fortifications"
+
+    def sub_subsection(self):
+        return None   
 
     def get_absolute_url(self):
         return reverse('moat-detail', args=[str(self.id)])
@@ -1941,6 +2208,12 @@ class Stone_walls_non_mortared(SeshatCommon):
             return "NO_NGA_ASSOCIATED"
         else:
             return nga_rel.nga_party.name
+        
+    def subsection(self):
+        return "Fortifications"
+
+    def sub_subsection(self):
+        return None   
 
     def get_absolute_url(self):
         return reverse('stone_walls_non_mortared-detail', args=[str(self.id)])
@@ -1983,6 +2256,12 @@ class Stone_walls_mortared(SeshatCommon):
             return "NO_NGA_ASSOCIATED"
         else:
             return nga_rel.nga_party.name
+        
+    def subsection(self):
+        return "Fortifications"
+
+    def sub_subsection(self):
+        return None   
 
     def get_absolute_url(self):
         return reverse('stone_walls_mortared-detail', args=[str(self.id)])
@@ -2025,6 +2304,12 @@ class Fortified_camp(SeshatCommon):
             return "NO_NGA_ASSOCIATED"
         else:
             return nga_rel.nga_party.name
+        
+    def subsection(self):
+        return "Fortifications"
+
+    def sub_subsection(self):
+        return None   
 
     def get_absolute_url(self):
         return reverse('fortified_camp-detail', args=[str(self.id)])
@@ -2067,6 +2352,12 @@ class Complex_fortification(SeshatCommon):
             return "NO_NGA_ASSOCIATED"
         else:
             return nga_rel.nga_party.name
+        
+    def subsection(self):
+        return "Fortifications"
+
+    def sub_subsection(self):
+        return None   
 
     def get_absolute_url(self):
         return reverse('complex_fortification-detail', args=[str(self.id)])
@@ -2109,6 +2400,12 @@ class Modern_fortification(SeshatCommon):
             return "NO_NGA_ASSOCIATED"
         else:
             return nga_rel.nga_party.name
+        
+    def subsection(self):
+        return "Fortifications"
+
+    def sub_subsection(self):
+        return None   
 
     def get_absolute_url(self):
         return reverse('modern_fortification-detail', args=[str(self.id)])
@@ -2151,6 +2448,12 @@ class Chainmail(SeshatCommon):
             return "NO_NGA_ASSOCIATED"
         else:
             return nga_rel.nga_party.name
+        
+    def subsection(self):
+        return "Armor"
+
+    def sub_subsection(self):
+        return None   
 
     def get_absolute_url(self):
         return reverse('chainmail-detail', args=[str(self.id)])

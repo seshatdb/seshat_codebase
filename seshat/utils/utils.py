@@ -5,6 +5,7 @@ import pprint
 from seshat.apps.crisisdb.models import Crisis_consequence, Power_transition, Human_sacrifice
 
 from django.contrib.contenttypes.models import ContentType
+from django.apps import apps
 
 from ..apps.core.models import Polity
 import requests
@@ -204,6 +205,7 @@ def qing_vars_links_creator(vars_dic_for_here):
 
 
 def get_all_data_for_a_polity(polity_id, db_name):
+    #####
     all_vars = []
     a_huge_context_data_dic = {}
     for ct in ContentType.objects.all():
@@ -222,7 +224,7 @@ def get_all_data_for_a_polity(polity_id, db_name):
     return a_huge_context_data_dic
 
 
-def get_all_general_data_for_a_polity(polity_id):
+def get_all_general_data_for_a_polity_old(polity_id):
     a_huge_context_data_dic = {}
     for ct in ContentType.objects.all():
         m = ct.model_class()
@@ -243,15 +245,103 @@ def get_all_general_data_for_a_polity(polity_id):
 #                 return True
 #     return False
 
+
+def get_all_general_data_for_a_polity(polity_id):
+    app_name = 'general'  # Replace with your app name
+    models_1 = apps.get_app_config(app_name).get_models()
+
+    all_vars_grouped_g = {}
+    for model in models_1:
+        model_name = model.__name__
+        #print(f"--------xxxxxxxxxxxxx-----{model_name}, ")
+
+        if model_name in ["Ra", "Polity_editor", "Polity_research_assistant","Polity_expert"]:
+            continue
+        s_value = str(model().subsection())
+        ss_value = str(model().sub_subsection())
+
+        if s_value not in all_vars_grouped_g:
+            all_vars_grouped_g[s_value] = {}
+            if ss_value:
+                all_vars_grouped_g[s_value][ss_value] = {}
+            else:
+                all_vars_grouped_g[s_value]["None"] = {}
+        else:
+            if ss_value:
+                all_vars_grouped_g[s_value][ss_value] = {}
+            else:
+                all_vars_grouped_g[s_value]["None"] = {}
+    #print(all_vars_grouped_g.keys())
+    #########
+    #ll_vars_grouped = {}
+    for ct in ContentType.objects.all():
+        m = ct.model_class()
+        if m and m.__module__ == "seshat.apps.general.models":
+            my_data = m.objects.filter(polity = polity_id)
+            if m.__name__ in ["Ra", "Polity_editor", "Polity_research_assistant","Polity_expert"]:
+                continue
+            #print(f"--------xxxxxxxxxxxxx-----{m.__name__}, ")
+            if my_data:
+                my_s = m().subsection()
+                #print(f"-------------{my_s}, ")
+
+                if my_s:
+                    all_vars_grouped_g[my_s]["None"][m.__name__] = my_data
+                else:
+                    print(f"-------------{my_s},")
+                #if "ra" not in m.__name__.lower() or "paper" not in m.__name__.lower():
+                #    print(f"------{m.subsection()}-------")
+    #print(all_vars_grouped_g)
+
+    return all_vars_grouped_g
+
 def get_all_sc_data_for_a_polity(polity_id):
-    a_huge_context_data_dic = {}
+    app_name = 'sc'  # Replace with your app name
+    models_1 = apps.get_app_config(app_name).get_models()
+
+    all_vars_grouped = {}
+    for model in models_1:
+        model_name = model.__name__
+        if model_name == "Ra":
+            continue
+        s_value = str(model().subsection())
+        ss_value = str(model().sub_subsection())
+
+        if s_value not in all_vars_grouped:
+            all_vars_grouped[s_value] = {}
+            if ss_value:
+                all_vars_grouped[s_value][ss_value] = {}
+            else:
+                all_vars_grouped[s_value]["None"] = {}
+        else:
+            if ss_value:
+                all_vars_grouped[s_value][ss_value] = {}
+            else:
+                all_vars_grouped[s_value]["None"] = {}
+    #print(all_vars_grouped.keys())
+    #########
+    #ll_vars_grouped = {}
     for ct in ContentType.objects.all():
         m = ct.model_class()
         if m and m.__module__ == "seshat.apps.sc.models":
             my_data = m.objects.filter(polity = polity_id)
+            if m.__name__ == "Ra":
+                continue
             if my_data:
-                a_huge_context_data_dic[m.__name__] = my_data
-    return a_huge_context_data_dic
+                my_s = m().subsection()
+                my_ss = m().sub_subsection()
+
+                if my_s and my_ss:
+                    all_vars_grouped[my_s][my_ss][m.__name__] = my_data
+                elif my_s:
+                    all_vars_grouped[my_s]["None"][m.__name__] = my_data
+                else:
+                    print(f"-------------{my_s}, {my_ss}")
+                #if "ra" not in m.__name__.lower() or "paper" not in m.__name__.lower():
+                #    print(f"------{m.subsection()}-------")
+    #print(all_vars_grouped)
+
+    return all_vars_grouped
 
 # def has_sc_data_for_polity(polity_id):
 #     for ct in ContentType.objects.filter(app_label='sc'):
@@ -264,6 +354,52 @@ def get_all_sc_data_for_a_polity(polity_id):
 #     return False
 
 def get_all_wf_data_for_a_polity(polity_id):
+    app_name = 'wf'  # Replace with your app name
+    models_1 = apps.get_app_config(app_name).get_models()
+
+    all_vars_grouped_wf = {}
+    for model in models_1:
+        model_name = model.__name__
+
+        s_value = str(model().subsection())
+        ss_value = str(model().sub_subsection())
+
+        if s_value not in all_vars_grouped_wf:
+            all_vars_grouped_wf[s_value] = {}
+            if ss_value:
+                all_vars_grouped_wf[s_value][ss_value] = {}
+            else:
+                all_vars_grouped_wf[s_value]["None"] = {}
+        else:
+            if ss_value:
+                all_vars_grouped_wf[s_value][ss_value] = {}
+            else:
+                all_vars_grouped_wf[s_value]["None"] = {}
+    #print(all_vars_grouped_wf.keys())
+    #########
+    #ll_vars_grouped = {}
+    for ct in ContentType.objects.all():
+        m = ct.model_class()
+        if m and m.__module__ == "seshat.apps.wf.models":
+            my_data = m.objects.filter(polity = polity_id)
+
+            #print(f"--------xxxxxxxxxxxxx-----{m.__name__}, ")
+            if my_data:
+                my_s = m().subsection()
+                #print(f"-------------{my_s}, ")
+
+                if my_s:
+                    all_vars_grouped_wf[my_s]["None"][m.__name__] = my_data
+                else:
+                    print(f"-------------{my_s},")
+                #if "ra" not in m.__name__.lower() or "paper" not in m.__name__.lower():
+                #    print(f"------{m.subsection()}-------")
+    #print(all_vars_grouped_wf)
+
+    return all_vars_grouped_wf
+
+
+def get_all_wf_data_for_a_polity_old(polity_id):
     a_huge_context_data_dic = {}
     for ct in ContentType.objects.all():
         m = ct.model_class()
