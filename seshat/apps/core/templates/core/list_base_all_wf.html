@@ -3,7 +3,23 @@
 {% load humanize %}
 {% load mathfilters %}
 
+
+
 {% block content %}
+
+<style>
+    .sticky-top-new {
+        position: sticky;
+        top: 0; /* Stick to the top of the closest positioned ancestor or the window */
+        z-index: 1000; /* Adjust the z-index to ensure the header is on top of other elements */
+    }
+    
+    /* Add styles for the table container to ensure proper spacing */
+    .table-container {
+        margin-top: 100;
+    }
+</style>
+
 <div class="container">
     {% if object_list %}
     <div class="row d-flex mt-3">
@@ -186,11 +202,11 @@
     {% endblock download_button %}
     </div>
     </div>
-    <div class="table-responsive">
-        <div class="sticky-top" style="position: sticky !important;">
+    <div class="table-container">
 
         <table id="table_id" class="table align-middle table-hover table-striped table-bordered" style="padding: 0.25 rem !important;">
-            <thead class="sticky-top">
+
+            <thead  class="sticky-top" style="background-color:#FFCCCC; height:40px;  top: 55px;">
                 <tr>
                     <th scope="col" class="text-secondary"  style="text-align: center">#</th>
                     <th scope="col" style="text-align: left" class="fw-bold"> 
@@ -228,6 +244,7 @@
                   </tr>
 
             </thead>
+
             <tbody>
                 {% for obj in object_list %}
                     <tr>
@@ -325,8 +342,7 @@
                 {% endfor %}
             </tbody>
           </table>
-        </div>
-
+                
     {% else %}
 
     <div class="row">
@@ -341,5 +357,6 @@
         var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
           return new bootstrap.Popover(popoverTriggerEl)
         })
+        
     </script>
   {% endblock %}

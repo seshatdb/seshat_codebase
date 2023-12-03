@@ -107,9 +107,9 @@
 
   {% autoescape off %}   
 
-  <div class="table-responsive mb-2">
+  <div class="table-container mb-2">
     <table id="table_id" class="table align-middle table-hover table-bordered" style="padding: 0.25 rem !important;">
-      <thead>
+      <thead  class="sticky-top" style="background-color:#FFCCCC; height:40px;  top: 55px;">
         <tr>
           <th scope="col" style="text-align: center"  class="text-secondary">#</th>
           <th scope="col" style="text-align: left;  width:10%; white-space: nowrap;" class="fw-bold text-secondary"> 
@@ -124,7 +124,7 @@
               </th>
                 <th scope="col" style="text-align: center" class="fw-bold text-secondary">Subtype(s)</th>
             <th scope="col" style="text-align: left" class="fw-bold text-secondary">&nbsp;<i class="fa-solid fa-location-dot"></i> Location(s) </th>
-          <th scope="col" style="text-align: center; background-color:#fcf8e3; white-space: nowrap;" class="fw-bold text-secondary">
+          <th scope="col" style="text-align: center; white-space: nowrap;" class="fw-bold text-secondary">
             <a href="{% url 'us_violence_list' %}?order_by=fatalities">&nbsp;<i class="fa-solid fa-arrow-up-wide-short fa-rotate-180 fa-sm"></i>&nbsp;</a> 
             Fatalities
             <a href="{% url 'us_violence_list' %}?order_by=-fatalities">&nbsp;<i class="fa-solid fa-arrow-up-wide-short fa-sm"></i>&nbsp;</a> 

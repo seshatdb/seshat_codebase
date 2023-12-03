@@ -107,7 +107,7 @@
   {% autoescape off %}   
 
 
-  <div class="table-responsive mb-2">
+  <div class="table-container mb-2">
     {% if is_paginated %}
         <div class="pagination mt-2 mb-3 pe-1 float-end">
         <span class="page-links">
@@ -128,8 +128,8 @@
         </div>
     {% endif %}
     <table id="table_id" class="table align-middle table-hover table-bordered" style="padding: 0.25 rem !important;">
-      <thead>
-        <tr>
+      <thead  class="sticky-top" style="background-color:#FFCCCC; height:40px;  top: 55px;">
+                <tr>
           <th scope="col" style="text-align: center"  class="text-secondary">#</th>
           <th scope="col" style="text-align: left;  width:10%;" class="fw-bold text-secondary"> 
               Date </th>
@@ -137,7 +137,7 @@
                 Type </th>
                 <th scope="col" style="text-align: center" class="fw-bold text-secondary">Subtype(s)</th>
             <th scope="col" style="text-align: left" class="fw-bold text-secondary">&nbsp;<i class="fa-solid fa-location-dot"></i> Location(s) </th>
-          <th scope="col" style="text-align: center; background-color:#fcf8e3;" class="fw-bold text-secondary"> Fatalities</th>
+          <th scope="col" style="text-align: center;" class="fw-bold text-secondary"> Fatalities</th>
           <!-- headings for extra vars -->
           <th scope="col" style="text-align: center;" class="fw-bold text-secondary"> Source(s)</th>
           <th scope="col" style="text-align: center; width:3%;" class="fw-bold text-secondary"> Narrative</th>
