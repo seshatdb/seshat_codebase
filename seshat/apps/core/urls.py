@@ -37,6 +37,8 @@ urlpatterns += [
     path('core/polities/', views.PolityListView.as_view(), name='polities'),
      path('core/polities_commented/', views.PolityListViewCommented.as_view(), name='polities-commented'),
     path('core/polity/<int:pk>', views.PolityDetailView.as_view(), name='polity-detail-main'),
+     re_path(r'^core/polity/(?P<new_name>[\w-]+)/$', views.PolityDetailView.as_view(), name='polity-detail-new-name'),
+
      path('core/polities/<int:pk>/update/',
          views.PolityUpdate.as_view(), name="polity-update"),
 

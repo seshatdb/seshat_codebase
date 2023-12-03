@@ -6,6 +6,8 @@
 
 
 {% block content %}
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
 <style>
     br {
         display: block;
@@ -94,6 +96,31 @@
         text-shadow: 0 0 4px gray;
         color: gray; /* Text color */      }
 
+        .card-text-spaced {
+            font-size: 16px;
+            color: #782823;
+            display: flex;
+            padding-top: 5px;
+            justify-content: space-between;
+            }
+        
+        .left-span {
+                font-size: 16px;
+                color: #782823;
+            }
+        
+        .right-span {
+                text-align: right;
+                font-size: 16px;
+                color: #782823;
+            }
+        
+            .center-span {
+                text-align: center;
+                font-size: 16px;
+                color: #782823;
+            }
+
 </style>
 
 <!-- showcase for index -->
@@ -104,7 +131,7 @@
             <div class="row d-flex align-items-center mb-2">
                 <div class="col-md-8">
                     <div class="pb-0">
-                        <span class="h6 text-secondary">Home Seshat Region:</span> <span class="h6 text-dark">{{ object.home_seshat_region }}</span> 
+                        <span class="h6 text-secondary" id="top_of_the_page">Home Seshat Region:</span> <span class="h6 text-dark">{{ object.home_seshat_region }}</span> 
                     </div>
                     <span class="fw-bolder fs-1 text-teal"><i class="fa-solid fa-star fa-sm"></i> {{ object.long_name }}</span> 
 
@@ -231,75 +258,104 @@
             </div>
 
 
-
+<!-- GV -->
             {% if all_general_data and has_any_general_data %}
-            <div class="col-md-12 m-0 p-0 border-bottom border-2">
-                <span class=" h3 fw-bold m-0 p-0 ">  
-                    <span class="badge mt-4 mb-2 fw-bold bg-warning text-dark" style="text-align: left; border:1px solid #8931015e">
+            <div class="col-md-12 m-0 p-0">
+                <span class="h2 fw-bold m-0 p-0 ">  
+                    <span class="badge mt-5 mb-2 p-3 fw-bold rounded-pill text-dark" style="text-align: left; background: #ffc1073b; border:1px solid #ffc107">
                        General Variables
                     </span>   
-                    <span class=" mt-3">
-                        <a href="#sc_var"><i class="fa-solid fa-circle-arrow-down mt-3 fa-lg"></i></a>
+                    <span class="mt-3 fs-5">
+                        <a href="#general_var"><i class="fa-solid fa-circle-arrow-down mt-3 fa-lg"></i></a>
                     </span>                 
-
                 </span>
             </div>
             <div class="row">
                 {% for key_top, values_top in all_general_data.items %}
-
                     {% for key_m, values_m in values_top.items %}
                     {% if values_m %}
-
-                    <div class="col-md-3 border-bottom border-2 d-flex align-items-center">
+                    <div class="col-md-2 mt-2 pt-1 border-top border-2 border-warning d-flex align-items-top">
                         <span class=" fs-6 text-dark"  style="text-align: left;">
                             <i class="fa-solid fa-circle fa-2xs text-warning"></i>
-
                             <span class="fw-bold"> {{key_top}}</span> 
                             {% if key_m != 'None' %}
                             <span class="fw-light">/ {{key_m}}</span> 
                             {% endif %}
                         </span>
-
                      </div>
                      {% endif %}
-
                      {% if values_m %}
-
-                            <div class="col-md-9" id="table_id_general">
-                
+                            <div class="col-md-10 py-2" id="table_id_general">
                             {% for key, values in values_m.items %}
                             {% if values %}
+                            <span class="badge mb-1 mt-0 pb-0 mx-0 fw-bold text-dark" style="text-align: left; background:#acd2cc62; border:1px solid #2436112e;">
+                                <div class="fs-6"><a class="h6" href="#{{key}}"> &nbsp;<i class="fa-solid fa-circle-arrow-down fa-sm text-teal-light"></i>
+                                </a> {{ values.0.clean_name_spaced|slice:"7:" }}:&nbsp; </div>
+                                <table class="table mb-0 pb-0">
 
-            
-
-                            <span class="badge rounded-pill my-1 mx-1 fw-bold text-secondary" style="text-align: left; background:#acd2cc62; border:1px solid #8931015e">
-                                <span class="fs-6">  {{ values.0.clean_name_spaced|slice:"7:" }}:&nbsp; </span>
                                 {% for vv in values %}
-                                        {% if forloop.counter0 > 0 %}
-                                    <span class="text-secondary h6">/</span>
-                                        {% endif %}
+                                <tr>
+                                    <td>
                                         {% if  vv.show_value == 'present' %}
-
                                         <span class="h6 text-teal fw-bold">{{ vv.show_value }}</span> 
                                         {% elif vv.show_value == "absent" %}
                                         <span class="h6 text-danger fw-bold">{{ vv.show_value }}</span> 
                                         {% else %}
-                                        <span class="h6 text-dark fw-bold">{{ vv.show_value }}</span> 
-
+                                        <span class="h6 text-teal fw-bold">{{ vv.show_value }}</span> 
                                         {% endif %}
-
+                                    </td>
+                                    <td class="text-end ps-4">
+                                        <span class="text-secondary fw-light fs-6" style="border-radius:5px">
+                                            {% if vv.year_from == None %}
+                                                &nbsp;
+                                            {% elif  vv.year_from == vv.year_to %}
+                                                {% if  vv.year_from < 0 %}
+                                                {{ vv.year_from|abs }} 
+                                                <span class="text-secondary fw-light fs-6">BCE</span> 
+                                                {% else %}
+                                                {{ vv.year_from }} 
+                                                <span class="text-secondary fw-light fs-6">CE</span>
+                                                {% endif %}
+                                            {% elif vv.year_to == None %}
+                                                {% if  vv.year_from < 0 %}
+                                                {{ vv.year_from|abs }} 
+                                                    <span class="text-secondary fw-light fs-6">BCE</span>
+                                                {% else %}
+                                                {{ vv.year_from }} 
+                                                    <span class="text-secondary fw-light fs-6">CE</span>
+                                                {% endif %}
+                                            {% elif vv.year_to == None and  vv.year_from == None %}
+                                                <i class="fa-solid fa-minus"></i> 
+                                            {% else %}
+                                                {% if  vv.year_from < 0 and vv.year_to < 0 %}
+                                                {{ vv.year_from|abs }} 
+                                                    <span class="text-secondary fw-light fs-6">BCE</span> 
+                                                <i class="fas fa-long-arrow-alt-right"></i> {{ vv.year_to|abs }}         
+                                                    <span class="text-secondary fw-light fs-6">BCE</span> 
+                                                {% elif  vv.year_from < 0 and vv.year_to >= 0 %}
+                                                {{ vv.year_from|abs }}         
+                                                    <span class="text-secondary fw-light fs-6">BCE</span> 
+                                             <i class="fas fa-long-arrow-alt-right"></i> {{ vv.year_to }}         
+                                                    <span class="text-secondary fw-light fs-6">CE</span> 
+                                                {% else %}
+                                                {{ vv.year_from }} 
+                                                    <span class="text-secondary fw-light fs-6">CE</span>
+                                              <i class="fas fa-long-arrow-alt-right"></i> {{ vv.year_to }}         
+                                                    <span class="text-secondary fw-light fs-6">CE</span> 
+                                                {% endif %}
+                                            {% endif %}
+                                        </span>
+                                    </td>
+                                </tr>
                                 {% endfor %}
-                                <a class="h6" href="#{{key}}"> &nbsp;<i class="fa-solid fa-circle-arrow-down fa-sm text-teal-light"></i>
-                                    </a>
 
-                                    </span>
+
+                                </table>
+                            </span>
                             {% endif %}
-
                             {% endfor %}
                 </div>
                 {% endif %}
-
-
                 {% endfor %}
                 {% endfor %}
             </div>
@@ -310,83 +366,96 @@
             </div>
 
             {% endif %}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+<!-- sc -->
             {% if all_sc_data and has_any_sc_data %}
-            <div class="col-md-12 m-0 p-0 border-bottom border-2">
-                <span class=" h3 fw-bold m-0 p-0 ">  
-                    <span class="badge mt-4 mb-2 fw-bold text-light bg-primary" style="text-align: left; border:1px solid #8931015e">
+            <div class="col-md-12 m-0 p-0">
+                <span class="h2 fw-bold m-0 p-0 ">  
+                    <span class="badge mt-5 mb-2 p-3 fw-bold text-dark rounded-pill" style="text-align: left; background: #0d6dfd3b; border:1px solid #0d6dfd">
                         Social Complexity Variables
                     </span>   
-                    <span class=" mt-3">
+                    <span class="mt-3 fs-5">
                         <a href="#sc_var"><i class="fa-solid fa-circle-arrow-down mt-3 fa-lg"></i></a>
                     </span>                 
-
                 </span>
             </div>
-
             <div class="row">
                 {% for key_top, values_top in all_sc_data.items %}
-
                     {% for key_m, values_m in values_top.items %}
                     {% if values_m %}
-
-                    <div class="col-md-3 border-bottom border-2 d-flex align-items-center">
-
-                        <span class=" fs-6 text-dark"  style="text-align: left;">
+                    <div class="col-md-2 mt-2 pt-1 border-top border-2 border-primary d-flex align-items-top">
+                        <span class=" fs-6 text-dark border-primary"  style="text-align: left;">
                             <i class="fa-solid fa-circle fa-2xs text-primary"></i>
                             <span class="fw-bold"> {{key_top}}</span> 
                             {% if key_m != 'None' %}
                             <span class="fw-light">/ {{key_m}}</span> 
                             {% endif %}
                         </span>
-
                      </div>
                      {% endif %}
-
                      {% if values_m %}
-
-                            <div class="col-md-9" id="table_id_sc">
-                
+                            <div class="col-md-10 py-2 " id="table_id_sc">
                             {% for key, values in values_m.items %}
                             {% if values %}
-
-            
-
-                            <span class="badge rounded-pill my-1 mx-1 fw-bold text-secondary" style="text-align: left; background:#acd2cc62; border:1px solid #8931015e;">
-                                <span class="fs-6">  {{values.0.clean_name_spaced}}:&nbsp; </span>
+                            <span class="badge mb-1 mt-0 pb-0 mx-0 text-dark" style="text-align: left; background:#acd2cc62; border:1px solid #2436112e;">
+                                <div class="fs-6 pb-1"> <a class="h6" href="#{{key}}"><i class="fa-solid fa-circle-arrow-down fa-sm text-teal-light"></i>
+                                </a> {{values.0.clean_name_spaced}}:&nbsp; </div>
+                                <table class="table mb-0 pb-0">
                                 {% for vv in values %}
-                                        {% if forloop.counter0 > 0 %}
-                                    <span class="text-secondary h6">/</span>
-                                        {% endif %}
+                                <tr>
+                                    <td>
                                         {% if  vv.show_value == 'present' %}
-
                                         <span class="h6 text-teal fw-bold">{{ vv.show_value }}</span> 
                                         {% elif vv.show_value == "absent" %}
                                         <span class="h6 text-danger fw-bold">{{ vv.show_value }}</span> 
                                         {% else %}
-                                        <span class="h6 text-dark fw-bold">{{ vv.show_value }}</span> 
-
+                                        <span class="h6 text-teal fw-bold">{{ vv.show_value }}</span> 
                                         {% endif %}
-
+                                    </td>
+                                    <td class="text-end ps-4">
+                                        <span class="text-secondary fw-light fs-6" style="border-radius:5px">
+                                            {% if vv.year_from == None %}
+                                                &nbsp;
+                                            {% elif  vv.year_from == vv.year_to %}
+                                                {% if  vv.year_from < 0 %}
+                                                {{ vv.year_from|abs }} 
+                                                <span class="text-secondary fw-light fs-6">BCE</span> 
+                                                {% else %}
+                                                {{ vv.year_from }} 
+                                                <span class="text-secondary fw-light fs-6">CE</span>
+                                                {% endif %}
+                                            {% elif vv.year_to == None %}
+                                                {% if  vv.year_from < 0 %}
+                                                {{ vv.year_from|abs }} 
+                                                    <span class="text-secondary fw-light fs-6">BCE</span>
+                                                {% else %}
+                                                {{ vv.year_from }} 
+                                                    <span class="text-secondary fw-light fs-6">CE</span>
+                                                {% endif %}
+                                            {% elif vv.year_to == None and  vv.year_from == None %}
+                                                <i class="fa-solid fa-minus"></i> 
+                                            {% else %}
+                                                {% if  vv.year_from < 0 and vv.year_to < 0 %}
+                                                {{ vv.year_from|abs }} 
+                                                    <span class="text-secondary fw-light fs-6">BCE</span> 
+                                                <i class="fas fa-long-arrow-alt-right"></i> {{ vv.year_to|abs }}         
+                                                    <span class="text-secondary fw-light fs-6">BCE</span> 
+                                                {% elif  vv.year_from < 0 and vv.year_to >= 0 %}
+                                                {{ vv.year_from|abs }}         
+                                                    <span class="text-secondary fw-light fs-6">BCE</span> 
+                                             <i class="fas fa-long-arrow-alt-right"></i> {{ vv.year_to }}         
+                                                    <span class="text-secondary fw-light fs-6">CE</span> 
+                                                {% else %}
+                                                {{ vv.year_from }} 
+                                                    <span class="text-secondary fw-light fs-6">CE</span>
+                                              <i class="fas fa-long-arrow-alt-right"></i> {{ vv.year_to }}         
+                                                    <span class="text-secondary fw-light fs-6">CE</span> 
+                                                {% endif %}
+                                            {% endif %}
+                                        </span>
+                                    </td>
+                                </tr>
                                 {% endfor %}
-                                <a class="h6" href="#{{key}}"> &nbsp;<i class="fa-solid fa-circle-arrow-down fa-sm text-teal-light"></i>
-                                    </a>
-
+                            </table>
                                     </span>
                             {% endif %}
 
@@ -405,14 +474,14 @@
             </div>
 
             {% endif %}
-
+<!-- wf -->
             {% if all_wf_data and has_any_wf_data %}
-            <div class="col-md-12 m-0 p-0 border-bottom border-2">
+            <div class="col-md-12 m-0 p-0">
                 <span class=" h3 fw-bold m-0 p-0 ">  
-                    <span class="badge mt-4 mb-2 fw-bold text-light bg-danger" style="text-align: left; border:1px solid #8931015e">
+                    <span class="badge mt-5 mb-2 p-3 fw-bold text-dark rounded-pill" style="text-align: left; background: #dc35453b; border:1px solid #dc3545">
                         Warfare Variables (Military Technologies)
                     </span>   
-                    <span class=" mt-3">
+                    <span class=" mt-3 fs-5">
                         <a href="#wf_var"><i class="fa-solid fa-circle-arrow-down mt-3 fa-lg"></i></a>
                     </span>                 
 
@@ -425,9 +494,9 @@
                     {% for key_m, values_m in values_top.items %}
                     {% if values_m %}
 
-                    <div class="col-md-3 border-bottom border-2 d-flex align-items-center">
+                    <div class="col-md-2 mt-2 pt-1 border-top border-2 border-danger d-flex align-items-top">
 
-                        <span class=" fs-6 text-dark"  style="text-align: left;">
+                        <span class=" fs-6 text-dark border-danger"  style="text-align: left;">
                             <i class="fa-solid fa-circle fa-2xs text-danger"></i>
                             <span class="fw-bold"> {{key_top}}</span> 
                             {% if key_m != 'None' %}
@@ -440,32 +509,73 @@
 
                      {% if values_m %}
 
-                            <div class="col-md-9" id="table_id_sc">
+                            <div class="col-md-10 py-2" id="table_id_sc">
                 
                             {% for key, values in values_m.items %}
                             {% if values %}
+                            <span class="badge mb-1 mt-0 pb-0 mx-0 text-dark" style="text-align: left; background:#acd2cc62; border:1px solid #2436112e;">
+                                <div class="fs-6 pb-1"> <a class="h6" href="#{{key}}"> &nbsp;<i class="fa-solid fa-circle-arrow-down fa-sm text-teal-light"></i>
+                                </a> {{values.0.clean_name_spaced}}:&nbsp; </div>
+                                <table class="table mb-0 pb-0">
 
-            
-
-                            <span class="badge rounded-pill my-1 mx-1 fw-bold text-secondary" style="text-align: left; background:#acd2cc62; border:1px solid #8931015e;">
-                                <span class="fs-6">  {{values.0.clean_name_spaced}}:&nbsp; </span>
                                 {% for vv in values %}
-                                        {% if forloop.counter0 > 0 %}
-                                    <span class="text-secondary h6">/</span>
-                                        {% endif %}
+                                <tr>
+                                    <td>
                                         {% if  vv.show_value == 'present' %}
-
                                         <span class="h6 text-teal fw-bold">{{ vv.show_value }}</span> 
                                         {% elif vv.show_value == "absent" %}
                                         <span class="h6 text-danger fw-bold">{{ vv.show_value }}</span> 
                                         {% else %}
-                                        <span class="h6 text-dark fw-bold">{{ vv.show_value }}</span> 
-
+                                        <span class="h6 text-teal fw-bold">{{ vv.show_value }}</span> 
                                         {% endif %}
+                                    </td>
+                                    <td class="text-end ps-4">
+                                        <span class="text-secondary fw-light fs-6" style="border-radius:5px">
+                                            {% if vv.year_from == None %}
+                                                &nbsp;
+                                            {% elif  vv.year_from == vv.year_to %}
+                                                {% if  vv.year_from < 0 %}
+                                                {{ vv.year_from|abs }} 
+                                                <span class="text-secondary fw-light fs-6">BCE</span> 
+                                                {% else %}
+                                                {{ vv.year_from }} 
+                                                <span class="text-secondary fw-light fs-6">CE</span>
+                                                {% endif %}
+                                            {% elif vv.year_to == None %}
+                                                {% if  vv.year_from < 0 %}
+                                                {{ vv.year_from|abs }} 
+                                                    <span class="text-secondary fw-light fs-6">BCE</span>
+                                                {% else %}
+                                                {{ vv.year_from }} 
+                                                    <span class="text-secondary fw-light fs-6">CE</span>
+                                                {% endif %}
+                                            {% elif vv.year_to == None and  vv.year_from == None %}
+                                                <i class="fa-solid fa-minus"></i> 
+                                            {% else %}
+                                                {% if  vv.year_from < 0 and vv.year_to < 0 %}
+                                                {{ vv.year_from|abs }} 
+                                                    <span class="text-secondary fw-light fs-6">BCE</span> 
+                                                <i class="fas fa-long-arrow-alt-right"></i> {{ vv.year_to|abs }}         
+                                                    <span class="text-secondary fw-light fs-6">BCE</span> 
+                                                {% elif  vv.year_from < 0 and vv.year_to >= 0 %}
+                                                {{ vv.year_from|abs }}         
+                                                    <span class="text-secondary fw-light fs-6">BCE</span> 
+                                             <i class="fas fa-long-arrow-alt-right"></i> {{ vv.year_to }}         
+                                                    <span class="text-secondary fw-light fs-6">CE</span> 
+                                                {% else %}
+                                                {{ vv.year_from }} 
+                                                    <span class="text-secondary fw-light fs-6">CE</span>
+                                              <i class="fas fa-long-arrow-alt-right"></i> {{ vv.year_to }}         
+                                                    <span class="text-secondary fw-light fs-6">CE</span> 
+                                                {% endif %}
+                                            {% endif %}
+                                        </span>
+                                    </td>
+                                </tr>
 
                                 {% endfor %}
-                                <a class="h6" href="#{{key}}"> &nbsp;<i class="fa-solid fa-circle-arrow-down fa-sm text-teal-light"></i>
-                                    </a>
+                            </table>
+
 
                                     </span>
                             {% endif %}
@@ -538,7 +648,7 @@
             {% if all_crisis_cases_data and 'core.view_capital' in user.get_all_permissions %}
 
             <div class="col-md-9">
-                <h3 class="fw-bold pb-2 pt-3">  Crisis Consequences Data: &nbsp; <a href="#crisis_case_var"><i class="fa-solid fa-circle-arrow-down fa-sm"></i></a></h3>
+                <h3 class="fw-bold pb-2 pt-3">  Crisis Consequences: &nbsp; <a href="#crisis_case_var"><i class="fa-solid fa-circle-arrow-down fa-sm"></i></a></h3>
             </div>
             <div class="row px-1">
                 <div class="mb-2 col-md-12">
@@ -570,7 +680,7 @@
 
             {% else %}
             <div class="col-md-9">
-                <h3 class="fw-bold pb-2">  Crisis Consequences Data: <span class="text-secondary fs-4">Nothing coded yet.</span> </h3>
+                <h3 class="fw-bold pb-2">  Crisis Consequences: <span class="text-secondary fs-4">Nothing coded yet.</span> </h3>
             </div>
             {% endif %}
             <hr class="light-narrow-hr">
@@ -580,24 +690,298 @@
             {% if all_power_transitions_data and 'core.view_capital' in user.get_all_permissions %}
 
             <div class="col-md-9">
-                <h3 class="fw-bold pb-2 pt-3">  Power Transitions Data: &nbsp; <a href="#power_transition_var"><i class="fa-solid fa-circle-arrow-down fa-sm"></i></a></h3>
+                <h3 class="fw-bold pt-3 pb-0">  Power Transitions: &nbsp; <a href="#power_transition_var"><i class="fa-solid fa-circle-arrow-down fa-sm"></i></a></h3>
             </div>
             <div class="row px-1">
                 <div class="mb-2 col-md-12">
                     {% for key, values in all_power_transitions_data.items %}
                     {% if values %}
-                        <div class="py-2"  id="{{key}}">
-                                {% for value in values %}
-                                <span class="fs-5 text-teal pt-2 pb-0 pe-2 me-2 ms-2 mb-2 mt-1 highlighted-value">
-                                    <span>
-                                        <span class = "text-danger">{{ value.predecessor }}</span> <span class="text-dark fw-light"> <i class="fa-solid fa-arrow-right-long fa-sm"></i> </span> 
-                                        <span class = "text-teal">{{ value.successor }}</span>.
-                                    </span>
-                                    <span class="fs-5">
-                                        {% include "core/partials/_year_block_value_inline.html" %}
-                                    </span> 
+                        <div id="{{key}}">
+
+
+
+                                <div class="table-responsive" style="overflow-x:hidden;">
+                                    <div>
+                                        <span class="left-span px-1" style="color:rgba(0, 139, 139, 0.837);">
+                                                    
+                                            <h6 class="fw-bold" style="color:rgba(0, 139, 139, 0.837); text-align: left; line-height: 1.75;">
+                                                 <span class="badge bg-secondary" style="vertical-align: top;">&nbsp;</span> absent&nbsp;&nbsp; 
+                                                <span class="badge bg-success" style="vertical-align: top;">&nbsp;</span> present&nbsp;&nbsp; <span class="badge bg-dark" style="vertical-align: top;">&nbsp;</span> inferred absent&nbsp;&nbsp; 
+                                                <span class="badge bg-primary" style="vertical-align: top;">&nbsp;</span> inferred present&nbsp;&nbsp; <span class="badge bg-warning" style="vertical-align: top;">&nbsp;</span> suspected unknown&nbsp;&nbsp; <span class="fw-normal text-dark"></span>
+                                                <span class="badge bg-danger" style="vertical-align: top;">&nbsp;</span> unknown <span class="fw-normal text-dark"> are coded for:</span> <br>  
+                                                
+                            
+                                              </h6>
+                                              <div class="row">
+                                                <div class="col-md-3">
+                                                    <span class="badge bg-light text-dark border border-dark" style="padding-bottom:3px;" >OT</span> Overturn
+                                                </div>
+                                                <div class="col-md-3">                            
+                                                    <span class="badge bg-light text-dark border border-dark" style="padding-bottom:3px;"  >PA</span> Predecessor Assassination</div>
+                            
+                                                <div class="col-md-3">                             
+                                                    <span class="badge bg-light text-dark border border-dark" style="padding-bottom:3px;"  >IE</span> Intra-Elite</div>
+                                                <div class="col-md-3">
+                                                    <span class="badge bg-light text-dark border border-dark" style="padding-bottom:3px;"  >MR</span> Military Revolt
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <span class="badge bg-light text-dark border border-dark" style="padding-bottom:3px;"  >PU</span> Popular Uprising
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <span class="badge bg-light text-dark border border-dark" style="padding-bottom:3px;"  >SR</span> Separatist Rebellion
+                                                </div>
+                                                <div class="col-md-3">                             
+                                                    <span class="badge bg-light text-dark border border-dark" style="padding-bottom:3px;"  >EV</span> External Invasion
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <span class="badge bg-light text-dark border border-dark" style="padding-bottom:3px;"  >EF</span> External Inteference
+                                                </div>
+                                            </div>
+                                        </span> 
+                            
+                                    <table id="table_id" class="table align-middle table-striped table-bordered mb-4" style="padding: 0.25 rem !important;">
+                                        <tbody>
+                                            <tr>
+                                                <td class="text-secondary sticky-start p-0 m-0" scope="row"  style="text-align: left">
+                                                    
+                                                    <table class="table table-bordered">
+                                                        <tbody>
+                                                            {% for value in values %}
+                            
+                                                            <tr>
+                            
+                                                                                               
+                                                                 <td style="position: relative;">
+                                                                  
+                                                                    <span class="card-text-spaced">
+                                                                        <span class="left-span">    
+                                                                            <a href="#power_transition_{{value.id}}"><i class="fa-solid fa-circle-arrow-down fa-sm"></i></a>
+
+                            
+                            
+                                                                    <span class="badge border border-dark text-dark px-2 py-1 fw-light fs-6" style="background: linear-gradient(to right, #f8bdb288, #faf0b68e)">
+                                                                    
+                                                                        {% if value.year_from == None %}
+                                                                        <a type="button" class="btn p-0 m-0" data-bs-toggle="tooltip" data-bs-html="true"  title='Year Range of Polity is assumed.'>
+                                                                            <span><i class="fa-solid fa-clock fs-6 text-secondary"></i> </span>
+                                                                        </a>
+                                                                    
+                                                                    
+                                                                            
+                                                                        {% elif  value.year_from == value.year_to %}
+                                                                            {% if  value.year_from < 0 %}
+                                                                            {{ value.year_from|abs }} 
+                                                                            
+                                                                            <span class="text-secondary fw-light fs-6">BCE</span> 
+                                                                        
+                                                                            {% else %}
+                                                                            {{ value.year_from }} 
+                                                                        
+                                                                            <span class="text-secondary fw-light fs-6">CE</span>
+                                                                    
+                                                                            {% endif %}
+                                                                        {% elif value.year_to == None %}
+                                                                            {% if  value.year_from < 0 %}
+                                                                            {{ value.year_from|abs }} 
+                                                                            
+                                                                                <span class="text-secondary fw-light fs-6">BCE</span>
+                                                                        
+                                                                            {% else %}
+                                                                            {{ value.year_from }} 
+                                                                            
+                                                                                <span class="text-secondary fw-light fs-6">CE</span>
+                                                                        
+                                                                            {% endif %}
+                                                                        {% elif value.year_to == None and  value.year_from == None %}
+                                                                            <i class="fa-solid fa-minus"></i> 
+                                                                        {% else %}
+                                                                            {% if  value.year_from < 0 and value.year_to < 0 %}
+                                                                            {{ value.year_from|abs }} 
+                                                                            
+                                                                                <span class="text-secondary fw-light fs-6">BCE</span> 
+                                                                        
+                                                                            <i class="fas fa-long-arrow-alt-right"></i> {{ value.year_to|abs }}         
+                                                                                <span class="text-secondary fw-light fs-6">BCE</span> 
+                                                                        
+                                                                            {% elif  value.year_from < 0 and value.year_to >= 0 %}
+                                                                            {{ value.year_from|abs }}         
+                                                                                <span class="text-secondary fw-light fs-6">BCE</span> 
+                                                                         <i class="fas fa-long-arrow-alt-right"></i> {{ value.year_to }}         
+                                                                                <span class="text-secondary fw-light fs-6">CE</span> 
+                                                                        
+                                                                            {% else %}
+                                                                            {{ value.year_from }} 
+                                                                                <span class="text-secondary fw-light fs-6">CE</span>
+                                                                          <i class="fas fa-long-arrow-alt-right"></i> {{ value.year_to }}         
+                                                                                <span class="text-secondary fw-light fs-6">CE</span> 
+                                                                        
+                                                                            {% endif %}
+                                                                    
+                                                                        {% endif %}
+                                                                        {% if  info_list.polity_end_year < value.year_to %}
+                                                                        <span class="text-danger"> *Bad Years...</span>
+                                                                        {% endif %}
+                                                                    </span>
+                                                                   
+                                                                    <span class = "fw-bold text-danger">
+                                                                        {{ value.predecessor }}
+                                                                    </span> 
+                                                                    <span class="text-dark">
+                                                                        <i class="fa-solid fa-arrow-right-long fa-sm"></i> 
+                                                                    </span> 
+                                                                    <span class = "fw-bold text-teal">
+                                                                        {{ value.successor }}
+                                                                    </span>
+                            
                                 </span>
-                                {% endfor %}
+                            
+                            
+                            <span class="right-span fw-normal">   
+                                {% if  value.overturn == "P" %}
+                                <span class="badge border border-dark bg-success">OV</span> 
+                                {% elif  value.overturn == "IP" %}
+                                <span class="badge border border-dark bg-primary">OV</span> 
+                                {% elif  value.overturn == "A" %}
+                                <span class="badge border border-dark bg-secondary">OV</span> 
+                                {% elif  value.overturn == "IA" %}
+                                <span class="badge border border-dark bg-dark text-light">OV</span> 
+                                {% elif  value.overturn == "U" %}
+                                <span class="badge border border-dark bg-danger">OV</span> 
+                                {% elif  value.overturn == "SU" %}
+                                <span class="badge border border-dark bg-warning text-dark">OV</span>
+                                {% endif %}
+                            
+                                {% if  value.predecessor_assassination == "P" %}
+                                <span class="badge border border-dark bg-success">PA</span> 
+                                {% elif  value.predecessor_assassination == "IP" %}
+                                <span class="badge border border-dark bg-primary">PA</span> 
+                                {% elif  value.predecessor_assassination == "A" %}
+                                <span class="badge border border-dark bg-secondary">PA</span> 
+                                {% elif  value.predecessor_assassination == "IA" %}
+                                <span class="badge border border-dark bg-dark text-light">PA</span> 
+                                {% elif  value.predecessor_assassination == "U" %}
+                                <span class="badge border border-dark bg-danger">PA</span> 
+                                {% elif  value.predecessor_assassination == "SU" %}
+                                <span class="badge border border-dark bg-warning text-dark">PA</span>
+                                {% endif %}
+                            
+                                {% if  value.intra_elite == "P" %}
+                                <span class="badge border border-dark bg-success">IE</span> 
+                                {% elif  value.intra_elite == "IP" %}
+                                <span class="badge border border-dark bg-primary">IE</span> 
+                                {% elif  value.intra_elite == "A" %}
+                                <span class="badge border border-dark bg-secondary">IE</span> 
+                                {% elif  value.intra_elite == "IA" %}
+                                <span class="badge border border-dark bg-dark text-light">IE</span> 
+                                {% elif  value.intra_elite == "U" %}
+                                <span class="badge border border-dark bg-danger">IE</span> 
+                                {% elif  value.intra_elite == "SU" %}
+                                <span class="badge border border-dark bg-warning text-dark">IE</span>
+                                {% endif %}
+                            
+                                {% if  value.military_revolt == "P" %}
+                                <span class="badge border border-dark bg-success">MR</span> 
+                                {% elif  value.military_revolt == "IP" %}
+                                <span class="badge border border-dark bg-primary">MR</span> 
+                                {% elif  value.military_revolt == "A" %}
+                                <span class="badge border border-dark bg-secondary">MR</span> 
+                                {% elif  value.military_revolt == "IA" %}
+                                <span class="badge border border-dark bg-dark text-light">MR</span> 
+                                {% elif  value.military_revolt == "U" %}
+                                <span class="badge border border-dark bg-danger">MR</span> 
+                                {% elif  value.military_revolt == "SU" %}
+                                <span class="badge border border-dark bg-warning text-dark">MR</span>
+                                {% endif %}
+                            
+                                {% if  value.popular_uprising == "P" %}
+                                <span class="badge border border-dark bg-success">PU</span> 
+                                {% elif  value.popular_uprising == "IP" %}
+                                <span class="badge border border-dark bg-primary">PU</span> 
+                                {% elif  value.popular_uprising == "A" %}
+                                <span class="badge border border-dark bg-secondary">PU</span> 
+                                {% elif  value.popular_uprising == "IA" %}
+                                <span class="badge border border-dark bg-dark text-light">PU</span> 
+                                {% elif  value.popular_uprising == "U" %}
+                                <span class="badge border border-dark bg-danger">PU</span> 
+                                {% elif  value.popular_uprising == "SU" %}
+                                <span class="badge border border-dark bg-warning text-dark">PU</span>
+                                {% endif %}
+                            
+                                {% if  value.separatist_rebellion == "P" %}
+                                <span class="badge border border-dark bg-success">SR</span> 
+                                {% elif  value.separatist_rebellion == "IP" %}
+                                <span class="badge border border-dark bg-primary">SR</span> 
+                                {% elif  value.separatist_rebellion == "A" %}
+                                <span class="badge border border-dark bg-secondary">SR</span> 
+                                {% elif  value.separatist_rebellion == "IA" %}
+                                <span class="badge border border-dark bg-dark text-light">SR</span> 
+                                {% elif  value.separatist_rebellion == "U" %}
+                                <span class="badge border border-dark bg-danger">SR</span> 
+                                {% elif  value.separatist_rebellion == "SU" %}
+                                <span class="badge border border-dark bg-warning text-dark">SR</span>
+                                {% endif %}
+                            
+                                {% if  value.external_invasion == "P" %}
+                                <span class="badge border border-dark bg-success">EV</span> 
+                                {% elif  value.external_invasion == "IP" %}
+                                <span class="badge border border-dark bg-primary">EV</span> 
+                                {% elif  value.external_invasion == "A" %}
+                                <span class="badge border border-dark bg-secondary">EV</span> 
+                                {% elif  value.external_invasion == "IA" %}
+                                <span class="badge border border-dark bg-dark text-light">EV</span> 
+                                {% elif  value.external_invasion == "U" %}
+                                <span class="badge border border-dark bg-danger">EV</span> 
+                                {% elif  value.external_invasion == "SU" %}
+                                <span class="badge border border-dark bg-warning text-dark">EV</span>
+                                {% endif %}
+                            
+                                {% if  value.external_interference == "P" %}
+                                <span class="badge border border-dark bg-success">EF</span> 
+                                {% elif  value.external_interference == "IP" %}
+                                <span class="badge border border-dark bg-primary">EF</span> 
+                                {% elif  value.external_interference == "A" %}
+                                <span class="badge border border-dark bg-secondary">EF</span> 
+                                {% elif  value.external_interference == "IA" %}
+                                <span class="badge border border-dark bg-dark text-light">EF</span> 
+                                {% elif  value.external_interference == "U" %}
+                                <span class="badge border border-dark bg-danger">EF</span> 
+                                {% elif  value.external_interference == "SU" %}
+                                <span class="badge border border-dark bg-warning text-dark">EF</span>
+                                {% endif %}
+                            
+                            
+                            </span>
+                            </span>
+                            
+                            
+                                                                </td>
+                                                            </tr>
+                                                            {% endfor %}
+                            
+                                                        </tbody>
+                                                    </table>
+                                                    
+                            
+                                                </td>
+                            
+                                            </tr>
+                            
+                                        </tbody>
+                                      </table>
+                                    </div>
+                                </div>
+                            
+                                {% else %}
+                            
+                                <div class="row">
+                                    <div class="col-md-12 mt-4">
+                                        <h3> <i class="fa-solid fa-triangle-exclamation"></i> There are no Facts for this variable in the Database.</h3>
+                                    </div>
+                                </div>
+
+
+
+
                             </div>
                         {% endif %}
                         {% endfor %}
@@ -607,7 +991,7 @@
 
             {% else %}
             <div class="col-md-9">
-                <h3 class="fw-bold pb-2">  Power Transitions Data: <span class="text-secondary fs-4">Nothing coded yet.</span> </h3>
+                <h3 class="fw-bold pb-2">  Power Transitions: <span class="text-secondary fs-4">Nothing coded yet.</span> </h3>
             </div>
             {% endif %}
             <hr class="light-narrow-hr">
@@ -883,7 +1267,7 @@
     {% for key, values in all_data.items %}
     {% if "Human_sacrifice_for_polity" == key %}
 
-    <h1 class="pt-5 display-4" style="text-align: left;  color:#893101;" id="hs_var"><span class="h1"> Human Sacrifice Data</span></h1>
+    <h1 class="display-4" style="text-align: left;  color:#893101;" id="hs_var"><span class="h1"> Human Sacrifice Data</span></h1>
     <h6>
         <span> <i class="fa-solid fa-caret-right"></i> Human Sacrifice is the deliberate and ritualized killing of a person to please or placate supernatural entities (including gods, spirits, and ancestors) or gain other supernatural benefits. </span>
     </h6>
@@ -948,7 +1332,7 @@
     <div>
         <div class="row d-flex align-items-center justify-content-center">
             <div class="col-md-6">
-                <h1 class="pt-5 display-4" style="text-align: left; color:#893101;" id="crisis_case_var">
+                <h1 class="display-4" style="text-align: left; color:#893101;" id="crisis_case_var">
                     <span class="h1"> Crisis Cases</span>
                 </h1>
             </div>
@@ -1007,11 +1391,10 @@
 
     </div>  
 
-
     <div>
         <div class="row d-flex align-items-center justify-content-center">
             <div class="col-md-6">
-                <h1 class="pt-5 display-4" style="text-align: left; color:#893101;" id="power_transition_var">
+                <h1 class="display-4" style="text-align: left; color:#893101;" id="power_transition_var">
                     <span class="h1"> Power Transitions</span>
                 </h1>
             </div>
@@ -1032,7 +1415,7 @@
         {% if values and 'core.view_capital' in user.get_all_permissions %}
             <div class="py-2"  id="{{key}}">
                     {% for value in values %}
-                        <span class="pt-1 fs-5 pb-1 fw-bold" id="{{key}}"> 
+                        <span class="pt-1 fs-5 pb-1 fw-bold" id="power_transition_{{value.id}}"> 
                             <i class="fa-solid fa-star fa-2xs"></i>
                             <span class="h5">Power Transition in 
                                 <span class = "fw-bold text-teal">{{ value.polity }}:</span>
@@ -1075,6 +1458,48 @@
     </div>  
 </div>
 
+<script>
+    // Function to handle smooth scrolling to an element with offset
+    function scrollToElementWithOffset(elementId, offset) {
+      var targetElement = $(elementId);
+  
+      if (targetElement.length) {
+        // Calculate the offset, considering the height of your fixed navbar
+        var targetOffset = targetElement.offset().top - offset * 1.5;
+  
+        // Scroll to the target element with a smooth animation
+        $('html, body').animate({
+          scrollTop: targetOffset
+        }, 100); // Adjust the duration as needed
+      } else {
+        // Log an error if the target element is not found
+        console.error('Target Element not found:', elementId);
+      }
+    }
+  
+    // Trigger the scroll action for any link with an href that starts with #
+    $(document).ready(function () {
+      $('a[href^="#"]').on('click', function (event) {
+        event.preventDefault();
+        // Set the offset based on your fixed navbar's height
+        var offset = $('#my_seshat_navbar').height(); // Replace 'my_navbar_id' with the actual ID of your navbar
+  
+        // Get the value from the id attribute
+        var elementId = $(this).attr('href');
+  
+        // Call the function to scroll to the element with the calculated offset
+        scrollToElementWithOffset(elementId, offset);
+      });
+  
+      // Check if there's a hash in the URL on page load
+      if (window.location.hash) {
+        var targetElementId = window.location.hash;
+        var offset = $('#my_seshat_navbar').height();
+        scrollToElementWithOffset(targetElementId, offset);
+      }
+    });
+  </script>
+  
 
 
 {% endblock content%}

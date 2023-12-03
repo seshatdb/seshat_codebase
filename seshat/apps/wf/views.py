@@ -7318,14 +7318,43 @@ def chainmail_meta_download(request):
 
 def wfvars(request):
     app_name = 'wf'  # Replace with your app name
-    models = apps.get_app_config(app_name).get_models()
+    models_1 = apps.get_app_config(app_name).get_models()
 
     unique_politys = set()
     number_of_all_rows = 0
     number_of_variables = 0
-    counts = {}
+
+    all_vars_grouped = {}
+
+    all_sect_download_links = {}
+
+    for model in models_1:
+        model_name = model.__name__
+        if model_name == "Ra":
+            continue
+        s_value = str(model().subsection())
+        ss_value = str(model().sub_subsection())
+
+        better_name = "download_csv_" + s_value.replace("-", "_").replace(" ", "_").replace(":", "").lower()
+        all_sect_download_links[s_value] = better_name
+        if s_value not in all_vars_grouped:
+            all_vars_grouped[s_value] = {}
+            if ss_value:
+                all_vars_grouped[s_value][ss_value] = []
+            else:
+                all_vars_grouped[s_value]["None"] = []
+        else:
+            if ss_value:
+                all_vars_grouped[s_value][ss_value] = []
+            else:
+                all_vars_grouped[s_value]["None"] = []
+
+    models = apps.get_app_config(app_name).get_models()
+
     for model in models:
         model_name = model.__name__
+        subsection_value = str(model().subsection())
+        sub_subsection_value = str(model().sub_subsection())
         count = model.objects.count()
         number_of_all_rows += count
         model_title = model_name.replace("_", " ").title()
@@ -7340,16 +7369,44 @@ def wfvars(request):
         unique_politys.update(politys)
         number_of_variables += 1
 
-        counts[model_name] = [model_title, model_s, model_create, model_download, model_metadownload, model_all, count]
+        to_be_appended = [model_title, model_s, model_create, model_download, model_metadownload, model_all, count]
+
+        if sub_subsection_value:
+            all_vars_grouped[subsection_value][sub_subsection_value].append(to_be_appended)
+        else:
+            all_vars_grouped[subsection_value]["None"].append(to_be_appended)
 
 
     context = {}
-    context["my_counts"] = counts
+    context["all_vars_grouped"] = all_vars_grouped
+    context["all_sect_download_links"] = all_sect_download_links
     context["all_polities"] = len(unique_politys)
     context["number_of_all_rows"] = number_of_all_rows
 
     context["number_of_variables"] = number_of_variables
     return render(request, 'wf/wfvars.html', context=context)
+
+
+
+
+
+@permission_required('core.view_capital')
+def show_problematic_wf_data_table(request):
+    # Fetch all models in the "socomp" app
+    app_name = 'wf'  # Replace with your app name
+    app_models = apps.get_app_config(app_name).get_models()
+
+    # Collect data from all models
+    data = []
+    for model in app_models:
+        items = model.objects.all()
+        for obj in items:
+            if obj.polity.start_year is not None and obj.year_from is not None and obj.polity.start_year > obj.year_from:
+                data.append(obj)
+
+    # Render the template with the data
+    return render(request, 'wf/problematic_wf_data_table.html', {'data': data})
+
 
 @permission_required('core.view_capital')
 def show_problematic_wf_data_table(request):
@@ -7410,4 +7467,256 @@ def download_csv_all_wf(request):
     return response
 
 
-    
+@permission_required('core.view_capital')
+def download_csv_fortifications(request):
+    # Fetch all models in the "socomp" app
+    app_name = 'wf'  # Replace with your app name
+    app_models = apps.get_app_config(app_name).get_models()
+
+    # Create a response object with CSV content type
+    response = HttpResponse(content_type='text/csv')
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    file_name = f"warfare_fortifications_{current_datetime}.csv"
+
+    response['Content-Disposition'] = f'attachment; filename="{file_name}"'
+
+    # Create a CSV writer
+    writer = csv.writer(response, delimiter='|')
+
+    # type the headers
+    writer.writerow(['subsection', 'variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
+                    'value_from', 'value_to', 'confidence', 'is_disputed', 'is_uncertain', 'expert_checked', 'DRB_reviewed'])
+    # Iterate over each model
+    for model in app_models:
+        # Get all rows of data from the model
+        model_name = model.__name__
+        if model_name == "Ra":
+            continue
+        s_value = str(model().subsection())
+        if s_value == "Fortifications":
+            items = model.objects.all()
+            for obj in items:
+                writer.writerow([obj.subsection(), obj.clean_name(), obj.year_from, obj.year_to,
+                            obj.polity.long_name, obj.polity.new_name, obj.polity.name, obj.show_value_from(), obj.show_value_to(), obj.get_tag_display(), obj.is_disputed, obj.is_uncertain,
+                            obj.expert_reviewed, obj.drb_reviewed,])
+
+    return response
+
+@permission_required('core.view_capital')
+def download_csv_military_use_of_metals(request):
+    # Fetch all models in the "socomp" app
+    app_name = 'wf'  # Replace with your app name
+    app_models = apps.get_app_config(app_name).get_models()
+
+    # Create a response object with CSV content type
+    response = HttpResponse(content_type='text/csv')
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    file_name = f"warfare_military_use_of_metals_{current_datetime}.csv"
+
+    response['Content-Disposition'] = f'attachment; filename="{file_name}"'
+
+    # Create a CSV writer
+    writer = csv.writer(response, delimiter='|')
+
+    # type the headers
+    writer.writerow(['subsection', 'variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
+                    'value_from', 'value_to', 'confidence', 'is_disputed', 'is_uncertain', 'expert_checked', 'DRB_reviewed'])
+    # Iterate over each model
+    for model in app_models:
+        # Get all rows of data from the model
+        model_name = model.__name__
+        if model_name == "Ra":
+            continue
+        s_value = str(model().subsection())
+        if s_value == "Military use of Metals":
+            items = model.objects.all()
+            for obj in items:
+                writer.writerow([obj.subsection(), obj.clean_name(), obj.year_from, obj.year_to,
+                            obj.polity.long_name, obj.polity.new_name, obj.polity.name, obj.show_value_from(), obj.show_value_to(), obj.get_tag_display(), obj.is_disputed, obj.is_uncertain,
+                            obj.expert_reviewed, obj.drb_reviewed,])
+
+    return response
+
+@permission_required('core.view_capital')
+def download_csv_projectiles(request):
+    # Fetch all models in the "socomp" app
+    app_name = 'wf'  # Replace with your app name
+    app_models = apps.get_app_config(app_name).get_models()
+
+    # Create a response object with CSV content type
+    response = HttpResponse(content_type='text/csv')
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    file_name = f"warfare_projectiles_{current_datetime}.csv"
+
+    response['Content-Disposition'] = f'attachment; filename="{file_name}"'
+
+    # Create a CSV writer
+    writer = csv.writer(response, delimiter='|')
+
+    # type the headers
+    writer.writerow(['subsection', 'variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
+                    'value_from', 'value_to', 'confidence', 'is_disputed', 'is_uncertain', 'expert_checked', 'DRB_reviewed'])
+    # Iterate over each model
+    for model in app_models:
+        # Get all rows of data from the model
+        model_name = model.__name__
+        if model_name == "Ra":
+            continue
+        s_value = str(model().subsection())
+        if s_value == "Projectiles":
+            items = model.objects.all()
+            for obj in items:
+                writer.writerow([obj.subsection(), obj.clean_name(), obj.year_from, obj.year_to,
+                            obj.polity.long_name, obj.polity.new_name, obj.polity.name, obj.show_value_from(), obj.show_value_to(), obj.get_tag_display(), obj.is_disputed, obj.is_uncertain,
+                            obj.expert_reviewed, obj.drb_reviewed,])
+
+    return response
+
+@permission_required('core.view_capital')
+def download_csv_handheld_weapons(request):
+    # Fetch all models in the "socomp" app
+    app_name = 'wf'  # Replace with your app name
+    app_models = apps.get_app_config(app_name).get_models()
+
+    # Create a response object with CSV content type
+    response = HttpResponse(content_type='text/csv')
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    file_name = f"warfare_handheld_weapons_{current_datetime}.csv"
+
+    response['Content-Disposition'] = f'attachment; filename="{file_name}"'
+
+    # Create a CSV writer
+    writer = csv.writer(response, delimiter='|')
+
+    # type the headers
+    writer.writerow(['subsection', 'variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
+                    'value_from', 'value_to', 'confidence', 'is_disputed', 'is_uncertain', 'expert_checked', 'DRB_reviewed'])
+    # Iterate over each model
+    for model in app_models:
+        # Get all rows of data from the model
+        model_name = model.__name__
+        if model_name == "Ra":
+            continue
+        s_value = str(model().subsection())
+        if s_value == "Handheld weapons":
+            items = model.objects.all()
+            for obj in items:
+                writer.writerow([obj.subsection(), obj.clean_name(), obj.year_from, obj.year_to,
+                            obj.polity.long_name, obj.polity.new_name, obj.polity.name, obj.show_value_from(), obj.show_value_to(), obj.get_tag_display(), obj.is_disputed, obj.is_uncertain,
+                            obj.expert_reviewed, obj.drb_reviewed,])
+
+    return response
+
+@permission_required('core.view_capital')
+def download_csv_animals_used_in_warfare(request):
+    # Fetch all models in the "socomp" app
+    app_name = 'wf'  # Replace with your app name
+    app_models = apps.get_app_config(app_name).get_models()
+
+    # Create a response object with CSV content type
+    response = HttpResponse(content_type='text/csv')
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    file_name = f"warfare_animals_used_in_warfare_{current_datetime}.csv"
+
+    response['Content-Disposition'] = f'attachment; filename="{file_name}"'
+
+    # Create a CSV writer
+    writer = csv.writer(response, delimiter='|')
+
+    # type the headers
+    writer.writerow(['subsection', 'variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
+                    'value_from', 'value_to', 'confidence', 'is_disputed', 'is_uncertain', 'expert_checked', 'DRB_reviewed'])
+    # Iterate over each model
+    for model in app_models:
+        # Get all rows of data from the model
+        model_name = model.__name__
+        if model_name == "Ra":
+            continue
+        s_value = str(model().subsection())
+        if s_value == "Animals used in warfare":
+            items = model.objects.all()
+            for obj in items:
+                writer.writerow([obj.subsection(), obj.clean_name(), obj.year_from, obj.year_to,
+                            obj.polity.long_name, obj.polity.new_name, obj.polity.name, obj.show_value_from(), obj.show_value_to(), obj.get_tag_display(), obj.is_disputed, obj.is_uncertain,
+                            obj.expert_reviewed, obj.drb_reviewed,])
+
+    return response
+
+
+@permission_required('core.view_capital')
+def download_csv_armor(request):
+    # Fetch all models in the "socomp" app
+    app_name = 'wf'  # Replace with your app name
+    app_models = apps.get_app_config(app_name).get_models()
+
+    # Create a response object with CSV content type
+    response = HttpResponse(content_type='text/csv')
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    file_name = f"warfare_armor_{current_datetime}.csv"
+
+    response['Content-Disposition'] = f'attachment; filename="{file_name}"'
+
+    # Create a CSV writer
+    writer = csv.writer(response, delimiter='|')
+
+    # type the headers
+    writer.writerow(['subsection', 'variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
+                    'value_from', 'value_to', 'confidence', 'is_disputed', 'is_uncertain', 'expert_checked', 'DRB_reviewed'])
+    # Iterate over each model
+    for model in app_models:
+        # Get all rows of data from the model
+        model_name = model.__name__
+        if model_name == "Ra":
+            continue
+        s_value = str(model().subsection())
+        if s_value == "Armor":
+            items = model.objects.all()
+            for obj in items:
+                writer.writerow([obj.subsection(), obj.clean_name(), obj.year_from, obj.year_to,
+                            obj.polity.long_name, obj.polity.new_name, obj.polity.name, obj.show_value_from(), obj.show_value_to(), obj.get_tag_display(), obj.is_disputed, obj.is_uncertain,
+                            obj.expert_reviewed, obj.drb_reviewed,])
+
+    return response
+
+
+@permission_required('core.view_capital')
+def download_csv_naval_technology(request):
+    # Fetch all models in the "socomp" app
+    app_name = 'wf'  # Replace with your app name
+    app_models = apps.get_app_config(app_name).get_models()
+
+    # Create a response object with CSV content type
+    response = HttpResponse(content_type='text/csv')
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    file_name = f"warfare_naval_technology_{current_datetime}.csv"
+
+    response['Content-Disposition'] = f'attachment; filename="{file_name}"'
+
+    # Create a CSV writer
+    writer = csv.writer(response, delimiter='|')
+
+    # type the headers
+    writer.writerow(['subsection', 'variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
+                    'value_from', 'value_to', 'confidence', 'is_disputed', 'is_uncertain', 'expert_checked', 'DRB_reviewed'])
+    # Iterate over each model
+    for model in app_models:
+        # Get all rows of data from the model
+        model_name = model.__name__
+        if model_name == "Ra":
+            continue
+        s_value = str(model().subsection())
+        if s_value == "Naval technology":
+            items = model.objects.all()
+            for obj in items:
+                writer.writerow([obj.subsection(), obj.clean_name(), obj.year_from, obj.year_to,
+                            obj.polity.long_name, obj.polity.new_name, obj.polity.name, obj.show_value_from(), obj.show_value_to(), obj.get_tag_display(), obj.is_disputed, obj.is_uncertain,
+                            obj.expert_reviewed, obj.drb_reviewed,])
+
+    return response

@@ -11,6 +11,18 @@ urlpatterns = [
 ]
 
 urlpatterns += [
+     path('download_csv_fortifications/', views.download_csv_fortifications,name='download_csv_fortifications'),
+     path('download_csv_military_use_of_metals/', views.download_csv_military_use_of_metals,name='download_csv_military_use_of_metals'),
+     path('download_csv_projectiles/', views.download_csv_projectiles,name='download_csv_projectiles'),
+     path('download_csv_handheld_weapons/', views.download_csv_handheld_weapons,name='download_csv_handheld_weapons'),
+     path('download_csv_animals_used_in_warfare/', views.download_csv_animals_used_in_warfare,name='download_csv_animals_used_in_warfare'),
+     path('download_csv_armor/', views.download_csv_armor,name='download_csv_armor'),
+     path('download_csv_naval_technology/', views.download_csv_naval_technology,name='download_csv_naval_technology'),
+
+
+]
+
+urlpatterns += [
     path('long_wall/create/', views.Long_wallCreate.as_view(),
          name="long_wall-create"),
 

@@ -443,7 +443,7 @@ def get_all_power_transitions_data_for_a_polity(polity_id):
     a_data_dic = {}
     my_data = Power_transition.objects.filter(polity = polity_id)
     if my_data:
-        a_data_dic["crisis_cases"] = my_data
+        a_data_dic["power_transitions"] = my_data
     #print(a_data_dic)
     return a_data_dic
 
@@ -655,3 +655,13 @@ def polity_detail_data_collector(polity_id):
             final_response = {}
     #print(final_response)
     return final_response
+
+
+
+
+
+
+
+
+
+

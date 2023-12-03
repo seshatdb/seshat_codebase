@@ -270,18 +270,18 @@
                                             <span class="text-danger"> *Bad Years...</span>
                                             {% endif %}
                                         </span>
-                                        
-                                        <span class = "fw-bold text-danger">
-                                            {{ a_trans.predecessor }}
-                                        </span> 
-                                        <span class="text-dark">
-                                            <i class="fa-solid fa-arrow-right-long fa-sm"></i> 
-                                        </span> 
-                                        <span class = "fw-bold text-teal">
-                                            {{ a_trans.successor }}
-                                        </span>
-
-                                        
+                                        <a class="h6" href="{% url 'polity-detail-main' pol_id %}#power_transition_{{ a_trans.trans_id}}">
+                                            <span class = "fw-bold text-danger">
+                                                {{ a_trans.predecessor }}
+                                            </span> 
+                                            <span class="text-dark">
+                                                <i class="fa-solid fa-arrow-right-long fa-sm"></i> 
+                                            </span> 
+                                            <span class = "fw-bold text-teal">
+                                                {{ a_trans.successor }}
+                                            </span>
+                                        </a>
+                                            
 
 
 

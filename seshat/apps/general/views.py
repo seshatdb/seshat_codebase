@@ -3609,19 +3609,49 @@ def polity_religious_tradition_meta_download(request):
 
     return response
 
-        
 
-def generalvars(request):
 
-    app_name = 'general'  # Replace with your app name
-    models = apps.get_app_config(app_name).get_models()
+
+
+def wfvars(request):
+    app_name = 'wf'  # Replace with your app name
+    models_1 = apps.get_app_config(app_name).get_models()
 
     unique_politys = set()
     number_of_all_rows = 0
     number_of_variables = 0
-    counts = {}
+
+    all_vars_grouped = {}
+
+    all_sect_download_links = {}
+
+    for model in models_1:
+        model_name = model.__name__
+        if model_name == "Ra":
+            continue
+        s_value = str(model().subsection())
+        ss_value = str(model().sub_subsection())
+
+        better_name = "download_csv_" + s_value.replace("-", "_").replace(" ", "_").replace(":", "").lower()
+        all_sect_download_links[s_value] = better_name
+        if s_value not in all_vars_grouped:
+            all_vars_grouped[s_value] = {}
+            if ss_value:
+                all_vars_grouped[s_value][ss_value] = []
+            else:
+                all_vars_grouped[s_value]["None"] = []
+        else:
+            if ss_value:
+                all_vars_grouped[s_value][ss_value] = []
+            else:
+                all_vars_grouped[s_value]["None"] = []
+
+    models = apps.get_app_config(app_name).get_models()
+
     for model in models:
         model_name = model.__name__
+        subsection_value = str(model().subsection())
+        sub_subsection_value = str(model().sub_subsection())
         count = model.objects.count()
         number_of_all_rows += count
         model_title = model_name.replace("_", " ").title()
@@ -3636,11 +3666,92 @@ def generalvars(request):
         unique_politys.update(politys)
         number_of_variables += 1
 
-        counts[model_name] = [model_title, model_s, model_create, model_download, model_metadownload, model_all, count]
+        to_be_appended = [model_title, model_s, model_create, model_download, model_metadownload, model_all, count]
+
+        if sub_subsection_value:
+            all_vars_grouped[subsection_value][sub_subsection_value].append(to_be_appended)
+        else:
+            all_vars_grouped[subsection_value]["None"].append(to_be_appended)
 
 
     context = {}
-    context["my_counts"] = counts
+    context["all_vars_grouped"] = all_vars_grouped
+    context["all_sect_download_links"] = all_sect_download_links
+    context["all_polities"] = len(unique_politys)
+    context["number_of_all_rows"] = number_of_all_rows
+
+    context["number_of_variables"] = number_of_variables
+    return render(request, 'wf/wfvars.html', context=context)
+
+        
+
+def generalvars(request):
+
+    app_name = 'general'  # Replace with your app name
+    models_1 = apps.get_app_config(app_name).get_models()
+
+    unique_politys = set()
+    number_of_all_rows = 0
+    number_of_variables = 0
+
+    all_vars_grouped = {}
+
+    all_sect_download_links = {}
+
+    for model in models_1:
+        model_name = model.__name__
+        if model_name in ["Polity_research_assistant", "Polity_editor", "Polity_expert"]:
+            continue
+        s_value = str(model().subsection())
+        ss_value = str(model().sub_subsection())
+
+        better_name = "download_csv_" + s_value.replace("-", "_").replace(" ", "_").replace(":", "").lower()
+        all_sect_download_links[s_value] = better_name
+        if s_value not in all_vars_grouped:
+            all_vars_grouped[s_value] = {}
+            if ss_value:
+                all_vars_grouped[s_value][ss_value] = []
+            else:
+                all_vars_grouped[s_value]["None"] = []
+        else:
+            if ss_value:
+                all_vars_grouped[s_value][ss_value] = []
+            else:
+                all_vars_grouped[s_value]["None"] = []
+
+    models = apps.get_app_config(app_name).get_models()
+
+    for model in models:
+        model_name = model.__name__
+        if model_name in ["Polity_research_assistant", "Polity_editor", "Polity_expert"]:
+            continue
+        subsection_value = str(model().subsection())
+        sub_subsection_value = str(model().sub_subsection())
+        count = model.objects.count()
+        number_of_all_rows += count
+        model_title = model_name.replace("_", " ").title()
+        model_create = model_name.lower() + "-create"
+        model_download = model_name.lower() + "-download"
+        model_metadownload = model_name.lower() + "-metadownload"
+        model_all = model_name.lower() + "s_all"
+        model_s = model_name.lower() + "s"
+
+        queryset = model.objects.all()
+        politys = queryset.values_list('polity', flat=True).distinct()
+        unique_politys.update(politys)
+        number_of_variables += 1
+
+        to_be_appended = [model_title, model_s, model_create, model_download, model_metadownload, model_all, count]
+
+        if sub_subsection_value:
+            all_vars_grouped[subsection_value][sub_subsection_value].append(to_be_appended)
+        else:
+            all_vars_grouped[subsection_value]["None"].append(to_be_appended)
+
+
+    context = {}
+    context["all_vars_grouped"] = all_vars_grouped
+    context["all_sect_download_links"] = all_sect_download_links    
     context["all_polities"] = len(unique_politys)
     context["number_of_all_rows"] = number_of_all_rows
 

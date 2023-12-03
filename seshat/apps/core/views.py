@@ -5,7 +5,7 @@ from seshat.apps.core.forms import SignUpForm, VariablehierarchyFormNew, Citatio
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.template.loader import render_to_string
@@ -35,6 +35,7 @@ import os
 
 from django.apps import apps
 
+from decouple import config
 
 
 from markupsafe import Markup, escape
@@ -594,6 +595,15 @@ class PolityCreate(PermissionRequiredMixin, CreateView):
     success_url = reverse_lazy('polities')
 
     def form_valid(self, form):
+        # Custom validation to check if a Polity with the same new_name already exists
+        new_name = form.cleaned_data['new_name']
+        existing_polity = Polity.objects.filter(new_name=new_name)
+
+        if existing_polity.exists():
+            messages.error(self.request, "A Polity with this new_name already exists.")
+            return self.form_invalid(form)
+
+        # Continue with the default behavior if validation passes
         return super().form_valid(form)
     
     def form_invalid(self, form):
@@ -1035,6 +1045,24 @@ class PolityListViewCommented(PermissionRequiredMixin, SuccessMessageMixin, gene
 class PolityDetailView(SuccessMessageMixin, generic.DetailView):
     model = Polity
     template_name = "core/polity/polity_detail.html"
+
+    def get_object(self, queryset=None):
+        if 'pk' in self.kwargs:
+            return get_object_or_404(Polity, pk=self.kwargs['pk'])
+        elif 'new_name' in self.kwargs:
+            new_name = self.kwargs['new_name']
+            try:
+                # Attempt to get the object by new_name, handle multiple objects returned
+                return Polity.objects.get(new_name=new_name)
+            except Polity.MultipleObjectsReturned:
+                # Handle the case of multiple objects with the same new_name
+                raise Http404("Multiple objects with the same new_name")
+            except Polity.DoesNotExist:
+                # Handle the case where no object with the given new_name is found
+                raise Http404("No Polity matches the given new_name")
+        else:
+            # Handle the case where neither pk nor new_name is provided
+            return None
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -1601,7 +1629,7 @@ def synczotero(request):
     print("Hallo Zotero")
 
     from pyzotero import zotero
-    zot = zotero.Zotero(1051264, 'group', 'VF5X3TCC3bUYov8Au5gCHf3a')
+    zot = zotero.Zotero(1051264, 'group', config('ZOTERO_API_KEY'))
     results = zot.everything(zot.top())
     #results = zot.top(limit=100)
 
@@ -1620,7 +1648,7 @@ def synczotero100(request):
     print("Hallo Zotero")
 
     from pyzotero import zotero
-    zot = zotero.Zotero(1051264, 'group', 'VF5X3TCC3bUYov8Au5gCHf3a')
+    zot = zotero.Zotero(1051264, 'group', config('ZOTERO_API_KEY'))
     #results = zot.everything(zot.top())
     results = zot.top(limit=100)
 

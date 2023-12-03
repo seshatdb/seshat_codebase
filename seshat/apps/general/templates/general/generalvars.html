@@ -4,11 +4,8 @@
 {% block content %}
 <style>
     .card {
-        border: 1px solid teal; /* Adjust the border color and thickness as desired */
-        padding-top: 4px;        
-        padding-bottom: 4px;
         background-color: #fefae6;
-        border-radius: 4px;
+        border-radius: 10px;
       }
       
       .card-title {
@@ -17,10 +14,20 @@
       }
       
       .card-subtitle {
-        color: #aaa;
+        color: #888;
         margin-bottom: 10px;
       }
 
+      .custom-left-border-shadowed {
+        border-left: none; /* Adjust the border color and thickness as desired */
+        box-shadow: 0 0 2px teal; 
+        padding-right: 1px;
+        padding-top: 1px;
+        padding-bottom: 1px;
+        border-radius: 5px;
+        padding-left: 10px; /* Adjust the padding to create spacing between the border and content */
+        text-align: justify;
+    }
       
       .card-text {
         margin-bottom: 20px;
@@ -58,78 +65,131 @@
         background-color: teal;
         border-radius: 4px;
       }
+
+      .light-narrow-hr {
+        border: none;
+        border-top: 1px solid #f0ecec;
+        height: 0.25px;
+        margin: 20px 0;
+        width: 100%;
+      }
+
+
+      .card-text-spaced {
+        font-size: 16px;
+        color: #782823;
+        display: flex;
+        padding-top: 5px;
+        justify-content: space-between;
+        }
+    
+    .left-span {
+            color: #782823;
+        }
+    
+    .right-span {
+            text-align: right;
+            color: #782823;
+        }
+    
+        .center-span {
+            text-align: center;
+            color: #782823;
+        }
+
+
+        .row {
+          --bs-gutter-x: 0;
+      }
+
+
 </style>
-<div class="container mt-4">
-  <div class="row mt-3">
-    <div class="col-md-12">
-        <div class="row d-flex align-items-center mb-2">
-            <div class="col-md-9 px-0">
-              <h1 class="py-3 ps-0"><span class="badge rounded-pill bg-teal text-dark">General Variables</span> 
-              </h1>               
-             </div>
-            <div class="col-md-3 px-0">    
-                <a href='{% url "download_csv_all_general" %}' class="btn btn-outline-success mx-1 my-2 float-end"> <i class="fa-solid fa-file-csv"></i> &nbsp; Download <b>All</b> (.CSV) </a>
+<div class="container mt-2">
+    <div class="row">
+      <div class="row mt-3">
+        <div class="col-md-12">
+            <div class="row d-flex align-items-center mb-2">
+                <div class="col-md-6 px-0">
+                  <h1 class="py-3 ps-0"><span class="badge rounded-pill bg-teal text-dark">Warfare variables (MilTech)</span> 
+                  </h1>               
+                 </div>
+                  <div class="col-md-3">    
+                    <a href='{% url "problematic_wf_data_table" %}' class="btn btn-outline-danger mx-1 my-2 float-end"> <i class="fa-solid fa-up-right-from-square fa-sm"></i>  &nbsp;Inconsistent Year Ranges</a>
+                </div>
+                <div class="col-md-3 px-0">    
+                    <a href='{% url "download_csv_all_wf" %}' class="btn btn-outline-success mx-1 my-2 float-end"> <i class="fa-solid fa-file-csv"></i> &nbsp; Download <b>All</b> (.CSV) </a>
+                </div>
+
+
             </div>
+
+          </div>
         </div>
 
-      </div>
-    </div>
+        <h4>
+          <span class="h5 text-secondary">* We have coded a total of  
+            <b class="h4 text-dark">
+            {{number_of_all_rows|intcomma}}</b>
+            different values for 
+            <b class="h4 text-dark">
+            {{number_of_variables}}</b>
+            variables in 
+            <b class="h4 text-dark">
+            {{all_polities}}</b>
+            polities.</span>
+        </h4>
+        {% for sect, subsect in all_vars_grouped.items %}
+        <div class="row">
+          <div class="col-md-12">
+              <div class="row d-flex align-items-center mb-2 mt-4">
+                  <div class="col-md-6 px-0 ">
+                    <h3 class="py-1 ps-0"><span class="badge rounded-pill bg-info text-dark">
+                      {{sect}}
+                    </span> 
+                  </h3> 
+                </div>
+              </div>
+  
+            </div>
+          </div>
+
+               
+      {% for ss, vv in subsect.items %}
+      {% if ss != "None" %}
+      <h5 class="pt-1 pb-1 ps-0 mt-1"><span class="badge rounded-pill bg-warning text-dark">
+        {{ss}} 
+      </span> 
 
 
+      
+    </h5> 
+      {% endif%}
+        {% for v in vv %}
+                <div class="card col-md-6">
+                    <div class="align-items-left card-text-spaced">
+                      <span class="fs-5 left-span fw-bold ps-2">
+                        <span class="text-secondary fs-6"> <span style="color:rgba(128, 128, 128, 0.573)">#</span> {{ v.6|intcomma }}</span> 
+                            <a href="{% url v.5 %}" class="card-link" type="button" data-bs-toggle="tooltip" data-bs-html="true"  title="View All">{{v.0|slice:"7:"}} </a> 
 
+                         
+                                                      
+                      </span>
 
-
-
-
-
-    <h4>
-      <span class="h5 text-secondary">* We have coded a total of  
-        <b class="h4 text-dark">
-        {{number_of_all_rows|intcomma}}</b>
-        different values for 
-        <b class="h4 text-dark">
-        {{number_of_variables}}</b>
-        variables in 
-        <b class="h4 text-dark">
-        {{all_polities}}</b>
-        polities.</span>
-    </h4>
-
-
-
-
-
-
-
-    <div class="row">
-        {% for k, v in my_counts.items %}
-                <div class="card col-md-2">
-                    <div class="card-body d-flex flex-column align-items-center">
-                      <h5 class="card-title mb-3">
-                        <span>
-                        {{v.0|slice:"7:"}}
+                      <span class="right-span fs-5">
+                          <span><a href="{% url v.3 %}" class="card-link" type="button" data-bs-toggle="tooltip" data-bs-html="true"  title="Download All"> <i class="fa-solid fa-file-arrow-down"></i></a></span>
+                          <span><a href="{% url v.2 %}" class="card-link" type="button" data-bs-toggle="tooltip" data-bs-html="true"  title="Add New Values"><i class="fa fa-plus"></i></a></span>
+                          <span><a href="{% url v.5 %}" class="card-link" type="button" data-bs-toggle="tooltip" data-bs-html="true"  title="View All"> <i class="fa fa-eye"></i></a></span>
                         </span>
-                    </h5>
-                      
-                      <div class="flex-grow-1"></div>
-                      <h4 class="card-subtitle mb-2">#
-                        <span ><a href="{% url v.5 %}" class="card-link" type="button" data-bs-toggle="tooltip" data-bs-html="true"  title="View All"> {{ v.6|intcomma }}</a> </span>        
-                        </h4>
-                      <table>
-                        <tbody>
-                            <tr>
-                                <td><a href="{% url v.3 %}" class="card-link" type="button" data-bs-toggle="tooltip" data-bs-html="true"  title="Download All"> <i class="fa-solid fa-file-arrow-down"></i></a></td>
-                                <td><a href="{% url v.2 %}" class="card-link" type="button" data-bs-toggle="tooltip" data-bs-html="true"  title="Add New Values"><i class="fa fa-plus"></i></a></td>
-                                <td><a href="{% url v.5 %}" class="card-link" type="button" data-bs-toggle="tooltip" data-bs-html="true"  title="View All"> <i class="fa fa-eye"></i></a></td>
-                            </tr>
-                        </tbody>
-                      </table>
-                                          
+              
                     </div>
                   </div>
-            {% endfor %}
-        <hr>           
-    </div>
-</div>
+          {% endfor %}
 
+    {% endfor %}
+
+{% endfor %}
+</div>
+<hr>
+
+</div>
 {% endblock %}
