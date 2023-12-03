@@ -178,7 +178,7 @@
     </div>
     <div class="table-container">
         <table id="table_id" class="table align-middle table-hover table-striped table-bordered mb-4" style="padding: 0.25 rem !important;">
-            <thead  class="sticky-top" style="background-color:#FFCCCC; height:40px;  top: 55px;">
+            <thead  class="sticky-top" style="background-color:#FFCCCC; height:40px;  top: 55px; z-index:900;">
                 <tr>
                     <th scope="col" class="text-secondary"  style="text-align: center">#</th>
                     <th scope="col" style="text-align: left" class="fw-bold"> 
@@ -309,14 +309,6 @@
                         {% else  %}
                         <i class="fa-regular fa-circle-xmark text-danger"></i>
                         {% endif %}
-                    </td>
-
-                    <!-- Tag tag (Disputed/Suspected etc.) -->
-                    {% if obj.display_citations %}
-                    <sup>
-                        <span type="button"  tabindex="0" data-bs-toggle="popover" title="Refs:" data-bs-html="true" data-bs-trigger="focus" data-bs-content="{{ obj.display_citations }}">&nbsp;<i class="fa-solid fa-bookmark"></i></span>
-                    </sup>
-                    {% endif %}
                     </td>
 
                     {% block update_button %}
