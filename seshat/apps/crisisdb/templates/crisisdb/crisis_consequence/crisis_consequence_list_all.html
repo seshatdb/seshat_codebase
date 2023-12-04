@@ -15,12 +15,7 @@
 
 {% block main_description %}
 <style>
-
-    .table-container {
-        overflow-x: auto; /* Enable horizontal scrolling */
-      }
-      
-      
+    
       th, td {
         padding: 10px;
         border: 3px solid #ccc;
@@ -31,7 +26,6 @@
         left: 0;
         z-index: 1;
         color: teal !important;
-        background-color: #fefae6 !important;
       }
 
       .bg-light {
@@ -94,8 +88,7 @@
 
 
 {% block myheadings_list %}
-<th class="fw-bold  px-2 col-sm-4"  style="text-align: left;" scope="col"><h6>Crisis Name <br>Duration <br>Polity(s) <span class="fw-light"> (Home NGA)</span> </h6> 
-</th>
+<th class="fw-bold  px-2 col-md-2 sticky-start fixed-column-data" style="text-align: left;" scope="col"><span>Crisis Name / Duration / Polity(s) <span class="fw-light"> (Home NGA)</span> </span> </th>
 
 <th class = "fw-bold col-sm-8 px-2" style="text-align: left;" scope="col">
     <h5>

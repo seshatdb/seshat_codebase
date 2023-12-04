@@ -16,11 +16,6 @@
 
 {% block main_description %}
 <style>
-
-    .table-container {
-        overflow-x: auto; /* Enable horizontal scrolling */
-      }
-      
       
       th, td {
         padding: 10px;
@@ -32,7 +27,7 @@
         left: 0;
         z-index: 1;
         color: teal !important;
-        background-color: #fefae6 !important;
+        background-color: #ffcccc !important;
       }
 
       .bg-light {
@@ -46,7 +41,7 @@
 
 
 {% block myheadings_list %}
-<th class="fw-bold  px-2 col-md-2 sticky-start fixed-column-data" style="text-align: left;" scope="col"><h6>Crisis Name <br>Duration <br>Polity(s) <span class="fw-light"> (Home NGA)</span> </h6> </th>
+<th class="fw-bold  px-2 col-md-2 sticky-start fixed-column-data" style="text-align: left;" scope="col"><span>Crisis Name / Duration / Polity(s) <span class="fw-light"> (Home NGA)</span> </span> </th>
 
 <th class = "fw-bold  px-2 text-danger" style="text-align: center;" scope="col"><h5><span class="badge rounded-pill bg-danger">decline</h5></span></th>
 <th class = "fw-bold  px-2 text-warning" style="text-align: center;" scope="col"><h5><span class="badge rounded-pill bg-danger">collapse</h5></span></th>
@@ -74,7 +69,7 @@
 <th class = "fw-bold  px-2 text-danger" style="text-align: center;" scope="col"><h5><span class="badge rounded-pill bg-success">suffrage</h5></span> </th>
 <th class = "fw-bold  px-2 text-danger" style="text-align: center;" scope="col"><h5><span class="badge rounded-pill bg-success">public goods</h5></span> </th>
 <th class = "fw-bold  px-2 text-danger" style="text-align: center;" scope="col"><h5><span class="badge rounded-pill bg-success">religion</h5></span> </th>
-
+<th class = "fw-bold  px-2 text-danger" style="text-align: center;" scope="col"><h5><span class="badge rounded-pill bg-success">Edit</h5></span> </th>
 {% endblock myheadings_list %}
 
 {% block extra_vars_list %}

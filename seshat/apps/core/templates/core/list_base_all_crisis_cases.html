@@ -4,8 +4,9 @@
 {% load mathfilters %}
 
 {% block content %}
-<div class="container">
     {% if object_list %}
+    <div class="container">
+
     <div class="row d-flex mt-3">
         <div class="col-md-12">
             <!-- <h5 class="lead-2">List of all the data for: {{object_list.0.section}}</h5> -->
@@ -43,12 +44,11 @@
     </div>
     </div>
     <div class="table-container">
-
         <table id="table_id" class="table align-middle table-hover table-striped table-bordered mb-4" style="padding: 0.25 rem !important;">
-            <thead  class="sticky-top" style="background-color:#FFCCCC; height:40px;  top: 55px; z-index:900;">                
+            <thead class="sticky-top" style="background-color:#FFCCCC; height:80px;  top: 55px; z-index:900;">                
                 <tr>
                     <th scope="col" class="text-secondary sticky-start"  style="text-align: center">
-                        <h5><span class="badge rounded-pill bg-light text-dark">#</h5></span> 
+                        <span><span class="badge rounded-pill bg-light text-dark">#</h5></span> 
                         </th>
                     <!-- headings for extra vars -->
                     {% block myheadings_list %}
@@ -75,17 +75,20 @@
             </tbody>
           </table>
     </div>
+</div>
 
 
     {% else %}
+    <div class="container">
 
     <div class="row">
         <div class="col-md-12 mt-4">
             <h3> <i class="fa-solid fa-triangle-exclamation"></i> There are no Facts for this variable in the Database.</h3>
         </div>
     </div>
+</div>
+
     {% endif %}
-    </div>
     <script>
         var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
         var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
