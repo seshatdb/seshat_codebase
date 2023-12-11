@@ -60,6 +60,7 @@ INSTALLED_APPS = [
     "seshat.apps.general",
     "seshat.apps.sc",
     "seshat.apps.wf",
+    "seshat.apps.rt",
     "seshat.apps.crisisdb",
     "seshat.apps.seshat_api",
     "django_filters",

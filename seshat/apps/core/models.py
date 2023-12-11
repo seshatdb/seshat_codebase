@@ -666,3 +666,17 @@ class SeshatCommon(models.Model):
 #         choices=job_description_annual_wages_choices)
 
 
+class Religion(models.Model):
+    name = models.CharField(max_length=100, default="Religion")
+    religion_name = models.CharField(max_length=100, null=True, blank=True)
+    religion_family = models.CharField(max_length=100, blank=True, null=True)
+    religion_genus = models.CharField(max_length=100, blank=True, null=True)
+
+    class Meta:
+        ordering = ['name']
+
+    def __str__(self) -> str:
+        """string for epresenting the model obj in Admin Site"""
+        if self.religion_name:
+            return self.religion_name
+        return self.name

@@ -66,7 +66,7 @@
 </style>
 <!-- form-row and form-group etc are removed in Bootstrap 5 -->
 <div class="container mt-3">
-    <form action="" method="post">
+    <form action="" method="post" >
         {% csrf_token %}
         <legend>
 
@@ -111,7 +111,7 @@
         </ul>
         <hr class="bg-colorful">
         {% endif %}
-        <div class="row">
+        <div class="row pt-2 ps-2" style="background:blanchedalmond;">
             <div class="col-md-6 row">
                 <div class="col-md-12 pb-2">
                     {{ form.polity|as_crispy_field }}

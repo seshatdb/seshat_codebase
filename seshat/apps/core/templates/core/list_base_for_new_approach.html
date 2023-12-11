@@ -10,18 +10,15 @@
         <div class="col-md-6">
             <!-- <h5 class="lead-2">List of all the data for: {{object_list.0.section}}</h5> -->
             <div class="col-md-12 justify-content-end my-3">
-                <h6><span class="text-secondary text-end">Section</span>: <mark>{{var_section}}</mark></h6>
-                <h6><span class="text-secondary text-end">Subsection</span>: <mark>
+                <h6><span class="text-secondary text-end">Section</span>: <mark>{{var_section}}</mark>
                     {% if var_subsection %}
-                    {{var_subsection}}
-                    {% else %}
-                        &nbsp;- 
+                    / {{var_subsection}}
                     {% endif %}
                 </mark> </h6>      
             <!-- <h5 class="lead-2">List of all the data for: {{object_list.0.section}}</h5> -->
           </div>
           <div>
-            <h1 class="mb-3"><span class="display-6">{{myvar}}</span></h1>
+            <h4 class="mb-3"><span>{{myvar}}</span></h4>
           </div>
             <div>
                 <h6 class="fw-bold"><span class="fw-normal"><i class="fa-solid fa-caret-right"></i> {{var_main_desc}} &nbsp;</span>
@@ -95,7 +92,7 @@
                 <div class="accordion-item" style="background-color:#fffdf2;">
                   <h2 class="accordion-header" id="headingTwo">
                     <button class="accordion-button px-0 collapsed" type="button" data-bs-toggle="collapse"  data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo" style="background-color:#fffdf2;">
-                    <span class="text-success"><i class="fa-solid fa-chevron-right"></i> &nbsp; Metadata Specific to <strong>{{myvar}}</strong></span> 
+                    <span class="text-success"><i class="fa-solid fa-chevron-right"></i> &nbsp; Metadata Specific to this Variable</span> 
                     </button>
                   </h2>
                   <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo">
@@ -164,7 +161,8 @@
     </div>
     <div class="table-container">
         <table id="table_id" class="table align-middle table-hover table-striped table-bordered" style="padding: 0.25 rem !important;">
-            <thead  class="sticky-top" style="background-color:#FFCCCC; height:40px;  top: 55px; z-index:900;">              <tr>
+            <legend class="sticky-top py-0  px-2 m-0 fs-5 " style="background-color:#FFCCCC; height:40px;  top: 55px; z-index:900;">{{myvar}}</legend>
+            <thead  class="sticky-top" style="background-color:#FFCCCC; height:40px;  top: 95px; z-index:900;">              <tr>
                 <th scope="col" class="text-secondary"  style="text-align: center">#</th>
                 <th scope="col" style="text-align: left" class="fw-bold"> 
                     Polity </th>

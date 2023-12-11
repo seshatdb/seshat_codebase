@@ -104,20 +104,20 @@
 
 
 </style>
-<div class="container mt-2">
+<div class="container">
     <div class="row">
       <div class="row mt-3">
         <div class="col-md-12">
             <div class="row d-flex align-items-center mb-2">
                 <div class="col-md-6 px-0">
-                  <h1 class="py-3 ps-0"><span class="badge rounded-pill bg-teal text-dark">General Variables</span> 
+                  <h1 class="py-3 ps-0"><span class="badge rounded-pill bg-teal text-dark">Religion Tolerance Variables</span> 
                   </h1>               
                  </div>
                   <div class="col-md-3">    
-                    <a href='{% url "problematic_wf_data_table" %}' class="btn btn-outline-danger mx-1 my-2 float-end"> <i class="fa-solid fa-up-right-from-square fa-sm"></i>  &nbsp;Inconsistent Year Ranges</a>
+                    <a href='{% url "problematic_sc_data_table" %}' class="btn btn-outline-danger mx-1 my-2 float-end"> <i class="fa-solid fa-up-right-from-square fa-sm"></i>  &nbsp;Inconsistent Year Ranges</a>
                 </div>
                 <div class="col-md-3 px-0">    
-                    <a href='{% url "download_csv_all_wf" %}' class="btn btn-outline-success mx-1 my-2 float-end"> <i class="fa-solid fa-file-csv"></i> &nbsp; Download <b>All</b> (.CSV) </a>
+                    <a href='{% url "download_csv_all_sc" %}' class="btn btn-outline-success mx-1 my-2 float-end"> <i class="fa-solid fa-file-csv"></i> &nbsp; Download <b>All</b> (.CSV) </a>
                 </div>
 
 
@@ -126,7 +126,7 @@
           </div>
         </div>
 
-        <h4>
+        <h5>
           <span class="h5 text-secondary">* We have coded a total of  
             <b class="h4 text-dark">
             {{number_of_all_rows|intcomma}}</b>
@@ -137,7 +137,14 @@
             <b class="h4 text-dark">
             {{all_polities}}</b>
             polities.</span>
-        </h4>
+        </h5>
+        <p class="mb-2" style="font-size:14px;">
+            * The "Religion Tolerance" dataset encompasses a wide range of variables, each offering valuable insights into the dynamics of religious coexistence, government policies, and societal attitudes. This comprehensive collection of variables allows for a multifaceted analysis of religion tolerance, shedding light on the complexities of interactions between governments, societies, and religious communities. 
+</p><p class="mt-0"  style="font-size:14px;">
+* Key variables include measures of syncretism, the prevalence of official and elite religions, and the frequency of violence, both governmental and societal, against religious groups. Additionally, the dataset explores government restrictions on religious practices, property ownership, and the circulation of religious literature. It delves into taxation based on religious adherence, governmental obligations for official recognition, and limitations on constructing religious buildings. The coding captures not only the presence or absence of certain conditions but also the actual religions associated with official status and elite favor. Furthermore, the prevalence of widespread religions, including the most widespread and up to the fourth most widespread, provides a nuanced understanding of religious landscapes.
+
+
+        </p>
         {% for sect, subsect in all_vars_grouped.items %}
         <div class="row">
           <div class="col-md-12">
@@ -148,9 +155,21 @@
                     </span> 
                   </h3> 
                 </div>
+                  <div class="col-md-6 px-0">   
+
+                    {% for kkk, vvv in all_sect_download_links.items %}
+                    {% if kkk == sect %}
+            
+                    <span><a href="{% url vvv %}" class="btn btn-outline-secondary mx-1 float-end"> <i class="fa-solid fa-file-csv"></i> &nbsp; Download <b>{{sect}}</b> (.CSV) </a> </span>
+                    {% endif%}
+            
+                    {% endfor %}
+                  </div>
+
               </div>
   
             </div>
+
           </div>
 
                
@@ -165,11 +184,11 @@
     </h5> 
       {% endif%}
         {% for v in vv %}
-                <div class="card col-md-6">
+                <div class="card col-md-12">
                     <div class="align-items-left card-text-spaced">
                       <span class="fs-5 left-span fw-bold ps-2">
                         <span class="text-secondary fs-6"> <span style="color:rgba(128, 128, 128, 0.573)">#</span> {{ v.6|intcomma }}</span> 
-                            <a href="{% url v.5 %}" class="card-link" type="button" data-bs-toggle="tooltip" data-bs-html="true"  title="View All">{{v.0|slice:"7:"}} </a> 
+                            <a href="{% url v.5 %}" class="card-link" type="button" data-bs-toggle="tooltip" data-bs-html="true"  title="View All">{{v.0}} </a> 
 
                          
                                                       

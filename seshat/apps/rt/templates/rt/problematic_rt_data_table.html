@@ -1,0 +1,71 @@
+{% extends "core/seshat-base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% load humanize %}
+
+{% block content %}
+<style>
+    .tag-border2{
+        border: 1px solid teal; /* Adjust the border color and thickness as desired */
+        border-radius: 5px;
+        padding: 3px;
+      }
+</style>
+<div class="container">
+
+    <div class="row mt-3">
+        <div class="col-md-12">
+            <div class="row d-flex align-items-center mb-2">
+                <div class="col-md-8">
+                    <h4 class="py-4 text danger"> Here are a list of Religion Tolerance variables with inconsistent year ranges:</h4>              
+                </div>
+                <div class="col-md-4">    
+                    <a href='{% url "scvars" %}' class="btn btn-outline-success mx-1 my-2 float-end"> <i class="fa-solid fa-up-right-from-square fa-sm"></i>  &nbsp;All Religion Tolerance Vars </a>
+                </div>
+            </div>
+
+          </div>
+        </div>
+
+
+    <table id="table_id" class="table align-middle table-hover table-striped table-bordered" style="padding: 0.25 rem !important;">    
+        <thead>
+            <tr>
+                <th scope="col" class="text-secondary sticky-start"  style="text-align: center">#</th>
+                <th class="fw-light">Polity</th>
+                <th class="fw-light">Variable: Value</th>
+                <th class="fw-light" style="text-align: center">Year Range Coded</th>
+                <th class="fw-light" style="text-align: center">Polity Duration</th>
+                <th style="text-align: center">Update</th>
+                <th style="text-align: center">Update</th>
+
+            </tr>
+        </thead>    
+
+        {% for obj in data %}
+        <tr>
+            <td class="text-secondary sticky-start" scope="row"  style="text-align: center">{{ forloop.counter }}</td>
+            <td class="fw-light"><a href="{% url 'polity-detail-main' obj.polity.id %}"><span class="fw-normal">{{ obj.polity.long_name }}</span> </a> ({{ obj.polity.new_name }})</td>
+            <td>{{ obj.name }}: {{ obj.show_value }}</td>
+            <td class="text-danger" style="text-align: center">[{{ obj.year_from }}, {{ obj.year_to }}]</td>
+            <td class="text-danger" style="text-align: center">[{{ obj.polity.start_year }}, {{ obj.polity.end_year }}]</td>
+            <td style="text-align: center">
+                {% with obj.name as update_part_0 %}
+                <a href="{% url update_part_0|add:'-update' obj.id %}" class="btn btn-warning btn-sm tag-border2" role="button"><i class="fa-solid fa-pen-to-square fa-sm"></i> Variable</a>
+                {% endwith %}
+
+            </td>
+            <td style="text-align: center">
+                {% with obj.name as update_part_0 %}
+                <a href="{% url 'polity-update' obj.polity_id %}" class="btn btn-danger btn-sm tag-border2" role="button"><i class="fa-solid fa-pen-to-square fa-sm"></i> Polity</a>
+                {% endwith %}
+
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+</div>
+{% endblock content %}
+
+

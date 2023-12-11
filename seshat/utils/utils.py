@@ -349,6 +349,8 @@ def get_all_sc_data_for_a_polity(polity_id):
 
     return all_vars_grouped, has_any_data
 
+
+
 # def has_sc_data_for_polity(polity_id):
 #     for ct in ContentType.objects.filter(app_label='sc'):
 #         m = ct.model_class()
@@ -383,7 +385,7 @@ def get_all_wf_data_for_a_polity(polity_id):
                 all_vars_grouped_wf[s_value][ss_value] = {}
             else:
                 all_vars_grouped_wf[s_value]["None"] = {}
-    #print(all_vars_grouped_wf.keys())
+    print(all_vars_grouped_wf)
     #########
     #ll_vars_grouped = {}
     for ct in ContentType.objects.all():
@@ -408,6 +410,51 @@ def get_all_wf_data_for_a_polity(polity_id):
     return all_vars_grouped_wf, has_any_data
 
 
+def get_all_rt_data_for_a_polity(polity_id):
+    app_name = 'rt'  # Replace with your app name
+    models_1 = apps.get_app_config(app_name).get_models()
+
+    has_any_data = False
+    all_vars_grouped_rt = {}
+
+    for model in models_1:
+        model_name = model.__name__
+        if model_name in ["A_religion",]:
+            print(f"Skipping excluded model: {model_name}")
+            continue
+
+        s_value = str(model().subsection())
+
+        if s_value not in all_vars_grouped_rt:
+            all_vars_grouped_rt[s_value] = {}
+            all_vars_grouped_rt[s_value]["None"] = {}
+        else:
+            all_vars_grouped_rt[s_value]["None"] = {}
+
+    for ct in ContentType.objects.filter(app_label='rt'):
+        mm = ct.model_class()
+        if mm and mm.__module__ == "seshat.apps.rt.models":
+            my_data = mm.objects.filter(polity=polity_id)
+            if mm.__name__ in ["A_religion",]:
+                print("Skipping Religion model")
+                continue
+
+            print(f"Processing model: {mm.__name__}")
+            if my_data:
+                has_any_data = True
+                my_s = mm().subsection()
+                print(f"Adding data for subsection: {my_s}")
+                if my_s:
+                    all_vars_grouped_rt[my_s]["None"][mm.__name__] = my_data
+                else:
+                    print(f"Invalid subsection for model: {mm.__name__}")
+
+    print("Final grouped data keys:", all_vars_grouped_rt.keys())
+    return all_vars_grouped_rt, has_any_data
+
+
+
+#####################################################
 def get_all_wf_data_for_a_polity_old(polity_id):
     a_huge_context_data_dic = {}
     for ct in ContentType.objects.all():
@@ -571,6 +618,7 @@ def give_polity_app_data():
             'g': 0,
             'sc': 0,
             'wf': 0,
+            'rt': 0,
             'hs': 0,
             'cc': 0,
             'pt': 0,
@@ -578,11 +626,15 @@ def give_polity_app_data():
     unique_polity_ids_general = set()
     unique_polity_ids_sc = set()
     unique_polity_ids_wf = set()
+    unique_polity_ids_rt = set()
+
 
 
     app_models_general = apps.get_app_config('general').get_models()
     app_models_sc = apps.get_app_config('sc').get_models()
     app_models_wf = apps.get_app_config('wf').get_models()
+    app_models_rt = apps.get_app_config('rt').get_models()
+
 
     for model in app_models_general:
         if hasattr(model, 'polity_id'):
@@ -598,6 +650,11 @@ def give_polity_app_data():
         if hasattr(model, 'polity_id'):
             polity_ids_wf = model.objects.values_list('polity_id', flat=True).distinct()
             unique_polity_ids_wf.update(polity_ids_wf)
+
+    for model in app_models_rt:
+        if hasattr(model, 'polity_id'):
+            polity_ids_rt = model.objects.values_list('polity_id', flat=True).distinct()
+            unique_polity_ids_rt.update(polity_ids_rt)
 
     all_polity_ids = Polity.objects.values_list('id', flat=True)
     for polity_id in all_polity_ids:
@@ -616,6 +673,7 @@ def give_polity_app_data():
             'g': False,
             'sc': False,
             'wf': False,
+            'rt': False,
             'hs': has_hs,
             'cc': has_cc,
             'pt': has_pt,
@@ -629,6 +687,9 @@ def give_polity_app_data():
         if polity_id in unique_polity_ids_wf:
             contain_dic[polity_id]["wf"] = True
             freq_dic["wf"] += 1
+        if polity_id in unique_polity_ids_rt:
+            contain_dic[polity_id]["rt"] = True
+            freq_dic["rt"] += 1
     #freq_dic["pol_count"] = len(all_polity_ids)
 
     return contain_dic, freq_dic
