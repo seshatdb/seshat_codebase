@@ -933,8 +933,8 @@ class PolityListView(SuccessMessageMixin, generic.ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        import time
-        start_time = time.time()
+        #import time
+        #start_time = time.time()
         all_srs_unsorted = Seshat_region.objects.all()
         all_mrs_unsorted = Macro_region.objects.all()
 
@@ -1003,8 +1003,8 @@ class PolityListView(SuccessMessageMixin, generic.ListView):
         freq_dic['pol_count'] = pol_count
         context["freq_data"] = freq_dic
 
-        end_time = time.time()
-        print('elapsed_time ', end_time-start_time)
+        #end_time = time.time()
+        #print('elapsed_time ', end_time-start_time)
 
         return context
     
@@ -1097,7 +1097,7 @@ class PolityDetailView(SuccessMessageMixin, generic.DetailView):
             context["all_general_data"] = None
             context["all_sc_data"] = None
             context["all_wf_data"] = None
-            #context["all_rt_data"] = None
+            context["all_rt_data"] = None
 
 
         #x = polity_detail_data_collector(self.object.pk)

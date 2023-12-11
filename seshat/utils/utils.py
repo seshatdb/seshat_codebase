@@ -420,7 +420,7 @@ def get_all_rt_data_for_a_polity(polity_id):
     for model in models_1:
         model_name = model.__name__
         if model_name in ["A_religion",]:
-            print(f"Skipping excluded model: {model_name}")
+            #print(f"Skipping excluded model: {model_name}")
             continue
 
         s_value = str(model().subsection())
@@ -439,17 +439,17 @@ def get_all_rt_data_for_a_polity(polity_id):
                 print("Skipping Religion model")
                 continue
 
-            print(f"Processing model: {mm.__name__}")
+            #print(f"Processing model: {mm.__name__}")
             if my_data:
                 has_any_data = True
                 my_s = mm().subsection()
-                print(f"Adding data for subsection: {my_s}")
+                #print(f"Adding data for subsection: {my_s}")
                 if my_s:
                     all_vars_grouped_rt[my_s]["None"][mm.__name__] = my_data
                 else:
                     print(f"Invalid subsection for model: {mm.__name__}")
 
-    print("Final grouped data keys:", all_vars_grouped_rt.keys())
+    #print("Final grouped data keys:", all_vars_grouped_rt.keys())
     return all_vars_grouped_rt, has_any_data
 
 

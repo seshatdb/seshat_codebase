@@ -1227,14 +1227,14 @@
 
 <!-- GV -->
 <div>
-    <h1 class="pt-5 display-4" style="text-align: left; color:#893101;" id="general_var"><span class="h1">
+    <span class="pt-5 display-1" style="text-align: left; color:#893101;" id="general_var"><span class="h1 fw-bold">
         General Variables</span>
-    </h1>
+    </span>
     {% for key_top, values_top in all_general_data.items %}
         <div class="py-2 custom-left-border-shadowed">
         {% for key_m, values_m in values_top.items %}
             {% if values_m %}
-                <span class=" fs-1 text-dark my-5 bg-light border-bottom border-5 border-warning"  style="text-align: left;">
+                <span class=" fs-1 text-dark my-5 border-bottom border-5 border-warning"  style="text-align: left; background-color: #fffdf2;">
                     <i class="fa-solid fa-circle fa-2xs text-warning"></i>
                     <span class="fw-bold"> {{key_top}}</span> 
                     {% if key_m != 'None' %}
@@ -1297,14 +1297,14 @@
 
 <!-- SC -->
     <div>
-        <h1 class="pt-5 display-4" style="text-align: left; color:#893101;" id="sc_var"><span class="h1">
+        <span class="pt-5 display-1" style="text-align: left; color:#893101;" id="sc_var"><span class="h1 fw-bold">
             Social Complexity Variables</span>
-        </h1>
+        </span>
         {% for key_top, values_top in all_sc_data.items %}
             <div class="py-2 custom-left-border-shadowed">
             {% for key_m, values_m in values_top.items %}
                 {% if values_m %}
-                    <span class=" fs-1 text-dark my-5 bg-light border-bottom border-5 border-primary"  style="text-align: left;">
+                    <span class=" fs-1 text-dark my-5 border-bottom border-5 border-primary"  style="text-align: left; background-color: #fffdf2;">
                         <i class="fa-solid fa-circle fa-2xs text-primary"></i>
                         <span class="fw-bold"> {{key_top}}</span> 
                         {% if key_m != 'None' %}
@@ -1365,16 +1365,16 @@
     </div>
 <!-- WF -->
     <div>
-        <h1 class="pt-5 display-4" style="text-align: left; color:#893101;" id="wf_var"><span class="h1">
+        <span class="pt-5 display-1" style="text-align: left; color:#893101;" id="wf_var"><span class="h1 fw-bold">
             Warfare Variables (Military Technologies)</span>
-        </h1>
+        </span>
         {% for key_top, values_top in all_wf_data.items %}
         <div class="py-2 custom-left-border-shadowed">
 
             {% for key_m, values_m in values_top.items %}
                 {% if values_m %}
 
-                    <span class=" fs-1 text-dark my-5 bg-light border-bottom border-5 border-danger"  style="text-align: left;">
+                    <span class=" fs-1 text-dark my-5 border-bottom border-5 border-danger"  style="text-align: left; background-color: #fffdf2;">
                         <i class="fa-solid fa-circle fa-2xs text-danger"></i>
                         <span class="fw-bold"> {{key_top}}</span> 
                         {% if key_m != 'None' %}
@@ -1438,17 +1438,17 @@
 
 <!-- RT -->
 <div>
-    <h1 class="pt-5 display-4" style="text-align: left; color:#893101;" id="rt_var"><span class="h1">
+    <span class="pt-5 display-1" style="text-align: left; color:#893101;" id="rt_var"><span class="h1 fw-bold">
         Religion Tolerance</span>
-    </h1>
+    </span>
     {% for key_top, values_top in all_rt_data.items %}
     <div class="py-2 custom-left-border-shadowed">
 
         {% for key_m, values_m in values_top.items %}
             {% if values_m %}
 
-                <span class=" fs-1 text-dark my-5 bg-light border-bottom border-5 border-danger"  style="text-align: left;">
-                    <i class="fa-solid fa-circle fa-2xs text-danger"></i>
+                <span class=" fs-1 text-dark my-5"  style="text-align: left; border-bottom: 5px solid #59007f; background-color: #fffdf2;">
+                    <i class="fa-solid fa-circle fa-2xs" style="color:#59007f"></i>
                     <span class="fw-bold"> {{key_top}}</span> 
                     {% if key_m != 'None' %}
                     <span class="fw-light">/ {{key_m}}</span> 
