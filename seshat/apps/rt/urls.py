@@ -39,8 +39,8 @@ model_form_pairs = [
 
 urlpatterns = [
     path('rtvars/', views.rtvars, name='rtvars'),
-    #path('problematic_rt_data_table/', views.show_problematic_rt_data_table, name='problematic_rt_data_table'),
-    #path('download-csv-rt-all/', views.download_csv_all_rt,name='download_csv_all_rt'),
+    path('problematic_rt_data_table/', views.show_problematic_rt_data_table, name='problematic_rt_data_table'),
+    path('download-csv-rt-all/', views.download_csv_all_rt,name='download_csv_all_rt'),
     path('download_csv_religious_landscape/', views.download_csv_religious_landscape,name='download_csv_religious_landscape'),
     path('download_csv_government_restrictions/', views.download_csv_government_restrictions,name='download_csv_government_restrictions'),
     path('download_csv_societal_restrictions/', views.download_csv_societal_restrictions,name='download_csv_societal_restrictions'),

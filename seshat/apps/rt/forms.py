@@ -78,7 +78,7 @@ class Official_religionForm(forms.ModelForm):
         labels = commonlabels
         labels['coded_value'] = "&nbsp;<b> Official Religion: </b>"
         widgets = dict(commonwidgets)
-        widgets['coded_value'] = forms.Select(attrs={'class': 'form-control  mb-3', })
+        widgets['coded_value'] = forms.Select(attrs={'class': 'form-control  mb-3 js-example-basic-single', 'id': 'id_official_religion', 'name': 'official_religion' })
         
 
 class Elites_religionForm(forms.ModelForm):
@@ -89,7 +89,7 @@ class Elites_religionForm(forms.ModelForm):
         labels = commonlabels
         labels['coded_value'] = "&nbsp;<b> Elites' Religion: </b>"
         widgets = dict(commonwidgets)
-        widgets['coded_value'] = forms.Select(attrs={'class': 'form-control  mb-3', })
+        widgets['coded_value'] = forms.Select(attrs={'class': 'form-control  mb-3 js-example-basic-single', 'id': 'id_elites_religion', 'name': 'elites_religion' })
         
 ##########################################
 class Theo_sync_dif_relForm(forms.ModelForm):

@@ -385,7 +385,7 @@ def get_all_wf_data_for_a_polity(polity_id):
                 all_vars_grouped_wf[s_value][ss_value] = {}
             else:
                 all_vars_grouped_wf[s_value]["None"] = {}
-    print(all_vars_grouped_wf)
+    #print(all_vars_grouped_wf)
     #########
     #ll_vars_grouped = {}
     for ct in ContentType.objects.all():

@@ -315,7 +315,10 @@ def dynamic_update_view(request, object_id, form_class, model_class, x_name, myv
 
 
 def generic_list_view(request, model_class, var_name, var_name_display, var_section, var_subsection, var_main_desc):
-    object_list = model_class.objects.all()
+    if var_name in ["widespread_religion",]:
+        object_list = model_class.objects.all().order_by('polity_id', 'order')
+    else:
+        object_list = model_class.objects.all()
     #extra_var_dict = {obj.id: obj.__dict__.get(var_name) for obj in object_list}
     extra_var_dict = {obj.id: obj.show_value() for obj in object_list}
 
@@ -328,6 +331,13 @@ def generic_list_view(request, model_class, var_name, var_name_display, var_sect
     var_name_with_from = var_name
     var_exp_new = f'The absence or presence of "{var_name_display}" for a polity.'
 
+    if var_name in ["official_religion", "elites_religion",]:
+        ordering_tag_value = "coded_value_id"
+    #     # ?orderby=formal_legal_code&orderby2=tag
+    elif var_name in ["widespread_religion",]:
+        ordering_tag_value = "order"
+    else:
+        ordering_tag_value = "coded_value"
 
     # Define any additional context variables you want to pass to the template
     context = {
@@ -340,7 +350,7 @@ def generic_list_view(request, model_class, var_name, var_name_display, var_sect
         'metadownload_url':  f'{var_name}-metadownload',
         'list_all_url':  f'{var_name}s_all',
         'var_name_display': var_name_display,
-        'ordering_tag': f"?orderby=coded_value",
+        'ordering_tag': f"?orderby={ordering_tag_value}",
         'var_section': var_section,
         'var_subsection': var_subsection,
         'var_main_desc': var_main_desc,
@@ -379,31 +389,21 @@ def generic_download(request, model_class, var_name):
     response = HttpResponse(content_type='text/csv')
     current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
 
-    file_name = f"social_complexity_{var_name}_{current_datetime}.csv"
+    file_name = f"religion_tolerance_{var_name}_{current_datetime}.csv"
 
     response['Content-Disposition'] = f'attachment; filename="{file_name}"'
 
-    var_name_with_from = var_name
-    var_name_with_to = None
-
     writer = csv.writer(response, delimiter='|')
-    if var_name in ["largest_communication_distance", "fastest_individual_communication"]:
-        writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
-                    var_name_with_from, var_name_with_to, 'confidence', 'is_disputed', 'is_uncertain', 'expert_checked', 'DRB_reviewed'])
-    else:
-        writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
+    writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
                     var_name, 'confidence', 'is_disputed', 'is_uncertain', 'expert_checked', 'DRB_reviewed'])
     for obj in items:
-        if var_name in ["largest_communication_distance", "fastest_individual_communication"]:
-            dynamic_value_from = getattr(obj, var_name_with_from, '')
-            dynamic_value_to = getattr(obj, var_name_with_to, '')
-            writer.writerow([obj.name, obj.year_from, obj.year_to,
-                            obj.polity.long_name, obj.polity.new_name, obj.polity.name, dynamic_value_from, dynamic_value_to, obj.get_tag_display(), obj.is_disputed, obj.is_uncertain,
+        if var_name in ["widespread_religion"]:
+            writer.writerow([obj.clean_name_dynamic(), obj.year_from, obj.year_to,
+                            obj.polity.long_name, obj.polity.new_name, obj.polity.name, obj.show_value_from(), obj.get_tag_display(), obj.is_disputed, obj.is_uncertain,
                             obj.expert_reviewed, obj.drb_reviewed,])
         else:
-            dynamic_value = getattr(obj, var_name, '')
-            writer.writerow([obj.name, obj.year_from, obj.year_to,
-                            obj.polity.long_name, obj.polity.new_name, obj.polity.name, dynamic_value, obj.get_tag_display(), obj.is_disputed, obj.is_uncertain,
+            writer.writerow([obj.clean_name_spaced(), obj.year_from, obj.year_to,
+                            obj.polity.long_name, obj.polity.new_name, obj.polity.name, obj.show_value(), obj.get_tag_display(), obj.is_disputed, obj.is_uncertain,
                             obj.expert_reviewed, obj.drb_reviewed,])
 
     return response
@@ -499,11 +499,34 @@ def download_csv_all_rt(request):
         items = model.objects.all()
 
         for obj in items:
-            writer.writerow([obj.subsection(), obj.clean_name(), obj.year_from, obj.year_to,
-                         obj.polity.long_name, obj.polity.new_name, obj.polity.name, obj.show_value_from(), obj.show_value_to(), obj.get_tag_display(), obj.is_disputed, obj.is_uncertain,
-                         obj.expert_reviewed, obj.drb_reviewed,])
+            if obj.clean_name() == "widespread_religion":
+                writer.writerow([obj.subsection(), obj.clean_name_dynamic(), obj.year_from, obj.year_to,
+                            obj.polity.long_name, obj.polity.new_name, obj.polity.name, obj.show_value_from(), obj.show_value_to(), obj.get_tag_display(), obj.is_disputed, obj.is_uncertain,
+                            obj.expert_reviewed, obj.drb_reviewed,])
+            else:
+                writer.writerow([obj.subsection(), obj.clean_name_spaced(), obj.year_from, obj.year_to,
+                            obj.polity.long_name, obj.polity.new_name, obj.polity.name, obj.show_value_from(), obj.show_value_to(), obj.get_tag_display(), obj.is_disputed, obj.is_uncertain,
+                            obj.expert_reviewed, obj.drb_reviewed,])
 
     return response
+
+@permission_required('core.view_capital')
+def show_problematic_rt_data_table(request):
+    # Fetch all models in the "socomp" app
+    app_name = 'rt'  # Replace with your app name
+    app_models = apps.get_app_config(app_name).get_models()
+
+    # Collect data from all models
+    data = []
+    for model in app_models:
+        items = model.objects.all()
+        for obj in items:
+            if obj.polity.start_year is not None and obj.year_from is not None and obj.polity.start_year > obj.year_from:
+                data.append(obj)
+
+    # Render the template with the data
+    return render(request, 'rt/problematic_rt_data_table.html', {'data': data})
+
 
 @permission_required('core.view_capital')
 def download_csv_religious_landscape(request):

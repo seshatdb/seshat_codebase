@@ -422,14 +422,25 @@ class Power_transitionListViewAll(PermissionRequiredMixin, generic.ListView):
         pols_dict  = {}
         for transition in new_context:
             polity_id = transition.polity_id
+            if not polity_id:
+                polity_id = 0
             if polity_id not in pols_dict:
-                pols_dict[polity_id] = {
-                    'polity_new_name': transition.polity.new_name,
-                    'polity_long_name': transition.polity.long_name,
-                    'polity_start_year': transition.polity.start_year,
-                    'polity_end_year': transition.polity.end_year,
-                    'trans_list': []
-                }
+                try:
+                    pols_dict[polity_id] = {
+                        'polity_new_name': transition.polity.new_name,
+                        'polity_long_name': transition.polity.long_name,
+                        'polity_start_year': transition.polity.start_year,
+                        'polity_end_year': transition.polity.end_year,
+                        'trans_list': []
+                    }
+                except:
+                    pols_dict[0] = {
+                        'polity_new_name': "NO_NAME",
+                        'polity_long_name': "NO_LONG_NAME",
+                        'polity_start_year': -10000,
+                        'polity_end_year': 2000,
+                        'trans_list': []
+                        }
 
             pols_dict[polity_id]['trans_list'].append({
                 'year_from': transition.year_from,

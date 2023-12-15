@@ -209,12 +209,38 @@
 
                                         <span class="badge border border-dark text-dark px-2 py-1 fw-light fs-6" style="background: linear-gradient(to right, #f8bdb288, #faf0b68e)">
                                         
-                                            {% if a_trans.year_from == None %}
-                                            <a type="button" class="btn p-0 m-0" data-bs-toggle="tooltip" data-bs-html="true"  title='Year Range of Polity is assumed.'>
-                                                <span><i class="fa-solid fa-clock fs-6 text-secondary"></i> </span>
+                                            {% if a_trans.year_from == None and a_trans.year_to == None %}
+                                            <a type="button" class="p-0 m-0" data-bs-toggle="tooltip" data-bs-html="true"  title='Year Range of Polity is assumed.'>
+                                                <span><i class="fa-solid fa-clock text-secondary p-0 m-0"></i> </span>
                                             </a>
+                                            {% elif a_trans.year_from == None and a_trans.year_to != None %}
+                                                ? <i class="fas fa-long-arrow-alt-right"></i>
+
+                                                {% if  a_trans.year_to < 0 %}
+                                                {{ a_trans.year_to|abs }} 
+                                                
+                                                <span class="text-secondary fw-light fs-6">BCE</span> 
+                                            
+                                                {% else %}
+                                                {{ a_trans.year_to }} 
+                                            
+                                                <span class="text-secondary fw-light fs-6">CE</span>
                                         
+                                                {% endif %} 
+                                            {% elif a_trans.year_from != None and a_trans.year_to == None %}
+                                                {% if  a_trans.year_from < 0 %}
+                                                {{ a_trans.year_from|abs }} 
+                                                
+                                                <span class="text-secondary fw-light fs-6">BCE</span> 
+                                            
+                                                {% else %}
+                                                {{ a_trans.year_from }} 
+                                            
+                                                <span class="text-secondary fw-light fs-6">CE</span>
                                         
+                                                {% endif %} 
+                                                <i class="fas fa-long-arrow-alt-right"></i> ?
+
                                                 
                                             {% elif  a_trans.year_from == a_trans.year_to %}
                                                 {% if  a_trans.year_from < 0 %}

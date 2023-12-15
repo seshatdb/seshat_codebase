@@ -110,13 +110,33 @@ class Widespread_religion(SeshatCommon):
 
     def clean_name(self):
         return "widespread_religion"
+    
+
+    def clean_name_dynamic(self):
+        if self.order == "1":
+            return "Most widespread religion"
+        elif self.order == "2":
+            return "Second most widespread religion"
+        elif self.order == "3":
+            return "Third most widespread religion"
+        elif self.order == "4":
+            return "Fourth most widespread religion"
+        elif self.order == "9":
+            return "Other minority religion"
+        else:
+            return "Widespread religion"
 
     def clean_name_spaced(self):
         return "Widespread Religion"
 
     def show_value(self):
         if self.widespread_religion:
-            return self.get_order_display() + ": " + self.widespread_religion.religion_name + " (" + self.get_degree_of_prevalence_display()  + ")" 
+            if not self.get_degree_of_prevalence_display():
+                return self.get_order_display() + ": " + self.widespread_religion.religion_name
+            elif self.get_degree_of_prevalence_display() in ['uncoded', 'unknown']:
+                return self.get_order_display() + ": " + self.widespread_religion.religion_name
+            else:
+                return self.get_order_display() + ": " + self.widespread_religion.religion_name + " (" + self.get_degree_of_prevalence_display()  + ")" 
         else:
             return " - "
 

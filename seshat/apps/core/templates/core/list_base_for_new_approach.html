@@ -165,13 +165,13 @@
             <thead  class="sticky-top" style="background-color:#FFCCCC; height:40px;  top: 95px; z-index:900;">              <tr>
                 <th scope="col" class="text-secondary"  style="text-align: center">#</th>
                 <th scope="col" style="text-align: left" class="fw-bold"> 
-                    Polity </th>
+                    <a href="{% url list_all_url %}?orderby=polity_id">&nbsp;<i class="fa-solid fa-arrow-up-short-wide"></i>&nbsp; Polity</a>
+                     
+                
+                </th>
                 <th scope="col" style="text-align: left" class="fw-bold">
-                    {% block years_sorting_from_asc %}
-                    {% endblock years_sorting_from_asc %}
+                    <a href="{% url list_all_url %}?orderby=year_from">&nbsp;<i class="fa-solid fa-arrow-up-short-wide"></i></a>
                      &nbsp; Year(s) &nbsp; 
-                     {% block years_sorting_from_des %}
-                     {% endblock years_sorting_from_des %}
                 </th>
                 <!-- headings for extra vars -->
                 {% block myheadings_list %}

@@ -328,6 +328,9 @@
                                 {% for vv in values %}
                                 <tr>
                                     <td>
+                                        {% if  vv.tag == 'IFR' %}
+                                        <span class="h6 text-secondary fw-bold">inferred</span> 
+                                        {% endif %}
                                         {% if  vv.show_value == 'present' %}
                                         <span class="h6 text-teal fw-bold">{{ vv.show_value }}</span> 
                                         {% elif vv.show_value == "absent" %}
@@ -393,8 +396,14 @@
             </div>
             {% else %}
             <div class="col-md-9">
-                <h3 class="fw-bold pb-2"> 
-                    General Variables: <span class="text-secondary fs-4">No variables coded yet.</span>   </h3>
+                <span class=" h3 fw-bold m-0 p-0 text-secondary ">  
+                    <span class="badge mt-5 mb-2 p-3 fw-bold text-secondary rounded-pill" style="text-align: left; background: #ffc1073b; border:1px solid #ffc107">
+                        General Variables
+                    </span>   
+                    <span class=" mt-3 fs-5">
+                        Nothing coded yet.
+                    </span>                 
+                </span>
             </div>
 
             {% endif %}
@@ -434,7 +443,9 @@
                                 <table class="table mb-0 pb-0">
                                 {% for vv in values %}
                                 <tr>
-                                    <td>
+                                    <td>{% if  vv.tag == 'IFR' %}
+                                        <span class="h6 text-secondary fw-bold">inferred</span> 
+                                        {% endif %}
                                         {% if  vv.show_value == 'present' %}
                                         <span class="h6 text-teal fw-bold">{{ vv.show_value }}</span> 
                                         {% elif vv.show_value == "absent" %}
@@ -501,8 +512,14 @@
             </div>
             {% else %}
             <div class="col-md-9">
-                <h3 class="fw-bold pb-2"> 
-                    Social Complexity Variables: <span class="text-secondary fs-4">No variables coded yet.</span>   </h3>
+                <span class=" h3 fw-bold m-0 p-0 text-secondary ">  
+                    <span class="badge mt-5 mb-2 p-3 fw-bold text-secondary rounded-pill" style="text-align: left; background: #0d6dfd3b; border:1px solid #0d6dfd">
+                        Social Complexity Variables
+                    </span>   
+                    <span class=" mt-3 fs-5">
+                        Nothing coded yet.
+                    </span>                 
+                </span>
             </div>
 
             {% endif %}
@@ -553,6 +570,9 @@
                                 {% for vv in values %}
                                 <tr>
                                     <td>
+                                        {% if  vv.tag == 'IFR' %}
+                                        <span class="h6 text-secondary fw-bold">inferred</span> 
+                                        {% endif %}
                                         {% if  vv.show_value == 'present' %}
                                         <span class="h6 text-teal fw-bold">{{ vv.show_value }}</span> 
                                         {% elif vv.show_value == "absent" %}
@@ -622,8 +642,14 @@
             </div>
             {% else %}
             <div class="col-md-9">
-                <h3 class="fw-bold pb-2"> 
-                    Warfare Variables (MilTech): <span class="text-secondary fs-4">No variables coded yet.</span>   </h3>
+                <span class=" h3 fw-bold m-0 p-0 text-secondary ">  
+                    <span class="badge mt-5 mb-2 p-3 fw-bold text-secondary rounded-pill" style="text-align: left; background: #dc35453b; border:1px solid #dc3545">
+                        Warfare Variables (MilTech)
+                    </span>   
+                    <span class=" mt-3 fs-5">
+                        Nothing coded yet.
+                    </span>                 
+                </span>
             </div>
 
             {% endif %}
@@ -680,7 +706,11 @@
                         </td>
                         <td>
                             <span class="h6 text-teal fw-bold">{{ vv.widespread_religion }}</span> 
+                            {% if vv.get_degree_of_prevalence_display and  vv.get_degree_of_prevalence_display != 'unknown' and vv.get_degree_of_prevalence_display != 'uncoded' %}
+
                             <span class="h6 text-secondary fw-normal">({{ vv.get_degree_of_prevalence_display }})</span> 
+                            {% endif %}
+
                         </td>
 
 
@@ -690,6 +720,9 @@
                         {% else %}
 
                         <td>
+                            {% if  vv.tag == 'IFR' %}
+                            <span class="h6 text-secondary fw-bold">inferred</span> 
+                            {% endif %}
                             {% if  vv.show_value == 'present' %}
                             <span class="h6 text-teal fw-bold">{{ vv.show_value }}</span> 
                             {% elif vv.show_value == "absent" %}
@@ -761,8 +794,14 @@
 </div>
 {% else %}
 <div class="col-md-9">
-    <h3 class="fw-bold pb-2"> 
-        Warfare Variables (MilTech): <span class="text-secondary fs-4">No variables coded yet.</span>   </h3>
+    <span class=" h3 fw-bold m-0 p-0 text-secondary ">  
+        <span class="badge mt-5 mb-2 p-3 fw-bold text-secondary rounded-pill" style="text-align: left; background: #59007f3b; border:1px solid #59007f">
+            Religion Tolerance
+        </span>   
+        <span class=" mt-3 fs-5">
+            Nothing coded yet.
+        </span>                 
+    </span>
 </div>
 
 {% endif %}
@@ -773,13 +812,28 @@
             {% if "Human_sacrifice_for_polity" == key  %}
                 {% if values and 'core.view_capital' in user.get_all_permissions %}
 
-                <div class="col-md-9">
-                    <h3 class="fw-bold pb-2 pt-3">  Human Sacrifice Data: &nbsp; <a href="#hs_var"><i class="fa-solid fa-circle-arrow-down fa-sm"></i></a></h3>
+                <div class="col-md-12 m-0 p-0">
+                    <span class=" h3 fw-bold m-0 p-0 ">  
+                        <span class="badge mt-5 mb-2 p-3 fw-bold text-dark rounded-pill" style="text-align: left; background: #1987543b; border:1px solid #198754">
+                            Human Sacrifice
+                        </span>   
+                        <span class=" mt-3 fs-5">
+                            <a href="#hs_var"><i class="fa-solid fa-circle-arrow-down mt-3 fa-lg"></i></a>
+                        </span>                 
+                
+                    </span>
                 </div>
 
                 {% else %}
                 <div class="col-md-9">
-                    <h3 class="fw-bold pb-2">  Human Sacrifice Data: <span class="text-secondary fs-4">Nothing coded yet.</span> </h3>
+                    <span class=" h3 fw-bold m-0 p-0 text-secondary ">  
+                        <span class="badge mt-5 mb-2 p-3 fw-bold text-secondary rounded-pill" style="text-align: left; background: #1987543b; border:1px solid #198754">
+                            Human Sacrifice
+                        </span>   
+                        <span class=" mt-3 fs-5">
+                            Nothing coded yet.
+                        </span>                 
+                    </span>
                 </div>
 
                 {% endif %}
@@ -810,7 +864,6 @@
                 </div>
 
                 {% endif %}
-                <hr class="light-narrow-hr">
 
 
             {% endif %}
@@ -820,8 +873,16 @@
 
             {% if all_crisis_cases_data and 'core.view_capital' in user.get_all_permissions %}
 
-            <div class="col-md-9">
-                <h3 class="fw-bold pb-2 pt-3">  Crisis Consequences: &nbsp; <a href="#crisis_case_var"><i class="fa-solid fa-circle-arrow-down fa-sm"></i></a></h3>
+            <div class="col-md-12 m-0 p-0">
+                <span class=" h3 fw-bold m-0 p-0 ">  
+                    <span class="badge mt-5 mb-2 p-3 fw-bold text-dark rounded-pill" style="text-align: left; background: #2125293b; border:1px solid #212529">
+                        Crisis Consequences
+                    </span>   
+                    <span class=" mt-3 fs-5">
+                        <a href="#crisis_case_var"><i class="fa-solid fa-circle-arrow-down mt-3 fa-lg"></i></a>
+                    </span>                 
+            
+                </span>
             </div>
             <div class="row px-1">
                 <div class="mb-2 col-md-12">
@@ -853,17 +914,29 @@
 
             {% else %}
             <div class="col-md-9">
-                <h3 class="fw-bold pb-2">  Crisis Consequences: <span class="text-secondary fs-4">Nothing coded yet.</span> </h3>
+                <span class=" h3 fw-bold m-0 p-0 text-secondary ">  
+                    <span class="badge mt-5 mb-2 p-3 fw-bold text-secondary rounded-pill" style="text-align: left; background: #2125293b; border:1px solid #212529">
+                        Crisis Consequences
+                    </span>   
+                    <span class=" mt-3 fs-5">
+                        Nothing coded yet.
+                    </span>                 
+                </span>
             </div>
             {% endif %}
-            <hr class="light-narrow-hr">
-
 
 
             {% if all_power_transitions_data and 'core.view_capital' in user.get_all_permissions %}
-
-            <div class="col-md-9">
-                <h3 class="fw-bold pt-3 pb-0">  Power Transitions: &nbsp; <a href="#power_transition_var"><i class="fa-solid fa-circle-arrow-down fa-sm"></i></a></h3>
+            <div class="col-md-12 m-0 p-0">
+                <span class=" h3 fw-bold m-0 p-0 ">  
+                    <span class="badge mt-5 mb-2 p-3 fw-bold text-dark rounded-pill" style="text-align: left; background: #0dcaf03b; border:1px solid #0dcaf0">
+                        Power Transitions
+                    </span>   
+                    <span class=" mt-3 fs-5">
+                        <a href="#power_transition_var"><i class="fa-solid fa-circle-arrow-down mt-3 fa-lg"></i></a>
+                    </span>                 
+            
+                </span>
             </div>
             <div class="row px-1">
                 <div class="mb-2 col-md-12">
@@ -1164,7 +1237,14 @@
 
             {% else %}
             <div class="col-md-9">
-                <h3 class="fw-bold pb-2">  Power Transitions: <span class="text-secondary fs-4">Nothing coded yet.</span> </h3>
+                <span class=" h3 fw-bold m-0 p-0 text-secondary ">  
+                    <span class="badge mt-5 mb-2 p-3 fw-bold text-secondary rounded-pill" style="text-align: left; background: #0dcaf03b; border:1px solid #0dcaf0">
+                        Power Transitions
+                    </span>   
+                    <span class=" mt-3 fs-5">
+                        Nothing coded yet.
+                    </span>                 
+                </span>
             </div>
             {% endif %}
             <hr class="light-narrow-hr">
@@ -1486,16 +1566,17 @@
                                     </div>
                                 </div>
                             </span>
-                            {% endfor %}
                             <br>
                             {% autoescape off %}   
-                                {% if values.0.description %}
+                                {% if value.description %}
                                 <p class="fs-6">
                                     <i class="fa-solid fa-layer-group fa-xs text-teal"></i>   
-                                    {{values.0.description|make_references_look_nicer}}
+                                    {{value.description|make_references_look_nicer}}
                                 </p>     
                                 {% endif %}
-                            {% endautoescape %}    
+                            {% endautoescape %}   
+                            {% endfor %}
+ 
                     </div>
                 {% endif %}
                 {% if not forloop.last %}
