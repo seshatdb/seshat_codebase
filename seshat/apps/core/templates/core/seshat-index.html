@@ -140,13 +140,13 @@ body {
         <div class="gray-background">      </div>
         <div class="px-2">
           <h1 class="card-title  fw-bold" style="color:darkcyan; text-align: center;">
-            <a href="#">  
+            <a href="{% url 'polities'  %}">  
                 {{sr_data.0}}            </a>
            
           </h1>
           <hr class="bg-colorful p-1 m-0">
           <h1 class="card-text pt-1 pb-2 m-0 fw-bold" style="font-size:40px; color: #782823; text-align: center; ">
-            <a href="#">  
+            <a href="{% url 'polities'  %}">  
                 Seshat Regions
             </a>
           </h1>
@@ -158,15 +158,16 @@ body {
                         <span class="card-text-spaced">
                             <span class="left-span">
                                 <i class="fa-solid fa-star fa-xs"></i>
-                                <a href="#">                                
+                                <a href="{% url 'polities'  %}#{{an_example.name}}_{{an_example.mac_region}}">                                
                                     {% if an_example.name %}
                                     {{an_example.name}}
                                     {% endif %}
+                                </a>
                                     {% if an_example.mac_region %}
                                     <span class="fw-normal">
-                                        ({{an_example.mac_region}})
+                                        (<a href="{% url 'polities'  %}#{{an_example.mac_region}}">{{an_example.mac_region}}</a>)
                                     </span> 
-                                    {% endif %}</a>
+                                    {% endif %}
                             </span>
                         </span>
                     </b>
@@ -174,7 +175,7 @@ body {
                 {% endfor %}
                 <p class="card-text-spaced" style="font-size:16px; color: #782823;"> 
                     <span  class="left-span pt-0 px-3" style="font-size:16px; color: #782823;"> and 
-                        <a href="">  
+                        <a href="{% url 'polities'  %}">  
                            <u><b>{{sr_data.0|add:-8}}</b></u>  more...
                         </a>
                     </span>
@@ -1133,7 +1134,7 @@ body {
   
                               </span>
                               in
-                              <a href="{% url 'polity-detail-main'  an_example.polity.id %}#power_transition_var">  
+                              <a href="{% url 'polity-detail-main'  an_example.polity.id %}#crisis_case_var">  
                               {{an_example.polity.long_name}}:
                               </a>
                               <span class = "fw-bold text-danger">

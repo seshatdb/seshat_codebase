@@ -13,6 +13,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 from django.db.models import F, Count, CharField, ExpressionWrapper
+from ..general.mixins import PolityIdMixin
 
 
 from django.http import HttpResponseRedirect, response, JsonResponse, HttpResponseForbidden
@@ -79,7 +80,7 @@ def get_citations_dropdown(request):
     # return dropdown template as JSON response
     return JsonResponse({'data': citations_list})
 
-class Crisis_consequenceCreate(PermissionRequiredMixin, CreateView):
+class Crisis_consequenceCreate(PermissionRequiredMixin, PolityIdMixin, CreateView):
     model = Crisis_consequence
     form_class = Crisis_consequenceForm
     success_url = reverse_lazy("crisis_consequences_all")
@@ -287,7 +288,7 @@ def crisis_consequence_meta_download(request):
     return response
 ################################################
 
-class Power_transitionCreate(PermissionRequiredMixin, CreateView):
+class Power_transitionCreate(PermissionRequiredMixin, PolityIdMixin, CreateView):
     model = Power_transition
     form_class = Power_transitionForm
     success_url = reverse_lazy("power_transitions_all")
@@ -523,7 +524,7 @@ def power_transition_meta_download(request):
 
 ##################################
 
-class Human_sacrificeCreate(PermissionRequiredMixin, CreateView):
+class Human_sacrificeCreate(PermissionRequiredMixin, PolityIdMixin, CreateView):
     model = Human_sacrifice
     form_class = Human_sacrificeForm
     template_name = "crisisdb/human_sacrifice/human_sacrifice_form.html"

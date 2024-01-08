@@ -36,6 +36,7 @@ from django.apps import apps
 ######EMAIL_CONFIRMATION_BRANCH is the keyword that needs to be searched
 #from django.core.mail import send_mail
 
+from .mixins import PolityIdMixin
 
 
 from .models import Polity_research_assistant, Polity_utm_zone, Polity_original_name, Polity_alternative_name, Polity_peak_years, Polity_duration, Polity_degree_of_centralization, Polity_suprapolity_relations, Polity_capital, Polity_language, Polity_linguistic_family, Polity_language_genus, Polity_religion_genus, Polity_religion_family, Polity_religion, Polity_relationship_to_preceding_entity, Polity_preceding_entity, Polity_succeeding_entity, Polity_supracultural_entity, Polity_scale_of_supracultural_interaction, Polity_alternate_religion_genus, Polity_alternate_religion_family, Polity_alternate_religion, Polity_expert, Polity_editor, Polity_religious_tradition
@@ -176,7 +177,7 @@ def polity_research_assistant_meta_download(request):
 
         
 
-class Polity_utm_zoneCreate(PermissionRequiredMixin, CreateView):
+class Polity_utm_zoneCreate(PermissionRequiredMixin, PolityIdMixin, CreateView):
     model = Polity_utm_zone
     form_class = Polity_utm_zoneForm
     template_name = "general/polity_utm_zone/polity_utm_zone_form.html"
@@ -309,7 +310,7 @@ def polity_utm_zone_meta_download(request):
 
         
 
-class Polity_original_nameCreate(PermissionRequiredMixin, CreateView):
+class Polity_original_nameCreate(PermissionRequiredMixin, PolityIdMixin, CreateView):
     model = Polity_original_name
     form_class = Polity_original_nameForm
     template_name = "general/polity_original_name/polity_original_name_form.html"
@@ -442,7 +443,7 @@ def polity_original_name_meta_download(request):
 
         
 
-class Polity_alternative_nameCreate(PermissionRequiredMixin, CreateView):
+class Polity_alternative_nameCreate(PermissionRequiredMixin, PolityIdMixin, CreateView):
     model = Polity_alternative_name
     form_class = Polity_alternative_nameForm
     template_name = "general/polity_alternative_name/polity_alternative_name_form.html"
@@ -575,7 +576,7 @@ def polity_alternative_name_meta_download(request):
 
         
 
-class Polity_peak_yearsCreate(PermissionRequiredMixin, CreateView):
+class Polity_peak_yearsCreate(PermissionRequiredMixin, PolityIdMixin, CreateView):
     model = Polity_peak_years
     form_class = Polity_peak_yearsForm
     template_name = "general/polity_peak_years/polity_peak_years_form.html"
@@ -583,6 +584,24 @@ class Polity_peak_yearsCreate(PermissionRequiredMixin, CreateView):
 
     def get_absolute_url(self):
         return reverse('polity_peak_years-create')
+    
+    # def form_valid(self, form):
+    #     # Retrieve the pre-populated polity_id from the query parameters
+    #     polity_id = self.request.GET.get('polity_id_x')
+    #     print("xxxxxxxxxxxxxxxxxxxxxx:", polity_id)
+    #     # Use the polity_id to pre-populate the relevant field in your form
+    #     form.polity.id = polity_id
+
+    #     # Continue with the default form validation
+    #     return super().form_valid(form)
+    
+    def get_initial(self):
+        initial = super(Polity_peak_yearsCreate, self).get_initial()
+        polity_id_x = self.request.GET.get('polity_id_x')
+        initial['polity'] = polity_id_x
+
+        return initial
+    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         # get the explanattion:
@@ -708,7 +727,7 @@ def polity_peak_years_meta_download(request):
 
         
 
-class Polity_durationCreate(PermissionRequiredMixin, CreateView):
+class Polity_durationCreate(PermissionRequiredMixin, PolityIdMixin, CreateView):
     model = Polity_duration
     form_class = Polity_durationForm
     template_name = "general/polity_duration/polity_duration_form.html"
@@ -841,7 +860,7 @@ def polity_duration_meta_download(request):
 
         
 
-class Polity_degree_of_centralizationCreate(PermissionRequiredMixin, CreateView):
+class Polity_degree_of_centralizationCreate(PermissionRequiredMixin, PolityIdMixin, CreateView):
     model = Polity_degree_of_centralization
     form_class = Polity_degree_of_centralizationForm
     template_name = "general/polity_degree_of_centralization/polity_degree_of_centralization_form.html"
@@ -984,7 +1003,7 @@ def polity_degree_of_centralization_meta_download(request):
 
         
 
-class Polity_suprapolity_relationsCreate(PermissionRequiredMixin, CreateView):
+class Polity_suprapolity_relationsCreate(PermissionRequiredMixin, PolityIdMixin, CreateView):
     model = Polity_suprapolity_relations
     form_class = Polity_suprapolity_relationsForm
     template_name = "general/polity_suprapolity_relations/polity_suprapolity_relations_form.html"
@@ -1127,7 +1146,7 @@ def polity_suprapolity_relations_meta_download(request):
 
         
 
-class Polity_capitalCreate(PermissionRequiredMixin, CreateView):
+class Polity_capitalCreate(PermissionRequiredMixin, PolityIdMixin, CreateView):
     model = Polity_capital
     form_class = Polity_capitalForm
     template_name = "general/polity_capital/polity_capital_form.html"
@@ -1260,7 +1279,7 @@ def polity_capital_meta_download(request):
 
         
 
-class Polity_languageCreate(PermissionRequiredMixin, CreateView):
+class Polity_languageCreate(PermissionRequiredMixin, PolityIdMixin, CreateView):
     model = Polity_language
     form_class = Polity_languageForm
     template_name = "general/polity_language/polity_language_form.html"
@@ -1403,7 +1422,7 @@ def polity_language_meta_download(request):
 
         
 
-class Polity_linguistic_familyCreate(PermissionRequiredMixin, CreateView):
+class Polity_linguistic_familyCreate(PermissionRequiredMixin, PolityIdMixin, CreateView):
     model = Polity_linguistic_family
     form_class = Polity_linguistic_familyForm
     template_name = "general/polity_linguistic_family/polity_linguistic_family_form.html"
@@ -1546,7 +1565,7 @@ def polity_linguistic_family_meta_download(request):
 
         
 
-class Polity_language_genusCreate(PermissionRequiredMixin, CreateView):
+class Polity_language_genusCreate(PermissionRequiredMixin, PolityIdMixin,CreateView):
     model = Polity_language_genus
     form_class = Polity_language_genusForm
     template_name = "general/polity_language_genus/polity_language_genus_form.html"
@@ -1679,7 +1698,7 @@ def polity_language_genus_meta_download(request):
 
         
 
-class Polity_religion_genusCreate(PermissionRequiredMixin, CreateView):
+class Polity_religion_genusCreate(PermissionRequiredMixin, PolityIdMixin, CreateView):
     model = Polity_religion_genus
     form_class = Polity_religion_genusForm
     template_name = "general/polity_religion_genus/polity_religion_genus_form.html"
@@ -1822,7 +1841,7 @@ def polity_religion_genus_meta_download(request):
 
         
 
-class Polity_religion_familyCreate(PermissionRequiredMixin, CreateView):
+class Polity_religion_familyCreate(PermissionRequiredMixin, PolityIdMixin, CreateView):
     model = Polity_religion_family
     form_class = Polity_religion_familyForm
     template_name = "general/polity_religion_family/polity_religion_family_form.html"
@@ -1832,6 +1851,13 @@ class Polity_religion_familyCreate(PermissionRequiredMixin, CreateView):
         form = super().get_form(form_class)
         form.fields['religion_family'].choices = sorted(form.fields['religion_family'].choices, key=lambda x: x[1].lower())
         return form
+    
+    def get_initial(self):
+        initial = super(Polity_religion_familyCreate, self).get_initial()
+        polity_id_x = self.request.GET.get('polity_id_x')
+        initial['polity'] = polity_id_x
+
+        return initial
 
     def get_absolute_url(self):
         return reverse('polity_religion_family-create')
@@ -1965,7 +1991,7 @@ def polity_religion_family_meta_download(request):
 
         
 
-class Polity_religionCreate(PermissionRequiredMixin, CreateView):
+class Polity_religionCreate(PermissionRequiredMixin, PolityIdMixin, CreateView):
     model = Polity_religion
     form_class = Polity_religionForm
     template_name = "general/polity_religion/polity_religion_form.html"
@@ -2108,7 +2134,7 @@ def polity_religion_meta_download(request):
 
         
 
-class Polity_relationship_to_preceding_entityCreate(PermissionRequiredMixin, CreateView):
+class Polity_relationship_to_preceding_entityCreate(PermissionRequiredMixin, PolityIdMixin, CreateView):
     model = Polity_relationship_to_preceding_entity
     form_class = Polity_relationship_to_preceding_entityForm
     template_name = "general/polity_relationship_to_preceding_entity/polity_relationship_to_preceding_entity_form.html"
@@ -2251,7 +2277,7 @@ def polity_relationship_to_preceding_entity_meta_download(request):
 
         
 
-class Polity_preceding_entityCreate(PermissionRequiredMixin, CreateView):
+class Polity_preceding_entityCreate(PermissionRequiredMixin, PolityIdMixin, CreateView):
     model = Polity_preceding_entity
     form_class = Polity_preceding_entityForm
     template_name = "general/polity_preceding_entity/polity_preceding_entity_form.html"
@@ -2384,7 +2410,7 @@ def polity_preceding_entity_meta_download(request):
 
         
 
-class Polity_succeeding_entityCreate(PermissionRequiredMixin, CreateView):
+class Polity_succeeding_entityCreate(PermissionRequiredMixin, PolityIdMixin, CreateView):
     model = Polity_succeeding_entity
     form_class = Polity_succeeding_entityForm
     template_name = "general/polity_succeeding_entity/polity_succeeding_entity_form.html"
@@ -2517,7 +2543,7 @@ def polity_succeeding_entity_meta_download(request):
 
         
 
-class Polity_supracultural_entityCreate(PermissionRequiredMixin, CreateView):
+class Polity_supracultural_entityCreate(PermissionRequiredMixin, PolityIdMixin, CreateView):
     model = Polity_supracultural_entity
     form_class = Polity_supracultural_entityForm
     template_name = "general/polity_supracultural_entity/polity_supracultural_entity_form.html"
@@ -2650,7 +2676,7 @@ def polity_supracultural_entity_meta_download(request):
 
         
 
-class Polity_scale_of_supracultural_interactionCreate(PermissionRequiredMixin, CreateView):
+class Polity_scale_of_supracultural_interactionCreate(PermissionRequiredMixin, PolityIdMixin, CreateView):
     model = Polity_scale_of_supracultural_interaction
     form_class = Polity_scale_of_supracultural_interactionForm
     template_name = "general/polity_scale_of_supracultural_interaction/polity_scale_of_supracultural_interaction_form.html"
@@ -2783,7 +2809,7 @@ def polity_scale_of_supracultural_interaction_meta_download(request):
 
         
 
-class Polity_alternate_religion_genusCreate(PermissionRequiredMixin, CreateView):
+class Polity_alternate_religion_genusCreate(PermissionRequiredMixin, PolityIdMixin, CreateView):
     model = Polity_alternate_religion_genus
     form_class = Polity_alternate_religion_genusForm
     template_name = "general/polity_alternate_religion_genus/polity_alternate_religion_genus_form.html"
@@ -2926,7 +2952,7 @@ def polity_alternate_religion_genus_meta_download(request):
 
         
 
-class Polity_alternate_religion_familyCreate(PermissionRequiredMixin, CreateView):
+class Polity_alternate_religion_familyCreate(PermissionRequiredMixin, PolityIdMixin, CreateView):
     model = Polity_alternate_religion_family
     form_class = Polity_alternate_religion_familyForm
     template_name = "general/polity_alternate_religion_family/polity_alternate_religion_family_form.html"
@@ -3069,7 +3095,7 @@ def polity_alternate_religion_family_meta_download(request):
 
         
 
-class Polity_alternate_religionCreate(PermissionRequiredMixin, CreateView):
+class Polity_alternate_religionCreate(PermissionRequiredMixin, PolityIdMixin, CreateView):
     model = Polity_alternate_religion
     form_class = Polity_alternate_religionForm
     template_name = "general/polity_alternate_religion/polity_alternate_religion_form.html"
@@ -3478,7 +3504,7 @@ def polity_editor_meta_download(request):
 
         
 
-class Polity_religious_traditionCreate(PermissionRequiredMixin, CreateView):
+class Polity_religious_traditionCreate(PermissionRequiredMixin, PolityIdMixin, CreateView):
     model = Polity_religious_tradition
     form_class = Polity_religious_traditionForm
     template_name = "general/polity_religious_tradition/polity_religious_tradition_form.html"
@@ -3613,75 +3639,75 @@ def polity_religious_tradition_meta_download(request):
 
 
 
-def wfvars(request):
-    app_name = 'wf'  # Replace with your app name
-    models_1 = apps.get_app_config(app_name).get_models()
+# def wfvars(request):
+#     app_name = 'wf'  # Replace with your app name
+#     models_1 = apps.get_app_config(app_name).get_models()
 
-    unique_politys = set()
-    number_of_all_rows = 0
-    number_of_variables = 0
+#     unique_politys = set()
+#     number_of_all_rows = 0
+#     number_of_variables = 0
 
-    all_vars_grouped = {}
+#     all_vars_grouped = {}
 
-    all_sect_download_links = {}
+#     all_sect_download_links = {}
 
-    for model in models_1:
-        model_name = model.__name__
-        if model_name == "Ra":
-            continue
-        s_value = str(model().subsection())
-        ss_value = str(model().sub_subsection())
+#     for model in models_1:
+#         model_name = model.__name__
+#         if model_name == "Ra":
+#             continue
+#         s_value = str(model().subsection())
+#         ss_value = str(model().sub_subsection())
 
-        better_name = "download_csv_" + s_value.replace("-", "_").replace(" ", "_").replace(":", "").lower()
-        all_sect_download_links[s_value] = better_name
-        if s_value not in all_vars_grouped:
-            all_vars_grouped[s_value] = {}
-            if ss_value:
-                all_vars_grouped[s_value][ss_value] = []
-            else:
-                all_vars_grouped[s_value]["None"] = []
-        else:
-            if ss_value:
-                all_vars_grouped[s_value][ss_value] = []
-            else:
-                all_vars_grouped[s_value]["None"] = []
+#         better_name = "download_csv_" + s_value.replace("-", "_").replace(" ", "_").replace(":", "").lower()
+#         all_sect_download_links[s_value] = better_name
+#         if s_value not in all_vars_grouped:
+#             all_vars_grouped[s_value] = {}
+#             if ss_value:
+#                 all_vars_grouped[s_value][ss_value] = []
+#             else:
+#                 all_vars_grouped[s_value]["None"] = []
+#         else:
+#             if ss_value:
+#                 all_vars_grouped[s_value][ss_value] = []
+#             else:
+#                 all_vars_grouped[s_value]["None"] = []
 
-    models = apps.get_app_config(app_name).get_models()
+#     models = apps.get_app_config(app_name).get_models()
 
-    for model in models:
-        model_name = model.__name__
-        subsection_value = str(model().subsection())
-        sub_subsection_value = str(model().sub_subsection())
-        count = model.objects.count()
-        number_of_all_rows += count
-        model_title = model_name.replace("_", " ").title()
-        model_create = model_name.lower() + "-create"
-        model_download = model_name.lower() + "-download"
-        model_metadownload = model_name.lower() + "-metadownload"
-        model_all = model_name.lower() + "s_all"
-        model_s = model_name.lower() + "s"
+#     for model in models:
+#         model_name = model.__name__
+#         subsection_value = str(model().subsection())
+#         sub_subsection_value = str(model().sub_subsection())
+#         count = model.objects.count()
+#         number_of_all_rows += count
+#         model_title = model_name.replace("_", " ").title()
+#         model_create = model_name.lower() + "-create"
+#         model_download = model_name.lower() + "-download"
+#         model_metadownload = model_name.lower() + "-metadownload"
+#         model_all = model_name.lower() + "s_all"
+#         model_s = model_name.lower() + "s"
 
-        queryset = model.objects.all()
-        politys = queryset.values_list('polity', flat=True).distinct()
-        unique_politys.update(politys)
-        number_of_variables += 1
+#         queryset = model.objects.all()
+#         politys = queryset.values_list('polity', flat=True).distinct()
+#         unique_politys.update(politys)
+#         number_of_variables += 1
 
-        to_be_appended = [model_title, model_s, model_create, model_download, model_metadownload, model_all, count]
+#         to_be_appended = [model_title, model_s, model_create, model_download, model_metadownload, model_all, count]
 
-        if sub_subsection_value:
-            all_vars_grouped[subsection_value][sub_subsection_value].append(to_be_appended)
-        else:
-            all_vars_grouped[subsection_value]["None"].append(to_be_appended)
+#         if sub_subsection_value:
+#             all_vars_grouped[subsection_value][sub_subsection_value].append(to_be_appended)
+#         else:
+#             all_vars_grouped[subsection_value]["None"].append(to_be_appended)
 
 
-    context = {}
-    context["all_vars_grouped"] = all_vars_grouped
-    context["all_sect_download_links"] = all_sect_download_links
-    context["all_polities"] = len(unique_politys)
-    context["number_of_all_rows"] = number_of_all_rows
+#     context = {}
+#     context["all_vars_grouped"] = all_vars_grouped
+#     context["all_sect_download_links"] = all_sect_download_links
+#     context["all_polities"] = len(unique_politys)
+#     context["number_of_all_rows"] = number_of_all_rows
 
-    context["number_of_variables"] = number_of_variables
-    return render(request, 'wf/wfvars.html', context=context)
+#     context["number_of_variables"] = number_of_variables
+#     return render(request, 'wf/wfvars.html', context=context)
 
         
 
@@ -3783,16 +3809,18 @@ def download_csv_all_general(request):
     # Iterate over each model
     for model in app_models:
         # Get all rows of data from the model
+        if model in [Polity_research_assistant, Polity_editor, Polity_expert]:
+            continue
         items = model.objects.all()
 
 
         for obj in items:
             if obj.clean_name_spaced() == 'Polity Duration':
-                writer.writerow(['General Variables',None , obj.polity.long_name, obj.polity.new_name, obj.polity.name, obj.clean_name()[7:],
+                writer.writerow(['General Variables',obj.subsection() , obj.polity.long_name, obj.polity.new_name, obj.polity.name, obj.clean_name()[7:],
                          obj.polity_year_from, obj.polity_year_to, obj.year_from, obj.year_to, obj.get_tag_display(), obj.is_disputed, obj.is_uncertain,
                          obj.expert_reviewed,])
             elif obj.clean_name_spaced() == 'Polity Peak Years':
-                writer.writerow(['General Variables',None , obj.polity.long_name, obj.polity.new_name, obj.polity.name, obj.clean_name()[7:],
+                writer.writerow(['General Variables',obj.subsection() , obj.polity.long_name, obj.polity.new_name, obj.polity.name, obj.clean_name()[7:],
                          obj.peak_year_from, obj.peak_year_to, obj.year_from, obj.year_to, obj.get_tag_display(), obj.is_disputed, obj.is_uncertain,
                          obj.expert_reviewed,])
             else:
@@ -3801,7 +3829,7 @@ def download_csv_all_general(request):
                 elif "O_VALUE_ON_WIKI" in str(obj.show_value()):
                     continue
                 else:
-                    writer.writerow(['General Variables',None , obj.polity.long_name, obj.polity.new_name, obj.polity.name, obj.clean_name()[7:],
+                    writer.writerow(['General Variables',obj.subsection() , obj.polity.long_name, obj.polity.new_name, obj.polity.name, obj.clean_name()[7:],
                             obj.show_value(), None,  obj.year_from, obj.year_to, obj.get_tag_display(), obj.is_disputed, obj.is_uncertain,
                             obj.expert_reviewed,])
 

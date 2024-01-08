@@ -95,6 +95,9 @@ class Polity_peak_yearsForm(forms.ModelForm):
         widgets = dict(commonwidgets)
         widgets['peak_year_from'] = forms.NumberInput(attrs={'class': 'form-control  mb-3', })
         widgets['peak_year_to'] = forms.NumberInput(attrs={'class': 'form-control  mb-3', })
+        widgets['peak_year_to'] = forms.NumberInput(attrs={'class': 'form-control  mb-3', })
+
+         
         
 
 class Polity_durationForm(forms.ModelForm):

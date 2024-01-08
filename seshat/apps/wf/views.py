@@ -35,6 +35,9 @@ from requests.structures import CaseInsensitiveDict
 
 from django.apps import apps
 
+from ..general.mixins import PolityIdMixin
+
+
 from .models import Long_wall, Copper, Bronze, Iron, Steel, Javelin, Atlatl, Sling, Self_bow, Composite_bow, Crossbow, Tension_siege_engine, Sling_siege_engine, Gunpowder_siege_artillery, Handheld_firearm, War_club, Battle_axe, Dagger, Sword, Spear, Polearm, Dog, Donkey, Horse, Camel, Elephant, Wood_bark_etc, Leather_cloth, Shield, Helmet, Breastplate, Limb_protection, Scaled_armor, Laminar_armor, Plate_armor, Small_vessels_canoes_etc, Merchant_ships_pressed_into_service, Specialized_military_vessel, Settlements_in_a_defensive_position, Wooden_palisade, Earth_rampart, Ditch, Moat, Stone_walls_non_mortared, Stone_walls_mortared, Fortified_camp, Complex_fortification, Modern_fortification, Chainmail
 
 
@@ -44,7 +47,7 @@ from .forms import Long_wallForm, CopperForm, BronzeForm, IronForm, SteelForm, J
 
 ##########################
 
-class Long_wallCreate(PermissionRequiredMixin, CreateView):
+class Long_wallCreate(PermissionRequiredMixin, PolityIdMixin, CreateView):
     model = Long_wall
     form_class = Long_wallForm
     template_name = "wf/long_wall/long_wall_form.html"
@@ -212,7 +215,7 @@ def long_wall_meta_download(request):
 
 
 
-class CopperCreate(PermissionRequiredMixin, CreateView):
+class CopperCreate(PermissionRequiredMixin, PolityIdMixin, CreateView):
     model = Copper
     form_class = CopperForm
     template_name = "wf/copper/copper_form.html"
@@ -360,7 +363,7 @@ def copper_meta_download(request):
 
         
 
-class BronzeCreate(PermissionRequiredMixin, CreateView):
+class BronzeCreate(PermissionRequiredMixin, PolityIdMixin, CreateView):
     model = Bronze
     form_class = BronzeForm
     template_name = "wf/bronze/bronze_form.html"
@@ -508,7 +511,7 @@ def bronze_meta_download(request):
 
         
 
-class IronCreate(PermissionRequiredMixin, CreateView):
+class IronCreate(PermissionRequiredMixin, PolityIdMixin, CreateView):
     model = Iron
     form_class = IronForm
     template_name = "wf/iron/iron_form.html"
@@ -656,7 +659,7 @@ def iron_meta_download(request):
 
         
 
-class SteelCreate(PermissionRequiredMixin, CreateView):
+class SteelCreate(PermissionRequiredMixin, PolityIdMixin, CreateView):
     model = Steel
     form_class = SteelForm
     template_name = "wf/steel/steel_form.html"
@@ -804,7 +807,7 @@ def steel_meta_download(request):
 
         
 
-class JavelinCreate(PermissionRequiredMixin, CreateView):
+class JavelinCreate(PermissionRequiredMixin, PolityIdMixin, CreateView):
     model = Javelin
     form_class = JavelinForm
     template_name = "wf/javelin/javelin_form.html"
@@ -952,7 +955,7 @@ def javelin_meta_download(request):
 
         
 
-class AtlatlCreate(PermissionRequiredMixin, CreateView):
+class AtlatlCreate(PermissionRequiredMixin, PolityIdMixin, CreateView):
     model = Atlatl
     form_class = AtlatlForm
     template_name = "wf/atlatl/atlatl_form.html"
@@ -1100,7 +1103,7 @@ def atlatl_meta_download(request):
 
         
 
-class SlingCreate(PermissionRequiredMixin, CreateView):
+class SlingCreate(PermissionRequiredMixin, PolityIdMixin, CreateView):
     model = Sling
     form_class = SlingForm
     template_name = "wf/sling/sling_form.html"
@@ -1248,7 +1251,7 @@ def sling_meta_download(request):
 
         
 
-class Self_bowCreate(PermissionRequiredMixin, CreateView):
+class Self_bowCreate(PermissionRequiredMixin, PolityIdMixin, CreateView):
     model = Self_bow
     form_class = Self_bowForm
     template_name = "wf/self_bow/self_bow_form.html"
@@ -1396,7 +1399,7 @@ def self_bow_meta_download(request):
 
         
 
-class Composite_bowCreate(PermissionRequiredMixin, CreateView):
+class Composite_bowCreate(PermissionRequiredMixin, PolityIdMixin, CreateView):
     model = Composite_bow
     form_class = Composite_bowForm
     template_name = "wf/composite_bow/composite_bow_form.html"
@@ -1544,7 +1547,7 @@ def composite_bow_meta_download(request):
 
         
 
-class CrossbowCreate(PermissionRequiredMixin, CreateView):
+class CrossbowCreate(PermissionRequiredMixin, PolityIdMixin, CreateView):
     model = Crossbow
     form_class = CrossbowForm
     template_name = "wf/crossbow/crossbow_form.html"
@@ -1692,7 +1695,7 @@ def crossbow_meta_download(request):
 
         
 
-class Tension_siege_engineCreate(PermissionRequiredMixin, CreateView):
+class Tension_siege_engineCreate(PermissionRequiredMixin, PolityIdMixin, CreateView):
     model = Tension_siege_engine
     form_class = Tension_siege_engineForm
     template_name = "wf/tension_siege_engine/tension_siege_engine_form.html"
@@ -1840,7 +1843,7 @@ def tension_siege_engine_meta_download(request):
 
         
 
-class Sling_siege_engineCreate(PermissionRequiredMixin, CreateView):
+class Sling_siege_engineCreate(PermissionRequiredMixin, PolityIdMixin, CreateView):
     model = Sling_siege_engine
     form_class = Sling_siege_engineForm
     template_name = "wf/sling_siege_engine/sling_siege_engine_form.html"
@@ -1988,7 +1991,7 @@ def sling_siege_engine_meta_download(request):
 
         
 
-class Gunpowder_siege_artilleryCreate(PermissionRequiredMixin, CreateView):
+class Gunpowder_siege_artilleryCreate(PermissionRequiredMixin, PolityIdMixin, CreateView):
     model = Gunpowder_siege_artillery
     form_class = Gunpowder_siege_artilleryForm
     template_name = "wf/gunpowder_siege_artillery/gunpowder_siege_artillery_form.html"
@@ -2136,7 +2139,7 @@ def gunpowder_siege_artillery_meta_download(request):
 
         
 
-class Handheld_firearmCreate(PermissionRequiredMixin, CreateView):
+class Handheld_firearmCreate(PermissionRequiredMixin, PolityIdMixin, CreateView):
     model = Handheld_firearm
     form_class = Handheld_firearmForm
     template_name = "wf/handheld_firearm/handheld_firearm_form.html"
@@ -2284,7 +2287,7 @@ def handheld_firearm_meta_download(request):
 
         
 
-class War_clubCreate(PermissionRequiredMixin, CreateView):
+class War_clubCreate(PermissionRequiredMixin, PolityIdMixin, CreateView):
     model = War_club
     form_class = War_clubForm
     template_name = "wf/war_club/war_club_form.html"
@@ -2432,7 +2435,7 @@ def war_club_meta_download(request):
 
         
 
-class Battle_axeCreate(PermissionRequiredMixin, CreateView):
+class Battle_axeCreate(PermissionRequiredMixin, PolityIdMixin, CreateView):
     model = Battle_axe
     form_class = Battle_axeForm
     template_name = "wf/battle_axe/battle_axe_form.html"
@@ -2580,7 +2583,7 @@ def battle_axe_meta_download(request):
 
         
 
-class DaggerCreate(PermissionRequiredMixin, CreateView):
+class DaggerCreate(PermissionRequiredMixin, PolityIdMixin, CreateView):
     model = Dagger
     form_class = DaggerForm
     template_name = "wf/dagger/dagger_form.html"
@@ -2728,7 +2731,7 @@ def dagger_meta_download(request):
 
         
 
-class SwordCreate(PermissionRequiredMixin, CreateView):
+class SwordCreate(PermissionRequiredMixin, PolityIdMixin, CreateView):
     model = Sword
     form_class = SwordForm
     template_name = "wf/sword/sword_form.html"
@@ -2876,7 +2879,7 @@ def sword_meta_download(request):
 
         
 
-class SpearCreate(PermissionRequiredMixin, CreateView):
+class SpearCreate(PermissionRequiredMixin, PolityIdMixin, CreateView):
     model = Spear
     form_class = SpearForm
     template_name = "wf/spear/spear_form.html"
@@ -3024,7 +3027,7 @@ def spear_meta_download(request):
 
         
 
-class PolearmCreate(PermissionRequiredMixin, CreateView):
+class PolearmCreate(PermissionRequiredMixin, PolityIdMixin, CreateView):
     model = Polearm
     form_class = PolearmForm
     template_name = "wf/polearm/polearm_form.html"
@@ -3172,7 +3175,7 @@ def polearm_meta_download(request):
 
         
 
-class DogCreate(PermissionRequiredMixin, CreateView):
+class DogCreate(PermissionRequiredMixin, PolityIdMixin, CreateView):
     model = Dog
     form_class = DogForm
     template_name = "wf/dog/dog_form.html"
@@ -3320,7 +3323,7 @@ def dog_meta_download(request):
 
         
 
-class DonkeyCreate(PermissionRequiredMixin, CreateView):
+class DonkeyCreate(PermissionRequiredMixin, PolityIdMixin, CreateView):
     model = Donkey
     form_class = DonkeyForm
     template_name = "wf/donkey/donkey_form.html"
@@ -3468,7 +3471,7 @@ def donkey_meta_download(request):
 
         
 
-class HorseCreate(PermissionRequiredMixin, CreateView):
+class HorseCreate(PermissionRequiredMixin, PolityIdMixin, CreateView):
     model = Horse
     form_class = HorseForm
     template_name = "wf/horse/horse_form.html"
@@ -3616,7 +3619,7 @@ def horse_meta_download(request):
 
         
 
-class CamelCreate(PermissionRequiredMixin, CreateView):
+class CamelCreate(PermissionRequiredMixin, PolityIdMixin, CreateView):
     model = Camel
     form_class = CamelForm
     template_name = "wf/camel/camel_form.html"
@@ -3764,7 +3767,7 @@ def camel_meta_download(request):
 
         
 
-class ElephantCreate(PermissionRequiredMixin, CreateView):
+class ElephantCreate(PermissionRequiredMixin, PolityIdMixin, CreateView):
     model = Elephant
     form_class = ElephantForm
     template_name = "wf/elephant/elephant_form.html"
@@ -3912,7 +3915,7 @@ def elephant_meta_download(request):
 
         
 
-class Wood_bark_etcCreate(PermissionRequiredMixin, CreateView):
+class Wood_bark_etcCreate(PermissionRequiredMixin, PolityIdMixin, CreateView):
     model = Wood_bark_etc
     form_class = Wood_bark_etcForm
     template_name = "wf/wood_bark_etc/wood_bark_etc_form.html"
@@ -4060,7 +4063,7 @@ def wood_bark_etc_meta_download(request):
 
         
 
-class Leather_clothCreate(PermissionRequiredMixin, CreateView):
+class Leather_clothCreate(PermissionRequiredMixin, PolityIdMixin, CreateView):
     model = Leather_cloth
     form_class = Leather_clothForm
     template_name = "wf/leather_cloth/leather_cloth_form.html"
@@ -4208,7 +4211,7 @@ def leather_cloth_meta_download(request):
 
         
 
-class ShieldCreate(PermissionRequiredMixin, CreateView):
+class ShieldCreate(PermissionRequiredMixin, PolityIdMixin, CreateView):
     model = Shield
     form_class = ShieldForm
     template_name = "wf/shield/shield_form.html"
@@ -4356,7 +4359,7 @@ def shield_meta_download(request):
 
         
 
-class HelmetCreate(PermissionRequiredMixin, CreateView):
+class HelmetCreate(PermissionRequiredMixin, PolityIdMixin, CreateView):
     model = Helmet
     form_class = HelmetForm
     template_name = "wf/helmet/helmet_form.html"
@@ -4504,7 +4507,7 @@ def helmet_meta_download(request):
 
         
 
-class BreastplateCreate(PermissionRequiredMixin, CreateView):
+class BreastplateCreate(PermissionRequiredMixin, PolityIdMixin, CreateView):
     model = Breastplate
     form_class = BreastplateForm
     template_name = "wf/breastplate/breastplate_form.html"
@@ -4652,7 +4655,7 @@ def breastplate_meta_download(request):
 
         
 
-class Limb_protectionCreate(PermissionRequiredMixin, CreateView):
+class Limb_protectionCreate(PermissionRequiredMixin, PolityIdMixin, CreateView):
     model = Limb_protection
     form_class = Limb_protectionForm
     template_name = "wf/limb_protection/limb_protection_form.html"
@@ -4800,7 +4803,7 @@ def limb_protection_meta_download(request):
 
         
 
-class Scaled_armorCreate(PermissionRequiredMixin, CreateView):
+class Scaled_armorCreate(PermissionRequiredMixin, PolityIdMixin, CreateView):
     model = Scaled_armor
     form_class = Scaled_armorForm
     template_name = "wf/scaled_armor/scaled_armor_form.html"
@@ -4948,7 +4951,7 @@ def scaled_armor_meta_download(request):
 
         
 
-class Laminar_armorCreate(PermissionRequiredMixin, CreateView):
+class Laminar_armorCreate(PermissionRequiredMixin, PolityIdMixin, CreateView):
     model = Laminar_armor
     form_class = Laminar_armorForm
     template_name = "wf/laminar_armor/laminar_armor_form.html"
@@ -5096,7 +5099,7 @@ def laminar_armor_meta_download(request):
 
         
 
-class Plate_armorCreate(PermissionRequiredMixin, CreateView):
+class Plate_armorCreate(PermissionRequiredMixin, PolityIdMixin, CreateView):
     model = Plate_armor
     form_class = Plate_armorForm
     template_name = "wf/plate_armor/plate_armor_form.html"
@@ -5244,7 +5247,7 @@ def plate_armor_meta_download(request):
 
         
 
-class Small_vessels_canoes_etcCreate(PermissionRequiredMixin, CreateView):
+class Small_vessels_canoes_etcCreate(PermissionRequiredMixin, PolityIdMixin, CreateView):
     model = Small_vessels_canoes_etc
     form_class = Small_vessels_canoes_etcForm
     template_name = "wf/small_vessels_canoes_etc/small_vessels_canoes_etc_form.html"
@@ -5392,7 +5395,7 @@ def small_vessels_canoes_etc_meta_download(request):
 
         
 
-class Merchant_ships_pressed_into_serviceCreate(PermissionRequiredMixin, CreateView):
+class Merchant_ships_pressed_into_serviceCreate(PermissionRequiredMixin, PolityIdMixin, CreateView):
     model = Merchant_ships_pressed_into_service
     form_class = Merchant_ships_pressed_into_serviceForm
     template_name = "wf/merchant_ships_pressed_into_service/merchant_ships_pressed_into_service_form.html"
@@ -5540,7 +5543,7 @@ def merchant_ships_pressed_into_service_meta_download(request):
 
         
 
-class Specialized_military_vesselCreate(PermissionRequiredMixin, CreateView):
+class Specialized_military_vesselCreate(PermissionRequiredMixin, PolityIdMixin, CreateView):
     model = Specialized_military_vessel
     form_class = Specialized_military_vesselForm
     template_name = "wf/specialized_military_vessel/specialized_military_vessel_form.html"
@@ -5688,7 +5691,7 @@ def specialized_military_vessel_meta_download(request):
 
         
 
-class Settlements_in_a_defensive_positionCreate(PermissionRequiredMixin, CreateView):
+class Settlements_in_a_defensive_positionCreate(PermissionRequiredMixin, PolityIdMixin, CreateView):
     model = Settlements_in_a_defensive_position
     form_class = Settlements_in_a_defensive_positionForm
     template_name = "wf/settlements_in_a_defensive_position/settlements_in_a_defensive_position_form.html"
@@ -5836,7 +5839,7 @@ def settlements_in_a_defensive_position_meta_download(request):
 
         
 
-class Wooden_palisadeCreate(PermissionRequiredMixin, CreateView):
+class Wooden_palisadeCreate(PermissionRequiredMixin, PolityIdMixin, CreateView):
     model = Wooden_palisade
     form_class = Wooden_palisadeForm
     template_name = "wf/wooden_palisade/wooden_palisade_form.html"
@@ -5984,7 +5987,7 @@ def wooden_palisade_meta_download(request):
 
         
 
-class Earth_rampartCreate(PermissionRequiredMixin, CreateView):
+class Earth_rampartCreate(PermissionRequiredMixin, PolityIdMixin, CreateView):
     model = Earth_rampart
     form_class = Earth_rampartForm
     template_name = "wf/earth_rampart/earth_rampart_form.html"
@@ -6132,7 +6135,7 @@ def earth_rampart_meta_download(request):
 
         
 
-class DitchCreate(PermissionRequiredMixin, CreateView):
+class DitchCreate(PermissionRequiredMixin, PolityIdMixin, CreateView):
     model = Ditch
     form_class = DitchForm
     template_name = "wf/ditch/ditch_form.html"
@@ -6280,7 +6283,7 @@ def ditch_meta_download(request):
 
         
 
-class MoatCreate(PermissionRequiredMixin, CreateView):
+class MoatCreate(PermissionRequiredMixin, PolityIdMixin, CreateView):
     model = Moat
     form_class = MoatForm
     template_name = "wf/moat/moat_form.html"
@@ -6428,7 +6431,7 @@ def moat_meta_download(request):
 
         
 
-class Stone_walls_non_mortaredCreate(PermissionRequiredMixin, CreateView):
+class Stone_walls_non_mortaredCreate(PermissionRequiredMixin, PolityIdMixin, CreateView):
     model = Stone_walls_non_mortared
     form_class = Stone_walls_non_mortaredForm
     template_name = "wf/stone_walls_non_mortared/stone_walls_non_mortared_form.html"
@@ -6576,7 +6579,7 @@ def stone_walls_non_mortared_meta_download(request):
 
         
 
-class Stone_walls_mortaredCreate(PermissionRequiredMixin, CreateView):
+class Stone_walls_mortaredCreate(PermissionRequiredMixin, PolityIdMixin, CreateView):
     model = Stone_walls_mortared
     form_class = Stone_walls_mortaredForm
     template_name = "wf/stone_walls_mortared/stone_walls_mortared_form.html"
@@ -6724,7 +6727,7 @@ def stone_walls_mortared_meta_download(request):
 
         
 
-class Fortified_campCreate(PermissionRequiredMixin, CreateView):
+class Fortified_campCreate(PermissionRequiredMixin, PolityIdMixin, CreateView):
     model = Fortified_camp
     form_class = Fortified_campForm
     template_name = "wf/fortified_camp/fortified_camp_form.html"
@@ -6872,7 +6875,7 @@ def fortified_camp_meta_download(request):
 
         
 
-class Complex_fortificationCreate(PermissionRequiredMixin, CreateView):
+class Complex_fortificationCreate(PermissionRequiredMixin, PolityIdMixin, CreateView):
     model = Complex_fortification
     form_class = Complex_fortificationForm
     template_name = "wf/complex_fortification/complex_fortification_form.html"
@@ -7020,7 +7023,7 @@ def complex_fortification_meta_download(request):
 
         
 
-class Modern_fortificationCreate(PermissionRequiredMixin, CreateView):
+class Modern_fortificationCreate(PermissionRequiredMixin, PolityIdMixin, CreateView):
     model = Modern_fortification
     form_class = Modern_fortificationForm
     template_name = "wf/modern_fortification/modern_fortification_form.html"
@@ -7168,7 +7171,7 @@ def modern_fortification_meta_download(request):
 
         
 
-class ChainmailCreate(PermissionRequiredMixin, CreateView):
+class ChainmailCreate(PermissionRequiredMixin, PolityIdMixin, CreateView):
     model = Chainmail
     form_class = ChainmailForm
     template_name = "wf/chainmail/chainmail_form.html"

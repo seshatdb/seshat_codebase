@@ -257,7 +257,7 @@ def get_all_general_data_for_a_polity(polity_id):
         model_name = model.__name__
         #print(f"--------xxxxxxxxxxxxx-----{model_name}, ")
 
-        if model_name in ["Ra", "Polity_editor", "Polity_research_assistant","Polity_expert"]:
+        if model_name in ["Ra", "Polity_editor", "Polity_research_assistant","Polity_expert", "XYZ"]:
             continue
         s_value = str(model().subsection())
         ss_value = str(model().sub_subsection())
@@ -293,6 +293,13 @@ def get_all_general_data_for_a_polity(polity_id):
                     all_vars_grouped_g[my_s]["None"][m.__name__] = my_data
                 else:
                     print(f"-------------{my_s},")
+            else:
+                my_s = m().subsection()
+
+                if my_s:
+                    all_vars_grouped_g[my_s]["None"][m.__name__] = None
+                else:
+                    print(f"--------xxx-----{my_s},")
                 #if "ra" not in m.__name__.lower() or "paper" not in m.__name__.lower():
                 #    print(f"------{m.subsection()}-------")
     #print(all_vars_grouped_g)
@@ -343,6 +350,17 @@ def get_all_sc_data_for_a_polity(polity_id):
                     all_vars_grouped[my_s]["None"][m.__name__] = my_data
                 else:
                     print(f"-------------{my_s}, {my_ss}")
+
+            else:
+                my_s = m().subsection()
+                my_ss = m().sub_subsection()
+
+                if my_s and my_ss:
+                    all_vars_grouped[my_s][my_ss][m.__name__] = my_data
+                elif my_s:
+                    all_vars_grouped[my_s]["None"][m.__name__] = my_data
+                else:
+                    print(f"--------xxx-----{my_s},")
                 #if "ra" not in m.__name__.lower() or "paper" not in m.__name__.lower():
                 #    print(f"------{m.subsection()}-------")
     #print(all_vars_grouped)
@@ -403,6 +421,13 @@ def get_all_wf_data_for_a_polity(polity_id):
                     all_vars_grouped_wf[my_s]["None"][m.__name__] = my_data
                 else:
                     print(f"-------------{my_s},")
+            else:
+                my_s = m().subsection()
+
+                if my_s:
+                    all_vars_grouped_wf[my_s]["None"][m.__name__] = None
+                else:
+                    print(f"--------xxx-----{my_s},")
                 #if "ra" not in m.__name__.lower() or "paper" not in m.__name__.lower():
                 #    print(f"------{m.subsection()}-------")
     #print(all_vars_grouped_wf)
@@ -448,6 +473,13 @@ def get_all_rt_data_for_a_polity(polity_id):
                     all_vars_grouped_rt[my_s]["None"][mm.__name__] = my_data
                 else:
                     print(f"Invalid subsection for model: {mm.__name__}")
+            else:
+                my_s = mm().subsection()
+
+                if my_s:
+                    all_vars_grouped_rt[my_s]["None"][mm.__name__] = None
+                else:
+                    print(f"--------xxx-----{my_s},")
 
     #print("Final grouped data keys:", all_vars_grouped_rt.keys())
     return all_vars_grouped_rt, has_any_data

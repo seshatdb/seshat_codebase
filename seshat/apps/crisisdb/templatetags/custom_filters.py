@@ -25,6 +25,18 @@ def replace_underscore_and_capitalize(value):
 def get_item_from_dic(dictionary, key):
     return dictionary.get(key)
 
+@register.filter
+def unique_descriptions(values):
+    unique_set = set()
+    result = []
+    
+    for value in values:
+        if value.description and value.description not in unique_set:
+            unique_set.add(value.description)
+            result.append(value.description)
+    
+    return result
+
 # @register.filter
 # def make_references_look_nicer(value):
 #     value = value.replace("'", "&rsquo;")

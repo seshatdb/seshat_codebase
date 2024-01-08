@@ -36,7 +36,6 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required, user_passes_test
 
 
-
 from .models import Ra, Polity_territory, Polity_population, Population_of_the_largest_settlement, Settlement_hierarchy, Administrative_level, Religious_level, Military_level, Professional_military_officer, Professional_soldier, Professional_priesthood, Full_time_bureaucrat, Examination_system, Merit_promotion, Specialized_government_building, Formal_legal_code, Judge, Court, Professional_lawyer, Irrigation_system, Drinking_water_supply_system, Market, Food_storage_site, Road, Bridge, Canal, Port, Mines_or_quarry, Mnemonic_device, Nonwritten_record, Written_record, Script, Non_phonetic_writing, Phonetic_alphabetic_writing, Lists_tables_and_classification, Calendar, Sacred_text, Religious_literature, Practical_literature, History, Philosophy, Scientific_literature, Fiction, Article, Token, Precious_metal, Foreign_coin, Indigenous_coin, Paper_currency, Courier, Postal_station, General_postal_service
 
 
@@ -7658,7 +7657,7 @@ def dynamic_detail_view(request, pk, model_class, myvar, var_name_display):
 def dynamic_create_view(request, form_class, x_name, myvar, my_exp, var_section, var_subsection):
     # Retrieve the object based on the object_id
 
-    if x_name in ["largest_communication_distance", "fastest_individual_communication"]:
+    if x_name in ["largest_communication_distance", "fastest_individual_communication", "military_level"]:
         x_name_with_from = x_name + "_from"
         x_name_with_to = x_name + "_to"
     else:
@@ -7675,10 +7674,11 @@ def dynamic_create_view(request, form_class, x_name, myvar, my_exp, var_section,
             new_object = my_form.save()
             return redirect(f"{x_name}-detail", pk=new_object.id)  # Replace 'success_url_name' with your success URL
     else:
-        my_form = form_class()
+        polity_id_x = request.GET.get('polity_id_x')
+        my_form = form_class(initial= {'polity': polity_id_x,})
 
     # Define the context with the variables you want to pass to the template
-    if x_name in ["largest_communication_distance", "fastest_individual_communication"]:
+    if x_name in ["largest_communication_distance", "fastest_individual_communication", "military_level"]:
         context = {
             'form': my_form,
             'object': object,
@@ -7712,7 +7712,7 @@ def dynamic_update_view(request, object_id, form_class, model_class, x_name, myv
     my_object = model_class.objects.get(id=object_id)
 
 
-    if x_name in ["largest_communication_distance", "fastest_individual_communication"]:
+    if x_name in ["largest_communication_distance", "fastest_individual_communication", "military_level"]:
         x_name_with_from = x_name + "_from"
         x_name_with_to = x_name + "_to"
     else:
@@ -7735,7 +7735,7 @@ def dynamic_update_view(request, object_id, form_class, model_class, x_name, myv
         my_form = form_class(instance=my_object)
 
         # Define the context with the variables you want to pass to the template
-        if x_name in ["largest_communication_distance", "fastest_individual_communication"]:
+        if x_name in ["largest_communication_distance", "fastest_individual_communication", "military_level"]:
             context = {
                 'form': my_form,
                 'object': my_object,
@@ -7775,7 +7775,7 @@ def generic_list_view(request, model_class, var_name, var_name_display, var_sect
     if orderby and hasattr(model_class, orderby):
         object_list = object_list.order_by(orderby)
 
-    if var_name in ["largest_communication_distance", "fastest_individual_communication"]:
+    if var_name in ["largest_communication_distance", "fastest_individual_communication", "military_level"]:
         var_name_with_from = var_name + "_from"
         var_exp_new = f'The range of "{var_name_display}" for a polity.'
     else:
@@ -7838,7 +7838,7 @@ def generic_download(request, model_class, var_name):
 
     response['Content-Disposition'] = f'attachment; filename="{file_name}"'
 
-    if var_name in ["largest_communication_distance", "fastest_individual_communication"]:
+    if var_name in ["largest_communication_distance", "fastest_individual_communication", "military_level"]:
         var_name_with_from = var_name + "_from"
         var_name_with_to = var_name + "_to"
     else:
@@ -7846,14 +7846,14 @@ def generic_download(request, model_class, var_name):
         var_name_with_to = None
 
     writer = csv.writer(response, delimiter='|')
-    if var_name in ["largest_communication_distance", "fastest_individual_communication"]:
+    if var_name in ["largest_communication_distance", "fastest_individual_communication", "military_level"]:
         writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
                     var_name_with_from, var_name_with_to, 'confidence', 'is_disputed', 'is_uncertain', 'expert_checked', 'DRB_reviewed'])
     else:
         writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
                     var_name, 'confidence', 'is_disputed', 'is_uncertain', 'expert_checked', 'DRB_reviewed'])
     for obj in items:
-        if var_name in ["largest_communication_distance", "fastest_individual_communication"]:
+        if var_name in ["largest_communication_distance", "fastest_individual_communication", "military_level"]:
             dynamic_value_from = getattr(obj, var_name_with_from, '')
             dynamic_value_to = getattr(obj, var_name_with_to, '')
             writer.writerow([obj.name, obj.year_from, obj.year_to,

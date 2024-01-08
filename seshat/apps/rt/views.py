@@ -194,8 +194,9 @@ def dynamic_create_view(request, form_class, x_name, myvar, my_exp, var_section,
             new_object = my_form.save()
             return redirect(f"{x_name}-detail", pk=new_object.id)  # Replace 'success_url_name' with your success URL
     else:
-        my_form = form_class()
-
+        polity_id_x = request.GET.get('polity_id_x')
+        my_form = form_class(initial= {'polity': polity_id_x,})
+        
     if x_name in ["widespread_religion",]:
         context = {
             'form': my_form,
@@ -313,7 +314,9 @@ def dynamic_update_view(request, object_id, form_class, model_class, x_name, myv
     return render(request, 'rt/rt_update.html', context)
 
 
-
+@login_required
+@permission_required('core.add_capital', raise_exception=True)
+@user_passes_test(has_add_capital_permission, login_url='permission_denied')
 def generic_list_view(request, model_class, var_name, var_name_display, var_section, var_subsection, var_main_desc):
     if var_name in ["widespread_religion",]:
         object_list = model_class.objects.all().order_by('polity_id', 'order')
@@ -432,7 +435,9 @@ def generic_metadata_download(request, var_name, var_name_display, var_section, 
     return response
 
 
-
+@login_required
+@permission_required('core.add_capital', raise_exception=True)
+@user_passes_test(has_add_capital_permission, login_url='permission_denied')
 def confirm_delete_view(request, model_class, pk, var_name):
     permission_required = 'core.add_capital'
     
@@ -453,6 +458,9 @@ def confirm_delete_view(request, model_class, pk, var_name):
 
     return render(request, template_name, context)
 
+@login_required
+@permission_required('core.add_capital', raise_exception=True)
+@user_passes_test(has_add_capital_permission, login_url='permission_denied')
 def delete_object_view(request, model_class, pk, var_name):
     permission_required = 'core.add_capital'
     # Retrieve the object for the given model class

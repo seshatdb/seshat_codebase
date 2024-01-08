@@ -545,46 +545,7 @@ class Polity_research_assistant(SeshatCommon):
         return call_my_name(self)
              
         
-class Polity_utm_zone(SeshatCommon):
-    name = models.CharField(max_length=100, default="Polity_utm_zone")
-    utm_zone = models.CharField(max_length=500, blank=True, null=True)
 
-    class Meta:
-        verbose_name = 'Polity_utm_zone'
-        verbose_name_plural = 'Polity_utm_zones'
-        ordering = ['year_from', 'year_to']
-
-    @property
-    def display_citations(self):
-        return return_citations(self)
-
-    def clean(self):
-        clean_times(self)
-
-    def clean_name(self):
-        return "polity_utm_zone"
-
-    def clean_name_spaced(self):
-        return "Polity Utm Zone"
-    
-    def show_value(self):
-        if self.utm_zone:
-            return self.utm_zone
-        else:
-            return " - "
-        
-    def subsection(self):
-        return "Identity and Location"
-
-    def sub_subsection(self):
-        return None
-        
-    def get_absolute_url(self):
-        return reverse('polity_utm_zone-detail', args=[str(self.id)])
-
-    def __str__(self) -> str:
-        return call_my_name(self)
-             
         
 class Polity_original_name(SeshatCommon):
     name = models.CharField(max_length=100, default="Polity_original_name")
@@ -667,7 +628,63 @@ class Polity_alternative_name(SeshatCommon):
     def __str__(self) -> str:
         return call_my_name(self)
              
+
+class Polity_duration(SeshatCommon):
+    name = models.CharField(max_length=100, default="Polity_duration")
+    polity_year_from = models.IntegerField(blank=True, null=True)
+    polity_year_to = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        verbose_name = 'Polity_duration'
+        verbose_name_plural = 'Polity_durations'
+        ordering = ['year_from', 'year_to']
+
+    @property
+    def display_citations(self):
+        return return_citations(self)
+
+    def clean(self):
+        clean_times(self)
+
+    def clean_name(self):
+        return "polity_duration"
+
+    def clean_name_spaced(self):
+        return "Polity Duration"
+    
+    def show_value(self):
+        if self.polity_year_from == self.polity_year_to:
+            if self.polity_year_from < 0:
+                return f'{abs(self.polity_year_from):,}' + " BCE" 
+            else:
+                return f'{abs(self.polity_year_from):,}' + " CE" 
+        elif self.polity_year_to == None:
+            if self.polity_year_from < 0:
+                return f'{abs(self.polity_year_from):,}' + " BCE" 
+            else:
+                return f'{abs(self.polity_year_from):,}' + " CE" 
+        elif self.polity_year_to == None and  self.polity_year_from == None:
+            return " - " 
+        else:
+            if self.polity_year_from < 0 and self.polity_year_to < 0:
+                return "[" + f'{abs(self.polity_year_from):,}' + " BCE"  + " ➜ " + f'{abs(self.polity_year_to):,}' + " BCE"  + "]"
+            elif  self.polity_year_from < 0 and self.polity_year_to >= 0:
+                return "[" + f'{abs(self.polity_year_from):,}' + " BCE"  + " ➜ " + f'{abs(self.polity_year_to):,}' + " CE"  + "]"
+            else:
+                return "[" + f'{abs(self.polity_year_from):,}' + " CE"  + " ➜ " + f'{abs(self.polity_year_to):,}' + " CE" + "]"
+            
+    def subsection(self):
+        return "Temporal Bounds"
+
+    def sub_subsection(self):
+        return None     
         
+    def get_absolute_url(self):
+        return reverse('polity_duration-detail', args=[str(self.id)])
+
+    def __str__(self) -> str:
+        return call_my_name(self)        
+
 class Polity_peak_years(SeshatCommon):
     name = models.CharField(max_length=100, default="Polity_peak_years")
     peak_year_from = models.IntegerField(blank=True, null=True)
@@ -725,61 +742,7 @@ class Polity_peak_years(SeshatCommon):
         return call_my_name(self)
              
         
-class Polity_duration(SeshatCommon):
-    name = models.CharField(max_length=100, default="Polity_duration")
-    polity_year_from = models.IntegerField(blank=True, null=True)
-    polity_year_to = models.IntegerField(blank=True, null=True)
 
-    class Meta:
-        verbose_name = 'Polity_duration'
-        verbose_name_plural = 'Polity_durations'
-        ordering = ['year_from', 'year_to']
-
-    @property
-    def display_citations(self):
-        return return_citations(self)
-
-    def clean(self):
-        clean_times(self)
-
-    def clean_name(self):
-        return "polity_duration"
-
-    def clean_name_spaced(self):
-        return "Polity Duration"
-    
-    def show_value(self):
-        if self.polity_year_from == self.polity_year_to:
-            if self.polity_year_from < 0:
-                return f'{abs(self.polity_year_from):,}' + " BCE" 
-            else:
-                return f'{abs(self.polity_year_from):,}' + " CE" 
-        elif self.polity_year_to == None:
-            if self.polity_year_from < 0:
-                return f'{abs(self.polity_year_from):,}' + " BCE" 
-            else:
-                return f'{abs(self.polity_year_from):,}' + " CE" 
-        elif self.polity_year_to == None and  self.polity_year_from == None:
-            return " - " 
-        else:
-            if self.polity_year_from < 0 and self.polity_year_to < 0:
-                return "[" + f'{abs(self.polity_year_from):,}' + " BCE"  + " ➜ " + f'{abs(self.polity_year_to):,}' + " BCE"  + "]"
-            elif  self.polity_year_from < 0 and self.polity_year_to >= 0:
-                return "[" + f'{abs(self.polity_year_from):,}' + " BCE"  + " ➜ " + f'{abs(self.polity_year_to):,}' + " CE"  + "]"
-            else:
-                return "[" + f'{abs(self.polity_year_from):,}' + " CE"  + " ➜ " + f'{abs(self.polity_year_to):,}' + " CE" + "]"
-            
-    def subsection(self):
-        return "Temporal Bounds"
-
-    def sub_subsection(self):
-        return None     
-        
-    def get_absolute_url(self):
-        return reverse('polity_duration-detail', args=[str(self.id)])
-
-    def __str__(self) -> str:
-        return call_my_name(self)
              
         
 class Polity_degree_of_centralization(SeshatCommon):
@@ -811,7 +774,7 @@ class Polity_degree_of_centralization(SeshatCommon):
             return " - "
         
     def subsection(self):
-        return "Temporal Bounds"
+        return "Political and Cultural Relations"
 
     def sub_subsection(self):
         return None     
@@ -852,7 +815,7 @@ class Polity_suprapolity_relations(SeshatCommon):
             return " - "
         
     def subsection(self):
-        return "Temporal Bounds"
+        return "Political and Cultural Relations"
 
     def sub_subsection(self):
         return None     
@@ -862,6 +825,47 @@ class Polity_suprapolity_relations(SeshatCommon):
 
     def __str__(self) -> str:
         return call_my_name(self)
+    
+class Polity_utm_zone(SeshatCommon):
+    name = models.CharField(max_length=100, default="Polity_utm_zone")
+    utm_zone = models.CharField(max_length=500, blank=True, null=True)
+
+    class Meta:
+        verbose_name = 'Polity_utm_zone'
+        verbose_name_plural = 'Polity_utm_zones'
+        ordering = ['year_from', 'year_to']
+
+    @property
+    def display_citations(self):
+        return return_citations(self)
+
+    def clean(self):
+        clean_times(self)
+
+    def clean_name(self):
+        return "polity_utm_zone"
+
+    def clean_name_spaced(self):
+        return "Polity Utm Zone"
+    
+    def show_value(self):
+        if self.utm_zone:
+            return self.utm_zone
+        else:
+            return " - "
+        
+    def subsection(self):
+        return "Identity and Location"
+
+    def sub_subsection(self):
+        return None
+        
+    def get_absolute_url(self):
+        return reverse('polity_utm_zone-detail', args=[str(self.id)])
+
+    def __str__(self) -> str:
+        return call_my_name(self)
+             
              
         
 class Polity_capital(SeshatCommon):
@@ -1180,7 +1184,7 @@ class Polity_relationship_to_preceding_entity(SeshatCommon):
             return " - "
         
     def subsection(self):
-        return "Supra-cultural relations"
+        return "Political and Cultural Relations"
 
     def sub_subsection(self):
         return None   
@@ -1221,7 +1225,7 @@ class Polity_preceding_entity(SeshatCommon):
             return " - "
         
     def subsection(self):
-        return "Supra-cultural relations"
+        return "Political and Cultural Relations"
 
     def sub_subsection(self):
         return None   
@@ -1262,7 +1266,7 @@ class Polity_succeeding_entity(SeshatCommon):
             return " - "
         
     def subsection(self):
-        return "Supra-cultural relations"
+        return "Political and Cultural Relations"
 
     def sub_subsection(self):
         return None   
@@ -1303,7 +1307,7 @@ class Polity_supracultural_entity(SeshatCommon):
             return " - "
         
     def subsection(self):
-        return "Supra-cultural relations"
+        return "Political and Cultural Relations"
 
     def sub_subsection(self):
         return None   
@@ -1351,7 +1355,7 @@ class Polity_scale_of_supracultural_interaction(SeshatCommon):
             return " - "
         
     def subsection(self):
-        return "Supra-cultural relations"
+        return "Political and Cultural Relations"
 
     def sub_subsection(self):
         return None   
