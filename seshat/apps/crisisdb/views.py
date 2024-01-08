@@ -247,7 +247,12 @@ def crisis_consequence_download(request):
     items = Crisis_consequence.objects.all()
 
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="crisis_consequences.csv"'
+
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    file_name = f"crisis_consequences_{current_datetime}.csv"
+
+    response['Content-Disposition'] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['year_from', 'year_to',
@@ -490,7 +495,12 @@ def power_transition_download(request):
     items = Power_transition.objects.all()
 
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="power_transitions.csv"'
+
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    file_name = f"power_transitions_{current_datetime}.csv"
+
+    response['Content-Disposition'] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['year_from', 'year_to', 'predecessor', 'successor',
@@ -666,7 +676,11 @@ def human_sacrifice_download(request):
     items = Human_sacrifice.objects.all()
 
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="human_sacrifices.csv"'
+
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    file_name = f"human_sacrifices_{current_datetime}.csv"
+    response['Content-Disposition'] = f'attachment; filename="{file_name}"'
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to',
