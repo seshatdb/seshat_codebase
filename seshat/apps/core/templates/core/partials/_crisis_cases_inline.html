@@ -135,36 +135,6 @@
             </tr>
             <tr class="pt-4 mb-4">
                 <td class="col-sm-12 pt-3 mb-3" scope="row">
-                    <span class="fw-light fs-5 text-secondary">
-                    {% if value.polity %}
-                    Polities:
-                        {% if value.polity.long_name %}
-                        <span>
-                            <a href="{% url 'polity-detail-main' value.polity.id %}">{{ value.polity.long_name }}</a> ({{ value.polity.home_nga }})
-                        </span>
-                        {% else %}
-                        <span class="fw-light text-secondary">
-                            <a href="{% url 'polity-detail-main' value.polity.id %}">{{ value.polity.name }}</a>  <span class="fw-light text-secondary">({{ value.other_polity.home_nga }})</span>
-                        </span>
-                        {% endif %}
-                        {% if value.other_polity.long_name %}
-                        <span>
-                            & <a href="{% url 'polity-detail-main' value.other_polity.id %}">{{ value.other_polity.long_name }}</a> ({{ value.other_polity.home_nga }})
-                        </span>
-                        {% elif value.other_polity.name %}
-                        <span class="fw-light text-secondary">
-                            &: <a href="{% url 'polity-detail-main' value.other_polity.id %}">{{ value.other_polity.name }}</a>  <span class="fw-light text-secondary">({{ value.other_polity.home_nga }})</span>
-                        </span>
-                        {% else %}
-                        <span class="fw-light">
-                        </span>
-                        {% endif %}
-                
-                    {% else %}
-                    <span>-</span>
-                    {% endif%}
-                </span>
-                <br>
                 {% autoescape off %}
                 <p class="fs-6">
                     <i class="fa-solid fa-layer-group fa-xs text-teal"></i>  

@@ -7,6 +7,8 @@ from seshat.apps.crisisdb.models import Crisis_consequence, Power_transition, Hu
 from django.contrib.contenttypes.models import ContentType
 from django.apps import apps
 
+from django.db.models import Q
+
 from ..apps.core.models import Polity
 import requests
 from requests.structures import CaseInsensitiveDict
@@ -509,7 +511,8 @@ def get_all_wf_data_for_a_polity_old(polity_id):
 # get crsisi cocases data
 def get_all_crisis_cases_data_for_a_polity(polity_id):
     a_data_dic = {}
-    my_data = Crisis_consequence.objects.filter(polity = polity_id)
+    #my_data = Crisis_consequence.objects.filter(polity = polity_id)
+    my_data = Crisis_consequence.objects.filter(Q(polity=polity_id) | Q(other_polity=polity_id))
     if my_data:
         a_data_dic["crisis_cases"] = my_data
     #print(a_data_dic)
@@ -693,7 +696,8 @@ def give_polity_app_data():
         has_hs =  Human_sacrifice.objects.filter(polity=polity_id).exists()
         if has_hs:
             freq_dic["hs"] += 1
-        has_cc =  Crisis_consequence.objects.filter(polity=polity_id).exists()
+        #has_cc =  Crisis_consequence.objects.filter(polity=polity_id).exists()
+        has_cc = Crisis_consequence.objects.filter(Q(polity=polity_id) | Q(other_polity=polity_id)).exists()
         if has_cc:
             freq_dic["cc"] += 1
         has_pt =  Power_transition.objects.filter(polity=polity_id).exists()

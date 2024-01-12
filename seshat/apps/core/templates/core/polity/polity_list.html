@@ -350,13 +350,13 @@
     <h2 class="text-teal pt-5"><i class="fa-solid fa-circle-chevron-right"></i> {{ a_subregion }} <span class="h6 text-secondary">({{a_world_region}})</span> <span class="h6 text-secondary"><a href="#"><i class="fa-solid fa-turn-up"></i></a></span></h2>
     {% if a_list_of_polities %}
     <div class="table-responsive pb-0 mb-0" style="border: solid 2px teal;border-radius:10px">
-    <table id="table_id" class="table align-middle table-striped table bordered pb-0 mb-0">
+    <table id="table_id" class="table align-middle table-striped table-bordered pb-0 mb-0">
         <thead>
           <tr>
             <th class="ps-2"> <i class="fa-solid fa-circle-chevron-right fa-xs text-secondary"></i> &nbsp; Polity Name</th>
             <th class="ps-2"> <i class="fa-solid fa-key"></i> &nbsp;Polity ID</th>
             <th  class="text-dark" style="text-align: center;"><i class="fa-solid fa-database fa-sm"></i> &nbsp;Coded Data</th>
-            <th  style="text-align: right;"> <i class="fa-regular fa-calendar-check"></i> &nbsp; Year Range</th>
+            <th  style="text-align: right;"> <i class="fa-regular fa-calendar-check"></i> &nbsp; Year Range &nbsp;&nbsp;&nbsp;<i class="fa-solid fa-clock"></i>&nbsp;<i class="fa-solid fa-clock"></i>&nbsp;<i class="fa-solid fa-clock"></i></th>
 
           </tr>
         </thead>
@@ -368,11 +368,14 @@
                 <tr>
                 {% endif %}
 
-                <td class="col-md-5 ps-2 py-2" style="text-align: left;"> 
+                <td class="col-md-3 ps-2 py-2" style="text-align: left;"> 
+
+
+
                     {% if a_polity.long_name %}
-                        <span class="fw-bold h5"><i class="fa-solid fa-location-dot fa-xs text-secondary"></i>&nbsp; {{ a_polity.long_name }}&nbsp;</span>
+                        <span class="fw-bold h6"><i class="fa-solid fa-location-dot fa-xs text-secondary"></i>&nbsp; {{ a_polity.long_name }}</span>
                     {% else %}
-                    <span class="text-danger fw-bold h5"> <i class="fa-solid fa-location-dot fa-xs text-secondary"></i> &nbsp; No Long Name</span> <a href="{% url 'polity-update' a_polity.id %}"><span class="badge bg-small bg-warning text-dark">EDIT</span></a> 
+                    <span class="text-danger fw-bold h6"> <i class="fa-solid fa-location-dot fa-xs text-secondary"></i> &nbsp; No Long Name</span> <a href="{% url 'polity-update' a_polity.id %}"><span class="badge bg-small bg-warning text-dark">EDIT</span></a> 
                     {% endif %}
 
 
@@ -383,6 +386,8 @@
 
                     {% endif %}
 
+                  
+
 
                 </td>
                 <td class="col-md-3 ps-2 py-2" style="text-align: left;"> 
@@ -390,7 +395,7 @@
                     <a href="{% url 'polity-detail-main' a_polity.id %}" class="fs-6 fw-normal"><b>{{ a_polity.new_name }}</b></a>
 
                     {% if a_polity.new_name != a_polity.name %}
-                    <span class="text-secondary">/ {{ a_polity.name }}</span>
+                    <span class="text-secondary"> {{ a_polity.name }}</span>
                     {% endif %}
 
 
@@ -445,7 +450,7 @@
                     {% endif %}
 
                 </td>
-                <td class="col-md-2 fw-bold fs-5 "  style="text-align: right;">
+                <td class="col-md-3 fw-bold fs-6 "  style="text-align: right;">
                     {% block years_short_for_top_pol %}
                     {% if  a_polity.start_year == a_polity.end_year %}
                         {% if  a_polity.start_year < 0 %}
@@ -471,6 +476,44 @@
                         {% endif %}
                     {% endif %}
                     {% endblock years_short_for_top_pol %}
+ 
+                    {% autoescape off %}   
+
+                        <span type="button"  tabindex="0" data-bs-toggle="popover" title="3 Durations for: {{a_polity.new_name}}" data-bs-html="true" data-bs-trigger="focus" data-bs-content='<b>{{a_polity.all_durations.intr}}</b>: Intrinsic (PolsVars) <br> <b>{{a_polity.all_durations.gv}}</b>: Coded on GV <br> <b>{{a_polity.all_durations.pt}}</b>: Implied by PT'>
+                            
+                    {% if a_polity.color.0 == "g" %}
+                    &nbsp;&nbsp;&nbsp;<i class="fa-solid fa-circle-check text-success"></i>
+                    {% elif a_polity.color.0 == "m" %}
+                    &nbsp;&nbsp;&nbsp;<i class="fa-solid fa-circle text-secondary"></i>
+                    {% elif a_polity.color.0 == "r" %}
+                    &nbsp;&nbsp;&nbsp;<i class="fa-solid fa-circle-xmark text-danger"></i>
+                    {% else %}
+                    &nbsp;&nbsp;&nbsp;<i class="fa-solid fa-circle-exclamation text-warning"></i>
+                    {% endif %}
+                    {% if a_polity.color.1 == "g" %}
+                    <i class="fa-solid fa-circle-check text-success"></i>
+                    {% elif a_polity.color.1 == "m" %}
+                    <i class="fa-solid fa-circle text-secondary"></i>
+                    {% elif a_polity.color.1 == "r" %}
+                    <i class="fa-solid fa-circle-xmark text-danger"></i>
+                    {% else %}
+                    <i class="fa-solid fa-circle-exclamation text-warning"></i>
+                    {% endif %}
+                    {% if a_polity.color.2 == "g" %}
+                    <i class="fa-solid fa-circle-check text-success"></i>
+                    {% elif a_polity.color.2 == "m" %}
+                    <i class="fa-solid fa-circle text-secondary"></i>
+                    {% elif a_polity.color.2 == "r" %}
+                    <i class="fa-solid fa-circle-xmark text-danger"></i>
+                    {% else %}
+                    <i class="fa-solid fa-circle-exclamation text-warning"></i>
+                    {% endif %}
+                </span>
+
+                {% endautoescape %}   
+
+
+
                 </td>
 
             </tr>
@@ -492,5 +535,12 @@
 
     {% endfor %}
 </div>
+<script>
+    var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+    var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+      return new bootstrap.Popover(popoverTriggerEl)
+    })
+    
+</script>
 
   {% endblock %}

@@ -87,6 +87,10 @@ class Crisis_consequenceCreate(PermissionRequiredMixin, PolityIdMixin, CreateVie
     template_name = "crisisdb/crisis_consequence/crisis_consequence_form.html"
     permission_required = 'core.add_capital'
 
+    def get_success_url(self):
+        polity_id = self.object.polity.id
+        return reverse('polity-detail-main', kwargs={'pk': polity_id}) + '#crisis_case_var'
+
     def get_absolute_url(self):
         return reverse('crisis_consequence-create')
     def get_context_data(self, **kwargs):
@@ -108,6 +112,10 @@ class Crisis_consequenceUpdate(PermissionRequiredMixin, UpdateView):
     template_name = "crisisdb/crisis_consequence/crisis_consequence_form.html"
     permission_required = 'core.add_capital'
 
+    def get_success_url(self):
+        polity_id = self.object.polity.id
+        return reverse('polity-detail-main', kwargs={'pk': polity_id}) + '#crisis_case_var'
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["myvar"] = "Z"
@@ -123,6 +131,10 @@ class Crisis_consequenceCreateHeavy(PermissionRequiredMixin, CreateView):
     success_url = reverse_lazy("crisis_consequences_all")
     template_name = "crisisdb/crisis_consequence/crisis_consequence_form_heavy.html"
     permission_required = 'core.add_capital'
+
+    def get_success_url(self):
+        polity_id = self.object.polity.id
+        return reverse('polity-detail-main', kwargs={'pk': polity_id}) + '#crisis_case_var'
 
     def get_absolute_url(self):
         return reverse('crisis_consequence-create')
@@ -144,6 +156,10 @@ class Crisis_consequenceUpdateHeavy(PermissionRequiredMixin, UpdateView):
     template_name = "crisisdb/crisis_consequence/crisis_consequence_form_heavy.html"
     permission_required = 'core.add_capital'
 
+    def get_success_url(self):
+        polity_id = self.object.polity.id
+        return reverse('polity-detail-main', kwargs={'pk': polity_id}) + '#crisis_case_var'
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["myvar"] = "Z"
@@ -154,7 +170,7 @@ class Crisis_consequenceUpdateHeavy(PermissionRequiredMixin, UpdateView):
 
 class Crisis_consequenceDelete(PermissionRequiredMixin, DeleteView):
     model = Crisis_consequence
-    success_url = reverse_lazy('crisis_consequences')
+    success_url = reverse_lazy('crisis_consequences_all')
     template_name = "core/delete_general.html"
     permission_required = 'core.add_capital'
 
@@ -300,6 +316,10 @@ class Power_transitionCreate(PermissionRequiredMixin, PolityIdMixin, CreateView)
     template_name = "crisisdb/power_transition/power_transition_form.html"
     permission_required = 'core.add_capital'
 
+    def get_success_url(self):
+        polity_id = self.object.polity.id
+        return reverse('polity-detail-main', kwargs={'pk': polity_id}) + '#power_transition_var'
+
     def get_absolute_url(self):
         return reverse('power_transition-create')
     def get_context_data(self, **kwargs):
@@ -320,6 +340,10 @@ class Power_transitionUpdate(PermissionRequiredMixin, UpdateView):
     template_name = "crisisdb/power_transition/power_transition_update.html"
     permission_required = 'core.add_capital'
 
+    def get_success_url(self):
+        polity_id = self.object.polity.id
+        return reverse('polity-detail-main', kwargs={'pk': polity_id}) + '#power_transition_var'
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["myvar"] = "Z"
@@ -334,6 +358,10 @@ class Power_transitionCreateHeavy(PermissionRequiredMixin, CreateView):
     success_url = reverse_lazy("power_transitions_all")
     template_name = "crisisdb/power_transition/power_transition_form_heavy.html"
     permission_required = 'core.add_capital'
+
+    def get_success_url(self):
+        polity_id = self.object.polity.id
+        return reverse('polity-detail-main', kwargs={'pk': polity_id}) + '#power_transition_var'
 
     def get_absolute_url(self):
         return reverse('power_transition-create')
@@ -354,6 +382,10 @@ class Power_transitionUpdateHeavy(PermissionRequiredMixin, UpdateView):
     form_class = Power_transitionForm
     template_name = "crisisdb/power_transition/power_transition_form_heavy.html"
     permission_required = 'core.add_capital'
+
+    def get_success_url(self):
+        polity_id = self.object.polity.id
+        return reverse('polity-detail-main', kwargs={'pk': polity_id}) + '#power_transition_var'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -540,6 +572,10 @@ class Human_sacrificeCreate(PermissionRequiredMixin, PolityIdMixin, CreateView):
     template_name = "crisisdb/human_sacrifice/human_sacrifice_form.html"
     permission_required = 'core.add_capital'
 
+    def get_success_url(self):
+        polity_id = self.object.polity.id
+        return reverse('polity-detail-main', kwargs={'pk': polity_id}) + '#hs_var'
+
     def get_absolute_url(self):
         return reverse('human_sacrifice-create')
     def get_context_data(self, **kwargs):
@@ -588,6 +624,10 @@ class Human_sacrificeUpdate(PermissionRequiredMixin, UpdateView):
     form_class = Human_sacrificeForm
     template_name = "crisisdb/human_sacrifice/human_sacrifice_update.html"
     permission_required = 'core.add_capital'
+
+    def get_success_url(self):
+        polity_id = self.object.polity.id
+        return reverse('polity-detail-main', kwargs={'pk': polity_id}) + '#hs_var'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

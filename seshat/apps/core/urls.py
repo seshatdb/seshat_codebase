@@ -35,6 +35,8 @@ urlpatterns += [
     path('core/polities/create/', views.PolityCreate.as_view(),
          name="polity-create"),
     path('core/polities/', views.PolityListView.as_view(), name='polities'),
+     path('core/polities-light/', views.PolityListViewLight.as_view(), name='polities-light'),
+
      path('core/polities_commented/', views.PolityListViewCommented.as_view(), name='polities-commented'),
     path('core/polity/<int:pk>', views.PolityDetailView.as_view(), name='polity-detail-main'),
      re_path(r'^core/polity/(?P<new_name>[\w-]+)/$', views.PolityDetailView.as_view(), name='polity-detail-new-name'),

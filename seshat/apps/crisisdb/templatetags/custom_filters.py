@@ -37,6 +37,16 @@ def unique_descriptions(values):
     
     return result
 
+@register.filter
+def min_max_years(values):
+    if not values:
+        return ""
+
+    min_year = min(value.year_from for value in values)
+    max_year = max(value.year_to for value in values)
+
+    return f"{min_year} - {max_year}"
+
 # @register.filter
 # def make_references_look_nicer(value):
 #     value = value.replace("'", "&rsquo;")

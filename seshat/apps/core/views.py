@@ -52,7 +52,10 @@ from django.urls import reverse, reverse_lazy
 
 from django.contrib.messages.views import SuccessMessageMixin
 
-from ..general.models import Polity_research_assistant
+from ..general.models import Polity_research_assistant, Polity_duration
+
+from ..crisisdb.models import Power_transition
+
 
 from .models import Citation, Polity, Section, Subsection, Variablehierarchy, Reference, SeshatComment, SeshatCommentPart, Nga, Ngapolityrel, Capital, Seshat_region, Macro_region
 import pprint
@@ -922,7 +925,72 @@ class PolityListViewX(SuccessMessageMixin, generic.ListView):
 
         return context
     
+class PolityListViewLight(SuccessMessageMixin, generic.ListView):
+    model = Polity
+    template_name = "core/polity/polity_list_light.html"
 
+    def get_absolute_url(self):
+        return reverse('polities-light')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        import time
+        start_time = time.time()
+        all_srs_unsorted = Seshat_region.objects.all()
+        all_mrs_unsorted = Macro_region.objects.all()
+
+
+        custom_order = [5, 2, 11, 3, 4, 9, 10, 8, 7, 6, 1, 23, 24, 27, 26,25, 29,28, 31,33,32,30, ]  
+
+        custom_order_sr = [20, 18, 17, 15, 19, 16, 3, 4, 5, 7, 1, 2, 6, 43, 61, 62, 44, 45, 10, 13, 8, 9, 11, 12, 14, 58, 59, 38, 39, 37, 36, 40, 41, 42, 28, 29, 30, 26,25, 27,24, 22, 23, 21, 32, 31, 33, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57 ]
+
+        all_mrs = sorted(all_mrs_unsorted, key=lambda item: custom_order.index(item.id))
+        all_srs = sorted(all_srs_unsorted, key=lambda item: custom_order_sr.index(item.id))
+
+        all_pols = Polity.objects.all().order_by('start_year')
+        pol_count = len(all_pols)
+
+        ultimate_wregion_dic = {}
+        ultimate_wregion_dic_top = {}
+        for a_mr in all_mrs:
+            if a_mr not in ultimate_wregion_dic:
+                ultimate_wregion_dic[a_mr.name] = {}
+            if a_mr not in ultimate_wregion_dic_top:
+                ultimate_wregion_dic_top[a_mr.name] = {}
+            for a_sr in all_srs:
+                if a_sr.mac_region_id == a_mr.id:
+                    if a_sr.name not in ultimate_wregion_dic[a_mr.name]:
+                        ultimate_wregion_dic[a_mr.name][a_sr.name] = []
+                    if a_sr.name not in ultimate_wregion_dic_top[a_mr.name]:
+                        ultimate_wregion_dic_top[a_mr.name][a_sr.name] = [a_sr.subregions_list, 0]
+
+        #all_polities_g_sc_wf, freq_dic = give_polity_app_data()
+        #all_polities_g_sc_wf = give_polity_app_data()
+        freq_dic = {}
+        freq_dic["d"] = 0
+
+        for a_polity in all_pols:
+            if a_polity.home_seshat_region:
+                ultimate_wregion_dic[a_polity.home_seshat_region.mac_region.name][a_polity.home_seshat_region.name].append(a_polity)
+                ultimate_wregion_dic_top[a_polity.home_seshat_region.mac_region.name][a_polity.home_seshat_region.name][1] += 1
+            if a_polity.general_description:
+                freq_dic["d"] += 1
+
+        for a_polity in all_pols:
+            a_polity.has_g_sc_wf = None
+
+        context["ultimate_wregion_dic"] = ultimate_wregion_dic
+        context["ultimate_wregion_dic_top"] = ultimate_wregion_dic_top
+        context['all_pols'] = all_pols
+        context['all_srs'] = all_srs
+        context["pol_count"] = pol_count
+        freq_dic['pol_count'] = pol_count
+        context["freq_data"] = freq_dic
+
+        end_time = time.time()
+        print('elapsed_time ', end_time-start_time)
+
+        return context
 
 class PolityListView(SuccessMessageMixin, generic.ListView):
     model = Polity
@@ -933,8 +1001,8 @@ class PolityListView(SuccessMessageMixin, generic.ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        #import time
-        #start_time = time.time()
+        import time
+        start_time = time.time()
         all_srs_unsorted = Seshat_region.objects.all()
         all_mrs_unsorted = Macro_region.objects.all()
 
@@ -949,8 +1017,6 @@ class PolityListView(SuccessMessageMixin, generic.ListView):
         # 9 | South Asia
         # 10 | Southeast Asia
         # 11 | Southwest Asia
-
-
 
         custom_order = [5, 2, 11, 3, 4, 9, 10, 8, 7, 6, 1, 23, 24, 27, 26,25, 29,28, 31,33,32,30, ]  
 
@@ -978,13 +1044,12 @@ class PolityListView(SuccessMessageMixin, generic.ListView):
 
         all_polities_g_sc_wf, freq_dic = give_polity_app_data()
         #all_polities_g_sc_wf = give_polity_app_data()
-
+        #freq_dic = {}
         freq_dic["d"] = 0
 
         for a_polity in all_pols:
             if a_polity.home_seshat_region:
                 ultimate_wregion_dic[a_polity.home_seshat_region.mac_region.name][a_polity.home_seshat_region.name].append(a_polity)
-            if a_polity.home_seshat_region:
                 ultimate_wregion_dic_top[a_polity.home_seshat_region.mac_region.name][a_polity.home_seshat_region.name][1] += 1
             if a_polity.general_description:
                 freq_dic["d"] += 1
@@ -995,6 +1060,73 @@ class PolityListView(SuccessMessageMixin, generic.ListView):
             except:
                 a_polity.has_g_sc_wf = None
 
+            all_durations = {
+                "intr": [],
+                "gv": [],
+                "pt": [],
+                "color": "xyz",
+            }
+            all_durations["intr"] = [a_polity.start_year, a_polity.end_year]
+            # Pol_dur object
+            try:
+                Polity_duration_object = Polity_duration.objects.get(polity_id=a_polity.id)
+
+                polity_duration_coded = []
+                polity_duration_coded.extend([f'{Polity_duration_object.polity_year_from}, {Polity_duration_object.polity_year_to}'])
+                all_durations["gv"] = [Polity_duration_object.polity_year_from, Polity_duration_object.polity_year_to]
+            except:
+                polity_duration_coded = [-10000, 2000]
+
+            # Pow Trans Data
+            try:
+                Polity_pt_objects = Power_transition.objects.filter(polity_id=a_polity.id)
+
+                polity_duration_implied = []
+                pol_dur_min_list = []
+                pol_dur_max_list = []
+
+                for a_pt in Polity_pt_objects:
+                    if a_pt.year_from is not None:
+                        pol_dur_min_list.append(a_pt.year_from)
+                    if a_pt.year_to is not None:
+                        pol_dur_max_list.append(a_pt.year_to)
+
+                polity_duration_implied = [min(pol_dur_min_list), max(pol_dur_max_list)]
+                all_durations["pt"] = polity_duration_implied
+            except:
+                polity_duration_implied = [-10000, 2000]
+
+            a_polity.all_durations = all_durations
+            if all_durations["intr"] and all_durations["gv"] and all_durations["pt"]:
+                if (all_durations["intr"] == all_durations["gv"] == all_durations["pt"]):
+                    a_polity.color = "ggg"
+                elif (all_durations["intr"] == all_durations["gv"]):
+                    a_polity.color = "ggr"
+                elif (all_durations["intr"] == all_durations["pt"]):
+                    a_polity.color = "grg"
+                elif (all_durations["gv"] == all_durations["pt"]):
+                    a_polity.color = "rgg"
+            elif all_durations["intr"] and all_durations["gv"]:
+                if (all_durations["intr"] == all_durations["gv"]):
+                    a_polity.color = "ggm"
+                else:
+                    a_polity.color = "grm"
+            elif all_durations["intr"] and all_durations["pt"]:
+                if (all_durations["intr"] == all_durations["pt"]):
+                    a_polity.color = "gmg"
+                elif all_durations["intr"][0] == -10000:
+                    a_polity.color = "rmr"
+                else:
+                    a_polity.color = "gmr"
+            elif all_durations["intr"] and all_durations["intr"][0] == -10000:
+                a_polity.color = "rmm"
+            elif all_durations["intr"]:
+                a_polity.color = "gmm"
+                
+
+
+
+
         context["ultimate_wregion_dic"] = ultimate_wregion_dic
         context["ultimate_wregion_dic_top"] = ultimate_wregion_dic_top
         context['all_pols'] = all_pols
@@ -1003,8 +1135,8 @@ class PolityListView(SuccessMessageMixin, generic.ListView):
         freq_dic['pol_count'] = pol_count
         context["freq_data"] = freq_dic
 
-        #end_time = time.time()
-        #print('elapsed_time ', end_time-start_time)
+        end_time = time.time()
+        print('elapsed_time ', end_time-start_time)
 
         return context
     
@@ -1098,6 +1230,74 @@ class PolityDetailView(SuccessMessageMixin, generic.DetailView):
             context["all_sc_data"] = None
             context["all_wf_data"] = None
             context["all_rt_data"] = None
+        ################# NEW
+        Polity_object = Polity.objects.get(id=self.object.pk)
+
+        # Get the related data
+        all_durations = {
+            "intr": [],
+            "gv": [],
+            "pt": [],
+            "color": "xyz",
+        }
+        try:
+            intrinsic_duration = f'Polity Intrinsic Duration: {Polity_object.start_year}, {Polity_object.end_year}'
+            all_durations["intr"] = [Polity_object.start_year, Polity_object.end_year]
+        except:
+            intrinsic_duration = [-10000, 2000]
+        print(f"GGGGGGGGGGGGGGGGGGGGGG: {intrinsic_duration}")
+        # Pol_dur object
+        try:
+            Polity_duration_object = Polity_duration.objects.get(polity_id=self.object.pk)
+
+            polity_duration_coded = []
+            polity_duration_coded.extend([f'{Polity_duration_object.polity_year_from}, {Polity_duration_object.polity_year_to}'])
+            all_durations["gv"] = [Polity_duration_object.polity_year_from, Polity_duration_object.polity_year_to]
+        except:
+            polity_duration_coded = [-10000, 2000]
+        print(f"HHHHHHHHHHHHHHHHHHHHHH: {polity_duration_coded}")
+
+        # Pow Trans Data
+        try:
+            Polity_pt_objects = Power_transition.objects.filter(polity_id=self.object.pk)
+
+            polity_duration_implied = []
+            pol_dur_min_list = []
+            pol_dur_max_list = []
+
+            for a_pt in Polity_pt_objects:
+                if a_pt.year_from is not None:
+                    pol_dur_min_list.append(a_pt.year_from)
+                if a_pt.year_to is not None:
+                    pol_dur_max_list.append(a_pt.year_to)
+
+            polity_duration_implied = [min(pol_dur_min_list), max(pol_dur_max_list)]
+            all_durations["pt"] = polity_duration_implied
+        except:
+            polity_duration_implied = [-10000, 2000]
+        print(f"KKKKKKKKKKKKKKKKKKKKKKKKK: {polity_duration_implied}")
+        if all_durations["intr"] and all_durations["gv"] and all_durations["pt"]:
+            if (all_durations["intr"] == all_durations["gv"] == all_durations["pt"]):
+                all_durations["color"] = "ggg"
+            elif (all_durations["intr"] == all_durations["gv"]):
+                all_durations["color"] = "ggr"
+            elif (all_durations["intr"] == all_durations["pt"]):
+                all_durations["color"] = "grg"
+            elif (all_durations["gv"] == all_durations["pt"]):
+                all_durations["color"] = "rgg"
+        elif all_durations["intr"] and all_durations["gv"]:
+            if (all_durations["intr"] == all_durations["gv"]):
+                all_durations["color"] = "ggm"
+            else:
+                all_durations["color"] = "grm"
+        elif all_durations["intr"] and all_durations["pt"]:
+            if (all_durations["intr"] == all_durations["pt"]):
+                all_durations["color"] = "gmg"
+            else:
+                all_durations["color"] = "gmr"
+        print(all_durations)
+        context["all_durations"] = all_durations
+        #####################
 
 
         #x = polity_detail_data_collector(self.object.pk)
@@ -1886,7 +2086,7 @@ def download_csv_all_polities(request):
     writer = csv.writer(response, delimiter='|')
 
     # type the headers
-    writer.writerow(['macro_region', 'home_seshat_region',  'polity_new_id', 'polity_old_id', 'polity_long_name', 'start_year', 'end_year', 'home_nga', 'G', "SC", "WF", "HS", "CC", "PT", 'polity_tag'])
+    writer.writerow(['macro_region', 'home_seshat_region',  'polity_new_id', 'polity_old_id', 'polity_long_name', 'start_year', 'end_year', 'home_nga', 'G', "SC", "WF", "RT", "HS", "CC", "PT", 'polity_tag'])
 
     items = Polity.objects.all()
     coded_value_data, freq_data = give_polity_app_data()
@@ -1896,9 +2096,9 @@ def download_csv_all_polities(request):
         #print(obj.id)
         #print(type(obj))
         if obj.home_seshat_region:
-            writer.writerow([obj.home_seshat_region.mac_region.name, obj.home_seshat_region.name, obj.new_name, obj.name, obj.long_name, obj.start_year, obj.end_year, obj.home_nga,  coded_value_data[obj.id]['g'], coded_value_data[obj.id]['sc'], coded_value_data[obj.id]['wf'], coded_value_data[obj.id]['hs'], coded_value_data[obj.id]['cc'], coded_value_data[obj.id]['pt'], obj.get_polity_tag_display()])
+            writer.writerow([obj.home_seshat_region.mac_region.name, obj.home_seshat_region.name, obj.new_name, obj.name, obj.long_name, obj.start_year, obj.end_year, obj.home_nga,  coded_value_data[obj.id]['g'], coded_value_data[obj.id]['sc'], coded_value_data[obj.id]['wf'], coded_value_data[obj.id]['rt'], coded_value_data[obj.id]['hs'], coded_value_data[obj.id]['cc'], coded_value_data[obj.id]['pt'], obj.get_polity_tag_display()])
         else:
-            writer.writerow(["None", "None", obj.new_name, obj.name, obj.long_name, obj.start_year, obj.end_year, obj.home_nga,  coded_value_data[obj.id]['g'], coded_value_data[obj.id]['sc'], coded_value_data[obj.id]['wf'], coded_value_data[obj.id]['hs'], coded_value_data[obj.id]['cc'], coded_value_data[obj.id]['pt'], obj.get_polity_tag_display()])
+            writer.writerow(["None", "None", obj.new_name, obj.name, obj.long_name, obj.start_year, obj.end_year, obj.home_nga,  coded_value_data[obj.id]['g'], coded_value_data[obj.id]['sc'], coded_value_data[obj.id]['wf'], coded_value_data[obj.id]['rt'], coded_value_data[obj.id]['hs'], coded_value_data[obj.id]['cc'], coded_value_data[obj.id]['pt'], obj.get_polity_tag_display()])
 
     return response
 

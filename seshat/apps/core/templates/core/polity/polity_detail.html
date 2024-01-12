@@ -262,6 +262,10 @@
 
             </div>
             {% endif %}
+            <ul>
+                <li>{{all_durations}}</li>
+
+            </ul>
 
             <h6 class="text-secondary pt-3">* A polity is defined as an independent political unit. Kinds of polities range from villages (local communities) through simple and complex chiefdoms to states and empires. A polity can be either centralized or not (e.g., organized as a confederation). For those periods when a region is divided up among a multitude of small-scale polities (e.g., independent villages or even many small chiefdoms) or when it is controlled in quick succession by a number of different regimes, we use the concept of 'quasi-polity'.</h6>
 
@@ -1518,7 +1522,10 @@
                                         <p class="fs-6">
                                             <i class="fa-solid fa-layer-group fa-xs text-teal"></i>   
                                             <span class="badge bg-secondary">
-                                                DESCRIPTION {{forloop.counter}}
+                                                DESCRIPTION                                                 
+                                                {% if values|unique_descriptions|length > 1 %}
+                                                {{forloop.counter}}
+                                                {% endif %}
                                             </span>  {{ description|make_references_look_nicer }}
                                         </p>
                                         {% if not forloop.last %}
@@ -1600,7 +1607,11 @@
                                         <p class="fs-6">
                                             <i class="fa-solid fa-layer-group fa-xs text-teal"></i>   
                                             <span class="badge bg-secondary">
-                                                DESCRIPTION {{forloop.counter}}
+                                                DESCRIPTION 
+                                                {% if values|unique_descriptions|length > 1 %}
+                                                {{forloop.counter}}
+                                                {% endif %}
+
                                             </span>   {{ description|make_references_look_nicer }}
                                         </p>
                                         {% if not forloop.last %}
@@ -1801,11 +1812,42 @@
                     {% for value in values %}
                         <span class="pt-1 fs-5 pb-1 fw-bold" id="{{key}}"> 
                             <i class="fa-solid fa-star fa-2xs"></i>
-                            {{ value.crisis_case_id }} :            
+                            {{ value.crisis_case_id }}:            
                         </span> 
                         <br>
                     <span class="fs-4 fw-bold text-teal pt-2 pb-1 pe-2 ps-2 ms-2 me-2 mb-3 mt-1 highlighted-value">{{value.name}} 
-                        {% include "core/partials/_year_block_value_inline.html" %}
+                        {% include "core/partials/_year_block_value_inline_cc.html" %}
+                        <div>
+                            <span class="fw-light fs-6 text-dark">
+                                {% if value.polity %}
+                                Polities:
+                                    {% if value.polity.long_name %}
+                                    <span class="fs-5">
+                                        <a href="{% url 'polity-detail-main' value.polity.id %}">{{ value.polity.long_name }}</a>
+                                    </span>
+                                    {% else %}
+                                    <span class="fw-light text-secondary">
+                                        <a href="{% url 'polity-detail-main' value.polity.id %}">{{ value.polity.name }}</a>
+                                    </span>
+                                    {% endif %}
+                                    {% if value.other_polity.long_name %}
+                                    <span class="fs-5">
+                                        & <a href="{% url 'polity-detail-main' value.other_polity.id %}">{{ value.other_polity.long_name }}</a> 
+                                    </span>
+                                    {% elif value.other_polity.name %}
+                                    <span class="fw-light text-secondary">
+                                        &: <a href="{% url 'polity-detail-main' value.other_polity.id %}">{{ value.other_polity.name }}</a>  
+                                    </span>
+                                    {% else %}
+                                    <span class="fw-light">
+                                    </span>
+                                    {% endif %}
+                            
+                                {% else %}
+                                <span>-</span>
+                                {% endif%}
+                            </span>
+                        </div>
                         <div style="display: block; padding: 0;">
                             <div style="display: inline-flex; flex-direction: row;">
                                 {% if value.is_first_100 == True %}
