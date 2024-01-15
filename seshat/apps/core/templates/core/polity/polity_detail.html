@@ -198,14 +198,107 @@
 
                 </div>
                 <div class="col-md-4">    
-                    <a href="{% url 'polity-update' object.pk  %}" class="btn btn-outline-danger mx-1 my-2 float-end"><i class="fa-regular fa-pen-to-square"></i> &nbsp; Edit This Polity</a>
+                    <div class="row">
 
-                    <a href="{% url 'polities' %}" class="btn btn-outline-success mx-1 my-2 float-end"><i class="fa-solid fa-list-ul"></i> &nbsp; See All Polities</a>
+
+                        <div class="col-md-6">    
+
+                        <a href="{% url 'polities' %}" class="btn btn-outline-success my-2 float-end"><i class="fa-solid fa-list-ul"></i> &nbsp; See All Polities</a>                       
+                    </div>
+                    <div class="col-md-6">    
+
+                        <a href="{% url 'polity-update' object.pk  %}" class="btn btn-outline-danger my-2 float-end"><i class="fa-regular fa-pen-to-square"></i> &nbsp; Edit This Polity</a> 
+                    </div>
+
+                    </div>
+                    {% if user.is_authenticated and 'core.view_capital' in user.get_all_permissions %}
+                    <div class="row pt-3">
+                        <table class="table">
+                            <tbody>
+                                <tr style="text-align: right;">
+                                    <td>
+                                    <span class="text-secondary"> Intrinsic Duration: &nbsp;&nbsp;</span>    
+                                    {% if all_durations.intr %}
+                                    {{all_durations.intr}}  &nbsp;&nbsp;
+                                    {% else %}
+                                    [-----, -----]   &nbsp;&nbsp;
+                                    {% endif %}                                        
+
+                                        <a href="{% url 'polity-update' object.pk  %}">
+                                            {% if all_durations.color.0 == "g" %}
+                                            <i class="fa-solid fa-circle-check text-success"></i>
+                                            {% elif all_durations.color.0 == "m" %}
+                                            <i class="fa-solid fa-circle text-secondary"></i>
+                                            {% elif all_durations.color.0 == "r" %}
+                                            <i class="fa-solid fa-circle-xmark text-danger"></i>
+                                            {% else %}
+                                            <i class="fa-solid fa-circle-exclamation text-warning"></i>
+                                            {% endif %}
+                                        </a> 
+                                    </td>
+                                </tr>
+                                <tr style="text-align: right;">
+                                    <td>
+                                        <span class="text-secondary">GV (coded) Duration: &nbsp;&nbsp;</span>    
+                                        {% if all_durations.gv %}
+                                        {{all_durations.gv}}  &nbsp;&nbsp;
+                                        {% else %}
+                                        [-----, -----]   &nbsp;&nbsp;
+                                        {% endif %} 
+                                        
+
+                                        <a href="#Polity_duration">
+                                            {% if all_durations.color.1 == "g" %}
+                                            <i class="fa-solid fa-circle-check text-success"></i>
+                                            {% elif all_durations.color.1 == "m" %}
+                                            <i class="fa-solid fa-circle text-secondary"></i>
+                                            {% elif all_durations.color.1 == "r" %}
+                                            <i class="fa-solid fa-circle-xmark text-danger"></i>
+                                            {% else %}
+                                            <i class="fa-solid fa-circle-exclamation text-warning"></i>
+                                            {% endif %}
+                                        </a> 
+                                    </td>
+                                </tr>
+                                <tr style="text-align: right;">
+                                    <td>
+                                        <span class="text-secondary">PT (Implied) Duration: &nbsp;&nbsp;</span>    
+                                        {% if all_durations.pt %}
+                                        {{all_durations.pt}}  &nbsp;&nbsp;
+                                        {% else %}
+                                        [-----, -----]   &nbsp;&nbsp;
+                                        {% endif %} 
+
+
+                                        {% if all_durations.color.2 == "g" or all_durations.color.2 == "r"  %}
+                                        <a href="#power_transition_var">
+                                            {% if all_durations.color.2 == "g" %}
+                                            <i class="fa-solid fa-circle-check text-success"></i>
+                                            {% elif all_durations.color.2 == "m" %}
+                                            <i class="fa-solid fa-circle text-secondary"></i>
+                                            {% elif all_durations.color.2 == "r" %}
+                                            <i class="fa-solid fa-circle-xmark text-danger"></i>
+                                            {% else %}
+                                            <i class="fa-solid fa-circle-exclamation text-warning"></i>
+                                            {% endif %} 
+                                        </a> 
+                                        {% else %}
+                                        <a href="{% url 'power_transition-create' %}?polity_id_x={{object.id}}"><i class="fa-regular fa-plus text-secondary"></i>
+                                        </a>
+                                        {% endif %} 
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
                 </div>
+                {% endif %}
+
 
             </div>
             <div>
-                <div class="col-md-12 row">
+                <div class="col-md-12 row pb-3">
                     <div class="col-md-6">
                         <i class="fa-solid fa-circle text-secondary fa-xs"></i>
 
@@ -249,6 +342,7 @@
                         {% endif %}
 
                     </div>
+
                 </div>
             </div>
             {% if user.is_authenticated and object.private_comment %}
@@ -262,15 +356,7 @@
 
             </div>
             {% endif %}
-            <ul>
-                <li>{{all_durations}}</li>
-
-            </ul>
-
-            <h6 class="text-secondary pt-3">* A polity is defined as an independent political unit. Kinds of polities range from villages (local communities) through simple and complex chiefdoms to states and empires. A polity can be either centralized or not (e.g., organized as a confederation). For those periods when a region is divided up among a multitude of small-scale polities (e.g., independent villages or even many small chiefdoms) or when it is controlled in quick succession by a number of different regimes, we use the concept of 'quasi-polity'.</h6>
-
-
-
+           
             <div class="row m-0 p-0">
                 <div class="col-md-12 pb-3 m-0 pt-0 ps-0 pe-0">
                     <div class="accordion accordion-flush  border border-2 border-success rounded" id="accordionFlushExample">
@@ -1425,10 +1511,13 @@
                                         {% include "core/partials/_disputed_value_inline.html" %}
                                         {% include "core/partials/_uncertain_value_inline.html" %}
                                         {% include "core/partials/_expert_checked_value_inline.html" %}
+                                        {% if user.is_authenticated and 'core.view_capital' in user.get_all_permissions %}
 
                                         <a class="p-0 m-0 fs-6" type="button" href="{% url key|lower|add:'-update' value.id %}">
                                             <span class="badge rounded-pill bg-danger tag-border"> <i class=" fa-solid fa-pen-to-square text-white"></i></span>
-                                        </a>                  
+                                        </a>  
+                                        {% endif %}
+                
                                     </div>
                                 </div>
                             </span>
@@ -1506,10 +1595,12 @@
                                             {% include "core/partials/_disputed_value_inline.html" %}
                                             {% include "core/partials/_uncertain_value_inline.html" %}
                                             {% include "core/partials/_expert_checked_value_inline.html" %}
-
+                                            {% if user.is_authenticated and 'core.view_capital' in user.get_all_permissions %}
                                             <a class="p-0 m-0 fs-6" type="button" href="{% url key|lower|add:'-update' value.id %}">
                                                 <span class="badge rounded-pill bg-danger tag-border"> <i class=" fa-solid fa-pen-to-square text-white"></i></span>
-                                            </a>                  
+                                            </a>      
+                                            {% endif %}
+            
                                         </div>
                                     </div>
                                 </span>
@@ -1591,10 +1682,12 @@
                                             {% include "core/partials/_disputed_value_inline.html" %}
                                             {% include "core/partials/_uncertain_value_inline.html" %}
                                             {% include "core/partials/_expert_checked_value_inline.html" %}
-
+                                            {% if user.is_authenticated and 'core.view_capital' in user.get_all_permissions %}
                                             <a class="p-0 m-0 fs-6" type="button" href="{% url key|lower|add:'-update' value.id %}">
                                                 <span class="badge rounded-pill bg-danger tag-border"> <i class=" fa-solid fa-pen-to-square text-white"></i></span>
-                                            </a>                  
+                                            </a>    
+                                            {% endif %}
+              
                                         </div>
                                     </div>
                                 </span>
@@ -1683,10 +1776,12 @@
                                         {% include "core/partials/_disputed_value_inline.html" %}
                                         {% include "core/partials/_uncertain_value_inline.html" %}
                                         {% include "core/partials/_expert_checked_value_inline.html" %}
-
+                                        {% if user.is_authenticated and 'core.view_capital' in user.get_all_permissions %}
                                         <a class="p-0 m-0 fs-6" type="button" href="{% url key|lower|add:'-update' value.id %}">
                                             <span class="badge rounded-pill bg-danger tag-border"> <i class=" fa-solid fa-pen-to-square text-white"></i></span>
-                                        </a>                  
+                                        </a>    
+                                        {% endif %}
+              
                                     </div>
                                 </div>
                             </span>
@@ -1716,12 +1811,12 @@
     {% endif %}
 
 </div>
-
+<div>
     {% for key, values in all_data.items %}
     {% if "Human_sacrifice_for_polity" == key %}
 
     <span class="pt-5 display-1" style="text-align: left;  color:#893101;" ><span class="h1 fw-bold" id="hs_var"> Human Sacrifice Data</span>  <span class="h6"> <a href=""><i class="fa-solid fa-turn-up"></i></a></span>             
-</span>
+    </span>
     <h6>
         <span> <i class="fa-solid fa-caret-right"></i> Human Sacrifice is the deliberate and ritualized killing of a person to please or placate supernatural entities (including gods, spirits, and ancestors) or gain other supernatural benefits. </span>
     </h6>
@@ -1754,12 +1849,14 @@
                                 <a class="p-0 m-0 fs-6" type="button" href="{% url 'human_sacrifice-update' value.id %}">
                                     <span class="badge rounded-pill bg-danger tag-border"> <i class=" fa-solid fa-pen-to-square text-white"></i></span>
                                 </a>    
-                                
+                                {% if user.is_authenticated and 'core.view_capital' in user.get_all_permissions %}
                                 {% if value.comment.id == 1 %}
                                     <a class="p-0 m-0 fs-6" href="{% url 'create_subcomment' value.id %}"><span class="badge rounded-pill bg-secondary tag-border"> <i class=" fa-solid fa-plus text-white"></i> Create Description</span></a>
                                 {% else  %}
                                     <a class="p-0 m-0 fs-6" href="{% url 'seshatcomment-update' value.comment.id %}"><span class="badge rounded-pill bg-secondary tag-border"> <i class=" fa-solid fa-pen-to-square text-white"></i> Edit Description</span></a>
-                                {% endif %}          
+                                {% endif %}     
+                                {% endif %}
+     
                             </div>
                         </div>
                     </span>
@@ -1781,10 +1878,8 @@
     </div>
 
     {% endif %}
-
-
     {% endfor %}
-
+</div>
     <div>
         <div class="row d-flex align-items-center justify-content-center">
             <div class="col-md-6">
@@ -1862,9 +1957,12 @@
                                    
                                 {% include "core/partials/_disputed_value_inline.html" %}
                                 {% include "core/partials/_expert_checked_value_inline.html" %}
+                                {% if user.is_authenticated and 'core.view_capital' in user.get_all_permissions %}
                                 <a class="p-0 m-0 fs-6" href="{% url 'crisis_consequence-update' value.id %}">
                                     <span class="badge rounded-pill bg-danger tag-border"> <i class=" fa-solid fa-pen-to-square text-white"></i></span>
-                                </a>                  
+                                </a>   
+                                {% endif %}
+               
                             </div>
                         </div>
                     </span>
@@ -1880,7 +1978,6 @@
 
     </div>  
 
-    <div>
         <div class="row d-flex align-items-center justify-content-center">
             <div class="col-md-6">
                 <span class="pt-5 display-1" style="text-align: left; color:#893101;" >
@@ -1929,9 +2026,12 @@
                                     {% include "core/partials/_tag_value_inline.html" %}
                                     {% include "core/partials/_disputed_value_inline.html" %}
                                     {% include "core/partials/_expert_checked_value_inline.html" %}
+                                    {% if user.is_authenticated and 'core.view_capital' in user.get_all_permissions %}
                                     <a class="p-0 m-0 fs-6" href="{% url 'power_transition-update' value.id %}">
                                         <span class="badge rounded-pill bg-danger"> <i class=" fa-solid fa-pen-to-square text-white"></i></span>
-                                    </a>                  
+                                    </a>  
+                                    {% endif %}
+                
                                 </div>
                             </div>
                         </span>
@@ -1946,7 +2046,8 @@
             {% endfor %}
         </div>
 
-    </div>  
+</div>  
+
 </div>
 
 <script>

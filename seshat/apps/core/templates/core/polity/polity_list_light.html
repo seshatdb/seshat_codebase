@@ -85,26 +85,21 @@
         <h6 class="lead-2 text-secondary">List of all:</h6>
         <h2>Polities <span class="text-secondary">(light)</span> </h2>
         <div class="pb-3 text-right">
-            <a href="{% url 'polity-create'  %}" class="btn btn-outline-success me-1 my-1"><i class="fa-solid fa-plus"></i> &nbsp; New Polity</a>
-            <a href="{% url 'download_csv_all_polities' %}" class="btn btn-outline-danger me-1 my-1"><i class="fa-solid fa-file-arrow-down"></i> &nbsp; Download All <b>({{pol_count}})</b> Polities</a>
-            {% if user.is_authenticated %}
-            <a href="{% url 'polities-commented'  %}" class="btn btn-outline-info me-1 my-1"> &nbsp; See Commented Polities</a>
-            {% endif %}
+
 
         </div>
     </div>
 
         <div class="col-md-6">
-
-        <h6 class="text-secondary">* A polity is defined as an independent political unit. Kinds of polities range from villages (local
-            communities) through simple and complex chiefdoms to states and empires. A polity can be either centralized or not (e.g., organized as a confederation). For those periods when a region is divided up among a multitude of small-scale polities (e.g., independent villages or even many small chiefdoms) or when it is controlled in quick succession by a number of different regimes, we use the concept of 'quasi-polity'.</h6>
+            <a href="{% url 'polity-create'  %}" class="btn btn-outline-success me-1 my-1"><i class="fa-solid fa-plus"></i> &nbsp; New Polity</a>
+            <a href="{% url 'download_csv_all_polities' %}" class="btn btn-outline-danger me-1 my-1"><i class="fa-solid fa-file-arrow-down"></i> &nbsp; Download All <b>({{pol_count}})</b> Polities</a>
+            {% if user.is_authenticated %}
+            <a href="{% url 'polities-commented'  %}" class="btn btn-outline-primary me-1 my-1"> &nbsp; See Commented Polities</a>
+            {% endif %}
         </div>
 
     </div>
        
-
-    <hr class="bg-colorful">
-
     {% if messages %}
     <ul class="messages mt-3">
         {% for message in messages %}

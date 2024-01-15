@@ -1245,7 +1245,6 @@ class PolityDetailView(SuccessMessageMixin, generic.DetailView):
             all_durations["intr"] = [Polity_object.start_year, Polity_object.end_year]
         except:
             intrinsic_duration = [-10000, 2000]
-        print(f"GGGGGGGGGGGGGGGGGGGGGG: {intrinsic_duration}")
         # Pol_dur object
         try:
             Polity_duration_object = Polity_duration.objects.get(polity_id=self.object.pk)
@@ -1255,7 +1254,6 @@ class PolityDetailView(SuccessMessageMixin, generic.DetailView):
             all_durations["gv"] = [Polity_duration_object.polity_year_from, Polity_duration_object.polity_year_to]
         except:
             polity_duration_coded = [-10000, 2000]
-        print(f"HHHHHHHHHHHHHHHHHHHHHH: {polity_duration_coded}")
 
         # Pow Trans Data
         try:
@@ -1275,27 +1273,33 @@ class PolityDetailView(SuccessMessageMixin, generic.DetailView):
             all_durations["pt"] = polity_duration_implied
         except:
             polity_duration_implied = [-10000, 2000]
-        print(f"KKKKKKKKKKKKKKKKKKKKKKKKK: {polity_duration_implied}")
+
         if all_durations["intr"] and all_durations["gv"] and all_durations["pt"]:
             if (all_durations["intr"] == all_durations["gv"] == all_durations["pt"]):
-                all_durations["color"] = "ggg"
+               all_durations['color'] = "ggg"
             elif (all_durations["intr"] == all_durations["gv"]):
-                all_durations["color"] = "ggr"
+               all_durations['color'] = "ggr"
             elif (all_durations["intr"] == all_durations["pt"]):
-                all_durations["color"] = "grg"
+               all_durations['color'] = "grg"
             elif (all_durations["gv"] == all_durations["pt"]):
-                all_durations["color"] = "rgg"
+               all_durations['color'] = "rgg"
         elif all_durations["intr"] and all_durations["gv"]:
             if (all_durations["intr"] == all_durations["gv"]):
-                all_durations["color"] = "ggm"
+               all_durations['color'] = "ggm"
             else:
-                all_durations["color"] = "grm"
+               all_durations['color'] = "grm"
         elif all_durations["intr"] and all_durations["pt"]:
             if (all_durations["intr"] == all_durations["pt"]):
-                all_durations["color"] = "gmg"
+               all_durations['color'] = "gmg"
+            elif all_durations["intr"][0] == -10000:
+               all_durations['color'] = "rmr"
             else:
-                all_durations["color"] = "gmr"
-        print(all_durations)
+               all_durations['color'] = "gmr"
+        elif all_durations["intr"] and all_durations["intr"][0] == -10000:
+           all_durations['color'] = "rmm"
+        elif all_durations["intr"]:
+           all_durations['color'] = "gmm"
+
         context["all_durations"] = all_durations
         #####################
 
