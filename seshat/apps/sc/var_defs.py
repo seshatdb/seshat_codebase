@@ -27,4 +27,5 @@ Even in primitive societies such as simple chiefdoms it is often possible to dis
 'fastest_individual_communication': 'This is the fastest time (in days) an individual can travel from the capital city to the most outlying provincial capital (if one exists), usually keeping within the boundaries of the polity. This might be by ship, horse, horse relay, or on foot, or a combination.',
 'largest_communication_distance': """Distance in kilometers between the capital and the furthest provincial capital. Use the figure for the most direct land and/or sea route that was available.
 As an alternative for prehistoric communities, measure the distance between largest quasi-capital and furthest village within the quasi-polity.""",
+ 'other_utilitarian_public_building': 'Other utilitarian public buildings...',
  }

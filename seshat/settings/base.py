@@ -284,6 +284,7 @@ STATIC_ROOT = BASE_DIR.parent.parent / "static"
 # I believe this says: anything under the base directory that is inside a directory called 'static' will be collected as statidfile,
 # regardless of how deep down in the directory hierarchy it might be. It just needs to be a in a older called media in any of the apps, etc.
 STATICFILES_DIRS = [BASE_DIR / "static"]
+#print(STATICFILES_DIRS)
 
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
@@ -345,3 +346,7 @@ CORS_ALLOWED_ORIGINS = [
 
 # I believe this says: Hey Heroku, do your local settings, don't care about my static_root, static_url etc.
 django_heroku.settings(locals())
+#print("###################")
+#print(STATICFILES_DIRS)
+#print(STATIC_ROOT)
+#print(STATIC_URL)

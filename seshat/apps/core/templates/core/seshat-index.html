@@ -55,6 +55,13 @@ body {
 
   }
 
+  .bg-colorful-light {
+    background-image: linear-gradient(to right, rgb(246, 127, 127, 0.076),rgb(242, 199, 119, 0.076),rgb(151, 230, 151, 0.076));
+    border-radius: 10px;
+
+
+  }
+
 .card-text-spaced {
     font-size: 16px;
     color: #782823;
@@ -104,6 +111,7 @@ body {
         padding-top:3px;
         padding-bottom:1px;
     }
+
         
 </style>
 <div style="background-image: linear-gradient(to bottom, #782823, rgb(151, 230, 151, 0.216),  #fffdf2); text-align: center; "> 
@@ -134,19 +142,24 @@ body {
 </div>
 <div class="container pe-3">
 
+    <div class="bg-colorful-light p-2">
+        <div class="col-md-3">
+            <h1 class="px-3 pt-3 pb-3 bg-colorful fw-bold" style="text-align: left; color: #782823;   border-radius: 10px;  text-shadow: 2px 2px 4px rgba(9, 71, 45, 0.261);
+            ">Objects</h1>
+        </div>
 
 <div class="row py-4">
     <div class="col-md-4">
         <div class="gray-background">      </div>
         <div class="px-2">
-          <h1 class="card-title  fw-bold" style="color:darkcyan; text-align: center;">
-            <a href="{% url 'polities'  %}">  
+          <h1 class="card-title  fw-bold" style="color:darkcyan; text-align: center; text-shadow: 2px 2px 4px rgba(9, 71, 45, 0.261);">
+            <a href="{% url 'polities-light'  %}">  
                 {{sr_data.0}}            </a>
            
           </h1>
           <hr class="bg-colorful p-1 m-0">
-          <h1 class="card-text pt-1 pb-2 m-0 fw-bold" style="font-size:40px; color: #782823; text-align: center; ">
-            <a href="{% url 'polities'  %}">  
+          <h1 class="card-text pt-1 pb-2 m-0 fw-bold" style="font-size:40px; color: #782823; text-align: center;  text-shadow: 2px 2px 4px rgba(9, 71, 45, 0.261);">
+            <a href="{% url 'polities-light'  %}">  
                 Seshat Regions
             </a>
           </h1>
@@ -195,14 +208,14 @@ body {
 
         <div class="px-2">
 
-            <h1 class="card-title fw-bold" style="color:rgba(1, 81, 81, 0.806); text-align: center; ">
+            <h1 class="card-title fw-bold" style="color:rgba(1, 81, 81, 0.806); text-align: center;  text-shadow: 2px 2px 4px rgba(9, 71, 45, 0.261);">
                 <a href="{% url 'polities'  %}">  
                 {{pols_data.0}}
             </a>
         </h1>     
             <hr class="bg-colorful p-1 m-0">
      
-          <h1 class="card-text pt-1 pb-2 m-0 fw-bold" style="font-size:40px; color: #782823; text-align: center;">
+          <h1 class="card-text pt-1 pb-2 m-0 fw-bold" style="font-size:40px; color: #782823; text-align: center;  text-shadow: 2px 2px 4px rgba(9, 71, 45, 0.261);">
             <a href="{% url 'polities'  %}">  
                 Polities</a>
           </h1>
@@ -218,10 +231,12 @@ body {
                             <a href="{% url 'polity-detail-main'  an_example.id %}">                           
                                 {% if an_example.long_name %}
                                 {{an_example.long_name}}
+                                {% else %}
+                                {{an_example.new_name}}
                                 {% endif %}
-                                {% if an_example.new_name %}
+                                {% if an_example.home_seshat_region %}
                                 <span class="fw-normal">
-                                    ({{an_example.new_name}})
+                                    (in: {{an_example.home_seshat_region.name}})
                                 </span> 
                                 {% endif %}
                                 </a>
@@ -298,7 +313,8 @@ body {
 
 
   </div>
-
+</div>
+<div class="bg-colorful-light p-2 mt-4">
 
 
     <div class="col-md-3">
@@ -525,6 +541,10 @@ body {
             </div>
           </div>
 
+
+
+
+
           <div class="col-md-7 pt-4">
             <div class="gray-background">      </div>
     
@@ -651,9 +671,14 @@ body {
             </div>
           </div>
 
+        </div>
+    </div>
 
+    <div class="bg-colorful-light p-2 mt-4">
 
-          <div class="col-md-3 pt-5">
+        <div class="row">
+
+          <div class="col-md-3">
             <h1 class="px-3 pt-3 pb-3 bg-colorful fw-bold" style="text-align: left; color: #782823;   border-radius: 10px;  text-shadow: 2px 2px 4px rgba(9, 71, 45, 0.261);
             ">CrisisDB</h1>
         </div>
@@ -1571,6 +1596,8 @@ body {
               </div>
 
 
+
+</div>
 
 </div>
 

@@ -168,7 +168,7 @@
                         </span>
                         {% endif %}
 
-                        {% if has_any_rt_data and 'core.view_capital' in user.get_all_permissions %}
+                        {% if has_any_rt_data and 'core.view_capital' in user.get_all_permissions or object.new_name == "kh_chenla" or object.new_name == "pe_wari_emp" or object.new_name == "in_kampili_k" or object.new_name == "in_kalyani_chalukya_emp" or object.new_name == "in_hoysala_k" or object.new_name == "et_aksum_emp_3" or object.new_name == "et_aksum_emp_2" or object.new_name == "ni_proto_yoruboid" or object.new_name == "ni_sokoto" or object.new_name == "gm_kaabu_emp" %}
                         <span type="button"  tabindex="0" data-bs-toggle="popover" title="Religion Tolerance" data-bs-html="true" data-bs-trigger="focus">
                         <a href="#rt_var"><span class="badge p-1 me-2 fs-4 custom-left-border-shadowed_2" style="background: #59007f;">RT</span></a>
                         </span>
@@ -786,7 +786,7 @@
 
             {% endif %}
 <!-- RT -->
-{% if all_rt_data and 'core.view_capital' in user.get_all_permissions %}
+{% if all_rt_data and 'core.view_capital' in user.get_all_permissions or object.new_name == "kh_chenla" or object.new_name == "pe_wari_emp" or object.new_name == "in_kampili_k" or object.new_name == "in_kalyani_chalukya_emp" or object.new_name == "in_hoysala_k" or object.new_name == "et_aksum_emp_3" or object.new_name == "et_aksum_emp_2" or object.new_name == "ni_proto_yoruboid" or object.new_name == "ni_sokoto" or object.new_name == "gm_kaabu_emp" %}
 <div class="col-md-12 m-0 p-0">
     <span class=" h3 fw-bold m-0 p-0 ">  
         <span class="badge mt-5 mb-2 p-3 fw-bold text-dark rounded-pill" style="text-align: left; background: #59007f3b; border:1px solid #59007f">
@@ -1729,7 +1729,7 @@
 
 <!-- RT -->
 <div>    
-    {% if all_rt_data and 'core.view_capital' in user.get_all_permissions  %}
+    {% if all_rt_data and 'core.view_capital' in user.get_all_permissions or object.new_name == "kh_chenla" or object.new_name == "pe_wari_emp" or object.new_name == "in_kampili_k" or object.new_name == "in_kalyani_chalukya_emp" or object.new_name == "in_hoysala_k" or object.new_name == "et_aksum_emp_3" or object.new_name == "et_aksum_emp_2" or object.new_name == "ni_proto_yoruboid" or object.new_name == "ni_sokoto" or object.new_name == "gm_kaabu_emp" %}
 
     <span class="pt-5 display-1" style="text-align: left; color:#893101;" ><span class="h1 fw-bold" id="rt_var">
         Religion Tolerance</span>

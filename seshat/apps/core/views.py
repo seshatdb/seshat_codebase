@@ -19,7 +19,7 @@ from django.http import HttpResponseRedirect
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.db import IntegrityError
-from django.db.models import Prefetch, F, Value, Q
+from django.db.models import Prefetch, F, Value, Q, Count
 from django.db.models.functions import Replace
 
 from django.views.decorators.http import require_GET
@@ -1961,7 +1961,12 @@ def seshatindex(request):
     eight_pols = Polity.objects.order_by('?')[:8]
     context['eight_pols'] = eight_pols
 
-    eight_srs = Seshat_region.objects.exclude(name="Somewhere").order_by('?')[:8]
+    #eight_srs = Seshat_region.objects.exclude(name="Somewhere").order_by('?')[:8]
+    eight_srs_0 = Seshat_region.objects.exclude(name="Somewhere").annotate(
+    num_polities=Count('home_seshat_region'))
+    eight_srs = eight_srs_0.order_by('-num_polities')[:8]
+
+
     context['eight_srs'] = eight_srs
 
 

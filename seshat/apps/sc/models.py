@@ -3010,6 +3010,55 @@ class Knowledge_or_information_building(SeshatCommon):
 
     def __str__(self) -> str:
         return call_my_name(self)
+    
+class Other_utilitarian_public_building(SeshatCommon):
+    name = models.CharField(max_length=100, default="Other_utilitarian_public_building")
+    other_utilitarian_public_building = models.CharField(max_length=500, choices=ABSENT_PRESENT_CHOICES)
+
+    class Meta:
+        verbose_name = 'Other_utilitarian_public_building'
+        verbose_name_plural = 'Other_utilitarian_public_buildings'
+        ordering = ['year_from', 'year_to']
+
+    @property
+    def display_citations(self):
+        return return_citations(self)
+
+    def clean(self):
+        clean_times(self)
+
+    def clean_name(self):
+        return "other_utilitarian_public_building"
+
+    def clean_name_spaced(self):
+        return "Other Utilitarian Public Building"
+    
+    def show_value(self):
+        if self.other_utilitarian_public_building:
+            return self.get_other_utilitarian_public_building_display()
+        else:
+            return " - "
+
+    def show_value_from(self):
+        if self.other_utilitarian_public_building:
+            return self.other_utilitarian_public_building
+        else:
+            return None
+
+    def show_value_to(self):
+        return None  
+    
+    def subsection(self):
+        return "Specialized Buildings: polity owned"
+
+    def sub_subsection(self):
+        return None
+        
+    def get_absolute_url(self):
+        return reverse('other_utilitarian_public_building-detail', args=[str(self.id)])
+
+    def __str__(self) -> str:
+        return call_my_name(self)
 
 
 class Special_purpose_site(SeshatCommon):
