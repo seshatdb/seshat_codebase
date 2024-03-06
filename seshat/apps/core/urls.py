@@ -115,16 +115,25 @@ urlpatterns += [
 urlpatterns += [
     path('core/seshatcommentparts/create/', views.SeshatCommentPartCreate.as_view(),
          name="seshatcommentpart-create"),
-    path('core/seshatcommentparts/create2/<int:com_id>/<int:subcom_order>/', views.SeshatCommentPartCreate2.as_view(),
+    #path('core/seshatcommentparts/create2/<int:com_id>/<int:subcom_order>/', views.SeshatCommentPartCreate2.as_view(),
+    #     name="seshatcommentpart-create2"),
+    path('core/seshatcommentparts/create2/<int:com_id>/<int:subcom_order>/', views.seshat_comment_part_create_from_null_view,
          name="seshatcommentpart-create2"),
      path('core/seshatcommentparts/', views.SeshatCommentPartListView.as_view(), name='seshatcommentparts'),
+     path('core/seshatcommentparts3/', views.SeshatCommentPartListView3.as_view(), name='seshatcommentparts3'),
     path('core/seshatcommentparts/<slug:id>', views.SeshatCommentPartDetailView.as_view(),
          name='seshatcommentpart-detail'),
     path('core/seshatcommentparts/<int:pk>/update/',
          views.SeshatCommentPartUpdate.as_view(), name="seshatcommentpart-update"),
+    path('core/seshatcommentparts/<int:pk>/update2/',
+         views.update_seshat_comment_part_view, name="seshatcommentpart-update2"),
     path('core/seshatcommentparts/<int:pk>/delete/',
          views.SeshatCommentPartDelete.as_view(), name="seshatcommentpart-delete"),
     path('core/seshatcommentparts/create3/', views.seshatcommentpart_create_view, name='seshatcommentpart_create3'),
+    path('core/seshatcomments/create3/', views.seshatcomment_create_view, name='seshatcomment_create_view'),
+
+    # NEW
+     path('create_subcomment_new/<slug:app_name>/<slug:model_name>/<int:instance_id>/', views.create_a_comment_with_a_subcomment_new, name='create_subcomment_new'),
 
     # Download
     #path('balancedownload/', views.balance_download,
@@ -138,4 +147,5 @@ urlpatterns += [path('core/nlp_datapoints_2/', views.nlp_datapoints_2, name="nlp
 urlpatterns += [
      path('core/not_found_404', views.four_o_four,
          name="four-o-four"),
+
 ]

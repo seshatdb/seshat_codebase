@@ -1,0 +1,179 @@
+<!-- seshatcommentpart_create.html -->
+{% extends "core/seshat-base.html" %}
+{% load crispy_forms_tags %}
+{% load humanize %}
+{% crispy ReferenceWithPageForm ReferenceWithPageForm.helper %}
+
+
+
+{% block content %}
+
+<link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+<style>
+    /* Style the dropdown */
+    .select2-container .select2-selection--single {
+        height: 34px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        padding-top: 1px;
+        margin-top: 0px;
+        }
+    
+        .select2-container .select2-results__option:hover {
+            background-color: #782823;
+            color: beige;
+        }
+    
+    
+        .select2-container--default .select2-results__option--highlighted[aria-selected] {
+            background-color: #782823;
+            color: beige;
+        }
+    
+        /* Style the dropdown arrow */
+        .select2-container .select2-selection__arrow {
+        height: 32px;
+        margin-top: 1px; /* Adjust the margin-top as needed */
+        }
+    
+        .form-check-inline {
+            display: flex;
+            flex-direction: row;
+            align-items: center; /* Center vertically */
+            margin-right: 10px; /* Add some spacing between radio buttons */
+        }
+        .form-check-label {
+            display: flex;
+            align-items: center;
+            margin-right: 15px; /* Add spacing between radio buttons */
+        }
+        
+        .form-check-label input[type="radio"] {
+            margin-right: 5px; /* Add spacing between radio circle and label */
+        }
+    
+        /* Hide the up and down arrows */
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button,
+        input[type="number"] {
+            -webkit-appearance: none;
+            margin-top: 4px;
+            height: 34px;
+
+        }
+    
+        .row {
+            --bs-gutter-x: 1.0rem;
+        }
+        hr.bg-colorfuln {
+            height:5px !important;
+            margin-bottom: 20px;
+
+            background-color: #fefae6;
+        }
+        table {border: none !important;}
+        tbody, td, tfoot, th, thead, tr {
+            border-color: inherit;
+            border-style: none;
+            border-width: 0;
+        }
+</style>
+
+<div class="container p-4">
+
+<!-- seshatcommentpart_create.html -->
+{% autoescape off %}
+How it appears on a page: <br>
+<div class="border p-2 border-dark bg-light rounded border-3">
+    {{comm_part_display}}
+</div>
+{% endautoescape %}
+
+<form method="post" action="{% url 'seshatcommentpart-create2' com_id=com_id subcom_order=subcom_order  %}">
+    {% csrf_token %}
+    <div class="row">
+      <div class="col-md-12">
+
+        {{ form.comment_text.label_tag }} {{ form.comment_text }}<br>
+        {{ form.formset.management_form }}
+        {{ form.management_form }}
+      </div>
+      <div class="col-md-12">
+        <div id="formset-container">
+            {% for form1 in formset %}
+
+            <table class="table align-middle">
+                    <thead class="bg-info">
+
+                    <tr>
+                        <th>Reference</th>
+                        <th>Page from</th>
+                        <th>Page to</th>
+                        <th>Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+
+                <div class="formset-item">
+                    {{ form.id }} {# Include the form ID for proper formset rendering #}
+
+                        <tr>
+                    <td class="col-md-7">
+                        {{ form1.ref|as_crispy_field }} 
+                    </td>
+                    <td class="col-md-2">
+                        {{ form1.page_from|as_crispy_field }}
+                    </td>
+                    <td class="col-md-2">
+                        {{ form1.page_to|as_crispy_field }}
+                    </td>
+                    <td class="col-md-1 ps-4">
+                        {{ form1.DELETE }} 
+                    </td>
+                                        
+                    </tr>
+                    <tr> {# Add a new row for parent_pars #}
+                        
+                        <td colspan="4" class="col-md-12">
+                            {{ form1.parent_pars|as_crispy_field }}
+                            <hr class="bg-colorfuln">
+                        </td>
+                    </tr>
+
+                </div>
+            </tbody>
+
+            </table>
+            {% endfor %}
+
+          </div>
+
+        </div>
+        <div class="col-md-6 pt-4"  style="display: none;">
+             {{ form.comment_order|as_crispy_field }}
+        </div>
+        <div class="col-md-6 pt-4 d-grid gap-2">
+            <input type="submit"  class="btn btn-success btn-block mt-2" value="Submit">
+        </div>
+
+  </div>
+  </form>
+</div>
+<!-- seshatcommentpart_create.html -->
+<script>
+
+
+        $(document).ready(function() {
+          // Initialize Select2 with an empty dataset
+          $('.js-example-basic-single').select2();
+
+});
+    
+</script>
+ 
+{% endblock %}
+
+  

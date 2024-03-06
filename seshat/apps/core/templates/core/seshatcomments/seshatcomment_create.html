@@ -1,0 +1,118 @@
+<!-- seshatcommentpart_create.html -->
+{% extends "core/seshat-base.html" %}
+{% load crispy_forms_tags %}
+{% load humanize %}
+{% crispy SeshatCommentPartForm2 SeshatCommentPartForm2.helper %}
+{% crispy ReferenceWithPageForm ReferenceWithPageForm.helper %}
+
+
+{% block content %}
+<div class="container p-4">
+
+<!-- seshatcommentpart_create.html -->
+<form method="post" action="{% url 'seshatcomment_create_view' %}">
+    {% csrf_token %}
+    <div class="row">
+        {{ form.comment_text.label_tag }} {{ form.comment_text }}<br>
+        {{ form.comment_order.label_tag }} {{ form.comment_order }}<br>
+        {{ form.formset.management_form }}
+
+      <div class="col-md-12">
+        <div id="formset-container">
+            {% for form_outer in form.formset %}
+            <div class="formset-item-outer"  style="display: block;">
+                {{ form_outer.id }} {# Include the form_outer ID for proper formset rendering #}
+                {% for form_inner in form_outer.formset %}
+                <div class="col-md-4 formset-item">
+
+                    {{ form.comment_text.label_tag }} {{ form.comment_text }}<br>
+                    {{ form.comment_order.label_tag }} {{ form.comment_order }}<br>
+
+                    {{ form_inner.comment_text.label_tag }} {{ form_inner.comment_text }}<br>
+                    {{ form_inner.comment_order.label_tag }} {{ form_inner.comment_order }}<br>
+        
+                    {{ form_inner.formset.management_form }}
+            
+                  </div>
+                  <div class="col-md-8">
+
+                    <div class="formset-item"  style="display: none;">
+                        {{ form_inner.id }} {# Include the form_inner ID for proper form_innerset rendering #}
+                        <div class="row">
+                        <div class="col-md-8">
+                            {{ form_inner.ref|as_crispy_field }} 
+                        </div>
+                        <div class="col-md-2">
+                            {{ form_inner.page_from|as_crispy_field }}
+                        </div>
+                        <div class="col-md-2">
+
+                            {{ form_inner.page_to|as_crispy_field }}
+                        </div>
+                        </div>
+                    </div>
+                </div>
+
+                {% endfor %}
+                <a id="show-more-button" type="button" class="btn btn-success">Show More</a>
+            </div>
+            {% endfor %}
+          </div>
+          <a id="show-more-button-outer" type="button" class="btn btn-success">Show More Outer</a>
+        </div>
+        {{ form.comment_order.label_tag }} {{ form.comment_order }}<br>
+    <input type="submit" value="Submit">
+  </div>
+  </form>
+</div>
+<!-- seshatcommentpart_create.html -->
+<script>
+
+  document.addEventListener("DOMContentLoaded", function () {
+    const formsetItemsOuter = document.querySelectorAll('.formset-item-outer');
+    const showMoreButtonOuter = document.getElementById('show-more-button-outer');
+    const formsetItems = document.querySelectorAll('.formset-item');
+    const showMoreButton = document.getElementById('show-more-button');
+    let visibleItemCountOuter = 2; // Initial visible items count
+    let visibleItemCount = 2; // Initial visible items count
+
+
+    showMoreButtonOuter.addEventListener('click', function () {
+        for (let i = 0; i < formsetItemsOuter.length; i++) {
+            if (i < visibleItemCountOuter) {
+                formsetItemsOuter[i].style.display = 'block';
+            } else {
+                break;
+            }
+        }
+        visibleItemCountOuter++; // Increase visible items count
+        if (visibleItemCountOuter > formsetItemsOuter.length) {
+            showMoreButtonOuter.style.display = 'none'; // Hide the button when all items are shown
+        }
+ 
+    });
+
+    showMoreButton.addEventListener('click', function () {
+        for (let i = 0; i < formsetItems.length; i++) {
+            if (i < visibleItemCount) {
+                formsetItems[i].style.display = 'block';
+            } else {
+                break;
+            }
+        }
+        visibleItemCount++; // Increase visible items count
+        if (visibleItemCount > formsetItems.length) {
+            showMoreButton.style.display = 'none'; // Hide the button when all items are shown
+        }
+        $(document).ready(function() {
+          // Initialize Select2 with an empty dataset
+          $('.js-example-basic-single').select2();
+      });   
+    });
+});
+    
+</script>
+ 
+{% endblock %}
+
+  

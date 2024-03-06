@@ -3493,7 +3493,7 @@ class CanalUpdate(PermissionRequiredMixin, UpdateView):
     model = Canal
     form_class = CanalForm
     template_name = "sc/canal/canal_update.html"
-    permission_required = 'add_capital'
+    permission_required = 'core.add_capital'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

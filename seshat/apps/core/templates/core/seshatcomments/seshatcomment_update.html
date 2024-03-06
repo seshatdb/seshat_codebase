@@ -1,33 +1,111 @@
 {% extends "core/seshat-base.html" %}
 {% load crispy_forms_tags %}
+{% load mathfilters %}
 
 {% load humanize %}
 
 
 {% block content %}
 {% if object.text == "No Descriptions provided." %}
-<div class="container pt-4">
+<div class="container pt-1">
     <h4>No discriptions for this fact.</h4>
     <h6 class="pt-3">Add one please:</h6>
     <a href="#"><button class="btn btn-danger btn-sm">Create</button></a>
 </div>
 {% else %}
-<div class="container table-responsive">
+<div class="container table-responsive pt-1">
+
+    <h5 class="lead-2 pt-2">Update Description for:
+
+    </h5>
+    <table class="table align-middle table-striped">
+        <thead>        
+          <tr>
+            <th style="text-align: left;" scope="col">Variable</th>
+            <th style="text-align: left;" scope="col">Value</th>
+            <th style="text-align: center;" scope="col">Polity</th>
+            <th style="text-align: center;" scope="col">Year Range</th>
+            <th scope="col" style="text-align: center">Certainty</th>
+    
+          </tr>
+        </thead>
+        <tbody>
+            {% for my_inst in my_app_models %}
+
+              <tr>
+                  <td style="text-align: left;">{{ my_inst.my_var_name }}</td>
+                  <td style="text-align: left;">{{ my_inst.my_value }}</td>
+
+                  <td style="text-align: center;">
+                    <span><a href="{% url 'polity-detail-main' pk=my_inst.my_polity_id %}">{{my_inst.my_polity}}</a></span>
+                    
+                    </td>
+                    {% if my_inst.year_from == None %}
+                        <td style="text-align: center;"> Full Year Range of Polity
+                        </td>
+                    {% elif my_inst.year_from == my_inst.year_to %}
+                        {% if my_inst.year_from < 0 %}
+                        <td style="text-align: center;">{{ my_inst.year_from|abs|intcomma }} <span class="text-secondary">BCE</span> </td>
+                        {% else %}
+                        <td style="text-align: center;">{{ my_inst.year_from }} <span class="text-secondary">CE</span></td>
+                        {% endif %}
+                    {% elif my_inst.year_to == None %}
+                        {% if my_inst.year_from < 0 %}
+                        <td style="text-align: center;">{{ my_inst.year_from|abs }} <span class="text-secondary">BCE</span></td>
+                        {% else %}
+                        <td style="text-align: center;">{{ my_inst.year_from }} <span class="text-secondary">CE</span></td>
+                        {% endif %}
+                    {% elif my_inst.year_to == None and my_inst.year_from == None %}
+                        <td style="text-align: center;"> <i class="fa-solid fa-minus"></i> </td>
+                    {% else %}
+                        {% if my_inst.year_from < 0 and my_inst.year_to < 0 %}
+                        <td style="text-align: center;">{{ my_inst.year_from|abs }} <span class="text-secondary">BCE</span> <i class="fas fa-long-arrow-alt-right"></i> {{ my_inst.year_to|abs }} <span class="text-secondary">BCE</span></td>
+                        {% elif my_inst.year_from < 0 and my_inst.year_to >= 0 %}
+                        <td style="text-align: center;">{{ my_inst.year_from|abs }} <span class="text-secondary">BCE</span> <i class="fas fa-long-arrow-alt-right"></i> {{ my_inst.year_to }} <span class="text-secondary">CE</span></td>
+                        {% else %}
+                        <td style="text-align: center;">{{ my_inst.year_from }} <span class="text-secondary">CE</span> <i class="fas fa-long-arrow-alt-right"></i> {{ my_inst.year_to }} <span class="text-secondary">CE</span></td>
+                        {% endif %}
+                    {% endif %}
+                                      
+                  <!-- Tag tag (Disputed/Suspected etc.) -->
+                  {% if my_inst.tag == "DSP" %}
+                      <td style="text-align: center;"><span class="badge rounded-pill bg-danger">{{my_inst.my_tag }}</span></td>
+                  {% elif my_inst.tag == "SSP" %}
+                      <td style="text-align: center;"> <span class="badge rounded-pill bg-warning text-dark">{{my_inst.my_tag }}</span></td>
+                  {% elif my_inst.tag == "UNK" %}
+                      <td style="text-align: center;"><span class="badge rounded-pill bg-secondary">{{my_inst.my_tag }}</span></td>
+                  {% elif my_inst.tag == "IFR" %}
+                      <td style="text-align: center;"><span class="badge rounded-pill bg-primary">{{my_inst.my_tag }}</span></td>
+                  {% else  %}
+                      <td style="text-align: center;"><span class="badge rounded-pill bg-success">{{my_inst.my_tag }}</span></td>
+                  {% endif %}
+
+    
+            </tr>
+            {% endfor %}
+
+        </tbody>
+      </table>
+      <div class="pt-4">
+        How its description appears on a page: <br>
+
+      </div>
+    {% autoescape off %}
+
+    <div class="border p-2 border-dark bg-light rounded border-3" style="font-size:12px;">
+        {{object}}
+    </div>
+    {% endautoescape %}
     <form action="" method="post">
             {% csrf_token %}
             <legend>
                 <div class="row d-flex align-items-center">
-                    <div class="col-md-12 pb-3">
-                        <h5 class="lead-2 pt-4">Update Description for:</h5>
-                        <h4 class="pb-2">
-                            {% for hs_inst in object.crisisdb_human_sacrifice_related.all %}
-                            <span class="lead-2 text-success pb-4">{{hs_inst.name}}</span>
-                             in: <span><a href="{% url 'polity-detail-main' hs_inst.polity.id %}">{{hs_inst.polity}}</a></span>
-                            {% endfor %}
-                        </h4>
-                        <h5 class="lead-2 text-primary">- Note that each description has several <u>subdescriptions</u><sup>*</sup>.</h5>
-                        <h6 class="lead-2 text-secondary">* A subdescription is a combination of some text and its corresponding citation or citations.</h6>
-                        <h5 class="lead-2 text-primary">- Use <a class="btn btn-danger btn-sm py-1"><i class="fa-regular fa-pen-to-square"></i></a> to modify a subdescription, or use <a class="btn btn-warning btn-sm py-1" href="#"><i class="fa-solid fa-arrow-down-short-wide"></i></a> to insert a new chunk below an existing subdescription.</h5>
+                    <div class="col-md-12 pb-2">
+
+
+
+
+                        <h6 class="lead-2 text-secondary pt-2">- Note that each description has several <u>subdescriptions</u><sup>*</sup>. A subdescription is a combination of some text and its corresponding citation or citations.</h6>
                     </div>
                     {% if messages %}
                     <ul class="messages mt-3">
@@ -42,15 +120,14 @@
                     {% endif %}
                 </div>
             </legend>
-        <table id="table_id" class="table align-middle table-striped table-bordered">
+        <table id="table_id" class="table align-middle  mb-4">
             <thead>
-                <tr>
+                <tr class="bg-success text-light">
                   <th scope="col" class="text-secondary">#</th>
-                  <th scope="col" style="text-align: left"> Curator(s)</th>
                   <th scope="col" style="text-align: left"> SubDescriptionText</th>
                   <th scope="col" style="text-align: left"> Citations</th>
-                  <th scope="col" style="text-align: center">Update</th>
-                  <th scope="col" style="text-align: center">Insert</th>
+                  <th scope="col" style="text-align: center">Update / Insert / Delete</th>
+
                 </tr>
               </thead>
               <tbody>
@@ -59,25 +136,29 @@
                 {% for subcom in object.inner_comments_related.all %}
 
                     <tr>
-                        <td class="text-secondary" scope="row">{{ forloop.counter0|add:1}}</td>
-                        <td class="col-md-2">
-                                {{ subcom.comment_curator }}
-                        </td>
-                        <td class="col-md-6">
+                        <td class="text-secondary" scope="row" style="text-align: center">{{ forloop.counter0|add:1}}</td>
+                        <td class="col-md-7">
                                 {{ subcom.comment_part_text }}
                         </td>
                         <td class="col-md-3">
-                            {% if subcom.display_citations %}
-                                {{ subcom.display_citations }}
+                            {% if subcom.display_citations_plus %}
+                                {{ subcom.display_citations_plus }}
                             {% else %}
                             <i class="fa-solid fa-minus text-danger"></i>
                             {% endif %}
                         </td>
-                        <td style="text-align: center">
-                            <a class="btn btn-danger btn-sm py-1" href="{% url 'seshatcommentpart-update' subcom.pk %}"><i class="fa-regular fa-pen-to-square"></i></a>
-                        </td>
-                        <td style="text-align: center">
-                            <a class="btn btn-warning btn-sm py-1" href="{% url 'seshatcommentpart-create2' com_id=subcom.comment_id subcom_order=subcom.comment_order|add:1 %}"><i class="fa-solid fa-arrow-down-short-wide"></i></a>
+                        <td class="col-md-2" style="text-align: center">
+
+                        {% if subcom.citations_plus_count >= 5 %}
+                            <a class="btn btn-danger btn-sm py-1 mx-2" href="{% url 'seshatcommentpart-update' subcom.pk %}"><i class="fa-regular fa-pen-to-square"></i></a>
+                        {% else %}
+                            <a class="btn btn-success btn-sm py-1 mx-2" href="{% url 'seshatcommentpart-update2' subcom.pk %}"><i class="fa-regular fa-pen-to-square"></i></a>
+                        {% endif %}
+                            <a class="btn btn-warning btn-sm py-1 mx-2" href="{% url 'seshatcommentpart-create2' com_id=subcom.comment_id subcom_order=subcom.comment_order|add:1 %}"><i class="fa-solid fa-arrow-down-short-wide"></i></a>
+
+                            <a class="btn btn-danger btn-sm py-1 mx-2" href="{% url 'seshatcommentpart-delete' subcom.pk %}">
+                                <i class="fa-solid fa-trash-can"></i>
+                                </a>
                         </td>
                     </tr>
                 {% endfor %}

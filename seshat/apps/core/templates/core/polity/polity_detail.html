@@ -1598,7 +1598,18 @@
                                             {% if user.is_authenticated and 'core.view_capital' in user.get_all_permissions %}
                                             <a class="p-0 m-0 fs-6" type="button" href="{% url key|lower|add:'-update' value.id %}">
                                                 <span class="badge rounded-pill bg-danger tag-border"> <i class=" fa-solid fa-pen-to-square text-white"></i></span>
-                                            </a>      
+                                            </a>   
+
+
+                                            {% if value.comment %}
+                                            {% if value.comment.id == 1 or value.comment.inner_comments_related.all|length == 0 %}
+                                                <a class="p-0 m-0 fs-6" href="{% url 'create_subcomment_new' app_name='sc' model_name=value.name instance_id=value.id %}"><span class="badge rounded-pill bg-warning tag-border text-dark"> <i class=" fa-solid fa-plus text-dark"></i> Create Description (NEW) </span></a>
+                                            {% else  %}
+            
+                                                <a class="p-0 m-0 fs-6" href="{% url 'seshatcomment-update' value.comment.id %}"><span class="badge rounded-pill bg-warning tag-border text-dark"> <i class=" fa-solid fa-pen-to-square bg-warning text-dark"></i> Edit Description</span></a>
+                                            {% endif %}  
+                                        {% endif %}   
+
                                             {% endif %}
             
                                         </div>
@@ -1623,6 +1634,62 @@
                                         <hr class="light-narrow-hr">
                                         {% endif %}
                                     {% endfor %}
+<hr class="bg-colorful">
+                                        {% for value in values %}
+
+                                            {% if value.comment %}
+                                            {% if value.comment_id > 1 %}
+                                            <div>
+                                                <span class="pt-1 fs-5 pb-1 fw-bold" id="{{key}}"> 
+                                                    <i class="fa-solid fa-star fa-2xs"></i>
+                                                    {{ values.0.clean_name_spaced }} (NEW APPROACH):            
+                                                </span> 
+                                            </div>
+
+                                            <span class="fs-4 fw-bold text-teal pt-2 pb-1 pe-2 ps-2 ms-2 me-2 mb-1 mt-1 highlighted-value">{{value.show_value}} 
+                                                {% include "core/partials/_year_block_value_inline.html" %}
+                                                <div style="display: block; padding: 0;">
+                                                    <div style="display: inline-flex; flex-direction: row;">
+                                                        {% include "core/partials/_tag_value_inline.html" %}
+                                                        {% include "core/partials/_disputed_value_inline.html" %}
+                                                        {% include "core/partials/_uncertain_value_inline.html" %}
+                                                        {% include "core/partials/_expert_checked_value_inline.html" %}
+                                                        {% if user.is_authenticated and 'core.view_capital' in user.get_all_permissions %}
+                                                        <a class="p-0 m-0 fs-6" type="button" href="{% url key|lower|add:'-update' value.id %}">
+                                                            <span class="badge rounded-pill bg-danger tag-border"> <i class=" fa-solid fa-pen-to-square text-white"></i></span>
+                                                        </a>   
+            
+            
+                                                        {% if value.comment %}
+                                                        {% if value.comment.id == 1 or value.comment.inner_comments_related.all|length == 0 %}
+                                                            <a class="p-0 m-0 fs-6" href="{% url 'create_subcomment_new' app_name='sc' model_name=value.name instance_id=value.id %}"><span class="badge rounded-pill bg-warning tag-border text-dark"> <i class=" fa-solid fa-plus text-dark"></i> Create Description (NEW) </span></a>
+                                                        {% else  %}
+                        
+                                                            <a class="p-0 m-0 fs-6" href="{% url 'seshatcomment-update' value.comment.id %}"><span class="badge rounded-pill bg-warning tag-border text-dark"> <i class=" fa-solid fa-pen-to-square bg-warning text-dark"></i> Edit Description</span></a>
+                                                        {% endif %}  
+                                                    {% endif %}   
+            
+                                                        {% endif %}
+                        
+                                                    </div>
+                                                </div>
+                                            </span>
+                                            <br>
+                                            {% endif %}
+
+
+                                                {% if value.comment.id == 1 or value.comment.inner_comments_related.all|length == 0 %}
+
+                                                {% else  %}
+                                                <i class="fa-solid fa-layer-group fa-xs text-danger"></i>   
+
+                                                <span class="badge bg-warning text-dark">
+                                                    DESCRIPTION (NEW APPROACH) </span> {{value.comment}} <br>
+                                                {% endif %}  
+                                            {% endif %}
+                                        {% endfor %}
+             
+                                </p>  
                                     <hr class="light-heavy-hr">
 
                                 </div>
@@ -1776,10 +1843,18 @@
                                         {% include "core/partials/_disputed_value_inline.html" %}
                                         {% include "core/partials/_uncertain_value_inline.html" %}
                                         {% include "core/partials/_expert_checked_value_inline.html" %}
+
                                         {% if user.is_authenticated and 'core.view_capital' in user.get_all_permissions %}
                                         <a class="p-0 m-0 fs-6" type="button" href="{% url key|lower|add:'-update' value.id %}">
                                             <span class="badge rounded-pill bg-danger tag-border"> <i class=" fa-solid fa-pen-to-square text-white"></i></span>
                                         </a>    
+                                            {% if value.comment %}
+                                                {% if value.comment.id == 1 or value.comment.inner_comments_related.all|length == 0 %}
+                                                    <a class="p-0 m-0 fs-6" href="{% url 'create_subcomment_new' app_name='rt' model_name=value.name instance_id=value.id %}"><span class="badge rounded-pill bg-secondary tag-border"> <i class=" fa-solid fa-plus text-white"></i> Create Description (NEW) </span></a>
+                                                {% else  %}
+                                                    <a class="p-0 m-0 fs-6" href="{% url 'seshatcomment-update' value.comment.id %}"><span class="badge rounded-pill bg-secondary tag-border"> <i class=" fa-solid fa-pen-to-square text-white"></i> Edit Description {{value.comment.inner_comments_related.all|length }}</span></a>
+                                                {% endif %}  
+                                            {% endif %}
                                         {% endif %}
               
                                     </div>
@@ -1794,6 +1869,25 @@
                             </p>   
   
                             {% endif %}
+
+
+
+
+                            <p class="fs-6 border border-4 border-info rounded p-2">
+                                <i class="fa-solid fa-layer-group fa-xs text-danger"></i>   
+                                {% if value.comment %}
+                                {% if value.comment.id == 1 or value.comment.inner_comments_related.all|length == 0 %}
+                                DESCRIPTION (NEW APPROACH): Empty.<br> 
+                                    <a class="p-0 m-0 fs-6" href="{% url 'create_subcomment_new' app_name='rt' model_name=value.name instance_id=value.id %}"><span class="badge rounded-pill bg-secondary tag-border"> <i class=" fa-solid fa-plus text-white"></i> Create Description (NEW) </span></a>
+                                {% else  %}
+                                DESCRIPTION (NEW APPROACH): <br> {{value.comment}} <br>
+
+                                    <a class="p-0 m-0 fs-6" href="{% url 'seshatcomment-update' value.comment.id %}"><span class="badge rounded-pill bg-secondary tag-border"> <i class=" fa-solid fa-pen-to-square text-white"></i> Edit Description {{value.comment.inner_comments_related.all|length }}</span></a>
+                                {% endif %}  
+                            {% endif %}
+                                                   
+                        </p>  
+
                             <hr class="light-heavy-hr">
 
                             {% endautoescape %}   

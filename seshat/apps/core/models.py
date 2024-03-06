@@ -109,8 +109,23 @@ Certainty = (
 
 def return_citations_for_comments(self):
     if self.comment_citations.all():
-        return ', '.join(['<a href="' + citation.zoteroer() + '">' + citation.citation_short_title + ' </a>' for citation in self.comment_citations.all()[:2]])
+        return ', '.join([' <a href="' + citation.zoteroer() + '">' + citation.citation_short_title + '</a>' for citation in self.comment_citations.all()])
     
+def return_number_of_citations_for_comments(self):
+    if self.comment_citations.all():
+        return len(self.comment_citations.all())
+    return 0
+    
+def return_citations_plus_for_comments(self):
+    get_scp_tr = ScpThroughCtn.objects.filter(seshatcommentpart=self.id)
+    if get_scp_tr:
+        return ', '.join([' <a href="' + x.citation.zoteroer() + '">' + x.citation.citation_short_title + '</a>' for x in get_scp_tr])
+    
+def return_number_of_citations_plus_for_comments(self):
+    get_scp_tr = ScpThroughCtn.objects.filter(seshatcommentpart=self.id)
+    if get_scp_tr:
+        return len(get_scp_tr)
+    return 0
 
 class Macro_region(models.Model):
     name = models.CharField(max_length=100)
@@ -344,19 +359,23 @@ class Reference(models.Model):
     def __str__(self) -> str:
         """string for epresenting the model obj in Admin Site"""
         original_title = self.title
-        if len(original_title) > 50:
-            shorter_title = original_title[0:50] + original_title[50:].split(" ")[0] + "..."
+        if len(original_title) > 60:
+            shorter_title = original_title[0:60] + original_title[60:].split(" ")[0] + " ..."
         else:
             shorter_title = original_title
-        return "(%s_%s): %s _ %s" % (self.creator, self.year, shorter_title, self.id)
+        if self.year:
+            return "(%s_%s): %s" % (self.creator, self.year, shorter_title,)
+        else:
+            return "(%s_XXXX): %s" % (self.creator, shorter_title,)
+
 
     @property
     def reference_short_title(self):
         """Second String for representing the Model Object"""
 
         original_long_name = self.long_name
-        if original_long_name and len(original_long_name) > 40:
-           shorter_name = original_long_name[0:40] + original_long_name[40:].split(" ")[0] + "..."
+        if original_long_name and len(original_long_name) > 60:
+           shorter_name = original_long_name[0:60] + original_long_name[60:].split(" ")[0] + "..."
         elif original_long_name:
            shorter_name = original_long_name
         else:
@@ -561,6 +580,7 @@ class SeshatComment(models.Model):
         else:
             my_zotero_link = "#"
         return my_zotero_link
+    
 
     def __str__(self) -> str:
         all_comment_parts = self.inner_comments_related.all().order_by('comment_order')
@@ -570,16 +590,16 @@ class SeshatComment(models.Model):
             for comment_part in all_comment_parts:
                 if comment_part.citation_index:
                     separation_point = comment_part.citation_index
-                    comment_full_text = comment_part.comment_part_text[0:separation_point] + str(comment_part.display_citations) + " " + comment_part.comment_part_text[separation_point:]
+                    comment_full_text = comment_part.comment_part_text[0:separation_point] + str(comment_part.display_citations_plus) + " " + comment_part.comment_part_text[separation_point:]
                 else:
                     if comment_part.comment_part_text and comment_part.comment_part_text.startswith("<br>"):
-                        if comment_part.display_citations:
-                            comment_full_text = comment_part.comment_part_text[4:] + str(comment_part.display_citations)
+                        if comment_part.display_citations_plus:
+                            comment_full_text = comment_part.comment_part_text[4:] + str(comment_part.display_citations_plus)
                         else:
                             comment_full_text = comment_part.comment_part_text[4:]
                     else:
-                        if comment_part.display_citations:
-                            comment_full_text = comment_part.comment_part_text + str(comment_part.display_citations)
+                        if comment_part.display_citations_plus:
+                            comment_full_text = comment_part.comment_part_text + ' ' + str(comment_part.display_citations_plus)
                         else:
                             comment_full_text = comment_part.comment_part_text
 
@@ -601,11 +621,12 @@ class SeshatComment(models.Model):
         return reverse('seshatcomments')
 
 
-
 class SeshatCommentPart(models.Model):
     comment = models.ForeignKey(SeshatComment, on_delete=models.SET_NULL, related_name="inner_comments_related",
                                related_query_name="inner_comments_related", null=True, blank=True)
     comment_part_text = models.TextField(blank=True, null=True,)
+    comment_citations_plus = models.ManyToManyField(Citation, through='ScpThroughCtn', related_name="%(app_label)s_%(class)s_related_through",
+                               related_query_name="%(app_label)s_%(class)ss", blank=True,)
     comment_curator = models.ForeignKey(Seshat_Expert, on_delete=models.SET_NULL, related_name="%(app_label)s_%(class)s_related",
                                related_query_name="%(app_label)s_%(class)s", null=True, blank=True)
     comment_order = models.IntegerField(blank=True, null=True,)
@@ -619,12 +640,50 @@ class SeshatCommentPart(models.Model):
     @property
     def display_citations(self):
         return return_citations_for_comments(self)
+    
+    @property
+    def citations_count(self):
+        return return_number_of_citations_for_comments(self)
+    
+    @property
+    def display_citations_plus(self):
+        if return_citations_plus_for_comments(self) and return_citations_for_comments(self):
+            return return_citations_plus_for_comments(self) + return_citations_for_comments(self)
+        elif return_citations_plus_for_comments(self):
+            return return_citations_plus_for_comments(self)
+        else:
+            return return_citations_for_comments(self)
+    
+    @property
+    def citations_count_plus(self):
+        return return_number_of_citations_plus_for_comments(self)
 
     def get_absolute_url(self):
         return reverse('seshatcomment-update',  args=[str(self.comment.id)])
 
     class Meta:
         ordering = ['comment_order', "modified_date"]
+        #ordering = ["modified_date"]
+
+    def __str__(self) -> str:
+        """string for epresenting the model obj in Admin Site"""
+        if self.comment_part_text and self.display_citations_plus:
+            return self.comment_part_text + ' ' + self.display_citations_plus
+        elif self.comment_part_text and self.display_citations:
+            return self.comment_part_text + ' ' + self.display_citations
+        elif self.comment_part_text:
+            return self.comment_part_text
+        else:
+            return "NO_SUB_COMMENTS_TO_SHOW"
+        
+
+class ScpThroughCtn(models.Model):
+    seshatcommentpart = models.ForeignKey(SeshatCommentPart, on_delete=models.CASCADE,  related_name="%(app_label)s_%(class)s_related",
+                               related_query_name="%(app_label)s_%(class)s", null=True, blank=True)
+    citation = models.ForeignKey(Citation, on_delete=models.CASCADE,  related_name="%(app_label)s_%(class)s_related",
+                               related_query_name="%(app_label)s_%(class)s", null=True, blank=True)
+    parent_paragraphs = models.TextField(blank=True, null=True,)
+
 
 class SeshatCommon(models.Model):
     polity = models.ForeignKey(Polity, on_delete=models.SET_NULL, related_name="%(app_label)s_%(class)s_related",

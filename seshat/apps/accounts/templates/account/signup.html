@@ -18,9 +18,18 @@
                   <div class="col-md-12">
                     <h3>{% trans "Sign Up" %}</h3>
 
+                    <div class="bg-info text-dark pt-4 pb-1 px-3 rounded fw-bold"> <i class="fa-solid fa-circle-exclamation text-dark"></i> If you are a Seshat Expert or a Seshat Research Assistant, please:
+                      <ol class="fw-bold">
+                        <li>Create an account on this page.</li>
+                        <li>Contact Majid (benam@csh.ac.at) to get your account activated with the right permissions.</li>
+                      </ol> 
+                    </div>
+
                     <p>{% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}</p>
 
                     <h6> You do not have an account yet? </h6>
+
+
                     <p> Sign up using: </p>
 
                 </div>
@@ -40,7 +49,7 @@
                     <a class="btn btn-primary fw-bold fa-lg col-md-12 gradient-custom-2 me-3 my-2 px-5"  href="{% url 'signup' %}">{% trans "Sign Up" %}</a>
                   </div>
                 </div>
-                
+
                 {% include "socialaccount/snippets/login_extra.html" %}
                 
                 {% else %}

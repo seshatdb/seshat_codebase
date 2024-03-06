@@ -4,11 +4,13 @@ from django import forms
 from django.forms import formset_factory
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+from django.forms.formsets import BaseFormSet
+
 
 from seshat.apps.core.models import Section, Subsection, Variablehierarchy, Reference, Citation, SeshatComment, SeshatCommentPart, Polity, Capital, Nga
 from django.core.exceptions import NON_FIELD_ERRORS
 from crispy_forms.helper import FormHelper
-
+from crispy_forms.layout import Submit
 from django.core.exceptions import ValidationError
 
 
@@ -226,30 +228,67 @@ class SeshatCommentPartForm(forms.ModelForm):
 class ReferenceWithPageForm(forms.Form):
     ref = forms.ModelChoiceField(
         queryset=Reference.objects.all(),
-        #widget=forms.Select(attrs={'class': 'form-control form-select mb-3   js-example-basic-single', 'text':'ref'}),
-        label='ref'
+        widget=forms.Select(attrs={'class': 'form-control form-select mb-1 js-example-basic-single', 'text':'ref'}),
+        label=''
     ) 
     # ref = forms.ModelChoiceField(
     #     queryset=Reference.objects.all(),
     #     widget=forms.Select(attrs={'class': 'form-control form-select mb-3  js-states js-example-basic-single'}),
     #     label='ref'
     # )    
-    page_from = forms.IntegerField(label='Page From', required=False)
-    page_to = forms.IntegerField(label='Page To', required=False)
+    page_from = forms.IntegerField(label='', required=False)
+    page_to = forms.IntegerField(label='', required=False)
+    parent_pars = forms.CharField(widget=forms.Textarea(attrs={'style': 'height: 140px;'}), label='Consulted Paragraphs (Private, for NLP project)', required=False) 
+    #parent_pars = forms.Textarea(attrs={'class': 'form-control  mb-3', 'style': 'height: 120px', 'placeholder':'Please copy and paste the paragraphs you consulted into this field for each reference.'})
 
-ReferenceFormSet = forms.formset_factory(ReferenceWithPageForm, extra=2)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_id = 'id-exampleForm'
+        self.helper.form_class = 'blueForms'
+        self.helper.form_method = 'post'
+        self.helper.form_action = 'submit_survey'
+
+        self.helper.add_input(Submit('submit', 'Submit'))
+
+class BaseReferenceFormSet(BaseFormSet):
+    def add_fields(self, form, index):
+        super().add_fields(form, index)
+        form.fields['ref'].widget.attrs['class'] = 'form-control form-select mb-1 p-1 js-example-basic-single'
+        form.fields['page_from'].widget.attrs['class'] = 'form-control mb-1 p-1'
+        form.fields['page_to'].widget.attrs['class'] = 'form-control mb-1 p-1'
+        form.fields['parent_pars'].widget.attrs['class'] = 'form-control mb-1 p-1'
+
+
+
+ReferenceFormSet2 = forms.formset_factory(ReferenceWithPageForm, formset=BaseReferenceFormSet, extra=3, max_num=3, can_delete=True, can_order=True)
+
+
+ReferenceFormSet5 = forms.formset_factory(ReferenceWithPageForm, formset=BaseReferenceFormSet, extra=5, max_num=5, can_delete=True, can_order=True)
+#ReferenceFormSet = forms.formset_factory(ReferenceWithPageForm, extra=2, can_delete=True,)
 
 
 class SeshatCommentPartForm2(forms.Form):
-    comment_text = forms.CharField(label='Comment Text', widget=forms.Textarea(attrs={'class': 'form-control  mb-3 ', 'style': 'height: 200px',}))
+    comment_text = forms.CharField(label='SubComment Text (Public)', widget=forms.Textarea(attrs={'class': 'form-control  mb-1 p-0', 'style': 'height: 200px',}))
 
-    formset = ReferenceFormSet(prefix='refs')
-    
-    #forms.ModelChoiceField(queryset=Reference.objects.all(), label='Reference')
-    comment_order = forms.IntegerField(label='Comment Order', required=False)
+    formset = ReferenceFormSet2(prefix='refs')
+    comment_order = forms.IntegerField(label='Do NOT Change This Number: ', required=False,)
     formset.management_form  # Include the management form
 
+class SeshatCommentPartForm5(forms.Form):
+    comment_text = forms.CharField(label='Comment Textu', widget=forms.Textarea(attrs={'class': 'form-control  mb-1 p-0', 'style': 'height: 200px',}))
 
+    formset = ReferenceFormSet5(prefix='refs')
+    comment_order = forms.IntegerField(label='Do NOT Change This Number: ', required=False,)
+    formset.management_form  # Include the management form
+
+CommentPartFormSet = forms.formset_factory(SeshatCommentPartForm2,  extra=2)
+
+
+class SeshatCommentForm2(forms.Form):
+    formset = CommentPartFormSet(prefix='commentpart')
+    formset.management_form  # Include the management form
 
 class SignUpForm(UserCreationForm):
     # first_name = forms.CharField(
