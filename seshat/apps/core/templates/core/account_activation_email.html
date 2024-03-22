@@ -1,11 +1,13 @@
 {% autoescape off %}
 Hello {{ user.username }},
 
-Thank you for siging up on our website.
+Thank you for signing up on our website.
 
-Please click on the link below to confirm your registration for Seshat Website:
+Please click on the link below to confirm your registration for the Seshat Website:
 
-http://{{ domain }}{% url 'activate' uidb64=uid token=token %}
+https://{{ domain }}{% url 'activate' uidb64=uid token=token %}
+
+The Seshat project involves the study of myriad different communities and populations from the past. Some peoples living today trace their ancestry to one or more of these past groups. As researchers, we have an obligation to present fair-minded, responsible, and respectful information concerning the past. While maintaining a commitment to scientific enquiry, we are committed to avoiding biased interpretation or representation of past or contemporary cultures, to refraining from using harmful or disrespectful terminology, and to treating sensitive information or topics with appropriate nuance and respect for the dignity and lived experiences of descendant communities.
 
 Best Regards
 

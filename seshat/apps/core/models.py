@@ -56,7 +56,7 @@ from django.core.validators import URLValidator
 
 
 Tags = (
-    ('TRS', 'Evidenced'),
+    ('TRS', 'Confident'),
     ('SSP', 'Suspected'),
     ('IFR', 'Inferred'),
 )

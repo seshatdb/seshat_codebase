@@ -34,7 +34,7 @@ from requests.structures import CaseInsensitiveDict
 from django.apps import apps
 
 ######EMAIL_CONFIRMATION_BRANCH is the keyword that needs to be searched
-#from django.core.mail import send_mail
+from django.core.mail import send_mail
 
 from .mixins import PolityIdMixin
 
@@ -3837,11 +3837,11 @@ def download_csv_all_general(request):
 
 
 ######EMAIL_CONFIRMATION_BRANCH is the keyword that needs to be searched
-# def send_test_email(request):
-#     send_mail(
-#         'Test Email',
-#         'This is a test email from Django.',
-#         'benam.mjd@gmail.com',  # Replace with your sender email
-#         ['benam@csh.ac.at'],  # Replace with recipient email(s)
-#         fail_silently=False,
-#     )
+def send_test_email():
+    send_mail(
+        'Test Email',
+        'This is a test email from Django.',
+        'seshatdb@gmail.com',  # Replace with your sender email
+        ['benam@csh.ac.at'],  # Replace with recipient email(s)
+        fail_silently=False,
+    )

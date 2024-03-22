@@ -41,7 +41,7 @@ from decouple import config
 from markupsafe import Markup, escape
 from django.http import JsonResponse
 
-from django.core.mail import EmailMessage
+from django.core.mail import EmailMessage, send_mail
 import html
 import datetime
 import csv
@@ -1656,14 +1656,23 @@ def signup_traditional(request):
             user = form.save(commit=False)
             user.is_active = False
             user.save()
+
             #current_site = get_current_site(request)
             #subject = 'Activate Your Seshat Account'
-            #message = render_to_string('core/account_activation_email.html', {
-            #     'user': user,
-            #     'domain': current_site,
-            #     'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-            #     'token': account_activation_token.make_token(user)
-            # })
+            message = render_to_string('core/account_activation_email.html', {
+                'user': user,
+                'domain': 'seshat-db.com',
+                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                'token': account_activation_token.make_token(user)
+            })
+
+            send_mail(
+                'Seshat-DB Email Verification',
+                message,
+                'seshatdb@gmail.com',  # Replace with your sender email
+                [user.email],  # Replace with recipient email(s)
+                fail_silently=False,
+            )
             #user.email_user(subject, message)
             # to_be_sent_email = EmailMessage(subject=subject, body=message,
             #                                 from_email=settings.EMAIL_FROM_USER, to=[user.email])
@@ -1693,6 +1702,7 @@ def activate(request, uidb64, token):
     if user is not None and account_activation_token.check_token(user, token):
         user.is_active = True
         user.profile.email_confirmed = True
+        user.backend = 'django.contrib.auth.backends.ModelBackend'
         user.save()
         login(request, user)
         return redirect('signup-followup')

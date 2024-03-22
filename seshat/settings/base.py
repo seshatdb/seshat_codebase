@@ -90,9 +90,9 @@ AUTHENTICATION_BACKENDS = [
 LOGIN_REDIRECT_URL = 'seshat-index'
 ACCOUNT_LOGOUT_REDIRECT = 'seshat-index'
 SITE_ID = 2
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+#EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 ######EMAIL_CONFIRMATION_BRANCH is the keyword that needs to be searched
-#EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 
 #ACCOUNT_USER_MODEL_USERNAME_FIELD = None
