@@ -281,7 +281,12 @@ def get_all_general_data_for_a_polity(polity_id):
     for ct in ContentType.objects.all():
         m = ct.model_class()
         if m and m.__module__ == "seshat.apps.general.models":
-            my_data = m.objects.filter(polity = polity_id)
+            if hasattr(m, 'other_polity'):
+                my_data = m.objects.filter(Q(polity=polity_id) | Q(other_polity=polity_id))
+            else:
+                my_data = m.objects.filter(polity=polity_id)
+
+            #my_data = m.objects.filter(polity = polity_id)
             if m.__name__ in ["Ra", "Polity_editor", "Polity_research_assistant","Polity_expert"]:
                 continue
             #print(f"--------xxxxxxxxxxxxx-----{m.__name__}, ")

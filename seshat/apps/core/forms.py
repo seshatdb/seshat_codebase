@@ -75,7 +75,7 @@ class CitationForm(forms.ModelForm):
 class PolityForm(forms.ModelForm):
     class Meta:
         model = Polity
-        fields = ('name', 'new_name', 'long_name', 'start_year', 'end_year','home_seshat_region', 'polity_tag' ,'private_comment','general_description')
+        fields = ('name', 'new_name', 'long_name', 'start_year', 'end_year','home_seshat_region', 'polity_tag' , 'shapefile_name', 'private_comment','general_description')
         labels = {
         'name': 'Polity ID (Old)',
         'new_name': 'Polity ID (New)',
@@ -84,6 +84,7 @@ class PolityForm(forms.ModelForm):
         'end_year': 'End Year',
         'home_seshat_region': 'Home Seshat Region',
         'polity_tag': 'Polity Tag',
+        'shapefile_name': 'Shapefile name',
         'private_comment': 'Private Comment (optional)',
         'general_description': 'General Description of the Polity',
 
@@ -101,6 +102,7 @@ class PolityForm(forms.ModelForm):
                 attrs={'class': 'form-control mb-3 fw-bold', }),
             'home_seshat_region': forms.Select(attrs={'class': 'form-control  js-example-basic-single form-select mb-3',}),
             'polity_tag': forms.Select(attrs={'class': 'form-control form-select mb-3',}),
+            'shapefile_name': forms.TextInput(attrs={'class': 'form-control mb-3', }),
             'private_comment': forms.Textarea(attrs={'class': 'form-control', 'style': 'height: 100px', 'placeholder':'Add a private comment that will only be visible to Seshat experts and RAs.'}),
             'general_description': forms.Textarea(attrs={'class': 'form-control  mb-3', 'style': 'height: 265px', 'placeholder':'Add a general description (optional)'}),
 
@@ -109,7 +111,7 @@ class PolityForm(forms.ModelForm):
 class PolityUpdateForm(forms.ModelForm):
     class Meta:
         model = Polity
-        fields = ('name', 'new_name', 'long_name', 'start_year', 'end_year','home_seshat_region', 'polity_tag', 'private_comment','general_description')
+        fields = ('name', 'new_name', 'long_name', 'start_year', 'end_year','home_seshat_region', 'polity_tag', 'shapefile_name',  'private_comment','general_description')
         labels = {
         'name': 'Polity ID (Old)',
         'new_name': 'Polity ID (New)',
@@ -117,6 +119,7 @@ class PolityUpdateForm(forms.ModelForm):
         'start_year': 'Start Year',
         'end_year': 'End Year',
         'home_seshat_region': 'Home Seshat Region',
+        'shapefile_name': 'Shapefile name',
         'polity_tag': 'Polity Tag',
         'private_comment': 'Private Comment (optional)',
         'general_description': 'General Description of the Polity',
@@ -135,6 +138,7 @@ class PolityUpdateForm(forms.ModelForm):
                 attrs={'class': 'form-control mb-3 fw-bold', }),
             'home_seshat_region': forms.Select(attrs={'class': 'form-control  js-example-basic-single form-select mb-3',}),
             'polity_tag': forms.Select(attrs={'class': 'form-control form-select mb-3',}),
+            'shapefile_name': forms.TextInput(attrs={'class': 'form-control mb-3', }),
             'private_comment': forms.Textarea(attrs={'class': 'form-control', 'style': 'height: 100px', 'placeholder':'Add a private comment that will only be visible to seshat experts and RAs.'}),
             'general_description': forms.Textarea(attrs={'class': 'form-control  mb-3', 'style': 'height: 265px', 'placeholder':'Add a general description (optional)'}),
 

@@ -182,6 +182,7 @@ class Polity(models.Model):
     home_seshat_region = models.ForeignKey(Seshat_region, on_delete=models.SET_NULL, null=True, blank=True, related_name="home_seshat_region")
     polity_tag = models.CharField(max_length=100, choices=POLITY_TAG_CHOICES, default="OTHER_TAG", null=True, blank=True)
     general_description = models.TextField(blank=True, null=True,)
+    shapefile_name = models.CharField(max_length=300, blank=True, null=True)
     private_comment = models.TextField(blank=True, null=True,)
 
     created_date = models.DateTimeField(
@@ -207,6 +208,7 @@ class Polity(models.Model):
             return f"{self.long_name} ({self.new_name})"
         else:
             return self.name
+        
 
     class Meta:
         unique_together = ("name",)

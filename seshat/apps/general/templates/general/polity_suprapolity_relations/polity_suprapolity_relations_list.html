@@ -19,6 +19,9 @@
 {% endblock main_description %}
 
 {% block myheadings_list %}
+<th class = "fw-normal" style="text-align: center;" scope="col"><span>
+</span>Other Polity
+</th>
 <th class = "fw-bold" style="text-align: center;" scope="col"><span>
     <a href="{% url 'polity_suprapolity_relationss_all' %}?orderby=supra_polity_relations&orderby2=tag"><i class="fa-solid fa-caret-down"></i></a>
 </span>Supra Polity Relations
@@ -31,7 +34,22 @@
 {% endblock myheadings_list %}
 
 {% block extra_vars_list %}
+<td class="fw-bold">
+    {% if  obj.other_polity   %}
+        {% if obj.other_polity.long_name %}
+        <h6 class="fw-normal">
+            <a href="{% url 'polity-detail-main' obj.other_polity.id %}">{{ obj.other_polity.long_name }}</a>
+        </h6>
+        {% else %}
+        <h6 class="fw-normal">
+            <a href="{% url 'polity-detail-main' obj.other_polity.id %}">{{ obj.other_polity.name }}</a>
+        </h6>
+        {% endif %}
+    {% else   %}
+    - 
+    {% endif %}
 
+</td>
 <td class = "{% if obj.tag == 'DSP' %}
 text-danger
 {% elif obj.tag == 'SSP' %}

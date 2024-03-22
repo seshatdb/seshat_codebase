@@ -646,7 +646,7 @@ class Human_sacrificeListView(PermissionRequiredMixin, generic.ListView):
     model = Human_sacrifice
     template_name = "crisisdb/human_sacrifice/human_sacrifice_list.html"
     paginate_by = 50
-    permission_required = 'core.add_capital'
+    permission_required = 'core.view_capital'
 
     def get_absolute_url(self):
         return reverse('human_sacrifices')
@@ -668,7 +668,8 @@ class Human_sacrificeListView(PermissionRequiredMixin, generic.ListView):
 class Human_sacrificeListViewAll(PermissionRequiredMixin, generic.ListView):
     model = Human_sacrifice
     template_name = "crisisdb/human_sacrifice/human_sacrifice_list_all.html"
-    permission_required = 'core.add_capital'
+    permission_required = 'core.view_capital'
+
 
     #paginate_by = 50
 
@@ -708,7 +709,8 @@ class Human_sacrificeListViewAll(PermissionRequiredMixin, generic.ListView):
 class Human_sacrificeDetailView(PermissionRequiredMixin, generic.DetailView):
     model = Human_sacrifice
     template_name = "crisisdb/human_sacrifice/human_sacrifice_detail.html"
-    permission_required = 'core.add_capital'
+    permission_required = 'core.view_capital'
+
 
 
 @permission_required('core.view_capital')

@@ -389,6 +389,7 @@
 
 
 <!-- GV -->
+{% autoescape off %}
             {% if all_general_data %}
             <div class="col-md-12 m-0 p-0">
                 <span class="h2 fw-bold m-0 p-0 ">  
@@ -519,6 +520,8 @@
             </div>
 
             {% endif %}
+{% endautoescape  %}
+
 <!-- sc -->
             {% if all_sc_data %}
             <div class="col-md-12 m-0 p-0">
@@ -1470,6 +1473,8 @@
 
 <!-- GV -->
 <div>
+    {% autoescape off %}
+
     <span class="pt-5 display-1" style="text-align: left; color:#893101;" ><span class="h1 fw-bold" id="general_var">
         General Variables</span>
     </span>
@@ -1549,6 +1554,8 @@
         {% endfor %}
         </div>
     {% endfor %}
+    {% endautoescape  %}
+
 </div>
 
 

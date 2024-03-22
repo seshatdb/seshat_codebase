@@ -1,15 +1,21 @@
-{% extends "core/form_base_general.html" %}
+{% extends "core/form_base_for_new_approach.html" %}
 {% load crispy_forms_tags %}
 {% load humanize %}
 
+
 {% block extra_vars %}
-    
-    <div class="col-md-3 mb-2">
+    <!-- Render the input variable specified in the context -->
+    <div class="col-md-12">
         {{ form.supra_polity_relations|as_crispy_field }}
     </div>
-                
-    
+
+        <div class="col-md-12">
+            {{ form.other_polity|as_crispy_field }}
+        </div>
 {% endblock extra_vars %}
+
+
+
 
 {% block delete_button %}
     <a href="{% url 'polity_suprapolity_relations-delete' object.id %}" type="cancel" class="btn btn-outline-danger my-auto btn-block btn-lg">Delete </a>

@@ -14,7 +14,7 @@ import uuid
 
 from django.utils import translation
 
-from ..core.models import SeshatCommon, Certainty, Tags, Section, Subsection
+from ..core.models import SeshatCommon, Polity, Certainty, Tags, Section, Subsection
 from seshat.apps.accounts.models import Seshat_Expert
 
 
@@ -44,17 +44,13 @@ POLITY_SUPRAPOLITY_RELATIONS_CHOICES = (
 ('vassalage', 'vassalage'),
 ('alliance', 'alliance'),
 ('nominal allegiance', 'nominal allegiance'),
-('suspected unknown', 'suspected unknown'),
-('nominal', 'nominal'),
 ('personal union', 'personal union'),
-('NO_VALUE_ON_WIKI', 'NO_VALUE_ON_WIKI'),
 ('unknown', 'unknown'),
-('Nominal', 'Nominal'),
-('Alliance', 'Alliance'),
 ('uncoded', 'uncoded'),
 )
 
 POLITY_LANGUAGE_CHOICES = (
+('Polish', 'Polish'),
 ('Pashto', 'Pashto'),
 ('Persian', 'Persian'),
 ('Greek', 'Greek'),
@@ -789,6 +785,7 @@ class Polity_degree_of_centralization(SeshatCommon):
 class Polity_suprapolity_relations(SeshatCommon):
     name = models.CharField(max_length=100, default="Polity_suprapolity_relations")
     supra_polity_relations = models.CharField(max_length=500, choices=POLITY_SUPRAPOLITY_RELATIONS_CHOICES)
+    other_polity = models.ForeignKey(Polity, models.SET_NULL,blank=True,null=True)
 
     class Meta:
         verbose_name = 'Polity_suprapolity_relations'
@@ -809,8 +806,25 @@ class Polity_suprapolity_relations(SeshatCommon):
         return "Polity Suprapolity Relations"
     
     def show_value(self):
-        if self.supra_polity_relations:
+        if self.supra_polity_relations and self.other_polity and self.polity:
+            polity_url = reverse('polity-detail-main', args=[self.polity.id]) 
+            other_polity_url = reverse('polity-detail-main', args=[self.other_polity.id]) 
+            return f"<a href='{polity_url}'>{self.polity}</a> <span class='badge bg-warning text-dark'><i class='fa-solid fa-left-long'></i>  {self.get_supra_polity_relations_display()}  <i class='fa-solid fa-right-long'></i></span> <a href='{other_polity_url}'>{self.other_polity}</a>"
+        elif self.supra_polity_relations == "none":
             return self.get_supra_polity_relations_display()
+        elif self.supra_polity_relations:
+            return f"{self.get_supra_polity_relations_display()} [---]"
+        else:
+            return " - "
+    
+
+    def show_value2(self):
+        if self.supra_polity_relations and self.other_polity:
+            return self.get_supra_polity_relations_display() +f" → [{self.other_polity.show_value}]"
+        elif self.supra_polity_relations == "none":
+            return self.get_supra_polity_relations_display()
+        elif self.supra_polity_relations:
+            return self.get_supra_polity_relations_display() + " [---]"
         else:
             return " - "
         

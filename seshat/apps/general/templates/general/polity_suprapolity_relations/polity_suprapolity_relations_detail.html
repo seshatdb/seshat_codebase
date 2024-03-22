@@ -10,6 +10,9 @@
 {% endblock addmore %}
 
 {% block myheadings %}
+<th class = "fw-bold" style="text-align: left;" scope="col"><span>
+</span>Other Polity
+</th>
 <th class = "fw-bold" style="text-align: center;" scope="col"><span>
     <a href="{% url 'polity_suprapolity_relationss_all' %}?orderby=supra_polity_relations&orderby2=tag"><i class="fa-solid fa-caret-down"></i></a>
 </span>Supra Polity Relations
@@ -17,7 +20,22 @@
 {% endblock myheadings %}
 
 {% block extracols %}
+<td class="fw-bold">
+    {% if  object.other_polity   %}
+        {% if object.other_polity.long_name %}
+        <h6 class="fw-bold">
+            <a href="{% url 'polity-detail-main' object.other_polity.id %}">{{ object.other_polity.long_name }}</a>
+        </h6>
+        {% else %}
+        <h6 class="fw-bold">
+            <a href="{% url 'polity-detail-main' object.other_polity.id %}">{{ object.other_polity.name }}</a>
+        </h6>
+        {% endif %}
+    {% else   %}
+    - 
+    {% endif %}
 
+</td>
 <td class = "{% if object.tag == 'DSP' %}
 text-danger
 {% elif object.tag == 'SSP' %}

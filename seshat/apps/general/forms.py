@@ -30,7 +30,7 @@ commonfields = ['polity', 'year_from', 'year_to',
 commonwidgets = {
     'polity': forms.Select(attrs={'class': 'form-control  mb-1 js-example-basic-single', 'id': 'id_polity', 'name': 'polity'}),    'year_from': forms.NumberInput(attrs={'class': 'form-control  mb-3',}),
     'year_to': forms.NumberInput(attrs={'class': 'form-control  mb-3', }),
-    'description': Textarea(attrs={'class': 'form-control  mb-3', 'style': 'height: 140px', 'placeholder':'Add a meaningful description (optional)'}),
+    'description': Textarea(attrs={'class': 'form-control  mb-3', 'style': 'height: 340px', 'placeholder':'Add a meaningful description (optional)'}),
     'citations': forms.SelectMultiple(attrs={'class': 'form-control mb-3 js-states js-example-basic-multiple', 'text':'citations[]' , 'style': 'height: 340px', 'multiple': 'multiple'}),
     'tag': forms.RadioSelect(),
     "is_disputed" : forms.CheckboxInput(attrs={'class': 'mb-3', }),
@@ -91,6 +91,10 @@ class Polity_peak_yearsForm(forms.ModelForm):
         fields.append('peak_year_from')
         fields.append('peak_year_to')
         labels = commonlabels
+
+        labels['peak_year_from'] = "Peak Year (Start)"
+        labels['peak_year_to'] = "Peak Year (End)"
+
         
         widgets = dict(commonwidgets)
         widgets['peak_year_from'] = forms.NumberInput(attrs={'class': 'form-control  mb-3', })
@@ -107,6 +111,10 @@ class Polity_durationForm(forms.ModelForm):
         fields.append('polity_year_from')
         fields.append('polity_year_to')
         labels = commonlabels
+
+
+        labels['polity_year_from'] = "Polity Start Year"
+        labels['polity_year_to'] = "Polity End Year"
         
         widgets = dict(commonwidgets)
         widgets['polity_year_from'] = forms.NumberInput(attrs={'class': 'form-control  mb-3', })
@@ -129,10 +137,13 @@ class Polity_suprapolity_relationsForm(forms.ModelForm):
         model = Polity_suprapolity_relations
         fields = commonfields.copy()
         fields.append('supra_polity_relations')
+        fields.append('other_polity')
+
         labels = commonlabels
         
         widgets = dict(commonwidgets)
         widgets['supra_polity_relations'] = forms.Select(attrs={'class': 'form-control  mb-3', })
+        widgets['other_polity'] = forms.Select(attrs={'class': 'form-control  mb-4 pb-4 js-example-basic-single', 'id': 'id_other_polity', 'name': 'other_polity'})   
         
 
 class Polity_capitalForm(forms.ModelForm):

@@ -609,6 +609,9 @@ class Polity_peak_yearsCreate(PermissionRequiredMixin, PolityIdMixin, CreateView
         context["mysubsection"] = "General Variables"
         context["myvar"] = "Polity Peak Years"
         context["my_exp"] = "The peak years of a polity."
+        context["var_section"] = "General Variables"
+        context["var_subsection"] = "Temporal Bounds"
+
         context["var_null_meaning"] = "The value is not available."
         context["inner_vars"] = {'peak_year_from': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The beginning of the peak years for a polity.', 'units': None, 'choices': None, 'null_meaning': 'No_Value_Provided_in_Old_Wiki'}, 'peak_year_to': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The end of the peak years for a polity.', 'units': None, 'choices': None, 'null_meaning': 'No_Value_Provided_in_Old_Wiki'}}
         context["potential_cols"] = []
@@ -624,6 +627,10 @@ class Polity_peak_yearsUpdate(PermissionRequiredMixin, UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["myvar"] = "Polity Peak Years"
+        context["mysection"] = "General Variables"
+        context["mysubsection"] = "Temporal Bounds"
+        context["var_section"] = "General Variables"
+        context["var_subsection"] = "Temporal Bounds"
 
         return context
 
@@ -647,8 +654,10 @@ class Polity_peak_yearsListView(generic.ListView):
         context["myvar"] = "Polity Peak Years"
         context["var_main_desc"] = "The peak years of a polity."
         context["var_main_desc_source"] = "None"
+        context["mysection"] = "General Variables"
+        context["mysubsection"] = "Temporal Bounds"
         context["var_section"] = "General Variables"
-        context["var_subsection"] = "General"
+        context["var_subsection"] = "Temporal Bounds"
         context["inner_vars"] = {'peak_year_from': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The beginning of the peak years for a polity.', 'units': None, 'choices': None, 'null_meaning': 'No_Value_Provided_in_Old_Wiki'}, 'peak_year_to': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The end of the peak years for a polity.', 'units': None, 'choices': None, 'null_meaning': 'No_Value_Provided_in_Old_Wiki'}}
         context["potential_cols"] = []
 
@@ -674,8 +683,10 @@ class Polity_peak_yearsListViewAll(generic.ListView):
         context["myvar"] = "Polity Peak Years"
         context["var_main_desc"] = "The peak years of a polity."
         context["var_main_desc_source"] = "None"
+        context["mysection"] = "General Variables"
+        context["mysubsection"] = "Temporal Bounds"
         context["var_section"] = "General Variables"
-        context["var_subsection"] = "General"
+        context["var_subsection"] = "Temporal Bounds"
         context["inner_vars"] = {'peak_year_from': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The beginning of the peak years for a polity.', 'units': None, 'choices': None, 'null_meaning': 'No_Value_Provided_in_Old_Wiki'}, 'peak_year_to': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The end of the peak years for a polity.', 'units': None, 'choices': None, 'null_meaning': 'No_Value_Provided_in_Old_Wiki'}}
         context["potential_cols"] = []
         context['orderby'] = self.request.GET.get('orderby', 'year_from')
@@ -739,7 +750,9 @@ class Polity_durationCreate(PermissionRequiredMixin, PolityIdMixin, CreateView):
         context = super().get_context_data(**kwargs)
         # get the explanattion:
         context["mysection"] = "General Variables"
-        context["mysubsection"] = "General Variables"
+        context["mysubsection"] = "Temporal Bounds"
+        context["var_section"] = "General Variables"
+        context["var_subsection"] = "Temporal Bounds"
         context["myvar"] = "Polity Duration"
         context["my_exp"] = "The lifetime of a polity."
         context["var_null_meaning"] = "The value is not available."
@@ -757,6 +770,10 @@ class Polity_durationUpdate(PermissionRequiredMixin, UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["myvar"] = "Polity Duration"
+        context["mysection"] = "General Variables"
+        context["mysubsection"] = "Temporal Bounds"
+        context["var_section"] = "General Variables"
+        context["var_subsection"] = "Temporal Bounds"
 
         return context
 
@@ -781,7 +798,7 @@ class Polity_durationListView(generic.ListView):
         context["var_main_desc"] = "The lifetime of a polity."
         context["var_main_desc_source"] = "None"
         context["var_section"] = "General Variables"
-        context["var_subsection"] = "General"
+        context["var_subsection"] = "Temporal Bounds"
         context["inner_vars"] = {'polity_year_from': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The beginning year for a polity.', 'units': None, 'choices': None, 'null_meaning': 'No_Value_Provided_in_Old_Wiki'}, 'polity_year_to': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The end year for a polity.', 'units': None, 'choices': None, 'null_meaning': 'No_Value_Provided_in_Old_Wiki'}}
         context["potential_cols"] = []
 
@@ -808,7 +825,7 @@ class Polity_durationListViewAll(generic.ListView):
         context["var_main_desc"] = "The lifetime of a polity."
         context["var_main_desc_source"] = "None"
         context["var_section"] = "General Variables"
-        context["var_subsection"] = "General"
+        context["var_subsection"] = "Temporal Bounds"
         context["inner_vars"] = {'polity_year_from': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The beginning year for a polity.', 'units': None, 'choices': None, 'null_meaning': 'No_Value_Provided_in_Old_Wiki'}, 'polity_year_to': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The end year for a polity.', 'units': None, 'choices': None, 'null_meaning': 'No_Value_Provided_in_Old_Wiki'}}
         context["potential_cols"] = []
         context['orderby'] = self.request.GET.get('orderby', 'year_from')
@@ -843,7 +860,7 @@ def polity_duration_meta_download(request):
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="polity_durations.csv"'
     
-    my_meta_data_dic = {'notes': None, 'main_desc': 'The lifetime of a polity.', 'main_desc_source': None, 'section': 'General Variables', 'subsection': 'General'}
+    my_meta_data_dic = {'notes': None, 'main_desc': 'The lifetime of a polity.', 'main_desc_source': None, 'section': 'General Variables', 'subsection': 'Temporal Bounds'}
     my_meta_data_dic_inner_vars = {'polity_year_from': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The beginning year for a polity.', 'units': None, 'choices': None, 'null_meaning': 'No_Value_Provided_in_Old_Wiki'}, 'polity_year_to': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The end year for a polity.', 'units': None, 'choices': None, 'null_meaning': 'No_Value_Provided_in_Old_Wiki'}}
     writer = csv.writer(response, delimiter='|')
     # bring in the meta data nedded
@@ -1021,8 +1038,14 @@ class Polity_suprapolity_relationsCreate(PermissionRequiredMixin, PolityIdMixin,
         # get the explanattion:
         context["mysection"] = "General Variables"
         context["mysubsection"] = "General Variables"
+        context["var_section"] = "General Variables"
+        context["var_subsection"] = "Political and Cultural Relations"
         context["myvar"] = "Polity Suprapolity Relations"
-        context["my_exp"] = "The supra polity relations of a polity."
+        context["my_exp"] = """ <u>Possible Codes</u>: <br> alliance / nominal allegiance / personal union / vassalage / unknown / none <br><br>
+<b>alliance</b> = belongs to a long-term military-political alliance of independent polities ('long-term' refers to more or less permanent relationship between polities extending over multiple years)<br>
+<b>nominal allegiance</b> = same as 'nominal' under the variable "Degree of centralization" but now reflecting the position of the focal polity within the overarching political authority.<br>
+<b>personal union</b> = the focal polity is united with another, or others, as a result of a dynastic marriage.<br>
+<b>vassalage</b> = corresponding to 'loose' category in the Degree of centralization."""
         context["var_null_meaning"] = "The value is not available."
         context["inner_vars"] = {'supra_polity_relations': {'min': None, 'max': None, 'scale': None, 'var_exp_source': None, 'var_exp': 'The details of supra polity relations.', 'units': None, 'choices': 'SUPRA_POLITY_RELATIONS_CHOICES', 'null_meaning': 'No_Value_Provided_in_Old_Wiki'}}
         context["potential_cols"] = []
@@ -1042,8 +1065,15 @@ class Polity_suprapolity_relationsUpdate(PermissionRequiredMixin, UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context["mysubsection"] = "General Variables"
+        context["var_section"] = "General Variables"
+        context["var_subsection"] = "Political and Cultural Relations"
         context["myvar"] = "Polity Suprapolity Relations"
-
+        context["my_exp"] = """ <u>Possible Codes</u>: <br> alliance / nominal allegiance / personal union / vassalage / unknown / none <br><br>
+<b>alliance</b> = belongs to a long-term military-political alliance of independent polities ('long-term' refers to more or less permanent relationship between polities extending over multiple years)<br>
+<b>nominal allegiance</b> = same as 'nominal' under the variable "Degree of centralization" but now reflecting the position of the focal polity within the overarching political authority.<br>
+<b>personal union</b> = the focal polity is united with another, or others, as a result of a dynastic marriage.<br>
+<b>vassalage</b> = corresponding to 'loose' category in the Degree of centralization."""
         return context
 
 class Polity_suprapolity_relationsDelete(PermissionRequiredMixin, DeleteView):
