@@ -1145,11 +1145,16 @@ def polity_suprapolity_relations_download(request):
 
     writer = csv.writer(response, delimiter='|')
     writer.writerow(['variable_name', 'year_from', 'year_to', 'polity_name', 'polity_new_ID', 'polity_old_ID',
-                    'supra_polity_relations', 'confidence', 'is_disputed', 'expert_checked', 'DRB_reviewed'])
+                    'supra_polity_relations', 'other_polity_id', 'confidence', 'is_disputed', 'expert_checked', 'DRB_reviewed'])
 
     for obj in items:
-        writer.writerow([obj.name, obj.year_from, obj.year_to,
-                         obj.polity, obj.polity.new_name, obj.polity.name, obj.supra_polity_relations, obj.get_tag_display(), obj.is_disputed,
+        if obj.other_polity:
+            writer.writerow([obj.name, obj.year_from, obj.year_to,
+                            obj.polity.long_name, obj.polity.new_name, obj.polity.name, obj.supra_polity_relations, obj.other_polity.new_name, obj.get_tag_display(), obj.is_disputed,
+                            obj.expert_reviewed, obj.drb_reviewed,])
+        else:
+            writer.writerow([obj.name, obj.year_from, obj.year_to,
+                         obj.polity.long_name, obj.polity.new_name, obj.polity.name, obj.supra_polity_relations, '-', obj.get_tag_display(), obj.is_disputed,
                          obj.expert_reviewed, obj.drb_reviewed,])
 
     return response

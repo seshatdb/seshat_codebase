@@ -782,6 +782,9 @@ class Polity_degree_of_centralization(SeshatCommon):
         return call_my_name(self)
              
 # Be aware that this variable name deviates from the name. Notice supra_polity 
+    
+
+#    a type="button" class="fs-6" data-bs-toggle="tooltip" data-bs-html="true"  title="References: {{ value.display_citations }}"
 class Polity_suprapolity_relations(SeshatCommon):
     name = models.CharField(max_length=100, default="Polity_suprapolity_relations")
     supra_polity_relations = models.CharField(max_length=500, choices=POLITY_SUPRAPOLITY_RELATIONS_CHOICES)
@@ -809,7 +812,7 @@ class Polity_suprapolity_relations(SeshatCommon):
         if self.supra_polity_relations and self.other_polity and self.polity:
             polity_url = reverse('polity-detail-main', args=[self.polity.id]) 
             other_polity_url = reverse('polity-detail-main', args=[self.other_polity.id]) 
-            return f"<a href='{polity_url}'>{self.polity}</a> <span class='badge bg-warning text-dark'><i class='fa-solid fa-left-long'></i>  {self.get_supra_polity_relations_display()}  <i class='fa-solid fa-right-long'></i></span> <a href='{other_polity_url}'>{self.other_polity}</a>"
+            return f"<a  data-bs-toggle='tooltip' data-bs-html='true'  title='{self.polity.long_name}' href='{polity_url}'>{self.polity.new_name}</a> <span class='badge bg-warning text-dark'><i class='fa-solid fa-left-long'></i>  {self.get_supra_polity_relations_display()}  <i class='fa-solid fa-right-long'></i></span> <a  data-bs-toggle='tooltip' data-bs-html='true'  title='{self.other_polity.long_name}' href='{other_polity_url}'>{self.other_polity.new_name}</a>"
         elif self.supra_polity_relations == "none":
             return self.get_supra_polity_relations_display()
         elif self.supra_polity_relations:
