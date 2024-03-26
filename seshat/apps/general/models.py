@@ -808,7 +808,7 @@ class Polity_suprapolity_relations(SeshatCommon):
     def clean_name_spaced(self):
         return "Polity Suprapolity Relations"
     
-    def show_value(self):
+    def display_value(self):
         if self.supra_polity_relations and self.other_polity and self.polity:
             polity_url = reverse('polity-detail-main', args=[self.polity.id]) 
             other_polity_url = reverse('polity-detail-main', args=[self.other_polity.id]) 
@@ -821,13 +821,11 @@ class Polity_suprapolity_relations(SeshatCommon):
             return " - "
     
 
-    def show_value2(self):
+    def show_value(self):
         if self.supra_polity_relations and self.other_polity:
-            return self.get_supra_polity_relations_display() +f" → [{self.other_polity.show_value}]"
-        elif self.supra_polity_relations == "none":
-            return self.get_supra_polity_relations_display()
+            return self.get_supra_polity_relations_display() +f" to: [{self.other_polity.new_name}]"
         elif self.supra_polity_relations:
-            return self.get_supra_polity_relations_display() + " [---]"
+            return self.get_supra_polity_relations_display()
         else:
             return " - "
         
